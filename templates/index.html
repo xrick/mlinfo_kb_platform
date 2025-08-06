@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8-sig">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SalesRAG 整合系統</title>
+    <link rel="stylesheet" href="/static/css/integrated.css?v=20250724e">
+    <link rel="stylesheet" href="/static/css/components.css?v=20250724e">
+    <!-- Syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <!-- Navigation Buttons -->
+            <div class="nav-section">
+                <button id="sales-ai-btn" class="nav-button active" onclick="switchView('sales-ai')">
+                    <div class="nav-icon">💻</div>
+                    <div class="nav-text">Sales-AI</div>
+                </button>
+                <button id="add-specs-btn" class="nav-button" onclick="switchView('add-specs')">
+                    <div class="nav-icon">📊</div>
+                    <div class="nav-text">Add Specifications</div>
+                </button>
+            </div>
+
+            <!-- Data History Section -->
+            <div class="history-section">
+                <div class="history-header">
+                    <h3>📋 已匯入檔案列表</h3>
+                    <button id="refresh-history" class="btn btn--sm btn--outline" onclick="refreshHistory()">
+                        刷新
+                    </button>
+                </div>
+                <div id="historyContainer" class="history-container">
+                    <div class="history-loading">載入中...</div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <!-- Sales-AI View -->
+            <div id="sales-ai-view" class="content-view active">
+                <div class="chat-header">
+                    <h1>💻 筆記型電腦銷售助手</h1>
+                    <p>智能比較筆記型電腦規格與性能</p>
+                </div>
+
+                <div id="chatMessages" class="chat-messages">
+                    <!-- Chat messages will be populated here -->
+                </div>
+
+                <div class="preset-questions">
+                    <h3>💡 預設問題</h3>
+                    <div class="preset-buttons">
+                        <button class="preset-btn" data-question="Does AG958 support fast charging or USB-C PD (Power Delivery)?">Does AG958 support fast charging or USB-C PD (Power Delivery)?</button>
+                        <button class="preset-btn" data-question="Does APX819: FP7R2 support dual-channel RAM configuration?">Does APX819: FP7R2 support dual-channel RAM configuration?</button>
+                        <button class="preset-btn" data-question="How does AMD819-S: FT6 manage power efficiency when connected to multiple displays?">How does AMD819-S: FT6 manage power efficiency when connected to multiple displays?</button>
+                        <button class="preset-btn" data-question="Is APX819: FP7R2 certified for MIL-STD durability?">Is APX819: FP7R2 certified for MIL-STD durability?</button>
+                        <button class="preset-btn" data-question="Does AHP958 support dual-channel RAM configuration?">Does AHP958 support dual-channel RAM configuration?</button>
+                        <button class="preset-btn" data-question="比較958系列哪款筆記型電腦更適合遊戲？">比較958系列哪款筆記型電腦更適合遊戲？</button>
+                        <button class="preset-btn" data-question="請比較839系列機型的電池續航力比較？">請比較839系列機型的電池續航力比較？</button>
+                        <button class="preset-btn" data-question="請比較AMD819-S: FT6與AMD819: FT6何者更輕便？">請比較AMD819-S: FT6與AMD819: FT6何者更輕便？</button>
+                        <button class="preset-btn" data-question="請比較819系列顯示螢幕規格有什麼不同？">請比較819系列顯示螢幕規格有什麼不同？</button>
+                    </div>
+                </div>
+
+                <div class="chat-input-container">
+                    <textarea id="userInput" class="chat-input form-control" placeholder="輸入您的問題，例如：比較不同機型的CPU性能..." rows="1"></textarea>
+                    <button id="sendButton" class="btn btn--primary send-button">
+                        <span>發送</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Add Specifications View -->
+            <div id="add-specs-view" class="content-view">
+                <div class="specs-header">
+                    <h1>📊 MLINFO 資料處理</h1>
+                    <p>上傳並處理筆記型電腦規格資料</p>
+                </div>
+
+                <div class="specs-content">
+                    <div class="upload-section">
+                        <h3>📁 檔案上傳</h3>
+                        <div class="upload-area" id="uploadArea">
+                            <div class="upload-icon">📎</div>
+                            <p>拖放檔案到此處或點擊選擇</p>
+                            <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" style="display: none;">
+                            <button class="btn btn--primary" onclick="document.getElementById('fileInput').click()">
+                                選擇檔案
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="processing-section" id="processingSection" style="display: none;">
+                        <h3>⚙️ 處理狀態</h3>
+                        <div class="processing-status">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                            <div class="processing-text" id="processingText">準備中...</div>
+                        </div>
+                    </div>
+
+                    <div class="preview-section" id="previewSection" style="display: none;">
+                        <h3>👀 資料預覽</h3>
+                        <div class="preview-container" id="previewContainer">
+                            <!-- Data preview will be populated here -->
+                        </div>
+                        <div class="preview-actions">
+                            <button class="btn btn--primary" id="confirmUpload">確認上傳</button>
+                            <button class="btn btn--outline" id="cancelUpload">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Copy to clipboard template -->
+    <div id="copy-to-clipboard-template" style="display: none;">
+        <button class="btn btn--icon btn--sm copy-btn" title="複製內容">
+            <svg viewBox="0 0 24 24" class="icon icon--sm">
+                <path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path>
+            </svg>
+        </button>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="/static/js/marked.min.js"></script>
+    <script src="/static/js/app.js?v=20250724e"></script>
+    <script src="/static/js/sales_ai.js?v=20250724e"></script>
+    <script src="/static/js/history.js?v=20250724e"></script>
+    
+    <script>
+        // Initialize syntax highlighting
+        document.addEventListener('DOMContentLoaded', function() {
+            hljs.highlightAll();
+            initializeApp();
+        });
+    </script>
+</body>
+</html>

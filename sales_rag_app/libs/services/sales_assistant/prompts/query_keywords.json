@@ -1,0 +1,429 @@
+{
+  "intent_keywords": {
+    "display": {
+      "keywords": [
+        "螢幕",
+        "顯示",
+        "屏幕",
+        "显示",
+        "screen",
+        "lcd",
+        "面板",
+        "畫面",
+        "畫質",
+        "色彩",
+        "亮度"
+      ],
+      "description": "螢幕相關查詢",
+      "sub_intents": {
+        "gaming_display": {
+          "keywords": ["高刷新", "144Hz", "165Hz", "遊戲螢幕", "電競螢幕", "gaming display", "流暢", "不卡頓"],
+          "description": "遊戲螢幕性能查詢",
+          "priority_specs": ["lcd", "gpu"],
+          "scenarios": ["遊戲", "電競"]
+        },
+        "work_display": {
+          "keywords": ["護眼", "文書", "辦公螢幕", "色彩準確", "work display", "長時間使用", "眼睛舒服"],
+          "description": "工作螢幕需求查詢", 
+          "priority_specs": ["lcd", "battery"],
+          "scenarios": ["辦公", "商務"]
+        }
+      }
+    },
+    "cpu": {
+      "keywords": [
+        "cpu",
+        "處理器",
+        "处理器",
+        "processor",
+        "ryzen",
+        "速度",
+        "快",
+        "慢",
+        "效能",
+        "性能"
+      ],
+      "description": "CPU相關查詢",
+      "sub_intents": {
+        "gaming_cpu": {
+          "keywords": ["遊戲處理器", "電競CPU", "高頻", "超頻", "gaming cpu", "fps", "遊戲速度", "不卡頓"],
+          "description": "遊戲CPU性能查詢",
+          "priority_specs": ["cpu", "gpu", "memory"],
+          "scenarios": ["遊戲", "電競"]
+        },
+        "productivity_cpu": {
+          "keywords": ["多工", "生產力", "渲染", "編譯", "productivity", "multitasking", "工作效率", "處理速度"],
+          "description": "生產力CPU需求查詢",
+          "priority_specs": ["cpu", "memory", "storage"],
+          "scenarios": ["工作", "創作", "開發"]
+        },
+        "energy_efficient_cpu": {
+          "keywords": ["省電", "續航", "低功耗", "energy efficient", "battery life", "用電量", "省電"],
+          "description": "節能CPU查詢",
+          "priority_specs": ["cpu", "battery"],
+          "scenarios": ["行動辦公", "學習"]
+        }
+      }
+    },
+    "gpu": {
+      "keywords": [
+        "gpu",
+        "顯卡",
+        "显卡",
+        "graphics",
+        "radeon",
+        "遊戲",
+        "電競",
+        "畫面",
+        "特效"
+      ],
+      "description": "GPU相關查詢",
+      "sub_intents": {
+        "gaming_gpu": {
+          "keywords": ["遊戲顯卡", "電競GPU", "高幀率", "RTX", "gaming graphics", "遊戲性能", "遊戲流暢", "特效全開"],
+          "description": "遊戲GPU性能查詢",
+          "priority_specs": ["gpu", "cpu", "memory"],
+          "scenarios": ["遊戲", "電競"]
+        },
+        "professional_gpu": {
+          "keywords": ["專業顯卡", "設計", "渲染", "創作", "professional graphics", "workstation", "繪圖", "影片編輯"],
+          "description": "專業GPU需求查詢",
+          "priority_specs": ["gpu", "memory", "storage"],
+          "scenarios": ["設計", "創作", "工程"]
+        },
+        "basic_gpu": {
+          "keywords": ["基本顯卡", "文書", "辦公", "integrated graphics", "內顯", "上網", "文書處理"],
+          "description": "基礎GPU需求查詢",
+          "priority_specs": ["cpu", "battery"],
+          "scenarios": ["辦公", "學習"]
+        }
+      }
+    },
+    "memory": {
+      "keywords": [
+        "記憶體",
+        "內存",
+        "内存",
+        "memory",
+        "ram",
+        "ddr",
+        "容量",
+        "大小"
+      ],
+      "description": "記憶體相關查詢",
+      "sub_intents": {
+        "gaming_memory": {
+          "keywords": ["遊戲記憶體", "高頻記憶體", "32GB", "gaming ram", "遊戲容量", "多開遊戲"],
+          "description": "遊戲記憶體需求查詢",
+          "priority_specs": ["memory", "cpu", "gpu"],
+          "scenarios": ["遊戲", "電競"]
+        },
+        "work_memory": {
+          "keywords": ["工作記憶體", "多工", "16GB", "productivity ram", "多開程式", "工作效率"],
+          "description": "工作記憶體需求查詢",
+          "priority_specs": ["memory", "cpu"],
+          "scenarios": ["工作", "辦公"]
+        }
+      }
+    },
+    "storage": {
+      "keywords": [
+        "硬碟",
+        "硬盤",
+        "硬盘",
+        "storage",
+        "ssd",
+        "nvme",
+        "儲存",
+        "容量",
+        "空間"
+      ],
+      "description": "儲存相關查詢",
+      "sub_intents": {
+        "fast_storage": {
+          "keywords": ["快速儲存", "NVMe", "高速SSD", "PCIe", "fast storage", "開機快", "載入快"],
+          "description": "高速儲存需求查詢",
+          "priority_specs": ["storage", "cpu"],
+          "scenarios": ["遊戲", "創作", "開發"]
+        },
+        "large_storage": {
+          "keywords": ["大容量", "1TB", "2TB", "大儲存", "large storage", "存很多", "空間大"],
+          "description": "大容量儲存需求查詢",
+          "priority_specs": ["storage"],
+          "scenarios": ["工作", "創作", "學習"]
+        }
+      }
+    },
+    "battery": {
+      "keywords": [
+        "電池",
+        "电池",
+        "續航",
+        "续航",
+        "battery",
+        "電量",
+        "电量",
+        "省電",
+        "省电",
+        "用電",
+        "用电",
+        "充電",
+        "充电"
+      ],
+      "description": "電池相關查詢",
+      "sub_intents": {
+        "long_battery": {
+          "keywords": ["長續航", "全天續航", "8小時", "10小時", "long battery", "用很久", "不用充電", "續航久"],
+          "description": "長續航需求查詢",
+          "priority_specs": ["battery", "cpu"],
+          "scenarios": ["行動辦公", "學習", "商務"]
+        },
+        "fast_charging": {
+          "keywords": ["快充", "快速充電", "type-c充電", "fast charging", "充電快", "快速充電"],
+          "description": "快速充電需求查詢",
+          "priority_specs": ["battery"],
+          "scenarios": ["商務", "行動辦公"]
+        }
+      }
+    },
+    "portability": {
+      "keywords": [
+        "重量",
+        "輕便",
+        "轻便",
+        "便携",
+        "weight",
+        "portable",
+        "尺寸",
+        "攜帶",
+        "携带",
+        "輕薄",
+        "轻薄",
+        "大小"
+      ],
+      "description": "重量和便攜性相關查詢",
+      "sub_intents": {
+        "ultralight": {
+          "keywords": ["超輕薄", "1kg以下", "極輕", "ultralight", "ultra portable", "很輕", "超輕"],
+          "description": "超輕薄需求查詢",
+          "priority_specs": ["structconfig", "battery"],
+          "scenarios": ["商務", "學習", "旅行"]
+        },
+        "compact": {
+          "keywords": ["小尺寸", "13吋", "14吋", "compact", "small", "小巧", "不佔空間"],
+          "description": "小尺寸需求查詢",
+          "priority_specs": ["structconfig", "lcd"],
+          "scenarios": ["行動辦公", "學習"]
+        }
+      }
+    },
+    "connectivity": {
+      "keywords": [
+        "接口",
+        "port",
+        "usb",
+        "hdmi",
+        "lan",
+        "連接",
+        "连接",
+        "插槽",
+        "插孔"
+      ],
+      "description": "接口相關查詢",
+      "sub_intents": {
+        "full_connectivity": {
+          "keywords": ["豐富接口", "多接口", "USB-A", "HDMI", "full ports", "很多插孔", "連接方便"],
+          "description": "豐富接口需求查詢",
+          "priority_specs": ["iointerface"],
+          "scenarios": ["工作", "創作", "工程"]
+        },
+        "wireless_focus": {
+          "keywords": ["無線", "WiFi6", "藍牙", "wireless", "bluetooth", "無線連接", "不用線"],
+          "description": "無線連接需求查詢",
+          "priority_specs": ["wireless", "bluetooth"],
+          "scenarios": ["行動辦公", "學習"]
+        }
+      }
+    },
+    "comparison": {
+      "keywords": [
+        "比較",
+        "比较",
+        "compare",
+        "差異",
+        "差异",
+        "difference",
+        "不同",
+        "哪個",
+        "哪个",
+        "哪款",
+        "哪個比較",
+        "哪个比较",
+        "哪個好",
+        "哪个好"
+      ],
+      "description": "比較相關查詢",
+      "sub_intents": {
+        "gaming_comparison": {
+          "keywords": ["遊戲比較", "電競比較", "FPS比較", "gaming compare", "遊戲哪個好", "電競哪個好"],
+          "description": "遊戲性能比較查詢",
+          "priority_specs": ["gpu", "cpu", "memory"],
+          "scenarios": ["遊戲", "電競"]
+        },
+        "business_comparison": {
+          "keywords": ["商務比較", "辦公比較", "工作比較", "business compare", "辦公哪個好", "工作哪個好"],
+          "description": "商務需求比較查詢",
+          "priority_specs": ["cpu", "battery", "structconfig"],
+          "scenarios": ["商務", "辦公"]
+        },
+        "budget_comparison": {
+          "keywords": ["價格比較", "性價比", "便宜", "預算", "budget compare", "哪個便宜", "性價比高"],
+          "description": "預算導向比較查詢",
+          "priority_specs": ["cpu", "memory"],
+          "scenarios": ["學習", "基本使用"]
+        }
+      }
+    },
+    "specifications": {
+      "keywords": [
+        "規格",
+        "规格",
+        "spec",
+        "配置",
+        "configuration",
+        "詳細",
+        "详细",
+        "完整",
+        "全部"
+      ],
+      "description": "規格查詢",
+      "sub_intents": {
+        "detailed_specs": {
+          "keywords": ["詳細規格", "完整配置", "所有規格", "detailed specs", "全部規格", "詳細配置"],
+          "description": "詳細規格查詢",
+          "priority_specs": ["cpu", "gpu", "memory", "storage"],
+          "scenarios": ["研究", "比較", "專業需求"]
+        },
+        "basic_specs": {
+          "keywords": ["基本規格", "主要配置", "basic specs", "主要規格", "基本配置"],
+          "description": "基本規格查詢",
+          "priority_specs": ["cpu", "memory"],
+          "scenarios": ["一般查詢", "快速了解"]
+        }
+      }
+    },
+    "latest": {
+      "keywords": [
+        "最新",
+        "新款",
+        "最新款",
+        "現在",
+        "目前",
+        "當前",
+        "当前",
+        "current",
+        "now",
+        "newest",
+        "新",
+        "新出"
+      ],
+      "description": "最新產品相關查詢",
+      "sub_intents": {
+        "newest_gaming": {
+          "keywords": ["最新遊戲", "最新電競", "新款遊戲機", "latest gaming", "新遊戲筆電"],
+          "description": "最新遊戲筆電查詢",
+          "priority_specs": ["gpu", "cpu"],
+          "scenarios": ["遊戲", "電競"]
+        },
+        "newest_business": {
+          "keywords": ["最新商務", "新款辦公", "latest business", "新辦公筆電"],
+          "description": "最新商務筆電查詢",
+          "priority_specs": ["cpu", "battery", "structconfig"],
+          "scenarios": ["商務", "辦公"]
+        }
+      }
+    },
+    "usage_scenario": {
+      "keywords": [
+        "用途",
+        "使用",
+        "場景",
+        "需求",
+        "usage",
+        "purpose",
+        "做什麼",
+        "做什么",
+        "用來",
+        "用来",
+        "適合",
+        "适合"
+      ],
+      "description": "使用場景查詢",
+      "sub_intents": {
+        "gaming": {
+          "keywords": ["遊戲", "電競", "gaming", "esports", "玩遊戲", "打遊戲", "遊戲用"],
+          "description": "遊戲使用場景",
+          "priority_specs": ["gpu", "cpu", "memory", "lcd"],
+          "scenarios": ["遊戲", "電競"]
+        },
+        "business": {
+          "keywords": ["商務", "辦公", "工作", "business", "office", "work", "上班", "工作用"],
+          "description": "商務辦公場景",
+          "priority_specs": ["cpu", "battery", "structconfig"],
+          "scenarios": ["商務", "辦公", "工作"]
+        },
+        "creation": {
+          "keywords": ["創作", "設計", "影片編輯", "繪圖", "creation", "design", "設計用", "創作用"],
+          "description": "內容創作場景",
+          "priority_specs": ["gpu", "cpu", "memory", "storage"],
+          "scenarios": ["創作", "設計", "影片編輯"]
+        },
+        "study": {
+          "keywords": ["學習", "讀書", "學生", "study", "student", "education", "上學", "學習用"],
+          "description": "學習教育場景",
+          "priority_specs": ["cpu", "battery", "structconfig"],
+          "scenarios": ["學習", "教育", "研究"]
+        }
+      }
+    },
+    "budget": {
+      "keywords": [
+        "預算",
+        "价钱",
+        "價格",
+        "budget",
+        "price",
+        "便宜",
+        "貴",
+        "cost",
+        "價錢",
+        "价钱",
+        "多少錢",
+        "多少钱",
+        "價格",
+        "价格"
+      ],
+      "description": "預算相關查詢",
+      "sub_intents": {
+        "economy": {
+          "keywords": ["經濟", "便宜", "預算有限", "economy", "budget", "affordable", "便宜", "經濟實惠"],
+          "description": "經濟型需求查詢",
+          "priority_specs": ["cpu", "memory"],
+          "scenarios": ["基本使用", "學習", "辦公"]
+        },
+        "mid_range": {
+          "keywords": ["中階", "適中", "中等價位", "mid range", "moderate", "一般", "普通"],
+          "description": "中階需求查詢",
+          "priority_specs": ["cpu", "gpu", "memory"],
+          "scenarios": ["工作", "輕度遊戲", "創作"]
+        },
+        "premium": {
+          "keywords": ["高階", "頂級", "旗艦", "premium", "high end", "flagship", "高級", "頂級"],
+          "description": "高階需求查詢",
+          "priority_specs": ["gpu", "cpu", "memory", "storage"],
+          "scenarios": ["專業遊戲", "專業創作", "工程"]
+        }
+      }
+    }
+  }
+}

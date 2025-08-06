@@ -1,0 +1,206 @@
+[
+	{
+		"keywords": ["Stage", "Version"],
+		"logic": "AND",
+		"column_name": "version",
+		"rowspan": 1
+	},
+	{
+		"keywords": ["Model Name"],
+		"logic": "OR",
+		"column_name": "modelname",
+		"rowspan": 1
+	},
+	{
+		"keywords": ["MB Ver."],
+		"logic": "OR",
+		"column_name": "mainboard",
+		"rowspan": 1
+	},
+	{
+		"keywords": ["Develop", "stage"],
+		"logic": "AND",
+		"column_name": "devtime",
+		"rowspan": 7
+	},
+	{
+		"keywords": ["PM", "Owner"],
+		"logic": "AND",
+		"column_name": "pm",
+		"rowspan": 1
+	},
+	{
+		"keywords": ["Structure", "Form"],
+		"logic": "AND",
+		"column_name": "structconfig",
+		"rowspan": 5
+	},
+	{
+		"keywords": ["LCD", "Dimension"],
+		"logic": "AND",
+		"column_name": "lcd",
+		"rowspan": 2
+	},
+	{
+		"keywords": ["Touch panel", "Form"],
+		"logic": "AND",
+		"column_name": "touchpanel",
+		"rowspan": 1
+	},
+	{
+		"keywords": ["IO Interface", "MB IO(Left)"],
+		"logic": "AND",
+		"column_name": "iointerface",
+		"rowspan": 11
+	},
+	{
+		"keywords": ["LED indicator", "1x Power On/Off/Sleep"],
+		"logic": "AND",
+		"column_name": "ledind",
+		"rowspan": 6
+	},
+	{
+		"keywords": ["Power button", "Button"],
+		"logic": "AND",
+		"column_name": "powerbutton",
+		"rowspan": 1
+	},
+	{
+		"keywords": ["Keyboard", "Back light"],
+		"logic": "AND",
+		"column_name": "keyboard",
+		"rowspan": 3
+	},
+	{
+		"keywords": ["Web camera", "Front"],
+		"logic": "AND",
+		"column_name": "webcamera",
+		"rowspan": 3
+	},
+	{
+		"keywords": ["Touchpad", "Interface type"],
+		"logic": "AND",
+		"column_name": "touchpad",
+		"rowspan": 3
+	},
+	{
+		"keywords": ["Fingerprint", "Location"],
+		"logic": "AND",
+		"column_name": "fingerprint",
+		"rowspan": 3
+	},
+	{
+		"keywords": ["Audio", "Speaker"],
+		"logic": "AND",
+		"column_name": "audio",
+		"rowspan": 3
+	},
+	{
+		"keywords": ["Battery", "Type"],
+		"logic": "AND",
+		"column_name": "battery",
+		"rowspan": 4
+	},
+	{
+		"keywords": ["CPU", "Module"],
+		"logic": "AND",
+		"column_name": "cpu",
+		"rowspan": 4
+	},
+	{
+		"keywords": ["GPU", "Model"],
+		"logic": "AND",
+		"column_name": "gpu",
+		"rowspan": 4
+	},
+	{
+		"keywords": ["Memory", "RAM"],
+		"logic": "AND",
+		"column_name": "memory",
+		"rowspan": 4
+	},
+	{
+		"keywords": ["LCD Connector", "Port"],
+		"logic": "AND",
+		"column_name": "lcdconnector",
+		"rowspan": 1
+	},
+	{
+		"keywords": ["Storage", "SSD"],
+		"logic": "AND",
+		"column_name": "storage",
+		"rowspan": 1
+	},
+	{
+		"keywords": ["Wifi", "Wifi"],
+		"logic": "AND",
+		"column_name": "wifislot",
+		"rowspan": 1
+	},
+	{
+		"keywords": ["Thermal Solution", "TDP"],
+		"logic": "AND",
+		"column_name": "thermal",
+		"rowspan": 1
+	},
+	{
+		"keywords": ["TPM", "interface Type"],
+		"logic": "AND",
+		"column_name": "tpm",
+		"rowspan": 1
+	},
+	{
+		"keywords": ["RTC", "RTC Connector"],
+		"logic": "AND",
+		"column_name": "rtc",
+		"rowspan": 1
+	},
+	{
+		"keywords": ["WIFI", "Wifi Chip Model"],
+		"logic": "AND",
+		"column_name": "wireless",
+		"rowspan": 2
+	},
+	{
+		"keywords": ["LAN", "RJ45"],
+		"logic": "AND",
+		"column_name": "lan",
+		"rowspan": 1
+	},
+	{
+		"keywords": ["LTE", "M.2 slot"],
+		"logic": "AND",
+		"column_name": "lte",
+		"rowspan": 1
+	},
+	{
+		"keywords": ["Bluetooth", "Bluetooth"],
+		"logic": "AND",
+		"column_name": "bluetooth",
+		"rowspan": 2
+	},
+	{
+		"keywords": ["Operating System", "System"],
+		"logic": "AND",
+		"column_name": "softwareconfig",
+		"rowspan": 2
+	},
+	{
+		"keywords": ["AI in Windows", "(need OEM get approval from Microsoft)"],
+		"logic": "AND",
+		"column_name": "ai",
+		"rowspan": 7
+	},
+	{
+		"keywords": ["Power adapter", "Standard Configuration"],
+		"logic": "AND",
+		"column_name": "accessory",
+		"rowspan": 1
+	},
+	{
+		"keywords": ["Certifications", "Safety"],
+		"logic": "AND",
+		"column_name": "certifications",
+		"rowspan": 3
+	}
+]

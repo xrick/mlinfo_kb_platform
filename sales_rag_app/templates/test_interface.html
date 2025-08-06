@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SalesRAG 系統測試介面</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-section h2 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result-area {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .message.info {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+        }
+        .message.success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+        .message.warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+        }
+        .message.error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+        .clarification-options {
+            margin-top: 10px;
+        }
+        .clarification-option {
+            display: block;
+            margin: 5px 0;
+            padding: 8px;
+            background-color: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .clarification-option:hover {
+            background-color: #bbdefb;
+        }
+        .quick-test-buttons {
+            margin-top: 15px;
+        }
+        .quick-test-buttons button {
+            background-color: #28a745;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        .quick-test-buttons button:hover {
+            background-color: #218838;
+        }
+        .json-display {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .stat-card {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+        }
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 SalesRAG 智能筆電推薦系統測試介面</h1>
+        
+        <!-- 基本查詢測試 -->
+        <div class="test-section">
+            <h2>💬 基本查詢測試</h2>
+            <div class="input-group">
+                <label for="basicQuery">輸入查詢:</label>
+                <input type="text" id="basicQuery" placeholder="例如：比較 958 和 819 系列的 CPU 性能">
+            </div>
+            <button onclick="testBasicQuery()">發送查詢</button>
+            <div class="quick-test-buttons">
+                <button onclick="quickTest('比較 958 和 819 系列的 CPU 性能')">CPU 性能比較</button>
+                <button onclick="quickTest('最新的遊戲筆電有哪些？')">遊戲筆電查詢</button>
+                <button onclick="quickTest('適合商務使用的輕薄筆電')">商務筆電查詢</button>
+                <button onclick="quickTest('我想要一台筆電')">觸發澄清對話</button>
+            </div>
+            <div class="result-area" id="basicResult"></div>
+        </div>
+
+        <!-- 澄清對話測試 -->
+        <div class="test-section">
+            <h2>🔍 澄清對話測試</h2>
+            <div class="input-group">
+                <label for="clarificationQuery">模糊查詢 (會觸發澄清對話):</label>
+                <input type="text" id="clarificationQuery" placeholder="例如：我需要一台筆電">
+            </div>
+            <button onclick="testClarificationTrigger()">觸發澄清對話</button>
+            <div class="quick-test-buttons">
+                <button onclick="quickClarificationTest('我想要一台筆電')">基本需求</button>
+                <button onclick="quickClarificationTest('有什麼推薦的嗎？')">一般推薦</button>
+                <button onclick="quickClarificationTest('筆電規格')">規格查詢</button>
+            </div>
+            <div class="result-area" id="clarificationResult"></div>
+        </div>
+
+        <!-- 系統狀態 -->
+        <div class="test-section">
+            <h2>📊 系統狀態</h2>
+            <button onclick="checkSystemStatus()">檢查系統狀態</button>
+            <button onclick="clearAllResults()">清除所有結果</button>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalQueries">0</div>
+                    <div class="stat-label">總查詢次數</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="clarificationTriggered">0</div>
+                    <div class="stat-label">澄清對話觸發次數</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="averageResponseTime">0ms</div>
+                    <div class="stat-label">平均回應時間</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="successRate">100%</div>
+                    <div class="stat-label">成功率</div>
+                </div>
+            </div>
+            <div class="result-area" id="systemStatus"></div>
+        </div>
+    </div>
+
+    <script>
+        // 全域變數
+        let currentConversationId = null;
+        let stats = {
+            totalQueries: 0,
+            clarificationTriggered: 0,
+            totalResponseTime: 0,
+            successfulQueries: 0
+        };
+
+        // 更新統計資訊
+        function updateStats() {
+            document.getElementById('totalQueries').textContent = stats.totalQueries;
+            document.getElementById('clarificationTriggered').textContent = stats.clarificationTriggered;
+            document.getElementById('averageResponseTime').textContent = 
+                stats.totalQueries > 0 ? Math.round(stats.totalResponseTime / stats.totalQueries) + 'ms' : '0ms';
+            document.getElementById('successRate').textContent = 
+                stats.totalQueries > 0 ? Math.round((stats.successfulQueries / stats.totalQueries) * 100) + '%' : '100%';
+        }
+
+        // 添加訊息到結果區域
+        function addMessage(containerId, message, type = 'info') {
+            const container = document.getElementById(containerId);
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.innerHTML = `<strong>${new Date().toLocaleTimeString()}:</strong> ${message}`;
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // 基本查詢測試
+        async function testBasicQuery() {
+            const query = document.getElementById('basicQuery').value.trim();
+            if (!query) {
+                addMessage('basicResult', '請輸入查詢內容', 'warning');
+                return;
+            }
+            
+            await performQuery(query, 'basicResult');
+        }
+
+        // 快速測試
+        async function quickTest(query) {
+            document.getElementById('basicQuery').value = query;
+            await performQuery(query, 'basicResult');
+        }
+
+        // 執行查詢
+        async function performQuery(query, containerId) {
+            const startTime = Date.now();
+            stats.totalQueries++;
+            
+            addMessage(containerId, `發送查詢: ${query}`, 'info');
+            
+            try {
+                const response = await fetch('/api/chat-stream', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: query,
+                        service_name: "sales_assistant"
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || '請求失敗');
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let fullResponse = '';
+
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value);
+                    fullResponse += chunk;
+                    
+                    const lines = chunk.split('\n');
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            try {
+                                const data = JSON.parse(line.substring(6));
+                                handleQueryResponse(data, containerId);
+                            } catch (e) {
+                                console.log('解析 JSON 失敗:', e);
+                            }
+                        }
+                    }
+                }
+
+                const endTime = Date.now();
+                stats.totalResponseTime += (endTime - startTime);
+                stats.successfulQueries++;
+                addMessage(containerId, `查詢完成 (耗時: ${endTime - startTime}ms)`, 'success');
+
+            } catch (error) {
+                addMessage(containerId, `查詢失敗: ${error.message}`, 'error');
+            }
+            
+            updateStats();
+        }
+
+        // 處理查詢回應
+        function handleQueryResponse(data, containerId) {
+            if (data.message_type === 'clarification_request') {
+                stats.clarificationTriggered++;
+                currentConversationId = data.conversation_id;
+                addMessage(containerId, `🔍 觸發澄清對話 (ID: ${data.conversation_id})`, 'warning');
+                addMessage(containerId, `澄清問題: ${data.question}`, 'info');
+                
+                // 顯示澄清選項
+                const optionsHtml = data.options.map(option => 
+                    `<div class="clarification-option" onclick="respondToClarification('${option.id}', '${containerId}')">
+                        ${option.label} - ${option.description}
+                    </div>`
+                ).join('');
+                
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'clarification-options';
+                optionsContainer.innerHTML = `<strong>請選擇:</strong>${optionsHtml}`;
+                document.getElementById(containerId).appendChild(optionsContainer);
+                
+            } else if (data.answer_summary) {
+                addMessage(containerId, `📝 回應摘要: ${data.answer_summary.substring(0, 200)}...`, 'success');
+                
+                if (data.comparison_table && data.comparison_table.length > 0) {
+                    addMessage(containerId, `📊 包含比較表格 (${data.comparison_table.length} 項)`, 'info');
+                }
+            }
+        }
+
+        // 澄清對話測試
+        async function testClarificationTrigger() {
+            const query = document.getElementById('clarificationQuery').value.trim();
+            if (!query) {
+                addMessage('clarificationResult', '請輸入查詢內容', 'warning');
+                return;
+            }
+            
+            await performQuery(query, 'clarificationResult');
+        }
+
+        // 快速澄清測試
+        async function quickClarificationTest(query) {
+            document.getElementById('clarificationQuery').value = query;
+            await performQuery(query, 'clarificationResult');
+        }
+
+        // 回應澄清問題
+        async function respondToClarification(choice, containerId) {
+            if (!currentConversationId) {
+                addMessage(containerId, '沒有活躍的澄清對話', 'error');
+                return;
+            }
+
+            addMessage(containerId, `✅ 選擇: ${choice}`, 'info');
+
+            try {
+                const response = await fetch('/api/clarification-response', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        conversation_id: currentConversationId,
+                        user_choice: choice,
+                        user_input: "",
+                        service_name: "sales_assistant"
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || '澄清回應失敗');
+                }
+
+                const result = await response.json();
+                handleClarificationResponse(result, containerId);
+
+            } catch (error) {
+                addMessage(containerId, `澄清回應失敗: ${error.message}`, 'error');
+            }
+        }
+
+        // 處理澄清回應
+        function handleClarificationResponse(result, containerId) {
+            if (result.message_type === 'clarification_request') {
+                addMessage(containerId, `🔄 繼續澄清: ${result.question}`, 'info');
+                
+                const optionsHtml = result.options.map(option => 
+                    `<div class="clarification-option" onclick="respondToClarification('${option.id}', '${containerId}')">
+                        ${option.label} - ${option.description}
+                    </div>`
+                ).join('');
+                
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'clarification-options';
+                optionsContainer.innerHTML = `<strong>請選擇:</strong>${optionsHtml}`;
+                document.getElementById(containerId).appendChild(optionsContainer);
+                
+            } else if (result.message_type === 'final_response') {
+                addMessage(containerId, '🎉 澄清完成!', 'success');
+                addMessage(containerId, `澄清總結: ${result.clarification_summary}`, 'info');
+                addMessage(containerId, `最終回應: ${result.answer_summary.substring(0, 200)}...`, 'success');
+                currentConversationId = null;
+                
+            } else if (result.message_type === 'error') {
+                addMessage(containerId, `❌ 錯誤: ${result.answer_summary}`, 'error');
+            }
+        }
+
+        // 檢查系統狀態
+        async function checkSystemStatus() {
+            try {
+                const response = await fetch('/api/get-services');
+                const data = await response.json();
+                
+                addMessage('systemStatus', `系統狀態: 正常運行`, 'success');
+                addMessage('systemStatus', `可用服務: ${data.services.join(', ')}`, 'info');
+                
+                // 顯示詳細狀態
+                const statusDiv = document.createElement('div');
+                statusDiv.className = 'json-display';
+                statusDiv.textContent = JSON.stringify(data, null, 2);
+                document.getElementById('systemStatus').appendChild(statusDiv);
+                
+            } catch (error) {
+                addMessage('systemStatus', `系統狀態檢查失敗: ${error.message}`, 'error');
+            }
+        }
+
+        // 清除所有結果
+        function clearAllResults() {
+            document.getElementById('basicResult').innerHTML = '';
+            document.getElementById('clarificationResult').innerHTML = '';
+            document.getElementById('systemStatus').innerHTML = '';
+            
+            // 重置統計
+            stats = {
+                totalQueries: 0,
+                clarificationTriggered: 0,
+                totalResponseTime: 0,
+                successfulQueries: 0
+            };
+            updateStats();
+            
+            currentConversationId = null;
+        }
+
+        // 頁面載入時初始化
+        window.onload = function() {
+            updateStats();
+            addMessage('systemStatus', '測試介面已載入，點擊"檢查系統狀態"來驗證後端連接', 'info');
+        };
+    </script>
+</body>
+</html>

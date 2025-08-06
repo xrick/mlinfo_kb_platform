@@ -1,0 +1,197 @@
+/Users/xrickliao/WorkSpaces/Work/Projects/lcj_business_ai/libs/RAG/LLM/LLMInitializer.py:18: LangChainDeprecationWarning: The class `Ollama` was deprecated in LangChain 0.3.1 and will be removed in 1.0.0. An updated version of the class exists in the :class:`~langchain-ollama package and should be used instead. To use it run `pip install -U :class:`~langchain-ollama` and import as `from :class:`~langchain_ollama import OllamaLLM``.
+  self.llm = Ollama(
+/Users/xrickliao/WorkSpaces/Work/Projects/lcj_business_ai/libs/RAG/DB/MilvusQuery.py:12: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-huggingface package and should be used instead. To use it run `pip install -U :class:`~langchain-huggingface` and import as `from :class:`~langchain_huggingface import HuggingFaceEmbeddings``.
+  self.embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+2025-07-27 14:19:04,385 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-07-27 14:19:04,385 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-27 14:19:07,875 - root - INFO - 成功載入關鍵字配置: ['display', 'cpu', 'gpu', 'memory', 'storage', 'battery', 'portability', 'connectivity', 'comparison', 'specifications', 'latest', 'usage_scenario', 'budget']
+2025-07-27 14:19:07,875 - root - INFO - 成功載入特點配置
+2025-07-27 14:19:07,875 - root - INFO - 成功載入特點配置: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-07-27 14:19:07,875 - root - INFO - 對話鍊生成器初始化完成，支援特點: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-07-27 14:19:07,875 - root - INFO - 多輪對話管理器初始化完成，支援 7 個特點
+INFO:     Started server process [98547]
+INFO:     Waiting for application startup.
+2025-07-27 14:19:07,908 - api.history_routes - INFO - History database initialized successfully
+2025-07-27 14:19:07,908 - api.history_routes - INFO - History database initialized successfully
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+正在搜尋服務目錄: /Users/xrickliao/WorkSpaces/Work/Projects/lcj_business_ai/libs/services
+成功初始化 Ollama 模型: deepseek-r1:7b
+成功連接到 Milvus at localhost:19530
+成功設定並載入 Collection: sales_notebook_specs
+成功連接到 DuckDB: sales_rag_app/db/sales_specs.db
+成功載入服務: sales_assistant
+INFO:     127.0.0.1:54470 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54533 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54533 - "GET /static/css/integrated.css?v=20250724e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54535 - "GET /static/css/components.css?v=20250724e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54535 - "GET /static/js/marked.min.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54535 - "GET /static/js/app.js?v=20250724e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54535 - "GET /static/js/sales_ai.js?v=20250724e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54535 - "GET /static/js/history.js?v=20250724e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54535 - "GET /api/history/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54541 - "POST /api/sales/chat-stream HTTP/1.1" 200 OK
+2025-07-27 14:20:52,828 - root - INFO - 開始新的RAG流程，查詢: 請推薦合適的商用筆電
+2025-07-27 14:20:52,828 - root - INFO - 觸發關鍵字載入狀態 - 模糊查詢: 43 個, 比較查詢: 6 個
+2025-07-27 14:20:52,828 - root - INFO - 正在檢查查詢: '請推薦合適的商用筆電'
+2025-07-27 14:20:52,828 - root - INFO - 檢測到模糊查詢關鍵字: 推薦
+2025-07-27 14:20:52,828 - root - INFO - 檢測到模糊查詢或商務筆電查詢，直接啟動一次性問卷模式
+2025-07-27 14:20:52,828 - root - INFO - 使用一次性問卷模式
+2025-07-27 14:20:52,828 - root - INFO - 開始獲取所有多輪對話問題
+2025-07-27 14:20:52,828 - root - INFO - 生成對話鍊: 69627bf4-2f6f-4f71-8a1c-6be3f76d7b1d, 策略: random, 順序: ['storage', 'cpu', 'memory', 'size', 'gpu', 'price', 'weight']
+2025-07-27 14:20:52,829 - root - INFO - 成功獲取 7 個問題
+2025-07-27 14:21:07,297 - root - INFO - 開始處理所有問題的回答: {'storage': 'large_storage', 'cpu': 'balanced', 'memory': 'high_memory', 'size': 'compact_screen', 'gpu': 'integrated_gpu', 'price': 'premium', 'weight': 'ultralight'}
+2025-07-27 14:21:07,297 - root - INFO - 開始查詢筆電規格數據
+2025-07-27 14:21:07,301 - root - INFO - 成功查詢到 15 筆筆電數據
+2025-07-27 14:21:07,302 - root - INFO - 優化後發送 5 筆簡化筆電數據到LLM
+2025-07-27 14:21:50,300 - root - INFO - 驗證通過，發現有效機型: ['AG958', 'AG958P', 'AG958V', 'APX958', 'AHP958']
+2025-07-27 14:21:50,300 - root - INFO - LLM 原始回應: <think>
+好的，我现在需要根据用户的需求来推荐一款 笔电。让我先仔细阅读一下用户的要求。
+首先，用户希望选择一个大容量SSD的笔记本，处理器是平衡型的，也就是性能和能效之间比较均衡的那种。内存至少要有32GB以上，屏幕尺寸在13到14英寸之间，内置显卡，预算在7到12万元人民币，而且重量要超轻薄，小于1.5公斤。
+接下来，我看看可用的选项有哪些。提供的型号有AG958、APX958、AHP958等，其中一些带有V和P的版本。首先，我需要逐一分析这些型号是否符合用户的所有要求。
+首先是AG958系列：
+- AG958：CPU是AMD的 Zen3+，属于 refresh HU，性能相对较低，但能效不错。内存支持32GB，SSD容量到8TB，屏幕有16:9和16.1英寸两种选择，电池 life 10小时左右。
+- AG958V：CPU是Zen3+的Reflex HS系列，性能稍高一些，但核显可能不如其他型号。内存同样支持32GB，屏幕尺寸符合要求，电池参数一致。
+- AG958P：CPU是 Zen4 的 Refresh HS系列，性能更强，核显选项更多，比如RX7600M和XT版本，支持更高的显存容量，但电池 life稍微长一点。
+然后是APX958：
+- CPU是Zen4的P_hs系列，性能更高，核显有RX7600M、XT和RX6550M选项。内存同样32GB以上，屏幕尺寸符合要求，电池 life 10小时左右。
+- AHP958：CPU是 Zen4 的Hawk Point HS系列，性能更强大，核显选项包括RX7600M XT，支持更高的显存容量。
+接下来分析各个型号是否满足所有条件：
+AG958P：
+- 处理器：Zen3+ Refresh HS，平衡型，符合要求。
+- 显卡：AMD的RX7600M或XT，内置，符合条件。
+- 内存：32GB以上，符合。
+- SSD：大容量，符合。
+- 屏幕：13.5到14英寸，符合。
+- 电池：10小时左右，预算在7-12万内，可能需要确认价格是否在范围内。
+APX958：
+- 处理器：Zen4 P_hs，性能更高，能效较好，平衡型，符合条件。
+- 显卡：AMD的RX7600M XT，内置，符合条件。
+- 内存：32GB以上，符合。
+- SSD：大容量，符合。
+- 屏幕：13.5到14英寸，符合。
+- 电池：10小时左右。
+AHP958：
+- 处理器：Zen4 Hawk Point HS，性能更强，能效较好，符合条件。
+- 显卡：AMD的RX7600M XT，内置，符合条件。
+- 内存：32GB以上，符合。
+- SSD：大容量，符合。
+- 屏幕：13.5到14英寸，符合。
+- 电池：10小时左右。
+接下来考虑价格。用户预算在7-12万元，需要确认这些型号的价格是否在这个范围内。根据提供的信息，电池 life和规格参数，可能需要进一步了解各型号的具体售价。通常情况下，AMD的显卡和处理器性能越强，价格越高，但超轻薄设计可能会稍微降低重量。
+再考虑超轻薄的要求，即小于1.5公斤。查看各个型号的描述，AG958P、APX958和AHP958都提到是超轻设计，所以重量应该符合要求。
+综合来看，用户可能更倾向于性能更强且能效较高的选项，同时价格在预算内。因此，APX958和AHP958都是不错的选择，尤其是AHP958由于使用了Hawk Point HS处理器，性能更强，核显选项也更好，适合需要更高性能的用户。
+最后，确认各型号是否符合所有条件：大容量SSD、平衡型处理器、32GB内存、13.5-14英寸屏幕、内置显卡和超轻设计。这些都满足，因此推荐APX958或AHP958中的一个。
+</think>
+根据您的需求，以下是符合条件的笔记本电脑型号：
+1. **AG958P**
+- 处理器：AMD Zen3+ Refresh HS
+- 显卡：AMD Radeon RX7600M 或 XT
+- 内存：32GB以上
+- SSD：大容量（支持8TB）
+- 屏幕：13.5-14英寸
+- 电池：约10小时 life
+2. **APX958**
+- 处理器：AMD Zen4 P_hs
+- 显卡：AMD Radeon RX7600M XT
+- 内存：32GB以上
+- SSD：大容量（支持8TB）
+- 屏幕：13.5-14英寸
+- 电池：约10小时 life
+3. **AHP958**
+- 处理器：AMD Zen4 Hawk Point HS
+- 显卡：AMD Radeon RX7600M XT
+- 内存：32GB以上
+- SSD：大容量（支持8TB）
+- 屏幕：13.5-14英寸
+- 电池：约10小时 life
+这些型号均符合您的要求，包括超轻设计和内置显卡。建议选择性能最强的 **AHP958** 或 **APX958**，具体取决于您对性能的需求。
+2025-07-27 14:21:50,300 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,300 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,300 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,300 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,300 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,300 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,300 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,300 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,300 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,300 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 接下来考虑价格。用户预算在7
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 最后，确认各型号是否符合所有条件：大容量SSD、平衡型处理器、32GB内存、13.5
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,301 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,302 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,302 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,302 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,302 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,302 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,302 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,302 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,302 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,302 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,302 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:21:50,302 - root - INFO - 解析完成，共找到 0 個有效推薦
+2025-07-27 14:21:50,302 - root - WARNING - 表格生成失敗，使用智能fallback推薦: 無法解析推薦內容
+INFO:     127.0.0.1:54544 - "POST /api/sales/multichat-all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54552 - "POST /api/sales/chat-stream HTTP/1.1" 200 OK
+2025-07-27 14:22:29,745 - root - INFO - 開始新的RAG流程，查詢: 請推薦適合玩遊戲的筆電
+2025-07-27 14:22:29,745 - root - INFO - 觸發關鍵字載入狀態 - 模糊查詢: 43 個, 比較查詢: 6 個
+2025-07-27 14:22:29,745 - root - INFO - 正在檢查查詢: '請推薦適合玩遊戲的筆電'
+2025-07-27 14:22:29,745 - root - INFO - 檢測到模糊查詢關鍵字: 推薦
+2025-07-27 14:22:29,745 - root - INFO - 檢測到模糊查詢或商務筆電查詢，直接啟動一次性問卷模式
+2025-07-27 14:22:29,745 - root - INFO - 使用一次性問卷模式
+2025-07-27 14:22:29,745 - root - INFO - 開始獲取所有多輪對話問題
+2025-07-27 14:22:29,745 - root - INFO - 生成對話鍊: 24a537a7-547f-4283-8a2f-579092a1da32, 策略: random, 順序: ['weight', 'cpu', 'gpu', 'price', 'storage', 'memory', 'size']
+2025-07-27 14:22:29,746 - root - INFO - 成功獲取 7 個問題
+2025-07-27 14:22:46,869 - root - INFO - 開始處理所有問題的回答: {'weight': 'desktop_replacement', 'cpu': 'high_performance', 'gpu': 'gaming_gpu', 'price': 'flagship', 'storage': 'large_storage', 'memory': 'high_memory', 'size': 'large_screen'}
+2025-07-27 14:22:46,870 - root - INFO - 開始查詢筆電規格數據
+2025-07-27 14:22:46,873 - root - INFO - 成功查詢到 15 筆筆電數據
+2025-07-27 14:22:46,874 - root - INFO - 優化後發送 5 筆簡化筆電數據到LLM
+2025-07-27 14:23:20,379 - root - INFO - 驗證通過，發現有效機型: ['AG958', 'AG958P', 'AG958V', 'APX958', 'AHP958']
+2025-07-27 14:23:20,380 - root - INFO - LLM 原始回應: <think>
+好的，我现在需要根据用户的需求来推荐一款适合他们的笔记本电脑。首先，我得仔细阅读用户的偏好。
+用户的主要需求是寻找一款重量小于2.5公斤的桌机替代产品，这意味着便携性很重要。接下来，处理器必须是高性能的，也就是CPU要高频率、多核。显卡方面需要游戏级配置，说明图形性能要求较高。预算在12万元以上，存储容量至少1TB大容量，内存至少32GB，屏幕尺寸至少17英寸。
+现在我来看一下可用的选项：
+AG958：有四种型号可以选择。首先是AG958P，它使用AMD的 Zen3+ 处理器，CPU是Ryzen 7 6800H，性能不错，但可能不是最高端的。GPU是AMD Radeon RX6550M XT，4GB GDDR6，120W，这对于游戏来说足够了。内存支持32GB，存储容量可以达到8TB，屏幕有16:9和16.1英寸的选项，其中16.1英寸的QHD分辨率应该能满足需求。电池方面是5200mAh，支持快充，续航时间10小时左右。
+接下来是AG958V，它使用的是AMD的 Zen3+ 处理器，Ryzen 7 6800H，性能和AG958P差不多，但GPU是RX6500M，4GB GDDR6，90W，稍微低一点。内存同样支持32GB，存储容量也是8TB，屏幕尺寸相同，但游戏性能可能稍弱一些。
+然后是APX958：使用AMD的 Zen4 处理器，Ryzen 7 7840HS，性能更强，TDP在35W-54W之间。GPU是RX7600M XT，8GB GDDR6，120W，这比AG958P的GPU更高功耗，适合更高画质的游戏。内存支持到32GB，存储容量同样可以达到8TB，屏幕尺寸有15.6英寸和16.1英寸，QHD分辨率，这对游戏用户来说是个优势。
+AHP958：使用AMD的 Zen4 处理器，Ryzen 7 8845HS，性能甚至更高，TDP在35W-54W之间。GPU是RX7600M XT，同样8GB GDDR6，120W，内存和存储容量与APX958相同，屏幕尺寸也一样。
+现在分析一下各个选项是否符合用户需求：
+AG958P：重量可能在1.5公斤左右，满足桌机替代的需求。性能方面，Ryzen 7 6800H是中高端，适合日常使用和游戏。显卡RX6550M XT在120W，对于游戏来说足够了，但可能不如APX958的XT版本流畅。存储容量足够，内存支持32GB，屏幕尺寸有17英寸以上选项。
+AG958V：性能稍低，显卡只有90W，可能在游戏中表现稍差，但价格或其他因素可能更优惠。
+APX958和AHP958：这两款的处理器是 Zen4 系列，性能更强，适合更高要求的游戏。显卡XT版本在120W，支持更大的分辨率，这对游戏用户来说更好。不过它们的价格可能会更高，但预算在12万以上，所以可能符合。
+考虑到用户的需求，AG958P和APX958都是不错的选择。AG958P的性能稍低，但价格可能更实惠；而APX958的性能更强，适合对游戏要求更高的用户。不过电池续航时间方面，AG958P有快充功能，这在便携性上更好。
+最终，我会推荐AG958P，因为它在性能、存储、内存和便携性上都符合用户的需求，并且价格可能更合适。
+</think>
+根据您的需求，以下是适合您的笔记本电脑推荐：
+- **AG958P**：AMD Ryzen 7 6800H处理器，AMD Radeon RX6550M XT显卡，支持32GB内存和大容量存储，16.1英寸QHD屏幕，便携性好且性能均衡。
+希望这款笔记本电脑能满足您的需求！
+2025-07-27 14:23:20,380 - root - WARNING - 無效機型名稱被過濾: 然后是APX958：使用AMD的 Zen4 处理器，Ryzen 7 7840HS，性能更强，TDP在35W
+2025-07-27 14:23:20,380 - root - WARNING - 無效機型名稱被過濾: AHP958：使用AMD的 Zen4 处理器，Ryzen 7 8845HS，性能甚至更高，TDP在35W
+2025-07-27 14:23:20,380 - root - WARNING - 無效機型名稱被過濾: 
+2025-07-27 14:23:20,380 - root - INFO - 解析完成，共找到 0 個有效推薦
+2025-07-27 14:23:20,380 - root - WARNING - 表格生成失敗，使用智能fallback推薦: 無法解析推薦內容
+INFO:     127.0.0.1:54554 - "POST /api/sales/multichat-all HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [98547]

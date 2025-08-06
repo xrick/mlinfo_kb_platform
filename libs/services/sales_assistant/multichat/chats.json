@@ -1,0 +1,9 @@
+{
+  "chat_chains": [],
+  "metadata": {
+    "total_chains": 0,
+    "last_updated": "2024-01-01T00:00:00",
+    "generator_version": "1.0.0",
+    "description": "儲存隨機生成的NB特點對話鍊，用於多輪對話導引系統"
+  }
+}

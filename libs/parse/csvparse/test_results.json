@@ -1,0 +1,1136 @@
+[
+  {
+    "category": "version_info",
+    "type": "version",
+    "value": "MP_v1.0",
+    "source": "FP7r2:1",
+    "raw_data": "MP_v1.0"
+  },
+  {
+    "category": "version_info",
+    "type": "version",
+    "value": "PVT_v1.4",
+    "source": "FP7r2.1:1",
+    "raw_data": "PVT_v1.4"
+  },
+  {
+    "category": "version_info",
+    "type": "version",
+    "value": "PVT_v1.0",
+    "source": "FP7r2.2:1",
+    "raw_data": "PVT_v1.0"
+  },
+  {
+    "category": "version_info",
+    "type": "version",
+    "value": "Planning_v0.1",
+    "source": "FP8:1",
+    "raw_data": "Planning_v0.1"
+  },
+  {
+    "category": "version_info",
+    "type": "version",
+    "value": "MP_v1.0",
+    "source": "Unnamed: 7:3",
+    "raw_data": "MP_v1.0"
+  },
+  {
+    "category": "version_info",
+    "type": "version",
+    "value": "PVT_v1.4",
+    "source": "Unnamed: 7:4",
+    "raw_data": "PVT_v1.4"
+  },
+  {
+    "category": "version_info",
+    "type": "version",
+    "value": "PVT_v1.0",
+    "source": "Unnamed: 7:5",
+    "raw_data": "PVT_v1.0"
+  },
+  {
+    "category": "version_info",
+    "type": "version",
+    "value": "Planning_v0.1",
+    "source": "Unnamed: 7:6",
+    "raw_data": "Planning_v0.1"
+  },
+  {
+    "category": "hardware_info",
+    "type": "gpu",
+    "value": "AMD Radeon™ Graphics",
+    "source": "FP7r2.2:69",
+    "raw_data": "AMD Radeon™ Graphics"
+  },
+  {
+    "category": "hardware_info",
+    "type": "gpu",
+    "value": "AMD Radeon™ Graphics",
+    "source": "FP8:69",
+    "raw_data": "AMD Radeon™ Graphics"
+  },
+  {
+    "category": "hardware_info",
+    "type": "storage",
+    "value": "up to 8TB",
+    "source": "FP7r2:73",
+    "raw_data": "2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2x 256GB)"
+  },
+  {
+    "category": "hardware_info",
+    "type": "storage",
+    "value": "NVME SSD",
+    "source": "FP7r2:73",
+    "raw_data": "2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2x 256GB)"
+  },
+  {
+    "category": "hardware_info",
+    "type": "storage",
+    "value": "up to 8TB",
+    "source": "FP7r2.1:73",
+    "raw_data": "2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2x 256GB)"
+  },
+  {
+    "category": "hardware_info",
+    "type": "storage",
+    "value": "NVME SSD",
+    "source": "FP7r2.1:73",
+    "raw_data": "2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2x 256GB)"
+  },
+  {
+    "category": "hardware_info",
+    "type": "storage",
+    "value": "up to 8TB",
+    "source": "FP7r2.2:73",
+    "raw_data": "2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB(2x 256GB)"
+  },
+  {
+    "category": "hardware_info",
+    "type": "storage",
+    "value": "NVME SSD",
+    "source": "FP7r2.2:73",
+    "raw_data": "2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB(2x 256GB)"
+  },
+  {
+    "category": "hardware_info",
+    "type": "storage",
+    "value": "up to 8TB",
+    "source": "FP8:73",
+    "raw_data": "2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB(2x 256GB)"
+  },
+  {
+    "category": "hardware_info",
+    "type": "storage",
+    "value": "NVME SSD",
+    "source": "FP8:73",
+    "raw_data": "2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB(2x 256GB)"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "QHD",
+    "source": "FP7r2:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "FHD",
+    "source": "FP7r2:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "120Hz",
+    "source": "FP7r2:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "1920* 1200 FHD",
+    "source": "FP7r2:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "60Hz",
+    "source": "FP7r2:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "2560* 1600 QHD",
+    "source": "FP7r2:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "QHD",
+    "source": "FP7r2.1:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "FHD",
+    "source": "FP7r2.1:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "120Hz",
+    "source": "FP7r2.1:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "1920* 1200 FHD",
+    "source": "FP7r2.1:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "60Hz",
+    "source": "FP7r2.1:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "2560* 1600 QHD",
+    "source": "FP7r2.1:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "QHD",
+    "source": "FP7r2.2:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "FHD",
+    "source": "FP7r2.2:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "120Hz",
+    "source": "FP7r2.2:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "1920* 1200 FHD",
+    "source": "FP7r2.2:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "60Hz",
+    "source": "FP7r2.2:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "2560* 1600 QHD",
+    "source": "FP7r2.2:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "QHD",
+    "source": "FP8:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "FHD",
+    "source": "FP8:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "120Hz",
+    "source": "FP8:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "1920* 1200 FHD",
+    "source": "FP8:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "60Hz",
+    "source": "FP8:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "display_info",
+    "type": "lcd",
+    "value": "2560* 1600 QHD",
+    "source": "FP8:24",
+    "raw_data": "16.0\" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC\n16.0\" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB4.0",
+    "source": "FP7r2:27",
+    "raw_data": "1* USB4.0, USB4 40Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)\n*100W charging based on full power adapter"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "40Gbps",
+    "source": "FP7r2:27",
+    "raw_data": "1* USB4.0, USB4 40Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)\n*100W charging based on full power adapter"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type-C",
+    "source": "FP7r2:27",
+    "raw_data": "1* USB4.0, USB4 40Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)\n*100W charging based on full power adapter"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB4.0",
+    "source": "FP7r2.1:27",
+    "raw_data": "1* USB4.0, USB4 40Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)\n*100W charging based on full power adapter"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "40Gbps",
+    "source": "FP7r2.1:27",
+    "raw_data": "1* USB4.0, USB4 40Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)\n*100W charging based on full power adapter"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type-C",
+    "source": "FP7r2.1:27",
+    "raw_data": "1* USB4.0, USB4 40Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)\n*100W charging based on full power adapter"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB4.0",
+    "source": "FP7r2.2:27",
+    "raw_data": "1* USB4.0, USB4 40Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)\n*100W charging based on full power adapter"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "40Gbps",
+    "source": "FP7r2.2:27",
+    "raw_data": "1* USB4.0, USB4 40Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)\n*100W charging based on full power adapter"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type-C",
+    "source": "FP7r2.2:27",
+    "raw_data": "1* USB4.0, USB4 40Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)\n*100W charging based on full power adapter"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB4.0",
+    "source": "FP8:27",
+    "raw_data": "1* USB4.0, USB4 40Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)\n*100W charging based on full power adapter"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "40Gbps",
+    "source": "FP8:27",
+    "raw_data": "1* USB4.0, USB4 40Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)\n*100W charging based on full power adapter"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type-C",
+    "source": "FP8:27",
+    "raw_data": "1* USB4.0, USB4 40Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)\n*100W charging based on full power adapter"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type A",
+    "source": "FP7r2:28",
+    "raw_data": "1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type A",
+    "source": "FP7r2.1:28",
+    "raw_data": "1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type A",
+    "source": "FP7r2.2:28",
+    "raw_data": "1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type A",
+    "source": "FP8:28",
+    "raw_data": "1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2",
+    "source": "FP7r2:29",
+    "raw_data": "1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type A",
+    "source": "FP7r2:29",
+    "raw_data": "1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2 Gen1",
+    "source": "FP7r2:29",
+    "raw_data": "1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "5Gbps",
+    "source": "FP7r2:29",
+    "raw_data": "1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2",
+    "source": "FP7r2.1:29",
+    "raw_data": "1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type A",
+    "source": "FP7r2.1:29",
+    "raw_data": "1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2 Gen1",
+    "source": "FP7r2.1:29",
+    "raw_data": "1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "5Gbps",
+    "source": "FP7r2.1:29",
+    "raw_data": "1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2",
+    "source": "FP7r2.2:29",
+    "raw_data": "1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type A",
+    "source": "FP7r2.2:29",
+    "raw_data": "1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2 Gen1",
+    "source": "FP7r2.2:29",
+    "raw_data": "1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "5Gbps",
+    "source": "FP7r2.2:29",
+    "raw_data": "1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2",
+    "source": "FP8:29",
+    "raw_data": "1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type A",
+    "source": "FP8:29",
+    "raw_data": "1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2 Gen1",
+    "source": "FP8:29",
+    "raw_data": "1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "5Gbps",
+    "source": "FP8:29",
+    "raw_data": "1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2 Gen2",
+    "source": "FP7r2:30",
+    "raw_data": "1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2",
+    "source": "FP7r2:30",
+    "raw_data": "1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "10Gbps",
+    "source": "FP7r2:30",
+    "raw_data": "1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type C",
+    "source": "FP7r2:30",
+    "raw_data": "1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2 Gen2",
+    "source": "FP7r2.1:30",
+    "raw_data": "1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2",
+    "source": "FP7r2.1:30",
+    "raw_data": "1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "10Gbps",
+    "source": "FP7r2.1:30",
+    "raw_data": "1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type C",
+    "source": "FP7r2.1:30",
+    "raw_data": "1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2 Gen2",
+    "source": "FP7r2.2:30",
+    "raw_data": "1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2",
+    "source": "FP7r2.2:30",
+    "raw_data": "1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "10Gbps",
+    "source": "FP7r2.2:30",
+    "raw_data": "1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type C",
+    "source": "FP7r2.2:30",
+    "raw_data": "1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2 Gen2",
+    "source": "FP8:30",
+    "raw_data": "1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2",
+    "source": "FP8:30",
+    "raw_data": "1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "10Gbps",
+    "source": "FP8:30",
+    "raw_data": "1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type C",
+    "source": "FP8:30",
+    "raw_data": "1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2",
+    "source": "FP7r2:32",
+    "raw_data": "2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type A",
+    "source": "FP7r2:32",
+    "raw_data": "2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2 Gen1",
+    "source": "FP7r2:32",
+    "raw_data": "2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "5Gbps",
+    "source": "FP7r2:32",
+    "raw_data": "2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2",
+    "source": "FP7r2.1:32",
+    "raw_data": "2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type A",
+    "source": "FP7r2.1:32",
+    "raw_data": "2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2 Gen1",
+    "source": "FP7r2.1:32",
+    "raw_data": "2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "5Gbps",
+    "source": "FP7r2.1:32",
+    "raw_data": "2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2",
+    "source": "FP7r2.2:32",
+    "raw_data": "2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type A",
+    "source": "FP7r2.2:32",
+    "raw_data": "2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2 Gen1",
+    "source": "FP7r2.2:32",
+    "raw_data": "2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "5Gbps",
+    "source": "FP7r2.2:32",
+    "raw_data": "2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2",
+    "source": "FP8:32",
+    "raw_data": "2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "Type A",
+    "source": "FP8:32",
+    "raw_data": "2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB3.2 Gen1",
+    "source": "FP8:32",
+    "raw_data": "2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "5Gbps",
+    "source": "FP8:32",
+    "raw_data": "2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB2.0",
+    "source": "FP7r2:75",
+    "raw_data": "1* Micro SD Card, USB2.0 protocal"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB2.0",
+    "source": "FP7r2.1:75",
+    "raw_data": "1* Micro SD Card, USB2.0 protocal"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB2.0",
+    "source": "FP7r2.2:75",
+    "raw_data": "1* Micro SD Card, USB2.0 protocal"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "usb",
+    "value": "USB2.0",
+    "source": "FP8:75",
+    "raw_data": "1* Micro SD Card, USB2.0 protocal"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "hdmi",
+    "value": "HDMI 2.0",
+    "source": "FP7r2:28",
+    "raw_data": "1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "hdmi",
+    "value": "4K/60Hz",
+    "source": "FP7r2:28",
+    "raw_data": "1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "hdmi",
+    "value": "HDMI 2.0",
+    "source": "FP7r2.1:28",
+    "raw_data": "1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "hdmi",
+    "value": "4K/60Hz",
+    "source": "FP7r2.1:28",
+    "raw_data": "1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "hdmi",
+    "value": "HDMI 2.0",
+    "source": "FP7r2.2:28",
+    "raw_data": "1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "hdmi",
+    "value": "4K/60Hz",
+    "source": "FP7r2.2:28",
+    "raw_data": "1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "hdmi",
+    "value": "HDMI 2.0",
+    "source": "FP8:28",
+    "raw_data": "1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "hdmi",
+    "value": "4K/60Hz",
+    "source": "FP8:28",
+    "raw_data": "1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "WiFi 6",
+    "source": "FP7r2:74",
+    "raw_data": "Default：1* WiFi 6E + BT5.3 (on board)\nOptional 1：1* WiFi 6 + BT5.2 (on board)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "BT5.2",
+    "source": "FP7r2:74",
+    "raw_data": "Default：1* WiFi 6E + BT5.3 (on board)\nOptional 1：1* WiFi 6 + BT5.2 (on board)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "BT5.3",
+    "source": "FP7r2:74",
+    "raw_data": "Default：1* WiFi 6E + BT5.3 (on board)\nOptional 1：1* WiFi 6 + BT5.2 (on board)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "WiFi 6E",
+    "source": "FP7r2:74",
+    "raw_data": "Default：1* WiFi 6E + BT5.3 (on board)\nOptional 1：1* WiFi 6 + BT5.2 (on board)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "WiFi 6",
+    "source": "FP7r2.1:74",
+    "raw_data": "Default：1* WiFi 6E + BT5.3 (on board)\nOptional 1：1* WiFi 6 + BT5.2 (on board)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "BT5.2",
+    "source": "FP7r2.1:74",
+    "raw_data": "Default：1* WiFi 6E + BT5.3 (on board)\nOptional 1：1* WiFi 6 + BT5.2 (on board)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "BT5.3",
+    "source": "FP7r2.1:74",
+    "raw_data": "Default：1* WiFi 6E + BT5.3 (on board)\nOptional 1：1* WiFi 6 + BT5.2 (on board)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "WiFi 6E",
+    "source": "FP7r2.1:74",
+    "raw_data": "Default：1* WiFi 6E + BT5.3 (on board)\nOptional 1：1* WiFi 6 + BT5.2 (on board)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "WiFi 6",
+    "source": "FP7r2.2:74",
+    "raw_data": "Default：1* WiFi 6E + BT5.3 (on board)\nOptional 1：1* WiFi 6 + BT5.2 (on board)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "BT5.2",
+    "source": "FP7r2.2:74",
+    "raw_data": "Default：1* WiFi 6E + BT5.3 (on board)\nOptional 1：1* WiFi 6 + BT5.2 (on board)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "BT5.3",
+    "source": "FP7r2.2:74",
+    "raw_data": "Default：1* WiFi 6E + BT5.3 (on board)\nOptional 1：1* WiFi 6 + BT5.2 (on board)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "WiFi 6E",
+    "source": "FP7r2.2:74",
+    "raw_data": "Default：1* WiFi 6E + BT5.3 (on board)\nOptional 1：1* WiFi 6 + BT5.2 (on board)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "WiFi 6",
+    "source": "FP8:74",
+    "raw_data": "Default：1* WiFi 6E + BT5.3 (on board)\nOptional 1：1* WiFi 6 + BT5.2 (on board)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "BT5.2",
+    "source": "FP8:74",
+    "raw_data": "Default：1* WiFi 6E + BT5.3 (on board)\nOptional 1：1* WiFi 6 + BT5.2 (on board)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "BT5.3",
+    "source": "FP8:74",
+    "raw_data": "Default：1* WiFi 6E + BT5.3 (on board)\nOptional 1：1* WiFi 6 + BT5.2 (on board)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "WiFi 6E",
+    "source": "FP8:74",
+    "raw_data": "Default：1* WiFi 6E + BT5.3 (on board)\nOptional 1：1* WiFi 6 + BT5.2 (on board)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "Wifi 6E",
+    "source": "FP7r2:86",
+    "raw_data": "Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep\nAlternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "Bluetooth 5.2",
+    "source": "FP7r2:86",
+    "raw_data": "Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep\nAlternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "802.11ax",
+    "source": "FP7r2:86",
+    "raw_data": "Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep\nAlternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "Bluetooth 5.3",
+    "source": "FP7r2:86",
+    "raw_data": "Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep\nAlternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "Wifi 6E",
+    "source": "FP7r2.1:86",
+    "raw_data": "Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep\nAlternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "Bluetooth 5.2",
+    "source": "FP7r2.1:86",
+    "raw_data": "Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep\nAlternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "802.11ax",
+    "source": "FP7r2.1:86",
+    "raw_data": "Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep\nAlternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "Bluetooth 5.3",
+    "source": "FP7r2.1:86",
+    "raw_data": "Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep\nAlternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "Wifi 6E",
+    "source": "FP7r2.2:86",
+    "raw_data": "Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep\nAlternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "Bluetooth 5.2",
+    "source": "FP7r2.2:86",
+    "raw_data": "Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep\nAlternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "802.11ax",
+    "source": "FP7r2.2:86",
+    "raw_data": "Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep\nAlternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "Bluetooth 5.3",
+    "source": "FP7r2.2:86",
+    "raw_data": "Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep\nAlternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "Wifi 6E",
+    "source": "FP8:86",
+    "raw_data": "Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep\nAlternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "Bluetooth 5.2",
+    "source": "FP8:86",
+    "raw_data": "Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep\nAlternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "802.11ax",
+    "source": "FP8:86",
+    "raw_data": "Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep\nAlternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)"
+  },
+  {
+    "category": "connectivity_info",
+    "type": "wifi",
+    "value": "Bluetooth 5.3",
+    "source": "FP8:86",
+    "raw_data": "Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep\nAlternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)"
+  },
+  {
+    "category": "battery_info",
+    "type": "battery_spec",
+    "value": "Lithium-ion",
+    "source": "FP7r2:59",
+    "raw_data": "Lithium-ion polymer battery"
+  },
+  {
+    "category": "battery_info",
+    "type": "battery_spec",
+    "value": "Lithium-ion",
+    "source": "FP7r2.1:59",
+    "raw_data": "Lithium-ion polymer battery"
+  },
+  {
+    "category": "battery_info",
+    "type": "battery_spec",
+    "value": "Lithium-ion",
+    "source": "FP7r2.2:59",
+    "raw_data": "Lithium-ion polymer battery"
+  },
+  {
+    "category": "battery_info",
+    "type": "battery_spec",
+    "value": "Lithium-ion",
+    "source": "FP8:59",
+    "raw_data": "Lithium-ion polymer battery"
+  },
+  {
+    "category": "battery_info",
+    "type": "battery_spec",
+    "value": "57.75Wh",
+    "source": "FP7r2:60",
+    "raw_data": "1* 57.75Wh, 15.4V/3750mAh, 4S1P, Smart battery"
+  },
+  {
+    "category": "battery_info",
+    "type": "battery_spec",
+    "value": "15.4V/3750mAh",
+    "source": "FP7r2:60",
+    "raw_data": "1* 57.75Wh, 15.4V/3750mAh, 4S1P, Smart battery"
+  },
+  {
+    "category": "battery_info",
+    "type": "battery_spec",
+    "value": "57.75Wh",
+    "source": "FP7r2.1:60",
+    "raw_data": "1* 57.75Wh, 15.4V/3750mAh, 4S1P, Smart battery"
+  },
+  {
+    "category": "battery_info",
+    "type": "battery_spec",
+    "value": "15.4V/3750mAh",
+    "source": "FP7r2.1:60",
+    "raw_data": "1* 57.75Wh, 15.4V/3750mAh, 4S1P, Smart battery"
+  },
+  {
+    "category": "battery_info",
+    "type": "battery_spec",
+    "value": "57.75Wh",
+    "source": "FP7r2.2:60",
+    "raw_data": "1* 57.75Wh, 15.4V/3750mAh, 4S1P, Smart battery"
+  },
+  {
+    "category": "battery_info",
+    "type": "battery_spec",
+    "value": "15.4V/3750mAh",
+    "source": "FP7r2.2:60",
+    "raw_data": "1* 57.75Wh, 15.4V/3750mAh, 4S1P, Smart battery"
+  },
+  {
+    "category": "battery_info",
+    "type": "battery_spec",
+    "value": "57.75Wh",
+    "source": "FP8:60",
+    "raw_data": "1* 57.75Wh, 15.4V/3750mAh, 4S1P, Smart battery"
+  },
+  {
+    "category": "battery_info",
+    "type": "battery_spec",
+    "value": "15.4V/3750mAh",
+    "source": "FP8:60",
+    "raw_data": "1* 57.75Wh, 15.4V/3750mAh, 4S1P, Smart battery"
+  }
+]

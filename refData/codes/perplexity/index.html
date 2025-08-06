@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>業務 AI 助理</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>業務 AI 助理</h1>
+            <div class="current-model" id="currentModel">
+                <span class="model-indicator">請選擇 AI 模型</span>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="main-grid">
+            <!-- Section 1: AI Model Selection -->
+            <section class="section model-selection">
+                <h2>AI 模型選擇</h2>
+                <div class="model-cards" id="modelCards">
+                    <!-- Models will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Section 2: Sales Flow Explanation -->
+            <section class="section sales-flow">
+                <h2>業務使用流程說明</h2>
+                <div class="timeline" id="timeline">
+                    <!-- Timeline items will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Section 3: Data Import List -->
+            <section class="section data-import">
+                <div class="section-header">
+                    <h2>導入資料清單</h2>
+                    <button class="btn btn--primary import-btn" id="importBtn">
+                        <span class="icon">+</span>
+                        導入資料
+                    </button>
+                </div>
+                <div class="data-list" id="dataList">
+                    <!-- Data items will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Section 4: Funnel Conversation Interface -->
+            <section class="section conversation-interface">
+                <h2>漏斗式對話介面</h2>
+                <div class="conversation-container">
+                    <div class="funnel-visualization">
+                        <div class="funnel-stage active" data-stage="initial">
+                            <div class="stage-dot"></div>
+                            <span class="stage-label">初步接觸</span>
+                        </div>
+                        <div class="funnel-stage" data-stage="exploration">
+                            <div class="stage-dot"></div>
+                            <span class="stage-label">需求探索</span>
+                        </div>
+                        <div class="funnel-stage" data-stage="presentation">
+                            <div class="stage-dot"></div>
+                            <span class="stage-label">方案展示</span>
+                        </div>
+                        <div class="funnel-stage" data-stage="closing">
+                            <div class="stage-dot"></div>
+                            <span class="stage-label">成交</span>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-area">
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message ai-message">
+                                <div class="message-content">
+                                    您好！我是您的業務 AI 助理，很高興為您服務。請問今天有什麼可以協助您的嗎？
+                                </div>
+                                <div class="message-time">剛剛</div>
+                            </div>
+                        </div>
+                        
+                        <div class="smart-suggestions" id="smartSuggestions">
+                            <!-- Smart suggestions will be populated by JavaScript -->
+                        </div>
+                        
+                        <div class="chat-input-area">
+                            <input type="text" class="chat-input" id="chatInput" placeholder="輸入訊息...">
+                            <button class="send-btn" id="sendBtn">
+                                <span class="icon">→</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-notes">
+                        <h3>AI 筆記</h3>
+                        <div class="notes-content" id="notesContent">
+                            <div class="note-item">
+                                <span class="note-label">當前階段：</span>
+                                <span class="note-value">初步接觸</span>
+                            </div>
+                            <div class="note-item">
+                                <span class="note-label">客戶需求：</span>
+                                <span class="note-value">待探索</span>
+                            </div>
+                            <div class="note-item">
+                                <span class="note-label">下一步行動：</span>
+                                <span class="note-value">了解客戶背景</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Modal for Model Details -->
+        <div class="modal-overlay" id="modelModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalTitle">模型詳情</h3>
+                    <button class="close-btn" id="closeModal">×</button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Model details will be populated by JavaScript -->
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn--secondary" id="cancelBtn">取消</button>
+                    <button class="btn btn--primary" id="selectBtn">選擇此模型</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Flow Details -->
+        <div class="modal-overlay" id="flowModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="flowModalTitle">流程詳情</h3>
+                    <button class="close-btn" id="closeFlowModal">×</button>
+                </div>
+                <div class="modal-body" id="flowModalBody">
+                    <!-- Flow details will be populated by JavaScript -->
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn--primary" id="flowOkBtn">了解</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- File Upload Modal -->
+        <div class="modal-overlay" id="uploadModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>導入資料</h3>
+                    <button class="close-btn" id="closeUploadModal">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📄</div>
+                        <p>拖放檔案至此或點擊選擇</p>
+                        <p class="upload-hint">支援 CSV、Excel、JSON 格式</p>
+                        <input type="file" id="fileInput" accept=".csv,.xlsx,.json" hidden>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn--secondary" id="cancelUpload">取消</button>
+                    <button class="btn btn--primary" id="confirmUpload">上傳</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+{
+  "entity_patterns": {
+    "MODEL_NAME": {
+      "exact_patterns": [
+        "[A-Z]{2,3}\\d{3}(?:-[A-Z]+)?(?:\\s*:\\s*[A-Z]+\\d+[A-Z]*)?",
+        "[A-Z]{2,3}\\d{3}(?:-[A-Z]+)?"
+      ],
+      "fuzzy_patterns": [
+        "\\b(819|839|958)系列\\b",
+        "\\b(819|839|958)款\\b", 
+        "\\b(819|839|958)型\\b",
+        "\\b(819|839|958)筆電\\b",
+        "\\b(819|839|958)機型\\b",
+        "那款(819|839|958)",
+        "這款(819|839|958)",
+        "該款(819|839|958)",
+        "(819|839|958)那款",
+        "(819|839|958)這款",
+        "(819|839|958)的",
+        "型號(819|839|958)",
+        "機種(819|839|958)"
+      ],
+      "context_mapping": {
+        "高階": ["958"],
+        "高端": ["958"],
+        "頂級": ["958"],
+        "旗艦": ["958"],
+        "高性能": ["958"],
+        "電競": ["958"],
+        "遊戲": ["958"],
+        "gaming": ["958"],
+        "中階": ["839"],
+        "中端": ["839"],
+        "平衡": ["839"],
+        "適中": ["839"],
+        "一般": ["839"],
+        "入門": ["819"],
+        "基本": ["819"],
+        "商務": ["819"],
+        "辦公": ["819"],
+        "business": ["819"],
+        "office": ["819"],
+        "省電": ["819"],
+        "續航": ["819"],
+        "輕薄": ["819"]
+      },
+      "description": "筆電型號識別（包含精確和模糊匹配）",
+      "examples": ["AG958", "APX958", "AB819-S: FP6", "958系列", "819款", "高階筆電"]
+    },
+    "MODEL_TYPE": {
+      "exact_patterns": [
+        "\\b(?:819|839|958)\\b"
+      ],
+      "series_patterns": [
+        "\\b(819|839|958)系列\\b",
+        "\\b(819|839|958)款\\b",
+        "\\b(819|839|958)型\\b",
+        "\\b(819|839|958)機型\\b"
+      ],
+      "description": "型號系列識別（精確和系列模式）",
+      "examples": ["819", "839", "958", "819系列", "958款"]
+    },
+    "SPEC_TYPE": {
+      "patterns": [
+        "\\b(?:cpu|gpu|io介面|介面|記憶體|內存|内存|硬碟|硬盤|硬盘|電池|电池|螢幕|顯示|屏幕|显示|處理器|处理器|顯卡|显卡|儲存|存储|續航|续航|電量|电量)\\b",
+        "\\b(?:processor|io|io connector|memory|storage|battery|usb|screen|display|graphics|ram|ssd|nvme|performance|speed)\\b"
+      ],
+      "enhanced_patterns": [
+        "\\b(?:效能|性能|速度|快慢|表現|品質|品质|怎麼樣|如何|好壞|優劣|比較|比较)\\b",
+        "\\b(?:容量|大小|規格|规格|配置|參數|参数|技術|技术|功能)\\b"
+      ],
+      "description": "規格類型識別（擴展模式）",
+      "examples": ["CPU", "GPU", "記憶體", "硬碟", "電池", "螢幕", "效能", "速度", "容量"]
+    },
+    "COMPARISON_WORD": {
+      "patterns": [
+        "\\b(?:比較|比较|compare|差異|差异|difference|不同|vs|versus|對比|对比|哪個|哪个|哪個好|哪个好)\\b"
+      ],
+      "enhanced_patterns": [
+        "\\b(?:推薦|建議|选择|挑選|決定|選哪|买哪|該選|該買)\\b",
+        "\\b(?:值得|適合|合適|划算|性價比|喜歡|偏好|傾向|想要|需要)\\b",
+        "\\b(?:覺得|認為|感覺|看起來|考慮|猶豫|不確定|不知道)\\b",
+        "\\b(?:比較好|更好|較好|推薦哪個|建議哪個|選擇哪個|幫忙推薦|給個建議)\\b"
+      ],
+      "question_patterns": [
+        "哪.*比較",
+        ".*推薦.*",
+        ".*建議.*",
+        ".*選擇.*",
+        ".*適合.*",
+        ".*值得.*",
+        "怎麼.*選",
+        "如何.*選"
+      ],
+      "description": "比較詞彙識別（擴展至推薦和選擇）",
+      "examples": ["比較", "compare", "差異", "vs", "推薦", "建議", "選擇", "哪個好"]
+    },
+    "TIME_WORD": {
+      "patterns": [
+        "\\b(?:現在|目前|當前|当前|current|now|最新|newest|最新款|新款)\\b"
+      ],
+      "enhanced_patterns": [
+        "\\b(?:新|新出|新推出|剛出|剛推出|新發布|最新發布|現在有|目前有)\\b",
+        "\\b(?:最新型號|新型號|最新機型|新機型|最新產品|新產品|最新版本|新版本)\\b"
+      ],
+      "description": "時間詞彙識別（擴展至新產品查詢）",
+      "examples": ["現在", "目前", "最新", "新款", "剛出", "新推出"]
+    },
+    "QUANTITY": {
+      "patterns": [
+        "\\b\\d+(?:\\.\\d+)?\\s*(?:GB|TB|Wh|W|kg|g|mm|inch|MHz|GHz|MB|KB)\\b"
+      ],
+      "enhanced_patterns": [
+        "\\b\\d+\\s*(?:小時|hours?|hrs?)\\b",
+        "\\b\\d+\\s*(?:吋|inch|\")\\b",
+        "\\b(?:8|16|32)\\s*(?:GB|gb)\\b",
+        "\\b(?:256|512|1024|1TB|2TB)\\b"
+      ],
+      "description": "數量詞彙識別（擴展至更多單位）",
+      "examples": ["16GB", "512GB", "50Wh", "1.8kg", "8小時", "15吋"]
+    },
+    "BRAND_WORD": {
+      "patterns": [
+        "\\b(?:AMD|Ryzen|Radeon|Intel|Core|i3|i5|i7|i9|NVIDIA|GeForce|RTX|GTX)\\b"
+      ],
+      "enhanced_patterns": [
+        "\\b(?:銳龍|锐龙|酷睿|英特爾|intel|amd|nvidia)\\b"
+      ],
+      "description": "品牌詞彙識別（包含中文品牌名）",
+      "examples": ["AMD", "Ryzen", "Intel", "NVIDIA", "銳龍", "酷睿"]
+    },
+    "PERFORMANCE_WORD": {
+      "patterns": [
+        "\\b(?:性能|效能|performance|速度|speed|快|慢|強|弱|powerful|weak|高效|低效|省電|耗電)\\b"
+      ],
+      "enhanced_patterns": [
+        "\\b(?:表現|品質|品质|怎麼樣|如何|好壞|優劣|流暢|卡頓|順暢|lag)\\b",
+        "\\b(?:效果|體驗|感受|反應|响应|運行|运行|操作|使用)\\b"
+      ],
+      "description": "性能詞彙識別（擴展至用戶體驗描述）",
+      "examples": ["性能", "效能", "速度", "省電", "表現", "流暢", "怎麼樣"]
+    },
+    "PRICE_WORD": {
+      "patterns": [
+        "\\b(?:價格|价钱|price|貴|便宜|expensive|cheap|成本|cost|預算|budget|多少錢|多少钱)\\b"
+      ],
+      "enhanced_patterns": [
+        "\\b(?:價位|价位|價錢|价钱|花費|花费|划算|值得|性價比|cp值|實惠|经济)\\b",
+        "\\b(?:省錢|省钱|節省|节省|便宜實用|經濟實惠|价格合理)\\b"
+      ],
+      "description": "價格詞彙識別（擴展至性價比概念）",
+      "examples": ["價格", "price", "貴", "便宜", "划算", "性價比", "cp值"]
+    },
+    "USAGE_SCENARIO": {
+      "patterns": [
+        "\\b(?:遊戲|游戏|gaming|電競|电竞|esports|商務|商务|business|辦公|办公|office|工作|work|學習|学习|study|創作|创作|creation|設計|设计|design)\\b"
+      ],
+      "enhanced_patterns": [
+        "\\b(?:用途|用来|用於|適合|适合|場景|场景|需求|需要|目的|目标)\\b",
+        "\\b(?:玩遊戲|玩游戏|打遊戲|打游戏|上班|讀書|读书|繪圖|绘图|影片編輯|视频编辑)\\b"
+      ],
+      "context_scenarios": {
+        "遊戲": ["gaming", "high_performance"],
+        "電競": ["gaming", "high_performance"],
+        "gaming": ["gaming", "high_performance"],
+        "商務": ["business", "productivity"],
+        "辦公": ["business", "productivity"],
+        "office": ["business", "productivity"],
+        "工作": ["business", "productivity"],
+        "學習": ["study", "basic_performance"],
+        "讀書": ["study", "basic_performance"],
+        "創作": ["creation", "professional"],
+        "設計": ["creation", "professional"]
+      },
+      "description": "使用場景識別",
+      "examples": ["遊戲", "辦公", "學習", "創作", "商務", "電競"]
+    },
+    "IMPLICIT_COMPARISON": {
+      "patterns": [
+        "哪.*比較.*",
+        ".*推薦.*",
+        ".*建議.*",
+        ".*選擇.*",
+        ".*適合.*",
+        "哪.*好",
+        "什麼.*好",
+        "有.*什麼",
+        ".*怎麼樣",
+        ".*如何"
+      ],
+      "enhanced_patterns": [
+        "推薦.*哪",
+        "建議.*哪", 
+        "選.*哪",
+        "該.*哪",
+        "幫.*推薦",
+        "給.*建議",
+        "介紹.*一下",
+        "說明.*一下",
+        "了解.*一下"
+      ],
+      "auto_action": "show_comparison_or_recommendation",
+      "description": "隱式比較或推薦請求",
+      "examples": ["哪個比較好", "推薦一下", "建議哪個", "有什麼推薦", "怎麼選擇"]
+    },
+    "QUALITY_INDICATOR": {
+      "patterns": [
+        "\\b(?:好|坏|不错|很好|很棒|優秀|优秀|excellent|good|bad|poor|great|awesome)\\b"
+      ],
+      "enhanced_patterns": [
+        "\\b(?:怎麼樣|如何|好嗎|壞嗎|可以嗎|行嗎|ok嗎|okay嗎)\\b",
+        "\\b(?:滿意|满意|失望|satisfied|disappointed|推薦|不推薦|recommend)\\b"
+      ],
+      "question_patterns": [
+        ".*怎麼樣",
+        ".*如何",
+        ".*好嗎",
+        ".*可以嗎"
+      ],
+      "description": "品質評價指標",
+      "examples": ["怎麼樣", "好嗎", "不錯", "滿意", "推薦"]
+    }
+  },
+  "recognition_strategy": {
+    "priority_order": [
+      "exact_patterns",
+      "fuzzy_patterns", 
+      "enhanced_patterns",
+      "context_mapping",
+      "question_patterns"
+    ],
+    "confidence_weights": {
+      "exact_match": 1.0,
+      "fuzzy_match": 0.8,
+      "context_match": 0.7,
+      "pattern_match": 0.6,
+      "implicit_match": 0.5
+    },
+    "context_rules": {
+      "gaming_context": {
+        "triggers": ["遊戲", "電競", "gaming", "fps", "電競"],
+        "inferred_models": ["958"],
+        "priority_specs": ["gpu", "cpu", "memory"]
+      },
+      "business_context": {
+        "triggers": ["商務", "辦公", "工作", "business", "office"],
+        "inferred_models": ["819"],
+        "priority_specs": ["cpu", "battery", "portability"]
+      },
+      "study_context": {
+        "triggers": ["學習", "學生", "讀書", "study", "student"],
+        "inferred_models": ["839", "819"],
+        "priority_specs": ["cpu", "battery", "portability"]
+      },
+      "creation_context": {
+        "triggers": ["創作", "設計", "繪圖", "影片", "creation", "design"],
+        "inferred_models": ["958", "839"],
+        "priority_specs": ["gpu", "cpu", "memory", "storage"]
+      }
+    }
+  }
+}

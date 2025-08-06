@@ -1,0 +1,69 @@
+{
+  "entity_patterns": {
+    "MODEL_NAME": {
+      "patterns": [
+        "[A-Z]{2,3}\\d{3}(?:-[A-Z]+)?(?:\\s*:\\s*[A-Z]+\\d+[A-Z]*)?",
+        "[A-Z]{2,3}\\d{3}(?:-[A-Z]+)?"
+      ],
+      "description": "筆電型號識別",
+      "examples": ["AG958", "APX958", "AB819-S: FP6", "AHP819: FP7R2"]
+    },
+    "MODEL_TYPE": {
+      "patterns": [
+        "(?:819|839|928|958|960|AC01)(?=系列|型號|筆電|notebook|$|\\s|[^\\d])"
+      ],
+      "description": "型號系列識別",
+      "examples": ["819", "839", "928", "958", "960", "AC01"]
+    },
+    "SPEC_TYPE": {
+      "patterns": [
+        "\\b(?:cpu|gpu|io介面|介面|記憶體|內存|内存|硬碟|硬盤|硬盘|電池|电池|螢幕|顯示|屏幕|显示|處理器|处理器|顯卡|显卡|儲存|存储|續航|续航|電量|电量)\\b",
+        "\\b(?:processor|io|io connector|memory|storage|battery|usb|screen|display|graphics|ram|ssd|nvme)\\b"
+      ],
+      "description": "規格類型識別",
+      "examples": ["CPU", "GPU", "記憶體", "硬碟", "電池", "螢幕"]
+    },
+    "COMPARISON_WORD": {
+      "patterns": [
+        "\\b(?:比較|比较|compare|差異|差异|difference|不同|vs|versus|對比|对比|哪個|哪个|哪個好|哪个好)\\b"
+      ],
+      "description": "比較詞彙識別",
+      "examples": ["比較", "compare", "差異", "vs"]
+    },
+    "TIME_WORD": {
+      "patterns": [
+        "\\b(?:現在|目前|當前|当前|current|now|最新|newest|最新款|新款)\\b"
+      ],
+      "description": "時間詞彙識別",
+      "examples": ["現在", "目前", "最新"]
+    },
+    "QUANTITY": {
+      "patterns": [
+        "\\b\\d+(?:\\.\\d+)?\\s*(?:GB|TB|Wh|W|kg|g|mm|inch|MHz|GHz|MB|KB)\\b"
+      ],
+      "description": "數量詞彙識別",
+      "examples": ["16GB", "512GB", "50Wh", "1.8kg"]
+    },
+    "BRAND_WORD": {
+      "patterns": [
+        "\\b(?:AMD|Ryzen|Radeon|Intel|Core|i3|i5|i7|i9|NVIDIA|GeForce|RTX|GTX)\\b"
+      ],
+      "description": "品牌詞彙識別",
+      "examples": ["AMD", "Ryzen", "Intel", "NVIDIA"]
+    },
+    "PERFORMANCE_WORD": {
+      "patterns": [
+        "\\b(?:性能|效能|performance|速度|speed|快|慢|強|弱|powerful|weak|高效|低效|省電|耗電)\\b"
+      ],
+      "description": "性能詞彙識別",
+      "examples": ["性能", "效能", "速度", "省電"]
+    },
+    "PRICE_WORD": {
+      "patterns": [
+        "\\b(?:價格|价钱|price|貴|便宜|expensive|cheap|成本|cost|預算|budget|多少錢|多少钱)\\b"
+      ],
+      "description": "價格詞彙識別",
+      "examples": ["價格", "price", "貴", "便宜"]
+    }
+  }
+} 

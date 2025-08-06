@@ -1,0 +1,61 @@
+現在我們遇到一個問題：
+    無法正確把mult-round funnel conversation的問題呈現給使用者，以下是已經傳到frontend的json問題：
+    {
+      "type": "funnel_question",
+      "session_id": "bd24a3b7-7324-4e94-9bc1-a959fc9feba0",
+      "question": {
+        "question_id": "series_vs_purpose",
+        "question_text": "為了更精準地幫助您，請選擇您的需求類型：",
+        "options": [
+          {
+            "option_id": "series_comparison",
+            "label": "🔍 系列規格比較",
+            "description": "我想比較某個系列（如958系列）內所有機型的詳細規格差異",
+            "route": "series_comparison_flow",
+            "keywords": [
+              "比較",
+              "系列",
+              "規格",
+              "差異",
+              "不同",
+              "對比"
+            ],
+            "example_queries": [
+              "比較958系列所有機型的遊戲性能規格",
+              "819系列各機型的顯示螢幕規格有什麼不同",
+              "839系列機型的電池續航力比較"
+            ],
+            "flow_description": "直接進行系列內詳細規格比較，展示表格對比"
+          },
+          {
+            "option_id": "purpose_recommendation",
+            "label": "🎯 用途導向推薦",
+            "description": "我想根據特定用途（如遊戲、辦公、學習）找到最適合的筆電推薦",
+            "route": "purpose_recommendation_flow",
+            "keywords": [
+              "推薦",
+              "適合",
+              "用途",
+              "遊戲",
+              "辦公",
+              "學習",
+              "商務",
+              "工作"
+            ],
+            "example_queries": [
+              "推薦最適合遊戲的958系列機型",
+              "找一台適合商務辦公的筆電",
+              "學生用的高性價比筆電推薦"
+            ],
+            "flow_description": "透過用途問卷精準推薦，重點說明適合原因"
+          }
+        ]
+      },
+      "context": {
+        "original_query": "比較958系列哪款筆記型電腦更適合遊戲？",
+        "detected_type": "mixed_ambiguous",
+        "generation_time": "2025-07-30T15:58:24.025079"
+      },
+      "message": "請選擇最符合您需求的選項，我將為您提供更精準的協助。"
+    }
+    但使用者實際看到的畫面：debuginfo/wrong_01_20250730.png

@@ -1,0 +1,366 @@
+{
+  "clarification_templates": {
+    "usage_scenario": {
+      "trigger_conditions": {
+        "confidence_threshold": 0.6,
+        "unclear_intents": ["general", "specifications"],
+        "missing_context": ["usage", "scenario", "purpose"]
+      },
+      "question": "為了更精準地為您推薦筆電，請問您的主要使用場景是什麼？",
+      "question_type": "single_choice",
+      "options": [
+        {
+          "id": "gaming",
+          "label": "🎮 遊戲娛樂",
+          "description": "電競遊戲、高畫質遊戲體驗",
+          "keywords": ["遊戲", "電競", "gaming", "esports"],
+          "follow_up_intents": ["gaming_gpu", "gaming_cpu", "gaming_memory"],
+          "priority_specs": ["gpu", "cpu", "memory", "lcd"]
+        },
+        {
+          "id": "business",
+          "label": "💼 商務辦公",
+          "description": "文書處理、會議簡報、商務應用",
+          "keywords": ["商務", "辦公", "工作", "business", "office"],
+          "follow_up_intents": ["business_comparison", "long_battery", "ultralight"],
+          "priority_specs": ["cpu", "battery", "structconfig"]
+        },
+        {
+          "id": "creation",
+          "label": "🎨 設計創作",
+          "description": "影片編輯、平面設計、3D渲染",
+          "keywords": ["創作", "設計", "編輯", "creation", "design"],
+          "follow_up_intents": ["professional_gpu", "productivity_cpu", "fast_storage"],
+          "priority_specs": ["gpu", "cpu", "memory", "storage"]
+        },
+        {
+          "id": "study",
+          "label": "📚 學習研究",
+          "description": "線上學習、研究工作、文獻閱讀",
+          "keywords": ["學習", "研究", "學生", "study", "education"],
+          "follow_up_intents": ["energy_efficient_cpu", "long_battery", "compact"],
+          "priority_specs": ["cpu", "battery", "structconfig"]
+        }
+      ]
+    },
+    "budget_range": {
+      "trigger_conditions": {
+        "confidence_threshold": 0.5,
+        "unclear_intents": ["general", "comparison"],
+        "missing_context": ["budget", "price", "cost"]
+      },
+      "question": "請問您的預算範圍大約是多少？這將幫助我們篩選適合的機型。",
+      "question_type": "single_choice",
+      "options": [
+        {
+          "id": "economy",
+          "label": "💰 經濟型（2-4萬）",
+          "description": "基本需求，性價比導向",
+          "keywords": ["經濟", "便宜", "預算有限", "affordable"],
+          "follow_up_intents": ["budget_comparison", "basic_gpu", "basic_specs"],
+          "priority_specs": ["cpu", "memory"]
+        },
+        {
+          "id": "mid_range",
+          "label": "💳 中階型（4-6萬）",
+          "description": "平衡性能與價格",
+          "keywords": ["中階", "適中", "中等", "moderate"],
+          "follow_up_intents": ["work_memory", "energy_efficient_cpu"],
+          "priority_specs": ["cpu", "gpu", "memory"]
+        },
+        {
+          "id": "premium",
+          "label": "💎 高階型（6萬以上）",
+          "description": "追求頂級性能與品質",
+          "keywords": ["高階", "頂級", "旗艦", "premium"],
+          "follow_up_intents": ["gaming_gpu", "professional_gpu", "detailed_specs"],
+          "priority_specs": ["gpu", "cpu", "memory", "storage"]
+        }
+      ]
+    },
+    "performance_priority": {
+      "trigger_conditions": {
+        "confidence_threshold": 0.7,
+        "unclear_intents": ["cpu", "gpu", "memory"],
+        "missing_context": ["performance", "priority"]
+      },
+      "question": "在以下性能特性中，您最重視哪一個方面？",
+      "question_type": "single_choice",
+      "options": [
+        {
+          "id": "processing_power",
+          "label": "⚡ 處理器性能",
+          "description": "快速運算、多工處理能力",
+          "keywords": ["CPU", "處理器", "運算", "速度"],
+          "follow_up_intents": ["productivity_cpu", "gaming_cpu"],
+          "priority_specs": ["cpu", "memory"]
+        },
+        {
+          "id": "graphics_performance",
+          "label": "🎨 顯卡性能",
+          "description": "遊戲畫質、圖形處理能力",
+          "keywords": ["GPU", "顯卡", "圖形", "遊戲"],
+          "follow_up_intents": ["gaming_gpu", "professional_gpu"],
+          "priority_specs": ["gpu", "cpu", "memory"]
+        },
+        {
+          "id": "battery_life",
+          "label": "🔋 電池續航",
+          "description": "長時間使用、行動辦公",
+          "keywords": ["電池", "續航", "行動", "portable"],
+          "follow_up_intents": ["long_battery", "energy_efficient_cpu"],
+          "priority_specs": ["battery", "cpu"]
+        },
+        {
+          "id": "portability",
+          "label": "🎒 輕便攜帶",
+          "description": "重量輕、體積小、易攜帶",
+          "keywords": ["重量", "輕便", "攜帶", "尺寸"],
+          "follow_up_intents": ["ultralight", "compact"],
+          "priority_specs": ["structconfig", "battery"]
+        }
+      ]
+    },
+    "specific_requirements": {
+      "trigger_conditions": {
+        "confidence_threshold": 0.6,
+        "unclear_intents": ["specifications"],
+        "missing_context": ["specific", "requirement"]
+      },
+      "question": "請問您有任何特殊需求或偏好嗎？",
+      "question_type": "multiple_choice",
+      "options": [
+        {
+          "id": "large_screen",
+          "label": "📺 大螢幕（15吋以上）",
+          "description": "更佳的視覺體驗",
+          "keywords": ["大螢幕", "15吋", "16吋", "large screen"],
+          "follow_up_intents": ["gaming_display", "work_display"],
+          "priority_specs": ["lcd"]
+        },
+        {
+          "id": "high_memory",
+          "label": "🧠 大記憶體（16GB以上）",
+          "description": "多工處理、專業應用",
+          "keywords": ["大記憶體", "16GB", "32GB", "high memory"],
+          "follow_up_intents": ["gaming_memory", "work_memory"],
+          "priority_specs": ["memory"]
+        },
+        {
+          "id": "fast_storage",
+          "label": "⚡ 高速儲存（NVMe SSD）",
+          "description": "快速開機、檔案讀取",
+          "keywords": ["高速", "NVMe", "SSD", "fast storage"],
+          "follow_up_intents": ["fast_storage"],
+          "priority_specs": ["storage"]
+        },
+        {
+          "id": "rich_ports",
+          "label": "🔌 豐富接口",
+          "description": "多種連接埠、擴展性佳",
+          "keywords": ["接口", "連接埠", "USB", "HDMI"],
+          "follow_up_intents": ["full_connectivity"],
+          "priority_specs": ["iointerface"]
+        },
+        {
+          "id": "no_specific",
+          "label": "❌ 沒有特殊需求",
+          "description": "一般使用即可",
+          "keywords": ["沒有", "一般", "基本", "normal"],
+          "follow_up_intents": ["basic_specs"],
+          "priority_specs": ["cpu", "memory"]
+        }
+      ]
+    },
+    "comparison_focus": {
+      "trigger_conditions": {
+        "confidence_threshold": 0.6,
+        "unclear_intents": ["comparison"],
+        "missing_context": ["compare", "focus"]
+      },
+      "question": "您想要重點比較哪些方面的規格？",
+      "question_type": "multiple_choice",
+      "options": [
+        {
+          "id": "performance",
+          "label": "🏎️ 性能表現",
+          "description": "CPU、GPU、記憶體性能比較",
+          "keywords": ["性能", "效能", "performance"],
+          "follow_up_intents": ["gaming_comparison", "detailed_specs"],
+          "priority_specs": ["cpu", "gpu", "memory"]
+        },
+        {
+          "id": "mobility",
+          "label": "🚀 行動性",
+          "description": "重量、尺寸、電池續航比較",
+          "keywords": ["行動", "重量", "續航", "mobility"],
+          "follow_up_intents": ["business_comparison"],
+          "priority_specs": ["structconfig", "battery"]
+        },
+        {
+          "id": "value",
+          "label": "💡 性價比",
+          "description": "價格與性能的平衡比較",
+          "keywords": ["性價比", "價格", "value"],
+          "follow_up_intents": ["budget_comparison"],
+          "priority_specs": ["cpu", "memory"]
+        },
+        {
+          "id": "features",
+          "label": "🔧 功能特色",
+          "description": "特殊功能、接口、擴展性比較",
+          "keywords": ["功能", "特色", "features"],
+          "follow_up_intents": ["detailed_specs"],
+          "priority_specs": ["iointerface", "wireless"]
+        }
+      ]
+    },
+    "model_preference": {
+      "trigger_conditions": {
+        "confidence_threshold": 0.5,
+        "unclear_intents": ["latest"],
+        "missing_context": ["model", "series"]
+      },
+      "question": "您對筆電系列有偏好嗎？",
+      "question_type": "single_choice",
+      "options": [
+        {
+          "id": "series_819",
+          "label": "🏢 819系列",
+          "description": "商務導向，平衡性能與續航",
+          "keywords": ["819", "商務"],
+          "follow_up_intents": ["business_comparison", "energy_efficient_cpu"],
+          "priority_specs": ["cpu", "battery"]
+        },
+        {
+          "id": "series_839",
+          "label": "⚖️ 839系列",
+          "description": "中階定位，性能與價格平衡",
+          "keywords": ["839", "中階"],
+          "follow_up_intents": ["mid_range"],
+          "priority_specs": ["cpu", "gpu"]
+        },
+        {
+          "id": "series_958",
+          "label": "🚀 958系列",
+          "description": "高性能導向，頂級規格",
+          "keywords": ["958", "高階", "性能"],
+          "follow_up_intents": ["gaming_gpu", "professional_gpu"],
+          "priority_specs": ["gpu", "cpu", "memory"]
+        },
+        {
+          "id": "no_preference",
+          "label": "🤷 沒有偏好",
+          "description": "根據需求推薦最適合的系列",
+          "keywords": ["沒有", "隨意", "推薦"],
+          "follow_up_intents": ["usage_scenario"],
+          "priority_specs": []
+        }
+      ]
+    }
+  },
+  "clarification_flows": {
+    "general_inquiry": {
+      "description": "一般查詢澄清流程",
+      "steps": [
+        {
+          "step": 1,
+          "template": "usage_scenario",
+          "required": true
+        },
+        {
+          "step": 2,
+          "template": "budget_range",
+          "required": false,
+          "condition": "usage_confirmed"
+        },
+        {
+          "step": 3,
+          "template": "specific_requirements",
+          "required": false,
+          "condition": "budget_confirmed"
+        }
+      ]
+    },
+    "comparison_inquiry": {
+      "description": "比較查詢澄清流程",
+      "steps": [
+        {
+          "step": 1,
+          "template": "comparison_focus",
+          "required": true
+        },
+        {
+          "step": 2,
+          "template": "usage_scenario",
+          "required": false,
+          "condition": "focus_unclear"
+        }
+      ]
+    },
+    "performance_inquiry": {
+      "description": "性能查詢澄清流程",
+      "steps": [
+        {
+          "step": 1,
+          "template": "performance_priority",
+          "required": true
+        },
+        {
+          "step": 2,
+          "template": "usage_scenario",
+          "required": false,
+          "condition": "priority_unclear"
+        }
+      ]
+    },
+    "latest_inquiry": {
+      "description": "最新產品查詢澄清流程",
+      "steps": [
+        {
+          "step": 1,
+          "template": "model_preference",
+          "required": true
+        },
+        {
+          "step": 2,
+          "template": "usage_scenario",
+          "required": false,
+          "condition": "no_preference"
+        }
+      ]
+    }
+  },
+  "response_templates": {
+    "clarification_needed": {
+      "format": "structured",
+      "template": {
+        "message_type": "clarification_request",
+        "question": "{question}",
+        "options": "{options}",
+        "conversation_id": "{conversation_id}",
+        "step": "{current_step}",
+        "total_steps": "{total_steps}"
+      }
+    },
+    "clarification_received": {
+      "format": "acknowledgment",
+      "template": {
+        "message_type": "clarification_acknowledgment",
+        "received_choice": "{user_choice}",
+        "next_action": "{next_action}",
+        "conversation_id": "{conversation_id}"
+      }
+    },
+    "final_response": {
+      "format": "standard",
+      "template": {
+        "message_type": "final_response",
+        "answer_summary": "{enhanced_summary}",
+        "comparison_table": "{enhanced_table}",
+        "clarification_context": "{clarification_summary}",
+        "conversation_id": "{conversation_id}"
+      }
+    }
+  }
+}

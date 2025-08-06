@@ -1,0 +1,118 @@
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     Started parent process [1554609]
+正在搜尋服務目錄: /home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/services
+正在搜尋服務目錄: /home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/services
+正在搜尋服務目錄: /home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/services
+正在搜尋服務目錄: /home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/services
+/home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/RAG/LLM/LLMInitializer.py:18: LangChainDeprecationWarning: The class `Ollama` was deprecated in LangChain 0.3.1 and will be removed in 1.0.0. An updated version of the class exists in the :class:`~langchain-ollama package and should be used instead. To use it run `pip install -U :class:`~langchain-ollama` and import as `from :class:`~langchain_ollama import OllamaLLM``.
+  self.llm = Ollama(
+/home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/RAG/DB/MilvusQuery.py:12: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-huggingface package and should be used instead. To use it run `pip install -U :class:`~langchain-huggingface` and import as `from :class:`~langchain_huggingface import HuggingFaceEmbeddings``.
+  self.embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+/home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/RAG/LLM/LLMInitializer.py:18: LangChainDeprecationWarning: The class `Ollama` was deprecated in LangChain 0.3.1 and will be removed in 1.0.0. An updated version of the class exists in the :class:`~langchain-ollama package and should be used instead. To use it run `pip install -U :class:`~langchain-ollama` and import as `from :class:`~langchain_ollama import OllamaLLM``.
+  self.llm = Ollama(
+/home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/RAG/LLM/LLMInitializer.py:18: LangChainDeprecationWarning: The class `Ollama` was deprecated in LangChain 0.3.1 and will be removed in 1.0.0. An updated version of the class exists in the :class:`~langchain-ollama package and should be used instead. To use it run `pip install -U :class:`~langchain-ollama` and import as `from :class:`~langchain_ollama import OllamaLLM``.
+  self.llm = Ollama(
+/home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/RAG/DB/MilvusQuery.py:12: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-huggingface package and should be used instead. To use it run `pip install -U :class:`~langchain-huggingface` and import as `from :class:`~langchain_huggingface import HuggingFaceEmbeddings``.
+  self.embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+/home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/RAG/DB/MilvusQuery.py:12: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-huggingface package and should be used instead. To use it run `pip install -U :class:`~langchain-huggingface` and import as `from :class:`~langchain_huggingface import HuggingFaceEmbeddings``.
+  self.embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+/home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/RAG/LLM/LLMInitializer.py:18: LangChainDeprecationWarning: The class `Ollama` was deprecated in LangChain 0.3.1 and will be removed in 1.0.0. An updated version of the class exists in the :class:`~langchain-ollama package and should be used instead. To use it run `pip install -U :class:`~langchain-ollama` and import as `from :class:`~langchain_ollama import OllamaLLM``.
+  self.llm = Ollama(
+/home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/RAG/DB/MilvusQuery.py:12: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-huggingface package and should be used instead. To use it run `pip install -U :class:`~langchain-huggingface` and import as `from :class:`~langchain_huggingface import HuggingFaceEmbeddings``.
+  self.embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+2025-07-24 14:45:46,997 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 14:45:46,997 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-24 14:45:47,025 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 14:45:47,025 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-24 14:45:47,050 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 14:45:47,050 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-24 14:45:47,083 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 14:45:47,083 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-24 14:45:49,570 - root - INFO - 成功載入關鍵字配置: ['display', 'cpu', 'gpu', 'memory', 'storage', 'battery', 'portability', 'connectivity', 'comparison', 'specifications', 'latest', 'usage_scenario', 'budget']
+2025-07-24 14:45:49,571 - root - INFO - 成功載入特點配置
+2025-07-24 14:45:49,571 - root - INFO - 成功載入特點配置: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-07-24 14:45:49,571 - root - INFO - 對話鍊生成器初始化完成，支援特點: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-07-24 14:45:49,571 - root - INFO - 多輪對話管理器初始化完成，支援 7 個特點
+INFO:     Started server process [1554612]
+INFO:     Waiting for application startup.
+2025-07-24 14:45:49,583 - api.history_routes - INFO - History database initialized successfully
+2025-07-24 14:45:49,583 - api.history_routes - INFO - History database initialized successfully
+INFO:     Application startup complete.
+2025-07-24 14:45:49,597 - root - INFO - 成功載入關鍵字配置: ['display', 'cpu', 'gpu', 'memory', 'storage', 'battery', 'portability', 'connectivity', 'comparison', 'specifications', 'latest', 'usage_scenario', 'budget']
+2025-07-24 14:45:49,597 - root - INFO - 成功載入特點配置
+2025-07-24 14:45:49,597 - root - INFO - 成功載入特點配置: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-07-24 14:45:49,597 - root - INFO - 對話鍊生成器初始化完成，支援特點: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-07-24 14:45:49,597 - root - INFO - 多輪對話管理器初始化完成，支援 7 個特點
+2025-07-24 14:45:49,598 - root - INFO - 成功載入關鍵字配置: ['display', 'cpu', 'gpu', 'memory', 'storage', 'battery', 'portability', 'connectivity', 'comparison', 'specifications', 'latest', 'usage_scenario', 'budget']
+2025-07-24 14:45:49,598 - root - INFO - 成功載入特點配置
+2025-07-24 14:45:49,598 - root - INFO - 成功載入特點配置: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-07-24 14:45:49,598 - root - INFO - 對話鍊生成器初始化完成，支援特點: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-07-24 14:45:49,598 - root - INFO - 多輪對話管理器初始化完成，支援 7 個特點
+INFO:     Started server process [1554615]
+INFO:     Waiting for application startup.
+INFO:     Started server process [1554614]
+INFO:     Waiting for application startup.
+2025-07-24 14:45:49,608 - api.history_routes - INFO - History database initialized successfully
+2025-07-24 14:45:49,608 - api.history_routes - INFO - History database initialized successfully
+2025-07-24 14:45:49,608 - api.history_routes - INFO - History database initialized successfully
+INFO:     Application startup complete.
+2025-07-24 14:45:49,609 - api.history_routes - INFO - History database initialized successfully
+INFO:     Application startup complete.
+2025-07-24 14:45:49,609 - root - INFO - 成功載入關鍵字配置: ['display', 'cpu', 'gpu', 'memory', 'storage', 'battery', 'portability', 'connectivity', 'comparison', 'specifications', 'latest', 'usage_scenario', 'budget']
+2025-07-24 14:45:49,609 - root - INFO - 成功載入特點配置
+2025-07-24 14:45:49,609 - root - INFO - 成功載入特點配置: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-07-24 14:45:49,609 - root - INFO - 對話鍊生成器初始化完成，支援特點: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-07-24 14:45:49,609 - root - INFO - 多輪對話管理器初始化完成，支援 7 個特點
+INFO:     Started server process [1554613]
+INFO:     Waiting for application startup.
+2025-07-24 14:45:49,621 - api.history_routes - INFO - History database initialized successfully
+2025-07-24 14:45:49,621 - api.history_routes - INFO - History database initialized successfully
+INFO:     Application startup complete.
+成功初始化 Ollama 模型: deepseek-r1:7b
+成功連接到 Milvus at localhost:19530
+成功設定並載入 Collection: sales_notebook_specs
+成功連接到 DuckDB: sales_rag_app/db/sales_specs.db
+成功載入服務: sales_assistant
+INFO:     127.0.0.1:34020 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34020 - "GET /api/history/ HTTP/1.1" 200 OK
+成功初始化 Ollama 模型: deepseek-r1:7b
+成功連接到 Milvus at localhost:19530
+成功設定並載入 Collection: sales_notebook_specs
+成功連接到 DuckDB: sales_rag_app/db/sales_specs.db
+成功載入服務: sales_assistant
+INFO:     127.0.0.1:34028 - "POST /api/sales/chat-stream HTTP/1.1" 200 OK
+2025-07-24 14:46:18,787 - root - INFO - 開始新的RAG流程，查詢: 請幫我介紹商務用的NB機型
+2025-07-24 14:46:18,787 - root - INFO - 觸發關鍵字載入狀態 - 模糊查詢: 43 個, 比較查詢: 6 個
+2025-07-24 14:46:18,787 - root - INFO - 正在檢查查詢: '請幫我介紹商務用的NB機型'
+2025-07-24 14:46:18,787 - root - INFO - 檢測到模糊查詢關鍵字: 商務
+2025-07-24 14:46:18,787 - root - INFO - 檢測到模糊查詢，啟動多輪對話導引系統
+2025-07-24 14:46:18,787 - root - INFO - 生成對話鍊: f2e5c279-ffba-4618-bf9e-13898e78f82a, 策略: random, 順序: ['gpu', 'storage', 'weight', 'cpu', 'memory', 'size', 'price']
+2025-07-24 14:46:18,787 - root - INFO - 開始多輪對話: c590137e-7d29-44db-9752-55669d9eade5, 對話鍊: gpu -> storage -> weight -> cpu -> memory -> size -> price
+INFO:     Received SIGTERM, exiting.
+INFO:     Terminated child process [1554612]
+INFO:     Terminated child process [1554613]
+INFO:     Terminated child process [1554614]
+INFO:     Terminated child process [1554615]
+INFO:     Waiting for child process [1554612]
+INFO:     Shutting down
+INFO:     Shutting down
+INFO:     Shutting down
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [1554614]
+INFO:     Finished server process [1554615]
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [1554613]
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [1554612]
+INFO:     Waiting for child process [1554613]
+INFO:     Waiting for child process [1554614]
+INFO:     Waiting for child process [1554615]
+INFO:     Stopping parent process [1554609]
+/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 4 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

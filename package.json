@@ -1,0 +1,27 @@
+{
+  "name": "lcj_business_ai",
+  "version": "1.0.0",
+  "description": "A unified interface combining Sales-AI functionality with data processing capabilities for laptop specifications.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xrick/lcj_business_ai.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/xrick/lcj_business_ai/issues"
+  },
+  "homepage": "https://github.com/xrick/lcj_business_ai#readme",
+  "dependencies": {
+    "ajv": "^8.17.1"
+  }
+}

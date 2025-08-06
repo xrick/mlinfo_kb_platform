@@ -1,0 +1,329 @@
+{
+  "questions": {
+    "series_vs_purpose": {
+      "question_id": "series_vs_purpose",
+      "question_text": "為了更精準地幫助您，請選擇您的需求類型：",
+      "description": "主要需求類型分流問題",
+      "context": {
+        "purpose": "區分系列比較和用途推薦兩種主要需求",
+        "trigger_conditions": [
+          "模糊查詢且包含比較意圖",
+          "模糊查詢且包含推薦意圖",
+          "混合查詢（既有比較又有推薦）"
+        ],
+        "expected_clarity_improvement": "90%"
+      },
+      "options": [
+        {
+          "option_id": "series_comparison",
+          "label": "🔍 系列規格比較",
+          "description": "我想比較某個系列（如958系列）內所有機型的詳細規格差異",
+          "route": "series_comparison_flow",
+          "keywords": ["比較", "系列", "規格", "差異", "不同", "對比"],
+          "example_queries": [
+            "比較958系列所有機型的遊戲性能規格",
+            "819系列各機型的顯示螢幕規格有什麼不同",
+            "839系列機型的電池續航力比較"
+          ],
+          "flow_description": "直接進行系列內詳細規格比較，展示表格對比"
+        },
+        {
+          "option_id": "purpose_recommendation",
+          "label": "🎯 用途導向推薦", 
+          "description": "我想根據特定用途（如遊戲、辦公、學習）找到最適合的筆電推薦",
+          "route": "purpose_recommendation_flow",
+          "keywords": ["推薦", "適合", "用途", "遊戲", "辦公", "學習", "商務", "工作"],
+          "example_queries": [
+            "推薦最適合遊戲的958系列機型",
+            "找一台適合商務辦公的筆電",
+            "學生用的高性價比筆電推薦"
+          ],
+          "flow_description": "透過用途問卷精準推薦，重點說明適合原因"
+        }
+      ],
+      "priority": 1,
+      "estimated_resolution_time": "1-2輪對話"
+    },
+    "series_specification_focus": {
+      "question_id": "series_specification_focus", 
+      "question_text": "您想重點比較該系列的哪些規格？",
+      "description": "系列比較的規格重點選擇",
+      "context": {
+        "parent_flow": "series_comparison_flow",
+        "purpose": "確定系列比較的重點領域"
+      },
+      "options": [
+        {
+          "option_id": "gaming_performance",
+          "label": "🎮 遊戲性能",
+          "description": "CPU、GPU、記憶體等遊戲相關規格",
+          "focus_specs": ["cpu", "gpu", "memory", "storage", "thermal"]
+        },
+        {
+          "option_id": "display_specs", 
+          "label": "🖥️ 顯示規格",
+          "description": "螢幕尺寸、解析度、色彩等顯示相關規格",
+          "focus_specs": ["lcd", "touchpanel", "lcdconnector"]
+        },
+        {
+          "option_id": "portability_battery",
+          "label": "🔋 便攜續航",
+          "description": "電池、重量、尺寸等便攜性相關規格", 
+          "focus_specs": ["battery", "structconfig", "thermal"]
+        },
+        {
+          "option_id": "connectivity_io",
+          "label": "🔌 連接介面",
+          "description": "USB、HDMI、網路等連接介面規格",
+          "focus_specs": ["iointerface", "wireless", "lan", "bluetooth"]
+        },
+        {
+          "option_id": "comprehensive_comparison",
+          "label": "📊 全面比較",
+          "description": "所有主要規格的完整比較",
+          "focus_specs": "all"
+        }
+      ]
+    },
+    "purpose_scenario_selection": {
+      "question_id": "purpose_scenario_selection",
+      "question_text": "請選擇您的主要使用場景：",
+      "description": "用途推薦的場景選擇",
+      "context": {
+        "parent_flow": "purpose_recommendation_flow",
+        "purpose": "確定具體的使用場景以精準推薦"
+      },
+      "options": [
+        {
+          "option_id": "gaming_enthusiast",
+          "label": "🎮 遊戲愛好者",
+          "description": "主要用於遊戲，需要高性能GPU和CPU",
+          "target_specs": {
+            "gpu": "high_performance",
+            "cpu": "high_performance", 
+            "memory": ">=16GB",
+            "storage": "SSD_preferred"
+          },
+          "weight_factors": {
+            "performance": 0.8,
+            "portability": 0.2,
+            "battery": 0.3,
+            "price": 0.4
+          }
+        },
+        {
+          "option_id": "business_professional",
+          "label": "💼 商務專業",
+          "description": "辦公、會議、文書處理等商務用途",
+          "target_specs": {
+            "cpu": "balanced",
+            "memory": ">=8GB",
+            "battery": "long_lasting",
+            "portability": "lightweight"
+          },
+          "weight_factors": {
+            "performance": 0.5,
+            "portability": 0.8,
+            "battery": 0.9,
+            "price": 0.6
+          }
+        },
+        {
+          "option_id": "creative_design",
+          "label": "🎨 創作設計",
+          "description": "影片編輯、3D建模、平面設計等創作用途",
+          "target_specs": {
+            "cpu": "high_performance",
+            "gpu": "creation_optimized",
+            "memory": ">=16GB",
+            "display": "high_quality"
+          },
+          "weight_factors": {
+            "performance": 0.9,
+            "display_quality": 0.8,
+            "memory": 0.8,
+            "storage": 0.7
+          }
+        },
+        {
+          "option_id": "student_learning",
+          "label": "🎓 學生學習",
+          "description": "上課、作業、輕度娛樂等學習用途",
+          "target_specs": {
+            "cpu": "balanced",
+            "memory": ">=8GB", 
+            "battery": "all_day",
+            "portability": "lightweight",
+            "price": "budget_friendly"
+          },
+          "weight_factors": {
+            "price": 0.8,
+            "portability": 0.7,
+            "battery": 0.8,
+            "performance": 0.5
+          }
+        },
+        {
+          "option_id": "general_daily_use",
+          "label": "🏠 日常使用",
+          "description": "網頁瀏覽、影片觀看、輕度辦公等一般用途",
+          "target_specs": {
+            "cpu": "energy_efficient",
+            "memory": ">=8GB",
+            "battery": "long_lasting"
+          },
+          "weight_factors": {
+            "price": 0.7,
+            "battery": 0.7,
+            "performance": 0.4,
+            "portability": 0.6
+          }
+        }
+      ]
+    }
+  },
+  "flows": {
+    "series_comparison_flow": {
+      "flow_id": "series_comparison_flow",
+      "name": "系列規格比較流程",
+      "description": "針對特定系列進行詳細規格比較",
+      "steps": [
+        {
+          "step_id": "identify_series",
+          "name": "識別系列",
+          "description": "從查詢中識別要比較的系列（819/839/958）",
+          "required": true
+        },
+        {
+          "step_id": "select_comparison_focus",
+          "name": "選擇比較重點",
+          "description": "讓用戶選擇重點比較的規格領域",
+          "required": false,
+          "default": "comprehensive_comparison"
+        },
+        {
+          "step_id": "execute_comparison",
+          "name": "執行比較",
+          "description": "從資料庫取得該系列所有機型並生成比較表格",
+          "required": true
+        }
+      ],
+      "output_format": {
+        "type": "comparison_table",
+        "include_summary": true,
+        "highlight_differences": true,
+        "recommendation_note": "基於規格差異的簡要說明"
+      },
+      "bypass_general_multichat": true
+    },
+    "purpose_recommendation_flow": {
+      "flow_id": "purpose_recommendation_flow", 
+      "name": "用途導向推薦流程",
+      "description": "根據使用用途推薦最適合的機型",
+      "steps": [
+        {
+          "step_id": "identify_purpose",
+          "name": "識別用途",
+          "description": "確定使用者的主要用途和場景",
+          "required": true
+        },
+        {
+          "step_id": "collect_preferences",
+          "name": "收集偏好",
+          "description": "收集用戶對關鍵特性的偏好（根據用途動態調整問題）",
+          "required": true,
+          "adaptive_questions": true
+        },
+        {
+          "step_id": "generate_recommendation",
+          "name": "生成推薦",
+          "description": "基於用途和偏好生成個性化推薦",
+          "required": true
+        }
+      ],
+      "output_format": {
+        "type": "ranked_recommendations",
+        "include_reasoning": true,
+        "max_recommendations": 3,
+        "include_comparison": "top_choices_only"
+      },
+      "use_purpose_specific_multichat": true
+    },
+    "hybrid_flow": {
+      "flow_id": "hybrid_flow",
+      "name": "混合式推薦流程", 
+      "description": "結合系列比較和用途推薦的混合流程",
+      "steps": [
+        {
+          "step_id": "clarify_primary_intent",
+          "name": "釐清主要意圖",
+          "description": "幫助用戶釐清是要比較還是要推薦",
+          "required": true
+        },
+        {
+          "step_id": "route_to_specific_flow",
+          "name": "路由到具體流程",
+          "description": "根據釐清的意圖路由到對應的專業流程",
+          "required": true
+        }
+      ],
+      "fallback_for_ambiguous": true
+    }
+  },
+  "routing_rules": {
+    "series_comparison_triggers": [
+      "包含系列號碼(819/839/958)且包含比較關鍵字",
+      "明確要求比較特定系列的規格",
+      "詢問系列內機型的差異"
+    ],
+    "purpose_recommendation_triggers": [
+      "包含用途關鍵字(遊戲/辦公/學習等)且要求推薦",
+      "詢問適合特定用途的機型",
+      "包含'推薦'、'適合'、'建議'等關鍵字"
+    ],
+    "hybrid_triggers": [
+      "同時包含系列和用途關鍵字",
+      "查詢複雜且意圖不清",
+      "包含多個不同類型的需求"
+    ]
+  },
+  "ui_templates": {
+    "funnel_question_card": {
+      "template_name": "FunnelQuestionCard",
+      "components": {
+        "question_header": {
+          "style": "bold, large_font",
+          "color": "primary"
+        },
+        "option_buttons": {
+          "style": "card_style, hover_effect",
+          "layout": "vertical",
+          "spacing": "medium"
+        },
+        "description_text": {
+          "style": "muted, smaller_font",
+          "show_on": "hover"
+        }
+      },
+      "interactions": {
+        "option_click": "highlight_and_confirm",
+        "show_examples": "expandable_section"
+      }
+    }
+  },
+  "analytics": {
+    "track_events": [
+      "funnel_triggered",
+      "option_selected", 
+      "flow_completed",
+      "user_satisfaction"
+    ],
+    "success_metrics": {
+      "funnel_completion_rate": "target_90%",
+      "user_satisfaction_score": "target_4.5/5",
+      "query_resolution_time": "target_<2min"
+    }
+  },
+  "version": "1.0.0",
+  "last_updated": "2025-01-30"
+}

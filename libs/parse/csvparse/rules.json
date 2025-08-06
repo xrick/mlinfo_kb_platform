@@ -1,0 +1,168 @@
+{
+  "csv_parsing_rules": {
+    "model_extraction": {
+      "model_name_patterns": ["Model Name", "Model", "modelname", "型號"],
+      "model_regex": [
+        "\\b[A-Z]{3}\\d{3}\\b",
+        "\\b[A-Z]{3}\\d{3}[A-Z]\\b",
+        "EM-\\d{3}-[A-Z0-9]+"
+      ]
+    },
+    "version_extraction": {
+      "version_patterns": ["Stage", "Version", "MP_v", "PVT_v", "Planning_v", "版本"],
+      "version_regex": [
+        "\\b[A-Z]{2,3}_v\\d+\\.\\d+\\b",
+        "\\b[A-Z]{2,3}\\s+v\\d+\\.\\d+\\b",
+        "Planning_v\\d+\\.\\d+",
+        "PVT_v\\d+\\.\\d+",
+        "MP_v\\d+\\.\\d+"
+      ]
+    },
+    "hardware_extraction": {
+      "cpu_patterns": {
+        "patterns": ["CPU", "Module", "處理器"],
+        "regex": [
+          "Ryzen™\\s+\\d+\\s+\\d{4}[A-Z]{2}\\s*\\([^)]+\\)",
+          "AMD\\s+[A-Za-z0-9]+\\s+[A-Za-z0-9]+\\s+Series",
+          "Intel\\s+Core\\s+i\\d+",
+          "\\d+\\.\\d+GHz"
+        ]
+      },
+      "gpu_patterns": {
+        "patterns": ["GPU", "Graphics", "顯示卡"],
+        "regex": [
+          "AMD\\s+Radeon™\\s+\\d+[A-Z]",
+          "AMD\\s+Radeon™\\s+Graphics",
+          "NVIDIA\\s+GeForce",
+          "Integrated\\s+Graphics"
+        ]
+      },
+      "memory_patterns": {
+        "patterns": ["Memory", "RAM", "記憶體"],
+        "regex": [
+          "\\d+\\*\\s*DDR\\d+\\s+SO-DIMM",
+          "up\\s+to\\s+\\d+GB\\s+DDR\\d+\\s+\\d+MHz",
+          "\\d+GB\\s+DDR\\d+",
+          "\\d+MHz"
+        ]
+      },
+      "storage_patterns": {
+        "patterns": ["Storage", "SSD", "儲存"],
+        "regex": [
+          "\\d+\\*\\s*M\\.2\\s+\\d{4}\\s+PCIe\\s+[A-Z]\\d+",
+          "up\\s+to\\s+\\d+TB",
+          "\\d+GB\\s+SSD",
+          "\\d+TB\\s+SSD",
+          "NVMe\\s+SSD"
+        ]
+      }
+    },
+    "display_extraction": {
+      "lcd_patterns": {
+        "patterns": ["LCD", "Dimension", "Resolution", "螢幕"],
+        "regex": [
+          "\\d+\\.\\d+\"\\s+\\d+:\\d+",
+          "\\d+\\*\\s*\\d+\\s+[A-Z]+",
+          "\\d+Hz",
+          "FHD|QHD|4K"
+        ]
+      }
+    },
+    "connectivity_extraction": {
+      "usb_patterns": {
+        "patterns": ["USB", "Type-C", "Type A"],
+        "regex": [
+          "USB\\s*\\d+\\.\\d+\\s+Gen\\d+",
+          "USB\\d+\\.\\d+",
+          "Type\\s*[-\\s]?[AC]",
+          "\\d+Gbps"
+        ]
+      },
+      "hdmi_patterns": {
+        "patterns": ["HDMI"],
+        "regex": [
+          "HDMI\\s+\\d+\\.\\d+",
+          "4K/\\d+Hz"
+        ]
+      },
+      "wifi_patterns": {
+        "patterns": ["WiFi", "Wifi", "無線"],
+        "regex": [
+          "WiFi\\s+\\d+[A-Z]?",
+          "802\\.11[a-z]+",
+          "BT\\s*\\d+\\.\\d+",
+          "Bluetooth\\s+\\d+\\.\\d+"
+        ]
+      }
+    },
+    "battery_extraction": {
+      "battery_patterns": ["Battery", "Capacity", "電池"],
+      "battery_regex": [
+        "\\d+\\.\\d+Wh",
+        "\\d+\\.\\d+V/\\d+mAh",
+        "\\d+\\s+Cell",
+        "Li-ion|Lithium-ion"
+      ]
+    },
+    "dimension_extraction": {
+      "dimension_patterns": ["Dimension", "Weight", "尺寸", "重量"],
+      "dimension_regex": [
+        "\\d+\\*\\s*\\d+\\*\\s*\\d+\\.\\d+mm",
+        "\\d+\\.\\d+\\s*kg",
+        "\\d+\\.\\d+\\s*g"
+      ]
+    },
+    "development_extraction": {
+      "timeline_patterns": ["Develop", "stage", "Kick-off", "EVT", "DVT", "PVT", "MP", "開發"],
+      "timeline_regex": [
+        "\\d{4}/\\d{2}/\\d{2}-\\d{4}/\\d{2}/\\d{2}",
+        "\\d{4}/\\d{2}/\\d{2}",
+        "EVT：\\s*\\d{4}/\\d{2}/\\d{2}",
+        "DVT：\\s*\\d{4}/\\d{2}/\\d{2}",
+        "PVT：\\s*\\d{4}/\\d{2}/\\d{2}",
+        "MP：\\s*\\d{4}/\\d{2}/\\d{2}"
+      ]
+    },
+    "software_extraction": {
+      "os_patterns": ["Operating System", "System", "作業系統"],
+      "os_regex": [
+        "Windows\\s*\\d+\\s+[A-Z0-9]+",
+        "Linux\\s+OS",
+        "Ubuntu\\s+\\d+",
+        "BIOS\\s+v\\d+\\.\\d+"
+      ]
+    },
+    "certification_extraction": {
+      "cert_patterns": ["Certifications", "Safety", "認證"],
+      "cert_regex": [
+        "CCC",
+        "RoHS",
+        "BSMI",
+        "CB",
+        "MSDS",
+        "UN38\\.3",
+        "FCC",
+        "CE"
+      ]
+    }
+  },
+  "data_cleaning_rules": {
+    "remove_patterns": [
+      "N/A",
+      "TBC",
+      "Optional",
+      "TBD",
+      "Not Available",
+      ""
+    ],
+    "normalize_whitespace": true,
+    "trim_results": true,
+    "remove_empty_results": true
+  },
+  "global_settings": {
+    "case_sensitive": false,
+    "timeout_seconds": 30,
+    "max_matches_per_field": 10,
+    "enable_parallel_processing": true
+  }
+}

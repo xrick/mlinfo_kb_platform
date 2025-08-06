@@ -1,0 +1,837 @@
+根據我的分析，現在回答您的問題：
+
+  1. 產生JSON的後端程式
+
+  檔案: libs/services/sales_assistant/service.py:1053-1072
+
+  multichat_start_response = {
+      'type': 'multichat_start',
+      'session_id': session_id,
+      'message': '我將通過幾個問題來了解您的需求，為您推薦最適合的筆電。',
+      'first_question': {
+          'question': first_question.question_text,
+          'options': [...],
+          'current_step': first_question.step,
+          'total_steps': len(...)
+      }
+  }
+
+  2. 接收JSON的前端程式
+
+  檔案: static/js/sales_ai.js:317-369
+
+  前端在 renderMessageContent 函數中檢測到 content.type === 'multichat_start' 後，調用 renderMultiChatStart 函數進行渲染。
+
+  3. 前端目前的處理邏輯
+
+  - 檢測到 multichat_start 類型
+  - 創建多輪對話容器
+  - 只顯示第一個問題
+  - 用戶選擇後透過API(/api/sales/multichat)獲取下一個問題
+  - 一問一答的循序式流程
+
+  4. 問題根源
+
+  目前系統的設計是循序式對話，但您想要的是一次性展示所有問題。
+
+  5. 改進方案
+
+  需要修改：
+  1. 後端: 新增API返回完整問題列表
+  2. 前端: 修改渲染邏輯，一次性展示所有問題
+  3. 互動邏輯: 用戶填完所有問題後一次提交
+                                                                                      
+●User approved Claude's plan:
+  ⎿  修改MultiChat為一次性展示所有問題
+
+     目標
+
+     將現有的循序式多輪對話改為一次性展示所有問題的表格式界面，類似CSV表格的呈現方式。
+
+     修改計畫
+
+     1. 後端修改
+
+     - 修改 libs/services/sales_assistant/service.py 的 chat_stream 方法
+     - 新增 get_all_questions 方法，一次性返回所有7個問題
+     - 修改JSON響應格式，包含完整問題列表
+
+     2. 前端修改
+
+     - 修改 static/js/sales_ai.js 的 renderMultiChatStart 函數
+     - 改為表格式布局，一次性顯示所有問題
+     - 每一列代表一個問題，包含問題文字和選項按鈕組
+     - 新增表單驗證，確保所有問題都已回答
+
+     3. 新增API端點
+
+     - 新增 /api/sales/multichat-all 端點
+     - 接收所有問題的答案，一次性處理並返回推薦結果
+
+     4. UI優化
+
+     - 採用響應式表格設計
+     - 每個問題佔一列，選項以按鈕組形式水平排列
+     - 新增進度指示器
+     - 新增「提交所有答案」按鈕
+
+     技術細節
+
+     - 後端需要修改問題配置讀取邏輯
+     - 前端需要重新設計CSS樣式
+     - 需要處理表單狀態管理
+     - 保持現有多輪對話的向後相容性
+
+     這樣用戶可以一次看到所有問題，填完後直接獲得推薦結果，提升用戶體驗。
+
+✻ Thinking…
+
+  好的，用戶已經批准了我的計畫。現在我需要開始執行，先更新待辦清單來追蹤實現步驟。
+
+● Update Todos
+  ⎿  ☐ 修改後端服務，新增get_all_questions方法     
+     ☐ 修改chat_stream方法，支援all_questions模式
+     ☐ 新增/api/sales/multichat-all API端點
+     ☐ 修改前端renderMultiChatStart函數為表格式呈現
+     ☐ 新增CSS樣式支援表格式問卷界面
+     ☐ 實現前端表單驗證和狀態管理
+     ☐ 測試新功能並確保向後相容性
+
+✻ Thinking…
+
+  現在開始實現，先從後端開始。首先我需要修改SalesAssistantService類，新增一個方法來獲取所有問題。
+
+● Update Todos
+  ⎿  ☐ 修改後端服務，新增get_all_questions方法     
+     ☐ 修改chat_stream方法，支援all_questions模式
+     ☐ 新增/api/sales/multichat-all API端點
+     ☐ 修改前端renderMultiChatStart函數為表格式呈現
+     ☐ 新增CSS樣式支援表格式問卷界面
+     ☐ 實現前端表單驗證和狀態管理
+     ☐ 測試新功能並確保向後相容性
+
+✻ Thinking…
+
+  好的，我需要開始修改SalesAssistantService。首先讓我讀取service.py文件的末尾部分，看看有沒有其他方法，然後我可以添加新的方法。
+
+  我需要在SalesAssistantService類中添加一個get_all_questions方法，它會返回所有7個問題的完整列表。
+
+● Read(libs/services/sales_assistant/service.py)
+  ⎿  Read 50 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  讓我看看這個文件有多長，然後找到類的結尾位置來添加新方法：
+
+● Bash(wc -l /home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/services/sales_assistant/service.py)
+  ⎿  2334 /home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/services/sales_assistant/service.py
+
+✻ Thinking…
+
+  文件有2334行，很長。讓我看看文件的結尾部分，找到一個合適的位置來添加新方法：
+
+● Read(libs/services/sales_assistant/service.py)
+  ⎿  Read 36 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  看起來文件末尾大概是這樣。讓我在這個類的最後添加新的方法。我需要新增一個get_all_questions方法來獲取所有問題。
+
+● Update(libs/services/sales_assistant/service.py)
+  ⎿  Updated libs/services/sales_assistant/service.py with 148 additions                                                                                                
+       2332                return {
+       2333                    "answer_summary": "很抱歉，處理您的查詢時發生錯誤。請稍後重試。",
+       2334                    "comparison_table": []
+       2335 +              }
+       2336 +      
+       2337 +      def get_all_questions(self, query: str = "") -> dict:
+       2338 +          """
+       2339 +          獲取所有多輪對話問題，用於一次性展示
+       2340 +          
+       2341 +          Args:
+       2342 +              query: 使用者原始查詢
+       2343 +              
+       2344 +          Returns:
+       2345 +              包含所有問題的字典
+       2346 +          """
+       2347 +          try:
+       2348 +              logging.info("開始獲取所有多輪對話問題")
+       2349 +              
+       2350 +              # 生成對話鍊
+       2351 +              chat_chain = self.multichat_manager.chat_generator.get_random_chain("random")
+       2352 +              
+       2353 +              # 構建所有問題
+       2354 +              all_questions = []
+       2355 +              for step, feature_id in enumerate(chat_chain.features_order):
+       2356 +                  feature = self.multichat_manager.nb_features[feature_id]
+       2357 +                  
+       2358 +                  question_data = {
+       2359 +                      "step": step + 1,
+       2360 +                      "feature_id": feature_id,
+       2361 +                      "question": feature.question_template,
+       2362 +                      "options": [
+       2363 +                          {
+       2364 +                              "option_id": opt.option_id,
+       2365 +                              "label": opt.label,
+       2366 +                              "description": opt.description
+       2367 +                          } for opt in feature.options
+       2368 +                      ]
+       2369 +                  }
+       2370 +                  all_questions.append(question_data)
+       2371 +              
+       2372 +              response = {
+       2373 +                  "type": "multichat_all_questions",
+       2374 +                  "message": "請回答以下所有問題，我們將為您推薦最適合的筆電。",
+       2375 +                  "questions": all_questions,
+       2376 +                  "total_questions": len(all_questions)
+       2377 +              }
+       2378 +              
+       2379 +              logging.info(f"成功獲取 {len(all_questions)} 個問題")
+       2380 +              return response
+       2381 +              
+       2382 +          except Exception as e:
+       2383 +              logging.error(f"獲取所有問題失敗: {e}")
+       2384 +              return {
+       2385 +                  "type": "error",
+       2386 +                  "message": "獲取問題列表時發生錯誤，請稍後重試。"
+       2387 +              }
+       2388 +      
+       2389 +      async def process_all_questions_response(self, answers: dict) -> dict:
+       2390 +          """
+       2391 +          處理用戶對所有問題的回答
+       2392 +          
+       2393 +          Args:
+       2394 +              answers: 包含所有問題答案的字典 {feature_id: option_id}
+       2395 +              
+       2396 +          Returns:
+       2397 +              推薦結果
+       2398 +          """
+       2399 +          try:
+       2400 +              logging.info(f"開始處理所有問題的回答: {answers}")
+       2401 +              
+       2402 +              # 構建偏好總結
+       2403 +              preferences_summary = {}
+       2404 +              db_filters = {}
+       2405 +              
+       2406 +              for feature_id, option_id in answers.items():
+       2407 +                  if feature_id in self.multichat_manager.nb_features:
+       2408 +                      feature = self.multichat_manager.nb_features[feature_id]
+       2409 +                      
+       2410 +                      # 找到對應的選項
+       2411 +                      selected_option = None
+       2412 +                      for option in feature.options:
+       2413 +                          if option.option_id == option_id:
+       2414 +                              selected_option = option
+       2415 +                              break
+       2416 +                      
+       2417 +                      if selected_option:
+       2418 +                          preferences_summary[feature_id] = {
+       2419 +                              "feature_name": feature.name,
+       2420 +                              "selected_option": selected_option.label,
+       2421 +                              "description": selected_option.description
+       2422 +                          }
+       2423 +                          
+       2424 +                          # 合併資料庫篩選條件
+       2425 +                          if selected_option.db_filter:
+       2426 +                              db_filters.update(selected_option.db_filter)
+       2427 +              
+       2428 +              # 生成增強查詢
+       2429 +              preferences_text = "\n".join([
+       2430 +                  f"- {pref_data['feature_name']}: {pref_data['selected_option']}"
+       2431 +                  for pref_data in preferences_summary.values()
+       2432 +                  if 'no_preference' not in pref_data.get('selected_option', '')
+       2433 +              ])
+       2434 +              
+       2435 +              enhanced_query = f"根據以下偏好條件：{preferences_text}，請推薦適合的筆電"
+       2436 +              
+       2437 +              # 查詢相關資料
+       2438 +              try:
+       2439 +                  # 這裡可以根據db_filters來查詢資料庫
+       2440 +                  # 目前先使用基本查詢
+       2441 +                  context_list_of_dicts = self.duckdb_query.get_all_data()
+       2442 +                  
+       2443 +                  # 構建推薦提示
+       2444 +                  multichat_prompt = f"""
+       2445 +  根據用戶通過多輪對話明確表達的需求偏好：
+       2446 +  {preferences_text}
+       2447 +  
+       2448 +  請基於以下資訊提供精準的筆電推薦：
+       2449 +  - 所有偏好都已通過系統性問答收集
+       2450 +  - 推薦應嚴格符合用戶明確表達的偏好
+       2451 +  - 重點說明推薦機型如何滿足用戶的具體需求
+       2452 +  - 請提供3-5個最符合需求的機型推薦
+       2453 +  
+       2454 +  {self.prompt_template}
+       2455 +  """
+       2456 +                  
+       2457 +                  # 調用LLM
+       2458 +                  response_str = await self.llm.ainvoke(
+       2459 +                      f"{multichat_prompt}\n\n使用者查詢: {enhanced_query}\n\n筆電資料:\n{json.dumps(context_list_of_dicts, ensure_ascii=False, indent=2)}"
+       2460 +                  )
+       2461 +                  
+       2462 +                  return {
+       2463 +                      "type": "multichat_complete",
+       2464 +                      "message": "根據您的需求偏好，我們為您推薦以下筆電：",
+       2465 +                      "enhanced_query": enhanced_query,
+       2466 +                      "preferences_summary": preferences_summary,
+       2467 +                      "recommendations": response_str,
+       2468 +                      "db_filters": db_filters
+       2469 +                  }
+       2470 +                  
+       2471 +              except Exception as e:
+       2472 +                  logging.error(f"查詢推薦資料失敗: {e}")
+       2473 +                  return {
+       2474 +                      "type": "error",
+       2475 +                      "message": "查詢推薦資料時發生錯誤，請稍後重試。"
+       2476 +                  }
+       2477 +                  
+       2478 +          except Exception as e:
+       2479 +              logging.error(f"處理所有問題回答失敗: {e}")
+       2480 +              return {
+       2481 +                  "type": "error",
+       2482 +                  "message": "處理您的回答時發生錯誤，請稍後重試。"
+       2483                }
+       2484   \ No newline at end of file
+
+✻ Thinking…
+
+  很好！我已經成功添加了兩個新方法：
+  1. get_all_questions - 獲取所有問題
+  2. process_all_questions_response - 處理所有問題的回答
+
+  現在讓我繼續下一個任務，修改chat_stream方法來支援all_questions模式。
+
+● Update Todos
+  ⎿  ☒ 修改後端服務，新增get_all_questions方法     
+     ☐ 修改chat_stream方法，支援all_questions模式
+     ☐ 新增/api/sales/multichat-all API端點
+     ☐ 修改前端renderMultiChatStart函數為表格式呈現
+     ☐ 新增CSS樣式支援表格式問卷界面
+     ☐ 實現前端表單驗證和狀態管理
+     ☐ 測試新功能並確保向後相容性
+
+✻ Thinking…
+
+  現在我需要修改chat_stream方法來支援all_questions模式。我需要找到chat_stream方法中處理multichat的部分，並添加一個檢查來決定是使用原有的逐步模式還是新的一次性展示模式。
+
+  讓我檢查是否有某種標識可以讓用戶選擇使用哪種模式，或者我需要根據查詢內容來判斷。
+
+  先讓我找到chat_stream方法中的multichat相關部分：
+
+● Read(libs/services/sales_assistant/service.py)
+  ⎿  Read 30 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  現在我需要修改這個部分，讓它支援all_questions模式。我的策略是：
+
+  1. 根據查詢內容判斷是否應該使用all_questions模式
+  2. 如果是，就調用新的get_all_questions方法
+  3. 如果不是，繼續使用原有的逐步模式
+
+  讓我增加一個檢查，看查詢是否包含特定關鍵字（比如"一次性"、"所有問題"、"表格"等）來決定使用哪種模式：
+
+● Update(libs/services/sales_assistant/service.py)
+  ⎿  Updated libs/services/sales_assistant/service.py with 33 additions and 22 removals                                                        
+       1047                if should_start_multichat:
+       1048                    logging.info("檢測到模糊查詢，啟動多輪對話導引系統")
+       1049                    try:
+       1050 -                      session_id, first_question = self.multichat_manager.start_multichat_flow(query)
+       1050 +                      # 檢查是否應該用一次性問題模式
+       1051 +                      all_questions_keywords = ["一次性", "所有問題", "表格", "全部問題", "問卷", "表單", "統一回答", "batch"]
+       1052 +                      should_use_all_questions = any(keyword in query.lower() for keyword in all_questions_keywords)
+       1053                        
+       1054 -                      # 構建結構化的MultiChat開始回應
+       1055 -                      multichat_start_response = {
+       1056 -                          'type': 'multichat_start',
+       1057 -                          'session_id': session_id,
+       1058 -                          'message': f'我將通過幾個問題來了解您的需求，為您推薦最適合的筆電。',
+       1059 -                          'first_question': {
+       1060 -                              'question': first_question.question_text,
+       1061 -                              'options': [
+       1062 -                                  {
+       1063 -                                      'option_id': opt.option_id,
+       1064 -                                      'label': opt.label,
+       1065 -                                      'description': opt.description
+       1066 -                                  } for opt in first_question.options
+       1067 -                              ],
+       1068 -                              'current_step': first_question.step,
+       1069 -                              'total_steps': len(self.multichat_manager.active_sessions[session_id].chat_chain.features_order)
+       1054 +                      if should_use_all_questions:
+       1055 +                          logging.info("檢測到一次性問題模式關鍵字，使用all_questions模式")
+       1056 +                          all_questions_response = self.get_all_questions(query)
+       1057 +                          yield f"data: {json.dumps(all_questions_response, ensure_ascii=False)}\n\n"
+       1058 +                          return
+       1059 +                      else:
+       1060 +                          # 原有的逐步模式
+       1061 +                          session_id, first_question = self.multichat_manager.start_multichat_flow(query)
+       1062 +                          
+       1063 +                          # 構建結構化的MultiChat開始回應
+       1064 +                          multichat_start_response = {
+       1065 +                              'type': 'multichat_start',
+       1066 +                              'session_id': session_id,
+       1067 +                              'message': f'我將通過幾個問題來了解您的需求，為您推薦最適合的筆電。',
+       1068 +                              'first_question': {
+       1069 +                                  'question': first_question.question_text,
+       1070 +                                  'options': [
+       1071 +                                      {
+       1072 +                                          'option_id': opt.option_id,
+       1073 +                                          'label': opt.label,
+       1074 +                                          'description': opt.description
+       1075 +                                      } for opt in first_question.options
+       1076 +                                  ],
+       1077 +                                  'current_step': first_question.step,
+       1078 +                                  'total_steps': len(self.multichat_manager.active_sessions[session_id].chat_chain.features_order)
+       1079 +                              }
+       1080                            }
+       1081 -                      }
+       1081 +                          
+       1082 +                          # 以串流方式返回多輪對話開始訊息
+       1083 +                          yield f"data: {json.dumps(multichat_start_response, ensure_ascii=False)}\n\n"
+       1084 +                          return
+       1085                        
+       1086 -                      # 以串流方式返回多輪對話開始訊息
+       1087 -                      yield f"data: {json.dumps(multichat_start_response, ensure_ascii=False)}\n\n"
+       1088 -                      return
+       1089 -                      
+       1086                    except Exception as e:
+       1087                        logging.error(f"啟動多輪對話失敗: {e}")
+       1088                        # 如果多輪對話啟動失敗，繼續使用原有流程
+
+✻ Thinking…
+
+  好！我已經成功修改了chat_stream方法來支援all_questions模式。現在讓我繼續下一個任務：在API routes中新增一個端點來處理all_questions的回答提交。
+
+● Update Todos
+  ⎿  ☒ 修改後端服務，新增get_all_questions方法     
+     ☒ 修改chat_stream方法，支援all_questions模式
+     ☐ 新增/api/sales/multichat-all API端點
+     ☐ 修改前端renderMultiChatStart函數為表格式呈現
+     ☐ 新增CSS樣式支援表格式問卷界面
+     ☐ 實現前端表單驗證和狀態管理
+     ☐ 測試新功能並確保向後相容性
+
+✻ Thinking…
+
+  現在我需要在sales_routes.py中新增一個API端點來處理所有問題的回答提交。讓我找到合適的位置來添加這個新的路由：
+
+● Update(api/sales_routes.py)
+  ⎿  Updated api/sales_routes.py with 30 additions                                                                         
+       130    
+       131        except Exception as e:
+       132            logging.error(f"Error in multichat: {e}")
+       133 +          return JSONResponse(status_code=500, content={"error": "Internal Server Error"})
+       134 +  
+       135 +  @router.post("/multichat-all")
+       136 +  async def multichat_all_questions(request: Request):
+       137 +      """處理所有問題的一次性回答提交"""
+       138 +      if not service_manager:
+       139 +          return JSONResponse(status_code=500, content={"error": "Service manager not available"})
+       140 +      
+       141 +      try:
+       142 +          data = await request.json()
+       143 +          answers = data.get("answers", {})
+       144 +          service_name = data.get("service_name", "sales_assistant")
+       145 +  
+       146 +          if not answers:
+       147 +              return JSONResponse(status_code=400, content={"error": "answers are required"})
+       148 +  
+       149 +          service = service_manager.get_service(service_name)
+       150 +          if not service:
+       151 +              return JSONResponse(status_code=404, content={"error": f"Service '{service_name}' not found"})
+       152 +  
+       153 +          # 檢查服務是否支援process_all_questions_response方法
+       154 +          if not hasattr(service, 'process_all_questions_response'):
+       155 +              return JSONResponse(status_code=400, content={"error": "Service does not support multichat-all"})
+       156 +  
+       157 +          # 處理所有問題的回答
+       158 +          result = await service.process_all_questions_response(answers)
+       159 +          return result
+       160 +  
+       161 +      except Exception as e:
+       162 +          logging.error(f"Error in multichat-all: {e}")
+       163            return JSONResponse(status_code=500, content={"error": "Internal Server Error"})
+       164   \ No newline at end of file
+
+✻ Thinking…
+
+  很好！現在我已經完成了後端的修改。接下來我需要修改前端，讓它能夠處理新的multichat_all_questions類型的回應，並以表格式的方式呈現所有問題。
+
+  讓我修改前端的JavaScript代碼：
+
+● Update Todos
+  ⎿  ☒ 修改後端服務，新增get_all_questions方法     
+     ☒ 修改chat_stream方法，支援all_questions模式
+     ☒ 新增/api/sales/multichat-all API端點
+     ☐ 修改前端renderMultiChatStart函數為表格式呈現
+     ☐ 新增CSS樣式支援表格式問卷界面
+     ☐ 實現前端表單驗證和狀態管理
+     ☐ 測試新功能並確保向後相容性
+
+✻ Thinking…
+
+  現在我需要修改前端JavaScript代碼。我需要：
+
+  1. 在renderMessageContent函數中添加對multichat_all_questions類型的處理
+  2. 創建一個新的函數來渲染表格式的問卷界面
+  3. 實現提交所有答案的功能
+
+  讓我先在renderMessageContent函數中添加對新類型的處理：
+
+● Update(static/js/sales_ai.js)
+  ⎿  Updated static/js/sales_ai.js with 12 additions                                          
+       345                    return;
+       346                }
+       347            }
+       348 +          if (content.type === 'multichat_all_questions') {
+       349 +              console.log("🔥 檢測到 multichat_all_questions，準備渲染", content);
+       350 +              if (typeof renderAllQuestionsForm === 'function') {
+       351 +                  console.log("✅ 開始執行 renderAllQuestionsForm");
+       352 +                  renderAllQuestionsForm(container, content);
+       353 +                  return;
+       354 +              } else {
+       355 +                  console.error("❌ renderAllQuestionsForm 函數未定義");
+       356 +                  container.innerHTML = "<p>問卷功能載入中...</p>";
+       357 +                  return;
+       358 +              }
+       359 +          }
+       360            if (content.type === 'multichat_question') {
+       361                console.log("檢測到 multichat_question，準備渲染");
+       362                if (typeof renderMultiChatQuestion === 'function') {
+
+✻ Thinking…
+
+  現在我需要創建renderAllQuestionsForm函數。我需要找到一個合適的位置來添加這個函數。讓我找到其他渲染函數的位置，然後在附近添加這個新函數：
+
+● Update(static/js/sales_ai.js)
+  ⎿  Updated static/js/sales_ai.js with 267 additions                                                                                                   
+       268            }
+       269        }
+       270    
+       271 +      // ✨ 新增：一次性問卷渲染函數
+       272 +      function renderAllQuestionsForm(container, content) {
+       273 +          console.log("🚀 [renderAllQuestionsForm] 開始執行，content:", content);
+       274 +          
+       275 +          if (!content.questions || !Array.isArray(content.questions)) {
+       276 +              console.error("❌ 無效的問題數據");
+       277 +              container.innerHTML = "<p>問題數據載入失敗</p>";
+       278 +              return;
+       279 +          }
+       280 +          
+       281 +          let html = `
+       282 +              <div class="multichat-all-container">
+       283 +                  <h3>🎯 筆電需求問卷</h3>
+       284 +                  <p class="multichat-intro">${content.message}</p>
+       285 +                  <div class="questions-progress">
+       286 +                      <span class="progress-text">請回答以下 ${content.total_questions} 個問題</span>
+       287 +                  </div>
+       288 +                  <form id="all-questions-form" class="questions-table">
+       289 +          `;
+       290 +          
+       291 +          // 為每個問題生成一列
+       292 +          content.questions.forEach((questionData, index) => {
+       293 +              html += `
+       294 +                  <div class="question-row" data-step="${questionData.step}" data-feature-id="${questionData.feature_id}">
+       295 +                      <div class="question-cell">
+       296 +                          <h4 class="question-title">${questionData.step}. ${questionData.question}</h4>
+       297 +                      </div>
+       298 +                      <div class="options-cell">
+       299 +                          <div class="option-buttons-group" data-question-id="${questionData.feature_id}">
+       300 +              `;
+       301 +              
+       302 +              // 為每個選項生成按鈕
+       303 +              questionData.options.forEach((option, optIndex) => {
+       304 +                  html += `
+       305 +                      <label class="option-button">
+       306 +                          <input type="radio" name="${questionData.feature_id}" value="${option.option_id}" required>
+       307 +                          <span class="option-content">
+       308 +                              <span class="option-label">${option.label}</span>
+       309 +                              <span class="option-description">${option.description}</span>
+       310 +                          </span>
+       311 +                      </label>
+       312 +                  `;
+       313 +              });
+       314 +              
+       315 +              html += `
+       316 +                          </div>
+       317 +                      </div>
+       318 +                  </div>
+       319 +              `;
+       320 +          });
+       321 +          
+       322 +          html += `
+       323 +                  </form>
+       324 +                  <div class="form-actions">
+       325 +                      <button type="button" id="submit-all-answers-btn" class="submit-btn" disabled>
+       326 +                          📝 提交所有回答並獲得推薦
+       327 +                      </button>
+       328 +                      <div class="validation-message" id="validation-message"></div>
+       329 +                  </div>
+       330 +              </div>
+       331 +          `;
+       332 +          
+       333 +          container.innerHTML = html;
+       334 +          
+       335 +          // 綁定事件處理器
+       336 +          setupAllQuestionsFormHandlers();
+       337 +          
+       338 +          console.log("✅ [renderAllQuestionsForm] 問卷渲染完成");
+       339 +      }
+       340 +      
+       341 +      // 設置問卷表單的事件處理器
+       342 +      function setupAllQuestionsFormHandlers() {
+       343 +          const form = document.getElementById('all-questions-form');
+       344 +          const submitBtn = document.getElementById('submit-all-answers-btn');
+       345 +          const validationMessage = document.getElementById('validation-message');
+       346 +          
+       347 +          if (!form || !submitBtn) {
+       348 +              console.error("❌ 找不到表單元素");
+       349 +              return;
+       350 +          }
+       351 +          
+       352 +          // 監聽表單變化，啟用/禁用提交按鈕
+       353 +          form.addEventListener('change', () => {
+       354 +              const isValid = validateAllQuestionsForm();
+       355 +              submitBtn.disabled = !isValid;
+       356 +              updateValidationMessage(isValid);
+       357 +          });
+       358 +          
+       359 +          // 提交按鈕點擊事件
+       360 +          submitBtn.addEventListener('click', handleAllQuestionsSubmit);
+       361 +          
+       362 +          console.log("✅ 問卷事件處理器設置完成");
+       363 +      }
+       364 +      
+       365 +      // 驗證所有問題是否已回答
+       366 +      function validateAllQuestionsForm() {
+       367 +          const form = document.getElementById('all-questions-form');
+       368 +          if (!form) return false;
+       369 +          
+       370 +          const questionRows = form.querySelectorAll('.question-row');
+       371 +          let answeredCount = 0;
+       372 +          
+       373 +          questionRows.forEach(row => {
+       374 +              const featureId = row.dataset.featureId;
+       375 +              const radioButtons = row.querySelectorAll(`input[name="${featureId}"]`);
+       376 +              const isAnswered = Array.from(radioButtons).some(radio => radio.checked);
+       377 +              
+       378 +              if (isAnswered) {
+       379 +                  answeredCount++;
+       380 +                  row.classList.remove('unanswered');
+       381 +                  row.classList.add('answered');
+       382 +              } else {
+       383 +                  row.classList.remove('answered');
+       384 +                  row.classList.add('unanswered');
+       385 +              }
+       386 +          });
+       387 +          
+       388 +          return answeredCount === questionRows.length;
+       389 +      }
+       390 +      
+       391 +      // 更新驗證消息
+       392 +      function updateValidationMessage(isValid) {
+       393 +          const validationMessage = document.getElementById('validation-message');
+       394 +          if (!validationMessage) return;
+       395 +          
+       396 +          if (isValid) {
+       397 +              validationMessage.textContent = "✅ 所有問題已回答完畢，可以提交！";
+       398 +              validationMessage.className = "validation-message success";
+       399 +          } else {
+       400 +              const form = document.getElementById('all-questions-form');
+       401 +              const totalQuestions = form.querySelectorAll('.question-row').length;
+       402 +              const answeredQuestions = form.querySelectorAll('.question-row.answered').length;
+       403 +              
+       404 +              validationMessage.textContent = `⏳ 還需回答 ${totalQuestions - answeredQuestions} 個問題`;
+       405 +              validationMessage.className = "validation-message pending";
+       406 +          }
+       407 +      }
+       408 +      
+       409 +      // 處理所有問題提交
+       410 +      async function handleAllQuestionsSubmit() {
+       411 +          console.log("📤 開始提交所有問題的回答");
+       412 +          
+       413 +          const form = document.getElementById('all-questions-form');
+       414 +          const submitBtn = document.getElementById('submit-all-answers-btn');
+       415 +          
+       416 +          if (!validateAllQuestionsForm()) {
+       417 +              alert("請回答所有問題後再提交！");
+       418 +              return;
+       419 +          }
+       420 +          
+       421 +          // 收集所有答案
+       422 +          const answers = {};
+       423 +          const questionRows = form.querySelectorAll('.question-row');
+       424 +          
+       425 +          questionRows.forEach(row => {
+       426 +              const featureId = row.dataset.featureId;
+       427 +              const checkedRadio = row.querySelector(`input[name="${featureId}"]:checked`);
+       428 +              if (checkedRadio) {
+       429 +                  answers[featureId] = checkedRadio.value;
+       430 +              }
+       431 +          });
+       432 +          
+       433 +          console.log("📋 收集到的答案:", answers);
+       434 +          
+       435 +          // 顯示提交狀態
+       436 +          submitBtn.disabled = true;
+       437 +          submitBtn.textContent = "⏳ 正在分析您的需求...";
+       438 +          
+       439 +          try {
+       440 +              const response = await fetch('/api/sales/multichat-all', {
+       441 +                  method: 'POST',
+       442 +                  headers: { 'Content-Type': 'application/json' },
+       443 +                  body: JSON.stringify({
+       444 +                      answers: answers,
+       445 +                      service_name: 'sales_assistant'
+       446 +                  })
+       447 +              });
+       448 +              
+       449 +              if (!response.ok) {
+       450 +                  throw new Error(`HTTP錯誤！狀態: ${response.status}`);
+       451 +              }
+       452 +              
+       453 +              const result = await response.json();
+       454 +              console.log('📨 後端回應:', result);
+       455 +              
+       456 +              // 根據回應類型處理結果
+       457 +              if (result.type === 'multichat_complete') {
+       458 +                  // 在當前容器中顯示完成結果
+       459 +                  const currentContainer = document.querySelector('.multichat-all-container').parentElement;
+       460 +                  renderMultiChatAllComplete(currentContainer, result);
+       461 +              } else if (result.type === 'error') {
+       462 +                  alert(`處理錯誤: ${result.message}`);
+       463 +              }
+       464 +              
+       465 +          } catch (error) {
+       466 +              console.error('❌ 提交失敗:', error);
+       467 +              alert(`提交失敗: ${error.message}`);
+       468 +          } finally {
+       469 +              submitBtn.disabled = false;
+       470 +              submitBtn.textContent = "📝 提交所有回答並獲得推薦";
+       471 +          }
+       472 +      }
+       473 +      
+       474 +      // 渲染問卷完成結果
+       475 +      function renderMultiChatAllComplete(container, content) {
+       476 +          console.log("✅ 問卷完成，渲染結果", content);
+       477 +          
+       478 +          let html = `
+       479 +              <div class="multichat-complete">
+       480 +                  <h3>🏆 需求分析完成</h3>
+       481 +                  <p class="complete-message">${content.message}</p>
+       482 +          `;
+       483 +          
+       484 +          // 顯示用戶偏好總結
+       485 +          if (content.preferences_summary) {
+       486 +              html += `
+       487 +                  <div class="preferences-summary">
+       488 +                      <h4>📋 您的需求偏好</h4>
+       489 +                      <div class="preferences-list">
+       490 +              `;
+       491 +              
+       492 +              Object.values(content.preferences_summary).forEach(pref => {
+       493 +                  html += `
+       494 +                      <div class="preference-item">
+       495 +                          <strong>${pref.feature_name}:</strong> ${pref.selected_option}
+       496 +                          <small>${pref.description}</small>
+       497 +                      </div>
+       498 +                  `;
+       499 +              });
+       500 +              
+       501 +              html += `
+       502 +                      </div>
+       503 +                  </div>
+       504 +              `;
+       505 +          }
+       506 +          
+       507 +          // 顯示推薦結果
+       508 +          if (content.recommendations) {
+       509 +              html += `
+       510 +                  <div class="recommendations">
+       511 +                      <h4>🎯 推薦結果</h4>
+       512 +                      <div class="recommendation-content">
+       513 +                          ${typeof content.recommendations === 'string' ? content.recommendations : JSON.stringify(content.recommendations)}
+       514 +                      </div>
+       515 +                  </div>
+       516 +              `;
+       517 +          }
+       518 +          
+       519 +          html += `
+       520 +                  <div class="actions">
+       521 +                      <button class="restart-multichat-btn">🔄 重新填寫問卷</button>
+       522 +                  </div>
+       523 +              </div>
+       524 +          `;
+       525 +          
+       526 +          container.innerHTML = html;
+       527 +          
+       528 +          // 綁定重新開始按鈕
+       529 +          const restartBtn = container.querySelector('.restart-multichat-btn');
+       530 +          if (restartBtn) {
+       531 +              restartBtn.addEventListener('click', () => {
+       532 +                  userInput.value = "請幫我一次性回答所有問題";
+       533 +                  sendMessage();
+       534 +              });
+       535 +          }
+       536 +      }
+       537 +  
+       538        // 處理 MultiChat 選項選擇
+       539        async function handleMultiChatOptionSelected(optionId, currentStep) {
+       540            console.log(`用戶選擇了選項: ${optionId}, 當前步驟: ${currentStep}`);
+
+✻ Thinking…
+
+  太好了！我已經成功添加了完整的前端JavaScript代碼來處理一次性問卷功能。現在讓我繼續下一個任務：新增CSS樣式來支援表格式問卷界面。
+
+  讓我先查看現有的CSS文件結構：
+
+● Update Todos
+  ⎿  ☒ 修改後端服務，新增get_all_questions方法     
+     ☒ 修改chat_stream方法，支援all_questions模式
+     ☒ 新增/api/sales/multichat-all API端點
+     ☒ 修改前端renderMultiChatStart函數為表格式呈現
+     ☒ 實現前端表單驗證和狀態管理
+     ☐ 新增CSS樣式支援表格式問卷界面
+     ☐ 測試新功能並確保向後相容性
+
+✻ Thinking…
+
+  現在讓我查看CSS文件，並添加新的樣式來支援表格式問卷界面：
+
+● List(static/css)
+  ⎿  Listed 6 paths (ctrl+r to expand)
+
+✻ Thinking…
+
+  讓我查看components.css文件，看看現有的MultiChat樣式，然後添加新的表格式問卷樣式：
+
+● Read(static/css/components.css)
+  ⎿  Read 50 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  讓我搜索一下這個CSS文件中是否已經有MultiChat相關的樣式：
+
+● Search(pattern: "multichat", path: "static/css/components.css", output_mode: "content")
+  ⎿  Found 19 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  很好，看起來已經有MultiChat的樣式了。讓我找到這些樣式的位置，然後在附近添加新的表格式問卷樣式：
+
+● Search(pattern: "MultiChat UI Components", path: "static/css/components.css", output_mode: "content")
+  ⎿  Found 201 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  讓我繼續讀取剩餘的樣式，然後在MultiChat區域的末尾添加新的表格式問卷樣式：
+
+● Read(static/css/components.css)
+  ⎿  Read 50 lines (ctrl+r to expand)
+
+✻ Thinking…
+
+  現在我知道MultiChat樣式區域的位置了。讓我在這個區域之後添加新的表格式問卷樣式。我需要在大約第584行之後添加新的CSS樣式：
+
+● Read(static/css/components.css)
+  ⎿  Read 11 lines (ctrl+r to expand)

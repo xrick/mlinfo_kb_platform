@@ -1,0 +1,53 @@
+[
+    [
+        {
+            "model_count": 4,
+            "model_type": "TEST",
+            "default_output_path": "./test_output.csv"
+        }
+    ],
+    [
+        {
+            "keywords": ["Stage", "Version"],
+            "logic": "AND",
+            "column_name": "version",
+            "rowspan": 1
+        },
+        {
+            "keywords": ["Model Name"],
+            "logic": "OR",
+            "column_name": "modelname",
+            "rowspan": 1
+        },
+        {
+            "keywords": ["MB Ver."],
+            "logic": "OR",
+            "column_name": "mainboard",
+            "rowspan": 1
+        },
+        {
+            "keywords": ["Develop", "stage"],
+            "logic": "AND",
+            "column_name": "devtime",
+            "rowspan": 2
+        },
+        {
+            "keywords": ["CPU", "Module"],
+            "logic": "AND",
+            "column_name": "cpu",
+            "rowspan": 1
+        },
+        {
+            "keywords": ["GPU", "Model"],
+            "logic": "AND",
+            "column_name": "gpu",
+            "rowspan": 1
+        },
+        {
+            "keywords": ["Battery", "Type"],
+            "logic": "AND",
+            "column_name": "battery",
+            "rowspan": 2
+        }
+    ]
+]

@@ -1,0 +1,447 @@
+/home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/RAG/LLM/LLMInitializer.py:18: LangChainDeprecationWarning: The class `Ollama` was deprecated in LangChain 0.3.1 and will be removed in 1.0.0. An updated version of the class exists in the :class:`~langchain-ollama package and should be used instead. To use it run `pip install -U :class:`~langchain-ollama` and import as `from :class:`~langchain_ollama import OllamaLLM``.
+  self.llm = Ollama(
+/home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/RAG/DB/MilvusQuery.py:12: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-huggingface package and should be used instead. To use it run `pip install -U :class:`~langchain-huggingface` and import as `from :class:`~langchain_huggingface import HuggingFaceEmbeddings``.
+  self.embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+2025-07-24 12:11:40,593 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 12:11:40,593 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-24 12:11:43,108 - root - INFO - 成功載入關鍵字配置: ['display', 'cpu', 'gpu', 'memory', 'storage', 'battery', 'portability', 'connectivity', 'comparison', 'specifications', 'latest', 'usage_scenario', 'budget']
+2025-07-24 12:11:43,109 - root - INFO - 成功載入特點配置
+2025-07-24 12:11:43,109 - root - INFO - 成功載入特點配置: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-07-24 12:11:43,109 - root - INFO - 對話鍊生成器初始化完成，支援特點: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-07-24 12:11:43,109 - root - INFO - 多輪對話管理器初始化完成，支援 7 個特點
+INFO:     Started server process [1376044]
+INFO:     Waiting for application startup.
+2025-07-24 12:11:43,133 - api.history_routes - INFO - History database initialized successfully
+2025-07-24 12:11:43,133 - api.history_routes - INFO - History database initialized successfully
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+2025-07-24 12:11:58,596 - root - INFO - 開始新的RAG流程，查詢: 請介紹適合高中生使用的NB
+2025-07-24 12:11:58,596 - root - INFO - 檢測到模糊查詢關鍵字: 適合
+2025-07-24 12:11:58,596 - root - INFO - 檢測到模糊查詢，啟動多輪對話導引系統
+2025-07-24 12:11:58,596 - root - INFO - 生成對話鍊: 7f079d6c-d4e1-43fc-a6c9-4c20af07e137, 策略: random, 順序: ['cpu', 'price', 'size', 'weight', 'gpu', 'storage', 'memory']
+2025-07-24 12:11:58,596 - root - INFO - 開始多輪對話: ac35088f-1dbe-4c30-8d16-62e88b911c73, 對話鍊: cpu -> price -> size -> weight -> gpu -> storage -> memory
+正在搜尋服務目錄: /home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/services
+成功初始化 Ollama 模型: deepseek-r1:7b
+成功連接到 Milvus at localhost:19530
+成功設定並載入 Collection: sales_notebook_specs
+成功連接到 DuckDB: sales_rag_app/db/sales_specs.db
+成功載入服務: sales_assistant
+INFO:     127.0.0.1:43932 - "POST /api/sales/chat HTTP/1.1" 200 OK
+2025-07-24 12:13:12,923 - root - INFO - 開始新的RAG流程，查詢: 請告訴我哪種筆電適合文書處理
+2025-07-24 12:13:12,923 - root - INFO - 檢測到模糊查詢關鍵字: 文書處理
+2025-07-24 12:13:12,923 - root - INFO - 檢測到模糊查詢，啟動多輪對話導引系統
+2025-07-24 12:13:12,923 - root - INFO - 生成對話鍊: d9964212-9ec6-463c-bf04-58de52232346, 策略: random, 順序: ['price', 'weight', 'size', 'storage', 'memory', 'cpu', 'gpu']
+2025-07-24 12:13:12,923 - root - INFO - 開始多輪對話: b457d7e5-9529-49a4-bf1f-397b4ea0e783, 對話鍊: price -> weight -> size -> storage -> memory -> cpu -> gpu
+INFO:     127.0.0.1:58580 - "POST /api/sales/chat HTTP/1.1" 200 OK
+2025-07-24 12:13:33,262 - root - INFO - 開始新的RAG流程，查詢: 請列出所有的NB機型
+2025-07-24 12:13:33,262 - root - INFO - 檢測到型號列表請求關鍵字: 列出所有
+2025-07-24 12:13:33,262 - root - INFO - 檢測到型號列表請求，返回所有可用型號
+INFO:     127.0.0.1:51856 - "POST /api/sales/chat HTTP/1.1" 200 OK
+2025-07-24 12:14:03,216 - root - INFO - 開始新的RAG流程，查詢: AG958的CPU規格
+2025-07-24 12:14:03,216 - root - INFO - 開始解析查詢意圖: AG958的CPU規格
+2025-07-24 12:14:03,216 - root - INFO - 查询中发现的潜在模型名称: ['AG958']
+2025-07-24 12:14:03,216 - root - INFO - 查询验证结果 - 查询: 'AG958的CPU規格', 找到的模型名称: ['AG958']
+2025-07-24 12:14:03,216 - root - INFO - 檢測到意圖 'cpu': CPU相關查詢
+2025-07-24 12:14:03,216 - root - INFO - 查詢意圖解析結果: {'modelnames': ['AG958'], 'modeltypes': ['958'], 'intent': 'cpu', 'query_type': 'specific_model'}
+2025-07-24 12:14:03,216 - root - INFO - 查詢意圖解析結果: {'modelnames': ['AG958'], 'modeltypes': ['958'], 'intent': 'cpu', 'query_type': 'specific_model'}
+2025-07-24 12:14:03,216 - root - INFO - 根據查詢類型 'specific_model' 獲取數據
+2025-07-24 12:14:03,218 - root - INFO - 成功获取 1 条具体型号数据
+2025-07-24 12:14:03,218 - root - INFO - 成功获取数据，型号数量: 1
+2025-07-24 12:14:03,218 - root - INFO - 目标型号: ['AG958']
+2025-07-24 12:14:03,218 - root - INFO - 成功构建增强上下文，包含查询意图信息
+2025-07-24 12:14:03,218 - root - INFO - 
+=== 最終傳送給 LLM 的提示 (Final Prompt) ===
+[SYSTEM]
+You are a notebook technical sales expert. Your mission is to analyze the provided structured data about notebook models and provide a precise, objective comparison based ONLY on the data provided.
+
+[CRITICAL INSTRUCTIONS]
+You MUST output ONLY a valid JSON object with EXACTLY this structure:
+{
+  "answer_summary": "Your summary answer here",
+  "comparison_table": [
+    {
+      "feature": "Feature name",
+      "MODEL_NAME_1": "Specification for model 1",
+      "MODEL_NAME_2": "Specification for model 2"
+    }
+  ]
+}
+
+[CRITICAL MODEL NAME VALIDATION - MANDATORY]
+- You MUST ONLY use model names that are EXACTLY present in the provided data's "modelname" field
+- You MUST NEVER generate, invent, or create any model names that are not in the provided data
+- You MUST NEVER use model names like "MD819-S: FT6", "M20W", "A520", etc. unless they are explicitly in the provided data
+- You MUST NEVER assume model names based on patterns or similar names
+- You MUST NEVER create fictional model names for comparison
+- If the user asks about a model that is not in the provided data, you MUST clearly state that the model is not available
+- You MUST ONLY compare models that are actually present in the provided data
+- Before creating any comparison, verify that ALL model names exist in the data
+- ALL Responses MUST BE in Simplified Chinese
+
+[ABSOLUTE DATA RESTRICTION - CRITICAL]
+- You MUST ONLY use the model names and specifications that are explicitly provided in the {
+  "data": [
+    {
+      "modeltype": "958",
+      "version": "AG958 v1.1",
+      "modelname": "AG958",
+      "mainboard": "AG958 v3.0",
+      "devtime": "nodata",
+      "pm": "Jerry",
+      "structconfig": "- Form Factor: Gaming Notebook (All models)\n- Dimensions: 367.6 × 265.9 × 19.9 mm (RX 6650M) / 367.6 × 265.9 × 21.9 mm (RX 6650M XT)\n- Material / Surface: A/C/D Cover: Metal (Anodize), B Cover: Plastic (Texture) (All models)\n- Hinge: 140-degree hinge (All models)\n- Weight: ~2.3 Kg (5.08 lb) (All models)",
+      "lcd": "- Display Sizes: 15.6\" 16:9 / 16.1\" 16:9\n- Resolutions:\n  * 15.6\" FHD 1920×1080, 144Hz, FreeSync, PSR\n  * 16.1\" FHD 1920×1080, 144Hz, FreeSync, PSR\n  * 16.1\" QHD 2560×1440, 144Hz, FreeSync, PSR\n  * Narrow bezel 5.5 mm for 16.1\"",
+      "touchpanel": "Not supported",
+      "iointerface": "- DB IO (Left):\n  * 1 × 3.5mm MIC Jack (DB)\n  * 1 × 3.5mm Headphone Jack (DB)\n  * 1 × USB 3.2 Gen2 Type-A 10Gbps (DB)\n\n- MB IO (Right):\n  * 1 × Kensington Lock slot\n  * 1 × USB 3.2 Gen2 Type-A 10Gbps (MB)\n  * 1 × USB 4.0 Type-C 40Gbps, full function with 100W PD, DisplayPort 1.4\n  * 1 × Fingerprint sensor (MB)\n\n- MB IO (Rear):\n  - 1 × DC-IN port φ7.5 mm\n  - 1 × RJ45 Giga LAN 10/100/1000 Mbps\n  - 1 × HDMI 2.1 Type-A (8K/60Hz)\n  - 1 × USB 3.2 Gen2 Type-C (DP 1.4)",
+      "ledind": "- Power: Blue (On) / Off (No Light) / Sleep (Breathing)\n- Battery/Charge: Red (Charging), Green (Full), Off (No Light)\n- Webcam: White (On), Off (No Light)\n- Caps Lock / Num Lock: White (On), Off (No Light)\n- WiFi/Bluetooth, SSD LEDs: Not applicable",
+      "powerbutton": "Separated key",
+      "keyboard": "- Backlight:\n  * Default: Single color\n  * Option1: 4-Zone RGB\n  * Option2: Per-key RGB\n- Layout: US/UK\n- Size: 336 × 105 × 3.8 mm",
+      "webcamera": "- Front: 2.0MP (1080P), MIC×2, White LED, Camera shutter\n- Rear: Not available\n- Windows Hello: Optional",
+      "touchpad": "- Interface: I2C, 8-pin\n- Size: 119 ±0.3 × 74 ±0.3 mm\n- Feature: Multi-touch, gestures, scroll",
+      "fingerprint": "- Location: Right IO side\n- Interface:USB, Security Level 2 – GF3206+GM188\n- Windows Hello: Supported",
+      "audio": "- Speakers: 4 × Built-in (2 × 4Ω/2W, 2 × 8Ω/1W)\n- Microphone: 2 × Digital mic on camera module\n- Others: nodata",
+      "battery": "- Type: Lithium-ion polymer battery\n- Capacity: 80.08 Wh, 15.4V / 5200mAh, 4S1P, Smart battery\n- Certifications: CE, FCC, CCC, CB, MSDS, UN38.3, Airflight transportation report\n- Estimated Life: 10 hours",
+      "cpu": "- AMD Zen3+, Rembrandt H Series\n  * Ryzen™ 5 6600H (6C/12T, 4.5GHz/3.3GHz, TDP: 45W)\n  * Ryzen™ 7 6800H (8C/16T, 4.7GHz/3.2GHz, TDP: 45W)",
+      "gpu": "- AMD Radeon™ RX6550M (E65), 8GB GDDR6, 90W\n- AMD Radeon™ RX6550M XT (E100), 8GB GDDR6, 90W",
+      "memory": "- 2 × DDR5 SO-DIMM, up to 32GB DDR5 4800MHz (2 × 16GB)",
+      "lcdconnector": "LCD Connector Optional",
+      "storage": "2 × M.2 2280 PCIe Gen4 (Lane 4) NVMe SSD, up to 8TB (2 × 1TB)",
+      "wifislot": "1 × M.2 2230 WiFi 6E + BT5.2",
+      "thermal": "110W",
+      "tpm": "- Default: AMD Pluton, implemented in system firmware, fTPM2.0\n- Option1: dTPM 2.0 hardware chip on motherboard",
+      "rtc": "RTC Connector: Support",
+      "wireless": "■ Wi-Fi Chip Model\n  ▪ Default: RZ608 (AMD), Wi-Fi 6E Tri-band 2Tx2R 802.11ax (2.4GHz / 5GHz / 6GHz) + Bluetooth 5.2\n  ▪ Form Factor: M.2 module\n  ▪ Major Chipset: MT7921K\n■ Other Features: Support Wi-Fi and Bluetooth power on/off switch",
+      "lan": "■ All models: RJ45, Giga LAN 10/100/1000Mbps (on motherboard)",
+      "bluetooth": "■ Support: Yes\n■ Version: Bluetooth 5.2",
+      "softwareconfig": "- OS: Windows 11 SV2 (23H2), Support Modern Standby\n- Compatibility: Fully compatible with Windows 11 and Linux OS\n- Language: Multi-language support",
+      "ai": "nodata",
+      "accessory": "Power Adapter: 1× 230W, AC in 100–240V, 50/60Hz, DC out 19.5V / 11.79A",
+      "certfications": "CE, FCC, RoHS",
+      "otherfeatures": "nan"
+    }
+  ],
+  "query_intent": {
+    "modelnames": [
+      "AG958"
+    ],
+    "modeltypes": [
+      "958"
+    ],
+    "intent": "cpu",
+    "query_type": "specific_model",
+    "query": "AG958的CPU規格"
+  },
+  "target_modelnames": [
+    "AG958"
+  ]
+} data
+- You MUST NEVER generate, invent, or create any model names that are not in the provided data
+- You MUST NEVER reference any external knowledge about notebook brands or models
+- You MUST NEVER mention brands like "Acer", "ASUS", "Lenovo", "Dell", "MSI", "Razer", "NVIDIA", "Nvidia", etc. unless they are explicitly in the provided data
+- You MUST NEVER create fictional model names like "A520", "M20W", "R7 5900HS", etc.
+- You MUST NEVER mention NVIDIA GPUs like "RTX 3060", "RTX 3070", "RTX 3080", "RTX 3090", "RTX 4060", "RTX 4070", "RTX 4080", "RTX 4090", "GTX 1650", "GTX 1660", etc.
+- You MUST ONLY mention AMD Radeon GPUs that are explicitly listed in the provided data
+- If the provided data does not contain the information requested, you MUST use "N/A" or "Not specified"
+- You MUST be honest about data limitations and not make assumptions
+- The ONLY valid model names are those listed in the "modelname" field of the provided data
+- If you cannot find the requested information in the provided data, clearly state this in answer_summary
+
+[GPU SPECIFIC RESTRICTIONS]
+- The provided data ONLY contains AMD Radeon GPUs (e.g., "AMD Radeon™ RX6550M", "AMD Radeon™ RX7600M")
+- You MUST NEVER mention or suggest NVIDIA GPUs or any other GPU brands
+- You MUST ONLY reference the exact AMD Radeon GPU models listed in the provided data
+- If asked about gaming performance, focus ONLY on the AMD Radeon GPUs available in the data
+
+[FIXED TABLE FORMAT - MANDATORY]
+The comparison table MUST follow this EXACT format:
+- FIRST COLUMN: Always "feature" - contains the specification type (e.g., "Battery Capacity", "CPU Model", "RAM Type")
+- FIRST ROW: Always contains the actual model names from the "modelname" field as column headers
+- DATA CELLS: Contain the specification values for each model
+
+[STRICT RULES]
+- Output ONLY the JSON object above
+- Do NOT include any thinking process
+- Do NOT use markdown formatting
+- Do NOT include XML tags
+- Do NOT include any text before or after the JSON
+- The model names in the comparison table MUST match the "modelname" field from the data EXACTLY
+- Start with { and end with }
+- Ensure the JSON is valid and properly formatted
+- ONLY use information that is explicitly provided in the data
+- Do NOT make assumptions or inferences beyond what is in the data
+- Do NOT add any external knowledge or general information
+- Do NOT generate fake or fictional model names
+- Do NOT create data that is not in the provided context
+- If a specification is not available in the data, use "N/A" or "Not specified"
+- Focus on factual comparison based on the actual data provided
+
+[DATA STRUCTURE UNDERSTANDING]
+- The "modelname" field contains the ACTUAL MODEL NAMES to compare (e.g., AB819-S: FP6, AHP819: FP7R2, APX819: FP7R2, ARB819-S: FP7R2)
+- The "cpu" field contains CPU specifications for each model
+- The "battery" field contains battery specifications for each model
+- The "memory" field contains memory specifications for each model
+- The "gpu" field contains AMD Radeon GPU specifications for each model
+- When comparing features, use the "modelname" as the column headers, NOT CPU model names
+- CPU model names (like R7 7735U, R7 7736U) are SPECIFICATIONS, not models to compare
+
+[TABLE STRUCTURE GUIDELINES]
+- The "feature" field should contain the SPECIFICATION NAME (e.g., "Battery Capacity", "CPU Model", "RAM Type")
+- The model name fields should contain the SPECIFICATION VALUE for that model
+- DO NOT put model names in the "feature" field
+- DO NOT put CPU model names as features when comparing battery specifications
+- For battery comparison: feature should be "Battery Capacity (14inch)", "Battery Capacity (16inch)", "Charging Speed", "Battery Life"
+- For CPU comparison: feature should be "CPU Model", "CPU Cores/Threads", "CPU TDP", "CPU Max Frequency"
+- For GPU comparison: feature should be "GPU Model", "GPU Memory", "GPU Power"
+- For memory comparison: feature should be "RAM Type", "RAM Speed", "RAM Capacity"
+- For storage comparison: feature should be "Storage Type", "Storage Capacity", "Storage Slots"
+- ALWAYS use the "modelname" field values as column headers (e.g., AB819-S: FP6, AHP819: FP7R2, APX819: FP7R2, ARB819-S: FP7R2)
+
+[CRITICAL ERROR PREVENTION]
+- DO NOT create fake model names like "M20W", "M15W", "R7 5900HS", etc.
+- DO NOT put screen sizes (14inch, 16inch) in the feature field
+- DO NOT put CPU model names in the feature field when comparing battery
+- DO NOT mention NVIDIA GPUs or any non-AMD GPU brands
+- ALWAYS use the exact model names from the "modelname" field: AB819-S: FP6, AHP819: FP7R2, APX819: FP7R2, ARB819-S: FP7R2
+- The feature field should contain SPECIFICATION TYPES, not model names or screen sizes
+
+[CORRECT TABLE STRUCTURE EXAMPLE]
+For battery comparison of 819 series, the table should look like this:
+{
+  "answer_summary": "819系列所有型號的電池規格相同，均支持快充技術。",
+  "comparison_table": [
+    {
+      "feature": "Battery Capacity (14inch)",
+      "AB819-S: FP6": "55Wh",
+      "AHP819: FP7R2": "55Wh", 
+      "AMD819-S: FT6": "55Wh",
+      "APX819: FP7R2": "55Wh",
+      "ARB819-S: FP7R2": "55Wh"
+    },
+    {
+      "feature": "Charging Speed",
+      "AB819-S: FP6": "Fast charging support",
+      "AHP819: FP7R2": "Fast charging support",
+      "AMD819-S: FT6": "Fast charging support",
+      "APX819: FP7R2": "Fast charging support",
+      "ARB819-S: FP7R2": "Fast charging support"
+    },
+    {
+      "feature": "Battery Life",
+      "AB819-S: FP6": "6-8 hours",
+      "AHP819: FP7R2": "6-8 hours",
+      "AMD819-S: FT6": "6-8 hours",
+      "APX819: FP7R2": "6-8 hours",
+      "ARB819-S: FP7R2": "6-8 hours"
+    }
+  ]
+}
+
+[CRITICAL MODEL NAME FORMAT - MANDATORY]
+- ALWAYS use the EXACT model names from the "modelname" field in the provided data
+- If the model name contains a colon (e.g., "APX819: FP7R2"), you MUST include the colon
+- If the model name does not contain a colon (e.g., "AKK839"), do NOT add a colon
+- NEVER modify the model name format - use it exactly as provided in the data
+- The model names in your answer_summary and comparison_table MUST match the "modelname" field EXACTLY
+
+[FEATURE MAPPING FOR DIFFERENT QUERY TYPES]
+1. **Battery/續航力 queries**: Use features like "Battery Capacity (14inch)", "Battery Capacity (16inch)", "Charging Speed", "Battery Life"
+2. **CPU/處理器 queries**: Use features like "CPU Model", "CPU Cores/Threads", "CPU TDP", "CPU Max Frequency"
+3. **GPU/顯卡 queries**: Use features like "GPU Model", "GPU Memory", "GPU Power" (ONLY AMD Radeon GPUs from the data)
+4. **Memory/記憶體 queries**: Use features like "RAM Type", "RAM Speed", "RAM Capacity"
+5. **Storage/儲存 queries**: Use features like "Storage Type", "Storage Capacity", "Storage Slots"
+6. **Weight/輕便性 queries**: Use features like "Weight", "Dimensions", "Form Factor", "Material" (extract from structconfig field)
+7. **General comparison**: Use a mix of key features from different categories
+
+[DATA AVAILABILITY CHECK]
+- Before creating the comparison table, check if the requested data is actually available
+- If the data fields are empty, null, or contain only basic information, clearly state this
+- Do NOT create comparison tables with "N/A" for all values unless the data is truly missing
+- If the requested specification data is not available, provide a clear explanation in answer_summary
+
+[QUERY ANALYSIS GUIDELINES]
+1. **Specific Feature Queries**: If the user asks about a specific feature (e.g., "battery comparison", "CPU performance"), focus ONLY on that feature and related specifications
+2. **Series Comparison**: If the user asks about a series (e.g., "839 series"), include ALL models in that series from the provided data
+3. **Model Selection**: Only include models that are explicitly mentioned in the user query or are part of the requested series
+4. **Feature Mapping**: Map user query keywords to actual data fields:
+   - "電池" or "battery" → look for "battery" field
+   - "CPU" or "處理器" → look for "cpu" field
+   - "顯卡" or "GPU" → look for "gpu" field (ONLY AMD Radeon)
+   - "記憶體" or "memory" → look for "memory" field
+   - "儲存" or "storage" → look for "storage" field
+   - "重量" or "輕便" or "weight" or "portable" → look for "structconfig" field (extract weight, dimensions, form factor)
+5. **Data Availability Check**: If the requested feature data is not available in the provided data, clearly state this in the answer_summary and use "N/A" in the comparison table
+6. **Model Name Validation**: Always use the exact model names from the "modelname" field in the data. Do NOT create or invent model names.
+7. **Weight Comparison**: When comparing weight/portability:
+   - Extract weight information from "structconfig" field using pattern "Weight: (\d+) g"
+   - Extract dimensions using pattern "Dimension: ([\d\.]+ × [\d\.]+ × [\d\.]+ mm)"
+   - Extract form factor using pattern "Form: ([^\n]+)"
+   - Extract material using pattern "Material[^:]*: ([^\n]+)"
+   - Compare weights and provide clear conclusion about which model is lighter
+
+[CRITICAL WARNINGS]
+- NEVER generate fake model names like "Razer Basilisk 839 Pro" or "Razer Basilisk 839 Pro HD"
+- NEVER create battery data that is not in the provided context
+- NEVER assume specifications that are not explicitly stated in the data
+- NEVER mention NVIDIA GPUs or any non-AMD GPU brands
+- ALWAYS use the exact model names from the data (e.g., AB819-S: FP6, AHP819: FP7R2, APX819: FP7R2, ARB819-S: FP7R2)
+- If you cannot find the requested information in the data, clearly state this and use "N/A"
+- NEVER put CPU model names in the "feature" field when comparing other specifications
+- If the data is incomplete or missing, be honest about it
+- NEVER confuse CPU model names with notebook model names
+- ALWAYS follow the fixed table format: first column = "feature", first row = model names
+
+[DATA CONTEXT]
+Here are the notebook specifications retrieved from the database:
+{
+  "data": [
+    {
+      "modeltype": "958",
+      "version": "AG958 v1.1",
+      "modelname": "AG958",
+      "mainboard": "AG958 v3.0",
+      "devtime": "nodata",
+      "pm": "Jerry",
+      "structconfig": "- Form Factor: Gaming Notebook (All models)\n- Dimensions: 367.6 × 265.9 × 19.9 mm (RX 6650M) / 367.6 × 265.9 × 21.9 mm (RX 6650M XT)\n- Material / Surface: A/C/D Cover: Metal (Anodize), B Cover: Plastic (Texture) (All models)\n- Hinge: 140-degree hinge (All models)\n- Weight: ~2.3 Kg (5.08 lb) (All models)",
+      "lcd": "- Display Sizes: 15.6\" 16:9 / 16.1\" 16:9\n- Resolutions:\n  * 15.6\" FHD 1920×1080, 144Hz, FreeSync, PSR\n  * 16.1\" FHD 1920×1080, 144Hz, FreeSync, PSR\n  * 16.1\" QHD 2560×1440, 144Hz, FreeSync, PSR\n  * Narrow bezel 5.5 mm for 16.1\"",
+      "touchpanel": "Not supported",
+      "iointerface": "- DB IO (Left):\n  * 1 × 3.5mm MIC Jack (DB)\n  * 1 × 3.5mm Headphone Jack (DB)\n  * 1 × USB 3.2 Gen2 Type-A 10Gbps (DB)\n\n- MB IO (Right):\n  * 1 × Kensington Lock slot\n  * 1 × USB 3.2 Gen2 Type-A 10Gbps (MB)\n  * 1 × USB 4.0 Type-C 40Gbps, full function with 100W PD, DisplayPort 1.4\n  * 1 × Fingerprint sensor (MB)\n\n- MB IO (Rear):\n  - 1 × DC-IN port φ7.5 mm\n  - 1 × RJ45 Giga LAN 10/100/1000 Mbps\n  - 1 × HDMI 2.1 Type-A (8K/60Hz)\n  - 1 × USB 3.2 Gen2 Type-C (DP 1.4)",
+      "ledind": "- Power: Blue (On) / Off (No Light) / Sleep (Breathing)\n- Battery/Charge: Red (Charging), Green (Full), Off (No Light)\n- Webcam: White (On), Off (No Light)\n- Caps Lock / Num Lock: White (On), Off (No Light)\n- WiFi/Bluetooth, SSD LEDs: Not applicable",
+      "powerbutton": "Separated key",
+      "keyboard": "- Backlight:\n  * Default: Single color\n  * Option1: 4-Zone RGB\n  * Option2: Per-key RGB\n- Layout: US/UK\n- Size: 336 × 105 × 3.8 mm",
+      "webcamera": "- Front: 2.0MP (1080P), MIC×2, White LED, Camera shutter\n- Rear: Not available\n- Windows Hello: Optional",
+      "touchpad": "- Interface: I2C, 8-pin\n- Size: 119 ±0.3 × 74 ±0.3 mm\n- Feature: Multi-touch, gestures, scroll",
+      "fingerprint": "- Location: Right IO side\n- Interface:USB, Security Level 2 – GF3206+GM188\n- Windows Hello: Supported",
+      "audio": "- Speakers: 4 × Built-in (2 × 4Ω/2W, 2 × 8Ω/1W)\n- Microphone: 2 × Digital mic on camera module\n- Others: nodata",
+      "battery": "- Type: Lithium-ion polymer battery\n- Capacity: 80.08 Wh, 15.4V / 5200mAh, 4S1P, Smart battery\n- Certifications: CE, FCC, CCC, CB, MSDS, UN38.3, Airflight transportation report\n- Estimated Life: 10 hours",
+      "cpu": "- AMD Zen3+, Rembrandt H Series\n  * Ryzen™ 5 6600H (6C/12T, 4.5GHz/3.3GHz, TDP: 45W)\n  * Ryzen™ 7 6800H (8C/16T, 4.7GHz/3.2GHz, TDP: 45W)",
+      "gpu": "- AMD Radeon™ RX6550M (E65), 8GB GDDR6, 90W\n- AMD Radeon™ RX6550M XT (E100), 8GB GDDR6, 90W",
+      "memory": "- 2 × DDR5 SO-DIMM, up to 32GB DDR5 4800MHz (2 × 16GB)",
+      "lcdconnector": "LCD Connector Optional",
+      "storage": "2 × M.2 2280 PCIe Gen4 (Lane 4) NVMe SSD, up to 8TB (2 × 1TB)",
+      "wifislot": "1 × M.2 2230 WiFi 6E + BT5.2",
+      "thermal": "110W",
+      "tpm": "- Default: AMD Pluton, implemented in system firmware, fTPM2.0\n- Option1: dTPM 2.0 hardware chip on motherboard",
+      "rtc": "RTC Connector: Support",
+      "wireless": "■ Wi-Fi Chip Model\n  ▪ Default: RZ608 (AMD), Wi-Fi 6E Tri-band 2Tx2R 802.11ax (2.4GHz / 5GHz / 6GHz) + Bluetooth 5.2\n  ▪ Form Factor: M.2 module\n  ▪ Major Chipset: MT7921K\n■ Other Features: Support Wi-Fi and Bluetooth power on/off switch",
+      "lan": "■ All models: RJ45, Giga LAN 10/100/1000Mbps (on motherboard)",
+      "bluetooth": "■ Support: Yes\n■ Version: Bluetooth 5.2",
+      "softwareconfig": "- OS: Windows 11 SV2 (23H2), Support Modern Standby\n- Compatibility: Fully compatible with Windows 11 and Linux OS\n- Language: Multi-language support",
+      "ai": "nodata",
+      "accessory": "Power Adapter: 1× 230W, AC in 100–240V, 50/60Hz, DC out 19.5V / 11.79A",
+      "certfications": "CE, FCC, RoHS",
+      "otherfeatures": "nan"
+    }
+  ],
+  "query_intent": {
+    "modelnames": [
+      "AG958"
+    ],
+    "modeltypes": [
+      "958"
+    ],
+    "intent": "cpu",
+    "query_type": "specific_model",
+    "query": "AG958的CPU規格"
+  },
+  "target_modelnames": [
+    "AG958"
+  ]
+}
+
+[USER QUERY]
+AG958的CPU規格
+
+
+[QUERY INTENT ANALYSIS]
+Based on the query intent analysis:
+- Query Type: specific_model
+- Intent: cpu
+- Target Models: AG958
+
+Focus your analysis on the specific intent and target models identified above.
+
+Based on the query intent analysis:
+- Query Type: {query_intent.query_type}
+- Intent: {query_intent.intent}
+- Target Models: {query_intent.target_modelnames}
+
+Focus your analysis on the specific intent and target models identified above.
+
+[FINAL VALIDATION - MANDATORY]
+Before outputting your JSON response, you MUST:
+1. Verify that ALL model names in your comparison_table exist in the provided data's "modelname" field
+2. Verify that you have NOT mentioned any brands or model names that are not in the provided data
+3. Verify that you have NOT created any fictional specifications
+4. Verify that you have NOT mentioned any NVIDIA GPUs or non-AMD GPU brands
+5. If you cannot find the requested information, use "N/A" and explain the limitation in answer_summary
+6. Only proceed with the JSON output if all validations pass
+
+[YOUR JSON RESPONSE - OUTPUT ONLY THE JSON OBJECT WITH answer_summary AND comparison_table]
+========================================
+2025-07-24 12:16:47,486 - root - INFO - 
+=== 從 LLM 收到的原始回應 ===
+<think>
+好，我现在需要处理用户关于AG958笔记本的CPU规格查询。首先，我查看了提供的数据，发现确实有一个名为“AG958”的模型，属于型号958。接下来，我仔细阅读了用户的问题，确认他们询问的是该模型的CPU规格。
+
+在数据中，我找到了与CPU相关的详细信息：“AMD Zen3+, Rembrandt H Series”，接着具体到处理器类型和频率：“Ryzen™ 5 6600H (6C/12T, 4.5GHz/3.3GHz, TDP: 45W) 和 Ryzen™ 7 6800H (8C/16T, 4.7GHz/3.2GHz, TDP: 45W)”。这些信息准确无误，符合用户的需求。
+
+此外，我注意到数据中没有提到任何非AMD的GPU或NVIDIA产品，因此完全满足所有验证条件。最后，我准备好了将这些信息以JSON格式返回给用户。
+</think>
+
+```json
+{
+  "answer_summary": "AG958的CPU規格為Ryzen™ 5 6600H (6C/12T, 4.5GHz/3.3GHz, TDP: 45W) 和Ryzen™ 7 6800H (8C/16T, 4.7GHz/3.2GHz, TDP: 45W)",
+  "comparison_table": {
+    "feature": "CPU",
+    "modelnames": [
+      "AG958"
+    ],
+    "cpu": "- AMD Zen3+, Rembrandt H Series\n  * Ryzen™ 5 6600H (6C/12T, 4.5GHz/3.3GHz, TDP: 45W)\n  * Ryzen™ 7 6800H (8C/16T, 4.7GHz/3.2GHz, TDP: 45W)"
+  ]
+}
+}
+```
+=============================
+2025-07-24 12:16:47,487 - root - INFO - 提取 </think> 之後的內容: ```json
+{
+  "answer_summary": "AG958的CPU規格為Ryzen™ 5 6600H (6C/12T, 4.5GHz/3.3GHz, TDP: 45W) 和Ryzen™ 7 6800H (8C/16T, 4.7GHz/3.2GHz, TDP: 45W)",
+  "comparison_table": {
+    "feature": "CPU",
+    "modelnames": [
+      "AG958"
+    ],
+    "cpu": "- AMD Zen3+, Rembrandt H Series\n  * Ryzen™ 5 6600H (6C/12T, 4.5GHz/3.3GHz, TDP: 45W)\n  * Ryzen™ 7 6800H (8C/16T, 4.7GHz/3.2GHz, TDP: 45W)"
+  ]
+}
+}
+```
+2025-07-24 12:16:47,487 - root - INFO - 提取的 JSON 內容: {
+  "answer_summary": "AG958的CPU規格為Ryzen™ 5 6600H (6C/12T, 4.5GHz/3.3GHz, TDP: 45W) 和Ryzen™ 7 6800H (8C/16T, 4.7GHz/3.2GHz, TDP: 45W)",
+  "comparison_table": {
+    "feature": "CPU",
+    "modelnames": [
+      "AG958"
+    ],
+    "cpu": "- AMD Zen3+, Rembrandt H Series\n  * Ryzen™ 5 6600H (6C/12T, 4.5GHz/3.3GHz, TDP: 45W)\n  * Ryzen™ 7 6800H (8C/16T, 4.7GHz/3.2GHz, TDP: 45W)"
+  ]
+}
+}
+2025-07-24 12:16:47,487 - root - WARNING - JSON 解析失敗: Expecting ',' delimiter: line 9 column 3 (char 378)
+2025-07-24 12:16:47,487 - root - INFO - 嘗試修復後的 JSON: { "answer_summary": "AG958的CPU規格為Ryzen™ 5 6600H (6C/12T, 4.5GHz/3.3GHz, TDP: 45W) 和Ryzen™ 7 6800H (8C/16T, 4.7GHz/3.2GHz, TDP: 45W)", "comparison_table": { "feature": "CPU", "modelnames": [ "AG958" ], "cpu": "- AMD Zen3+, Rembrandt H Series\n * Ryzen™ 5 6600H (6C/12T, 4.5GHz/3.3GHz, TDP: 45W)\n * Ryzen™ 7 6800H (8C/16T, 4.7GHz/3.2GHz, TDP: 45W)" ] } }
+2025-07-24 12:16:47,487 - root - ERROR - JSON 修復後仍然失敗: Expecting ',' delimiter: line 1 column 349 (char 348)
+2025-07-24 12:16:47,487 - root - ERROR - LLM回應格式不正確，缺少必要欄位
+2025-07-24 12:16:47,487 - root - INFO - _format_response_with_beautiful_table 被調用
+2025-07-24 12:16:47,487 - root - INFO - answer_summary 類型: <class 'str'>, 值: 根据提供的数据，比较了 1 个笔电型号的规格。
+2025-07-24 12:16:47,487 - root - INFO - comparison_table 類型: <class 'list'>, 值: [{'feature': 'CPU Model', 'AG958': 'Ryzen™ 5 6600H'}, {'feature': 'CPU Architecture', 'AG958': 'Ryzen™ 5 6600H'}, {'feature': 'CPU TDP', 'AG958': 'Ryzen™ 5 6600H'}]
+2025-07-24 12:16:47,487 - root - INFO - model_names: ['AG958']
+2025-07-24 12:16:47,487 - root - INFO - 標準處理成功，返回結果: {'answer_summary': '根据提供的数据，比较了 1 个笔电型号的规格。', 'comparison_table': [{'feature': 'CPU Model', 'AG958': 'Ryzen™ 5 6600H'}, {'feature': 'CPU Architecture', 'AG958': 'Ryzen™ 5 6600H'}, {'feature': 'CPU TDP', 'AG958': 'Ryzen™ 5 6600H'}], 'beautiful_table': '| **規格項目** | **AG958** |\n| --- | --- |\n| **CPU Model** | Ryzen™ 5 6600H |\n| **CPU Architecture** | Ryzen™ 5 6600H |\n| **CPU TDP** | Ryzen™ 5 6600H |'}
+INFO:     127.0.0.1:44886 - "POST /api/sales/chat HTTP/1.1" 200 OK
+2025-07-24 12:16:47,488 - root - INFO - 開始新的RAG流程，查詢: 推薦適合學生的筆電
+2025-07-24 12:16:47,488 - root - INFO - 檢測到模糊查詢關鍵字: 推薦
+2025-07-24 12:16:47,488 - root - INFO - 檢測到模糊查詢，啟動多輪對話導引系統
+2025-07-24 12:16:47,488 - root - INFO - 生成對話鍊: 80cb9c14-0481-492c-94c2-19ff0317a8d3, 策略: random, 順序: ['weight', 'gpu', 'size', 'cpu', 'memory', 'price', 'storage']
+2025-07-24 12:16:47,488 - root - INFO - 開始多輪對話: f466a7bf-51da-4b4e-9214-cbe0425aeaa5, 對話鍊: weight -> gpu -> size -> cpu -> memory -> price -> storage
+INFO:     127.0.0.1:35604 - "POST /api/sales/chat HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [1376044]

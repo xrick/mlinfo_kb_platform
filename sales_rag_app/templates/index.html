@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>筆記型電腦銷售 RAG 系統</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>💬 聊天歷史</h2>
+                <button id="clearHistory" class="btn btn--sm btn--outline">清除</button>
+            </div>
+            <div id="chatHistory" class="chat-history">
+                </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="chat-header">
+                <h1>💻 筆記型電腦銷售助手</h1>
+                <p>智能比較筆記型電腦規格與性能</p>
+            </div>
+
+            <div id="chatMessages" class="chat-messages">
+                </div>
+
+            <div class="preset-questions">
+                <h3>💡 預設問題</h3>
+                <div class="preset-buttons">
+                    <button class="preset-btn" data-question="Does AG958 support fast charging or USB-C PD (Power Delivery)?">Does AG958 support fast charging or USB-C PD (Power Delivery)?</button>
+                    <button class="preset-btn" data-question="Does APX819: FP7R2 support dual-channel RAM configuration?">Does APX819: FP7R2 support dual-channel RAM configuration?</button>
+                    <button class="preset-btn" data-question="How does AMD819-S: FT6 manage power efficiency when connected to multiple displays?">How does AMD819-S: FT6 manage power efficiency when connected to multiple displays?</button>
+                    <button class="preset-btn" data-question="Is APX819: FP7R2 certified for MIL-STD durability?">Is APX819: FP7R2 certified for MIL-STD durability?</button>
+                    <button class="preset-btn" data-question="Does AHP958 support dual-channel RAM configuration?">Does AHP958 support dual-channel RAM configuration?</button>
+                    <button class="preset-btn" data-question="比較958系列哪款筆記型電腦更適合遊戲？">比較958系列哪款筆記型電腦更適合遊戲？</button>
+                    <button class="preset-btn" data-question="請比較839系列機型的電池續航力比較？">請比較839系列機型的電池續航力比較？</button>
+                    <button class="preset-btn" data-question="請比較AMD819-S: FT6與AMD819: FT6何者更輕便？">請比較AMD819-S: FT6與AMD819: FT6何者更輕便？</button>
+                    <button class="preset-btn" data-question="請比較819系列顯示螢幕規格有什麼不同？">請比較819系列顯示螢幕規格有什麼不同？？</button>
+                    
+                    
+                </div>
+            </div>
+
+            <div class="chat-input-container">
+                <textarea id="userInput" class="chat-input form-control" placeholder="輸入您的問題，例如：比較不同機型的CPU性能..." rows="1"></textarea>
+                <button id="sendButton" class="btn btn--primary send-button">
+                    <span>發送</span>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <div id="copy-to-clipboard-template" style="display: none;">
+        <button class="btn btn--icon btn--sm copy-btn" title="複製內容">
+            <svg viewBox="0 0 24 24" class="icon icon--sm">
+                <path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path>
+            </svg>
+        </button>
+    </div>
+    
+    <!-- Markdown and other libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="/static/js/ai-chat.js"></script>
+    
+    <script>
+        // Initialize syntax highlighting
+        document.addEventListener('DOMContentLoaded', function() {
+            hljs.highlightAll();
+        });
+    </script>
+</body>
+</html>

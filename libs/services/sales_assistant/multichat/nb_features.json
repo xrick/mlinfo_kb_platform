@@ -1,0 +1,379 @@
+{
+  "nb_features": {
+    "cpu": {
+      "feature_id": "cpu",
+      "feature_type": "cpu",
+      "name": "處理器(CPU)偏好",
+      "description": "選擇適合您使用需求的處理器類型",
+      "question_template": "請問您對處理器(CPU)有什麼偏好嗎？不同的處理器適合不同的使用場景。",
+      "response_type": "single_choice",
+      "keywords": ["CPU", "處理器", "運算", "Intel", "AMD", "效能", "速度"],
+      "priority": 1,
+      "required": true,
+      "options": [
+        {
+          "option_id": "high_performance",
+          "label": "🚀 高效能處理器",
+          "description": "適合遊戲、創作、多工處理",
+          "keywords": ["高效能", "遊戲", "創作", "多工", "i7", "i9", "Ryzen 7", "Ryzen 9"],
+          "db_filter": {
+            "cpu_tier": "high",
+            "cpu_cores": ">=6"
+          }
+        },
+        {
+          "option_id": "balanced",
+          "label": "⚖️ 平衡型處理器", 
+          "description": "日常辦公、學習、輕度創作",
+          "keywords": ["平衡", "辦公", "學習", "日常", "i5", "Ryzen 5"],
+          "db_filter": {
+            "cpu_tier": "mid",
+            "cpu_cores": "4-6"
+          }
+        },
+        {
+          "option_id": "energy_efficient",
+          "label": "🔋 節能型處理器",
+          "description": "重視續航、輕度使用、攜帶性",
+          "keywords": ["節能", "續航", "輕度", "攜帶", "i3", "Ryzen 3", "低功耗"],
+          "db_filter": {
+            "cpu_tier": "low",
+            "cpu_power": "<=15W"
+          }
+        },
+        {
+          "option_id": "no_preference",
+          "label": "🤷 沒有特別偏好",
+          "description": "請系統根據其他需求推薦",
+          "keywords": ["沒有偏好", "隨意", "推薦"],
+          "db_filter": {}
+        }
+      ]
+    },
+    "gpu": {
+      "feature_id": "gpu",
+      "feature_type": "gpu",
+      "name": "顯卡(GPU)需求",
+      "description": "根據使用需求選擇是否需要獨立顯卡",
+      "question_template": "請問您是否需要獨立顯卡？這主要取決於您的使用場景。",
+      "response_type": "single_choice",
+      "keywords": ["GPU", "顯卡", "圖形", "遊戲", "繪圖", "3D", "影片編輯"],
+      "priority": 2,
+      "required": true,
+      "options": [
+        {
+          "option_id": "gaming_gpu",
+          "label": "🎮 遊戲級顯卡",
+          "description": "高階遊戲、VR、專業3D繪圖",
+          "keywords": ["遊戲", "電競", "VR", "3D", "高畫質", "RTX", "RX"],
+          "db_filter": {
+            "gpu_type": "discrete",
+            "gpu_tier": "high",
+            "gpu_memory": ">=6GB"
+          }
+        },
+        {
+          "option_id": "creative_gpu", 
+          "label": "🎨 創作級顯卡",
+          "description": "影片編輯、平面設計、輕度3D",
+          "keywords": ["創作", "設計", "影片編輯", "Photoshop", "繪圖"],
+          "db_filter": {
+            "gpu_type": "discrete",
+            "gpu_tier": "mid",
+            "gpu_memory": ">=4GB"
+          }
+        },
+        {
+          "option_id": "integrated_gpu",
+          "label": "💻 內建顯卡",
+          "description": "日常辦公、網頁瀏覽、影片播放",
+          "keywords": ["內建", "辦公", "日常", "節能", "基本需求"],
+          "db_filter": {
+            "gpu_type": "integrated"
+          }
+        },
+        {
+          "option_id": "no_specific",
+          "label": "❓ 不確定需求",
+          "description": "請系統根據用途推薦",
+          "keywords": ["不確定", "推薦"],
+          "db_filter": {}
+        }
+      ]
+    },
+    "memory": {
+      "feature_id": "memory",
+      "feature_type": "memory", 
+      "name": "記憶體(RAM)大小",
+      "description": "選擇適合的記憶體容量",
+      "question_template": "請問您覺得多少記憶體(RAM)比較適合您的使用需求？",
+      "response_type": "single_choice",
+      "keywords": ["記憶體", "RAM", "容量", "多工", "8GB", "16GB", "32GB"],
+      "priority": 3,
+      "required": true,
+      "options": [
+        {
+          "option_id": "high_memory",
+          "label": "🧠 大容量 (32GB+)",
+          "description": "專業創作、大型軟體、虛擬機",
+          "keywords": ["32GB", "64GB", "專業", "虛擬機", "大容量"],
+          "db_filter": {
+            "memory_size": ">=32GB"
+          }
+        },
+        {
+          "option_id": "standard_memory",
+          "label": "⚖️ 標準容量 (16GB)",
+          "description": "遊戲、多工處理、一般創作",
+          "keywords": ["16GB", "遊戲", "多工", "標準"],
+          "db_filter": {
+            "memory_size": "16GB"
+          }
+        },
+        {
+          "option_id": "basic_memory",
+          "label": "💰 基本容量 (8GB)",
+          "description": "日常辦公、學習、輕度使用",
+          "keywords": ["8GB", "基本", "辦公", "學習"],
+          "db_filter": {
+            "memory_size": "8GB"
+          }
+        },
+        {
+          "option_id": "upgradeable",
+          "label": "🔧 可升級優先",
+          "description": "重視後續擴充彈性",
+          "keywords": ["可升級", "擴充", "彈性"],
+          "db_filter": {
+            "memory_upgradeable": true
+          }
+        }
+      ]
+    },
+    "storage": {
+      "feature_id": "storage",
+      "feature_type": "storage",
+      "name": "儲存空間(SSD)容量",
+      "description": "選擇合適的儲存容量和類型",
+      "question_template": "請問您需要多少儲存空間？不同容量適合不同的使用習慣。",
+      "response_type": "single_choice", 
+      "keywords": ["儲存", "SSD", "硬碟", "容量", "256GB", "512GB", "1TB"],
+      "priority": 4,
+      "required": true,
+      "options": [
+        {
+          "option_id": "large_storage",
+          "label": "📦 大容量 (1TB+)",
+          "description": "大量檔案、遊戲、影片創作",
+          "keywords": ["1TB", "2TB", "大容量", "遊戲", "影片"],
+          "db_filter": {
+            "storage_size": ">=1TB",
+            "storage_type": "SSD"
+          }
+        },
+        {
+          "option_id": "medium_storage",
+          "label": "📁 中等容量 (512GB)",
+          "description": "日常使用、適度檔案儲存",
+          "keywords": ["512GB", "中等", "日常"],
+          "db_filter": {
+            "storage_size": "512GB",
+            "storage_type": "SSD"
+          }
+        },
+        {
+          "option_id": "basic_storage",
+          "label": "💾 基本容量 (256GB)",
+          "description": "雲端儲存為主、基本需求",
+          "keywords": ["256GB", "基本", "雲端"],
+          "db_filter": {
+            "storage_size": "256GB",
+            "storage_type": "SSD"
+          }
+        },
+        {
+          "option_id": "fast_storage",
+          "label": "⚡ 高速優先 (NVMe)",
+          "description": "重視讀寫速度和系統反應",
+          "keywords": ["NVMe", "高速", "PCIe", "快速"],
+          "db_filter": {
+            "storage_interface": "NVMe",
+            "storage_speed": "high"
+          }
+        }
+      ]
+    },
+    "size": {
+      "feature_id": "size",
+      "feature_type": "size",
+      "name": "螢幕尺寸偏好",
+      "description": "選擇適合的筆電螢幕尺寸",
+      "question_template": "請問您偏好多大的螢幕尺寸？不同尺寸有不同的優缺點。",
+      "response_type": "single_choice",
+      "keywords": ["尺寸", "螢幕", "13吋", "15吋", "17吋", "大小"],
+      "priority": 5,
+      "required": true,
+      "options": [
+        {
+          "option_id": "large_screen",
+          "label": "📺 大螢幕 (17吋+)",
+          "description": "最佳視覺體驗、多工顯示",
+          "keywords": ["17吋", "18吋", "大螢幕", "視覺", "多工"],
+          "db_filter": {
+            "screen_size": ">=17"
+          }
+        },
+        {
+          "option_id": "standard_screen",
+          "label": "🖥️ 標準尺寸 (15-16吋)",
+          "description": "平衡視覺與攜帶性",
+          "keywords": ["15吋", "16吋", "標準", "平衡"],
+          "db_filter": {
+            "screen_size": "15-16"
+          }
+        },
+        {
+          "option_id": "compact_screen",
+          "label": "💻 輕便尺寸 (13-14吋)",
+          "description": "最佳攜帶性、行動辦公",
+          "keywords": ["13吋", "14吋", "輕便", "攜帶", "行動"],
+          "db_filter": {
+            "screen_size": "13-14"
+          }
+        },
+        {
+          "option_id": "flexible",
+          "label": "🤷 彈性選擇",
+          "description": "根據其他需求決定尺寸",
+          "keywords": ["彈性", "其他需求"],
+          "db_filter": {}
+        }
+      ]
+    },
+    "weight": {
+      "feature_id": "weight",
+      "feature_type": "weight",
+      "name": "重量與攜帶性",
+      "description": "考量攜帶需求選擇重量偏好",
+      "question_template": "請問您對筆電的重量和攜帶性有什麼要求？",
+      "response_type": "single_choice",
+      "keywords": ["重量", "攜帶", "輕薄", "行動", "1kg", "2kg", "3kg"],
+      "priority": 6,
+      "required": true,
+      "options": [
+        {
+          "option_id": "ultralight",
+          "label": "🪶 超輕薄 (<1.5kg)",
+          "description": "經常攜帶、商務出差",
+          "keywords": ["超輕", "1kg", "1.5kg", "輕薄", "商務"],
+          "db_filter": {
+            "weight": "<=1.5kg"
+          }
+        },
+        {
+          "option_id": "portable",
+          "label": "🎒 便攜型 (1.5-2.5kg)",
+          "description": "偶爾攜帶、平衡性能",
+          "keywords": ["便攜", "2kg", "平衡", "偶爾"],
+          "db_filter": {
+            "weight": "1.5-2.5kg"
+          }
+        },
+        {
+          "option_id": "desktop_replacement",
+          "label": "🏠 桌機替代 (>2.5kg)",
+          "description": "固定使用、最大性能",
+          "keywords": ["桌機", "固定", "3kg", "性能"],
+          "db_filter": {
+            "weight": ">2.5kg"
+          }
+        },
+        {
+          "option_id": "weight_flexible",
+          "label": "⚖️ 重量彈性",
+          "description": "性能優先、重量其次",
+          "keywords": ["彈性", "性能優先"],
+          "db_filter": {}
+        }
+      ]
+    },
+    "price": {
+      "feature_id": "price",
+      "feature_type": "price",
+      "name": "預算價格範圍",
+      "description": "設定符合需求的預算範圍",
+      "question_template": "請問您的預算範圍大約是多少？這將幫我們篩選適合的機型。",
+      "response_type": "single_choice",
+      "keywords": ["預算", "價格", "價位", "萬元", "經濟", "高階"],
+      "priority": 7,
+      "required": true,
+      "options": [
+        {
+          "option_id": "budget_friendly",
+          "label": "💰 經濟型 (2-4萬)",
+          "description": "基本需求、高性價比",
+          "keywords": ["經濟", "便宜", "2萬", "3萬", "4萬", "性價比"],
+          "db_filter": {
+            "price_range": "20000-40000"
+          }
+        },
+        {
+          "option_id": "mid_range",
+          "label": "💳 中階型 (4-7萬)",
+          "description": "平衡性能與價格",
+          "keywords": ["中階", "4萬", "5萬", "6萬", "7萬", "平衡"],
+          "db_filter": {
+            "price_range": "40000-70000"
+          }
+        },
+        {
+          "option_id": "premium",
+          "label": "💎 高階型 (7-12萬)",
+          "description": "追求高性能與品質",
+          "keywords": ["高階", "7萬", "8萬", "10萬", "12萬", "高性能"],
+          "db_filter": {
+            "price_range": "70000-120000"
+          }
+        },
+        {
+          "option_id": "flagship",
+          "label": "👑 旗艦型 (12萬+)",
+          "description": "頂級配置、極致體驗",
+          "keywords": ["旗艦", "頂級", "12萬", "15萬", "極致"],
+          "db_filter": {
+            "price_range": "120000+"
+          }
+        },
+        {
+          "option_id": "price_flexible",
+          "label": "🤝 價格彈性",
+          "description": "根據需求調整預算",
+          "keywords": ["彈性", "需求導向"],
+          "db_filter": {}
+        }
+      ]
+    }
+  },
+  "feature_priorities": {
+    "gaming": ["gpu", "cpu", "memory", "storage", "price", "size", "weight"],
+    "business": ["weight", "cpu", "price", "size", "memory", "storage", "gpu"],
+    "creation": ["gpu", "cpu", "memory", "storage", "size", "weight", "price"],
+    "study": ["price", "weight", "cpu", "memory", "size", "storage", "gpu"],
+    "general": ["price", "cpu", "memory", "gpu", "size", "storage", "weight"]
+  },
+  "trigger_keywords": {
+    "vague_queries": [
+      "最適合", "最好的", "性價比", "推薦", "幫我選", "不知道選哪個",
+      "文書處理", "文書", "處理", "一般使用", "什麼比較好", "給我建議", "適合", "合適",
+      "高中生", "大學生", "學生", "上班族", "工作", "學習", "遊戲",
+      "辦公", "辦公軟體", "娛樂", "創作", "設計", "程式", "開發", "商務",
+      "輕薄", "效能", "續航", "便攜", "高效能", "經濟實惠",
+      "介紹", "說明", "解釋", "告訴我", "想知道", "了解",
+      "選擇", "挑選", "建議", "意見", "看法", "office", "word", "excel", "ppt",
+      "專業工作", "會議", "報告", "簡報", "工作用", "上班"
+    ],
+    "comparison_queries": [
+      "比較", "差別", "哪個好", "vs", "對比", "差異"
+    ]
+  }
+}

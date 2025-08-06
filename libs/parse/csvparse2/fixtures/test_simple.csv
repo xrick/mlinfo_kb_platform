@@ -1,0 +1,11 @@
+Updated,2024/6/11,Model1,Model2,Model3,Model4
+,,Test Data,Test Data,Test Data,Test Data
+Stage,Version,MP_v1.0,PVT_v1.4,PVT_v1.0,Planning_v0.1
+Model,Model Name,APX938,ARB938,AHP938U,AKK938
+MB,MB Ver.,V2.0,V2.0,V2.0,V2.0
+Develop,stage,Planning：2023/01/31,Planning：2023/01/31,Planning：2023/08/31,Planning：2024/06/11
+,,Kick-off：2023/03/01,Kick-off：2023/03/01,Kick-off： 2023/09/07,Kick-off： 2024/07/15
+CPU,Module,AMD Ryzen 5,AMD Ryzen 7,AMD Ryzen 5,AMD Ryzen 7
+GPU,Model,AMD Radeon 760M,AMD Radeon 780M,AMD Radeon Graphics,AMD Radeon Graphics
+Battery,Type,Lithium-ion polymer,Lithium-ion polymer,Lithium-ion polymer,Lithium-ion polymer
+,Capacity,57.75Wh,57.75Wh,57.75Wh,57.75Wh

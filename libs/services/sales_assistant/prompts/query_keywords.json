@@ -1,0 +1,129 @@
+{
+  "intent_keywords": {
+    "display": {
+      "keywords": [
+        "螢幕",
+        "顯示",
+        "屏幕",
+        "显示",
+        "screen",
+        "lcd",
+        "面板"
+      ],
+      "description": "螢幕相關查詢"
+    },
+    "cpu": {
+      "keywords": [
+        "cpu",
+        "處理器",
+        "处理器",
+        "processor",
+        "ryzen"
+      ],
+      "description": "CPU相關查詢"
+    },
+    "gpu": {
+      "keywords": [
+        "gpu",
+        "顯卡",
+        "显卡",
+        "graphics",
+        "radeon"
+      ],
+      "description": "GPU相關查詢"
+    },
+    "memory": {
+      "keywords": [
+        "記憶體",
+        "內存",
+        "内存",
+        "memory",
+        "ram",
+        "ddr"
+      ],
+      "description": "記憶體相關查詢"
+    },
+    "storage": {
+      "keywords": [
+        "硬碟",
+        "硬盤",
+        "硬盘",
+        "storage",
+        "ssd",
+        "nvme"
+      ],
+      "description": "儲存相關查詢"
+    },
+    "battery": {
+      "keywords": [
+        "電池",
+        "电池",
+        "續航",
+        "续航",
+        "battery",
+        "電量",
+        "电量"
+      ],
+      "description": "電池相關查詢"
+    },
+    "portability": {
+      "keywords": [
+        "重量",
+        "輕便",
+        "轻便",
+        "便携",
+        "weight",
+        "portable",
+        "尺寸"
+      ],
+      "description": "重量和便攜性相關查詢"
+    },
+    "connectivity": {
+      "keywords": [
+        "接口",
+        "port",
+        "usb",
+        "hdmi",
+        "lan"
+      ],
+      "description": "接口相關查詢"
+    },
+    "comparison": {
+      "keywords": [
+        "比較",
+        "比较",
+        "compare",
+        "差異",
+        "差异",
+        "difference",
+        "不同"
+      ],
+      "description": "比較相關查詢"
+    },
+    "specifications": {
+      "keywords": [
+        "規格",
+        "规格",
+        "spec",
+        "配置",
+        "configuration"
+      ],
+      "description": "規格查詢"
+    },
+    "latest": {
+      "keywords": [
+        "最新",
+        "新款",
+        "最新款",
+        "現在",
+        "目前",
+        "當前",
+        "当前",
+        "current",
+        "now",
+        "newest"
+      ],
+      "description": "最新產品相關查詢"
+    }
+  }
+}

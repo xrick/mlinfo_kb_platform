@@ -1,0 +1,47 @@
+/home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/RAG/LLM/LLMInitializer.py:18: LangChainDeprecationWarning: The class `Ollama` was deprecated in LangChain 0.3.1 and will be removed in 1.0.0. An updated version of the class exists in the :class:`~langchain-ollama package and should be used instead. To use it run `pip install -U :class:`~langchain-ollama` and import as `from :class:`~langchain_ollama import OllamaLLM``.
+  self.llm = Ollama(
+/home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/RAG/DB/MilvusQuery.py:12: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-huggingface package and should be used instead. To use it run `pip install -U :class:`~langchain-huggingface` and import as `from :class:`~langchain_huggingface import HuggingFaceEmbeddings``.
+  self.embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+2025-07-22 16:00:03,947 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:00:03,947 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:00:06,490 - root - INFO - 成功載入關鍵字配置: ['display', 'cpu', 'gpu', 'memory', 'storage', 'battery', 'portability', 'connectivity', 'comparison', 'specifications', 'latest', 'usage_scenario', 'budget']
+INFO:     Started server process [447417]
+INFO:     Waiting for application startup.
+2025-07-22 16:00:06,517 - api.history_routes - INFO - History database initialized successfully
+2025-07-22 16:00:06,517 - api.history_routes - INFO - History database initialized successfully
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+正在搜尋服務目錄: /home/mapleleaf/LCJRepos/projects/lcj_business_ai/libs/services
+成功初始化 Ollama 模型: deepseek-r1:7b
+成功連接到 Milvus at localhost:19530
+成功設定並載入 Collection: sales_notebook_specs
+成功連接到 DuckDB: sales_rag_app/db/sales_specs.db
+成功載入服務: sales_assistant
+INFO:     127.0.0.1:54120 - "GET /health HTTP/1.1" 200 OK
+2025-07-22 16:00:20,904 - api.csv_processor2 - INFO - 開始使用 CSVProcessor2 strategy 解析檔案: /tmp/tmp3bdckou_.csv
+2025-07-22 16:00:20,905 - libs.parse.csvparse2.csv_parser2 - INFO - 檢測到一般 CSV 格式，使用動態解析
+2025-07-22 16:00:20,905 - libs.parse.csvparse2.csv_parser2 - INFO - 動態解析設定 - 標題: ['version', 'modelname'], 資料行數: 1
+2025-07-22 16:00:20,905 - libs.parse.csvparse2.csv_parser2 - INFO - 解析前準備完成 - 標題: ['version', 'modelname']
+2025-07-22 16:00:20,905 - libs.parse.csvparse2.csv_parser2 - INFO - 動態解析完成 - 處理了 1 行有效資料，跳過 0 行空資料
+2025-07-22 16:00:20,905 - libs.parse.csvparse2.csv_parser2 - INFO - 解析後處理完成
+2025-07-22 16:00:20,905 - api.csv_processor2 - INFO - CSVProcessor2 解析完成，從記憶體獲取 1 筆記錄
+2025-07-22 16:00:20,905 - api.csv_processor2 - INFO - 從檔名提取 modeltype: AC01.csv → AC01
+✅ 已建立記憶體資料：1 筆記錄
+✅ 已輸出至：./output.csv
+INFO:     127.0.0.1:54132 - "POST /api/process HTTP/1.1" 200 OK
+2025-07-22 16:00:39,093 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:00:39,093 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+資料驗證：原始 1 筆，有效 1 筆，過濾掉 0 筆空記錄
+--- Ingesting to DuckDB ---
+Found existing DuckDB file 'db/sales_specs.db'. Appending data...
+Found existing 'specs' table. Appending data...
+Successfully appended 1 rows to DuckDB 'specs' table.
+--- Ingesting to Milvus ---
+Connecting to Milvus at localhost:19530...
+Found existing collection 'sales_notebook_specs'. Appending data...
+Generating embeddings for 15 vector fields...
+載入 SentenceTransformer 模型...
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.99it/s]
+Preparing data for insertion...
+Successfully appended 1 entities to Milvus collection 'sales_notebook_specs'.
+INFO:     127.0.0.1:35686 - "POST /api/ingest-to-db HTTP/1.1" 200 OK
