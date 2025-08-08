@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MGFD 筆記型電腦購物助手</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .chat-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.assistant {
+            justify-content: flex-start;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            word-wrap: break-word;
+        }
+
+        .message.user .message-content {
+            background: #667eea;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.assistant .message-content {
+            background: white;
+            color: #333;
+            border: 1px solid #e1e5e9;
+            border-bottom-left-radius: 4px;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin: 0 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .avatar.user {
+            background: #667eea;
+            color: white;
+        }
+
+        .avatar.assistant {
+            background: #28a745;
+            color: white;
+        }
+
+        .input-container {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e1e5e9;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .message-input:focus {
+            border-color: #667eea;
+        }
+
+        .send-button {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .send-button:hover {
+            background: #5a6fd8;
+        }
+
+        .send-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .session-info {
+            background: #e3f2fd;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 12px;
+            color: #1976d2;
+        }
+
+        .recommendations {
+            background: #f0f8ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .recommendation-item {
+            background: white;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+
+        .recommendation-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .product-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .product-details {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .stats {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 MGFD 筆記型電腦購物助手</h1>
+            <p>Multi-Guided Funnel Dialogue 智能對話系統</p>
+        </div>
+
+        <div class="chat-container" id="chatContainer">
+            <div class="session-info" id="sessionInfo">
+                正在初始化會話...
+            </div>
+            <div class="stats" id="stats">
+                系統狀態: 初始化中...
+            </div>
+        </div>
+
+        <div class="input-container">
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    id="messageInput" 
+                    class="message-input" 
+                    placeholder="請告訴我您想要什麼樣的筆電..."
+                    disabled
+                >
+                <button id="sendButton" class="send-button" disabled>
+                    發送
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class MGFDChat {
+            constructor() {
+                this.sessionId = null;
+                this.isLoading = false;
+                this.init();
+            }
+
+            async init() {
+                try {
+                    await this.createSession();
+                    await this.loadStats();
+                    this.setupEventListeners();
+                    this.enableInput();
+                } catch (error) {
+                    console.error('初始化失敗:', error);
+                    this.showError('系統初始化失敗，請刷新頁面重試');
+                }
+            }
+
+            async createSession() {
+                const response = await fetch('/api/mgfd_cursor/session/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                });
+
+                if (!response.ok) {
+                    throw new Error('創建會話失敗');
+                }
+
+                const data = await response.json();
+                this.sessionId = data.session_id;
+                
+                this.addMessage('assistant', data.message);
+                this.updateSessionInfo();
+            }
+
+            async loadStats() {
+                try {
+                    const response = await fetch('/api/mgfd_cursor/stats');
+                    if (response.ok) {
+                        const data = await response.json();
+                        this.updateStats(data.system_stats);
+                    }
+                } catch (error) {
+                    console.error('載入統計信息失敗:', error);
+                }
+            }
+
+            setupEventListeners() {
+                const messageInput = document.getElementById('messageInput');
+                const sendButton = document.getElementById('sendButton');
+
+                messageInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !this.isLoading) {
+                        this.sendMessage();
+                    }
+                });
+
+                sendButton.addEventListener('click', () => {
+                    if (!this.isLoading) {
+                        this.sendMessage();
+                    }
+                });
+            }
+
+            enableInput() {
+                document.getElementById('messageInput').disabled = false;
+                document.getElementById('sendButton').disabled = false;
+            }
+
+            async sendMessage() {
+                const messageInput = document.getElementById('messageInput');
+                const message = messageInput.value.trim();
+
+                if (!message || this.isLoading) return;
+
+                this.isLoading = true;
+                this.setLoadingState(true);
+
+                // 添加用戶消息
+                this.addMessage('user', message);
+                messageInput.value = '';
+
+                try {
+                    const response = await fetch('/api/mgfd_cursor/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            message: message,
+                            session_id: this.sessionId
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('發送消息失敗');
+                    }
+
+                    const data = await response.json();
+                    
+                    // 添加助手回應
+                    this.addMessage('assistant', data.response, data);
+
+                    // 更新會話信息
+                    this.updateSessionInfo(data);
+
+                } catch (error) {
+                    console.error('發送消息失敗:', error);
+                    this.showError('發送消息失敗，請重試');
+                } finally {
+                    this.isLoading = false;
+                    this.setLoadingState(false);
+                }
+            }
+
+            addMessage(role, content, data = null) {
+                const chatContainer = document.getElementById('chatContainer');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${role}`;
+
+                const avatar = document.createElement('div');
+                avatar.className = `avatar ${role}`;
+                avatar.textContent = role === 'user' ? 'U' : 'A';
+
+                const messageContent = document.createElement('div');
+                messageContent.className = 'message-content';
+
+                if (role === 'assistant' && data && data.recommendations) {
+                    // 如果有推薦產品，格式化顯示
+                    messageContent.innerHTML = this.formatRecommendations(content, data.recommendations);
+                } else {
+                    messageContent.textContent = content;
+                }
+
+                messageDiv.appendChild(avatar);
+                messageDiv.appendChild(messageContent);
+                chatContainer.appendChild(messageDiv);
+
+                // 滾動到底部
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            formatRecommendations(content, recommendations) {
+                let html = `<div>${content}</div>`;
+                
+                if (recommendations && recommendations.length > 0) {
+                    html += '<div class="recommendations">';
+                    recommendations.forEach(product => {
+                        html += `
+                            <div class="recommendation-item">
+                                <div class="product-name">${product.name}</div>
+                                <div class="product-details">
+                                    品牌: ${product.brand.toUpperCase()}<br>
+                                    處理器: ${product.cpu}<br>
+                                    顯示卡: ${product.gpu}<br>
+                                    記憶體: ${product.ram}<br>
+                                    重量: ${product.weight}<br>
+                                    描述: ${product.description}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                }
+
+                return html;
+            }
+
+            updateSessionInfo(data = null) {
+                const sessionInfo = document.getElementById('sessionInfo');
+                if (data) {
+                    sessionInfo.innerHTML = `
+                        會話ID: ${this.sessionId}<br>
+                        當前階段: ${data.current_stage}<br>
+                        已填寫槽位: ${Object.keys(data.filled_slots).length}
+                    `;
+                } else {
+                    sessionInfo.innerHTML = `會話ID: ${this.sessionId}`;
+                }
+            }
+
+            updateStats(stats) {
+                const statsDiv = document.getElementById('stats');
+                statsDiv.innerHTML = `
+                    活躍會話: ${stats.active_sessions} | 
+                    產品數量: ${stats.total_products} | 
+                    槽位架構: ${stats.slot_schema_count}
+                `;
+            }
+
+            setLoadingState(loading) {
+                const sendButton = document.getElementById('sendButton');
+                const messageInput = document.getElementById('messageInput');
+
+                if (loading) {
+                    sendButton.innerHTML = '<div class="loading"></div>';
+                    sendButton.disabled = true;
+                    messageInput.disabled = true;
+                } else {
+                    sendButton.innerHTML = '發送';
+                    sendButton.disabled = false;
+                    messageInput.disabled = false;
+                }
+            }
+
+            showError(message) {
+                const chatContainer = document.getElementById('chatContainer');
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error';
+                errorDiv.textContent = message;
+                chatContainer.appendChild(errorDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        }
+
+        // 初始化聊天
+        document.addEventListener('DOMContentLoaded', () => {
+            new MGFDChat();
+        });
+    </script>
+</body>
+</html>

@@ -54,10 +54,22 @@ try:
 except ImportError as e:
     logging.warning(f"Some API routes not yet available: {e}")
 
+# Import MGFD routes
+try:
+    from api import mgfd_routes
+    app.include_router(mgfd_routes.router, prefix="/api/mgfd_cursor", tags=["mgfd"])
+except ImportError as e:
+    logging.warning(f"MGFD routes not available: {e}")
+
 @app.get("/", response_class=HTMLResponse)
 async def main_interface(request: Request):
     """Main integrated interface"""
     return templates.TemplateResponse("index.html", {"request": request})
+
+@app.get("/mgfd_cursor", response_class=HTMLResponse)
+async def mgfd_interface(request: Request):
+    """MGFD interface"""
+    return templates.TemplateResponse("mgfd_interface.html", {"request": request})
 
 
 
