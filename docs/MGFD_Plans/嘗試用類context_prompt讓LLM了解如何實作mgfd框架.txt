@@ -1,0 +1,29 @@
+<background>
+這是一份多輪引導式漏斗llm對話框架。
+它的目的非常單純：不讓AI與可能購買商品的用戶的對話發散，而是逐步引導他們了解本身產品的需求，從二真正地購買商品 。
+</background>
+
+<Business_Scope>
+以銷售中小型房車為bussiness scope
+</Business_Scope>
+
+<Reading_Rules>
+- 請逐步完成文件的內容，並且標記出與實作有關聯的關鍵字。
+- 在閱讀文件的過程中，若遇到不了解的概念，請將不理解的概念記下並列出，同時在docs/MGFD_Plans/ToExplainConcepts.md中記錄下來。
+</<Reading_Rules>
+
+<Plan>
+- Before you start to implement the system according to MGFD Framework，請先進行**詳盡實作推論**。
+- 實作推論代表的是，共有多少主要核心模組要實作，每個功能用到的技術、第三方套件、相關資料庫，有可能碰到的問題等。
+- 請將實作推論的內容寫到docs/MGFD_Plans/impl_plan.md
+</Plan>
+
+<implementation>
+- 請**絕對務必**按照之前的規畫進行實作。
+- 請先**極盡詳細**地列出，之前規畫的內容，而實作出一個合乎這個框架的系統，需要哪些步驟，請**務必**遵守順序，一步一步的進行實作。
+- 請在建立docs/MGFD_Plans/implementation_progress.md，用以記錄實作的每一步、為什麼需要這個實作、它在系統中扮演的角色。
+- 每個核心模組在實作前，要在docs/MGFD_Plans/implementation_progress.md中建立一個段落，並說明這個核心模組在整個系統中的角色
+- 請**盡量以物件導向**來實作系統。
+- 在實作每一個函式前，必須在其歸屬的核心模組下先建立文件，包括函式名稱、輸入參數說明、這個函式進行了什麼樣的運算，為什麼要做這樣的運算(若概念太難，請用比喻法說明)、輸出的資料格式等。
+</implementation>
+
