@@ -6,9 +6,9 @@
       "features": ["使用敬語", "完整句子", "專業術語", "禮貌用語"],
       "suitable_for": ["商務客戶", "技術人員", "正式場合", "專業諮詢"],
       "language_patterns": {
-        "greeting": "您好",
-        "closing": "謝謝您的詢問",
-        "politeness": "請", "麻煩", "謝謝",
+        "greeting": ["您好"],
+        "closing": ["謝謝您的詢問"],
+        "politeness": ["請", "麻煩", "謝謝"],
         "formality": "完整句子結構"
       }
     },
@@ -18,9 +18,9 @@
       "features": ["口語化表達", "簡短句子", "親切稱呼", "表情符號"],
       "suitable_for": ["一般用戶", "年輕族群", "休閒場合", "日常諮詢"],
       "language_patterns": {
-        "greeting": "嗨", "哈囉",
-        "closing": "掰掰", "下次見",
-        "politeness": "謝謝", "感恩",
+        "greeting": ["嗨", "哈囉"],
+        "closing": ["掰掰", "下次見"],
+        "politeness": ["謝謝", "感恩"],
         "formality": "簡短句子"
       }
     },

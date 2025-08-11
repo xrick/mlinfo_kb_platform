@@ -6,6 +6,35 @@
       "template": "你是一個筆電購物助手。請根據以下配置生成個性化的問候語：\n\n個性化配置：\n- 類型：{personality_type}\n- 問候風格：{greeting_style}\n- 回應語調：{response_tone}\n\n用戶信息：\n- 姓名：{user_name}\n- 時間：{time_of_day}\n- 是否回訪：{is_returning_user}\n\n請生成一個符合個性化配置的問候語，要求：\n1. 符合指定的語調和風格\n2. 考慮時間和用戶狀態\n3. 自然、親切、專業\n4. 不超過50字\n\n回應格式：直接返回問候語文本",
       "variables": ["personality_type", "greeting_style", "response_tone", "user_name", "time_of_day", "is_returning_user"]
     },
+    "slot_elicitation_by_slot": {
+      "usage_purpose": {
+        "name": "詢問使用目的-模板",
+        "description": "生成更自然的使用目的詢問句",
+        "template": "請生成一個詢問使用目的的問題，簡短自然，避免陳腔濫調，20字以內。",
+        "variables": []
+      },
+      "budget_range": {
+        "name": "詢問預算範圍-模板",
+        "description": "生成更自然的預算詢問句，允許加入已知上下文前綴",
+        "template": "請生成詢問預算範圍的問題，可加入這些前綴：{context_prefixes}。長度20字以內。",
+        "variables": ["context_prefixes"]
+      },
+      "brand_preference": {
+        "name": "詢問品牌偏好-模板",
+        "description": "生成更自然的品牌偏好詢問句",
+        "template": "請生成詢問品牌偏好的問題。",
+        "variables": []
+      }
+    },
+
+    "clarification_by_scene": {
+      "series_vs_purpose": {
+        "name": "系列對比 vs 使用目的-澄清",
+        "description": "當同時出現系列與目的線索，先澄清方向",
+        "template": "針對同時提到系列與使用目的的輸入，請生成一句澄清：\n示例：您想比較特定系列，還是先釐清您的使用需求？",
+        "variables": []
+      }
+    },
     "slot_elicitation_question": {
       "name": "槽位詢問問題生成提示詞",
       "description": "生成個性化的槽位詢問問題",

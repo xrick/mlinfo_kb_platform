@@ -11,10 +11,11 @@ libs/mgfd_cursor/humandata/
 ├── personality_profiles.json      # 個性化配置
 ├── conversation_styles.json       # 對話風格配置
 ├── response_templates.json        # 回應模板配置
-├── error_handling.json           # 錯誤處理配置
-├── think_prompts.json            # Think 階段提示詞
-├── act_prompts.json              # Act 階段提示詞
-└── integration_usages.md         # 本說明文件
+├── slot_synonyms.json             # 槽位同義詞映射（人類可擴充）
+├── error_handling.json            # 錯誤處理配置
+├── think_prompts.json             # Think 階段提示詞
+├── act_prompts.json               # Act 階段提示詞
+└── integration_usages.md          # 本說明文件
 ```
 
 ## 各配置檔案詳細說明
@@ -114,6 +115,26 @@ libs/mgfd_cursor/humandata/
   }
 }
 ```
+### 4. slot_synonyms.json - 槽位同義詞映射
+
+**用途**：集中管理槽位的口語同義詞，避免硬編碼，讓抽取更貼近人類語言並可持續擴充。
+
+**結構**：每個槽位是一個字典：標準化值 -> 同義詞列表。
+
+```json
+{
+  "usage_purpose": {
+    "business": ["工作", "商務", "辦公"],
+    "gaming": ["遊戲", "電競"]
+  },
+  "budget_range": {
+    "budget": ["便宜", "入門"],
+    "premium": ["高端", "高級"]
+  }
+}
+```
+
+系統在啟動時自動合併預設詞庫與此檔案，並去重；即使缺檔也能以預設運行。
 
 **使用場景**：
 - 調整系統回應的語言風格

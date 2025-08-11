@@ -1,0 +1,24 @@
+{
+  "usage_purpose": {
+    "gaming": ["遊戲", "打遊戲", "電競", "gaming"],
+    "business": ["工作", "商務", "辦公", "business", "職場", "上班", "Office"],
+    "student": ["學生", "學習", "上課", "作業", "student"],
+    "creative": ["創作", "設計", "剪輯", "creative"],
+    "general": ["一般", "日常", "上網", "通勤", "general"]
+  },
+  "budget_range": {
+    "budget": ["便宜", "平價", "入門", "budget", "實惠"],
+    "mid_range": ["中等", "中端", "mid", "中價位"],
+    "premium": ["高端", "高級", "premium", "高價位"],
+    "luxury": ["旗艦", "頂級", "豪華", "luxury"]
+  },
+  "brand_preference": {
+    "asus": ["asus", "華碩"],
+    "acer": ["acer", "宏碁"],
+    "lenovo": ["lenovo", "聯想"],
+    "hp": ["hp", "惠普"],
+    "dell": ["dell", "戴爾"],
+    "apple": ["apple", "蘋果", "mac", "macbook"]
+  }
+}
+

@@ -47,7 +47,8 @@ class MGFDConfigLoader:
             "response_templates.json",
             "error_handling.json",
             "think_prompts.json",
-            "act_prompts.json"
+            "act_prompts.json",
+            "slot_synonyms.json"
         ]
         
         for config_file in config_files:
@@ -134,6 +135,10 @@ class MGFDConfigLoader:
     def get_act_prompts(self) -> Dict[str, Any]:
         """獲取 Act 階段提示詞配置"""
         return self.get_config("act_prompts")
+
+    def get_slot_synonyms(self) -> Dict[str, Any]:
+        """獲取槽位同義詞映射配置"""
+        return self.get_config("slot_synonyms")
     
     def reload_config(self, config_name: str) -> bool:
         """
@@ -203,6 +208,8 @@ class MGFDConfigLoader:
             validation_result = self._validate_think_prompts(config_data)
         elif config_name == "act_prompts":
             validation_result = self._validate_act_prompts(config_data)
+        elif config_name == "slot_synonyms":
+            validation_result = self._validate_slot_synonyms(config_data)
         
         return validation_result
     
@@ -277,6 +284,29 @@ class MGFDConfigLoader:
             result["valid"] = False
             result["errors"].append("缺少 act_prompts 欄位")
             return result
+        
+        return result
+
+    def _validate_slot_synonyms(self, config: Dict[str, Any]) -> Dict[str, Any]:
+        """驗證槽位同義詞配置"""
+        result = {"valid": True, "errors": [], "warnings": []}
+        
+        required_top_keys = ["usage_purpose", "budget_range", "brand_preference"]
+        for key in required_top_keys:
+            if key not in config:
+                result["warnings"].append(f"缺少可選配置區塊: {key}")
+        
+        # 粗略校驗結構：每個槽位是一個 dict，value->list 的對應
+        for slot_name, value_map in config.items():
+            if not isinstance(value_map, dict):
+                result["errors"].append(f"槽位 {slot_name} 必須為對應表 (dict)")
+                result["valid"] = False
+                continue
+            for normalized_value, synonyms in value_map.items():
+                if not isinstance(synonyms, list):
+                    result["errors"].append(
+                        f"槽位 {slot_name} 的值 {normalized_value} 對應之同義詞需為 list")
+                    result["valid"] = False
         
         return result
     

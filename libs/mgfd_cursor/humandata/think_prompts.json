@@ -6,6 +6,43 @@
       "template": "你是一個專業的筆電購物助手。請分析以下用戶輸入，識別相關的槽位信息：\n\n用戶輸入：{user_input}\n\n當前已填寫槽位：{filled_slots}\n\n請從以下槽位中識別用戶提到的信息：\n- usage_purpose: 使用目的 (gaming/business/student/creative/general)\n- budget_range: 預算範圍 (budget/mid_range/premium/luxury)\n- brand_preference: 品牌偏好 (asus/acer/lenovo/hp/dell/apple)\n- performance_priority: 性能優先級 (cpu/gpu/ram/storage/battery)\n- portability_need: 便攜性需求 (ultra_portable/balanced/desktop_replacement)\n\n請以JSON格式回應，包含識別到的槽位和置信度：\n{\n  \"extracted_slots\": {\n    \"slot_name\": {\n      \"value\": \"extracted_value\",\n      \"confidence\": 0.0-1.0\n    }\n  },\n  \"reasoning\": \"分析理由\"\n}",
       "variables": ["user_input", "filled_slots", "conversation_history"]
     },
+    "slot_analysis_by_slot": {
+      "usage_purpose": {
+        "name": "使用目的-槽位分析",
+        "description": "專注分析使用目的相關線索（遊戲/商務/學生/創作/一般）",
+        "template": "請僅針對使用目的(usage_purpose)做判斷：\n- 用戶輸入：{user_input}\n- 已填寫槽位：{filled_slots}\n請輸出 JSON：{ \"extracted_slots\": { \"usage_purpose\": { \"value\": \"gaming|business|student|creative|general\", \"confidence\": 0-1 } }, \"reasoning\": \"原因\" }",
+        "variables": ["user_input", "filled_slots"]
+      },
+      
+      "budget_range": {
+        "name": "預算範圍-槽位分析",
+        "description": "專注分析預算範圍（budget/mid_range/premium/luxury）",
+        "template": "請僅針對預算範圍(budget_range)做判斷：\n- 用戶輸入：{user_input}\n- 已填寫槽位：{filled_slots}\n請輸出 JSON：{ \"extracted_slots\": { \"budget_range\": { \"value\": \"budget|mid_range|premium|luxury\", \"confidence\": 0-1 } }, \"reasoning\": \"原因\" }",
+        "variables": ["user_input", "filled_slots"]
+      },
+      
+      "brand_preference": {
+        "name": "品牌偏好-槽位分析",
+        "description": "專注分析品牌偏好（asus/acer/lenovo/hp/dell/apple）",
+        "template": "請僅針對品牌偏好(brand_preference)做判斷：\n- 用戶輸入：{user_input}\n- 已填寫槽位：{filled_slots}\n請輸出 JSON：{ \"extracted_slots\": { \"brand_preference\": { \"value\": \"asus|acer|lenovo|hp|dell|apple\", \"confidence\": 0-1 } }, \"reasoning\": \"原因\" }",
+        "variables": ["user_input", "filled_slots"]
+      }
+    },
+
+    "action_decision_by_scene": {
+      "missing_required_slot": {
+        "name": "缺失必要槽位-決策",
+        "description": "當必要槽位未填寫時，決策應為 ELICIT_INFORMATION 並指向第一個缺失槽位",
+        "template": "根據缺失槽位決策：\n- 缺失槽位：{missing_slots}\n- 已填寫：{filled_slots}\n請輸出 JSON：{ \"action\": \"ELICIT_INFORMATION\", \"target_slot\": \"{missing_slots[0]}\", \"reasoning\": \"原因\", \"confidence\": 0.7-0.95 }",
+        "variables": ["missing_slots", "filled_slots"]
+      },
+      "ambiguous_input": {
+        "name": "輸入模糊-決策",
+        "description": "當輸入模糊時先澄清(或提供選項)",
+        "template": "若判斷輸入模糊，請輸出 JSON：{ \"action\": \"CLARIFY_INPUT\", \"reasoning\": \"原因\", \"confidence\": 0.6-0.9 }",
+        "variables": ["user_input", "conversation_history"]
+      }
+    },
     "action_decision": {
       "name": "行動決策提示詞", 
       "description": "基於當前狀態決定下一步行動",

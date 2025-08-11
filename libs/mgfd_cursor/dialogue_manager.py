@@ -14,6 +14,7 @@ from .models import (
     DialogueAction, NOTEBOOK_SLOT_SCHEMA
 )
 from .knowledge_base import NotebookKnowledgeBase
+from .config_loader import MGFDConfigLoader
 
 class MGFDDialogueManager:
     """MGFD對話管理器"""
@@ -28,6 +29,9 @@ class MGFDDialogueManager:
         self.notebook_kb = NotebookKnowledgeBase(notebook_kb_path)
         self.slot_schema = NOTEBOOK_SLOT_SCHEMA
         self.logger = logging.getLogger(__name__)
+        # 載入人類可配置資料
+        self.config_loader = MGFDConfigLoader()
+        self.slot_synonyms = self._load_slot_synonyms()
         
         # 活躍的對話會話
         self.active_sessions: Dict[str, NotebookDialogueState] = {}
@@ -144,19 +148,32 @@ class MGFDDialogueManager:
     def _generate_elicitation_question(self, slot_name: str, state: NotebookDialogueState) -> str:
         """生成詢問問題"""
         slot_config = self.slot_schema[slot_name]
-        
-        # 基礎問題
-        question = slot_config.example_question
-        
-        # 根據已填寫的槽位調整問題
-        if "usage_purpose" in state["filled_slots"]:
-            purpose = state["filled_slots"]["usage_purpose"]
-            if slot_name == "budget_range":
-                if purpose == "gaming":
-                    question = "考慮到您需要遊戲性能，您的預算大概在哪個範圍？"
-                elif purpose == "business":
-                    question = "考慮到商務需求，您的預算大概在哪個範圍？"
-        
+        templates_cfg = self.config_loader.get_response_templates().get("response_templates", {})
+        slot_tpls = templates_cfg.get("slot_elicitation", {}).get(slot_name, {})
+
+        # 1) 取模板或回退 example_question
+        base_templates = slot_tpls.get("templates") or [slot_config.example_question]
+
+        # 2) 上下文前綴
+        prefixes: List[str] = []
+        ctx = slot_tpls.get("context_adaptations", {})
+        if "brand_preference" in state["filled_slots"] and ctx.get("has_brand_preference"):
+            prefixes.append(ctx["has_brand_preference"].format(brand=state["filled_slots"]["brand_preference"]))
+        if "budget_range" in state["filled_slots"] and ctx.get("has_budget"):
+            prefixes.append(ctx["has_budget"])
+        if "usage_purpose" in state["filled_slots"] and ctx.get("has_usage_purpose"):
+            purpose_map = {
+                "gaming": "遊戲",
+                "business": "商務",
+                "student": "學習",
+                "creative": "創作",
+                "general": "一般"
+            }
+            purpose_val = purpose_map.get(state["filled_slots"]["usage_purpose"], state["filled_slots"]["usage_purpose"]) 
+            prefixes.append(ctx["has_usage_purpose"].format(usage_purpose=purpose_val))
+
+        # 3) 合成問題
+        question = ("".join(prefixes) + (base_templates[0] if base_templates else slot_config.example_question)).strip()
         return question
     
     def extract_slots_from_input(self, user_input: str, state: NotebookDialogueState) -> Dict[str, Any]:
@@ -172,47 +189,71 @@ class MGFDDialogueManager:
         """
         extracted_slots = {}
         user_input_lower = user_input.lower()
-        
-        # 提取使用目的
+
+        # 使用可配置同義詞映射來提取槽位
+        def match_by_synonyms(slot_name: str) -> Optional[str]:
+            mapping = self.slot_synonyms.get(slot_name, {})
+            for normalized_value, synonyms in mapping.items():
+                for term in synonyms:
+                    if term.lower() in user_input_lower:
+                        return normalized_value
+            return None
+
         if "usage_purpose" not in state["filled_slots"]:
-            if any(word in user_input_lower for word in ["遊戲", "gaming", "打遊戲"]):
-                extracted_slots["usage_purpose"] = "gaming"
-            elif any(word in user_input_lower for word in ["工作", "business", "辦公", "商務"]):
-                extracted_slots["usage_purpose"] = "business"
-            elif any(word in user_input_lower for word in ["學習", "student", "上課", "作業"]):
-                extracted_slots["usage_purpose"] = "student"
-            elif any(word in user_input_lower for word in ["創意", "creative", "設計", "剪輯"]):
-                extracted_slots["usage_purpose"] = "creative"
-            elif any(word in user_input_lower for word in ["一般", "general", "日常", "上網"]):
-                extracted_slots["usage_purpose"] = "general"
-        
-        # 提取預算範圍
+            value = match_by_synonyms("usage_purpose")
+            if value:
+                extracted_slots["usage_purpose"] = value
+
         if "budget_range" not in state["filled_slots"]:
-            if any(word in user_input_lower for word in ["便宜", "budget", "經濟", "平價"]):
-                extracted_slots["budget_range"] = "budget"
-            elif any(word in user_input_lower for word in ["中等", "mid_range", "中端"]):
-                extracted_slots["budget_range"] = "mid_range"
-            elif any(word in user_input_lower for word in ["高級", "premium", "高端"]):
-                extracted_slots["budget_range"] = "premium"
-            elif any(word in user_input_lower for word in ["豪華", "luxury", "頂級"]):
-                extracted_slots["budget_range"] = "luxury"
-        
-        # 提取品牌偏好
+            value = match_by_synonyms("budget_range")
+            if value:
+                extracted_slots["budget_range"] = value
+
         if "brand_preference" not in state["filled_slots"]:
-            if "asus" in user_input_lower or "華碩" in user_input_lower:
-                extracted_slots["brand_preference"] = "asus"
-            elif "acer" in user_input_lower or "宏碁" in user_input_lower:
-                extracted_slots["brand_preference"] = "acer"
-            elif "lenovo" in user_input_lower or "聯想" in user_input_lower:
-                extracted_slots["brand_preference"] = "lenovo"
-            elif "hp" in user_input_lower or "惠普" in user_input_lower:
-                extracted_slots["brand_preference"] = "hp"
-            elif "dell" in user_input_lower or "戴爾" in user_input_lower:
-                extracted_slots["brand_preference"] = "dell"
-            elif "apple" in user_input_lower or "蘋果" in user_input_lower or "mac" in user_input_lower:
-                extracted_slots["brand_preference"] = "apple"
-        
+            value = match_by_synonyms("brand_preference")
+            if value:
+                extracted_slots["brand_preference"] = value
+
         return extracted_slots
+
+    def _load_slot_synonyms(self) -> Dict[str, Dict[str, List[str]]]:
+        """從配置載入槽位同義詞，提供合理的預設以避免硬依賴檔案"""
+        data = self.config_loader.get_slot_synonyms() or {}
+        # 預設基本詞庫，避免冷啟動失敗
+        default_mapping: Dict[str, Dict[str, List[str]]] = {
+            "usage_purpose": {
+                "gaming": ["遊戲", "打遊戲", "電競", "gaming"],
+                "business": ["工作", "商務", "辦公", "business", "職場", "上班"],
+                "student": ["學生", "學習", "上課", "作業", "student"],
+                "creative": ["創作", "設計", "剪輯", "creative"],
+                "general": ["一般", "日常", "上網", "general"]
+            },
+            "budget_range": {
+                "budget": ["便宜", "平價", "入門", "budget"],
+                "mid_range": ["中等", "中端", "mid"],
+                "premium": ["高端", "高級", "premium"],
+                "luxury": ["旗艦", "頂級", "豪華", "luxury"]
+            },
+            "brand_preference": {
+                "asus": ["asus", "華碩"],
+                "acer": ["acer", "宏碁"],
+                "lenovo": ["lenovo", "聯想"],
+                "hp": ["hp", "惠普"],
+                "dell": ["dell", "戴爾"],
+                "apple": ["apple", "蘋果", "mac", "macbook"]
+            }
+        }
+
+        # 混合外部配置與預設
+        for slot, mapping in default_mapping.items():
+            if slot not in data:
+                data[slot] = mapping
+                continue
+            # 合併：若外部已定義，補齊預設缺失鍵，並去重
+            for val, synonyms in mapping.items():
+                merged = list({*(data[slot].get(val, [])), *synonyms})
+                data[slot][val] = merged
+        return data
     
     def generate_recommendations(self, state: NotebookDialogueState) -> List[Dict[str, Any]]:
         """
