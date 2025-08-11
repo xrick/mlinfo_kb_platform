@@ -1,9 +1,8 @@
 MGFD Design  
 version 0.2 2025/08/11  
-Chat-Turn概念：  
-        Simple Chat Turn: A chat between user and LLM with no any objective.  
-        LLM-Self Response Chat Turn  
-	Prompt-Generation Chat Turn  
+Chat-Turn概念：A turn of chat of user and LLM  
+	\[user query\] → prompt-lvl1 → LLM → response-1 →(to user)   
+        \[user query\] → prompt-lvl2 → LLM  
 ---
 
 #### **核心模組的啟動與運作順序**

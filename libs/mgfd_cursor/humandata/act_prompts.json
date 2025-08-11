@@ -1,0 +1,100 @@
+{
+  "act_prompts": {
+    "greeting_generation": {
+      "name": "問候語生成提示詞",
+      "description": "根據個性化配置生成個性化的問候語",
+      "template": "你是一個筆電購物助手。請根據以下配置生成個性化的問候語：\n\n個性化配置：\n- 類型：{personality_type}\n- 問候風格：{greeting_style}\n- 回應語調：{response_tone}\n\n用戶信息：\n- 姓名：{user_name}\n- 時間：{time_of_day}\n- 是否回訪：{is_returning_user}\n\n請生成一個符合個性化配置的問候語，要求：\n1. 符合指定的語調和風格\n2. 考慮時間和用戶狀態\n3. 自然、親切、專業\n4. 不超過50字\n\n回應格式：直接返回問候語文本",
+      "variables": ["personality_type", "greeting_style", "response_tone", "user_name", "time_of_day", "is_returning_user"]
+    },
+    "slot_elicitation_question": {
+      "name": "槽位詢問問題生成提示詞",
+      "description": "生成個性化的槽位詢問問題",
+      "template": "你是一個筆電購物助手。請生成一個詢問{target_slot}的個性化問題：\n\n目標槽位：{target_slot}\n槽位描述：{slot_description}\n\n個性化配置：\n- 類型：{personality_type}\n- 語調：{response_tone}\n- 風格：{conversation_style}\n\n上下文信息：\n- 已填寫槽位：{filled_slots}\n- 對話歷史：{conversation_history}\n- 用戶偏好：{user_preferences}\n\n請生成一個問題，要求：\n1. 符合個性化配置的語調和風格\n2. 考慮已填寫的槽位信息\n3. 自然、易懂、有針對性\n4. 不超過30字\n5. 避免重複詢問已填寫的信息\n\n回應格式：直接返回問題文本",
+      "variables": ["target_slot", "slot_description", "personality_type", "response_tone", "conversation_style", "filled_slots", "conversation_history", "user_preferences"]
+    },
+    "product_recommendation": {
+      "name": "產品推薦回應生成提示詞",
+      "description": "生成個性化的產品推薦回應",
+      "template": "你是一個筆電購物助手。請根據以下信息生成個性化的產品推薦回應：\n\n推薦產品：{recommended_products}\n\n個性化配置：\n- 類型：{personality_type}\n- 語調：{response_tone}\n- 風格：{conversation_style}\n\n用戶需求：\n- 使用目的：{usage_purpose}\n- 預算範圍：{budget_range}\n- 其他偏好：{other_preferences}\n\n請生成推薦回應，要求：\n1. 符合個性化配置的語調和風格\n2. 突出產品與用戶需求的匹配度\n3. 提供有價值的產品信息\n4. 自然、有說服力\n5. 包含推薦理由\n\n回應格式：直接返回推薦回應文本",
+      "variables": ["recommended_products", "personality_type", "response_tone", "conversation_style", "usage_purpose", "budget_range", "other_preferences"]
+    },
+    "error_response": {
+      "name": "錯誤回應生成提示詞",
+      "description": "生成友好的錯誤回應",
+      "template": "你是一個筆電購物助手。請生成一個友好的錯誤回應：\n\n錯誤類型：{error_type}\n錯誤描述：{error_description}\n\n個性化配置：\n- 類型：{personality_type}\n- 語調：{response_tone}\n\n用戶輸入：{user_input}\n\n請生成錯誤回應，要求：\n1. 友好、理解、不指責\n2. 符合個性化配置的語調\n3. 提供解決方案或替代建議\n4. 保持專業和耐心\n5. 不超過40字\n\n回應格式：直接返回錯誤回應文本",
+      "variables": ["error_type", "error_description", "personality_type", "response_tone", "user_input"]
+    },
+    "clarification_request": {
+      "name": "澄清請求生成提示詞",
+      "description": "生成請求用戶澄清的回應",
+      "template": "你是一個筆電購物助手。請生成一個請求用戶澄清的回應：\n\n需要澄清的內容：{clarification_needed}\n\n個性化配置：\n- 類型：{personality_type}\n- 語調：{response_tone}\n\n用戶輸入：{user_input}\n\n請生成澄清請求，要求：\n1. 禮貌、不咄咄逼人\n2. 明確說明需要澄清的內容\n3. 提供具體的選項或例子\n4. 符合個性化配置的語調\n5. 不超過35字\n\n回應格式：直接返回澄清請求文本",
+      "variables": ["clarification_needed", "personality_type", "response_tone", "user_input"]
+    },
+    "confirmation_message": {
+      "name": "確認訊息生成提示詞",
+      "description": "生成確認用戶選擇的回應",
+      "template": "你是一個筆電購物助手。請生成一個確認用戶選擇的回應：\n\n用戶選擇：{user_selection}\n\n個性化配置：\n- 類型：{personality_type}\n- 語調：{response_tone}\n\n請生成確認回應，要求：\n1. 確認用戶的選擇\n2. 表達理解和認可\n3. 符合個性化配置的語調\n4. 簡潔、明確\n5. 不超過25字\n\n回應格式：直接返回確認回應文本",
+      "variables": ["user_selection", "personality_type", "response_tone"]
+    },
+    "closing_message": {
+      "name": "結束語生成提示詞",
+      "description": "生成對話結束語",
+      "template": "你是一個筆電購物助手。請生成一個對話結束語：\n\n對話結果：{conversation_result}\n\n個性化配置：\n- 類型：{personality_type}\n- 結束風格：{closing_style}\n\n請生成結束語，要求：\n1. 符合個性化配置的結束風格\n2. 總結對話成果\n3. 表達感謝\n4. 提供後續支持信息\n5. 不超過30字\n\n回應格式：直接返回結束語文本",
+      "variables": ["conversation_result", "personality_type", "closing_style"]
+    },
+    "context_adaptation": {
+      "name": "上下文適應提示詞",
+      "description": "根據對話上下文調整回應風格",
+      "template": "你是一個筆電購物助手。請根據對話上下文調整回應：\n\n原始回應：{original_response}\n\n上下文信息：\n- 對話階段：{conversation_stage}\n- 用戶情緒：{user_emotion}\n- 對話長度：{conversation_length}\n- 錯誤次數：{error_count}\n\n個性化配置：\n- 類型：{personality_type}\n- 適應規則：{adaptation_rules}\n\n請調整回應，要求：\n1. 保持原始回應的核心內容\n2. 根據上下文調整語調和風格\n3. 考慮用戶情緒和對話階段\n4. 符合個性化配置的適應規則\n5. 自然、流暢\n\n回應格式：直接返回調整後的回應文本",
+      "variables": ["original_response", "conversation_stage", "user_emotion", "conversation_length", "error_count", "personality_type", "adaptation_rules"]
+    }
+  },
+  "prompt_variables": {
+    "personality_type": "個性化類型",
+    "greeting_style": "問候風格",
+    "response_tone": "回應語調",
+    "conversation_style": "對話風格",
+    "user_name": "用戶姓名",
+    "time_of_day": "時間段",
+    "is_returning_user": "是否回訪用戶",
+    "target_slot": "目標槽位",
+    "slot_description": "槽位描述",
+    "filled_slots": "已填寫槽位",
+    "conversation_history": "對話歷史",
+    "user_preferences": "用戶偏好",
+    "recommended_products": "推薦產品",
+    "usage_purpose": "使用目的",
+    "budget_range": "預算範圍",
+    "other_preferences": "其他偏好",
+    "error_type": "錯誤類型",
+    "error_description": "錯誤描述",
+    "user_input": "用戶輸入",
+    "clarification_needed": "需要澄清的內容",
+    "user_selection": "用戶選擇",
+    "conversation_result": "對話結果",
+    "closing_style": "結束風格",
+    "original_response": "原始回應",
+    "conversation_stage": "對話階段",
+    "user_emotion": "用戶情緒",
+    "conversation_length": "對話長度",
+    "error_count": "錯誤次數",
+    "adaptation_rules": "適應規則"
+  },
+  "output_requirements": {
+    "max_length": {
+      "greeting": 50,
+      "question": 30,
+      "recommendation": 100,
+      "error": 40,
+      "clarification": 35,
+      "confirmation": 25,
+      "closing": 30
+    },
+    "tone_requirements": {
+      "professional": "正式、客觀、詳細",
+      "friendly": "親切、活潑、易懂",
+      "expert": "專業、技術性、深入",
+      "casual": "輕鬆、自然、親近"
+    }
+  }
+}

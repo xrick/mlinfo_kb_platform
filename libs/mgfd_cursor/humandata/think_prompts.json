@@ -1,0 +1,63 @@
+{
+  "think_prompts": {
+    "slot_analysis": {
+      "name": "槽位分析提示詞",
+      "description": "分析用戶輸入，識別和提取相關槽位信息",
+      "template": "你是一個專業的筆電購物助手。請分析以下用戶輸入，識別相關的槽位信息：\n\n用戶輸入：{user_input}\n\n當前已填寫槽位：{filled_slots}\n\n請從以下槽位中識別用戶提到的信息：\n- usage_purpose: 使用目的 (gaming/business/student/creative/general)\n- budget_range: 預算範圍 (budget/mid_range/premium/luxury)\n- brand_preference: 品牌偏好 (asus/acer/lenovo/hp/dell/apple)\n- performance_priority: 性能優先級 (cpu/gpu/ram/storage/battery)\n- portability_need: 便攜性需求 (ultra_portable/balanced/desktop_replacement)\n\n請以JSON格式回應，包含識別到的槽位和置信度：\n{\n  \"extracted_slots\": {\n    \"slot_name\": {\n      \"value\": \"extracted_value\",\n      \"confidence\": 0.0-1.0\n    }\n  },\n  \"reasoning\": \"分析理由\"\n}",
+      "variables": ["user_input", "filled_slots", "conversation_history"]
+    },
+    "action_decision": {
+      "name": "行動決策提示詞", 
+      "description": "基於當前狀態決定下一步行動",
+      "template": "你是一個智能對話管理器。請基於當前對話狀態決定下一步行動：\n\n對話歷史：{conversation_history}\n已填寫槽位：{filled_slots}\n用戶最新輸入：{user_input}\n\n可選行動：\n1. ELICIT_INFORMATION - 收集缺失的必要信息\n2. RECOMMEND_PRODUCTS - 推薦產品\n3. CLARIFY_INPUT - 澄清模糊輸入\n4. HANDLE_INTERRUPTION - 處理中斷或離題\n5. CONFIRM_SELECTION - 確認用戶選擇\n\n請考慮：\n- 是否所有必要槽位都已填寫\n- 用戶輸入是否清晰明確\n- 是否需要澄清或確認\n- 是否應該進行產品推薦\n\n請以JSON格式回應：\n{\n  \"action\": \"action_type\",\n  \"target_slot\": \"slot_name_if_eliciting\",\n  \"reasoning\": \"決策理由\",\n  \"confidence\": 0.0-1.0\n}",
+      "variables": ["conversation_history", "filled_slots", "user_input", "missing_slots"]
+    },
+    "context_understanding": {
+      "name": "上下文理解提示詞",
+      "description": "理解對話上下文和用戶意圖",
+      "template": "請分析以下對話的上下文和用戶意圖：\n\n對話歷史：{conversation_history}\n用戶最新輸入：{user_input}\n\n請分析：\n1. 用戶的整體意圖是什麼？\n2. 用戶的專業程度如何？\n3. 用戶的偏好和風格是什麼？\n4. 對話處於哪個階段？\n5. 是否需要調整回應風格？\n\n請以JSON格式回應：\n{\n  \"user_intent\": \"intent_description\",\n  \"expertise_level\": \"beginner/intermediate/expert\",\n  \"conversation_style\": \"formal/casual/technical/simple\",\n  \"conversation_stage\": \"awareness/interest/evaluation/engagement/action\",\n  \"suggested_personality\": \"professional/friendly/expert/casual\",\n  \"context_insights\": \"additional_insights\"\n}",
+      "variables": ["conversation_history", "user_input", "user_profile"]
+    },
+    "error_diagnosis": {
+      "name": "錯誤診斷提示詞",
+      "description": "診斷和分類錯誤類型",
+      "template": "請診斷以下對話中可能存在的問題：\n\n用戶輸入：{user_input}\n系統回應：{system_response}\n錯誤信息：{error_message}\n\n可能的錯誤類型：\n1. SLOT_EXTRACTION_FAILURE - 槽位提取失敗\n2. AMBIGUOUS_INPUT - 用戶輸入模糊\n3. LLM_FAILURE - LLM調用失敗\n4. CONTEXT_OVERFLOW - 上下文過長\n5. VALIDATION_ERROR - 輸入驗證失敗\n6. NO_PRODUCTS_FOUND - 找不到合適產品\n\n請分析錯誤原因並建議解決策略：\n{\n  \"error_type\": \"error_category\",\n  \"error_cause\": \"具體原因\",\n  \"severity\": \"low/medium/high\",\n  \"suggested_strategy\": \"解決策略\",\n  \"user_message\": \"給用戶的友好提示\"\n}",
+      "variables": ["user_input", "system_response", "error_message", "conversation_context"]
+    },
+    "personality_selection": {
+      "name": "個性化選擇提示詞",
+      "description": "根據用戶特徵選擇合適的個性化配置",
+      "template": "請根據用戶特徵選擇最合適的對話個性化配置：\n\n用戶特徵：\n- 專業程度：{expertise_level}\n- 對話風格：{conversation_style}\n- 使用場景：{usage_context}\n- 時間限制：{time_constraint}\n- 偏好語言：{language_preference}\n\n可選個性化配置：\n1. professional - 專業型：正式、詳細、客觀\n2. friendly - 友善型：親切、易懂、活潑\n3. expert - 專家型：技術性、深入、專業\n4. casual - 輕鬆型：隨意、自然、親近\n\n請選擇最適合的配置並說明理由：\n{\n  \"selected_personality\": \"personality_type\",\n  \"reasoning\": \"選擇理由\",\n  \"confidence\": 0.0-1.0,\n  \"alternative_options\": [\"備選配置\"],\n  \"adaptation_suggestions\": \"調整建議\"\n}",
+      "variables": ["expertise_level", "conversation_style", "usage_context", "time_constraint", "language_preference"]
+    }
+  },
+  "prompt_variables": {
+    "user_input": "用戶輸入文本",
+    "filled_slots": "已填寫的槽位信息",
+    "conversation_history": "對話歷史記錄",
+    "missing_slots": "缺失的必要槽位",
+    "user_profile": "用戶檔案信息",
+    "system_response": "系統回應內容",
+    "error_message": "錯誤信息",
+    "conversation_context": "對話上下文",
+    "expertise_level": "用戶專業程度",
+    "conversation_style": "對話風格",
+    "usage_context": "使用場景",
+    "time_constraint": "時間限制",
+    "language_preference": "語言偏好"
+  },
+  "output_formats": {
+    "slot_analysis": {
+      "required_fields": ["extracted_slots", "reasoning"],
+      "optional_fields": ["confidence", "alternatives"]
+    },
+    "action_decision": {
+      "required_fields": ["action", "reasoning"],
+      "optional_fields": ["target_slot", "confidence", "alternatives"]
+    },
+    "context_understanding": {
+      "required_fields": ["user_intent", "conversation_stage"],
+      "optional_fields": ["expertise_level", "conversation_style", "suggested_personality"]
+    }
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "error_handling": {
+    "slot_extraction": {
+      "max_retries": 3,
+      "retry_strategies": [
+        "rephrase_question",
+        "provide_options", 
+        "ask_clarification",
+        "use_context_hints"
+      ],
+      "fallback_actions": [
+        "switch_to_human_agent",
+        "use_default_values",
+        "skip_optional_slots",
+        "ask_user_to_rephrase"
+      ],
+      "confidence_thresholds": {
+        "high": 0.8,
+        "medium": 0.6,
+        "low": 0.4
+      }
+    },
+    "llm_failures": {
+      "retry_count": 2,
+      "retry_delay": 1,
+      "fallback_responses": [
+        "抱歉，系統暫時無法處理您的請求，請稍後再試。",
+        "讓我為您轉接專業客服人員。",
+        "系統正在維護中，請聯繫客服獲得協助。",
+        "目前系統繁忙，請稍候再試。"
+      ],
+      "error_types": {
+        "timeout": "請求超時，請稍後再試。",
+        "rate_limit": "系統繁忙，請稍候再試。",
+        "invalid_response": "回應格式錯誤，正在重新處理。",
+        "connection_error": "網路連線問題，請檢查網路後再試。"
+      }
+    },
+    "context_limits": {
+      "max_conversation_turns": 20,
+      "max_context_length": 4000,
+      "reset_triggers": [
+        "user_request_reset",
+        "conversation_timeout",
+        "error_threshold_exceeded",
+        "context_too_long"
+      ],
+      "context_cleanup_strategies": [
+        "remove_old_messages",
+        "summarize_history",
+        "keep_only_essential_info"
+      ]
+    },
+    "user_input_validation": {
+      "max_input_length": 500,
+      "min_input_length": 1,
+      "forbidden_characters": ["<script>", "javascript:", "onerror="],
+      "validation_rules": {
+        "check_length": true,
+        "check_content": true,
+        "sanitize_input": true
+      }
+    },
+    "slot_validation": {
+      "usage_purpose": {
+        "valid_values": ["gaming", "business", "student", "creative", "general"],
+        "fallback_value": "general",
+        "validation_message": "請選擇：遊戲、工作、學習、創意設計或一般用途"
+      },
+      "budget_range": {
+        "valid_values": ["budget", "mid_range", "premium", "luxury"],
+        "fallback_value": "mid_range",
+        "validation_message": "請選擇：經濟型、中階、高階或豪華型"
+      },
+      "brand_preference": {
+        "valid_values": ["asus", "acer", "lenovo", "hp", "dell", "apple"],
+        "optional": true,
+        "validation_message": "請選擇品牌：ASUS、Acer、Lenovo、HP、Dell、Apple"
+      }
+    },
+    "recovery_strategies": {
+      "slot_extraction_failure": {
+        "strategy_1": "重新表述問題",
+        "strategy_2": "提供選項讓用戶選擇",
+        "strategy_3": "使用上下文推測",
+        "strategy_4": "跳過該槽位繼續對話"
+      },
+      "llm_response_failure": {
+        "strategy_1": "使用預設回應模板",
+        "strategy_2": "重試LLM調用",
+        "strategy_3": "轉接人工客服",
+        "strategy_4": "提供錯誤說明並建議重試"
+      },
+      "context_overflow": {
+        "strategy_1": "清理舊對話記錄",
+        "strategy_2": "總結對話歷史",
+        "strategy_3": "重新開始對話",
+        "strategy_4": "提示用戶重新描述需求"
+      }
+    },
+    "logging_and_monitoring": {
+      "log_error_types": [
+        "slot_extraction_failure",
+        "llm_failure", 
+        "context_overflow",
+        "validation_error"
+      ],
+      "alert_thresholds": {
+        "consecutive_failures": 5,
+        "error_rate": 0.1,
+        "response_time": 10
+      },
+      "metrics_to_track": [
+        "error_count",
+        "retry_count", 
+        "fallback_usage",
+        "user_satisfaction"
+      ]
+    }
+  }
+}
