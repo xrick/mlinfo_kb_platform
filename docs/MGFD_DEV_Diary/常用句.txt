@@ -1,0 +1,5 @@
+專案日誌
+請將此次問題的描述、除錯歷程、BUG如何發現、相關聯發現、更有效率的解決方法或架構，記錄至docs/MGFD_DEV_Diary/mgfd_dev_diary.md
+
+每日工作記錄
+請將目前工作進度記錄至docs/MGFD_DEV_Progress/dailyprogress/work....txt

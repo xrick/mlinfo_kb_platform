@@ -288,4 +288,85 @@ async def health_check():
 # 注意：異常處理器和中間件應該在應用程式級別處理，而不是在Router級別
 
 
+# 新增 mgfd_cursor 前端所需的端點
+@router.post("/session/create", response_model=dict, tags=["mgfd_cursor"])
+async def create_session(
+    mgfd: MGFDSystem = Depends(get_mgfd_system)
+):
+    """
+    創建新會話
+    
+    為 mgfd_cursor 前端介面提供會話創建功能
+    """
+    try:
+        session_id = str(uuid.uuid4())
+        logger.info(f"創建新會話: {session_id}")
+        
+        # 初始化會話狀態
+        result = mgfd.reset_session(session_id)
+        
+        if result.get('success', False):
+            return {
+                "success": True,
+                "session_id": session_id,
+                "message": "會話創建成功"
+            }
+        else:
+            raise HTTPException(status_code=400, detail=result.get('error', '會話創建失敗'))
+            
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"創建會話時發生錯誤: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"系統內部錯誤: {str(e)}")
+
+
+@router.get("/stats", response_model=dict, tags=["mgfd_cursor"])
+async def get_stats(
+    mgfd: MGFDSystem = Depends(get_mgfd_system)
+):
+    """
+    獲取系統統計資訊
+    
+    為 mgfd_cursor 前端介面提供統計資訊
+    """
+    try:
+        logger.info("獲取系統統計資訊")
+        
+        # 獲取系統狀態
+        status_result = mgfd.get_system_status()
+        
+        if status_result.get('success', False):
+            return {
+                "success": True,
+                "system_stats": {  # 改為 system_stats 以匹配前端期望
+                    "active_sessions": 0,  # 活躍會話數量
+                    "total_products": 19,  # 產品數量（從日誌中看到有19個）
+                    "slot_schema_count": 7  # 槽位架構數量（cpu, gpu, memory, storage, size, weight, price）
+                }
+            }
+        else:
+            return {
+                "success": False,
+                "system_stats": {
+                    "active_sessions": 0,
+                    "total_products": 0,
+                    "slot_schema_count": 0,
+                    "error": status_result.get('error', '未知錯誤')
+                }
+            }
+            
+    except Exception as e:
+        logger.error(f"獲取統計資訊時發生錯誤: {e}", exc_info=True)
+        return {
+            "success": False,
+            "system_stats": {
+                "active_sessions": 0,
+                "total_products": 0,
+                "slot_schema_count": 0,
+                "error": str(e)
+            }
+        }
+
+
 

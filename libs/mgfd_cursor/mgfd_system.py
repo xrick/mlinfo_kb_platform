@@ -92,7 +92,15 @@ class MGFDSystem:
                 return self._handle_error("動作執行失敗", action_result.get("error"))
             
             # 步驟4: 生成回應
-            response = self.response_generator.generate_response(action_result["result"])
+            response_json = self.response_generator.generate_response(action_result["result"])
+            # 解析JSON回應為對象，以便前端處理
+            try:
+                response_obj = json.loads(response_json)
+                # 提取content作為主要回應文字
+                response = response_obj.get("content", response_json)
+            except json.JSONDecodeError:
+                # 如果解析失敗，使用原始回應
+                response = response_json
             
             # 步驟5: 更新狀態
             self._update_final_state(session_id, input_result["state"], action_result["result"])
@@ -107,6 +115,16 @@ class MGFDSystem:
                 "filled_slots": input_result["state"].get("filled_slots", {}),
                 "dialogue_stage": self.dialogue_manager.get_dialogue_stage(input_result["state"])
             }
+            
+            # 添加前端需要的額外信息
+            try:
+                response_obj = json.loads(response_json)
+                if "suggestions" in response_obj:
+                    result["suggestions"] = response_obj["suggestions"]
+                if "recommendations" in response_obj:
+                    result["recommendations"] = response_obj["recommendations"]
+            except (json.JSONDecodeError, KeyError):
+                pass
             
             # 添加串流支援
             if stream:

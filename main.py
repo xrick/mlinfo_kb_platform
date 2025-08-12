@@ -78,6 +78,8 @@ try:
     from api import mgfd_routes
     # 將 MGFD 路由註冊到主應用程式中
     app.include_router(mgfd_routes.router, prefix="/api/mgfd", tags=["mgfd"])
+    # 同時掛載 mgfd_cursor 路由以支援前端介面
+    app.include_router(mgfd_routes.router, prefix="/api/mgfd_cursor", tags=["mgfd_cursor"])
 except ImportError as e:
     # 如果 MGFD 路由模組無法導入，記錄警告訊息
     logging.warning(f"MGFD routes not available: {e}")

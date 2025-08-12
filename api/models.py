@@ -40,6 +40,8 @@ class ChatResponse(BaseModel):
     action_type: str = Field(..., description="動作類型")
     filled_slots: Dict[str, Any] = Field(default_factory=dict, description="已填寫的槽位")
     dialogue_stage: str = Field(..., description="對話階段")
+    suggestions: Optional[List[str]] = Field(None, description="建議選項")
+    recommendations: Optional[List[Dict[str, Any]]] = Field(None, description="推薦產品")
     
     class Config:
         schema_extra = {
