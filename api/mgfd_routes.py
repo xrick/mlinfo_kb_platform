@@ -1,329 +1,291 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-MGFD API 路由
+MGFD API路由 - FastAPI版本
+適配新的MGFD系統架構，使用FastAPI Router
 """
 
-import json
 import logging
+import json
+import redis
+import uuid
 from typing import Dict, Any, Optional
-from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import StreamingResponse
-from pydantic import BaseModel
+from datetime import datetime
+from fastapi import APIRouter, HTTPException, Request, Depends
+from fastapi.responses import StreamingResponse, JSONResponse
+from fastapi.exceptions import RequestValidationError
 
-# 添加項目根目錄到路徑
-import sys
-from pathlib import Path
-current_dir = Path(__file__).parent.parent
-sys.path.insert(0, str(current_dir))
+from libs.mgfd_cursor.mgfd_system import MGFDSystem
+from .models import (
+    ChatRequest, ChatResponse, SessionState, ChatHistoryResponse,
+    SystemStatus, HealthResponse, ErrorResponse, StreamResponse,
+    ResetSessionRequest, ResetSessionResponse, APIVersion
+)
 
-from libs.mgfd_cursor import MGFDDialogueManager, create_notebook_sales_graph
-
-# 設置日誌
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-# 創建路由器
+# 創建Router
 router = APIRouter()
 
-# 初始化MGFD組件
-mgfd_state_machine = create_notebook_sales_graph()
-mgfd_dialogue_manager = mgfd_state_machine.dialogue_manager
+# 配置日誌
+logger = logging.getLogger(__name__)
 
-# Pydantic模型
-class ChatRequest(BaseModel):
-    message: str
-    session_id: Optional[str] = None
+# 初始化Redis連接
+try:
+    redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
+    redis_client.ping()  # 測試連接
+    logger.info("Redis連接成功")
+except Exception as e:
+    logger.error(f"Redis連接失敗: {e}")
+    redis_client = None
 
-class ChatResponse(BaseModel):
-    session_id: str
-    response: str
-    action_type: str
-    filled_slots: Dict[str, Any]
-    current_stage: str
-    recommendations: Optional[list] = None
+# 初始化MGFD系統
+try:
+    mgfd_system = MGFDSystem(redis_client) if redis_client else None
+    logger.info("MGFD系統初始化成功")
+except Exception as e:
+    logger.error(f"MGFD系統初始化失敗: {e}")
+    mgfd_system = None
 
-class SessionRequest(BaseModel):
-    user_id: Optional[str] = None
 
-class SessionResponse(BaseModel):
-    session_id: str
-    message: str
+def get_mgfd_system() -> MGFDSystem:
+    """依賴注入：獲取MGFD系統實例"""
+    if not mgfd_system:
+        raise HTTPException(status_code=503, detail="MGFD系統未初始化")
+    return mgfd_system
 
-@router.post("/chat", response_model=ChatResponse)
-async def chat_with_mgfd(request: ChatRequest):
+
+@router.post("/chat", response_model=ChatResponse, tags=["chat"])
+async def chat(
+    request: ChatRequest,
+    mgfd: MGFDSystem = Depends(get_mgfd_system)
+):
     """
-    與MGFD系統對話
+    處理聊天請求
     
-    Args:
-        request: 聊天請求
-        
-    Returns:
-        聊天回應
+    - **message**: 用戶消息
+    - **session_id**: 會話ID（可選）
+    - **stream**: 是否使用串流回應
     """
     try:
-        # 檢查會話ID
-        session_id = request.session_id
-        if not session_id:
-            # 創建新會話
-            session_id = mgfd_dialogue_manager.create_session()
-            logger.info(f"創建新會話: {session_id}")
+        # 生成會話ID（如果沒有提供）
+        session_id = request.session_id or str(uuid.uuid4())
         
-        # 處理用戶輸入
-        result = mgfd_state_machine.process_user_input(session_id, request.message)
+        logger.info(f"處理聊天請求 - 會話ID: {session_id}, 消息: {request.message[:50]}...")
         
-        if "error" in result:
-            raise HTTPException(status_code=400, detail=result["error"])
+        # 處理消息
+        result = mgfd.process_message(session_id, request.message, request.stream)
         
-        # 構建回應
-        response = ChatResponse(
-            session_id=result["session_id"],
-            response=result["response"],
-            action_type=result["action_type"],
-            filled_slots=result["filled_slots"],
-            current_stage=result["current_stage"],
-            recommendations=result.get("recommendations")
-        )
+        # 添加會話ID到回應
+        result['session_id'] = session_id
         
-        logger.info(f"會話 {session_id} 處理完成，行動類型: {result['action_type']}")
-        return response
-        
+        if result.get('success', False):
+            return ChatResponse(**result)
+        else:
+            raise HTTPException(status_code=400, detail=result.get('error', '處理失敗'))
+            
+    except HTTPException:
+        raise
     except Exception as e:
-        logger.error(f"處理聊天請求失敗: {e}")
-        raise HTTPException(status_code=500, detail=f"內部服務錯誤: {str(e)}")
+        logger.error(f"處理聊天請求時發生錯誤: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"系統內部錯誤: {str(e)}")
 
-@router.post("/chat/stream")
-async def chat_with_mgfd_stream(request: ChatRequest):
-    """
-    與MGFD系統對話（串流版本）
-    
-    Args:
-        request: 聊天請求
-        
-    Returns:
-        串流聊天回應
-    """
-    async def generate_response():
-        try:
-            # 檢查會話ID
-            session_id = request.session_id
-            if not session_id:
-                # 創建新會話
-                session_id = mgfd_dialogue_manager.create_session()
-                logger.info(f"創建新會話: {session_id}")
-            
-            # 處理用戶輸入
-            result = mgfd_state_machine.process_user_input(session_id, request.message)
-            
-            if "error" in result:
-                error_response = {
-                    "error": result["error"],
-                    "session_id": session_id
-                }
-                yield f"data: {json.dumps(error_response, ensure_ascii=False)}\n\n"
-                return
-            
-            # 串流返回結果
-            response_data = {
-                "session_id": result["session_id"],
-                "response": result["response"],
-                "action_type": result["action_type"],
-                "filled_slots": result["filled_slots"],
-                "current_stage": result["current_stage"],
-                "recommendations": result.get("recommendations")
-            }
-            
-            yield f"data: {json.dumps(response_data, ensure_ascii=False)}\n\n"
-            
-        except Exception as e:
-            logger.error(f"處理串流聊天請求失敗: {e}")
-            error_response = {
-                "error": f"內部服務錯誤: {str(e)}",
-                "session_id": request.session_id or "unknown"
-            }
-            yield f"data: {json.dumps(error_response, ensure_ascii=False)}\n\n"
-    
-    return StreamingResponse(
-        generate_response(),
-        media_type="text/plain",
-        headers={"Cache-Control": "no-cache", "Connection": "keep-alive"}
-    )
 
-@router.post("/session/create", response_model=SessionResponse)
-async def create_session(request: SessionRequest):
+@router.post("/chat/stream", tags=["chat"])
+async def chat_stream(
+    request: ChatRequest,
+    mgfd: MGFDSystem = Depends(get_mgfd_system)
+):
     """
-    創建新的MGFD會話
+    處理串流聊天請求
     
-    Args:
-        request: 會話創建請求
-        
-    Returns:
-        會話創建回應
+    返回Server-Sent Events (SSE)格式的串流回應
     """
     try:
-        session_id = mgfd_dialogue_manager.create_session(request.user_id)
+        # 生成會話ID（如果沒有提供）
+        session_id = request.session_id or str(uuid.uuid4())
         
-        welcome_message = (
-            "您好！我是您的筆記型電腦購物助手。"
-            "讓我幫您找到最適合的筆電。"
-            "請告訴我您主要會用這台筆電做什麼？"
+        logger.info(f"處理串流聊天請求 - 會話ID: {session_id}, 消息: {request.message[:50]}...")
+        
+        # 處理消息（啟用串流）
+        result = mgfd.process_message(session_id, request.message, stream=True)
+        
+        if not result.get('success', False):
+            raise HTTPException(status_code=400, detail=result.get('error', '處理失敗'))
+        
+        # 返回串流回應
+        async def generate_stream():
+            # 發送開始標記
+            yield f"data: {json.dumps({'type': 'start', 'session_id': session_id})}\n\n"
+            
+            # 發送串流回應
+            if 'stream_response' in result:
+                yield f"data: {result['stream_response']}\n\n"
+            
+            # 發送結束標記
+            yield f"data: {json.dumps({'type': 'end', 'session_id': session_id})}\n\n"
+        
+        return StreamingResponse(
+            generate_stream(),
+            media_type='text/event-stream',
+            headers={
+                'Cache-Control': 'no-cache',
+                'Connection': 'keep-alive',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Cache-Control'
+            }
         )
-        
-        response = SessionResponse(
-            session_id=session_id,
-            message=welcome_message
-        )
-        
-        logger.info(f"創建新會話: {session_id}")
-        return response
-        
-    except Exception as e:
-        logger.error(f"創建會話失敗: {e}")
-        raise HTTPException(status_code=500, detail=f"創建會話失敗: {str(e)}")
-
-@router.get("/session/{session_id}")
-async def get_session_info(session_id: str):
-    """
-    獲取會話信息
-    
-    Args:
-        session_id: 會話ID
-        
-    Returns:
-        會話信息
-    """
-    try:
-        session = mgfd_dialogue_manager.get_session(session_id)
-        if not session:
-            raise HTTPException(status_code=404, detail="會話不存在")
-        
-        return {
-            "session_id": session_id,
-            "current_stage": session["current_stage"],
-            "filled_slots": session["filled_slots"],
-            "chat_history_length": len(session["chat_history"]),
-            "created_at": session["created_at"].isoformat(),
-            "last_updated": session["last_updated"].isoformat()
-        }
         
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"獲取會話信息失敗: {e}")
-        raise HTTPException(status_code=500, detail=f"獲取會話信息失敗: {str(e)}")
+        logger.error(f"處理串流聊天請求時發生錯誤: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"系統內部錯誤: {str(e)}")
 
-@router.delete("/session/{session_id}")
-async def delete_session(session_id: str):
+
+@router.get("/session/{session_id}", response_model=SessionState, tags=["session"])
+async def get_session_state(
+    session_id: str,
+    mgfd: MGFDSystem = Depends(get_mgfd_system)
+):
     """
-    刪除會話
+    獲取會話狀態
     
-    Args:
-        session_id: 會話ID
-        
-    Returns:
-        刪除結果
+    - **session_id**: 會話ID
     """
     try:
-        session = mgfd_dialogue_manager.get_session(session_id)
-        if not session:
-            raise HTTPException(status_code=404, detail="會話不存在")
+        logger.info(f"獲取會話狀態 - 會話ID: {session_id}")
         
-        # 從活躍會話中移除
-        if session_id in mgfd_dialogue_manager.active_sessions:
-            del mgfd_dialogue_manager.active_sessions[session_id]
+        result = mgfd.get_session_state(session_id)
         
-        logger.info(f"刪除會話: {session_id}")
-        return {"message": "會話已刪除", "session_id": session_id}
-        
+        if result.get('success', False):
+            return SessionState(**result['state'])
+        else:
+            raise HTTPException(status_code=404, detail=result.get('error', '會話不存在'))
+            
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"刪除會話失敗: {e}")
-        raise HTTPException(status_code=500, detail=f"刪除會話失敗: {str(e)}")
+        logger.error(f"獲取會話狀態時發生錯誤: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"系統內部錯誤: {str(e)}")
 
-@router.get("/stats")
-async def get_mgfd_stats():
+
+@router.post("/session/{session_id}/reset", response_model=ResetSessionResponse, tags=["session"])
+async def reset_session(
+    session_id: str,
+    mgfd: MGFDSystem = Depends(get_mgfd_system)
+):
     """
-    獲取MGFD系統統計信息
+    重置會話
     
-    Returns:
-        系統統計信息
+    - **session_id**: 會話ID
     """
     try:
-        stats = mgfd_dialogue_manager.get_session_stats()
-        return {
-            "system_stats": stats,
-            "message": "MGFD系統運行正常"
-        }
+        logger.info(f"重置會話 - 會話ID: {session_id}")
         
+        result = mgfd.reset_session(session_id)
+        
+        if result.get('success', False):
+            return ResetSessionResponse(**result)
+        else:
+            raise HTTPException(status_code=400, detail=result.get('error', '重置失敗'))
+            
+    except HTTPException:
+        raise
     except Exception as e:
-        logger.error(f"獲取統計信息失敗: {e}")
-        raise HTTPException(status_code=500, detail=f"獲取統計信息失敗: {str(e)}")
+        logger.error(f"重置會話時發生錯誤: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"系統內部錯誤: {str(e)}")
 
-@router.post("/cleanup")
-async def cleanup_expired_sessions():
+
+@router.get("/session/{session_id}/history", response_model=ChatHistoryResponse, tags=["session"])
+async def get_chat_history(
+    session_id: str,
+    limit: int = 50,
+    mgfd: MGFDSystem = Depends(get_mgfd_system)
+):
     """
-    清理過期會話
+    獲取對話歷史
     
-    Returns:
-        清理結果
+    - **session_id**: 會話ID
+    - **limit**: 歷史記錄限制（默認50）
     """
     try:
-        before_count = len(mgfd_dialogue_manager.active_sessions)
-        mgfd_dialogue_manager.cleanup_expired_sessions()
-        after_count = len(mgfd_dialogue_manager.active_sessions)
+        logger.info(f"獲取對話歷史 - 會話ID: {session_id}, 限制: {limit}")
         
-        cleaned_count = before_count - after_count
+        result = mgfd.get_chat_history(session_id, limit)
         
-        return {
-            "message": f"清理完成，清理了 {cleaned_count} 個過期會話",
-            "before_count": before_count,
-            "after_count": after_count,
-            "cleaned_count": cleaned_count
-        }
-        
+        if result.get('success', False):
+            return ChatHistoryResponse(**result)
+        else:
+            raise HTTPException(status_code=404, detail=result.get('error', '會話不存在'))
+            
+    except HTTPException:
+        raise
     except Exception as e:
-        logger.error(f"清理過期會話失敗: {e}")
-        raise HTTPException(status_code=500, detail=f"清理過期會話失敗: {str(e)}")
+        logger.error(f"獲取對話歷史時發生錯誤: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"系統內部錯誤: {str(e)}")
 
-@router.get("/products")
-async def get_available_products():
+
+@router.get("/status", response_model=SystemStatus, tags=["system"])
+async def get_system_status(
+    mgfd: MGFDSystem = Depends(get_mgfd_system)
+):
     """
-    獲取可用產品列表
+    獲取系統狀態
     
-    Returns:
-        產品列表
+    返回MGFD系統的詳細狀態信息
     """
     try:
-        products = mgfd_dialogue_manager.notebook_kb.products
-        return {
-            "products": products,
-            "total_count": len(products)
-        }
+        logger.info("獲取系統狀態")
         
+        result = mgfd.get_system_status()
+        
+        if result.get('success', False):
+            return SystemStatus(**result)
+        else:
+            raise HTTPException(status_code=500, detail=result.get('error', '獲取狀態失敗'))
+            
+    except HTTPException:
+        raise
     except Exception as e:
-        logger.error(f"獲取產品列表失敗: {e}")
-        raise HTTPException(status_code=500, detail=f"獲取產品列表失敗: {str(e)}")
+        logger.error(f"獲取系統狀態時發生錯誤: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"系統內部錯誤: {str(e)}")
 
-@router.get("/products/search")
-async def search_products(query: str):
+
+@router.get("/health", response_model=HealthResponse, tags=["system"])
+async def health_check():
     """
-    搜索產品
+    健康檢查端點
     
-    Args:
-        query: 搜索查詢
-        
-    Returns:
-        搜索結果
+    檢查MGFD系統和相關服務的健康狀態
     """
     try:
-        results = mgfd_dialogue_manager.notebook_kb.semantic_search(query)
-        return {
-            "query": query,
-            "results": results,
-            "total_count": len(results)
+        # 檢查Redis連接
+        redis_status = "connected" if redis_client and redis_client.ping() else "disconnected"
+        
+        # 檢查MGFD系統
+        mgfd_status = "initialized" if mgfd_system else "not_initialized"
+        
+        health_status = {
+            "status": "healthy" if redis_status == "connected" and mgfd_status == "initialized" else "unhealthy",
+            "timestamp": datetime.now().isoformat(),
+            "services": {
+                "redis": redis_status,
+                "mgfd_system": mgfd_status
+            }
         }
         
+        return HealthResponse(**health_status)
+        
     except Exception as e:
-        logger.error(f"搜索產品失敗: {e}")
-        raise HTTPException(status_code=500, detail=f"搜索產品失敗: {str(e)}")
+        logger.error(f"健康檢查時發生錯誤: {e}", exc_info=True)
+        return HealthResponse(
+            status="unhealthy",
+            timestamp=datetime.now().isoformat(),
+            services={
+                "redis": "unknown",
+                "mgfd_system": "unknown"
+            }
+        )
+
+
+# 注意：異常處理器和中間件應該在應用程式級別處理，而不是在Router級別
+
+
+

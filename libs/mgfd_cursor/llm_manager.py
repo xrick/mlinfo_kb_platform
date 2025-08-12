@@ -568,3 +568,262 @@ class MGFDLLMManager:
             "llm_available": self.llm is not None,
             "cache_stats": self.get_cache_stats()
         }
+
+    def think_phase(self, instruction: str, context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Think階段：生成結構化指令
+        
+        Args:
+            instruction: 指令內容
+            context: 上下文信息
+            
+        Returns:
+            結構化指令
+        """
+        try:
+            # 構建Think階段提示詞
+            prompt = self._build_think_prompt(instruction, context)
+            
+            # 調用LLM
+            response = self.invoke(prompt)
+            
+            # 解析回應
+            result = self._parse_think_response(response)
+            
+            self.logger.info(f"Think階段結果: {result}")
+            return result
+            
+        except Exception as e:
+            self.logger.error(f"Think階段失敗: {e}")
+            return {
+                "action": "ELICIT_SLOT",
+                "target_slot": "usage_purpose",
+                "reasoning": "默認回退策略",
+                "confidence": 0.5
+            }
+    
+    def act_phase(self, instruction: str, context: Dict[str, Any]) -> str:
+        """
+        Act階段：生成自然語言回應
+        
+        Args:
+            instruction: 指令內容
+            context: 上下文信息
+            
+        Returns:
+            自然語言回應
+        """
+        try:
+            # 構建Act階段提示詞
+            prompt = self._build_act_prompt(instruction, context)
+            
+            # 調用LLM
+            response = self.invoke(prompt)
+            
+            # 解析回應
+            result = self._parse_act_response(response)
+            
+            self.logger.info(f"Act階段結果: {result}")
+            return result
+            
+        except Exception as e:
+            self.logger.error(f"Act階段失敗: {e}")
+            return "抱歉，我現在有點問題，請稍後再試。"
+    
+    def extract_slots_with_llm(self, text: str, slot_schema: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        使用LLM進行槽位提取
+        
+        Args:
+            text: 用戶輸入文本
+            slot_schema: 槽位架構
+            
+        Returns:
+            提取的槽位信息
+        """
+        try:
+            # 構建槽位提取提示詞
+            prompt = self._build_slot_extraction_prompt(text, slot_schema)
+            
+            # 調用LLM
+            response = self.invoke(prompt)
+            
+            # 解析回應
+            result = self._parse_slot_extraction_response(response)
+            
+            self.logger.info(f"槽位提取結果: {result}")
+            return result
+            
+        except Exception as e:
+            self.logger.error(f"槽位提取失敗: {e}")
+            return {}
+
+    def _build_think_prompt(self, instruction: str, context: Dict[str, Any]) -> str:
+        """構建Think階段提示詞"""
+        chat_history = context.get("chat_history", [])
+        filled_slots = context.get("filled_slots", {})
+        
+        # 格式化對話歷史
+        history_text = ""
+        for msg in chat_history[-5:]:  # 只取最近5條消息
+            role = msg.get("role", "unknown")
+            content = msg.get("content", "")
+            history_text += f"{role}: {content}\n"
+        
+        prompt = f"""
+你是一個對話狀態分析專家。分析當前對話狀態，決定下一步行動。
+
+對話歷史：
+{history_text}
+
+已填槽位：{filled_slots}
+
+請分析並決定：
+1. 是否需要收集更多信息
+2. 下一個要詢問的槽位
+3. 是否可以進行推薦
+
+輸出格式：JSON
+{{
+  "action": "ELICIT_SLOT" | "RECOMMEND_PRODUCTS" | "CLARIFY_INPUT",
+  "target_slot": "slot_name",
+  "reasoning": "決策理由",
+  "confidence": 0.95
+}}
+
+只輸出JSON格式，不要其他文字。
+"""
+        return prompt
+    
+    def _build_act_prompt(self, instruction: str, context: Dict[str, Any]) -> str:
+        """構建Act階段提示詞"""
+        chat_history = context.get("chat_history", [])
+        target_slot = context.get("target_slot", "")
+        known_info = context.get("known_info", {})
+        
+        # 格式化對話歷史
+        history_text = ""
+        for msg in chat_history[-3:]:  # 只取最近3條消息
+            role = msg.get("role", "unknown")
+            content = msg.get("content", "")
+            history_text += f"{role}: {content}\n"
+        
+        prompt = f"""
+你是一位專業的筆電銷售顧問。根據對話歷史和需要收集的信息，生成自然、親切的詢問。
+
+對話歷史：
+{history_text}
+
+需要收集：{target_slot}
+已了解信息：{known_info}
+
+要求：
+1. 語氣自然親切
+2. 考慮已了解的信息
+3. 提供相關的建議選項
+4. 不超過50字
+
+回應格式：
+{{
+  "content": "詢問內容",
+  "suggestions": ["選項1", "選項2", "選項3"],
+  "tone": "friendly"
+}}
+
+只輸出JSON格式，不要其他文字。
+"""
+        return prompt
+    
+    def _build_slot_extraction_prompt(self, text: str, slot_schema: Dict[str, Any]) -> str:
+        """構建槽位提取提示詞"""
+        prompt = f"""
+你是一個專業的筆電銷售助手，需要從用戶輸入中提取結構化信息。
+
+用戶輸入：{text}
+
+請提取以下信息：
+- 使用目的 (usage_purpose): gaming, business, student, creative, general
+- 預算範圍 (budget_range): budget, mid_range, premium, luxury
+- 性能需求 (performance_features): fast, portable, powerful, quiet, battery
+- 品牌偏好 (brand_preference): asus, acer, lenovo, hp, dell, apple
+- 便攜性需求 (portability_need): ultra_portable, balanced, desktop_replacement
+
+輸出格式：JSON
+{{
+  "extracted_slots": {{
+    "usage_purpose": "business",
+    "budget_range": "mid_range",
+    "performance_features": ["fast", "portable"],
+    "brand_preference": "asus",
+    "portability_need": "balanced"
+  }},
+  "confidence": 0.9,
+  "reasoning": "提取理由"
+}}
+
+只輸出JSON格式，不要其他文字。
+"""
+        return prompt
+    
+    def _parse_think_response(self, response: str) -> Dict[str, Any]:
+        """解析Think階段回應"""
+        try:
+            if isinstance(response, str):
+                # 提取JSON部分
+                start_idx = response.find('{')
+                end_idx = response.rfind('}') + 1
+                if start_idx != -1 and end_idx != -1:
+                    json_str = response[start_idx:end_idx]
+                    return json.loads(json_str)
+            
+            return {
+                "action": "ELICIT_SLOT",
+                "target_slot": "usage_purpose",
+                "reasoning": "解析失敗，使用默認策略",
+                "confidence": 0.5
+            }
+            
+        except json.JSONDecodeError as e:
+            self.logger.error(f"Think回應JSON解析失敗: {e}")
+            return {
+                "action": "ELICIT_SLOT",
+                "target_slot": "usage_purpose",
+                "reasoning": "JSON解析失敗，使用默認策略",
+                "confidence": 0.5
+            }
+    
+    def _parse_act_response(self, response: str) -> str:
+        """解析Act階段回應"""
+        try:
+            if isinstance(response, str):
+                # 嘗試解析JSON
+                start_idx = response.find('{')
+                end_idx = response.rfind('}') + 1
+                if start_idx != -1 and end_idx != -1:
+                    json_str = response[start_idx:end_idx]
+                    parsed = json.loads(json_str)
+                    return parsed.get("content", response)
+            
+            return response
+            
+        except json.JSONDecodeError:
+            # 如果不是JSON格式，直接返回原始回應
+            return response
+    
+    def _parse_slot_extraction_response(self, response: str) -> Dict[str, Any]:
+        """解析槽位提取回應"""
+        try:
+            if isinstance(response, str):
+                # 提取JSON部分
+                start_idx = response.find('{')
+                end_idx = response.rfind('}') + 1
+                if start_idx != -1 and end_idx != -1:
+                    json_str = response[start_idx:end_idx]
+                    parsed = json.loads(json_str)
+                    return parsed.get("extracted_slots", {})
+            
+            return {}
+            
+        except json.JSONDecodeError as e:
+            self.logger.error(f"槽位提取回應JSON解析失敗: {e}")
+            return {}

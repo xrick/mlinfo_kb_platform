@@ -8,7 +8,7 @@ MGFD 狀態機實現
 import logging
 from typing import Dict, Any, Optional
 from .models import NotebookDialogueState, ActionType
-from .dialogue_manager import MGFDDialogueManager
+from .dialogue_manager import DialogueManager as MGFDDialogueManager
 
 class MGFDStateMachine:
     """MGFD狀態機"""
@@ -75,10 +75,18 @@ class MGFDStateMachine:
         if extracted_slots:
             state["filled_slots"].update(extracted_slots)
         
+        # 新增：檢查是否需要確認提取的信息
+        confirmation_message = self._generate_confirmation_message(extracted_slots, state)
+        
         # 生成回應
+        if confirmation_message:
+            response_content = confirmation_message
+        else:
+            response_content = action.message
+        
         response_message = {
             "role": "assistant",
-            "content": action.message,
+            "content": response_content,
             "action_type": "elicitation",
             "target_slot": action.target_slot,
             "extracted_slots": extracted_slots
@@ -94,13 +102,66 @@ class MGFDStateMachine:
         
         return {
             "session_id": state["session_id"],
-            "response": action.message,
+            "response": response_content,
             "action_type": "elicitation",
             "target_slot": action.target_slot,
             "extracted_slots": extracted_slots,
             "filled_slots": state["filled_slots"],
             "current_stage": state["current_stage"]
         }
+
+    def _generate_confirmation_message(self, extracted_slots: Dict[str, Any], state: NotebookDialogueState) -> str:
+        """生成確認消息"""
+        if not extracted_slots:
+            return ""
+        
+        confirmations = []
+        
+        # 確認使用目的
+        if "usage_purpose" in extracted_slots:
+            purpose = extracted_slots["usage_purpose"]
+            purpose_map = {
+                "gaming": "遊戲",
+                "business": "商務工作",
+                "student": "學習",
+                "creative": "創作設計", 
+                "general": "一般使用"
+            }
+            purpose_name = purpose_map.get(purpose, purpose)
+            confirmations.append(f"使用目的：{purpose_name}")
+        
+        # 確認性能特徵
+        if "performance_features" in extracted_slots:
+            features = extracted_slots["performance_features"]
+            if isinstance(features, list) and features:
+                feature_names = []
+                for feature in features:
+                    if feature == "fast":
+                        feature_names.append("快速開關機")
+                    elif feature == "portable":
+                        feature_names.append("輕便攜帶")
+                    elif feature == "performance":
+                        feature_names.append("高效能")
+                
+                if feature_names:
+                    confirmations.append(f"性能需求：{', '.join(feature_names)}")
+        
+        # 確認預算範圍
+        if "budget_range" in extracted_slots:
+            budget = extracted_slots["budget_range"]
+            budget_map = {
+                "budget": "平價",
+                "mid_range": "中價位",
+                "premium": "高價位",
+                "luxury": "頂級"
+            }
+            budget_name = budget_map.get(budget, budget)
+            confirmations.append(f"預算範圍：{budget_name}")
+        
+        if confirmations:
+            return f"好的，我了解了：{', '.join(confirmations)}。現在讓我為您推薦最適合的筆電。"
+        
+        return ""
     
     def _handle_recommendation(self, state: NotebookDialogueState, action) -> Dict[str, Any]:
         """處理產品推薦"""
@@ -196,3 +257,6 @@ def create_notebook_sales_graph():
     """
     dialogue_manager = MGFDDialogueManager()
     return MGFDStateMachine(dialogue_manager)
+
+
+

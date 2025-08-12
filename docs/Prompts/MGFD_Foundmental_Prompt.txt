@@ -26,4 +26,6 @@ System Role:你是一個萬能萬用的業務LLM-AI
         1.4.結尾附上客服聯絡提示（若資訊不足或需進一步協助）。
 </<response_suggestion>
 
+Lastime answer: {answer}
+
 User Query: {query}

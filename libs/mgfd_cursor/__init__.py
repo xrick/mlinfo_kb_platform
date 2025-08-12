@@ -1,16 +1,39 @@
 """
 Multi-Guided Funnel Dialogue (MGFD) Cursor Implementation
-第一版MGFD實現，獨立於現有系統
+重構後的MGFD實現，基於原始設計文檔
 """
 
-from .dialogue_manager import MGFDDialogueManager
+# 新的MGFD系統組件
+from .mgfd_system import MGFDSystem
+from .user_input_handler import UserInputHandler
+from .dialogue_manager import DialogueManager
+from .action_executor import ActionExecutor
+from .response_generator import ResponseGenerator
+from .redis_state_manager import RedisStateManager
+from .llm_manager import MGFDLLMManager
+from .config_loader import ConfigLoader
+
+# 保留舊的組件以向後兼容
 from .state_machine import create_notebook_sales_graph
 from .knowledge_base import NotebookKnowledgeBase
 from .models import NotebookDialogueState
 
 __all__ = [
-    "MGFDDialogueManager",
-    "create_notebook_sales_graph", 
-    "NotebookKnowledgeBase",
+    # 新的MGFD系統組件
+    "MGFDSystem",
+    "UserInputHandler", 
+    "DialogueManager",
+    "ActionExecutor",
+    "ResponseGenerator",
+    "RedisStateManager",
+    "MGFDLLMManager",
+    "ConfigLoader",
+    
+    # 舊的組件（向後兼容）
+    "create_notebook_sales_graph",
+    "NotebookKnowledgeBase", 
     "NotebookDialogueState"
 ]
+
+
+

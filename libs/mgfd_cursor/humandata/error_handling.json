@@ -1,121 +1,86 @@
 {
   "error_handling": {
-    "slot_extraction": {
-      "max_retries": 3,
-      "retry_strategies": [
-        "rephrase_question",
-        "provide_options", 
-        "ask_clarification",
-        "use_context_hints"
-      ],
-      "fallback_actions": [
-        "switch_to_human_agent",
-        "use_default_values",
-        "skip_optional_slots",
-        "ask_user_to_rephrase"
-      ],
-      "confidence_thresholds": {
-        "high": 0.8,
-        "medium": 0.6,
-        "low": 0.4
-      }
-    },
-    "llm_failures": {
-      "retry_count": 2,
-      "retry_delay": 1,
-      "fallback_responses": [
-        "抱歉，系統暫時無法處理您的請求，請稍後再試。",
-        "讓我為您轉接專業客服人員。",
-        "系統正在維護中，請聯繫客服獲得協助。",
-        "目前系統繁忙，請稍候再試。"
-      ],
-      "error_types": {
-        "timeout": "請求超時，請稍後再試。",
-        "rate_limit": "系統繁忙，請稍候再試。",
-        "invalid_response": "回應格式錯誤，正在重新處理。",
-        "connection_error": "網路連線問題，請檢查網路後再試。"
-      }
-    },
-    "context_limits": {
-      "max_conversation_turns": 20,
-      "max_context_length": 4000,
-      "reset_triggers": [
-        "user_request_reset",
-        "conversation_timeout",
-        "error_threshold_exceeded",
-        "context_too_long"
-      ],
-      "context_cleanup_strategies": [
-        "remove_old_messages",
-        "summarize_history",
-        "keep_only_essential_info"
-      ]
-    },
-    "user_input_validation": {
-      "max_input_length": 500,
-      "min_input_length": 1,
-      "forbidden_characters": ["<script>", "javascript:", "onerror="],
-      "validation_rules": {
-        "check_length": true,
-        "check_content": true,
-        "sanitize_input": true
-      }
-    },
-    "slot_validation": {
-      "usage_purpose": {
-        "valid_values": ["gaming", "business", "student", "creative", "general"],
-        "fallback_value": "general",
-        "validation_message": "請選擇：遊戲、工作、學習、創意設計或一般用途"
-      },
-      "budget_range": {
-        "valid_values": ["budget", "mid_range", "premium", "luxury"],
-        "fallback_value": "mid_range",
-        "validation_message": "請選擇：經濟型、中階、高階或豪華型"
-      },
-      "brand_preference": {
-        "valid_values": ["asus", "acer", "lenovo", "hp", "dell", "apple"],
-        "optional": true,
-        "validation_message": "請選擇品牌：ASUS、Acer、Lenovo、HP、Dell、Apple"
-      }
-    },
-    "recovery_strategies": {
+    "error_types": {
       "slot_extraction_failure": {
-        "strategy_1": "重新表述問題",
-        "strategy_2": "提供選項讓用戶選擇",
-        "strategy_3": "使用上下文推測",
-        "strategy_4": "跳過該槽位繼續對話"
+        "description": "槽位提取失敗",
+        "severity": "medium",
+        "user_message": "抱歉，我沒有完全理解您的需求。能否請您再說得具體一些？",
+        "system_action": "CLARIFY_INPUT"
       },
-      "llm_response_failure": {
-        "strategy_1": "使用預設回應模板",
-        "strategy_2": "重試LLM調用",
-        "strategy_3": "轉接人工客服",
-        "strategy_4": "提供錯誤說明並建議重試"
+      "llm_failure": {
+        "description": "LLM調用失敗",
+        "severity": "high",
+        "user_message": "系統暫時無法處理您的請求，請稍後再試。",
+        "system_action": "RETRY"
       },
-      "context_overflow": {
-        "strategy_1": "清理舊對話記錄",
-        "strategy_2": "總結對話歷史",
-        "strategy_3": "重新開始對話",
-        "strategy_4": "提示用戶重新描述需求"
+      "validation_error": {
+        "description": "輸入驗證失敗",
+        "severity": "low",
+        "user_message": "請檢查您的輸入格式是否正確。",
+        "system_action": "CLARIFY_INPUT"
+      },
+      "no_products_found": {
+        "description": "找不到合適產品",
+        "severity": "medium",
+        "user_message": "抱歉，目前沒有找到完全符合您需求的產品。讓我們調整一下搜索條件。",
+        "system_action": "ELICIT_SLOT"
+      },
+      "session_expired": {
+        "description": "會話過期",
+        "severity": "low",
+        "user_message": "您的會話已過期，我們重新開始吧。",
+        "system_action": "RESET_SESSION"
+      },
+      "redis_connection_error": {
+        "description": "Redis連接錯誤",
+        "severity": "high",
+        "user_message": "系統暫時無法保存對話狀態，請稍後再試。",
+        "system_action": "CONTINUE_WITHOUT_SAVE"
       }
     },
-    "logging_and_monitoring": {
-      "log_error_types": [
-        "slot_extraction_failure",
-        "llm_failure", 
-        "context_overflow",
-        "validation_error"
-      ],
-      "alert_thresholds": {
-        "consecutive_failures": 5,
-        "error_rate": 0.1,
-        "response_time": 10
+    "messages": {
+      "slot_extraction_failure": "抱歉，我沒有完全理解您的需求。能否請您再說得具體一些？",
+      "llm_failure": "系統暫時無法處理您的請求，請稍後再試。",
+      "validation_error": "請檢查您的輸入格式是否正確。",
+      "no_products_found": "抱歉，目前沒有找到完全符合您需求的產品。讓我們調整一下搜索條件。",
+      "session_expired": "您的會話已過期，我們重新開始吧。",
+      "redis_connection_error": "系統暫時無法保存對話狀態，請稍後再試。",
+      "unknown_error": "發生未知錯誤，請稍後再試。",
+      "timeout_error": "請求超時，請稍後再試。",
+      "network_error": "網絡連接問題，請檢查您的網絡連接。"
+    },
+    "retry_strategies": {
+      "llm_failure": {
+        "max_retries": 3,
+        "retry_delay": 1,
+        "backoff_factor": 2
       },
-      "metrics_to_track": [
-        "error_count",
-        "retry_count", 
-        "fallback_usage",
-        "user_satisfaction"
-      ]
+      "redis_connection_error": {
+        "max_retries": 2,
+        "retry_delay": 0.5,
+        "backoff_factor": 1.5
+      }
+    },
+    "fallback_responses": {
+      "default": "抱歉，我遇到了一些問題。讓我們重新開始對話吧。",
+      "technical_issue": "系統遇到技術問題，請稍後再試。",
+      "maintenance": "系統正在維護中，請稍後再試。"
+    }
+  },
+  "logging": {
+    "error_levels": {
+      "critical": "系統崩潰或無法恢復的錯誤",
+      "error": "影響功能的錯誤",
+      "warning": "可能影響功能的警告",
+      "info": "一般信息",
+      "debug": "調試信息"
+    },
+    "error_categories": {
+      "user_input": "用戶輸入相關錯誤",
+      "system_internal": "系統內部錯誤",
+      "external_service": "外部服務錯誤",
+      "database": "數據庫錯誤",
+      "network": "網絡錯誤"
     }
   }
 }

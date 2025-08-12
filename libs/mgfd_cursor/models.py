@@ -96,3 +96,6 @@ NOTEBOOK_SLOT_SCHEMA = {
         description="品牌偏好"
     )
 }
+
+
+
