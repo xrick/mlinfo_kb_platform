@@ -394,3 +394,33 @@ INFO:     127.0.0.1:51487 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
 2025-08-13 22:42:50,983 - watchfiles.main - INFO - 5 changes detected
 2025-08-13 22:42:51,606 - watchfiles.main - INFO - 3 changes detected
 2025-08-13 22:42:52,240 - watchfiles.main - INFO - 4 changes detected
+2025-08-13 22:43:17,600 - watchfiles.main - INFO - 29 changes detected
+2025-08-13 22:43:21,387 - watchfiles.main - INFO - 5 changes detected
+2025-08-13 22:43:22,024 - watchfiles.main - INFO - 3 changes detected
+2025-08-13 22:43:22,703 - watchfiles.main - INFO - 4 changes detected
+2025-08-13 22:45:02,416 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:59:16,132 - watchfiles.main - INFO - 3 changes detected
+2025-08-13 22:59:35,380 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:59:55,600 - watchfiles.main - INFO - 1 change detected
+2025-08-13 23:00:08,744 - watchfiles.main - INFO - 1 change detected
+2025-08-13 23:00:19,682 - watchfiles.main - INFO - 1 change detected
+2025-08-13 23:00:20,556 - watchfiles.main - INFO - 1 change detected
+2025-08-13 23:00:37,747 - watchfiles.main - INFO - 1 change detected
+2025-08-13 23:00:42,114 - watchfiles.main - INFO - 1 change detected
+2025-08-13 23:00:46,964 - watchfiles.main - INFO - 1 change detected
+2025-08-13 23:00:51,071 - watchfiles.main - INFO - 1 change detected
+2025-08-13 23:00:51,712 - watchfiles.main - INFO - 1 change detected
+2025-08-13 23:01:03,783 - watchfiles.main - INFO - 1 change detected
+2025-08-13 23:01:04,383 - watchfiles.main - INFO - 1 change detected
+2025-08-13 23:01:11,453 - watchfiles.main - INFO - 1 change detected
+2025-08-13 23:01:12,098 - watchfiles.main - INFO - 1 change detected
+2025-08-13 23:01:19,074 - watchfiles.main - INFO - 1 change detected
+2025-08-13 23:01:19,666 - watchfiles.main - INFO - 1 change detected
+2025-08-13 23:01:31,945 - watchfiles.main - INFO - 1 change detected
+2025-08-13 23:01:32,537 - watchfiles.main - INFO - 1 change detected
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2025-08-13 23:07:58,492 - root - INFO - 🛑 MGFD SalesRAG Integration System 關閉中...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [90800]
+INFO:     Stopping reloader process [70126]

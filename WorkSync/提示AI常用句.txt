@@ -1,0 +1,12 @@
+專案日誌
+請將問題的描述、除錯歷程、BUG如何發現、相關聯發現、更有效率的解決方法或架構，記錄至docs/MGFD_DEV_Diary/mgfd_dev_diary.md
+
+
+每日工作記錄
+請將工作進度記錄至docs/MGFD_DEV_Progress/dailyprogress/work....txt
+
+在AI-Coder開始執行時，就必須告訴ai-coder。或者在每次進行修正錯誤時放在Prompt最後的部份：
+
+以下是整個專案開發過程中請務必遵守的規則：
+- 請**務必一步一步小心分析**整個問題，從使用者輸入，一直到出錯的資料處理順序與流程。請詳細記錄除錯歷程，經歷了哪些模組、哪些函式，關聯問題的發現、發現更有效率的解決方法或架構，請盡量解釋所有的資料。**務必先進行穩定且具可行性的計畫，不要直接進行修改**。
+- 將除錯過程寫入到WorkSync/MGFD_DEV_Diary/mgfd_dev_diary.md、WorkSync/debugzilla/bugzilla.md，然後擬定一個具可行性且完整的修復計畫。
