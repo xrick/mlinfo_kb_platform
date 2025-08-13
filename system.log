@@ -386,3 +386,7 @@ INFO:     127.0.0.1:51487 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
 2025-08-13 22:38:39,967 - watchfiles.main - INFO - 2 changes detected
 2025-08-13 22:41:50,108 - watchfiles.main - INFO - 1 change detected
 2025-08-13 22:42:27,470 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:42:35,648 - watchfiles.main - INFO - 239 changes detected
+2025-08-13 22:42:39,216 - watchfiles.main - INFO - 5 changes detected
+2025-08-13 22:42:39,900 - watchfiles.main - INFO - 3 changes detected
+2025-08-13 22:42:40,533 - watchfiles.main - INFO - 4 changes detected
