@@ -47,7 +47,7 @@ class MGFDSystem:
         # 初始化所有模組
         self.state_manager = RedisStateManager(redis_client)
         self.user_input_handler = UserInputHandler(self.llm_manager, self.slot_schema)
-        self.dialogue_manager = DialogueManager(self.llm_manager, self.slot_schema)
+        self.dialogue_manager = DialogueManager(notebook_kb_path=None)
         self.action_executor = ActionExecutor(self.llm_manager, self.config_loader)
         self.response_generator = ResponseGenerator(self.config_loader)
         
@@ -78,14 +78,22 @@ class MGFDSystem:
                 return self._handle_error("用戶輸入處理失敗", input_result.get("error"))
             
             # 步驟2: 路由決策 (Think階段)
-            decision = self.dialogue_manager.route_next_action(input_result["state"])
+            decision = self.dialogue_manager.route_action(input_result["state"], user_message)
             
-            if not decision.get("success", False):
-                return self._handle_error("對話決策失敗", decision.get("error"))
+            # DialogueAction 對象不需要檢查 success，直接使用
+            if not decision:
+                return self._handle_error("對話決策失敗", "無法生成決策")
             
             # 步驟3: 執行動作 (Act階段)
+            # 將 DialogueAction 轉換為 ActionExecutor 期望的格式
+            command = {
+                "action": decision.action_type.value,
+                "target_slot": decision.target_slot,
+                "message": decision.message,
+                "confidence": decision.confidence
+            }
             action_result = self.action_executor.execute_action(
-                decision["command"], input_result["state"]
+                command, input_result["state"]
             )
             
             if not action_result.get("success", False):
@@ -111,9 +119,9 @@ class MGFDSystem:
                 "response": response,
                 "session_id": session_id,
                 "timestamp": datetime.now().isoformat(),
-                "action_type": decision["command"].get("action", "UNKNOWN"),
+                "action_type": decision.action_type.value,
                 "filled_slots": input_result["state"].get("filled_slots", {}),
-                "dialogue_stage": self.dialogue_manager.get_dialogue_stage(input_result["state"])
+                "dialogue_stage": input_result["state"].get("current_stage", "awareness")
             }
             
             # 添加前端需要的額外信息
@@ -153,7 +161,7 @@ class MGFDSystem:
                 return {
                     "success": True,
                     "state": state,
-                    "dialogue_stage": self.dialogue_manager.get_dialogue_stage(state),
+                    "dialogue_stage": state.get("current_stage", "awareness"),
                     "filled_slots": state.get("filled_slots", {}),
                     "chat_history": state.get("chat_history", [])
                 }

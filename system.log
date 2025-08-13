@@ -1,0 +1,388 @@
+2025-08-13 21:55:38,643 - root - INFO - 從數據庫獲取到的modelname: 19 個
+2025-08-13 21:55:38,651 - root - INFO - 從數據庫獲取到的modeltype: ['531_result', '819', '839', '928', '958', '960', 'AC01']
+/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/RAG/LLM/LLMInitializer.py:18: LangChainDeprecationWarning: The class `Ollama` was deprecated in LangChain 0.3.1 and will be removed in 1.0.0. An updated version of the class exists in the :class:`~langchain-ollama package and should be used instead. To use it run `pip install -U :class:`~langchain-ollama` and import as `from :class:`~langchain_ollama import OllamaLLM``.
+  self.llm = Ollama(
+/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/RAG/DB/MilvusQuery.py:12: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-huggingface package and should be used instead. To use it run `pip install -U :class:`~langchain-huggingface` and import as `from :class:`~langchain_huggingface import HuggingFaceEmbeddings``.
+  self.embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+2025-08-13 21:55:40,723 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-13 21:55:40,723 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-13 21:55:44,434 - root - INFO - 成功載入關鍵字配置: ['display', 'cpu', 'gpu', 'memory', 'storage', 'battery', 'portability', 'connectivity', 'comparison', 'specifications', 'latest', 'usage_scenario', 'budget']
+2025-08-13 21:55:44,434 - root - INFO - 成功載入特點配置
+2025-08-13 21:55:44,435 - root - INFO - 成功載入特點配置: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-08-13 21:55:44,435 - root - INFO - 對話鍊生成器初始化完成，支援特點: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-08-13 21:55:44,435 - root - INFO - 多輪對話管理器初始化完成，支援 7 個特點
+2025-08-13 21:55:44,435 - root - INFO - 成功載入漏斗問題配置
+2025-08-13 21:55:44,435 - root - INFO - 漏斗對話管理器初始化完成，載入 3 個問題模板
+/Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/lib/python3.11/site-packages/pydantic/_internal/_config.py:373: UserWarning: Valid config keys have changed in V2:
+* 'schema_extra' has been renamed to 'json_schema_extra'
+  warnings.warn(message, UserWarning)
+2025-08-13 21:55:44,458 - api.mgfd_routes - INFO - Redis連接成功
+2025-08-13 21:55:44,458 - libs.mgfd_cursor.mgfd_system - INFO - 初始化MGFD系統...
+2025-08-13 21:55:44,458 - libs.mgfd_cursor.llm_manager - WARNING - LangChain 不可用，將使用模擬 LLM
+2025-08-13 21:55:44,458 - libs.mgfd_cursor.llm_manager - INFO - 已載入主提示: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/docs/Prompts/MGFD_Foundmental_Prompt.txt
+2025-08-13 21:55:44,459 - libs.mgfd_cursor.config_loader - INFO - 槽位同義詞載入成功
+2025-08-13 21:55:44,459 - libs.mgfd_cursor.config_loader - INFO - 槽位模式載入成功
+2025-08-13 21:55:44,459 - libs.mgfd_cursor.knowledge_base - WARNING - 產品文件不存在: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/data/raw/notebook_products.csv，使用示例數據
+2025-08-13 21:55:44,459 - libs.mgfd_cursor.mgfd_system - INFO - MGFD系統初始化完成
+2025-08-13 21:55:44,459 - api.mgfd_routes - INFO - MGFD系統初始化成功
+/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/main.py:242: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/main.py:251: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+INFO:     Will watch for changes in these directories: ['/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform']
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     Started reloader process [70126] using WatchFiles
+正在搜尋服務目錄: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/services
+成功初始化 Ollama 模型: deepseek-r1:7b
+成功連接到 Milvus at localhost:19530
+成功設定並載入 Collection: sales_notebook_specs
+成功連接到 DuckDB: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/db/sales_specs.db
+成功載入服務: sales_assistant
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1755093344.519174 1643205 fork_posix.cc:77] Other threads are currently calling into gRPC, skipping fork() handlers
+2025-08-13 21:55:45,106 - root - ERROR - 獲取數據庫modelname失敗: IO Error: Could not set lock on file "/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/db/sales_specs.db": Conflicting lock is held in /Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/bin/python3.11 (PID 70126) by user xrickliao. However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/stable/connect/concurrency
+2025-08-13 21:55:45,108 - root - ERROR - 獲取數據庫modeltype失敗: IO Error: Could not set lock on file "/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/db/sales_specs.db": Conflicting lock is held in /Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/bin/python3.11 (PID 70126) by user xrickliao. However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/stable/connect/concurrency
+/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/RAG/LLM/LLMInitializer.py:18: LangChainDeprecationWarning: The class `Ollama` was deprecated in LangChain 0.3.1 and will be removed in 1.0.0. An updated version of the class exists in the :class:`~langchain-ollama package and should be used instead. To use it run `pip install -U :class:`~langchain-ollama` and import as `from :class:`~langchain_ollama import OllamaLLM``.
+  self.llm = Ollama(
+/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/RAG/DB/MilvusQuery.py:12: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-huggingface package and should be used instead. To use it run `pip install -U :class:`~langchain-huggingface` and import as `from :class:`~langchain_huggingface import HuggingFaceEmbeddings``.
+  self.embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+2025-08-13 21:55:47,116 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-13 21:55:47,116 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-13 21:55:50,442 - root - INFO - 成功載入關鍵字配置: ['display', 'cpu', 'gpu', 'memory', 'storage', 'battery', 'portability', 'connectivity', 'comparison', 'specifications', 'latest', 'usage_scenario', 'budget']
+2025-08-13 21:55:50,442 - root - INFO - 成功載入特點配置
+2025-08-13 21:55:50,442 - root - INFO - 成功載入特點配置: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-08-13 21:55:50,442 - root - INFO - 對話鍊生成器初始化完成，支援特點: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-08-13 21:55:50,442 - root - INFO - 多輪對話管理器初始化完成，支援 7 個特點
+2025-08-13 21:55:50,443 - root - INFO - 成功載入漏斗問題配置
+2025-08-13 21:55:50,443 - root - INFO - 漏斗對話管理器初始化完成，載入 3 個問題模板
+/Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/lib/python3.11/site-packages/pydantic/_internal/_config.py:373: UserWarning: Valid config keys have changed in V2:
+* 'schema_extra' has been renamed to 'json_schema_extra'
+  warnings.warn(message, UserWarning)
+2025-08-13 21:55:50,461 - api.mgfd_routes - INFO - Redis連接成功
+2025-08-13 21:55:50,461 - libs.mgfd_cursor.mgfd_system - INFO - 初始化MGFD系統...
+2025-08-13 21:55:50,461 - libs.mgfd_cursor.llm_manager - WARNING - LangChain 不可用，將使用模擬 LLM
+2025-08-13 21:55:50,461 - libs.mgfd_cursor.llm_manager - INFO - 已載入主提示: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/docs/Prompts/MGFD_Foundmental_Prompt.txt
+2025-08-13 21:55:50,461 - libs.mgfd_cursor.config_loader - INFO - 槽位同義詞載入成功
+2025-08-13 21:55:50,461 - libs.mgfd_cursor.config_loader - INFO - 槽位模式載入成功
+2025-08-13 21:55:50,461 - libs.mgfd_cursor.knowledge_base - WARNING - 產品文件不存在: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/data/raw/notebook_products.csv，使用示例數據
+2025-08-13 21:55:50,461 - libs.mgfd_cursor.mgfd_system - INFO - MGFD系統初始化完成
+2025-08-13 21:55:50,461 - api.mgfd_routes - INFO - MGFD系統初始化成功
+INFO:     Started server process [70245]
+INFO:     Waiting for application startup.
+2025-08-13 21:55:50,496 - api.history_routes - INFO - History database initialized successfully
+2025-08-13 21:55:50,496 - root - INFO - 🚀 MGFD SalesRAG Integration System 啟動中...
+2025-08-13 21:55:50,496 - root - INFO - 📖 API文檔: http://0.0.0.0:8001/docs
+2025-08-13 21:55:50,496 - root - INFO - 🔍 ReDoc文檔: http://0.0.0.0:8001/redoc
+2025-08-13 21:55:50,496 - root - INFO - ✅ 系統啟動完成
+2025-08-13 21:55:50,496 - api.history_routes - INFO - History database initialized successfully
+INFO:     Application startup complete.
+2025-08-13 21:56:00,717 - api.mgfd_routes - INFO - 創建新會話: 7c4bfea2-c038-4fae-9ff8-eacd9aa6476f
+2025-08-13 21:56:00,717 - libs.mgfd_cursor.redis_state_manager - INFO - 刪除會話: 7c4bfea2-c038-4fae-9ff8-eacd9aa6476f
+正在搜尋服務目錄: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/services
+成功初始化 Ollama 模型: deepseek-r1:7b
+成功連接到 Milvus at localhost:19530
+成功設定並載入 Collection: sales_notebook_specs
+成功連接到 DuckDB: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/db/sales_specs.db
+成功載入服務: sales_assistant
+INFO:     127.0.0.1:60510 - "POST /api/mgfd_cursor/session/create HTTP/1.1" 200 OK
+2025-08-13 21:56:10,461 - api.mgfd_routes - INFO - 獲取系統統計資訊
+2025-08-13 21:56:10,461 - libs.mgfd_cursor.redis_state_manager - INFO - 清理過期會話: 0 個
+INFO:     127.0.0.1:60539 - "GET /api/mgfd_cursor/stats HTTP/1.1" 200 OK
+2025-08-13 21:56:50,041 - watchfiles.main - INFO - 1 change detected
+2025-08-13 21:56:54,702 - watchfiles.main - INFO - 3 changes detected
+2025-08-13 21:57:05,090 - watchfiles.main - INFO - 3 changes detected
+2025-08-13 22:01:50,079 - watchfiles.main - INFO - 1 change detected
+INFO:     127.0.0.1:60838 - "GET /mgfd_cursor HTTP/1.1" 200 OK
+2025-08-13 22:03:28,317 - api.mgfd_routes - INFO - 創建新會話: 9b7deffb-5a47-4e44-8826-ae5b4f1aa9ef
+2025-08-13 22:03:28,317 - libs.mgfd_cursor.redis_state_manager - INFO - 刪除會話: 9b7deffb-5a47-4e44-8826-ae5b4f1aa9ef
+INFO:     127.0.0.1:60838 - "POST /api/mgfd_cursor/session/create HTTP/1.1" 200 OK
+2025-08-13 22:03:28,462 - api.mgfd_routes - INFO - 獲取系統統計資訊
+2025-08-13 22:03:28,463 - libs.mgfd_cursor.redis_state_manager - INFO - 清理過期會話: 0 個
+INFO:     127.0.0.1:60838 - "GET /api/mgfd_cursor/stats HTTP/1.1" 200 OK
+2025-08-13 22:06:50,076 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:06:57,068 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: 9b7deffb-5a47-4e44-8826-ae5b4f1aa9ef, 消息: 請幫我介紹輕巧，容易帶在身邊，開關機速度快的筆電...
+2025-08-13 22:06:57,069 - libs.mgfd_cursor.mgfd_system - INFO - 處理會話 9b7deffb-5a47-4e44-8826-ae5b4f1aa9ef 的消息: 請幫我介紹輕巧，容易帶在身邊，開關機速度快的筆電...
+2025-08-13 22:06:57,070 - libs.mgfd_cursor.llm_manager - INFO - 槽位提取結果: {}
+2025-08-13 22:06:57,070 - libs.mgfd_cursor.user_input_handler - INFO - 槽位提取結果: {}
+2025-08-13 22:06:57,071 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 9b7deffb-5a47-4e44-8826-ae5b4f1aa9ef
+2025-08-13 22:06:57,071 - libs.mgfd_cursor.mgfd_system - ERROR - 處理消息時發生錯誤: 'MGFDDialogueManager' object has no attribute 'route_next_action'
+Traceback (most recent call last):
+  File "/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/mgfd_cursor/mgfd_system.py", line 81, in process_message
+    decision = self.dialogue_manager.route_next_action(input_result["state"])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MGFDDialogueManager' object has no attribute 'route_next_action'
+2025-08-13 22:06:57,072 - libs.mgfd_cursor.mgfd_system - ERROR - 錯誤處理: 系統內部錯誤 - 'MGFDDialogueManager' object has no attribute 'route_next_action'
+INFO:     127.0.0.1:60996 - "POST /api/mgfd_cursor/chat HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:61003 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+2025-08-13 22:08:39,395 - watchfiles.main - INFO - 2 changes detected
+2025-08-13 22:11:50,087 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:13:08,790 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:13:47,419 - watchfiles.main - INFO - 2 changes detected
+2025-08-13 22:15:10,627 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:15:35,426 - watchfiles.main - INFO - 2 changes detected
+2025-08-13 22:16:50,077 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:21:50,114 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:22:27,842 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:23:32,951 - watchfiles.main - INFO - 3 changes detected
+WARNING:  WatchFiles detected changes in 'libs/mgfd_cursor/mgfd_system.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2025-08-13 22:23:33,139 - root - INFO - 🛑 MGFD SalesRAG Integration System 關閉中...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [70245]
+2025-08-13 22:23:33,806 - root - ERROR - 獲取數據庫modelname失敗: IO Error: Could not set lock on file "/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/db/sales_specs.db": Conflicting lock is held in /Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/bin/python3.11 (PID 70126) by user xrickliao. However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/stable/connect/concurrency
+2025-08-13 22:23:33,808 - root - ERROR - 獲取數據庫modeltype失敗: IO Error: Could not set lock on file "/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/db/sales_specs.db": Conflicting lock is held in /Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/bin/python3.11 (PID 70126) by user xrickliao. However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/stable/connect/concurrency
+/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/RAG/LLM/LLMInitializer.py:18: LangChainDeprecationWarning: The class `Ollama` was deprecated in LangChain 0.3.1 and will be removed in 1.0.0. An updated version of the class exists in the :class:`~langchain-ollama package and should be used instead. To use it run `pip install -U :class:`~langchain-ollama` and import as `from :class:`~langchain_ollama import OllamaLLM``.
+  self.llm = Ollama(
+/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/RAG/DB/MilvusQuery.py:12: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-huggingface package and should be used instead. To use it run `pip install -U :class:`~langchain-huggingface` and import as `from :class:`~langchain_huggingface import HuggingFaceEmbeddings``.
+  self.embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+2025-08-13 22:23:35,836 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-13 22:23:35,836 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-13 22:23:39,105 - root - INFO - 成功載入關鍵字配置: ['display', 'cpu', 'gpu', 'memory', 'storage', 'battery', 'portability', 'connectivity', 'comparison', 'specifications', 'latest', 'usage_scenario', 'budget']
+2025-08-13 22:23:39,105 - root - INFO - 成功載入特點配置
+2025-08-13 22:23:39,106 - root - INFO - 成功載入特點配置: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-08-13 22:23:39,106 - root - INFO - 對話鍊生成器初始化完成，支援特點: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-08-13 22:23:39,106 - root - INFO - 多輪對話管理器初始化完成，支援 7 個特點
+2025-08-13 22:23:39,106 - root - INFO - 成功載入漏斗問題配置
+2025-08-13 22:23:39,106 - root - INFO - 漏斗對話管理器初始化完成，載入 3 個問題模板
+/Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/lib/python3.11/site-packages/pydantic/_internal/_config.py:373: UserWarning: Valid config keys have changed in V2:
+* 'schema_extra' has been renamed to 'json_schema_extra'
+  warnings.warn(message, UserWarning)
+2025-08-13 22:23:39,125 - api.mgfd_routes - INFO - Redis連接成功
+2025-08-13 22:23:39,125 - libs.mgfd_cursor.mgfd_system - INFO - 初始化MGFD系統...
+2025-08-13 22:23:39,125 - libs.mgfd_cursor.llm_manager - WARNING - LangChain 不可用，將使用模擬 LLM
+2025-08-13 22:23:39,125 - libs.mgfd_cursor.llm_manager - INFO - 已載入主提示: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/docs/Prompts/MGFD_Foundmental_Prompt.txt
+2025-08-13 22:23:39,125 - libs.mgfd_cursor.config_loader - INFO - 槽位同義詞載入成功
+2025-08-13 22:23:39,125 - libs.mgfd_cursor.config_loader - INFO - 槽位模式載入成功
+2025-08-13 22:23:39,125 - libs.mgfd_cursor.knowledge_base - WARNING - 產品文件不存在: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/data/raw/notebook_products.csv，使用示例數據
+2025-08-13 22:23:39,125 - libs.mgfd_cursor.mgfd_system - INFO - MGFD系統初始化完成
+2025-08-13 22:23:39,125 - api.mgfd_routes - INFO - MGFD系統初始化成功
+INFO:     Started server process [89895]
+INFO:     Waiting for application startup.
+2025-08-13 22:23:39,158 - api.history_routes - INFO - History database initialized successfully
+2025-08-13 22:23:39,158 - root - INFO - 🚀 MGFD SalesRAG Integration System 啟動中...
+2025-08-13 22:23:39,158 - root - INFO - 📖 API文檔: http://0.0.0.0:8001/docs
+2025-08-13 22:23:39,158 - root - INFO - 🔍 ReDoc文檔: http://0.0.0.0:8001/redoc
+2025-08-13 22:23:39,158 - root - INFO - ✅ 系統啟動完成
+2025-08-13 22:23:39,159 - api.history_routes - INFO - History database initialized successfully
+INFO:     Application startup complete.
+2025-08-13 22:23:39,219 - watchfiles.main - INFO - 3 changes detected
+2025-08-13 22:23:48,800 - watchfiles.main - INFO - 3 changes detected
+WARNING:  WatchFiles detected changes in 'libs/mgfd_cursor/mgfd_system.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2025-08-13 22:23:48,954 - root - INFO - 🛑 MGFD SalesRAG Integration System 關閉中...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [89895]
+2025-08-13 22:23:49,604 - root - ERROR - 獲取數據庫modelname失敗: IO Error: Could not set lock on file "/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/db/sales_specs.db": Conflicting lock is held in /Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/bin/python3.11 (PID 70126) by user xrickliao. However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/stable/connect/concurrency
+2025-08-13 22:23:49,607 - root - ERROR - 獲取數據庫modeltype失敗: IO Error: Could not set lock on file "/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/db/sales_specs.db": Conflicting lock is held in /Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/bin/python3.11 (PID 70126) by user xrickliao. However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/stable/connect/concurrency
+/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/RAG/LLM/LLMInitializer.py:18: LangChainDeprecationWarning: The class `Ollama` was deprecated in LangChain 0.3.1 and will be removed in 1.0.0. An updated version of the class exists in the :class:`~langchain-ollama package and should be used instead. To use it run `pip install -U :class:`~langchain-ollama` and import as `from :class:`~langchain_ollama import OllamaLLM``.
+  self.llm = Ollama(
+/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/RAG/DB/MilvusQuery.py:12: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-huggingface package and should be used instead. To use it run `pip install -U :class:`~langchain-huggingface` and import as `from :class:`~langchain_huggingface import HuggingFaceEmbeddings``.
+  self.embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+2025-08-13 22:23:51,610 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-13 22:23:51,610 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-13 22:23:53,983 - watchfiles.main - INFO - 3 changes detected
+WARNING:  WatchFiles detected changes in 'libs/mgfd_cursor/mgfd_system.py'. Reloading...
+2025-08-13 22:23:54,609 - root - ERROR - 獲取數據庫modelname失敗: IO Error: Could not set lock on file "/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/db/sales_specs.db": Conflicting lock is held in /Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/bin/python3.11 (PID 70126) by user xrickliao. However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/stable/connect/concurrency
+2025-08-13 22:23:54,612 - root - ERROR - 獲取數據庫modeltype失敗: IO Error: Could not set lock on file "/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/db/sales_specs.db": Conflicting lock is held in /Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/bin/python3.11 (PID 70126) by user xrickliao. However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/stable/connect/concurrency
+/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/RAG/LLM/LLMInitializer.py:18: LangChainDeprecationWarning: The class `Ollama` was deprecated in LangChain 0.3.1 and will be removed in 1.0.0. An updated version of the class exists in the :class:`~langchain-ollama package and should be used instead. To use it run `pip install -U :class:`~langchain-ollama` and import as `from :class:`~langchain_ollama import OllamaLLM``.
+  self.llm = Ollama(
+/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/RAG/DB/MilvusQuery.py:12: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-huggingface package and should be used instead. To use it run `pip install -U :class:`~langchain-huggingface` and import as `from :class:`~langchain_huggingface import HuggingFaceEmbeddings``.
+  self.embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+2025-08-13 22:23:56,607 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-13 22:23:56,607 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-13 22:24:00,258 - root - INFO - 成功載入關鍵字配置: ['display', 'cpu', 'gpu', 'memory', 'storage', 'battery', 'portability', 'connectivity', 'comparison', 'specifications', 'latest', 'usage_scenario', 'budget']
+2025-08-13 22:24:00,258 - root - INFO - 成功載入特點配置
+2025-08-13 22:24:00,258 - root - INFO - 成功載入特點配置: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-08-13 22:24:00,258 - root - INFO - 對話鍊生成器初始化完成，支援特點: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-08-13 22:24:00,258 - root - INFO - 多輪對話管理器初始化完成，支援 7 個特點
+2025-08-13 22:24:00,259 - root - INFO - 成功載入漏斗問題配置
+2025-08-13 22:24:00,259 - root - INFO - 漏斗對話管理器初始化完成，載入 3 個問題模板
+/Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/lib/python3.11/site-packages/pydantic/_internal/_config.py:373: UserWarning: Valid config keys have changed in V2:
+* 'schema_extra' has been renamed to 'json_schema_extra'
+  warnings.warn(message, UserWarning)
+2025-08-13 22:24:00,279 - api.mgfd_routes - INFO - Redis連接成功
+2025-08-13 22:24:00,279 - libs.mgfd_cursor.mgfd_system - INFO - 初始化MGFD系統...
+2025-08-13 22:24:00,279 - libs.mgfd_cursor.llm_manager - WARNING - LangChain 不可用，將使用模擬 LLM
+2025-08-13 22:24:00,280 - libs.mgfd_cursor.llm_manager - INFO - 已載入主提示: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/docs/Prompts/MGFD_Foundmental_Prompt.txt
+2025-08-13 22:24:00,280 - libs.mgfd_cursor.config_loader - INFO - 槽位同義詞載入成功
+2025-08-13 22:24:00,280 - libs.mgfd_cursor.config_loader - INFO - 槽位模式載入成功
+2025-08-13 22:24:00,280 - libs.mgfd_cursor.knowledge_base - WARNING - 產品文件不存在: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/data/raw/notebook_products.csv，使用示例數據
+2025-08-13 22:24:00,280 - libs.mgfd_cursor.mgfd_system - INFO - MGFD系統初始化完成
+2025-08-13 22:24:00,280 - api.mgfd_routes - INFO - MGFD系統初始化成功
+INFO:     Started server process [90303]
+INFO:     Waiting for application startup.
+2025-08-13 22:24:00,312 - api.history_routes - INFO - History database initialized successfully
+2025-08-13 22:24:00,312 - root - INFO - 🚀 MGFD SalesRAG Integration System 啟動中...
+2025-08-13 22:24:00,312 - root - INFO - 📖 API文檔: http://0.0.0.0:8001/docs
+2025-08-13 22:24:00,312 - root - INFO - 🔍 ReDoc文檔: http://0.0.0.0:8001/redoc
+2025-08-13 22:24:00,312 - root - INFO - ✅ 系統啟動完成
+2025-08-13 22:24:00,312 - api.history_routes - INFO - History database initialized successfully
+INFO:     Application startup complete.
+2025-08-13 22:24:00,387 - watchfiles.main - INFO - 3 changes detected
+2025-08-13 22:24:03,446 - watchfiles.main - INFO - 3 changes detected
+WARNING:  WatchFiles detected changes in 'libs/mgfd_cursor/mgfd_system.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2025-08-13 22:24:03,553 - root - INFO - 🛑 MGFD SalesRAG Integration System 關閉中...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [90303]
+2025-08-13 22:24:04,164 - root - ERROR - 獲取數據庫modelname失敗: IO Error: Could not set lock on file "/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/db/sales_specs.db": Conflicting lock is held in /Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/bin/python3.11 (PID 70126) by user xrickliao. However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/stable/connect/concurrency
+2025-08-13 22:24:04,166 - root - ERROR - 獲取數據庫modeltype失敗: IO Error: Could not set lock on file "/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/db/sales_specs.db": Conflicting lock is held in /Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/bin/python3.11 (PID 70126) by user xrickliao. However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/stable/connect/concurrency
+/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/RAG/LLM/LLMInitializer.py:18: LangChainDeprecationWarning: The class `Ollama` was deprecated in LangChain 0.3.1 and will be removed in 1.0.0. An updated version of the class exists in the :class:`~langchain-ollama package and should be used instead. To use it run `pip install -U :class:`~langchain-ollama` and import as `from :class:`~langchain_ollama import OllamaLLM``.
+  self.llm = Ollama(
+/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/RAG/DB/MilvusQuery.py:12: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-huggingface package and should be used instead. To use it run `pip install -U :class:`~langchain-huggingface` and import as `from :class:`~langchain_huggingface import HuggingFaceEmbeddings``.
+  self.embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+2025-08-13 22:24:06,166 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-13 22:24:06,166 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-13 22:24:09,499 - root - INFO - 成功載入關鍵字配置: ['display', 'cpu', 'gpu', 'memory', 'storage', 'battery', 'portability', 'connectivity', 'comparison', 'specifications', 'latest', 'usage_scenario', 'budget']
+2025-08-13 22:24:09,499 - root - INFO - 成功載入特點配置
+2025-08-13 22:24:09,499 - root - INFO - 成功載入特點配置: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-08-13 22:24:09,499 - root - INFO - 對話鍊生成器初始化完成，支援特點: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-08-13 22:24:09,499 - root - INFO - 多輪對話管理器初始化完成，支援 7 個特點
+2025-08-13 22:24:09,499 - root - INFO - 成功載入漏斗問題配置
+2025-08-13 22:24:09,499 - root - INFO - 漏斗對話管理器初始化完成，載入 3 個問題模板
+/Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/lib/python3.11/site-packages/pydantic/_internal/_config.py:373: UserWarning: Valid config keys have changed in V2:
+* 'schema_extra' has been renamed to 'json_schema_extra'
+  warnings.warn(message, UserWarning)
+2025-08-13 22:24:09,519 - api.mgfd_routes - INFO - Redis連接成功
+2025-08-13 22:24:09,519 - libs.mgfd_cursor.mgfd_system - INFO - 初始化MGFD系統...
+2025-08-13 22:24:09,519 - libs.mgfd_cursor.llm_manager - WARNING - LangChain 不可用，將使用模擬 LLM
+2025-08-13 22:24:09,519 - libs.mgfd_cursor.llm_manager - INFO - 已載入主提示: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/docs/Prompts/MGFD_Foundmental_Prompt.txt
+2025-08-13 22:24:09,519 - libs.mgfd_cursor.config_loader - INFO - 槽位同義詞載入成功
+2025-08-13 22:24:09,519 - libs.mgfd_cursor.config_loader - INFO - 槽位模式載入成功
+2025-08-13 22:24:09,519 - libs.mgfd_cursor.knowledge_base - WARNING - 產品文件不存在: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/data/raw/notebook_products.csv，使用示例數據
+2025-08-13 22:24:09,519 - libs.mgfd_cursor.mgfd_system - INFO - MGFD系統初始化完成
+2025-08-13 22:24:09,519 - api.mgfd_routes - INFO - MGFD系統初始化成功
+INFO:     Started server process [90521]
+INFO:     Waiting for application startup.
+2025-08-13 22:24:09,551 - api.history_routes - INFO - History database initialized successfully
+2025-08-13 22:24:09,551 - root - INFO - 🚀 MGFD SalesRAG Integration System 啟動中...
+2025-08-13 22:24:09,551 - root - INFO - 📖 API文檔: http://0.0.0.0:8001/docs
+2025-08-13 22:24:09,551 - root - INFO - 🔍 ReDoc文檔: http://0.0.0.0:8001/redoc
+2025-08-13 22:24:09,551 - root - INFO - ✅ 系統啟動完成
+2025-08-13 22:24:09,551 - api.history_routes - INFO - History database initialized successfully
+INFO:     Application startup complete.
+2025-08-13 22:24:09,627 - watchfiles.main - INFO - 3 changes detected
+2025-08-13 22:24:14,426 - watchfiles.main - INFO - 3 changes detected
+WARNING:  WatchFiles detected changes in 'libs/mgfd_cursor/mgfd_system.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2025-08-13 22:24:14,601 - root - INFO - 🛑 MGFD SalesRAG Integration System 關閉中...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [90521]
+2025-08-13 22:24:18,239 - root - ERROR - 獲取數據庫modelname失敗: IO Error: Could not set lock on file "/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/db/sales_specs.db": Conflicting lock is held in /Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/bin/python3.11 (PID 70126) by user xrickliao. However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/stable/connect/concurrency
+2025-08-13 22:24:18,242 - root - ERROR - 獲取數據庫modeltype失敗: IO Error: Could not set lock on file "/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/db/sales_specs.db": Conflicting lock is held in /Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/bin/python3.11 (PID 70126) by user xrickliao. However, you would be able to open this database in read-only mode, e.g. by using the -readonly parameter in the CLI. See also https://duckdb.org/docs/stable/connect/concurrency
+/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/RAG/LLM/LLMInitializer.py:18: LangChainDeprecationWarning: The class `Ollama` was deprecated in LangChain 0.3.1 and will be removed in 1.0.0. An updated version of the class exists in the :class:`~langchain-ollama package and should be used instead. To use it run `pip install -U :class:`~langchain-ollama` and import as `from :class:`~langchain_ollama import OllamaLLM``.
+  self.llm = Ollama(
+/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/RAG/DB/MilvusQuery.py:12: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-huggingface package and should be used instead. To use it run `pip install -U :class:`~langchain-huggingface` and import as `from :class:`~langchain_huggingface import HuggingFaceEmbeddings``.
+  self.embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+2025-08-13 22:24:20,262 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-13 22:24:20,262 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-13 22:24:23,908 - root - INFO - 成功載入關鍵字配置: ['display', 'cpu', 'gpu', 'memory', 'storage', 'battery', 'portability', 'connectivity', 'comparison', 'specifications', 'latest', 'usage_scenario', 'budget']
+2025-08-13 22:24:23,908 - root - INFO - 成功載入特點配置
+2025-08-13 22:24:23,909 - root - INFO - 成功載入特點配置: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-08-13 22:24:23,909 - root - INFO - 對話鍊生成器初始化完成，支援特點: ['cpu', 'gpu', 'memory', 'storage', 'size', 'weight', 'price']
+2025-08-13 22:24:23,909 - root - INFO - 多輪對話管理器初始化完成，支援 7 個特點
+2025-08-13 22:24:23,909 - root - INFO - 成功載入漏斗問題配置
+2025-08-13 22:24:23,909 - root - INFO - 漏斗對話管理器初始化完成，載入 3 個問題模板
+/Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/lib/python3.11/site-packages/pydantic/_internal/_config.py:373: UserWarning: Valid config keys have changed in V2:
+* 'schema_extra' has been renamed to 'json_schema_extra'
+  warnings.warn(message, UserWarning)
+2025-08-13 22:24:23,930 - api.mgfd_routes - INFO - Redis連接成功
+2025-08-13 22:24:23,930 - libs.mgfd_cursor.mgfd_system - INFO - 初始化MGFD系統...
+2025-08-13 22:24:23,930 - libs.mgfd_cursor.llm_manager - WARNING - LangChain 不可用，將使用模擬 LLM
+2025-08-13 22:24:23,930 - libs.mgfd_cursor.llm_manager - INFO - 已載入主提示: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/docs/Prompts/MGFD_Foundmental_Prompt.txt
+2025-08-13 22:24:23,930 - libs.mgfd_cursor.config_loader - INFO - 槽位同義詞載入成功
+2025-08-13 22:24:23,930 - libs.mgfd_cursor.config_loader - INFO - 槽位模式載入成功
+2025-08-13 22:24:23,930 - libs.mgfd_cursor.knowledge_base - WARNING - 產品文件不存在: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/data/raw/notebook_products.csv，使用示例數據
+2025-08-13 22:24:23,930 - libs.mgfd_cursor.mgfd_system - INFO - MGFD系統初始化完成
+2025-08-13 22:24:23,930 - api.mgfd_routes - INFO - MGFD系統初始化成功
+INFO:     Started server process [90800]
+INFO:     Waiting for application startup.
+2025-08-13 22:24:23,962 - api.history_routes - INFO - History database initialized successfully
+2025-08-13 22:24:23,962 - root - INFO - 🚀 MGFD SalesRAG Integration System 啟動中...
+2025-08-13 22:24:23,962 - root - INFO - 📖 API文檔: http://0.0.0.0:8001/docs
+2025-08-13 22:24:23,962 - root - INFO - 🔍 ReDoc文檔: http://0.0.0.0:8001/redoc
+2025-08-13 22:24:23,962 - root - INFO - ✅ 系統啟動完成
+2025-08-13 22:24:23,962 - api.history_routes - INFO - History database initialized successfully
+INFO:     Application startup complete.
+2025-08-13 22:24:24,013 - watchfiles.main - INFO - 3 changes detected
+2025-08-13 22:25:12,169 - watchfiles.main - INFO - 3 changes detected
+2025-08-13 22:26:02,247 - watchfiles.main - INFO - 3 changes detected
+2025-08-13 22:26:50,200 - watchfiles.main - INFO - 1 change detected
+正在搜尋服務目錄: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/services
+成功初始化 Ollama 模型: deepseek-r1:7b
+成功連接到 Milvus at localhost:19530
+成功設定並載入 Collection: sales_notebook_specs
+成功連接到 DuckDB: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/db/sales_specs.db
+成功載入服務: sales_assistant
+INFO:     127.0.0.1:50645 - "GET /mgfd_cursor HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50645 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+2025-08-13 22:28:00,522 - api.mgfd_routes - INFO - 創建新會話: ab148c14-5fa3-4af7-94f8-58a8fa0ea4c0
+2025-08-13 22:28:00,523 - libs.mgfd_cursor.redis_state_manager - INFO - 刪除會話: ab148c14-5fa3-4af7-94f8-58a8fa0ea4c0
+INFO:     127.0.0.1:50645 - "POST /api/mgfd_cursor/session/create HTTP/1.1" 200 OK
+2025-08-13 22:28:00,733 - api.mgfd_routes - INFO - 獲取系統統計資訊
+2025-08-13 22:28:00,733 - libs.mgfd_cursor.redis_state_manager - ERROR - 清理過期會話失敗: 'str' object has no attribute 'decode'
+INFO:     127.0.0.1:50645 - "GET /api/mgfd_cursor/stats HTTP/1.1" 200 OK
+2025-08-13 22:28:07,808 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: ab148c14-5fa3-4af7-94f8-58a8fa0ea4c0, 消息: 請幫我介紹輕巧，容易帶在身邊，開關機速度快的筆電...
+2025-08-13 22:28:07,808 - libs.mgfd_cursor.mgfd_system - INFO - 處理會話 ab148c14-5fa3-4af7-94f8-58a8fa0ea4c0 的消息: 請幫我介紹輕巧，容易帶在身邊，開關機速度快的筆電...
+2025-08-13 22:28:07,809 - libs.mgfd_cursor.llm_manager - INFO - 槽位提取結果: {}
+2025-08-13 22:28:07,809 - libs.mgfd_cursor.user_input_handler - INFO - 槽位提取結果: {}
+2025-08-13 22:28:07,810 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: ab148c14-5fa3-4af7-94f8-58a8fa0ea4c0
+2025-08-13 22:28:07,810 - libs.mgfd_cursor.action_executor - WARNING - 未知動作類型: elicit_information
+2025-08-13 22:28:07,810 - libs.mgfd_cursor.response_generator - INFO - 生成回應: unknown
+2025-08-13 22:28:07,811 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: ab148c14-5fa3-4af7-94f8-58a8fa0ea4c0
+2025-08-13 22:28:07,811 - libs.mgfd_cursor.mgfd_system - INFO - 會話 ab148c14-5fa3-4af7-94f8-58a8fa0ea4c0 處理完成，動作類型: elicit_information
+INFO:     127.0.0.1:50646 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
+2025-08-13 22:29:34,582 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:29:58,852 - watchfiles.main - INFO - 2 changes detected
+2025-08-13 22:30:26,150 - watchfiles.main - INFO - 2 changes detected
+2025-08-13 22:30:47,833 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: ab148c14-5fa3-4af7-94f8-58a8fa0ea4c0, 消息: 輕便，容易攜...
+2025-08-13 22:30:47,833 - libs.mgfd_cursor.mgfd_system - INFO - 處理會話 ab148c14-5fa3-4af7-94f8-58a8fa0ea4c0 的消息: 輕便，容易攜...
+2025-08-13 22:30:47,834 - libs.mgfd_cursor.redis_state_manager - ERROR - 載入會話狀態失敗: 'str' object has no attribute 'decode'
+2025-08-13 22:30:47,834 - libs.mgfd_cursor.llm_manager - INFO - 槽位提取結果: {}
+2025-08-13 22:30:47,835 - libs.mgfd_cursor.user_input_handler - INFO - 槽位提取結果: {}
+2025-08-13 22:30:47,838 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: ab148c14-5fa3-4af7-94f8-58a8fa0ea4c0
+2025-08-13 22:30:47,838 - libs.mgfd_cursor.action_executor - WARNING - 未知動作類型: elicit_information
+2025-08-13 22:30:47,838 - libs.mgfd_cursor.response_generator - INFO - 生成回應: unknown
+2025-08-13 22:30:47,839 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: ab148c14-5fa3-4af7-94f8-58a8fa0ea4c0
+2025-08-13 22:30:47,839 - libs.mgfd_cursor.mgfd_system - INFO - 會話 ab148c14-5fa3-4af7-94f8-58a8fa0ea4c0 處理完成，動作類型: elicit_information
+INFO:     127.0.0.1:51363 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
+2025-08-13 22:31:17,133 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: ab148c14-5fa3-4af7-94f8-58a8fa0ea4c0, 消息: 輕便，容易攜帶，用於文書處理...
+2025-08-13 22:31:17,133 - libs.mgfd_cursor.mgfd_system - INFO - 處理會話 ab148c14-5fa3-4af7-94f8-58a8fa0ea4c0 的消息: 輕便，容易攜帶，用於文書處理...
+2025-08-13 22:31:17,134 - libs.mgfd_cursor.redis_state_manager - ERROR - 載入會話狀態失敗: 'str' object has no attribute 'decode'
+2025-08-13 22:31:17,134 - libs.mgfd_cursor.llm_manager - INFO - 槽位提取結果: {}
+2025-08-13 22:31:17,134 - libs.mgfd_cursor.user_input_handler - INFO - 槽位提取結果: {}
+2025-08-13 22:31:17,135 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: ab148c14-5fa3-4af7-94f8-58a8fa0ea4c0
+2025-08-13 22:31:17,135 - libs.mgfd_cursor.action_executor - WARNING - 未知動作類型: elicit_information
+2025-08-13 22:31:17,135 - libs.mgfd_cursor.response_generator - INFO - 生成回應: unknown
+2025-08-13 22:31:17,136 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: ab148c14-5fa3-4af7-94f8-58a8fa0ea4c0
+2025-08-13 22:31:17,136 - libs.mgfd_cursor.mgfd_system - INFO - 會話 ab148c14-5fa3-4af7-94f8-58a8fa0ea4c0 處理完成，動作類型: elicit_information
+INFO:     127.0.0.1:51487 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
+2025-08-13 22:31:50,074 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:32:08,732 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:32:37,722 - watchfiles.main - INFO - 2 changes detected
+2025-08-13 22:32:41,020 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:32:46,050 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:35:23,491 - watchfiles.main - INFO - 2 changes detected
+2025-08-13 22:36:50,103 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:36:50,735 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:36:52,539 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:36:53,280 - watchfiles.main - INFO - 3 changes detected
+2025-08-13 22:36:53,964 - watchfiles.main - INFO - 4 changes detected
+2025-08-13 22:38:31,181 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:38:39,967 - watchfiles.main - INFO - 2 changes detected
+2025-08-13 22:41:50,108 - watchfiles.main - INFO - 1 change detected
+2025-08-13 22:42:27,470 - watchfiles.main - INFO - 1 change detected

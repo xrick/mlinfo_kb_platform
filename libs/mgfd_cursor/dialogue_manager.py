@@ -283,3 +283,6 @@ class MGFDDialogueManager:
             "total_products": len(self.notebook_kb.products),
             "slot_schema_count": len(self.slot_schema)
         }
+
+# 向後相容性：提供 DialogueManager 別名
+DialogueManager = MGFDDialogueManager
