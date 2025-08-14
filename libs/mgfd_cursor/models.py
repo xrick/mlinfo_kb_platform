@@ -21,6 +21,7 @@ class ActionType(Enum):
     """行動類型枚舉"""
     ELICIT_INFORMATION = "elicit_information"
     RECOMMEND_PRODUCTS = "recommend_products"
+    RECOMMEND_POPULAR_PRODUCTS = "recommend_popular_products"
     HANDLE_INTERRUPTION = "handle_interruption"
     CLARIFY_INPUT = "clarify_input"
 

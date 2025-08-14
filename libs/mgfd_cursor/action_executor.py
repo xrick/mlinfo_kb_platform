@@ -29,6 +29,7 @@ class ActionExecutor:
         self.action_handlers = {
             "elicit_information": self._handle_elicit_slot,
             "recommend_products": self._handle_recommend_products,
+            "recommend_popular_products": self._handle_recommend_popular_products,
             "clarify_input": self._handle_clarify_input,
             "handle_interruption": self._handle_interruption,
             "special_case_response": self._handle_special_case
@@ -128,6 +129,26 @@ class ActionExecutor:
             "recommendations": recommendations,
             "confidence": command.get("confidence", 0.9)
         }
+    
+    def _handle_recommend_popular_products(self, command: Dict[str, Any], state: Dict[str, Any]) -> Dict[str, Any]:
+        """處理熱門產品推薦動作"""
+        try:
+            # 生成熱門產品推薦
+            popular_products = self._get_popular_products()
+            
+            # 生成推薦回應
+            response = self._generate_popular_recommendation_response(popular_products)
+            
+            return {
+                "action_type": "popular_recommendation",
+                "content": response,
+                "recommendations": popular_products,
+                "confidence": command.get("confidence", 0.95)
+            }
+            
+        except Exception as e:
+            self.logger.error(f"熱門產品推薦失敗: {e}")
+            return self._handle_recommend_products(command, state)  # 降級到一般推薦
     
     def _handle_clarify_input(self, command: Dict[str, Any], state: Dict[str, Any]) -> Dict[str, Any]:
         """處理輸入澄清動作"""
@@ -461,3 +482,58 @@ class ActionExecutor:
             "confidence": special_case.get("similarity_score", 0.8),
             "timestamp": datetime.now().isoformat()
         }
+    
+    def _get_popular_products(self) -> List[Dict[str, Any]]:
+        """獲取熱門產品列表"""
+        # 這裡可以從數據庫或配置中獲取熱門產品
+        # 暫時返回示例數據
+        return [
+            {
+                "id": "POP001",
+                "name": "ASUS ROG Strix G15",
+                "brand": "ASUS",
+                "price": "NT$ 45,900",
+                "popularity_score": 9.2,
+                "sales_rank": 1,
+                "features": ["遊戲性能強", "散熱優秀", "性價比高"],
+                "description": "最受歡迎的遊戲筆電，性能強勁且價格合理"
+            },
+            {
+                "id": "POP002", 
+                "name": "Lenovo ThinkPad X1 Carbon",
+                "brand": "Lenovo",
+                "price": "NT$ 52,900",
+                "popularity_score": 9.0,
+                "sales_rank": 2,
+                "features": ["商務首選", "輕薄便攜", "品質可靠"],
+                "description": "商務人士最愛的輕薄筆電，品質穩定可靠"
+            },
+            {
+                "id": "POP003",
+                "name": "MacBook Air M2",
+                "brand": "Apple",
+                "price": "NT$ 35,900",
+                "popularity_score": 8.8,
+                "sales_rank": 3,
+                "features": ["續航超長", "性能優秀", "設計精美"],
+                "description": "蘋果最受歡迎的筆電，續航力驚人且性能優秀"
+            }
+        ]
+    
+    def _generate_popular_recommendation_response(self, products: List[Dict[str, Any]]) -> str:
+        """生成熱門產品推薦回應"""
+        response = "🔥 **目前最受歡迎的筆電推薦** 🔥\n\n"
+        response += "根據銷量、用戶評價和市場熱度，我為您推薦以下熱門選擇：\n\n"
+        
+        for i, product in enumerate(products, 1):
+            response += f"**{i}. {product['name']}**\n"
+            response += f"   💰 價格：{product['price']}\n"
+            response += f"   ⭐ 熱門度：{product['popularity_score']}/10\n"
+            response += f"   🏆 銷量排名：第{product['sales_rank']}名\n"
+            response += f"   ✨ 特色：{', '.join(product['features'])}\n"
+            response += f"   📝 簡介：{product['description']}\n\n"
+        
+        response += "這些都是目前市場上最受歡迎的筆電，性價比高且用戶評價良好。"
+        response += "您對哪一款比較感興趣？我可以為您提供更詳細的規格和比較。"
+        
+        return response

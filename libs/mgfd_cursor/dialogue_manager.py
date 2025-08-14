@@ -119,6 +119,13 @@ class MGFDDialogueManager:
                 message="我理解您想要改變話題。讓我重新開始幫助您找到合適的筆電。"
             )
         
+        # 檢查是否為熱門產品請求
+        if self._is_popular_request(user_input):
+            return DialogueAction(
+                action_type=ActionType.RECOMMEND_POPULAR_PRODUCTS,
+                message="我了解您想要了解熱門筆電！讓我為您推薦目前最受歡迎的選擇。"
+            )
+        
         # 檢查缺失的必要槽位
         missing_required_slots = self._get_missing_required_slots(state)
         
@@ -146,6 +153,16 @@ class MGFDDialogueManager:
         
         user_input_lower = user_input.lower()
         return any(keyword in user_input_lower for keyword in interruption_keywords)
+    
+    def _is_popular_request(self, user_input: str) -> bool:
+        """檢查是否為熱門產品請求"""
+        popular_keywords = [
+            "多人選擇", "熱門", "受歡迎", "銷量好", "比較多人", 
+            "最受歡迎", "大家都在買", "熱銷", "人氣", "推薦度高"
+        ]
+        
+        user_input_lower = user_input.lower()
+        return any(keyword in user_input_lower for keyword in popular_keywords)
     
     def _get_missing_required_slots(self, state: NotebookDialogueState) -> List[str]:
         """獲取缺失的必要槽位"""

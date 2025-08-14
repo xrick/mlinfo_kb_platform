@@ -6,7 +6,7 @@
   "categories": {
     "difficult_slot_detection": {
       "description": "難以偵測的槽位值案例",
-      "total_cases": 3,
+      "total_cases": 4,
       "cases": [
         {
           "case_id": "DSL001",
@@ -158,6 +158,57 @@
             "guidance_needed",
             "beginner_friendly",
             "decision_paralysis"
+          ]
+        },
+        {
+          "case_id": "DSL003",
+          "priority": "high",
+          "customer_query": "請幫我介紹目前比較多人選擇的筆電",
+          "query_variants": [
+            "比較多人選擇的筆電",
+            "熱門筆電推薦",
+            "銷量好的筆電",
+            "最受歡迎的筆電",
+            "大家都在買的筆電",
+            "熱銷筆電",
+            "人氣筆電",
+            "推薦度高的筆電"
+          ],
+          "detected_intent": {
+            "primary_slot": "popular_choice",
+            "inferred_slots": {
+              "usage_purpose": "general",
+              "budget_range": "mid_range",
+              "popularity_focus": true
+            },
+            "confidence": 0.95,
+            "reasoning": "用戶明確要求熱門/多人選擇的筆電，應該直接推薦熱門產品"
+          },
+          "recommended_response": {
+            "response_type": "popular_recommendation",
+            "skip_generic_usage_question": true,
+            "message": "我了解您想要了解熱門筆電！讓我為您推薦目前最受歡迎的選擇：",
+            "action": "RECOMMEND_POPULAR_PRODUCTS",
+            "popularity_criteria": {
+              "sales_volume": "high",
+              "customer_rating": "excellent",
+              "market_demand": "strong",
+              "price_performance_ratio": "good"
+            },
+            "recommendation_approach": {
+              "focus": "popular_products",
+              "explanation": "這些是目前最受歡迎的筆電，性價比高且用戶評價良好",
+              "follow_up": "您對哪一款比較感興趣？我可以為您提供更詳細的規格和比較"
+            }
+          },
+          "success_rate": 0.98,
+          "usage_count": 0,
+          "last_used": null,
+          "created_date": "2025-08-14",
+          "tags": [
+            "popular_choice",
+            "direct_recommendation",
+            "high_confidence"
           ]
         }
       ]

@@ -13,6 +13,7 @@ from pathlib import Path
 from sentence_transformers import SentenceTransformer
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
+from .similarity_engine import MGFDSimilarityEngine
 
 class SpecialCasesKnowledgeBase:
     """特殊案例知識庫類別"""
@@ -30,6 +31,9 @@ class SpecialCasesKnowledgeBase:
         self.cached_embeddings = {}
         self.loop_detection_history = {}
         self.logger = logging.getLogger(__name__)
+        
+        # 初始化新的相似度引擎
+        self.similarity_engine = MGFDSimilarityEngine()
         
         # 載入知識庫
         self._load_knowledge_base()
@@ -123,27 +127,15 @@ class SpecialCasesKnowledgeBase:
         Returns:
             相似度分數 (0-1)
         """
-        if not self.embedding_model:
-            return self._fallback_similarity_calculation(query, case)
-        
         try:
-            # 準備比較文本列表
+            # 使用新的相似度引擎
             comparison_texts = [case.get("customer_query", "")]
             comparison_texts.extend(case.get("query_variants", []))
             
-            # 計算嵌入向量
-            query_embedding = self._get_or_compute_embedding(query)
-            case_embeddings = [self._get_or_compute_embedding(text) for text in comparison_texts if text]
-            
-            if not case_embeddings:
+            if not comparison_texts:
                 return 0.0
             
-            # 計算相似度
-            similarities = []
-            for case_embedding in case_embeddings:
-                similarity = cosine_similarity([query_embedding], [case_embedding])[0][0]
-                # 轉換 np.float32 到 Python native float 以避免序列化問題
-                similarities.append(float(similarity))
+            similarities = self.similarity_engine.calculate_similarity(query, comparison_texts)
             
             # 根據權重計算最終相似度
             weights = self.knowledge_data.get("similarity_matching", {}).get("similarity_weights", {

@@ -314,7 +314,7 @@ class MGFDLLMManager:
             
             # 使用緩存檢查
             if self.cache_enabled:
-                cache_key = self._generate_cache_key(prompt)
+                cache_key = self._generate_cache_key(prompt, {})
                 cached_result = self._get_from_cache(cache_key)
                 if cached_result:
                     self.logger.info("從緩存返回槽位分類結果")

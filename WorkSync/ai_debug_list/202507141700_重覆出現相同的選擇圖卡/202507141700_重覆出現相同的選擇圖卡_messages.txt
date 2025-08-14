@@ -1,0 +1,61 @@
+frontend console messages:
+
+mgfd_cursor:611 🔧 renderAssistantMessage called with: {contentType: 'string', contentValue: '會話創建成功', dataType: 'object', dataKeys: null}
+mgfd_cursor:654 📄 Processing plain text response
+mgfd_cursor:540 🔄 Received data from backend: {success: true, response: '{\n  "type": "funnel_question",\n  "session_id": "",…to_scroll": true,\n  "button_type": "suggestion"\n}', session_id: 'fc69ab2b-8667-4f91-88d8-2312bdd84f80', timestamp: '2025-08-14T16:59:12.454859', action_type: 'elicit_information', …}
+mgfd_cursor:554 📦 Detected standard response format
+mgfd_cursor:611 🔧 renderAssistantMessage called with: {contentType: 'string', contentValue: '{\n  "type": "funnel_question",\n  "session_id": "",…to_scroll": true,\n  "button_type": "suggestion"\n}', dataType: 'object', dataKeys: Array(9)}
+mgfd_cursor:637 📝 Parsed JSON content: {type: 'funnel_question', session_id: '', question: {…}, context: {…}, message: '請選擇最符合您需求的選項，我將為您提供更精準的協助。', …}
+mgfd_cursor:646 🎯 Processing structured content: {type: 'funnel_question', session_id: '', question: {…}, context: {…}, message: '請選擇最符合您需求的選項，我將為您提供更精準的協助。', …}
+mgfd_cursor:660 🎯 renderStructuredResponse called with: {type: 'funnel_question', session_id: '', question: {…}, context: {…}, message: '請選擇最符合您需求的選項，我將為您提供更精準的協助。', …}
+mgfd_cursor:690 🔥 Rendering funnel question: {type: 'funnel_question', session_id: '', question: {…}, context: {…}, message: '請選擇最符合您需求的選項，我將為您提供更精準的協助。', …}
+mgfd_cursor:730 ✅ Funnel question validation passed
+mgfd_cursor:887 🎯 Funnel option clicked: {optionId: 'business', sessionId: ''}
+mgfd_cursor:611 🔧 renderAssistantMessage called with: {contentType: 'string', contentValue: '{\n  "type": "funnel_question",\n  "session_id": "",…to_scroll": true,\n  "button_type": "suggestion"\n}', dataType: 'object', dataKeys: Array(9)}
+mgfd_cursor:637 📝 Parsed JSON content: {type: 'funnel_question', session_id: '', question: {…}, context: {…}, message: '請選擇最符合您需求的選項，我將為您提供更精準的協助。', …}
+mgfd_cursor:646 🎯 Processing structured content: {type: 'funnel_question', session_id: '', question: {…}, context: {…}, message: '請選擇最符合您需求的選項，我將為您提供更精準的協助。', …}
+mgfd_cursor:660 🎯 renderStructuredResponse called with: {type: 'funnel_question', session_id: '', question: {…}, context: {…}, message: '請選擇最符合您需求的選項，我將為您提供更精準的協助。', …}
+mgfd_cursor:690 🔥 Rendering funnel question: {type: 'funnel_question', session_id: '', question: {…}, context: {…}, message: '請選擇最符合您需求的選項，我將為您提供更精準的協助。', …}
+mgfd_cursor:730 ✅ Funnel question validation passed
+
+
+backend messages:
+2025-08-14 16:58:08,778 - api.mgfd_routes - INFO - 創建新會話: fc69ab2b-8667-4f91-88d8-2312bdd84f80
+2025-08-14 16:58:08,778 - libs.mgfd_cursor.redis_state_manager - INFO - 刪除會話: fc69ab2b-8667-4f91-88d8-2312bdd84f80
+INFO:     127.0.0.1:34332 - "POST /api/mgfd_cursor/session/create HTTP/1.1" 200 OK
+2025-08-14 16:58:08,957 - api.mgfd_routes - INFO - 獲取系統統計資訊
+2025-08-14 16:58:08,957 - libs.mgfd_cursor.redis_state_manager - ERROR - 清理過期會話失敗: 'str' object has no attribute 'decode'
+INFO:     127.0.0.1:34332 - "GET /api/mgfd_cursor/stats HTTP/1.1" 200 OK
+2025-08-14 16:58:36,175 - watchfiles.main - INFO - 1 change detected
+2025-08-14 16:59:10,902 - watchfiles.main - INFO - 1 change detected
+2025-08-14 16:59:12,449 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: fc69ab2b-8667-4f91-88d8-2312bdd84f80, 消息: 請幫我介紹目前比較多人選擇的筆電...
+2025-08-14 16:59:12,449 - libs.mgfd_cursor.mgfd_system - INFO - 處理會話 fc69ab2b-8667-4f91-88d8-2312bdd84f80 的消息: 請幫我介紹目前比較多人選擇的筆電...
+2025-08-14 16:59:12,450 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: 請幫我介紹目前比較多人選擇的筆電...
+2025-08-14 16:59:12,453 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 傳統提取未找到槽位，使用LLM智能分類
+2025-08-14 16:59:12,453 - libs.mgfd_cursor.llm_manager - INFO - 執行槽位分類...
+2025-08-14 16:59:12,453 - libs.mgfd_cursor.llm_manager - ERROR - 槽位分類失敗: MGFDLLMManager._generate_cache_key() missing 1 required positional argument: 'kwargs'
+2025-08-14 16:59:12,453 - libs.mgfd_cursor.enhanced_slot_extractor - WARNING - LLM分類置信度不足: 0.0
+2025-08-14 16:59:12,453 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 槽位提取結果: {'timestamp': '2025-08-14T16:59:12.453744', 'user_input': '請幫我介紹目前比較多人選擇的筆電', 'extracted_slots': {}, 'extraction_method': 'failed'}
+2025-08-14 16:59:12,453 - libs.mgfd_cursor.user_input_handler - INFO - 槽位提取結果: {'extracted_slots': {}, 'extraction_method': 'enhanced_extraction'}
+2025-08-14 16:59:12,454 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: fc69ab2b-8667-4f91-88d8-2312bdd84f80
+2025-08-14 16:59:12,454 - libs.mgfd_cursor.llm_manager - INFO - Act階段結果: 這是一個模擬的 LLM 回應。
+2025-08-14 16:59:12,454 - libs.mgfd_cursor.response_generator - INFO - 生成回應: elicitation
+2025-08-14 16:59:12,454 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: fc69ab2b-8667-4f91-88d8-2312bdd84f80
+2025-08-14 16:59:12,454 - libs.mgfd_cursor.mgfd_system - INFO - 會話 fc69ab2b-8667-4f91-88d8-2312bdd84f80 處理完成，動作類型: elicit_information
+INFO:     127.0.0.1:49522 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
+2025-08-14 16:59:18,806 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: 94edee45-5042-4153-92c5-4302116e511c, 消息: 選擇選項: business...
+2025-08-14 16:59:18,807 - libs.mgfd_cursor.mgfd_system - INFO - 處理會話 94edee45-5042-4153-92c5-4302116e511c 的消息: 選擇選項: business...
+2025-08-14 16:59:18,807 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: 選擇選項: business...
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 98.29it/s]
+2025-08-14 16:59:18,821 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 槽位提取結果: {'timestamp': '2025-08-14T16:59:18.821869', 'user_input': '選擇選項: business', 'extracted_slots': {'usage_purpose': 'business'}, 'extraction_method': 'enhanced'}
+2025-08-14 16:59:18,821 - libs.mgfd_cursor.user_input_handler - INFO - 槽位提取結果: {'extracted_slots': {'usage_purpose': 'business'}, 'extraction_method': 'enhanced_extraction'}
+2025-08-14 16:59:18,822 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 94edee45-5042-4153-92c5-4302116e511c
+2025-08-14 16:59:18,822 - libs.mgfd_cursor.llm_manager - INFO - Act階段結果: 這是一個模擬的 LLM 回應。
+2025-08-14 16:59:18,822 - libs.mgfd_cursor.response_generator - INFO - 生成回應: elicitation
+2025-08-14 16:59:18,822 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 94edee45-5042-4153-92c5-4302116e511c
+2025-08-14 16:59:18,822 - libs.mgfd_cursor.mgfd_system - INFO - 會話 94edee45-5042-4153-92c5-4302116e511c 處理完成，動作類型: elicit_information
+INFO:     127.0.0.1:48614 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
+2025-08-14 17:00:31,949 - watchfiles.main - INFO - 1 change detected
+2025-08-14 17:00:45,628 - watchfiles.main - INFO - 1 change detected
+2025-08-14 17:01:34,744 - watchfiles.main - INFO - 1 change detected
+2025-08-14 17:02:08,669 - watchfiles.main - INFO - 1 change detected
