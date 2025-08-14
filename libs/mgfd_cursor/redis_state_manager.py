@@ -49,14 +49,20 @@ class RedisStateManager:
             if not session_data:
                 return None
             
-            # 解析會話數據
-            session_state = json.loads(session_data.decode('utf-8'))
+            # 解析會話數據 - 智能處理bytes和string類型
+            if isinstance(session_data, bytes):
+                session_state = json.loads(session_data.decode('utf-8'))
+            else:
+                session_state = json.loads(session_data)
             
             # 載入槽位信息
             slots_key = f"{self.SLOTS_PREFIX}{session_id}"
             slots_data = self.redis_client.get(slots_key)
             if slots_data:
-                session_state["filled_slots"] = json.loads(slots_data.decode('utf-8'))
+                if isinstance(slots_data, bytes):
+                    session_state["filled_slots"] = json.loads(slots_data.decode('utf-8'))
+                else:
+                    session_state["filled_slots"] = json.loads(slots_data)
             else:
                 session_state["filled_slots"] = {}
             
@@ -64,9 +70,12 @@ class RedisStateManager:
             history_key = f"{self.HISTORY_PREFIX}{session_id}"
             history_data = self.redis_client.lrange(history_key, 0, -1)
             if history_data:
-                session_state["chat_history"] = [
-                    json.loads(msg.decode('utf-8')) for msg in history_data
-                ]
+                session_state["chat_history"] = []
+                for msg in history_data:
+                    if isinstance(msg, bytes):
+                        session_state["chat_history"].append(json.loads(msg.decode('utf-8')))
+                    else:
+                        session_state["chat_history"].append(json.loads(msg))
             else:
                 session_state["chat_history"] = []
             
@@ -74,7 +83,10 @@ class RedisStateManager:
             recommendations_key = f"{self.RECOMMENDATIONS_PREFIX}{session_id}"
             recommendations_data = self.redis_client.get(recommendations_key)
             if recommendations_data:
-                session_state["recommendations"] = json.loads(recommendations_data.decode('utf-8'))
+                if isinstance(recommendations_data, bytes):
+                    session_state["recommendations"] = json.loads(recommendations_data.decode('utf-8'))
+                else:
+                    session_state["recommendations"] = json.loads(recommendations_data)
             else:
                 session_state["recommendations"] = []
             

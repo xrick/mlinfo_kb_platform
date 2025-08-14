@@ -9,6 +9,7 @@ import json
 import logging
 from typing import Dict, Any, Optional, List
 from datetime import datetime
+from .enhanced_slot_extractor import EnhancedSlotExtractor
 
 class UserInputHandler:
     """用戶輸入處理模組"""
@@ -24,6 +25,9 @@ class UserInputHandler:
         self.llm_manager = llm_manager
         self.slot_schema = slot_schema
         self.logger = logging.getLogger(__name__)
+        
+        # 初始化增強型槽位提取器
+        self.enhanced_extractor = EnhancedSlotExtractor(llm_manager, slot_schema)
     
     def extract_slots_from_text(self, text: str, current_state: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -37,14 +41,9 @@ class UserInputHandler:
             提取的槽位信息
         """
         try:
-            # 構建槽位提取提示詞
-            prompt = self._build_slot_extraction_prompt(text, current_state)
-            
-            # 調用LLM進行槽位提取
-            response = self.llm_manager.extract_slots_with_llm(text, self.slot_schema)
-            
-            # 解析LLM回應
-            extracted_slots = self._parse_slot_extraction_response(response)
+            # 使用增強型槽位提取器
+            current_slots = current_state.get("filled_slots", {})
+            extracted_slots = self.enhanced_extractor.extract_slots_with_classification(text, current_slots)
             
             self.logger.info(f"槽位提取結果: {extracted_slots}")
             return extracted_slots

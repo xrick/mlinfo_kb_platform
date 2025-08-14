@@ -1,0 +1,27 @@
+INFO:     127.0.0.1:43100 - "GET /api/mgfd_cursor/stats HTTP/1.1" 200 OK
+2025-08-12 17:31:51,228 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: 1a714720-8c77-4508-8446-f220b0c175a6, 消息: 請介紹一款新便容易使用的筆電l...
+2025-08-12 17:31:51,228 - libs.mgfd_cursor.mgfd_system - INFO - 處理會話 1a714720-8c77-4508-8446-f220b0c175a6 的消息: 請介紹一款新便容易使用的筆電l...
+2025-08-12 17:31:51,228 - libs.mgfd_cursor.llm_manager - INFO - 槽位提取結果: {}
+2025-08-12 17:31:51,228 - libs.mgfd_cursor.user_input_handler - INFO - 槽位提取結果: {}
+2025-08-12 17:31:51,228 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 1a714720-8c77-4508-8446-f220b0c175a6
+2025-08-12 17:31:51,228 - libs.mgfd_cursor.llm_manager - INFO - Think階段結果: {'action': 'ELICIT_SLOT', 'target_slot': 'usage_purpose', 'reasoning': '解析失敗，使用默認策略', 'confidence': 0.5}
+2025-08-12 17:31:51,228 - libs.mgfd_cursor.dialogue_manager - INFO - 路由決策: {'action': 'ELICIT_SLOT', 'target_slot': 'usage_purpose', 'reasoning': '必要槽位 usage_purpose 缺失', 'confidence': 0.95}
+2025-08-12 17:31:51,229 - libs.mgfd_cursor.llm_manager - INFO - Act階段結果: 這是一個模擬的 LLM 回應。
+2025-08-12 17:31:51,229 - libs.mgfd_cursor.response_generator - INFO - 生成回應: elicitation
+2025-08-12 17:31:51,229 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 1a714720-8c77-4508-8446-f220b0c175a6
+2025-08-12 17:31:51,229 - libs.mgfd_cursor.mgfd_system - INFO - 會話 1a714720-8c77-4508-8446-f220b0c175a6 處理完成，動作類型: ELICIT_SLOT
+INFO:     127.0.0.1:43116 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
+2025-08-12 17:32:09,852 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: 1a714720-8c77-4508-8446-f220b0c175a6, 消息: 我要是筆電...
+2025-08-12 17:32:09,852 - libs.mgfd_cursor.mgfd_system - INFO - 處理會話 1a714720-8c77-4508-8446-f220b0c175a6 的消息: 我要是筆電...
+2025-08-12 17:32:09,852 - libs.mgfd_cursor.redis_state_manager - ERROR - 載入會話狀態失敗: 'str' object has no attribute 'decode'
+2025-08-12 17:32:09,852 - libs.mgfd_cursor.llm_manager - INFO - 槽位提取結果: {}
+2025-08-12 17:32:09,852 - libs.mgfd_cursor.user_input_handler - INFO - 槽位提取結果: {}
+2025-08-12 17:32:09,853 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 1a714720-8c77-4508-8446-f220b0c175a6
+2025-08-12 17:32:09,853 - libs.mgfd_cursor.llm_manager - INFO - Think階段結果: {'action': 'ELICIT_SLOT', 'target_slot': 'usage_purpose', 'reasoning': '解析失敗，使用默認策略', 'confidence': 0.5}
+2025-08-12 17:32:09,853 - libs.mgfd_cursor.dialogue_manager - INFO - 路由決策: {'action': 'ELICIT_SLOT', 'target_slot': 'usage_purpose', 'reasoning': '必要槽位 usage_purpose 缺失', 'confidence': 0.95}
+2025-08-12 17:32:09,853 - libs.mgfd_cursor.llm_manager - INFO - Act階段結果: 這是一個模擬的 LLM 回應。
+2025-08-12 17:32:09,853 - libs.mgfd_cursor.response_generator - INFO - 生成回應: elicitation
+2025-08-12 17:32:09,853 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 1a714720-8c77-4508-8446-f220b0c175a6
+2025-08-12 17:32:09,853 - libs.mgfd_cursor.mgfd_system - INFO - 會話 1a714720-8c77-4508-8446-f220b0c175a6 處理完成，動作類型: ELICIT_SLOT
+INFO:     127.0.0.1:54072 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
+2025-08-12 17:32:26,062 - watchfiles.main - INFO - 1 change detected

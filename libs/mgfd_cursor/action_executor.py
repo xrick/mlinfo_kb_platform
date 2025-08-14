@@ -25,12 +25,12 @@ class ActionExecutor:
         self.config_loader = config_loader
         self.logger = logging.getLogger(__name__)
         
-        # 動作處理器映射
+        # 動作處理器映射 - 修正為與ActionType枚舉值一致
         self.action_handlers = {
-            "ELICIT_SLOT": self._handle_elicit_slot,
-            "RECOMMEND_PRODUCTS": self._handle_recommend_products,
-            "CLARIFY_INPUT": self._handle_clarify_input,
-            "HANDLE_INTERRUPTION": self._handle_interruption
+            "elicit_information": self._handle_elicit_slot,
+            "recommend_products": self._handle_recommend_products,
+            "clarify_input": self._handle_clarify_input,
+            "handle_interruption": self._handle_interruption
         }
     
     def execute_action(self, command: Dict[str, Any], state: Dict[str, Any]) -> Dict[str, Any]:

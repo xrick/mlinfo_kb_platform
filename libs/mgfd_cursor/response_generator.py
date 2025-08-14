@@ -87,7 +87,7 @@ class ResponseGenerator:
         
         # 根據動作類型格式化內容
         if action_type == "elicitation":
-            return self._format_elicitation_response(response_object)
+            return self._format_funnel_question_response(response_object)
         elif action_type == "recommendation":
             return self._format_recommendation_response(response_object)
         elif action_type == "clarification":
@@ -96,6 +96,161 @@ class ResponseGenerator:
             return self._format_interruption_response(response_object)
         else:
             return self._format_generic_response(response_object)
+    
+    def _format_funnel_question_response(self, response_object: Dict[str, Any]) -> Dict[str, Any]:
+        """格式化漏斗問題回應 - 生成結構化的選項界面"""
+        target_slot = response_object.get("target_slot", "")
+        content = response_object.get("content", "")
+        
+        # 生成funnel question結構
+        funnel_question = self._generate_funnel_question(target_slot, response_object)
+        
+        return {
+            "type": "funnel_question",
+            "session_id": response_object.get("session_id", ""),
+            "question": funnel_question,
+            "context": {
+                "original_query": response_object.get("original_query", ""),
+                "detected_type": "slot_elicitation",
+                "generation_time": datetime.now().isoformat()
+            },
+            "message": "請選擇最符合您需求的選項，我將為您提供更精準的協助。"
+        }
+    
+    def _generate_funnel_question(self, target_slot: str, response_object: Dict[str, Any]) -> Dict[str, Any]:
+        """生成漏斗問題的問題結構"""
+        slot_questions = {
+            "usage_purpose": {
+                "question_text": "為了更精準地幫助您，請選擇您的主要使用目的：",
+                "options": [
+                    {
+                        "option_id": "gaming",
+                        "label": "🎮 遊戲娛樂",
+                        "description": "我主要用來玩遊戲，需要良好的遊戲性能",
+                        "route": "gaming_flow",
+                        "keywords": ["遊戲", "gaming", "電競", "fps"],
+                        "example_queries": ["玩遊戲的筆電", "電競筆電推薦"],
+                        "flow_description": "專注於遊戲性能需求分析"
+                    },
+                    {
+                        "option_id": "business",
+                        "label": "💼 商務辦公",
+                        "description": "我主要用來工作，處理文書、簡報等商務需求",
+                        "route": "business_flow",
+                        "keywords": ["工作", "商務", "辦公", "文書"],
+                        "example_queries": ["辦公筆電", "商務用筆電推薦"],
+                        "flow_description": "專注於辦公效率和穩定性"
+                    },
+                    {
+                        "option_id": "student",
+                        "label": "🎓 學習教育",
+                        "description": "我主要用來學習，上課、做作業、研究等",
+                        "route": "student_flow",
+                        "keywords": ["學習", "上課", "作業", "學生"],
+                        "example_queries": ["學生筆電", "適合學習的筆電"],
+                        "flow_description": "專注於學習需求和性價比"
+                    },
+                    {
+                        "option_id": "creative",
+                        "label": "🎨 創作設計",
+                        "description": "我主要用來創作，如設計、影片剪輯、程式開發等",
+                        "route": "creative_flow",
+                        "keywords": ["設計", "創作", "剪輯", "開發"],
+                        "example_queries": ["設計師筆電", "創作者筆電推薦"],
+                        "flow_description": "專注於創作工具性能需求"
+                    }
+                ]
+            },
+            "budget_range": {
+                "question_text": "請選擇您的預算範圍：",
+                "options": [
+                    {
+                        "option_id": "budget",
+                        "label": "💰 經濟實惠",
+                        "description": "2-3萬元左右，追求高性價比",
+                        "route": "budget_flow",
+                        "keywords": ["便宜", "經濟", "平價"],
+                        "example_queries": ["便宜的筆電", "經濟實惠筆電"],
+                        "flow_description": "專注於性價比選擇"
+                    },
+                    {
+                        "option_id": "mid_range",
+                        "label": "🏆 中等價位",
+                        "description": "3-5萬元左右，平衡性能與價格",
+                        "route": "mid_range_flow",
+                        "keywords": ["中等", "平衡", "適中"],
+                        "example_queries": ["中價位筆電", "平衡性能筆電"],
+                        "flow_description": "專注於性能平衡選擇"
+                    },
+                    {
+                        "option_id": "premium",
+                        "label": "💎 高階選擇",
+                        "description": "5萬元以上，追求高性能表現",
+                        "route": "premium_flow",
+                        "keywords": ["高級", "高端", "頂級"],
+                        "example_queries": ["高階筆電", "頂級性能筆電"],
+                        "flow_description": "專注於高性能需求"
+                    }
+                ]
+            },
+            "performance_priority": {
+                "question_text": "請選擇您最重視的性能方面：",
+                "options": [
+                    {
+                        "option_id": "cpu",
+                        "label": "⚡ 處理速度",
+                        "description": "重視處理器性能，快速運算和多工處理",
+                        "route": "cpu_priority_flow",
+                        "keywords": ["速度", "處理器", "快速"],
+                        "example_queries": ["快速的筆電", "處理器強的筆電"],
+                        "flow_description": "專注於CPU性能選擇"
+                    },
+                    {
+                        "option_id": "gpu",
+                        "label": "🎯 圖形性能",
+                        "description": "重視顯示卡性能，遊戲和圖形處理",
+                        "route": "gpu_priority_flow",
+                        "keywords": ["顯卡", "圖形", "遊戲性能"],
+                        "example_queries": ["顯卡強的筆電", "圖形性能筆電"],
+                        "flow_description": "專注於GPU性能選擇"
+                    },
+                    {
+                        "option_id": "battery",
+                        "label": "🔋 電池續航",
+                        "description": "重視電池壽命，長時間使用不插電",
+                        "route": "battery_priority_flow",
+                        "keywords": ["電池", "續航", "省電"],
+                        "example_queries": ["電池持久的筆電", "續航力強筆電"],
+                        "flow_description": "專注於電池續航選擇"
+                    }
+                ]
+            }
+        }
+        
+        # 獲取對應槽位的問題定義，如果沒有則生成通用問題
+        if target_slot in slot_questions:
+            question_data = slot_questions[target_slot]
+        else:
+            question_data = {
+                "question_text": f"請提供關於 {target_slot} 的更多信息：",
+                "options": [
+                    {
+                        "option_id": "general_option",
+                        "label": "🔍 一般選擇",
+                        "description": "我需要更多指導來決定",
+                        "route": "general_flow",
+                        "keywords": [],
+                        "example_queries": [],
+                        "flow_description": "通用選擇流程"
+                    }
+                ]
+            }
+        
+        return {
+            "question_id": f"slot_{target_slot}",
+            "question_text": question_data["question_text"],
+            "options": question_data["options"]
+        }
     
     def _format_elicitation_response(self, response_object: Dict[str, Any]) -> Dict[str, Any]:
         """格式化信息收集回應"""

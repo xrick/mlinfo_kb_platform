@@ -298,6 +298,48 @@ class MGFDLLMManager:
             return "series_vs_purpose"
         
         return None
+    
+    def classify_slot(self, prompt: str) -> str:
+        """
+        使用LLM進行槽位分類
+        
+        Args:
+            prompt: 槽位分類提示詞
+            
+        Returns:
+            分類結果JSON字符串
+        """
+        try:
+            self.logger.info("執行槽位分類...")
+            
+            # 使用緩存檢查
+            if self.cache_enabled:
+                cache_key = self._generate_cache_key(prompt)
+                cached_result = self._get_from_cache(cache_key)
+                if cached_result:
+                    self.logger.info("從緩存返回槽位分類結果")
+                    return cached_result
+            
+            # 調用LLM
+            result = self._call_llm(prompt)
+            
+            # 緩存結果
+            if self.cache_enabled and result:
+                self._save_to_cache(cache_key, result)
+            
+            self.logger.info("槽位分類完成")
+            return result
+            
+        except Exception as e:
+            self.logger.error(f"槽位分類失敗: {e}")
+            # 返回未知分類的默認結果
+            return json.dumps({
+                "classified_slot": "unknown",
+                "confidence": 0.0,
+                "extracted_value": None,
+                "reasoning": f"分類過程中出現錯誤: {str(e)}",
+                "alternative_slots": []
+            }, ensure_ascii=False)
 
     def analyze_slots(self, user_input: str, state: Dict[str, Any]) -> Dict[str, Any]:
         """使用 Think 提示進行槽位分析，回傳 JSON 結果。"""

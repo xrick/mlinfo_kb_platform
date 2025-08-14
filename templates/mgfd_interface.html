@@ -231,6 +231,173 @@
             font-size: 12px;
             color: #666;
         }
+
+        /* Funnel Question 樣式 */
+        .funnel-container {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 10px 0;
+        }
+
+        .funnel-container h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .funnel-question {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .funnel-message {
+            color: #6c757d;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .funnel-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .funnel-option-btn {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .funnel-option-btn:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.1);
+        }
+
+        .funnel-option-btn:active {
+            transform: translateY(0);
+        }
+
+        .option-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .option-icon {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        .option-title {
+            font-weight: 600;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .option-description {
+            color: #6c757d;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        /* Elicitation 樣式 */
+        .elicitation-container {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .suggestions {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .suggestion-chip {
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .suggestion-chip:hover {
+            background: #5a6fd8;
+        }
+
+        /* Clarification 樣式 */
+        .clarification {
+            background: #e3f2fd;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        /* Funnel Complete 樣式 */
+        .funnel-complete {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px 0;
+        }
+
+        .funnel-complete h3 {
+            color: #155724;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .complete-message {
+            text-align: center;
+            color: #155724;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .flow-info {
+            background: white;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .flow-info h4 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .flow-info p {
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        .loading-indicator {
+            text-align: center;
+            color: #6c757d;
+        }
+
+        .loading-indicator p {
+            margin-top: 10px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -370,11 +537,38 @@
 
                     const data = await response.json();
                     
+                    console.log('🔄 Received data from backend:', data);
+                    
+                    // 智能處理兩種回應格式
+                    let content, fullData;
+                    
+                    if (data.type && (data.type === 'funnel_question' || data.type === 'funnel_complete' || data.type === 'elicitation' || data.type === 'recommendation' || data.type === 'clarification' || data.type === 'error')) {
+                        // 直接的結構化回應格式
+                        content = data;  // 將整個物件作為內容
+                        fullData = data;
+                        console.log('📋 Detected structured response format:', data.type);
+                    } else if (data.response !== undefined) {
+                        // 標準的包裝格式 {response: content, ...}
+                        content = data.response;
+                        fullData = data;
+                        console.log('📦 Detected standard response format');
+                    } else if (data.success === false && data.error) {
+                        // 錯誤回應格式
+                        content = data.error;
+                        fullData = data;
+                        console.log('❌ Detected error response format');
+                    } else {
+                        // 降級處理：將整個回應作為內容處理
+                        content = data;
+                        fullData = data;
+                        console.log('🔧 Fallback: treating entire data as structured content');
+                    }
+                    
                     // 添加助手回應
-                    this.addMessage('assistant', data.response, data);
+                    this.addMessage('assistant', content, fullData);
 
                     // 更新會話信息
-                    this.updateSessionInfo(data);
+                    this.updateSessionInfo(fullData);
 
                 } catch (error) {
                     console.error('發送消息失敗:', error);
@@ -397,10 +591,11 @@
                 const messageContent = document.createElement('div');
                 messageContent.className = 'message-content';
 
-                if (role === 'assistant' && data && data.recommendations) {
-                    // 如果有推薦產品，格式化顯示
-                    messageContent.innerHTML = this.formatRecommendations(content, data.recommendations);
+                if (role === 'assistant') {
+                    // 處理助手回應 - 支援結構化JSON回應
+                    this.renderAssistantMessage(messageContent, content, data);
                 } else {
+                    // 用戶消息保持簡單文字顯示
                     messageContent.textContent = content;
                 }
 
@@ -410,6 +605,314 @@
 
                 // 滾動到底部
                 chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            renderAssistantMessage(container, content, data = null) {
+                console.log('🔧 renderAssistantMessage called with:', { 
+                    contentType: typeof content, 
+                    contentValue: content, 
+                    dataType: typeof data,
+                    dataKeys: data ? Object.keys(data) : null
+                });
+                
+                // 處理 null 或 undefined 的內容
+                if (content === null || content === undefined) {
+                    console.error('❌ Content is null or undefined, using fallback');
+                    if (data && typeof data === 'object') {
+                        content = data;  // 使用整個 data 對象作為內容
+                        console.log('🔄 Using data object as content:', data);
+                    } else {
+                        container.innerHTML = '<p style="color: orange;">⚠️ 收到空白回應</p>';
+                        return;
+                    }
+                }
+                
+                // 如果content是字符串但看起來像JSON，嘗試解析
+                let parsedContent = content;
+                if (typeof content === 'string') {
+                    try {
+                        // 檢查是否是JSON字符串
+                        if (content.trim().startsWith('{') && content.trim().endsWith('}')) {
+                            parsedContent = JSON.parse(content);
+                            console.log('📝 Parsed JSON content:', parsedContent);
+                        }
+                    } catch (e) {
+                        console.log('📝 Content is not JSON, treating as plain text:', e.message);
+                    }
+                }
+                
+                // 如果是結構化數據，處理特殊類型
+                if (typeof parsedContent === 'object' && parsedContent !== null) {
+                    console.log('🎯 Processing structured content:', parsedContent);
+                    this.renderStructuredResponse(container, parsedContent);
+                } else if (data && data.recommendations) {
+                    // 兼容舊格式：如果有推薦產品，格式化顯示
+                    console.log('📋 Processing legacy recommendation format');
+                    container.innerHTML = this.formatRecommendations(content, data.recommendations);
+                } else {
+                    // 普通文字回應
+                    console.log('📄 Processing plain text response');
+                    container.textContent = content || '(空白回應)';
+                }
+            }
+
+            renderStructuredResponse(container, response) {
+                console.log('🎯 renderStructuredResponse called with:', response);
+                
+                const responseType = response.type || 'text';
+                
+                switch (responseType) {
+                    case 'funnel_question':
+                        this.renderFunnelQuestion(container, response);
+                        break;
+                    case 'funnel_complete':
+                        this.renderFunnelComplete(container, response);
+                        break;
+                    case 'elicitation':
+                        this.renderElicitation(container, response);
+                        break;
+                    case 'recommendation':
+                        this.renderRecommendation(container, response);
+                        break;
+                    case 'clarification':
+                        this.renderClarification(container, response);
+                        break;
+                    case 'error':
+                        this.renderError(container, response);
+                        break;
+                    default:
+                        // 處理未知類型或一般回應
+                        this.renderGeneralResponse(container, response);
+                }
+            }
+
+            renderFunnelQuestion(container, response) {
+                console.log('🔥 Rendering funnel question:', response);
+                
+                // 增強的格式驗證和錯誤處理
+                if (!response) {
+                    console.error('❌ Response is null or undefined');
+                    container.innerHTML = '<p style="color: red;">回應數據為空</p>';
+                    return;
+                }
+                
+                const { question, session_id, message } = response;
+                
+                // 詳細的字段驗證
+                if (!question) {
+                    console.error('❌ Missing question field in response:', response);
+                    container.innerHTML = '<p style="color: red;">缺少問題數據</p>';
+                    return;
+                }
+                
+                if (!question.question_text) {
+                    console.error('❌ Missing question_text in question:', question);
+                    container.innerHTML = '<p style="color: red;">缺少問題文字</p>';
+                    return;
+                }
+                
+                if (!question.options || !Array.isArray(question.options) || question.options.length === 0) {
+                    console.error('❌ Invalid options in question:', question.options);
+                    container.innerHTML = '<p style="color: red;">缺少有效的選項</p>';
+                    return;
+                }
+                
+                // 驗證選項格式
+                for (let i = 0; i < question.options.length; i++) {
+                    const option = question.options[i];
+                    if (!option.option_id || !option.label || !option.description) {
+                        console.error(`❌ Invalid option at index ${i}:`, option);
+                        container.innerHTML = `<p style="color: red;">選項 ${i + 1} 格式錯誤</p>`;
+                        return;
+                    }
+                }
+                
+                console.log('✅ Funnel question validation passed');
+                
+                let html = `
+                    <div class="funnel-container">
+                        <h3>🎯 需求類型選擇</h3>
+                        <p class="funnel-question">${question.question_text}</p>
+                        ${message ? `<p class="funnel-message">${message}</p>` : ''}
+                        
+                        <div class="funnel-options">
+                `;
+                
+                question.options.forEach((option, index) => {
+                    html += `
+                        <button class="funnel-option-btn" 
+                                data-option-id="${option.option_id}" 
+                                data-session-id="${session_id}"
+                                onclick="mgfdChat.handleFunnelOptionClick('${option.option_id}', '${session_id}')">
+                            <div class="option-header">
+                                <span class="option-icon">${option.label.split(' ')[0] || '📋'}</span>
+                                <span class="option-title">${option.label.split(' ').slice(1).join(' ') || option.label}</span>
+                            </div>
+                            <div class="option-description">${option.description}</div>
+                        </button>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+                
+                container.innerHTML = html;
+            }
+
+            renderElicitation(container, response) {
+                const content = response.content || '請提供更多資訊以幫助您找到合適的產品。';
+                const suggestions = response.suggestions || [];
+                
+                let html = `
+                    <div class="elicitation-container">
+                        <p>${content}</p>
+                `;
+                
+                if (suggestions.length > 0) {
+                    html += '<div class="suggestions">';
+                    suggestions.forEach(suggestion => {
+                        html += `<span class="suggestion-chip">${suggestion}</span>`;
+                    });
+                    html += '</div>';
+                }
+                
+                html += '</div>';
+                container.innerHTML = html;
+            }
+
+            renderRecommendation(container, response) {
+                const content = response.content || '';
+                const recommendations = response.recommendations || [];
+                
+                container.innerHTML = this.formatRecommendations(content, recommendations);
+            }
+
+            renderFunnelComplete(container, response) {
+                console.log('✅ Rendering funnel complete:', response);
+                
+                const { target_flow, original_query, user_choice, message } = response;
+                
+                let html = `
+                    <div class="funnel-complete">
+                        <h3>✅ 需求分析完成</h3>
+                        <p class="complete-message">${message || '已為您分析完成，正在準備結果...'}</p>
+                        
+                        <div class="flow-info">
+                            <h4>📋 分析結果</h4>
+                            <p><strong>原始查詢：</strong>${original_query || '未知'}</p>
+                            <p><strong>選擇流程：</strong>${target_flow || '未知'}</p>
+                            ${user_choice ? `<p><strong>選擇選項：</strong>${user_choice.label || user_choice}</p>` : ''}
+                        </div>
+                        
+                        <div class="loading-indicator">
+                            <div class="loading"></div>
+                            <p>正在執行專業分析...</p>
+                        </div>
+                    </div>
+                `;
+                
+                container.innerHTML = html;
+                
+                // 如果有進一步的處理結果，可以在這裡添加
+                if (response.recommendations) {
+                    // 直接顯示推薦結果
+                    setTimeout(() => {
+                        this.renderRecommendation(container, response);
+                    }, 1500);
+                }
+            }
+
+            renderClarification(container, response) {
+                const content = response.content || '需要您澄清一些細節。';
+                container.innerHTML = `<div class="clarification">${content}</div>`;
+            }
+
+            renderError(container, response) {
+                const error = response.error || response.content || '發生未知錯誤';
+                container.innerHTML = `<div class="error">❌ ${error}</div>`;
+            }
+
+            renderGeneralResponse(container, response) {
+                console.log('🔧 renderGeneralResponse called with:', response);
+                
+                // 處理一般結構化回應
+                if (response.content) {
+                    console.log('📄 Using response.content');
+                    container.innerHTML = response.content;
+                } else if (response.message) {
+                    console.log('📄 Using response.message');
+                    container.innerHTML = response.message;
+                } else if (typeof response === 'string') {
+                    console.log('📄 Response is string, displaying directly');
+                    container.textContent = response;
+                } else {
+                    // 如果沒有明確的內容字段，嘗試提供更友善的顯示
+                    console.log('❓ Unknown response format, using fallback display');
+                    
+                    let displayContent = '';
+                    
+                    // 檢查是否有常見的字段
+                    if (response.type) {
+                        displayContent += `<p><strong>類型:</strong> ${response.type}</p>`;
+                    }
+                    
+                    if (response.error) {
+                        displayContent += `<p style="color: red;"><strong>錯誤:</strong> ${response.error}</p>`;
+                    }
+                    
+                    if (response.session_id) {
+                        displayContent += `<p><strong>會話ID:</strong> ${response.session_id}</p>`;
+                    }
+                    
+                    // 如果沒有任何有用的字段，顯示JSON（但更美觀）
+                    if (!displayContent) {
+                        displayContent = `
+                            <div style="background: #f5f5f5; padding: 10px; border-radius: 8px; margin: 10px 0;">
+                                <p><strong>⚠️ 未知回應格式</strong></p>
+                                <details>
+                                    <summary>點擊查看原始數據 (調試用)</summary>
+                                    <pre style="font-size: 12px; overflow-x: auto;">${JSON.stringify(response, null, 2)}</pre>
+                                </details>
+                            </div>
+                        `;
+                    }
+                    
+                    container.innerHTML = displayContent;
+                }
+            }
+
+            async handleFunnelOptionClick(optionId, sessionId) {
+                console.log('🎯 Funnel option clicked:', { optionId, sessionId });
+                
+                try {
+                    // 發送選擇到後端
+                    const response = await fetch('/api/mgfd_cursor/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            message: `選擇選項: ${optionId}`,
+                            session_id: sessionId
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('處理選擇失敗');
+                    }
+
+                    const data = await response.json();
+                    
+                    // 添加新的回應
+                    this.addMessage('assistant', data.response, data);
+                    this.updateSessionInfo(data);
+
+                } catch (error) {
+                    console.error('處理funnel選擇失敗:', error);
+                    this.showError('處理選擇失敗，請重試');
+                }
             }
 
             formatRecommendations(content, recommendations) {
@@ -486,8 +989,9 @@
         }
 
         // 初始化聊天
+        let mgfdChat;
         document.addEventListener('DOMContentLoaded', () => {
-            new MGFDChat();
+            mgfdChat = new MGFDChat();
         });
     </script>
 </body>
