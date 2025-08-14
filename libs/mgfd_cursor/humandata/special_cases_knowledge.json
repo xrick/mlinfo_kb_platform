@@ -202,8 +202,8 @@
             }
           },
           "success_rate": 0.98,
-          "usage_count": 0,
-          "last_used": null,
+          "usage_count": 1,
+          "last_used": "2025-08-14T17:28:07.773459",
           "created_date": "2025-08-14",
           "tags": [
             "popular_choice",
@@ -399,9 +399,9 @@
     "loop_detection_window": 10
   },
   "usage_statistics": {
-    "total_cases": 5,
-    "total_successful_matches": 18,
-    "average_success_rate": 0.856,
-    "last_statistics_update": "2025-08-14T16:06:49.643247"
+    "total_cases": 6,
+    "total_successful_matches": 19,
+    "average_success_rate": 0.877,
+    "last_statistics_update": "2025-08-14T17:28:07.773514"
   }
 }
