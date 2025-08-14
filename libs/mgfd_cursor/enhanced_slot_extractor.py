@@ -2,13 +2,14 @@
 # -*- coding: utf-8 -*-
 """
 MGFD 增強型槽位提取器
-實現LLM驅動的智能槽位分類系統
+實現LLM驅動的智能槽位分類系統，整合特殊案例知識庫
 """
 
 import json
 import logging
 from typing import Dict, Any, List, Optional
 from datetime import datetime
+from .special_cases_knowledge import SpecialCasesKnowledgeBase
 
 class EnhancedSlotExtractor:
     """增強型槽位提取器 - 支援智能分類未知槽位"""
@@ -26,6 +27,14 @@ class EnhancedSlotExtractor:
         self.slot_schema = slot_schema
         self.confidence_threshold = confidence_threshold
         self.logger = logging.getLogger(__name__)
+        
+        # 初始化特殊案例知識庫
+        try:
+            self.knowledge_base = SpecialCasesKnowledgeBase()
+            self.logger.info("成功初始化特殊案例知識庫")
+        except Exception as e:
+            self.logger.warning(f"初始化特殊案例知識庫失敗: {e}")
+            self.knowledge_base = None
         
         # 槽位特徵定義
         self.slot_features = {
@@ -56,18 +65,29 @@ class EnhancedSlotExtractor:
             }
         }
     
-    def extract_slots_with_classification(self, user_input: str, current_slots: Dict[str, Any]) -> Dict[str, Any]:
+    def extract_slots_with_classification(self, user_input: str, current_slots: Dict[str, Any], session_id: str = None) -> Dict[str, Any]:
         """
-        增強版槽位提取，包含未知槽位分類
+        增強版槽位提取，包含特殊案例知識庫和未知槽位分類
         
         Args:
             user_input: 用戶輸入
             current_slots: 當前已填充的槽位
+            session_id: 會話ID（用於循環檢測）
             
         Returns:
-            提取的槽位信息
+            提取的槽位信息和特殊案例處理結果
         """
         self.logger.info(f"增強型槽位提取，輸入: {user_input[:50]}...")
+        
+        # 0. 首先檢查特殊案例知識庫
+        special_case_result = self._check_special_cases(user_input, session_id)
+        if special_case_result:
+            self.logger.info(f"找到特殊案例匹配: {special_case_result['case_id']}")
+            return {
+                "extracted_slots": special_case_result.get("inferred_slots", {}),
+                "special_case": special_case_result,
+                "extraction_method": "special_case_knowledge"
+            }
         
         # 1. 嘗試傳統關鍵詞匹配
         extracted_slots = self._traditional_slot_extraction(user_input, current_slots)
@@ -91,7 +111,33 @@ class EnhancedSlotExtractor:
         # 3. 記錄分類結果以供學習改進
         self._log_classification_result(user_input, extracted_slots)
         
-        return extracted_slots
+        return {
+            "extracted_slots": extracted_slots,
+            "extraction_method": "enhanced_extraction"
+        }
+    
+    def _check_special_cases(self, user_input: str, session_id: str = None) -> Optional[Dict[str, Any]]:
+        """
+        檢查特殊案例知識庫匹配
+        
+        Args:
+            user_input: 用戶輸入
+            session_id: 會話ID
+            
+        Returns:
+            特殊案例匹配結果，如果沒有匹配則返回None
+        """
+        if not self.knowledge_base:
+            return None
+        
+        try:
+            matched_case = self.knowledge_base.find_matching_case(user_input, session_id)
+            if matched_case:
+                return self.knowledge_base.get_case_response(matched_case)
+            return None
+        except Exception as e:
+            self.logger.error(f"檢查特殊案例失敗: {e}")
+            return None
     
     def _traditional_slot_extraction(self, user_input: str, current_slots: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -254,3 +300,60 @@ class EnhancedSlotExtractor:
         }
         
         self.logger.info(f"槽位提取結果: {log_entry}")
+    
+    def add_special_case_from_interaction(self, user_input: str, successful_slots: Dict[str, Any], 
+                                        category: str = "difficult_slot_detection") -> bool:
+        """
+        從成功的交互中添加新的特殊案例到知識庫
+        
+        Args:
+            user_input: 用戶輸入
+            successful_slots: 成功提取的槽位
+            category: 案例類別
+            
+        Returns:
+            是否成功添加
+        """
+        if not self.knowledge_base:
+            return False
+        
+        try:
+            # 構建新的案例數據
+            case_data = {
+                "priority": "medium",
+                "customer_query": user_input,
+                "query_variants": [],  # 可以之後由系統學習生成
+                "detected_intent": {
+                    "inferred_slots": successful_slots,
+                    "confidence": 0.8,
+                    "reasoning": "從用戶交互中學習得出"
+                },
+                "recommended_response": {
+                    "response_type": "learned_case",
+                    "message": "基於您的需求，我為您推薦：",
+                    "skip_generic_usage_question": len(successful_slots) > 1
+                },
+                "success_rate": 0.8,
+                "tags": ["learned_case", "user_generated"]
+            }
+            
+            success = self.knowledge_base.add_new_case(category, case_data)
+            if success:
+                self.logger.info(f"成功添加新特殊案例: {user_input[:30]}...")
+            
+            return success
+            
+        except Exception as e:
+            self.logger.error(f"添加特殊案例失敗: {e}")
+            return False
+    
+    def get_knowledge_base_stats(self) -> Dict[str, Any]:
+        """獲取知識庫統計信息"""
+        if self.knowledge_base:
+            return self.knowledge_base.get_knowledge_base_stats()
+        return {}
+    
+    def clear_session_loop_history(self, session_id: str):
+        """清除特定會話的循環歷史"""
+        if self.knowledge_base:
+            self.knowledge_base.clear_loop_history(session_id)

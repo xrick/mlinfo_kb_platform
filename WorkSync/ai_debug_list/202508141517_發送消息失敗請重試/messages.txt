@@ -1,0 +1,241 @@
+frontend messages
+mgfd_cursor:611 🔧 renderAssistantMessage called with: Object
+mgfd_cursor:654 📄 Processing plain text response
+content_script.js:6998 Immersive Translate INFO: 全局时间戳一致，检查单个术语库更新
+content_script.js:6998 Immersive Translate INFO: 开始下载 1 个术语库...
+content_script.js:6998 Immersive Translate INFO: 本地同步时间戳无需更新 (2025/7/17 下午9:55:46)
+api/mgfd_cursor/chat:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+mgfd_cursor:574 發送消息失敗: Error: 發送消息失敗
+    at MGFDChat.sendMessage (mgfd_cursor:535:31)
+sendMessage @ mgfd_cursor:574
+
+
+backend messages:
+2025-08-14 15:05:45,903 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: 8fd3bd10-e4b5-4152-8ab1-69b12edc777c, 消息: 請幫我介紹便於攜帶，開關機迅速的筆電...
+2025-08-14 15:05:45,903 - libs.mgfd_cursor.mgfd_system - INFO - 處理會話 8fd3bd10-e4b5-4152-8ab1-69b12edc777c 的消息: 請幫我介紹便於攜帶，開關機迅速的筆電...
+2025-08-14 15:05:45,903 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: 請幫我介紹便於攜帶，開關機迅速的筆電...
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 63.57it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 122.66it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 135.30it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 108.22it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 118.80it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 127.30it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 121.88it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 123.71it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 119.41it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 113.77it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 117.85it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 129.16it/s]
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 96.57it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 147.18it/s]
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 91.13it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 138.60it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 130.18it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 132.25it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 133.48it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 120.09it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 136.18it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 117.42it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 116.36it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 126.63it/s]
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 110.17it/s]
+2025-08-14 15:05:46,164 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 找到特殊案例匹配: DSL001
+2025-08-14 15:05:46,165 - libs.mgfd_cursor.user_input_handler - INFO - 槽位提取結果: {'extracted_slots': {'performance_priority': ['cpu', 'gpu'], 'usage_purpose': 'performance_focused'}, 'special_case': {'type': 'special_case_response', 'case_id': 'DSL001', 'matched_category': 'difficult_slot_detection', 'similarity_score': np.float32(0.76494026), 'message': '我了解您需要高效能的筆電！效能有很多面向，讓我為您精準推薦：', 'response_type': 'performance_clarification_funnel', 'confidence': 0.85, 'timestamp': '2025-08-14T15:05:46.164958', 'funnel_question': {'question_id': 'performance_clarification', 'question_text': '您主要希望在哪個方面有出色的效能表現？', 'options': [{'option_id': 'gaming_performance', 'label': '🎮 遊戲效能優先', 'description': '重視顯卡效能，適合遊戲和圖形處理', 'inferred_usage': 'gaming', 'performance_focus': ['gpu', 'cpu', 'ram']}, {'option_id': 'work_performance', 'label': '⚡ 工作效能優先', 'description': '重視處理器和多工效能，適合專業工作', 'inferred_usage': 'business', 'performance_focus': ['cpu', 'ram', 'storage']}, {'option_id': 'creative_performance', 'label': '🎨 創作效能優先', 'description': '重視創作軟體效能，適合設計和影片處理', 'inferred_usage': 'creative', 'performance_focus': ['cpu', 'gpu', 'ram']}, {'option_id': 'all_around_performance', 'label': '🔧 全方位高效能', 'description': '各方面都要有出色表現的頂級配置', 'inferred_usage': 'premium_general', 'performance_focus': ['cpu', 'gpu', 'ram', 'storage']}]}, 'inferred_slots': {'performance_priority': ['cpu', 'gpu'], 'usage_purpose': 'performance_focused'}}, 'extraction_method': 'special_case_knowledge'}
+2025-08-14 15:05:46,165 - libs.mgfd_cursor.redis_state_manager - ERROR - 保存會話狀態失敗: Object of type float32 is not JSON serializable
+2025-08-14 15:05:46,165 - libs.mgfd_cursor.llm_manager - INFO - Act階段結果: 這是一個模擬的 LLM 回應。
+2025-08-14 15:05:46,165 - libs.mgfd_cursor.response_generator - INFO - 生成回應: elicitation
+2025-08-14 15:05:46,165 - libs.mgfd_cursor.redis_state_manager - ERROR - 保存會話狀態失敗: Object of type float32 is not JSON serializable
+2025-08-14 15:05:46,165 - libs.mgfd_cursor.mgfd_system - INFO - 會話 8fd3bd10-e4b5-4152-8ab1-69b12edc777c 處理完成，動作類型: elicit_information
+INFO:     127.0.0.1:43618 - "POST /api/mgfd_cursor/chat HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/_utils.py", line 76, in collapse_excgroups
+  |     yield
+  |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/base.py", line 177, in __call__
+  |     async with anyio.create_task_group() as task_group:
+  |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    |     result = await app(  # type: ignore[func-returns-value]
+    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    |     return await self.app(scope, receive, send)
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/fastapi/applications.py", line 1054, in __call__
+    |     await super().__call__(scope, receive, send)
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/applications.py", line 112, in __call__
+    |     await self.middleware_stack(scope, receive, send)
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/errors.py", line 187, in __call__
+    |     raise exc
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/errors.py", line 165, in __call__
+    |     await self.app(scope, receive, _send)
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/base.py", line 176, in __call__
+    |     with recv_stream, send_stream, collapse_excgroups():
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/contextlib.py", line 158, in __exit__
+    |     self.gen.throw(typ, value, traceback)
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/_utils.py", line 82, in collapse_excgroups
+    |     raise exc
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/base.py", line 178, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/home/mapleleaf/LCJRepos/projects/mlinfo_kb_platform/main.py", line 237, in add_request_id
+    |     response = await call_next(request)
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/base.py", line 156, in call_next
+    |     raise app_exc
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/base.py", line 141, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/base.py", line 176, in __call__
+    |     with recv_stream, send_stream, collapse_excgroups():
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/contextlib.py", line 158, in __exit__
+    |     self.gen.throw(typ, value, traceback)
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/_utils.py", line 82, in collapse_excgroups
+    |     raise exc
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/base.py", line 178, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/home/mapleleaf/LCJRepos/projects/mlinfo_kb_platform/main.py", line 226, in add_process_time_header
+    |     response = await call_next(request)
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/base.py", line 156, in call_next
+    |     raise app_exc
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/base.py", line 141, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    |     await self.simple_response(scope, receive, send, request_headers=headers)
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    |     await self.app(scope, receive, send)
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/exceptions.py", line 62, in __call__
+    |     await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    |     raise exc
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/routing.py", line 714, in __call__
+    |     await self.middleware_stack(scope, receive, send)
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/routing.py", line 734, in app
+    |     await route.handle(scope, receive, send)
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/routing.py", line 288, in handle
+    |     await self.app(scope, receive, send)
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/routing.py", line 76, in app
+    |     await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    |     raise exc
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/routing.py", line 73, in app
+    |     response = await f(request)
+    |                ^^^^^^^^^^^^^^^^
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/fastapi/routing.py", line 327, in app
+    |     content = await serialize_response(
+    |               ^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/fastapi/routing.py", line 181, in serialize_response
+    |     return field.serialize(
+    |            ^^^^^^^^^^^^^^^^
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/fastapi/_compat.py", line 151, in serialize
+    |     return self._type_adapter.dump_python(
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/pydantic/type_adapter.py", line 572, in dump_python
+    |     return self.serializer.to_python(
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    | pydantic_core._pydantic_core.PydanticSerializationError: Unable to serialize unknown type: <class 'numpy.float32'>
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/errors.py", line 187, in __call__
+    raise exc
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/errors.py", line 165, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/base.py", line 176, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/contextlib.py", line 158, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/_utils.py", line 82, in collapse_excgroups
+    raise exc
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/base.py", line 178, in __call__
+    response = await self.dispatch_func(request, call_next)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mapleleaf/LCJRepos/projects/mlinfo_kb_platform/main.py", line 237, in add_request_id
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/base.py", line 156, in call_next
+    raise app_exc
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/base.py", line 141, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/base.py", line 176, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/contextlib.py", line 158, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/_utils.py", line 82, in collapse_excgroups
+    raise exc
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/base.py", line 178, in __call__
+    response = await self.dispatch_func(request, call_next)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mapleleaf/LCJRepos/projects/mlinfo_kb_platform/main.py", line 226, in add_process_time_header
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/base.py", line 156, in call_next
+    raise app_exc
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/base.py", line 141, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/middleware/exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/routing.py", line 714, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/routing.py", line 734, in app
+    await route.handle(scope, receive, send)
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/starlette/routing.py", line 73, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/fastapi/routing.py", line 327, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/fastapi/routing.py", line 181, in serialize_response
+    return field.serialize(
+           ^^^^^^^^^^^^^^^^
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/fastapi/_compat.py", line 151, in serialize
+    return self._type_adapter.dump_python(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/pydantic/type_adapter.py", line 572, in dump_python
+    return self.serializer.to_python(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.PydanticSerializationError: Unable to serialize unknown type: <class 'numpy.float32'>
+2025-08-14 15:05:46,261 - watchfiles.main - INFO - 1 change detected
+INFO:     127.0.0.1:35394 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+2025-08-14 15:09:10,880 - watchfiles.main - INFO - 1 change detected
+2025-08-14 15:14:10,883 - watchfiles.main - INFO - 1 change detected
+2025-08-14 15:16:22,812 - watchfiles.main - INFO - 1 change detected
+2025-08-14 15:17:08,164 - watchfiles.main - INFO - 1 change detected
+2025-08-14 15:17:21,196 - watchfiles.main - INFO - 1 change detected
+2025-08-14 15:19:10,851 - watchfiles.main - INFO - 1 change detected

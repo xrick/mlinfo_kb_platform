@@ -94,6 +94,8 @@ class ResponseGenerator:
             return self._format_clarification_response(response_object)
         elif action_type == "interruption":
             return self._format_interruption_response(response_object)
+        elif action_type == "special_case_response":
+            return self._format_special_case_response(response_object)
         else:
             return self._format_generic_response(response_object)
     
@@ -455,3 +457,40 @@ class ResponseGenerator:
             formatted_history.append(formatted_message)
         
         return formatted_history
+    
+    def _format_special_case_response(self, response_object: Dict[str, Any]) -> Dict[str, Any]:
+        """格式化特殊案例回應"""
+        case_id = response_object.get("case_id", "")
+        content = response_object.get("content", "")
+        funnel_question = response_object.get("funnel_question", {})
+        
+        # 基本回應結構
+        formatted_response = {
+            "type": "special_case",
+            "case_id": case_id,
+            "session_id": response_object.get("session_id", ""),
+            "content": content,
+            "confidence": response_object.get("confidence", 0.8),
+            "timestamp": datetime.now().isoformat()
+        }
+        
+        # 如果有漏斗問題，添加到回應中
+        if funnel_question:
+            formatted_response["funnel_question"] = funnel_question
+            formatted_response["type"] = "funnel_question"
+            formatted_response["message"] = "請選擇最符合您需求的選項，我將為您提供更精準的協助。"
+        
+        # 檢查是否是循環打破案例
+        if response_object.get("loop_breaking", False):
+            formatted_response["loop_breaking"] = True
+            formatted_response["message"] = "我注意到我們可能在重複相同的問題。讓我換個方式來幫助您："
+        
+        # 添加後續問題（如果存在）
+        if "follow_up_questions" in response_object:
+            formatted_response["follow_up_questions"] = response_object["follow_up_questions"]
+        
+        # 添加專門標準（如果存在）
+        if "specialized_criteria" in response_object:
+            formatted_response["specialized_criteria"] = response_object["specialized_criteria"]
+        
+        return formatted_response

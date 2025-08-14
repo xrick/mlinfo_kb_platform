@@ -15,5 +15,9 @@
 Read Documents for continue work MGFD_DEV_Progress
 Read("WorkSync/MGFD_DEV_Diary/mgfd_dev_diary.md", offset=0, limit=25000)
 Read("WorkSync/MGFD_DEV_Diary/mgfd_dev_diary.md", offset=25001, limit=50000)
+Read(WorkSync/lessons_from_debug/bugzilla.md, offset=0, limit=25000)
+將除錯過程寫入到WorkSync/MGFD_DEV_Diary/mgfd_dev_diary.md、WorkSync/lessons_from_debug/bugzilla.md
 
-//Read("WorkSync/MGFD_DEV_Diary/mgfd_dev_diary.md", offset=25001, limit=5000)
+請AI說明debug的細節，尤其是資料流的流向及處理
+1.請用對我說明這個BUG的資料流是怎麼傳遞
+2.在哪些地方出現問題而造成這個問題

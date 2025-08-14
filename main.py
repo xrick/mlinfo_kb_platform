@@ -17,6 +17,8 @@ from dotenv import load_dotenv
 
 # 導入日誌記錄模組
 import logging
+import json
+import numpy as np
 
 # 將專案根目錄添加到 Python 路徑中，確保可以導入專案內的其他模組
 current_dir = Path(__file__).parent
@@ -27,6 +29,20 @@ from config import STATIC_DIR, TEMPLATES_DIR, APP_HOST, APP_PORT
 
 # 載入 .env 檔案中的環境變數
 load_dotenv()
+
+# 自定義JSON編碼器處理numpy類型
+class NumpyJSONEncoder(json.JSONEncoder):
+    """自定義JSON編碼器，支持numpy類型序列化"""
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        elif isinstance(obj, (np.float32, np.float64)):
+            return float(obj)
+        elif isinstance(obj, (np.int32, np.int64)):
+            return int(obj)
+        elif isinstance(obj, np.bool_):
+            return bool(obj)
+        return super().default(obj)
 
 # 設定日誌記錄的基本配置
 logging.basicConfig(
@@ -43,6 +59,22 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc"
 )
+
+# 配置FastAPI使用自定義JSON編碼器
+from fastapi.encoders import jsonable_encoder
+from starlette.responses import JSONResponse as StarletteJSONResponse
+
+class CustomJSONResponse(StarletteJSONResponse):
+    """自定義JSONResponse，支持numpy類型"""
+    def render(self, content) -> bytes:
+        return json.dumps(
+            content,
+            ensure_ascii=False,
+            cls=NumpyJSONEncoder
+        ).encode('utf-8')
+
+# 設置默認響應類
+app.default_response_class = CustomJSONResponse
 
 # 添加 CORS 中間件，允許跨域請求
 app.add_middleware(

@@ -85,18 +85,34 @@ class MGFDDialogueManager:
         
         return True
     
-    def route_action(self, state: NotebookDialogueState, user_input: str) -> DialogueAction:
+    def route_action(self, state: NotebookDialogueState, user_input: str, enhanced_slot_extractor=None) -> DialogueAction:
         """
         Think步驟：分析狀態並決定下一步行動
         
         Args:
             state: 當前對話狀態
             user_input: 用戶輸入
+            enhanced_slot_extractor: 增強型槽位提取器（包含特殊案例知識庫）
             
         Returns:
             對話行動
         """
-        # 檢查是否為中斷意圖
+        # 0. 首先檢查特殊案例知識庫（如果可用）
+        if enhanced_slot_extractor:
+            extraction_result = enhanced_slot_extractor.extract_slots_with_classification(
+                user_input, state.get("filled_slots", {}), state.get("session_id")
+            )
+            
+            # 如果找到特殊案例匹配
+            if extraction_result.get("extraction_method") == "special_case_knowledge":
+                special_case = extraction_result.get("special_case", {})
+                return DialogueAction(
+                    action_type="special_case_response",
+                    special_case=special_case,
+                    message=special_case.get("message", "")
+                )
+        
+        # 1. 檢查是否為中斷意圖
         if self._is_interruption(user_input):
             return DialogueAction(
                 action_type=ActionType.HANDLE_INTERRUPTION,

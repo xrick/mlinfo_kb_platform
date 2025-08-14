@@ -10,6 +10,7 @@ import logging
 from typing import Dict, Any, Optional, List
 from datetime import datetime, timedelta
 import redis
+import numpy as np
 
 class RedisStateManager:
     """Redis狀態管理器"""
@@ -31,6 +32,31 @@ class RedisStateManager:
         self.SLOTS_PREFIX = "mgfd:slots:"
         self.HISTORY_PREFIX = "mgfd:history:"
         self.RECOMMENDATIONS_PREFIX = "mgfd:recommendations:"
+    
+    def _convert_numpy_types(self, obj: Any) -> Any:
+        """
+        遞歸轉換 numpy 類型為 Python 原生類型以支持 JSON 序列化
+        
+        Args:
+            obj: 可能包含 numpy 類型的對象
+            
+        Returns:
+            轉換後的對象
+        """
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        elif isinstance(obj, (np.float32, np.float64)):
+            return float(obj)
+        elif isinstance(obj, (np.int32, np.int64)):
+            return int(obj)
+        elif isinstance(obj, np.bool_):
+            return bool(obj)
+        elif isinstance(obj, dict):
+            return {key: self._convert_numpy_types(value) for key, value in obj.items()}
+        elif isinstance(obj, (list, tuple)):
+            return [self._convert_numpy_types(item) for item in obj]
+        else:
+            return obj
     
     def load_session_state(self, session_id: str) -> Optional[Dict[str, Any]]:
         """
@@ -109,6 +135,9 @@ class RedisStateManager:
             是否保存成功
         """
         try:
+            # 轉換 numpy 類型
+            state = self._convert_numpy_types(state)
+            
             # 更新時間戳
             state["last_updated"] = datetime.now().isoformat()
             
@@ -146,7 +175,8 @@ class RedisStateManager:
             
             # 添加新的歷史記錄
             for message in chat_history:
-                self.redis_client.rpush(history_key, json.dumps(message, ensure_ascii=False))
+                cleaned_message = self._convert_numpy_types(message)
+                self.redis_client.rpush(history_key, json.dumps(cleaned_message, ensure_ascii=False))
             
             # 設置歷史記錄的過期時間
             self.redis_client.expire(history_key, self.session_timeout)
@@ -184,6 +214,9 @@ class RedisStateManager:
             
             # 合併新槽位
             updated_slots = {**current_slots, **slots}
+            
+            # 轉換 numpy 類型
+            updated_slots = self._convert_numpy_types(updated_slots)
             
             # 保存更新後的槽位
             slots_key = f"{self.SLOTS_PREFIX}{session_id}"
@@ -240,8 +273,11 @@ class RedisStateManager:
             # 添加時間戳
             message["timestamp"] = datetime.now().isoformat()
             
+            # 轉換 numpy 類型
+            cleaned_message = self._convert_numpy_types(message)
+            
             # 添加到歷史記錄
-            self.redis_client.rpush(history_key, json.dumps(message, ensure_ascii=False))
+            self.redis_client.rpush(history_key, json.dumps(cleaned_message, ensure_ascii=False))
             
             # 設置過期時間
             self.redis_client.expire(history_key, self.session_timeout)
@@ -293,8 +329,11 @@ class RedisStateManager:
             # 載入當前推薦記錄
             current_recommendations = self.get_recommendations(session_id)
             
+            # 轉換 numpy 類型
+            cleaned_recommendation = self._convert_numpy_types(recommendation)
+            
             # 添加新推薦
-            current_recommendations.append(recommendation)
+            current_recommendations.append(cleaned_recommendation)
             
             # 保存更新後的推薦記錄
             self.redis_client.setex(
