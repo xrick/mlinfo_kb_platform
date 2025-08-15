@@ -470,6 +470,11 @@
                 const data = await response.json();
                 this.sessionId = data.session_id;
                 
+                // 🔄 清理問題歷史（新會話時）
+                this.questionHistory.clear();
+                this.renderedQuestions.clear();
+                console.log('🆕 New session created, question history cleared');
+                
                 this.addMessage('assistant', data.message);
                 this.updateSessionInfo();
             }
@@ -984,7 +989,44 @@
                 } catch (error) {
                     console.error('處理funnel選擇失敗:', error);
                     this.showError('處理選擇失敗，請重試');
+                    
+                    // 🔄 發生錯誤時重新啟用選項按鈕
+                    const optionButtons = document.querySelectorAll('.funnel-option-btn');
+                    optionButtons.forEach(btn => {
+                        btn.disabled = false;
+                        btn.style.opacity = '1';
+                        btn.style.cursor = 'pointer';
+                    });
                 }
+            }
+            
+            // 🗺️ 新增：清理相關問題歷史的方法
+            clearRelatedQuestionHistory(selectedOptionId) {
+                console.log('🧹 Clearing related question history for option:', selectedOptionId);
+                
+                // 清理可能相關的問題歷史（防止循環）
+                const keysToDelete = [];
+                
+                for (const [key, timestamp] of this.questionHistory.entries()) {
+                    // 清理超過10分鐘的舊問題歷史
+                    const age = Date.now() - timestamp;
+                    const MAX_AGE = 10 * 60 * 1000; // 10分鐘
+                    
+                    if (age > MAX_AGE) {
+                        keysToDelete.push(key);
+                    }
+                }
+                
+                // 刪除舊的問題歷史
+                keysToDelete.forEach(key => {
+                    this.questionHistory.delete(key);
+                    console.log('🗑️ Cleaned old question:', key);
+                });
+                
+                console.log('✅ Question history cleanup complete:', {
+                    remainingEntries: this.questionHistory.size,
+                    deletedEntries: keysToDelete.length
+                });
             }
 
             formatRecommendations(content, recommendations) {
