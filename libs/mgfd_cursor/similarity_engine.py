@@ -312,3 +312,4 @@ class MGFDSimilarityEngine:
             "cache_enabled": self.enable_cache,
             "metrics": self.get_metrics()
         }
+

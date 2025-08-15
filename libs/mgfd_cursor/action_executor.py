@@ -25,6 +25,21 @@ class ActionExecutor:
         self.config_loader = config_loader
         self.logger = logging.getLogger(__name__)
         
+        # 初始化RAG檢索系統
+        try:
+            from .chunking_engine import ProductChunkingEngine
+            from .hybrid_retriever import HybridProductRetriever
+            
+            self.chunking_engine = ProductChunkingEngine()
+            self.hybrid_retriever = HybridProductRetriever(self.chunking_engine)
+            self.rag_enabled = True
+            self.logger.info("RAG檢索系統初始化成功")
+        except Exception as e:
+            self.logger.error(f"RAG檢索系統初始化失敗: {e}")
+            self.chunking_engine = None
+            self.hybrid_retriever = None
+            self.rag_enabled = False
+        
         # 動作處理器映射 - 修正為與ActionType枚舉值一致
         self.action_handlers = {
             "elicit_information": self._handle_elicit_slot,
@@ -131,19 +146,35 @@ class ActionExecutor:
         }
     
     def _handle_recommend_popular_products(self, command: Dict[str, Any], state: Dict[str, Any]) -> Dict[str, Any]:
-        """處理熱門產品推薦動作"""
+        """處理熱門產品推薦動作 - 使用RAG檢索系統"""
         try:
-            # 生成熱門產品推薦
-            popular_products = self._get_popular_products()
+            # 優先使用RAG檢索系統
+            if self.rag_enabled and self.hybrid_retriever:
+                popular_products = self.hybrid_retriever.retrieve_popular_products()
+                
+                if popular_products:
+                    # 生成基於RAG的推薦回應
+                    response = self._generate_rag_based_popular_response(popular_products)
+                    
+                    return {
+                        "action_type": "popular_recommendation",
+                        "content": response,
+                        "recommendations": popular_products,
+                        "confidence": command.get("confidence", 0.95),
+                        "data_source": "rag_retrieval_system"
+                    }
             
-            # 生成推薦回應
+            # 降級到傳統方法
+            self.logger.warning("RAG系統不可用，使用傳統方法")
+            popular_products = self._get_popular_products()
             response = self._generate_popular_recommendation_response(popular_products)
             
             return {
                 "action_type": "popular_recommendation",
                 "content": response,
                 "recommendations": popular_products,
-                "confidence": command.get("confidence", 0.95)
+                "confidence": command.get("confidence", 0.85),
+                "data_source": "legacy_knowledge_base"
             }
             
         except Exception as e:
@@ -283,29 +314,158 @@ class ActionExecutor:
             return options[:3] if len(options) > 3 else options
     
     def _generate_product_recommendations(self, filled_slots: Dict[str, Any]) -> List[Dict[str, Any]]:
-        """生成產品推薦列表"""
-        # 這裡可以調用產品知識庫進行實際的產品過濾
-        # 目前返回模擬數據
-        recommendations = [
-            {
-                "id": "1",
-                "name": "ASUS VivoBook S15",
-                "brand": "ASUS",
-                "price": "35,900",
-                "features": ["輕薄便攜", "快速開機", "商務適用"],
-                "reason": "符合您的商務需求和預算"
-            },
-            {
-                "id": "2", 
-                "name": "Lenovo ThinkPad E14",
-                "brand": "Lenovo",
-                "price": "32,900",
-                "features": ["穩定可靠", "長效電池", "專業鍵盤"],
-                "reason": "ThinkPad系列商務筆電的經典選擇"
-            }
-        ]
+        """生成產品推薦列表 - 修復版，基於公司產品資料庫"""
+        try:
+            # 從知識庫獲取公司產品
+            from .knowledge_base import NotebookKnowledgeBase
+            
+            kb = NotebookKnowledgeBase()
+            all_products = kb.load_products()
+            
+            if not all_products:
+                self.logger.warning("無法載入產品資料進行推薦")
+                return []
+            
+            # 基於用戶槽位過濾產品
+            filtered_products = self._filter_products_by_slots(all_products, filled_slots)
+            
+            # 為產品生成推薦理由
+            recommendations = []
+            for product in filtered_products[:3]:  # 取前3個
+                recommendation = {
+                    "id": product.get('modeltype', 'unknown'),
+                    "name": product.get('modelname', 'Unknown Model'),
+                    "brand": self._extract_brand_from_product(product),
+                    "price": self._format_price(product),
+                    "features": self._extract_key_features(product),
+                    "reason": self._generate_recommendation_reason(product, filled_slots)
+                }
+                recommendations.append(recommendation)
+            
+            return recommendations
+            
+        except Exception as e:
+            self.logger.error(f"生成產品推薦失敗: {e}")
+            return []
+    
+    def _filter_products_by_slots(self, products: List[Dict], filled_slots: Dict[str, Any]) -> List[Dict]:
+        """基於用戶槽位過濾產品"""
+        filtered = products.copy()
         
-        return recommendations
+        try:
+            # 基於使用目的過濾
+            if 'usage_purpose' in filled_slots:
+                usage = filled_slots['usage_purpose'].lower()
+                if usage == 'gaming':
+                    # 遊戲用戶偏好高效能GPU
+                    filtered = [p for p in filtered if 'rtx' in p.get('gpu', '').lower() or 'gtx' in p.get('gpu', '').lower()]
+                elif usage == 'business':
+                    # 商務用戶偏好穩定性和電池續航
+                    pass  # 目前保留所有產品
+            
+            # 基於品牌偏好過濾
+            if 'brand_preference' in filled_slots:
+                brand = filled_slots['brand_preference'].lower()
+                if brand:
+                    filtered = [p for p in filtered if brand in p.get('modelname', '').lower()]
+            
+            return filtered
+            
+        except Exception as e:
+            self.logger.debug(f"產品過濾失敗: {e}")
+            return products
+    
+    def _extract_brand_from_product(self, product: Dict[str, Any]) -> str:
+        """從產品數據中提取品牌"""
+        modelname = product.get('modelname', '')
+        # 根據型號名稱推斷品牌 (這裡需要根據實際數據調整)
+        if 'AB' in modelname:
+            return "Company Brand"  # 假設AB開頭是公司品牌
+        return "Unknown Brand"
+    
+    def _format_price(self, product: Dict[str, Any]) -> str:
+        """格式化產品價格"""
+        # 這裡需要根據實際產品數據結構調整
+        # 暫時返回估算價格
+        modeltype = product.get('modeltype', '')
+        if modeltype in ['819', '958']:
+            return "45,000-55,000"
+        elif modeltype in ['839']:
+            return "35,000-45,000"
+        else:
+            return "價格面議"
+    
+    def _extract_key_features(self, product: Dict[str, Any]) -> List[str]:
+        """提取產品關鍵特色"""
+        features = []
+        
+        try:
+            # 如果產品已經有預處理的特色，直接使用
+            if 'key_features' in product and product['key_features']:
+                return product['key_features'][:3]
+            
+            # 基於CPU
+            cpu = product.get('cpu', '')
+            if any(term in cpu.lower() for term in ['i7', 'i9', 'ryzen 7', 'ryzen 9']):
+                features.append("高效能處理器")
+            elif any(term in cpu.lower() for term in ['i5', 'ryzen 5']):
+                features.append("均衡效能")
+            
+            # 基於GPU
+            gpu = product.get('gpu', '')
+            if any(term in gpu.lower() for term in ['rtx', 'gtx', 'radeon']):
+                features.append("獨立顯卡")
+            elif 'integrated' not in gpu.lower() and gpu.strip():
+                features.append("內建圖形處理")
+            
+            # 基於記憶體
+            memory = product.get('memory', '')
+            if any(term in memory.lower() for term in ['16gb', '32gb']):
+                features.append("大容量記憶體")
+            elif '8gb' in memory.lower():
+                features.append("標準記憶體")
+            
+            # 基於儲存
+            storage = product.get('storage', '')
+            if 'ssd' in storage.lower():
+                features.append("SSD高速儲存")
+            elif 'nvme' in storage.lower():
+                features.append("NVMe超高速儲存")
+            
+            # 基於顯示器
+            lcd = product.get('lcd', '')
+            if 'fhd' in lcd.lower() and '144hz' in lcd.lower():
+                features.append("高刷新率螢幕")
+            elif 'fhd' in lcd.lower():
+                features.append("全高清顯示")
+            
+            # 基於電池
+            battery = product.get('battery', '')
+            if any(term in battery.lower() for term in ['55wh', '65wh', '90wh']):
+                features.append("長效電池")
+            
+            return features[:3] if features else ["高品質", "值得信賴"]
+            
+        except Exception as e:
+            self.logger.debug(f"提取特色失敗: {e}")
+            return ["高品質", "值得信賴"]
+    
+    def _generate_recommendation_reason(self, product: Dict[str, Any], filled_slots: Dict[str, Any]) -> str:
+        """生成推薦理由"""
+        try:
+            usage = filled_slots.get('usage_purpose', 'general')
+            
+            if usage == 'gaming':
+                return "適合遊戲和高效能需求"
+            elif usage == 'business':
+                return "商務辦公的理想選擇"
+            elif usage == 'study':
+                return "學習和日常使用的好夥伴"
+            else:
+                return "綜合表現優秀，適合多種用途"
+                
+        except Exception:
+            return "優質產品，值得推薦"
     
     def _get_slot_config(self, slot_name: str) -> Dict[str, Any]:
         """獲取槽位配置"""
@@ -484,56 +644,226 @@ class ActionExecutor:
         }
     
     def _get_popular_products(self) -> List[Dict[str, Any]]:
-        """獲取熱門產品列表"""
-        # 這裡可以從數據庫或配置中獲取熱門產品
-        # 暫時返回示例數據
-        return [
-            {
-                "id": "POP001",
-                "name": "ASUS ROG Strix G15",
-                "brand": "ASUS",
-                "price": "NT$ 45,900",
-                "popularity_score": 9.2,
-                "sales_rank": 1,
-                "features": ["遊戲性能強", "散熱優秀", "性價比高"],
-                "description": "最受歡迎的遊戲筆電，性能強勁且價格合理"
-            },
-            {
-                "id": "POP002", 
-                "name": "Lenovo ThinkPad X1 Carbon",
-                "brand": "Lenovo",
-                "price": "NT$ 52,900",
-                "popularity_score": 9.0,
-                "sales_rank": 2,
-                "features": ["商務首選", "輕薄便攜", "品質可靠"],
-                "description": "商務人士最愛的輕薄筆電，品質穩定可靠"
-            },
-            {
-                "id": "POP003",
-                "name": "MacBook Air M2",
-                "brand": "Apple",
-                "price": "NT$ 35,900",
-                "popularity_score": 8.8,
-                "sales_rank": 3,
-                "features": ["續航超長", "性能優秀", "設計精美"],
-                "description": "蘋果最受歡迎的筆電，續航力驚人且性能優秀"
-            }
-        ]
+        """獲取熱門產品列表 - 修復版，從公司產品資料庫獲取"""
+        try:
+            # 從知識庫獲取真實公司產品
+            from .knowledge_base import NotebookKnowledgeBase
+            
+            kb = NotebookKnowledgeBase()
+            all_products = kb.load_products()
+            
+            if not all_products:
+                self.logger.warning("無法載入產品資料，返回空列表")
+                return []
+            
+            # 為產品計算熱門度評分 (基於產品特性)
+            for product in all_products:
+                product['popularity_score'] = self._calculate_popularity_score(product)
+            
+            # 按熱門度排序並取前5個
+            popular_products = sorted(
+                all_products, 
+                key=lambda x: x.get('popularity_score', 0), 
+                reverse=True
+            )[:5]
+            
+            self.logger.info(f"成功載入 {len(popular_products)} 個熱門公司產品")
+            return popular_products
+            
+        except Exception as e:
+            self.logger.error(f"獲取熱門產品失敗: {e}")
+            # 緊急情況下返回空列表，而非硬編碼的非公司產品
+            return []
+    
+    def _calculate_popularity_score(self, product: Dict[str, Any]) -> float:
+        """計算產品熱門度評分 (基於產品特性)"""
+        score = 5.0  # 基礎分數
+        
+        try:
+            # 基於CPU等級加分
+            cpu = product.get('cpu', '').lower()
+            if 'i7' in cpu or 'i9' in cpu or 'ryzen 7' in cpu or 'ryzen 9' in cpu:
+                score += 1.5
+            elif 'i5' in cpu or 'ryzen 5' in cpu:
+                score += 1.0
+            
+            # 基於GPU等級加分
+            gpu = product.get('gpu', '').lower()
+            if 'rtx' in gpu or 'gtx' in gpu or 'radeon' in gpu:
+                score += 1.5
+            elif 'integrated' not in gpu and gpu.strip():
+                score += 0.5
+            
+            # 基於記憶體容量加分
+            memory = product.get('memory', '').lower()
+            if '16gb' in memory or '32gb' in memory:
+                score += 1.0
+            elif '8gb' in memory:
+                score += 0.5
+            
+            # 基於儲存類型加分
+            storage = product.get('storage', '').lower()
+            if 'ssd' in storage:
+                score += 0.5
+            
+            # 基於型號熱門度 (某些型號系列更受歡迎)
+            modeltype = product.get('modeltype', '')
+            if modeltype in ['819', '839', '958']:  # 假設這些是熱門型號
+                score += 0.5
+            
+            return min(score, 10.0)  # 最高10分
+            
+        except Exception as e:
+            self.logger.debug(f"計算熱門度評分失敗: {e}")
+            return 5.0  # 返回預設分數
     
     def _generate_popular_recommendation_response(self, products: List[Dict[str, Any]]) -> str:
         """生成熱門產品推薦回應"""
+        if not products:
+            return "抱歉，目前無法載入產品資料。請聯繫技術支援或稍後再試。"
+        
         response = "🔥 **目前最受歡迎的筆電推薦** 🔥\n\n"
-        response += "根據銷量、用戶評價和市場熱度，我為您推薦以下熱門選擇：\n\n"
+        response += "根據產品特性、性能表現和市場定位，我為您推薦以下熱門選擇：\n\n"
         
         for i, product in enumerate(products, 1):
-            response += f"**{i}. {product['name']}**\n"
-            response += f"   💰 價格：{product['price']}\n"
-            response += f"   ⭐ 熱門度：{product['popularity_score']}/10\n"
-            response += f"   🏆 銷量排名：第{product['sales_rank']}名\n"
-            response += f"   ✨ 特色：{', '.join(product['features'])}\n"
-            response += f"   📝 簡介：{product['description']}\n\n"
+            # 提取產品名稱
+            product_name = product.get('modelname', f"產品型號 {product.get('modeltype', 'Unknown')}")
+            
+            # 格式化價格
+            price = self._format_price(product)
+            
+            # 提取特色
+            features = self._extract_key_features(product)
+            
+            # 計算評分
+            popularity_score = product.get('popularity_score', 5.0)
+            
+            # 生成簡介
+            description = self._generate_product_description(product)
+            
+            response += f"**{i}. {product_name}**\n"
+            response += f"   💰 建議售價：NT$ {price}\n"
+            response += f"   ⭐ 綜合評分：{popularity_score:.1f}/10\n"
+            response += f"   ✨ 主要特色：{', '.join(features)}\n"
+            response += f"   📝 產品簡介：{description}\n\n"
         
-        response += "這些都是目前市場上最受歡迎的筆電，性價比高且用戶評價良好。"
-        response += "您對哪一款比較感興趣？我可以為您提供更詳細的規格和比較。"
+        response += "以上都是我們公司的優質產品，具備出色的性價比和可靠品質。\n"
+        response += "您對哪一款比較感興趣？我可以為您提供更詳細的規格說明和選購建議。"
         
         return response
+    
+    def _generate_product_description(self, product: Dict[str, Any]) -> str:
+        """生成產品簡介"""
+        try:
+            cpu = product.get('cpu', '').split(',')[0] if product.get('cpu') else "處理器"
+            gpu = product.get('gpu', '').split('\n')[0] if product.get('gpu') else "顯示晶片"
+            lcd = product.get('lcd', '')
+            
+            # 提取螢幕尺寸
+            screen_size = "15.6吋" if "15.6" in lcd else "筆電螢幕"
+            
+            # 基於產品類型生成描述
+            modeltype = product.get('modeltype', '')
+            if modeltype == '819':
+                return f"搭載{cpu}處理器的{screen_size}商用筆電，適合商務辦公與日常使用"
+            elif modeltype == '839':
+                return f"經濟實惠的{screen_size}筆電，{cpu}提供穩定效能"
+            elif modeltype == '958':
+                return f"高階{screen_size}筆電，{cpu}配置適合專業工作需求"
+            else:
+                return f"搭載{cpu}的{screen_size}筆電，性能穩定可靠"
+                
+        except Exception:
+            return "高品質筆電，性能穩定，適合多種使用需求"
+    
+    def _generate_rag_based_popular_response(self, products: List[Dict[str, Any]]) -> str:
+        """生成基於RAG檢索的熱門產品回應"""
+        if not products:
+            return "抱歉，目前無法載入產品資料。請聯繫技術支援或稍後再試。"
+        
+        response = "🔥 **基於智能檢索的熱門筆電推薦** 🔥\n\n"
+        response += "通過我們的AI檢索系統，根據產品特性、性能表現和用戶回饋，為您推薦以下最受歡迎的選擇：\n\n"
+        
+        for i, product in enumerate(products, 1):
+            # 從RAG檢索結果提取信息
+            modelname = product.get('modelname', 'Unknown Model')
+            modeltype = product.get('modeltype', 'Unknown')
+            popularity_score = product.get('popularity_score', 5.0)
+            key_features = product.get('key_features', [])
+            primary_usage = product.get('primary_usage', 'general')
+            price_tier = product.get('price_tier', 'standard')
+            
+            # 從原始產品數據提取詳細信息
+            raw_product = product.get('raw_product', {})
+            
+            # 格式化價格
+            price = self._format_price(raw_product)
+            
+            # 生成產品描述
+            description = self._generate_rag_product_description(product, raw_product)
+            
+            # 格式化適用場景
+            usage_text = self._format_usage_scenario(primary_usage)
+            
+            # 格式化價格等級
+            price_text = self._format_price_tier(price_tier)
+            
+            response += f"**{i}. {modelname}** ({modeltype}系列)\n"
+            response += f"   💰 建議售價：NT$ {price}\n"
+            response += f"   ⭐ AI推薦指數：{popularity_score:.1f}/10\n"
+            response += f"   🎯 適用場景：{usage_text}\n"
+            response += f"   💎 價格定位：{price_text}\n"
+            response += f"   ✨ 核心特色：{', '.join(key_features[:3])}\n"
+            response += f"   📝 產品簡介：{description}\n\n"
+        
+        response += "以上推薦基於我們的智能分析系統，結合產品規格、市場定位和用戶需求匹配度進行篩選。\n"
+        response += "每款產品都是我們公司的優質產品，具備出色的性價比和可靠品質。\n\n"
+        response += "您對哪一款比較感興趣？我可以為您提供更詳細的技術規格、使用建議或比較分析。"
+        
+        return response
+    
+    def _generate_rag_product_description(self, product: Dict[str, Any], raw_product: Dict[str, Any]) -> str:
+        """生成基於RAG數據的產品描述"""
+        try:
+            primary_usage = product.get('primary_usage', 'general')
+            price_tier = product.get('price_tier', 'standard')
+            
+            # 從原始數據提取關鍵規格
+            cpu = raw_product.get('cpu', '').split(',')[0] if raw_product.get('cpu') else "高效處理器"
+            lcd = raw_product.get('lcd', '')
+            screen_size = "15.6吋" if "15.6" in lcd else "專業顯示器"
+            
+            # 基於主要用途和價格等級生成描述
+            if primary_usage == 'gaming' and price_tier in ['premium', 'mid_range']:
+                return f"搭載{cpu}的{screen_size}高效能筆電，專為遊戲和創作設計"
+            elif primary_usage == 'business':
+                return f"商務專業筆電，{cpu}配置，{screen_size}設計，適合企業辦公環境"
+            elif price_tier == 'premium':
+                return f"頂級配置筆電，採用{cpu}處理器，{screen_size}專業級顯示，性能卓越"
+            elif price_tier == 'budget':
+                return f"經濟實惠的{screen_size}筆電，{cpu}提供穩定效能，適合日常使用"
+            else:
+                return f"均衡配置的{screen_size}筆電，搭載{cpu}，適合多種應用場景"
+                
+        except Exception:
+            return "高品質筆電，性能穩定，適合專業和日常使用需求"
+    
+    def _format_usage_scenario(self, primary_usage: str) -> str:
+        """格式化適用場景"""
+        usage_map = {
+            'gaming': '遊戲娛樂、高效能運算',
+            'business': '商務辦公、會議簡報',
+            'creative': '創作設計、影音編輯',
+            'general': '日常辦公、學習娛樂'
+        }
+        return usage_map.get(primary_usage, '多用途應用')
+    
+    def _format_price_tier(self, price_tier: str) -> str:
+        """格式化價格等級"""
+        tier_map = {
+            'premium': '高階旗艦',
+            'mid_range': '中階主流',
+            'budget': '經濟實惠',
+            'standard': '標準配置'
+        }
+        return tier_map.get(price_tier, '標準配置')

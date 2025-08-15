@@ -437,6 +437,8 @@
             constructor() {
                 this.sessionId = null;
                 this.isLoading = false;
+                this.renderedQuestions = new Set(); // 追蹤已渲染的問題
+                this.questionHistory = new Map(); // 問題歷史記錄
                 this.init();
             }
 
@@ -727,10 +729,41 @@
                     }
                 }
                 
+                // 🔄 新增：去重邏輯檢查
+                const questionKey = this.generateQuestionKey(question);
+                const currentTime = Date.now();
+                
+                // 檢查是否是重複的問題（5分鐘內的相同問題視為重複）
+                if (this.questionHistory.has(questionKey)) {
+                    const lastTime = this.questionHistory.get(questionKey);
+                    const timeDiff = currentTime - lastTime;
+                    const DUPLICATE_THRESHOLD = 5 * 60 * 1000; // 5分鐘
+                    
+                    if (timeDiff < DUPLICATE_THRESHOLD) {
+                        console.warn('🚫 Duplicate funnel question detected, skipping render:', {
+                            questionKey,
+                            timeDiff: `${Math.round(timeDiff/1000)}s`,
+                            threshold: `${DUPLICATE_THRESHOLD/1000}s`
+                        });
+                        
+                        container.innerHTML = `
+                            <div class="funnel-container" style="opacity: 0.7; border: 2px dashed #ffc107;">
+                                <h3>⚠️ 重複問題偵測</h3>
+                                <p class="funnel-message">此問題在 ${Math.round(timeDiff/1000)} 秒前已顯示過，已自動略過重複渲染。</p>
+                                <p style="font-size: 12px; color: #6c757d;">如果這是錯誤，請重新整理頁面或聯絡技術支援。</p>
+                            </div>
+                        `;
+                        return;
+                    }
+                }
+                
+                // 記錄此問題的顯示時間
+                this.questionHistory.set(questionKey, currentTime);
+                
                 console.log('✅ Funnel question validation passed');
                 
                 let html = `
-                    <div class="funnel-container">
+                    <div class="funnel-container" data-question-key="${questionKey}">
                         <h3>🎯 需求類型選擇</h3>
                         <p class="funnel-question">${question.question_text}</p>
                         ${message ? `<p class="funnel-message">${message}</p>` : ''}
@@ -759,6 +792,26 @@
                 `;
                 
                 container.innerHTML = html;
+            }
+            
+            // 🆕 新增：生成問題唯一鍵的方法
+            generateQuestionKey(question) {
+                // 基於問題文字和選項生成唯一鍵
+                const questionText = question.question_text || '';
+                const optionsText = question.options ? 
+                    question.options.map(opt => `${opt.option_id}-${opt.label}`).join('|') : '';
+                
+                const key = `${questionText}::${optionsText}`;
+                
+                // 使用簡單的雜湊函數生成較短的鍵
+                let hash = 0;
+                for (let i = 0; i < key.length; i++) {
+                    const char = key.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash; // 轉換為32位整數
+                }
+                
+                return `fq_${Math.abs(hash).toString(16)}`;
             }
 
             renderElicitation(container, response) {
@@ -886,6 +939,22 @@
             async handleFunnelOptionClick(optionId, sessionId) {
                 console.log('🎯 Funnel option clicked:', { optionId, sessionId });
                 
+                // 🔄 禁用所有選項按鈕防止重複點擊
+                const optionButtons = document.querySelectorAll('.funnel-option-btn');
+                optionButtons.forEach(btn => {
+                    btn.disabled = true;
+                    btn.style.opacity = '0.6';
+                    btn.style.cursor = 'not-allowed';
+                });
+                
+                // 標示已選擇的選項
+                const selectedButton = document.querySelector(`[data-option-id="${optionId}"]`);
+                if (selectedButton) {
+                    selectedButton.style.backgroundColor = '#667eea';
+                    selectedButton.style.color = 'white';
+                    selectedButton.style.border = '2px solid #667eea';
+                }
+                
                 try {
                     // 發送選擇到後端
                     const response = await fetch('/api/mgfd_cursor/chat', {
@@ -904,6 +973,9 @@
                     }
 
                     const data = await response.json();
+                    
+                    // 🗺️ 清理相關的問題歷史（避免重複問題）
+                    this.clearRelatedQuestionHistory(optionId);
                     
                     // 添加新的回應
                     this.addMessage('assistant', data.response, data);

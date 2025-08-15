@@ -1,0 +1,173 @@
+﻿Updated,2023/10/12,,,,,,
+,,,,,,,
+,,公版公模?,公版公模?,,,,
+Stage,Version,Planning_v0.2,Planning_v0.3,,,,
+Model,Model Name,AC918,AC918_BM,,,,
+P/N,P/N,EM-918-NS15AC-X??,EM-918-NS15AC-X??(BM),,,,
+ID,ID,Standard,Standard_(Customized for Blue Morning),,,,
+MB,MB Ver.,v1.0?,v1.0?,,,,
+DB,DB Ver.,v1.0?,v1.1?,,,,
+Develop, stage,Planning：2023/10/02-2023/Now,Planning_2023/10/02-2023/Now,,,,
+,,Est. Kick-off：2023/xx/xx,Est. Kick-off：2023/xx/xx,,,,
+,,EVT：,EVT：,,,,
+,,DVT：,DVT：,,,,
+,,PVT：,PVT：,,,,
+,,Pilot run：,Pilot run：,,,,
+PM,Owner,Poling,Poling,,,,
+Client,Customized,N/A,Blue Morning,,,,
+Structure configuration,,,,,,,
+Type,Details,Descriptions,,,,,
+Structure,Form,Clamshell / Notebook,Clamshell / Notebook,,,,
+,Dimension,357 * 241.8 * 17.9mm,357 * 241.8 * 17.9mm,,,,
+,Material,"A/D Cover： Metal, B/C Cover：  Plastic(Anodize)","A/D Cover： Metal, B/C Cover：  Plastic(Anodize)",,,,
+,Hinge,"180 degree hinge (make sure will not touch the LCD Panel during the opening)
+one-hand opening + soft close (shouldn’t clap when closing)","180 degree hinge (make sure will not touch the LCD Panel during the opening)
+one-hand opening + soft close (shouldn’t clap when closing)",,,,
+,Weight,1.8 kg,1.8 kg,,,,
+LCD,Dimension,"15.6""  16:9","15.6""  16:9",,,,
+,Resolution,"15.6""1920* 1080 FHD, IPS, 60Hz (not support to 120/144Hz),45% NTSC, FreeSync","15.6""1920* 1080 FHD, IPS, 60Hz (not support to 120/144Hz),45% NTSC, FreeSync",,,,
+Touch panel,Form,N/A,N/A,,,,
+IO Interface,MB IO(Left),1* φ5.5mm DC-IN port (MB),1* φ5.5mm DC-IN port (MB),,,,
+,,1* HDMI Type A 2.0 (Support HDMI2.1TMDS_4K/60Hz) (MB),1* HDMI Type A 2.0 (Support HDMI2.1TMDS_4K/60Hz) (MB),,,,
+,,"2* USB 3.2 Gen1, Super Speed USB 5Gbp, Type-A (MB)","2* USB 3.2 Gen1, Super Speed USB 5Gbp, Type-A (MB)",,,,
+,,"1* USB3.2 Gen2, Super Speed USB 10Gbps,Type-C, full function (Power Delivery,Data,DisplayPort) (MB)","1* USB3.2 Gen2, Super Speed USB 10Gbps,Type-C, full function (Power Delivery,Data,DisplayPort) (MB)",,,,
+,,1* φ3.5mm standard headphone jack (MB),1* φ3.5mm standard headphone jack (MB),,,,
+,DB IO(Right),1* Mini Security Kensington lock Type slot (DB),1* Mini Security Kensington lock Type slot (DB),,,,
+,,"1* 10/100/1000 bps RJ45 
+Chipset selection: 
+①For  10/100/1000 Mbps (autosense) use Intel i219-LM, Gigabit Ethernet
+② For  10/100/1000 Mbps (autosense) use Intel i225-LM , Gigabit Ethernet - Complice IEEE 802.3, 802.3u e 802.3ab - Wake-on-LAN (WoL), SNMP, PXE, CSMA/CD and iAMT  
+1* 1G(RTL) RJ45","1* 10/100/1000 bps RJ45 
+Chipset selection: 
+①For  10/100/1000 Mbps (autosense) use Intel i219-LM, Gigabit Ethernet
+② For  10/100/1000 Mbps (autosense) use Intel i225-LM , Gigabit Ethernet - Complice IEEE 802.3, 802.3u e 802.3ab - Wake-on-LAN (WoL), SNMP, PXE, CSMA/CD and iAMT  
+1* 1G(RTL) RJ45",,,,
+,,"1* Standard SD card, Support SD/MMC/SDHC/SDXC, SD 2.0 (DB)","1* Standard SD card, Support SD/MMC/SDHC/SDXC, SD 2.0 (DB)",,,,
+,,"1* USB 3.2 Gen1, Super Speed USB 5Gbp,Type A (DB)","1* USB 3.2 Gen1, Super Speed USB 5Gbp,Type A (DB)",,,,
+,,1* SIM card slot (Optional)(DB),1* SIM card slot (Optional)(DB),,,,
+,MB IO(Rear),N/A,N/A,,,,
+LED indicator,1x Power On/Off/Sleep,"On with Blue light
+Off with no light
+Sleep with breathing light","On with Blue light
+Off with no light
+Sleep with breathing light",,,,
+,1xWiFi/Bluetooth,"On with Blue light
+Off with no light","On with Blue light
+Off with no light",,,,
+,1xBattery/Charge,"Charging with Red light
+Full-charged with Blue light
+Off with no light","Charging with Red light
+Full-charged with Blue light
+Off with no light",,,,
+,1xWebcam,"On with Blue light
+Off with no light","On with Blue light
+Off with no light",,,,
+,2xSSD led,"On with Blue light
+Off with no light","On with Blue light
+Off with no light",,,,
+,1xCaps Lock,"On with white light
+Off with no light","On with white light
+Off with no light",,,,
+Power button,Button,Seperated Power button key,Seperated Power button key,,,,
+Keyboard,Back light,Optional,N/A,,,,
+,Matrix,"US/KB compatible
+Customiz language KB (US)--102 keys","US/KB compatible
+Customiz language KB (US)--102 keys",,,,
+,Others,"Spill resistant with drain for drainage (200CC waterproof),
+Typical  keyboard w/o removeable design","Spill resistant with drain for drainage (200CC waterproof),
+Typical  keyboard w/o removeable design",,,,
+Web camera,Front,"Front 720P, 30 fps, w/ mic*2, LED, with latch
+Support Camera+Mic physical power on/off switch
+Camera shutter ","Front 720P, 30 fps, w/ mic*2, LED, with latch
+Support Camera+Mic physical power on/off switch
+Camera shutter ",,,,
+,Rear,N/a,N/a,,,,
+,Windows Hello,Optional,Optional,,,,
+Touchpad,Interface type,I2C/ xxpin,I2C/ xxpin,,,,
+,Size,xxx* xxx mm,xxx* xxx mm,,,,
+,Feature,Support Windows 11 default gesture,Support Windows 11 default gesture,,,,
+Fingerprint,Location,N/A,N/A,,,,
+,Interface type,N/A,N/A,,,,
+,Windows Hello,N/A,N/A,,,,
+Audio,Speaker,Built-in 4Ω/2W speaker *2,Built-in 4Ω/2W speaker *2,,,,
+,Mic,"HD Audio, Built-in (dual) digital microphones","HD Audio, Built-in (dual) digital microphones",,,,
+,Others,"Box(For 4G version, the box need to be removed partially,so the speaker effect will be impact.)","Box(For 4G version, the box need to be removed partially,so the speaker effect will be impact.)",,,,
+Battery,Type,Lithium-ion polymer battery,Lithium-ion polymer battery,,,,
+,Capacity,"1*  69.993Wh, 15.55V/6060mah, 4S1P, Dumb/Smart battery? ","1*  69.993Wh, 15.55V/6060mah, 4S1P, Dumb/Smart battery? ",,,,
+,Certification,"CB,MSDS,UN38.3,Airflight transportation report ","CB,MSDS,UN38.3,Airflight transportation report ",,,,
+,Life,10-12 Hours (TBD),10-12 Hours (TBD),,,,
+Hardware configuration,,,,,,,
+Type,Details,Descriptions,Descriptions,,,,
+CPU,Module,"AMD Zen2, AMD Cezanne U Series, TDP 15W","AMD Zen2, AMD Cezanne U Series, TDP 15W",,,,
+,,"AMD Zen 3, Ryzen™ 3 5400U (4C/8T,4.0/2.6 Ghz, 10MB, TDP 15W)","AMD Zen 3, Ryzen™ 3 5400U (4C/8T,4.0/2.6 Ghz, 10MB, TDP 15W)",,,,
+,,"AMD Zen 3, Ryzen™ 5 5600U (6C/12T,4.2/2.3 Ghz, 19MB, TDP 15W)",N/A,,,,
+,,"AMD Zen 3, Ryzen™ 7 5800U (8C/16T,4.4/1.9 Ghz, 20MB, TDP 15W)",N/A,,,,
+GPU,Model,AMD Radeon™ Graphics integrated,AMD Radeon™ Graphics integrated,,,,
+Memory,RAM,"2* DDR4 SO-DIMM, up to 64GB DDR4 3200 MHz(2x32G)","2* DDR4 SO-DIMM, up to 64GB DDR4 3200 MHz(2x 4G)",,,,
+LCD Connector,Port,LCD connector optional,LCD connector optional,,,,
+M.2 slots x4,Storage/ SSD,"2* PCle G3 (Lanex3/NVME SSD (M.2 2280) & SATA support, up to 8TB (2x4TB)
+Main socket : M key supports NVMe and SATA SSD
+2nd socket: B key supports SATA SSD only","2* PCle G3 (Lanex3/NVME SSD (M.2 2280) & SATA support, up to 8TB (1x 256GB)
+Main socket : M key supports NVMe and SATA SSD",,,,
+,Wifi,1* M.2 Key-E 2230 for AC WiFi5 1Tx1R (RTL8821CE) + BT5.0,1* M.2 Key-E 2230 for AC WiFi5 1Tx1R (RTL8821CE) + BT5.0,,,,
+,SD Card,"1* M.2 Key-E 2230 Standard SD Card, USB2.0 protocal","1* M.2 Key-E 2230 for Smart Card, USB2.0 protocal",,,,
+,LTE,"1* M.2 Keyb-B 2242 slot for LTE/UMTS/HSPA+ wireless, communication module
+ (For 4G/LTE version, need to remove 1* SATA SSD)",N/A,,,,
+Sensor,G sensor,N/A,N/A,,,,
+,Hall sensor,Support,Support,,,,
+TPM,interface Type,"Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM) ","Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM) ",,,,
+V-PRO ,Type,N/A,N/A,,,,
+RTC,RTC Connector,Support,Support,,,,
+Others,Feature,N/A,N/A,,,,
+Wireless network configuration,,,,,,,
+Type,Details,Descriptions,Descriptions,,,,
+WIFI,Wifi Chip Model,"Default：6221M-PUC（FN-LINK)_WIFI5 1Tx1R 802.11ac (2.4GHz/5GHz) + BT 5.0, on M.2 module  (Major Chipset –  RTL8821CE)","Default：6221M-PUC（FN-LINK)_WIFI5 1Tx1R 802.11ac (2.4GHz/5GHz) + BT 5.0, on M.2 module  (Major Chipset –  RTL8821CE)",,,,
+,Others,Support Wifi and Bluetooth Power on/off switch,Support Wifi and Bluetooth Power on/off switch,,,,
+LAN,RJ45,Giga LAN 10/100/1000Mbps (on DB),Giga LAN 10/100/1000Mbps (on DB),,,,
+LTE,M.2 slot,Support,N/A,,,,
+Bluetooth,Bluetooth,Support,Support,,,,
+,Version,BT 5.0,BT 5.0,,,,
+Software configuration,,,,,,,
+Type,Details,Descriptions,Descriptions,,,,
+Operating System,System,"Windows11 HQL, Support Modern Standby
+All functions should be compatible on Win11 & Linux OS","Windows11 HQL, Support Modern Standby
+All functions should be compatible on Win11 & Linux OS",,,,
+,Language Support,Support multi Language,Support multi Language,,,,
+BIOS/EC,UI spec,Standard spec,Standard spec,,,,
+Accessory,,,,,,,
+Type,Details,Descriptions,Descriptions,,,,
+Power adapter,Standard Configuration,"1* 65W, AC in 100/240V,50/60Hz, DC output 19V /3.42A AC adapter","1* 65W, AC in 100/240V,50/60Hz, DC output 19V /3.42A AC adapter",,,,
+Certifications,,,,,,,
+Type,Details,Descriptions,Descriptions,,,,
+Certifications,Safety,CE,CE,,,,
+,,FCC,FCC,,,,
+,,RoHS,RoHS,,,,
+,EPEAT and ECO LABEL standards,"Plastic marking on parts over 25G according to EPEAT and ECO LABEL standards
+The plastic resin is PC+ABS, in section 
+7. Description is Triangle+resin. Remember the marking must be on all plastic parts over 25g.","Plastic marking on parts over 25G according to EPEAT and ECO LABEL standards
+The plastic resin is PC+ABS, in section 
+7. Description is Triangle+resin. Remember the marking must be on all plastic parts over 25g.",,,,
+ID Picture,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,

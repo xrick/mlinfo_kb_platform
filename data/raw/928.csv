@@ -1,0 +1,255 @@
+﻿Updated,2023/12/08,,,,,,,,
+,,,,,,PCBA Project,,,
+Stage,Version,MP_v1.3,MP_v1.2,MP1.3,MP1.2,MP_v1.0,EVT1.1,MP_v1.1,
+Model,Model Name,ARB928,ARB928U,ARB928P,ARB928UP,APX928U,AHP928U,AC928,
+P/N,P/N,"EM-928-NM15ARB-x?
+EM-928-NM16ARB-x?","EM-928U-NM15ARB-x?
+EM-928U-NM16ARB-x?","EM-928-NM15ARB-Plus-x?
+EM-928-NM16ARB-Plus-x?","EM-928U-NM15ARB-Plus-x?
+EM-928U-NM16ARB-Plus-x?","EM-928U-NM15APX-R
+EM-928U-NM16APX-R",EM-928-NM16AHP-R,"EM-928-NM15AC-X
+EM-928-NM16AC-X",
+ID,ID,Standard,Standard,Standard,Standard,Standard-超人,Standard-超人,Standard,
+MB,MB Ver.,v1.0?,v1.0?,v1.0?,v1.0?,v1.0?,v1.0?,v1.0?,
+DB,DB Ver.,v1.0?,v1.0?,v1.0?,v1.0?,v1.0?,v1.0?,v1.0?,
+Develop, stage,Planning：N/A,Planning：N/A,Planning：N/A,Planning：N/A,Planning：N/A,Planning：N/A,Planning：N/A,
+,,Kick-off：N/A,Kick-off：N/A,Kick-off：N/A,Kick-off：N/A,Kick-off：2023/09/07,Kick-off：2023/09/07,Est. Kick-off：N/A,
+,,EVT：N/A,EVT：N/A,EVT：N/A,EVT：N/A,EVT：2023/09/08 ~ 2024/02/xx,EVT：2023/09/08 ~ 2024/02/xx,EVT：N/A,
+,,DVT：N/A,DVT：N/A,DVT：N/A,DVT：N/A,DVT：N/A,DVT：N/A,DVT：N/A,
+,,PVT：N/A,PVT：N/A,PVT：N/A,PVT：N/A,PVT：2023/05/04-2023/12/15  R7-7840HS/ R7-7840U),PVT：N/A,PVT：N/A,
+,,Pilot run：N/A,Pilot run：N/A,Pilot run：N/A,Pilot run：N/A,Pilot run：N/A,Pilot run：N/A,Pilot run：N/A,
+,,MP：N/A,MP：N/A,MP：N/A,MP：N/A,MP：2023/12/15,MP：N/A,MP：N/A,
+PM,Owner,Poling,Poling,Poling,Poling,Jasper,Jasper,Poling,
+Client,Customized,,,,,,,,
+Structure configuration,,,,,,,,,
+Type,Details,Descriptions,Descriptions,Descriptions,Descriptions,Descriptions,Descriptions,Descriptions,
+Structure,Form,Notebook,Notebook,Notebook,Notebook,Notebook,Notebook,Notebook,
+,Dimension,370.6 * 247.9* 17.95mm ,370.6 * 247.9* 17.95mm ,370.6 * 247.9* 17.95mm ,370.6 * 247.9* 17.95mm ,370.6 * 247.9* 17.95mm ,370.6 * 247.9* 17.95mm ,370.6 * 247.9* 17.95mm ,
+,Material/Surface,"A/C/D Cover：Metal (Anodize), 
+B Cover：Plastic (Texture)","A/C/D Cover：Metal (Anodize), 
+B Cover：Plastic (Texture)","A/C/D Cover：Metal (Anodize), 
+B Cover：Plastic (Texture)","A/C/D Cover：Metal (Anodize), 
+B Cover：Plastic (Texture)","A/C/D Cover：Metal (Anodize), 
+B Cover：Plastic (Texture)","A/C/D Cover：Metal (Anodize), 
+B Cover：Plastic (Texture)","A/C/D Cover：Metal (Anodize), 
+B Cover：Plastic (Texture)",
+,Hinge,140 degree hinge,140 degree hinge,140 degree hinge,140 degree hinge,140 degree hinge,140 degree hinge,140 degree hinge,
+,Weight,1.79 Kg,1.79 Kg,1.79 Kg,1.79 Kg,1.79 Kg,1.79 Kg,1.79 Kg,
+LCD,Dimension,"15.6"" 16:9
+16.1"" 16:9","15.6"" 16:9
+16.1"" 16:9","15.6"" 16:9
+16.1"" 16:9","15.6"" 16:9
+16.1"" 16:9","15.6"" 16:9
+16.1"" 16:9_MP","15.6"" 16:9
+16.1"" 16:9_Main ","15.6"" 16:9
+16.1"" 16:9",
+,Resolution,"15.6"" 1920* 1080 FHD, 144Hz, Freesync, PSR
+16.1"" 1920* 1080 FHD, 60Hz, Freesync, PSR","15.6"" 1920* 1080 FHD, 144Hz, Freesync, PSR
+16.1"" 1920* 1080 FHD, 60Hz, Freesync, PSR","15.6"" 1920* 1080 FHD, 144Hz, Freesync, PSR
+16.1"" 1920* 1080 FHD, 60Hz, Freesync, PSR","15.6"" 1920* 1080 FHD, 144Hz, Freesync, PSR
+16.1"" 1920* 1080 FHD, 60Hz, Freesync, PSR
+16.1"" 2560* 1440 QHD, 165Hz panel
+16.1"" 2560 x 1440 QHD, 240Hz panel 100%sRGB, Freesync, noPSR","15.6"" 1920* 1080 FHD, 144Hz, Freesync, PSR
+16.1"" 1920* 1080 FHD, 60Hz, Freesync, PSR
+16.1"" 2560* 1440 QHD, 240Hz panel, 100%sRGB, Freesync, noPSR","15.6"" 1920* 1080 FHD, 144Hz, Freesync, PSR
+16.1"" 1920* 1080 FHD, 60Hz, Freesync, PSR
+16.1"" 2560* 1440 QHD, 240Hz panel, 100%sRGB, Freesync, noPSR","15.6"" 1920* 1080 FHD, 144Hz, Freesync, PSR
+16.1"" 1920* 1080 FHD, 60Hz, Freesync, PSR",
+Touch panel,Form,N/A,N/A,N/A,N/A,N/A,N/A,N/A,
+IO Interface,MB IO(Left),1* φ5.5mm DC-IN port (MB),1* φ5.5mm DC-IN port (MB),1* φ5.5mm DC-IN port (MB),1* φ5.5mm DC-IN port (MB),1* φ5.5mm DC-IN port (MB),1* φ5.5mm DC-IN port (MB),1* φ5.5mm DC-IN port (MB),
+,,1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB),1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB),1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB),1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB),1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB),1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB),1* HDMI 1.4 Type A,
+,,"2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (on MB)","2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (on MB)","2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (on MB)","2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (on MB)","2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (on MB)","2* USB3.2 Gen1, Super Speed USB 5Gbps,Type A (on MB)","2* USB3.2 Gen1, Super Speed USB 5Gbps,Type A (on MB)",
+,,"1* USB3.2 Gen2,  Super Speed USB 10Gbps, Type C, full function PD(5V/3A)/DP1.4/USB (on MB)","1* USB3.2 Gen2,  Super Speed USB 10Gbps, Type C, full function PD(5V/3A)/DP1.4/USB (on MB)","1* USB3.2 Gen2,  Super Speed USB 10Gbps, Type C, full function PD(5V/3A)/DP1.4/USB (on MB)","1* USB3.2 Gen2,  Super Speed USB 10Gbps, Type C, full function PD(5V/3A)/DP1.4/USB (on MB)","1* USB3.2 Gen2,  Super Speed USB 10Gbps, Type C, full function PD(60W)/DP1.4/USB (on MB)","1* USB4.0, USB4 40Gbps, full function PD(100W)/DP1.4/USB, Type C (on MB) ","1* USB3.2 Gen2,  Super Speed USB 10Gbps, full function PD(5V/3A)/DP1.4/USB, Type C (on MB)",
+,,1* φ3.5mm standard headphone Jack (MB),1* φ3.5mm standard headphone Jack (MB),1* φ3.5mm standard headphone Jack (MB),1* φ3.5mm standard headphone Jack (MB),1* φ3.5mm standard headphone Jack (MB),1* φ3.5mm standard headphone Jack (MB),1* φ3.5mm standard headphone Jack (MB),
+,,1* Camera shutter (MB),1* Camera shutter (MB),1* Camera shutter (MB),1* Camera shutter (MB),1* Camera shutter (MB),1* Camera shutter (MB),1* Camera shutter (MB),
+,DB IO(Right),1* Supportive Kensington Lock Type slot (DB),1* Supportive Kensington Lock Type slot (DB),1* Supportive Kensington Lock Type slot (DB),1* Supportive Kensington Lock Type slot (DB),1* Supportive Kensington Lock Type slot (DB),1* Supportive Kensington Lock Type slot (DB),1* Supportive Kensington Lock Type slot (DB),
+,,"1* RJ45, Giga LAN 10/100/1000Mbps (On DB)","1* RJ45, Giga LAN 10/100/1000Mbps (On DB)","1* RJ45, Giga LAN 10/100/1000Mbps (On DB)","1* RJ45, Giga LAN 10/100/1000Mbps (On DB)","1* RJ45, Giga LAN 10/100/1000Mbps (On DB)","1* RJ45, Giga LAN 10/100/1000Mbps (On DB)","1* RJ45, Giga LAN 10/100/1000Mbps (On DB)",
+,,"1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)","1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)","1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)","1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)","1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)","1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)","1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)",
+,,"1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (onDB)","1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (onDB)","1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (onDB)","1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (onDB)","1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (onDB)","1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (onDB)","1* USB2.0 Hi-Speed, Type A (onDB)",
+,,N/A,N/A,N/A,N/A,N/A,N/A,N/A,
+,MB IO(Rear),N/A,N/A,N/A,N/A,N/A,N/A,N/A,
+LED indicator,1x Power On/Off/Sleep,"On with Blue light
+Off with no light
+Sleep with breathing light","On with Blue light
+Off with no light
+Sleep with breathing light","On with Blue light
+Off with no light
+Sleep with breathing light","On with Blue light
+Off with no light
+Sleep with breathing light","On with Blue light
+Off with no light
+Sleep with breathing light","On with Blue light
+Off with no light
+Sleep with breathing light","On with Blue light
+Off with no light
+Sleep with breathing light",
+,1xWiFi/Bluetooth,N/A,N/A,N/A,N/A,N/A,N/A,N/A,
+,1xBattery/Charge,"Charging with Red light
+Full-charged with Green light
+Off with no light","Charging with Red light
+Full-charged with Green light
+Off with no light","Charging with Red light
+Full-charged with Green light
+Off with no light","Charging with Red light
+Full-charged with Green light
+Off with no light","Charging with Red light
+Full-charged with Green light
+Off with no light","Charging with Red light
+Full-charged with Green light
+Off with no light","Charging with Red light
+Full-charged with Green light
+Off with no light",
+,1xWebcam Module,N/A,N/A,N/A,N/A,N/A,N/A,N/A,
+,2xSSD led,N/A,N/A,N/A,N/A,N/A,N/A,N/A,
+,1xCaps Lock,N/A,N/A,"On with white light
+Off with no light",N/A,"On with white light
+Off with no light","On with white light
+Off with no light",N/A,
+,1x NumLock,N/A,N/A,"On with white light
+Off with no light",N/A,"On with white light
+Off with no light","On with white light
+Off with no light",N/A,
+Power button,Button,Seperated Power button key(On DB),Seperated Power button key(On DB),Seperated Power button key(On DB),Seperated Power button key(On DB),Seperated Power button key(On DB),Seperated Power button key(On DB),Seperated Power button key(On DB),
+Keyboard,Back light,Backlight KB (Single LED-White),Backlight KB (Single LED-White),Backlight KB (Single LED-White),Backlight KB (Single LED-White),Backlight KB (Single LED-White),Backlight KB (Single LED-White),Backlight KB (Single LED-White),
+,Matrix,US/UK,US/UK,US/UK,US/UK,US/UK,US/UK,US/UK,
+,Others,41*110.6*3.5mm,41*110.6*3.5mm,41*110.6*3.5mm,41*110.6*3.5mm,41*110.6*3.5mm,41*110.6*3.5mm,41*110.6*3.5mm,
+Web camera,Front,"1* 1.0MP(720P) Front, with MIC*2, LED
+*White LED on when camera is always turned off for privacy.
+Camera shutter ","1* 1.0MP(720P) Front, with MIC*2, LED
+*White LED on when camera is always turned off for privacy.
+Camera shutter ","1* 1.0MP(720P) Front, with MIC*2, LED
+*White LED on when camera is always turned off for privacy.
+Camera shutter ","1* 1.0MP(720P) Front, with MIC*2, LED
+*White LED on when camera is always turned off for privacy.
+Camera shutter ","1* 1.0MP(720P) Front, with MIC*2, LED
+*White LED on when camera is always turned off for privacy.
+Camera shutter ","1* 1.0MP(720P) Front, with MIC*2, LED
+*White LED on when camera is always turned off for privacy.
+Camera shutter ","1* 1.0MP(720P) Front, with MIC*2, LED
+*White LED on when camera is always turned off for privacy.
+Camera shutter ",
+,Rear,N/A,N/A,N/A,N/A,N/A,N/A,N/A,
+,Windows Hello,Optional,Optional,Optional,Optional,Optional,Optional,Optional,
+Touchpad,Interface type,I2C/8pin,I2C/8pin,I2C/ 6pin,I2C/ 6pin,I2C/ 6pin,I2C/ 6pin,I2C/ 6pin,
+,Size,125.1* 78.1mm,125.1* 78.1mm,125.1* 78.1mm,125.1* 78.1mm,125.1* 78.1mm,125.1* 78.1mm,125.1* 78.1mm,
+,Feature,"multi-touch support, gestures and scroll function","multi-touch support, gestures and scroll function","multi-touch support, gestures and scroll function","multi-touch support, gestures and scroll function","multi-touch support, gestures and scroll function","multi-touch support, gestures and scroll function","multi-touch support, gestures and scroll function",
+Fingerprint,Location,1* on power button (Optional),1* on power button (Optional),1* on power button (Optional),1* on power button (Optional),1* on power button (Optional),1* on power button (Optional),1* on power button (Optional),
+,Interface type,"USB, Security level 2 -FT9368","USB, Security level 2 -FT9368","USB, Security level 2 -FT9368","USB, Security level 2 -FT9368","USB, Security level 2 -FT9368","USB, Security level 2 -FT9368","USB, Security level 2 -FT9368",
+,Windows Hello,support Windows Hello,support Windows Hello,support Windows Hello,support Windows Hello,support Windows Hello,support Windows Hello,support Windows Hello,
+Audio,Speaker,"4* Built-in Speaker ( 2* 4Ω/2W, 2* 8Ω/1W)","4* Built-in Speaker ( 2* 4Ω/2W, 2* 8Ω/1W)","4* Built-in Speaker ( 2* 4Ω/2W, 2* 8Ω/1W)","4* Built-in Speaker ( 2* 4Ω/2W, 2* 8Ω/1W)","4* Built-in Speaker ( 2* 4Ω/2W, 2* 8Ω/1W)","4* Built-in Speaker ( 2* 4Ω/2W, 2* 8Ω/1W)","4* Built-in Speaker ( 2* 4Ω/2W, 2* 8Ω/1W)",
+,Mic,2* Built-in (dual) digital microphones on camera module,2* Built-in (dual) digital microphones on camera module,2* Built-in (dual) digital microphones on camera module,2* Built-in (dual) digital microphones on camera module,2* Built-in (dual) digital microphones on camera module,2* Built-in (dual) digital microphones on camera module,2* Built-in (dual) digital microphones on camera module,
+,Others,N/A,N/A,N/A,N/A,N/A,N/A,N/A,
+Battery,Type,Lithium-ion polymer battery,Lithium-ion polymer battery,Lithium-ion polymer battery,Lithium-ion polymer battery,Lithium-ion polymer battery,Lithium-ion polymer battery,Lithium-ion polymer battery,
+,Capacity,"1* 69.99Wh, 11.55V/6060mAh, 4S1P, Smart battery","1* 69.99Wh, 11.55V/6060mAh, 4S1P, Smart battery","1* 69.99Wh, 11.55V/6060mAh, 4S1P, Smart battery","1* 69.99Wh, 11.55V/6060mAh, 4S1P, Smart battery","1* 69.99Wh, 11.55V/6060mAh, 4S1P, Smart battery","1* 69.99Wh, 11.55V/6060mAh, 4S1P, Smart battery","1* 69.99Wh, 11.55V/6060mAh, 4S1P,Dumb battery",
+,Certification,"CB,MSDS,UN38.3, Airflight transportation report ","CB,MSDS,UN38.3, Airflight transportation report ","CB,MSDS,UN38.3, Airflight transportation report ","CB,MSDS,UN38.3, Airflight transportation report ","CB,MSDS,UN38.3, Airflight transportation report ","CB,MSDS,UN38.3, Airflight transportation report ","CB,MSDS,UN38.3, Airflight transportation report ",
+,Life,10 Hours,10 Hours,10 Hours,10 Hours,"5 - 8 Hours H Series)
+10 Hours (U Series)","5 - 8 Hours (H Series)
+10  Hours (U Series)",10 Hours,
+Hardware configuration,,,,,,,,,
+Type,Details,Descriptions,Descriptions,Descriptions,Descriptions,Descriptions,Descriptions,Descriptions,
+CPU,Module,"AMD Zen3+,  AMD Rembrandt U Series","AMD Zen3+,  AMD Rembrandt H Series","AMD Zen 3+, AMD Rembrandt Refresh, TDP: 45W","AMD Zen 3+, AMD Rembrandt Refresh HS Series, TDP: 45W","AMD Zen4,  AMD Phoenix HS Series, TDP: 45W","AMD Zen4,  AMD Hawk Point HS Series, TDP: 45W","AMD Zen 3, AMD Cezanne, TDP: 45W *MP",
+,,"Ryzen™ 5 6600U (6C/12T, 4.5GHz/2.9GHz,TDP: 15~28W)","Ryzen™ 5 6600H (6C/12T, 4.5GHz/3.3GHz,TDP: 45W)","Ryzen™3 7335U (4C/8T, 4.3GHz/3.0GHz, TDP: 28W)","Ryzen™ 5 7535HS (6C/12T, 4.55GHz/3.3GHz, TDP: 35-54W)","Ryzen™ 5 7640HS (6C/12T, 5.0GHz/4.3GHz, TDP: 35W~54W)","Ryzen™ 5 8645HS (8C/16T, 5.2GHz/4.0GHz, TDP: 35W~54W)","Ryzen™5 5600H (6C/12T, 4.2GHz/3.3GHz, TDP: 45W)",
+,,"Ryzen™ 7 6800U (8C/16T, 4.7GHz/2.7GHz,TDP: 15~28W)","Ryzen™ 7 6800H (8C/16T, 4.7GHz/3.2GHz,TDP: 45W)","Ryzen™ 5 7535U (6C/12T, 4.55GHz/2.9GHz, TDP: 28W)","Ryzen™ 7 7735HS (8C/16T, 4.75GHz/3.2GHz, TDP: 35-54W)","Ryzen™ 7 7840HS (8C/16T, 5.1GHz/3.8GHz, TDP: 35W~54W) MP","Ryzen™ 7 8845HS (8C/16T, 5.1GHz/3.8GHz, TDP: 35W~54W) Main","Ryzen™7 5800H (8C/16T, 4.4GHz/3.2GHz, TDP: 45W)",
+,,N/A,"AMD Zen3+,  AMD Rembrandt U Series","Ryzen™ 7 7735U (8C/16T, 4.75GHz/2.7GHz, TDP: 28W)","AMD Zen 3+, AMD Rembrandt Refresh U Series, TDP: 45W","Ryzen™ 9 7940HS (8C/16T, 5.2GHz/4.0GHz, TDP: 35W~54W)","Ryzen™ 9 8945HS (8C/16T, 5.0GHz/3.5GHz, TDP: 35W~54W)","Ryzen™9 5900H (6C/12T, 4.2GHz/3.1GHz, TDP: 45W)",
+,,N/A,"Ryzen™ 5 6600U (6C/12T, 4.5GHz/2.9GHz,TDP: 15~28W)",N/A,"Ryzen™3 7335U (4C/8T, 4.3GHz/3.0GHz, TDP: 28W)","AMD Zen4,  AMD Phoenix U Series, TDP: 30W","AMD Zen4,  AMD Hawk Point U Series, TDP: 28W","AMD Zen 3, AMD Barcelo Refresh, TDP: 15W *NEED TO VERIFY",
+,,N/A,"Ryzen™ 7 6800U (8C/16T, 4.7GHz/2.7GHz,TDP: 15~28W)",N/A,"Ryzen™ 5 7535U (6C/12T, 4.55GHz/2.9GHz, TDP: 28W)","Ryzen™ 5 7440U (4C/8T, 4.7GHz/3.0GHz, TDP: 15W~30W)","Ryzen™ 3 8440U (6C/12T, 4.7GHz/3.0GHz, TDP: 28W)","Ryzen™ 3 7330U (4C/8T, 4.3GHz/2.3GHz, TDP: 15W)",
+,,N/A,N/A,N/A,"Ryzen™ 7 7735U (8C/16T, 4.75GHz/2.7GHz, TDP: 28W)","Ryzen™ 7 7640U (8C/16T, 4.9GHz/3.2GHz, TDP: 15W~30W)","Ryzen™ 5 8640U (6C/12T, 4.9GHz/3.5GHz, TDP: 28W) Main","Ryzen™ 5 7530U (6C/12T, 4.5GHz/2.0GHz, TDP: 15W)",
+,,N/A,N/A,N/A,N/A,"Ryzen™ 7 7840U (8C/16T, 5.1GHz/3.3GHz, TDP: 15W~30W) MP","Ryzen™ 7 8840U (8C/16T, 5.1GHz/3.3GHz, TDP: 35W~54W) Main","Ryzen™ 7 7730U (8C/16T, 4.5GHz/2.0GHz, TDP: 15W)",
+GPU,Model,"AMD Radeon™ RX6500M(P50), 4GB, GDDR6, 
+50W, Smart Shift: 60W",AMD Radeon™ 660M (R5 6600U/6600H),"AMD Radeon™ RX6500M(P50), 4GB, GDDR6, 
+50W, Smart Shift: 60W",AMD Radeon™ 660M (R3 7335U/R5 7535U/R5 7535HS),AMD Radeon™ 740M (R5 7440U),AMD Radeon™ Graphics,AMD Radeon™ Graphics,
+,,N/A,AMD Radeon™ 680M (R5 6800U/6800H),"AMD Radeon™ RX6300M(M25), 2GB, GDDR6, 25W, Smart Shift: 35W",AMD Radeon™ 680M (R7 7735U/R7 7735HS),AMD Radeon™ 760M (R5 7640HS/R7 7640U),N/A,N/A,
+,,N/A,N/A,N/A,N/A,AMD Radeon™ 780M (R7 7840HS/R9 7940HS/R9 7840U),N/A,N/A,
+Memory,RAM,"LPDDR5-6400Mhz (315B), up to 16G/32G","LPDDR5-6400Mhz (315B), up to 16G/32G(1x16G)","LPDDR5-6400Mhz (315B), up to 16G/32G","LPDDR5-6400Mhz (315B), up to 16G/32G","LPDDR5-6400Mhz (315B), up to 16G/32G","LPDDR5-6400Mhz (315B), up to 16G/32G","1x SO-DIMM DDR4 3200MHz, up to 8GB/16GB
+1x SO-DIMM DDR4 3200MHz, up to 4GB/8GB (Onboard)",
+LCD Connector,Port,LCD connector optional,LCD connector optional,LCD connector optional,LCD connector optional,LCD connector optional,LCD connector optional,LCD connector optional,
+Storage,SSD,"2* M.2 2280 PCle G4 (Lane 4)/NVME SSD , up to 8TB (2x 1TB)","2* M.2 2280 PCle G4 (Lane 4)/NVME SSD , up to 8TB (2x 1TB)","2* M.2 2280 PCle G4 (Lane 4)/NVME SSD , up to 8TB (2x 1TB)","2* M.2 2280 PCle G4 (Lane 4)/NVME SSD , up to 8TB (2x 1TB)","2* M.2 2280 PCle G4 (Lane 4)/NVME SSD , up to 8TB (2x 1TB)","2* M.2 2280 PCle G4 (Lane 4)/NVME SSD , up to 8TB (2x 1TB)","2* M.2 2280 PCle G4 (Lane 4)/NVME SSD , up to 8TB (2x 1TB)",
+Wifi,Wifi,"Default：1* M.2 Key-E 2230 for WiFi 6 + BT5.2
+Optional 1：1* M.2 Key-E 2230 for WiFi 6E  + BT5.2","Default：1* M.2 Key-E 2230 for WiFi 6 + BT5.2
+Optional 1：1* M.2 Key-E 2230 for WiFi 6E  + BT5.2","Default：1* M.2 Key-E 2230 for WiFi 6 + BT5.2
+Optional 1：1* M.2 Key-E 2230 for WiFi 6E  + BT5.2","Default：1* M.2 Key-E 2230 for WiFi 6 + BT5.2
+Optional 1：1* M.2 Key-E 2230 for WiFi 6E  + BT5.2",Default：1* M.2 Key-E 2230 for WiFi 6E  + BT5.2,"Default：1* M.2 Key-E 2230 for WiFi 6E  + BT5.2
+","Default：1* M.2 Key-E 2230 for WiFi 5 + BT 5.0
+Optional 1：1* M.2 Key-E 2230 for WiFi 6 + BT 5.2",
+SD Card,SD Card,"1* M.2 Key-E 2230 for Micro SD Card, USB2.0 protocal","1* M.2 Key-E 2230 for Micro SD Card, USB2.0 protocal","1* M.2 Key-E 2230 for Micro SD Card, USB2.0 protocal","1* M.2 Key-E 2230 for Micro SD Card, USB2.0 protocal","1* Micro SD Card, USB2.0 protocal","1* Micro SD Card, USB2.0 protocal","1* Micro SD Card, USB2.0 protocal",
+LTE,LTE,N/A,N/A,N/A,N/A,N/A,N/A,N/A,
+Sensor,G sensor,N/A,N/A,N/A,N/A,N/A,N/A,N/A,
+,Hall sensor,Support,Support,Support,Support,Support,Support,Support,
+Thermal Solution,TDP,45W,45W,45W,45W,"TDP 45W (H Series)
+TDP 15W (U Series)","TDP 45W (H Series)
+TDP 15W (U Series)",45W,
+TPM,interface Type,"Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM) ","Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM) ","Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM) ","Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM) ","Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM) ","Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM) ","Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM) ",
+V-PRO ,Type,N/A,N/A,N/A,N/A,N/A,N/A,N/A,
+RTC,RTC Connector,Support,Support,Support,Support,Support,Support,Support,
+Others,Feature,N/A,N/A,N/A,N/A,"Support AMD/MSFT AI function (Client need to get approval from MSFT)
+1. Eye Gaze Correction (MSFT MEP)
+2. Background Blur (MSFT MEP)
+3. Auto Framing (MSFT MEP)","Support AMD/MSFT AI function (Client need to get approval from MSFT)
+1. Eye Gaze Correction (MSFT MEP)
+2. Background Blur (MSFT MEP)
+3. Auto Framing (MSFT MEP)",N/A,
+Wireless network configuration,,,,,,,,,
+Type,Details,Descriptions,Descriptions,Descriptions,Descriptions,Descriptions,Descriptions,Descriptions,
+WIFI,Wifi Chip Model,"Default：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset – RTL8852BE-CG)
+Option1：RZ608(AMD)_WIFI 6E Tri-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset –  MT7921K)","Default：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset – RTL8852BE-CG)
+Option1：RZ608(AMD)_WIFI 6E Tri-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset –  MT7921K)","Default：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset – RTL8852BE-CG)
+Option1：RZ608(AMD)_WIFI 6E Tri-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset –  MT7921K)","Default：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset – RTL8852BE-CG)
+Option1：RZ608(AMD)_WIFI 6E Tri-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset –  MT7921K)","Default：RZ608(AMD)_WIFI 6E Tri-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset –  MT7921K)
+Option1：RZ616(AMD)_AMD_WIFI 6E Dual-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset –  MT7922A12L)","Default：RZ608(AMD)_WIFI 6E Tri-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset –  MT7921K)
+Option1：RZ616(AMD)_AMD_WIFI 6E Dual-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset –  MT7922A12L)","Default：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax(2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset – RTL8852BE-CG)
+Option1：RZ608(AMD)_WIFI 6E Tri-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset –  MT7921K)
+Option2：RZ616(AMD)_AMD_WIFI 6E Dual-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset –  MT7922A12L)",
+,Others,Support Wifi and Bluetooth Power on/off switch,Support Wifi and Bluetooth Power on/off switch,Support Wifi and Bluetooth Power on/off switch,Support Wifi and Bluetooth Power on/off switch,Support Wifi and Bluetooth Power on/off switch,Support Wifi and Bluetooth Power on/off switch,Support Wifi and Bluetooth Power on/off switch,
+LAN,RJ45,"Giga LAN 10/100/1000Mbps (on DB)
+Chipset selection: 
+①For  10/100/1000 Mbps (autosense) use Intel i219-LM, Gigabit Ethernet
+② For  10/100/1000 Mbps (autosense) use Intel i225-LM , Gigabit Ethernet - Complice IEEE 802.3, 802.3u e 802.3ab - Wake-on-LAN (WoL), SNMP, PXE, CSMA/CD and iAMT ","Giga LAN 10/100/1000Mbps (on DB)
+Chipset selection: 
+①For  10/100/1000 Mbps (autosense) use Intel i219-LM, Gigabit Ethernet
+② For  10/100/1000 Mbps (autosense) use Intel i225-LM , Gigabit Ethernet - Complice IEEE 802.3, 802.3u e 802.3ab - Wake-on-LAN (WoL), SNMP, PXE, CSMA/CD and iAMT ","Giga LAN 10/100/1000Mbps (on DB)
+Chipset selection: 
+①For  10/100/1000 Mbps (autosense) use Intel i219-LM, Gigabit Ethernet
+② For  10/100/1000 Mbps (autosense) use Intel i225-LM , Gigabit Ethernet - Complice IEEE 802.3, 802.3u e 802.3ab - Wake-on-LAN (WoL), SNMP, PXE, CSMA/CD and iAMT ","Giga LAN 10/100/1000Mbps (on DB)
+Chipset selection: 
+①For  10/100/1000 Mbps (autosense) use Intel i219-LM, Gigabit Ethernet
+② For  10/100/1000 Mbps (autosense) use Intel i225-LM , Gigabit Ethernet - Complice IEEE 802.3, 802.3u e 802.3ab - Wake-on-LAN (WoL), SNMP, PXE, CSMA/CD and iAMT ","Giga LAN 10/100/1000Mbps (on DB)
+Chipset selection: 
+①For  10/100/1000 Mbps (autosense) use Intel i219-LM, Gigabit Ethernet
+② For  10/100/1000 Mbps (autosense) use Intel i225-LM , Gigabit Ethernet - Complice IEEE 802.3, 802.3u e 802.3ab - Wake-on-LAN (WoL), SNMP, PXE, CSMA/CD and iAMT ","Giga LAN 10/100/1000Mbps (on DB)
+Chipset selection: 
+①For  10/100/1000 Mbps (autosense) use Intel i219-LM, Gigabit Ethernet
+② For  10/100/1000 Mbps (autosense) use Intel i225-LM , Gigabit Ethernet - Complice IEEE 802.3, 802.3u e 802.3ab - Wake-on-LAN (WoL), SNMP, PXE, CSMA/CD and iAMT ","Giga LAN 10/100/1000Mbps (on DB)
+Chipset selection: 
+①For  10/100/1000 Mbps (autosense) use Intel i219-LM, Gigabit Ethernet
+② For  10/100/1000 Mbps (autosense) use Intel i225-LM , Gigabit Ethernet - Complice IEEE 802.3, 802.3u e 802.3ab - Wake-on-LAN (WoL), SNMP, PXE, CSMA/CD and iAMT ",
+LTE,M.2 slot,Support,Support,Support,Support,Support,Support,Support,
+Bluetooth,Bluetooth,Support,Support,Support,Support,Support,Support,Support,
+,Version,BT 5.2,BT 5.2,BT 5.2,BT 5.2,BT 5.2,BT 5.2,BT 5.2,
+Software configuration,,,,,,,,,
+Type,Details,Descriptions,Descriptions,Descriptions,Descriptions,Descriptions,Descriptions,Descriptions,
+Operating System,System,"Windows11 SV2(23H2), Support Modern Standby
+All functions should be compatible on Win11 & Linux OS","Windows11 SV2(23H2), Support Modern Standby
+All functions should be compatible on Win11 & Linux OS",Windows11 SV2(23H2),Windows11 SV2(23H2),Windows11 SV2(23H2),Windows11 SV2(23H2),Windows11 SV2(23H2),
+,Language Support,Support multi Language,Support multi Language,Support multi Language,Support multi Language,Support multi Language,Support multi Language,Support multi Language,
+BIOS/EC,UI spec,Standard spec,Standard spec,Standard spec,Standard spec,Standard spec,Standard spec,Standard spec,
+Accessory,,,,,,,,,
+Type,Details,Descriptions,Descriptions,Descriptions,Descriptions,Descriptions,Descriptions,Descriptions,
+Power adapter,Standard Configuration,"1* 65W, AC in 100/240V,50/60Hz, DC output 19V /3.42A (U Series)","1* 65W, AC in 100/240V,50/60Hz, DC output 19V /3.42A (U Series)
+1* 90W,AC in 100/240V,50/60Hz, DC output 19V /4.74A (H Series)","1* 90W, AC in 100/240V,50/60Hz, DC output 19V /4.74A","1* 65W, AC in 100/240V,50/60Hz, DC output 19V /3.42A (U Series)
+1* 90W,AC in 100/240V,50/60Hz, DC output 19V /4.74A (HS Series)","1* 65W, AC in 100/240V,50/60Hz, DC output 19V /3.42A (U Series)
+1* 90W,AC in 100/240V,50/60Hz, DC output 19V /4.74A (H Series)","1* 65W, AC in 100/240V,50/60Hz, DC output 19V /3.42A (U Series)
+1* 90W,AC in 100/240V,50/60Hz, DC output 19V /4.74A (HS Series)","1* 90W, AC in 100/240V,50/60Hz, DC output 19V /4.74A",
+Certifications,,,,,,,,,
+Type,Details,Descriptions,Descriptions,Descriptions,Descriptions,Descriptions,Descriptions,Descriptions,
+Certifications,Safety,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+ID ,Picture,,,,,,,,
+,,"Mouse (USB, BT Expendable Wired / Wireless Supportive)",,,,,,,

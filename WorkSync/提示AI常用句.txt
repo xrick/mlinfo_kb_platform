@@ -8,6 +8,7 @@
 在AI-Coder開始執行時，就必須告訴ai-coder。或者在每次進行修正錯誤時放在Prompt最後的部份：
 
 以下是整個專案開發過程中請務必遵守的規則：
+- 請務必注意目前新架構進行的目錄位於libs/mgfd_cursor，所有的程式碼新增、修改都在這個目錄下。
 - 請**務必一步一步小心分析**整個問題，從使用者輸入，一直到出錯的資料處理順序與流程。請詳細記錄除錯歷程，經歷了哪些模組、哪些函式，關聯問題的發現、發現更有效率的解決方法或架構，請盡量解釋所有的資料。**務必先進行穩定且具可行性的計畫，不要直接進行修改**。
 - 將除錯過程寫入到WorkSync/MGFD_DEV_Diary/mgfd_dev_diary.md、WorkSync/debugzilla/bugzilla.md，然後擬定一個具可行性且完整的修復計畫。
 
@@ -21,3 +22,9 @@ Read(WorkSync/lessons_from_debug/bugzilla.md, offset=0, limit=25000)
 請AI說明debug的細節，尤其是資料流的流向及處理
 1.請用對我說明這個BUG的資料流是怎麼傳遞
 2.在哪些地方出現問題而造成這個問題
+
+<environment>
+1.we use duckdb to store product data, the path is
+2.we use milvus as our vector database
+3.we use redis as our data necessary for running system.
+</environment>

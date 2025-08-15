@@ -285,6 +285,8 @@ class MGFDDialogueManager:
         for i, product in enumerate(products, 1):
             message += f"{i}. **{product['name']}**\n"
             message += f"   - 品牌：{product['brand'].upper()}\n"
+
+          
             message += f"   - 處理器：{product['cpu']}\n"
             message += f"   - 顯示卡：{product['gpu']}\n"
             message += f"   - 記憶體：{product['ram']}\n"
