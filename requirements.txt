@@ -3,6 +3,9 @@ uvicorn[standard]
 python-dotenv
 langchain
 langchain-community
+langchain-openai
+langchain-anthropic
+langchain-ollama
 sentence-transformers
 pymilvus
 duckdb

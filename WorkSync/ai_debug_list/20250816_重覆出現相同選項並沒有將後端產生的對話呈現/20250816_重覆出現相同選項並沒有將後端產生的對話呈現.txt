@@ -1,0 +1,92 @@
+frontend messages:
+mgfd_cursor:476 🆕 New session created, question history cleared
+mgfd_cursor:618 🔧 renderAssistantMessage called with: Object
+mgfd_cursor:661 📄 Processing plain text response
+mgfd_cursor:547 🔄 Received data from backend: Object
+mgfd_cursor:561 📦 Detected standard response format
+mgfd_cursor:618 🔧 renderAssistantMessage called with: Object
+mgfd_cursor:644 📝 Parsed JSON content: Object
+mgfd_cursor:653 🎯 Processing structured content: Object
+mgfd_cursor:667 🎯 renderStructuredResponse called with: Object
+mgfd_cursor:697 🔥 Rendering funnel question: Object
+mgfd_cursor:768 ✅ Funnel question validation passed
+mgfd_cursor:946 🎯 Funnel option clicked: Object
+mgfd_cursor:1006 🧹 Clearing related question history for option: gaming session: fc9a236f-da10-466f-b104-c354b59e6f56
+mgfd_cursor:1031 🔄 Marking recent related question for deletion: fq_2cbd5165 (10s ago)
+mgfd_cursor:1039 🗑️ Cleaned question: fq_2cbd5165
+mgfd_cursor:1042 ✅ Question history cleanup complete: Object
+mgfd_cursor:618 🔧 renderAssistantMessage called with: Object
+mgfd_cursor:644 📝 Parsed JSON content: Object
+mgfd_cursor:653 🎯 Processing structured content: Object
+mgfd_cursor:667 🎯 renderStructuredResponse called with: Object
+mgfd_cursor:697 🔥 Rendering funnel question: Object
+mgfd_cursor:768 ✅ Funnel question validation passed
+mgfd_cursor:946 🎯 Funnel option clicked: Object
+mgfd_cursor:1006 🧹 Clearing related question history for option: business session: fc9a236f-da10-466f-b104-c354b59e6f56
+mgfd_cursor:1031 🔄 Marking recent related question for deletion: fq_2cbd5165 (11s ago)
+mgfd_cursor:1039 🗑️ Cleaned question: fq_2cbd5165
+mgfd_cursor:1042 ✅ Question history cleanup complete: Object
+mgfd_cursor:618 🔧 renderAssistantMessage called with: Object
+mgfd_cursor:644 📝 Parsed JSON content: Object
+mgfd_cursor:653 🎯 Processing structured content: Object
+mgfd_cursor:667 🎯 renderStructuredResponse called with: Object
+mgfd_cursor:697 🔥 Rendering funnel question: Object
+mgfd_cursor:768 ✅ Funnel question validation passed
+
+
+backend messages:
+2025-08-16 16:12:53,376 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: fc9a236f-da10-466f-b104-c354b59e6f56, 消息: 請介紹目前比較新出來的筆電...
+2025-08-16 16:12:53,376 - libs.mgfd_cursor.mgfd_system - INFO - 處理會話 fc9a236f-da10-466f-b104-c354b59e6f56 的消息: 請介紹目前比較新出來的筆電...
+2025-08-16 16:12:53,377 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: 請介紹目前比較新出來的筆電...
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:02<00:00,  2.15s/it]
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.11it/s]
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:01<00:00,  1.02s/it]
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 13.45it/s]
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  2.63it/s]
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 13.20it/s]
+2025-08-16 16:12:57,989 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 找到特殊案例匹配: DSL003
+2025-08-16 16:12:57,989 - libs.mgfd_cursor.user_input_handler - INFO - 槽位提取結果: {'extracted_slots': {'usage_purpose': 'general', 'budget_range': 'mid_range', 'popularity_focus': True}, 'special_case': {'type': 'special_case_response', 'case_id': 'DSL003', 'matched_category': 'difficult_slot_detection', 'similarity_score': 0.8383034586906433, 'message': '我了解您想要了解熱門筆電！讓我為您推薦目前最受歡迎的選擇：', 'response_type': 'popular_recommendation', 'confidence': 0.95, 'timestamp': '2025-08-16T16:12:57.989547', 'inferred_slots': {'usage_purpose': 'general', 'budget_range': 'mid_range', 'popularity_focus': True}}, 'extraction_method': 'special_case_knowledge'}
+2025-08-16 16:12:57,990 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: fc9a236f-da10-466f-b104-c354b59e6f56
+2025-08-16 16:12:57,990 - libs.mgfd_cursor.dialogue_manager - INFO - 需要收集槽位: usage_purpose
+2025-08-16 16:12:58,202 - watchfiles.main - INFO - 1 change detected
+2025-08-16 16:12:58,859 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-16 16:13:03,252 - libs.mgfd_cursor.llm_manager - INFO - Act階段結果: 您好！您是寻找预算在中段范围内的通用用途笔电吗？
+2025-08-16 16:13:03,252 - libs.mgfd_cursor.response_generator - INFO - 生成回應: elicitation
+2025-08-16 16:13:03,255 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: fc9a236f-da10-466f-b104-c354b59e6f56
+2025-08-16 16:13:03,255 - libs.mgfd_cursor.mgfd_system - INFO - 會話 fc9a236f-da10-466f-b104-c354b59e6f56 處理完成，動作類型: elicit_information
+INFO:     127.0.0.1:58436 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
+2025-08-16 16:13:08,376 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: fc9a236f-da10-466f-b104-c354b59e6f56, 消息: 選擇選項: gaming...
+2025-08-16 16:13:08,377 - libs.mgfd_cursor.mgfd_system - INFO - 處理會話 fc9a236f-da10-466f-b104-c354b59e6f56 的消息: 選擇選項: gaming...
+2025-08-16 16:13:08,377 - libs.mgfd_cursor.redis_state_manager - INFO - 載入會話狀態: fc9a236f-da10-466f-b104-c354b59e6f56
+2025-08-16 16:13:08,377 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: 選擇選項: gaming...
+2025-08-16 16:13:08,378 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 匹配到funnel選項模式 '選擇選項[:：]\s*(\w+)': gaming
+2025-08-16 16:13:08,378 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 檢測到funnel question選項回應，跳過特殊案例檢查
+2025-08-16 16:13:08,378 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 提取usage_purpose槽位: gaming
+2025-08-16 16:13:08,378 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 從選項回應中提取的槽位: {'usage_purpose': 'gaming'}
+2025-08-16 16:13:08,378 - libs.mgfd_cursor.user_input_handler - INFO - 槽位提取結果: {'extracted_slots': {'usage_purpose': 'gaming'}, 'extraction_method': 'funnel_option_selection'}
+2025-08-16 16:13:08,379 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: fc9a236f-da10-466f-b104-c354b59e6f56
+2025-08-16 16:13:08,379 - libs.mgfd_cursor.dialogue_manager - INFO - 需要收集槽位: usage_purpose
+2025-08-16 16:13:09,168 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-16 16:13:13,747 - libs.mgfd_cursor.llm_manager - INFO - Act階段結果: 您好！您有特定的預算範圍嗎？
+2025-08-16 16:13:13,747 - libs.mgfd_cursor.response_generator - INFO - 生成回應: elicitation
+2025-08-16 16:13:13,749 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: fc9a236f-da10-466f-b104-c354b59e6f56
+2025-08-16 16:13:13,750 - libs.mgfd_cursor.mgfd_system - INFO - 會話 fc9a236f-da10-466f-b104-c354b59e6f56 處理完成，動作類型: elicit_information
+INFO:     127.0.0.1:58442 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
+2025-08-16 16:13:19,562 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: fc9a236f-da10-466f-b104-c354b59e6f56, 消息: 選擇選項: business...
+2025-08-16 16:13:19,562 - libs.mgfd_cursor.mgfd_system - INFO - 處理會話 fc9a236f-da10-466f-b104-c354b59e6f56 的消息: 選擇選項: business...
+2025-08-16 16:13:19,564 - libs.mgfd_cursor.redis_state_manager - INFO - 載入會話狀態: fc9a236f-da10-466f-b104-c354b59e6f56
+2025-08-16 16:13:19,564 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: 選擇選項: business...
+2025-08-16 16:13:19,564 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 匹配到funnel選項模式 '選擇選項[:：]\s*(\w+)': business
+2025-08-16 16:13:19,564 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 檢測到funnel question選項回應，跳過特殊案例檢查
+2025-08-16 16:13:19,564 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 提取usage_purpose槽位: business
+2025-08-16 16:13:19,564 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 從選項回應中提取的槽位: {'usage_purpose': 'business'}
+2025-08-16 16:13:19,564 - libs.mgfd_cursor.user_input_handler - INFO - 槽位提取結果: {'extracted_slots': {'usage_purpose': 'business'}, 'extraction_method': 'funnel_option_selection'}
+2025-08-16 16:13:19,565 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: fc9a236f-da10-466f-b104-c354b59e6f56
+2025-08-16 16:13:19,565 - libs.mgfd_cursor.dialogue_manager - INFO - 需要收集槽位: usage_purpose
+2025-08-16 16:13:20,376 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-16 16:13:25,208 - libs.mgfd_cursor.llm_manager - INFO - Act階段結果: 您好！您有沒有特定的預算或需求？
+2025-08-16 16:13:25,209 - libs.mgfd_cursor.response_generator - INFO - 生成回應: elicitation
+2025-08-16 16:13:25,212 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: fc9a236f-da10-466f-b104-c354b59e6f56
+2025-08-16 16:13:25,212 - libs.mgfd_cursor.mgfd_system - INFO - 會話 fc9a236f-da10-466f-b104-c354b59e6f56 處理完成，動作類型: elicit_information
+INFO:     127.0.0.1:58446 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58468 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found

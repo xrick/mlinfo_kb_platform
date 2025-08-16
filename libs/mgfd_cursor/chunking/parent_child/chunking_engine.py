@@ -20,8 +20,10 @@ except ImportError:
 
 import numpy as np
 
+from ..chunking_strategy import ChunkingStrategy, ChunkingStrategyType
 
-class ProductChunkingEngine:
+
+class ProductChunkingEngine(ChunkingStrategy):
     """產品分塊引擎 - Parent-Child架構"""
     
     def __init__(self, embedding_model: str = 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'):
@@ -31,6 +33,7 @@ class ProductChunkingEngine:
         Args:
             embedding_model: 句子嵌入模型名稱
         """
+        super().__init__("ProductChunkingEngine")
         self.logger = logging.getLogger(__name__)
         self.embedding_model_name = embedding_model
         
@@ -61,7 +64,7 @@ class ProductChunkingEngine:
             'last_processed': None
         }
     
-    def create_product_chunks(self, product: Dict[str, Any]) -> Tuple[Dict[str, Any], List[Dict[str, Any]]]:
+    def create_chunks(self, product: Dict[str, Any]) -> Tuple[Dict[str, Any], List[Dict[str, Any]]]:
         """
         為單個產品創建Parent-Child chunks
         
@@ -84,10 +87,10 @@ class ProductChunkingEngine:
             ]
             
             # 生成嵌入向量
-            parent_chunk['embedding'] = self._generate_embedding(parent_chunk['content'])
+            parent_chunk['embedding'] = self.generate_embedding(parent_chunk['content'])
             
             for child in child_chunks:
-                child['embedding'] = self._generate_embedding(child['content'])
+                child['embedding'] = self.generate_embedding(child['content'])
                 child['parent_id'] = parent_chunk['chunk_id']
             
             # 更新統計
@@ -121,7 +124,7 @@ class ProductChunkingEngine:
         
         for i, product in enumerate(products):
             try:
-                parent, children = self.create_product_chunks(product)
+                parent, children = self.create_chunks(product)
                 all_parent_chunks.append(parent)
                 all_child_chunks.extend(children)
                 
@@ -448,16 +451,17 @@ class ProductChunkingEngine:
     
     # === 輔助方法 ===
     
-    def _generate_embedding(self, text: str) -> np.ndarray:
+    def generate_embedding(self, text: str) -> List[float]:
         """生成文本嵌入向量"""
         if self.sentence_transformer:
             try:
-                return self.sentence_transformer.encode(text)
+                embedding = self.sentence_transformer.encode(text)
+                return embedding.tolist()
             except Exception as e:
                 self.logger.error(f"生成嵌入向量失敗: {e}")
                 
         # 使用模擬嵌入向量作為後備
-        return self._create_mock_embedding(text)
+        return self._create_mock_embedding(text).tolist()
     
     def _create_mock_embedding(self, text: str, dimension: int = 384) -> np.ndarray:
         """創建模擬嵌入向量"""
@@ -475,8 +479,8 @@ class ProductChunkingEngine:
     
     def _extract_cpu_info(self, product: Dict[str, Any]) -> str:
         """提取CPU信息"""
-        cpu = product.get('cpu', '').strip()
-        if cpu:
+        cpu = str(product.get('cpu', '')).strip()
+        if cpu and cpu != 'nan':
             # 取第一行或第一個逗號前的內容
             cpu_main = cpu.split('\n')[0].split(',')[0]
             return cpu_main
@@ -484,16 +488,16 @@ class ProductChunkingEngine:
     
     def _extract_gpu_info(self, product: Dict[str, Any]) -> str:
         """提取GPU信息"""
-        gpu = product.get('gpu', '').strip()
-        if gpu:
+        gpu = str(product.get('gpu', '')).strip()
+        if gpu and gpu != 'nan':
             gpu_main = gpu.split('\n')[0]
             return gpu_main
         return "內建顯示晶片"
     
     def _extract_memory_info(self, product: Dict[str, Any]) -> str:
         """提取記憶體信息"""
-        memory = product.get('memory', '').strip()
-        if memory:
+        memory = str(product.get('memory', '')).strip()
+        if memory and memory != 'nan':
             # 尋找記憶體容量關鍵字
             if 'DDR4' in memory or 'DDR5' in memory:
                 return memory.split('\n')[0]
@@ -501,8 +505,8 @@ class ProductChunkingEngine:
     
     def _extract_storage_info(self, product: Dict[str, Any]) -> str:
         """提取儲存信息"""
-        storage = product.get('storage', '').strip()
-        if storage:
+        storage = str(product.get('storage', '')).strip()
+        if storage and storage != 'nan':
             # 提取儲存相關信息
             if 'SSD' in storage or 'NVME' in storage:
                 return storage.split('\n')[0]
@@ -510,8 +514,8 @@ class ProductChunkingEngine:
     
     def _extract_display_info(self, product: Dict[str, Any]) -> str:
         """提取顯示器信息"""
-        lcd = product.get('lcd', '').strip()
-        if lcd:
+        lcd = str(product.get('lcd', '')).strip()
+        if lcd and lcd != 'nan':
             # 提取螢幕尺寸和解析度
             return lcd.split('\n')[0]
         return "標準顯示器"
@@ -531,12 +535,12 @@ class ProductChunkingEngine:
     
     def _infer_usage(self, product: Dict[str, Any]) -> str:
         """推斷主要用途"""
-        cpu = product.get('cpu', '').lower()
-        gpu = product.get('gpu', '').lower()
+        cpu = str(product.get('cpu', '')).lower()
+        gpu = str(product.get('gpu', '')).lower()
         
         if any(term in gpu for term in ['rtx', 'gtx']) and any(term in cpu for term in ['i7', 'i9']):
             return 'gaming'
-        elif 'business' in product.get('certifications', '').lower():
+        elif 'business' in str(product.get('certifications', '')).lower():
             return 'business'
         elif any(term in cpu for term in ['i7', 'i9']) and 'radeon' in gpu:
             return 'creative'
@@ -551,7 +555,7 @@ class ProductChunkingEngine:
     
     def _categorize_cpu_tier(self, cpu: str) -> str:
         """分類CPU等級"""
-        cpu_lower = cpu.lower()
+        cpu_lower = str(cpu).lower()
         if any(term in cpu_lower for term in ['i9', 'ryzen 9']):
             return 'high'
         elif any(term in cpu_lower for term in ['i7', 'ryzen 7']):
@@ -562,7 +566,7 @@ class ProductChunkingEngine:
     
     def _categorize_gpu_tier(self, gpu: str) -> str:
         """分類GPU等級"""
-        gpu_lower = gpu.lower()
+        gpu_lower = str(gpu).lower()
         if 'rtx' in gpu_lower:
             return 'gaming'
         elif 'gtx' in gpu_lower:
@@ -582,7 +586,7 @@ class ProductChunkingEngine:
         score = 6.0
         
         # 基於重量信息評分
-        struct_config = product.get('structconfig', '').lower()
+        struct_config = str(product.get('structconfig', '')).lower()
         if any(term in struct_config for term in ['1.3', '1.4', '1.5']):
             score += 2.0
         elif any(term in struct_config for term in ['1.6', '1.7', '1.8']):
@@ -595,12 +599,12 @@ class ProductChunkingEngine:
         score = 6.0
         
         # 基於連接埠數量和類型
-        io_interface = product.get('iointerface', '').lower()
+        io_interface = str(product.get('iointerface', '')).lower()
         if 'usb3' in io_interface and 'type-c' in io_interface:
             score += 1.5
         if 'hdmi' in io_interface:
             score += 0.5
-        if 'wifi' in product.get('wireless', '').lower():
+        if 'wifi' in str(product.get('wireless', '')).lower():
             score += 1.0
         
         return min(score, 10.0)
@@ -983,3 +987,11 @@ class ProductChunkingEngine:
     def get_processing_stats(self) -> Dict[str, Any]:
         """獲取處理統計"""
         return self.stats.copy()
+    
+    def get_strategy_type(self) -> ChunkingStrategyType:
+        """獲取策略類型"""
+        return ChunkingStrategyType.PARENT_CHILD
+    
+    def get_description(self) -> str:
+        """獲取策略描述"""
+        return "Parent-Child分層分塊策略，創建產品概覽和四個專業子分塊"

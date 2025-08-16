@@ -99,18 +99,60 @@ class MGFDDialogueManager:
         """
         # 0. 首先檢查特殊案例知識庫（如果可用）
         if enhanced_slot_extractor:
-            extraction_result = enhanced_slot_extractor.extract_slots_with_classification(
-                user_input, state.get("filled_slots", {}), state.get("session_id")
-            )
-            
-            # 如果找到特殊案例匹配
-            if extraction_result.get("extraction_method") == "special_case_knowledge":
-                special_case = extraction_result.get("special_case", {})
-                return DialogueAction(
-                    action_type="special_case_response",
-                    special_case=special_case,
-                    message=special_case.get("message", "")
+            try:
+                self.logger.debug(f"使用enhanced_slot_extractor處理輸入: '{user_input[:50]}...'")
+                extraction_result = enhanced_slot_extractor.extract_slots_with_classification(
+                    user_input, state.get("filled_slots", {}), state.get("session_id")
                 )
+                
+                extraction_method = extraction_result.get("extraction_method", "unknown")
+                self.logger.info(f"提取方法: {extraction_method}")
+                
+                # 如果是funnel option selection，直接處理槽位提取並繼續對話流程
+                if extraction_method == "funnel_option_selection":
+                    extracted_slots = extraction_result.get("extracted_slots", {})
+                    self.logger.info(f"檢測到funnel選項選擇，提取槽位: {extracted_slots}")
+                    
+                    if extracted_slots:
+                        # 更新狀態中的槽位
+                        old_slots = state["filled_slots"].copy()
+                        state["filled_slots"].update(extracted_slots)
+                        self.logger.info(f"槽位更新: {old_slots} -> {state['filled_slots']}")
+                    
+                    # 檢查是否還有缺失的必要槽位
+                    missing_required_slots = self._get_missing_required_slots(state)
+                    self.logger.debug(f"缺失的必要槽位: {missing_required_slots}")
+                    
+                    if missing_required_slots:
+                        # 還有必要槽位未填寫，繼續收集信息
+                        next_slot = missing_required_slots[0]
+                        self.logger.info(f"需要繼續收集槽位: {next_slot}")
+                        return DialogueAction(
+                            action_type=ActionType.ELICIT_INFORMATION,
+                            target_slot=next_slot,
+                            message=self._generate_elicitation_question(next_slot, state),
+                            extracted_slots=extracted_slots
+                        )
+                    else:
+                        # 所有必要槽位已填寫，可以進行推薦
+                        self.logger.info("所有必要槽位已填寫，進行產品推薦")
+                        return DialogueAction(
+                            action_type=ActionType.RECOMMEND_PRODUCTS,
+                            message="根據您的選擇，我為您推薦以下筆電：",
+                            extracted_slots=extracted_slots
+                        )
+                # 如果找到特殊案例匹配
+                elif extraction_method == "special_case_knowledge":
+                    special_case = extraction_result.get("special_case", {})
+                    self.logger.info(f"檢測到特殊案例: {special_case.get('case_id', 'unknown')}")
+                    return DialogueAction(
+                        action_type="special_case_response",
+                        special_case=special_case,
+                        message=special_case.get("message", "")
+                    )
+            except Exception as e:
+                self.logger.error(f"enhanced_slot_extractor處理失敗: {e}")
+                # 繼續使用原本的流程
         
         # 1. 檢查是否為中斷意圖
         if self._is_interruption(user_input):
@@ -121,6 +163,7 @@ class MGFDDialogueManager:
         
         # 檢查是否為熱門產品請求
         if self._is_popular_request(user_input):
+            self.logger.info("檢測到熱門產品請求")
             return DialogueAction(
                 action_type=ActionType.RECOMMEND_POPULAR_PRODUCTS,
                 message="我了解您想要了解熱門筆電！讓我為您推薦目前最受歡迎的選擇。"
@@ -128,10 +171,18 @@ class MGFDDialogueManager:
         
         # 檢查缺失的必要槽位
         missing_required_slots = self._get_missing_required_slots(state)
+        current_slots = state.get("filled_slots", {})
+        
+        # 增強的決策日誌
+        self.logger.info(f"對話決策分析:")
+        self.logger.info(f"  - 當前已填槽位: {current_slots}")
+        self.logger.info(f"  - 缺失的必要槽位: {missing_required_slots}")
+        self.logger.info(f"  - 用戶輸入: '{user_input[:50]}{'...' if len(user_input) > 50 else ''}'")
         
         if missing_required_slots:
             # 還有必要槽位未填寫，繼續收集信息
             next_slot = missing_required_slots[0]
+            self.logger.info(f"決策結果: 需要收集槽位 '{next_slot}' (剩餘 {len(missing_required_slots)} 個必要槽位)")
             return DialogueAction(
                 action_type=ActionType.ELICIT_INFORMATION,
                 target_slot=next_slot,
@@ -139,6 +190,7 @@ class MGFDDialogueManager:
             )
         else:
             # 所有必要槽位已填寫，可以進行推薦
+            self.logger.info("決策結果: 所有必要槽位已填寫，進行產品推薦")
             return DialogueAction(
                 action_type=ActionType.RECOMMEND_PRODUCTS,
                 message="根據您的需求，我為您推薦以下筆電："
@@ -167,11 +219,22 @@ class MGFDDialogueManager:
     def _get_missing_required_slots(self, state: NotebookDialogueState) -> List[str]:
         """獲取缺失的必要槽位"""
         missing_slots = []
+        filled_slots = state.get("filled_slots", {})
+        
+        self.logger.debug(f"檢查必要槽位 - 當前已填槽位: {filled_slots}")
         
         for slot_name, slot_config in self.slot_schema.items():
-            if slot_config.required and slot_name not in state["filled_slots"]:
-                missing_slots.append(slot_name)
+            if slot_config.required:
+                slot_value = filled_slots.get(slot_name)
+                if slot_value is None or slot_value == "":
+                    missing_slots.append(slot_name)
+                    self.logger.debug(f"缺失必要槽位: {slot_name}")
+                else:
+                    self.logger.debug(f"已填必要槽位: {slot_name} = '{slot_value}'")
+            else:
+                self.logger.debug(f"可選槽位: {slot_name} (當前值: {filled_slots.get(slot_name, 'None')})")
         
+        self.logger.info(f"槽位檢查結果 - 缺失的必要槽位: {missing_slots}")
         return missing_slots
     
     def _generate_elicitation_question(self, slot_name: str, state: NotebookDialogueState) -> str:

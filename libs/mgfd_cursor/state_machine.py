@@ -34,46 +34,84 @@ class MGFDStateMachine:
         Returns:
             處理結果
         """
-        # 獲取會話狀態
-        state = self.dialogue_manager.get_session(session_id)
-        if not state:
+        try:
+            self.logger.info(f"處理用戶輸入 - session_id: {session_id}, input: '{user_input[:100]}...'")
+            
+            # 獲取會話狀態
+            state = self.dialogue_manager.get_session(session_id)
+            if not state:
+                self.logger.warning(f"會話不存在: {session_id}")
+                return {
+                    "error": "會話不存在",
+                    "session_id": session_id
+                }
+        except Exception as e:
+            self.logger.error(f"獲取會話狀態失敗: {e}")
             return {
-                "error": "會話不存在",
+                "error": f"系統錯誤: {str(e)}",
                 "session_id": session_id
             }
         
-        # 添加用戶消息到歷史記錄
-        user_message = {
-            "role": "user",
-            "content": user_input,
-            "timestamp": self.dialogue_manager.active_sessions[session_id]["last_updated"]
-        }
-        state["chat_history"].append(user_message)
-        
-        # Think步驟：決定下一步行動
-        action = self.dialogue_manager.route_action(state, user_input)
-        
-        # Act步驟：執行行動
-        if action.action_type == ActionType.ELICIT_INFORMATION:
-            return self._handle_elicitation(state, action)
-        elif action.action_type == ActionType.RECOMMEND_PRODUCTS:
-            return self._handle_recommendation(state, action)
-        elif action.action_type == ActionType.HANDLE_INTERRUPTION:
-            return self._handle_interruption(state, action)
-        else:
-            return self._handle_unknown_action(state, action)
+        try:
+            # 添加用戶消息到歷史記錄
+            user_message = {
+                "role": "user",
+                "content": user_input,
+                "timestamp": self.dialogue_manager.active_sessions[session_id]["last_updated"]
+            }
+            state["chat_history"].append(user_message)
+            
+            # Think步驟：決定下一步行動
+            self.logger.debug("開始行動路由分析...")
+            action = self.dialogue_manager.route_action(state, user_input)
+            self.logger.info(f"路由結果 - action_type: {action.action_type}, target_slot: {action.target_slot}")
+            
+            # Act步驟：執行行動
+            if action.action_type == ActionType.ELICIT_INFORMATION:
+                self.logger.debug("執行信息收集行動")
+                return self._handle_elicitation(state, action)
+            elif action.action_type == ActionType.RECOMMEND_PRODUCTS:
+                self.logger.debug("執行產品推薦行動")
+                return self._handle_recommendation(state, action)
+            elif action.action_type == ActionType.HANDLE_INTERRUPTION:
+                self.logger.debug("執行中斷處理行動")
+                return self._handle_interruption(state, action)
+            else:
+                self.logger.warning(f"未知行動類型: {action.action_type}")
+                return self._handle_unknown_action(state, action)
+        except Exception as e:
+            self.logger.error(f"處理用戶輸入時發生錯誤: {e}")
+            return {
+                "error": f"處理錯誤: {str(e)}",
+                "session_id": session_id
+            }
     
     def _handle_elicitation(self, state: NotebookDialogueState, action) -> Dict[str, Any]:
         """處理信息收集"""
-        # 從用戶輸入中提取槽位信息
-        extracted_slots = self.dialogue_manager.extract_slots_from_input(
-            state["chat_history"][-1]["content"], 
-            state
-        )
-        
-        # 更新已填寫的槽位
-        if extracted_slots:
-            state["filled_slots"].update(extracted_slots)
+        try:
+            # 首先檢查action中是否已經有提取的槽位（來自funnel option selection或special case）
+            extracted_slots = {}
+            if hasattr(action, 'extracted_slots') and action.extracted_slots:
+                extracted_slots = action.extracted_slots
+                self.logger.info(f"使用action中的extracted_slots: {extracted_slots}")
+            else:
+                # 如果action中沒有，則從用戶輸入中提取槽位信息
+                self.logger.debug("從用戶輸入中提取槽位")
+                extracted_slots = self.dialogue_manager.extract_slots_from_input(
+                    state["chat_history"][-1]["content"], 
+                    state
+                )
+            
+            # 更新已填寫的槽位
+            if extracted_slots:
+                old_slots = state["filled_slots"].copy()
+                state["filled_slots"].update(extracted_slots)
+                self.logger.info(f"槽位更新: {old_slots} -> {state['filled_slots']}")
+            else:
+                self.logger.debug("未提取到新槽位")
+        except Exception as e:
+            self.logger.error(f"處理槽位提取時發生錯誤: {e}")
+            extracted_slots = {}
         
         # 新增：檢查是否需要確認提取的信息
         confirmation_message = self._generate_confirmation_message(extracted_slots, state)
@@ -165,9 +203,22 @@ class MGFDStateMachine:
     
     def _handle_recommendation(self, state: NotebookDialogueState, action) -> Dict[str, Any]:
         """處理產品推薦"""
-        # 生成推薦
-        recommendations = self.dialogue_manager.generate_recommendations(state)
-        recommendation_message = self.dialogue_manager.format_recommendation_message(recommendations)
+        try:
+            # 首先檢查action中是否有提取的槽位需要更新（來自funnel option selection）
+            if hasattr(action, 'extracted_slots') and action.extracted_slots:
+                old_slots = state["filled_slots"].copy()
+                state["filled_slots"].update(action.extracted_slots)
+                self.logger.info(f"推薦前更新槽位: {old_slots} -> {state['filled_slots']}")
+            
+            self.logger.debug(f"開始生成推薦，當前槽位: {state['filled_slots']}")
+            # 生成推薦
+            recommendations = self.dialogue_manager.generate_recommendations(state)
+            self.logger.info(f"生成了{len(recommendations)}個推薦產品")
+            recommendation_message = self.dialogue_manager.format_recommendation_message(recommendations)
+        except Exception as e:
+            self.logger.error(f"生成推薦時發生錯誤: {e}")
+            recommendations = []
+            recommendation_message = "抱歉，生成推薦時發生錯誤。請稍後再試。"
         
         # 更新推薦記錄
         state["recommendations"] = [r["id"] for r in recommendations]

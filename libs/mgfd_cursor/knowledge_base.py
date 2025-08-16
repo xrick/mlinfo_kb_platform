@@ -32,132 +32,189 @@ class NotebookKnowledgeBase:
         return data_dir
     
     def load_products(self) -> List[Dict[str, Any]]:
-        """載入產品數據 - 修復版，支援多CSV檔案載入"""
+        """載入產品數據 - 強化版，支援多CSV檔案載入與錯誤恢復"""
         try:
             data_dir = Path(self.csv_path)
             
+            # 檢查數據目錄存在性
             if not data_dir.exists():
-                self.logger.warning(f"產品資料目錄不存在: {data_dir}，使用示例數據")
-                return self._get_sample_products()
+                self.logger.warning(f"產品資料目錄不存在: {data_dir}")
+                return self._handle_data_loading_failure("目錄不存在")
             
-            # 載入所有 *_result.csv 檔案
+            if not data_dir.is_dir():
+                self.logger.error(f"指定路徑不是目錄: {data_dir}")
+                return self._handle_data_loading_failure("路徑錯誤")
+            
+            # 查找CSV檔案
             csv_files = list(data_dir.glob("*_result.csv"))
             
             if not csv_files:
-                self.logger.warning(f"在 {data_dir} 中找不到 *_result.csv 檔案，使用示例數據")
-                return self._get_sample_products()
+                self.logger.warning(f"在 {data_dir} 中找不到 *_result.csv 檔案")
+                # 嘗試查找其他可能的CSV檔案
+                alternative_files = list(data_dir.glob("*.csv"))
+                if alternative_files:
+                    self.logger.info(f"發現 {len(alternative_files)} 個其他CSV檔案，嘗試載入")
+                    csv_files = alternative_files[:5]  # 限制最多5個檔案
+                else:
+                    return self._handle_data_loading_failure("找不到CSV檔案")
             
+            # 載入CSV檔案
             all_products = []
+            successful_files = 0
+            failed_files = 0
             
             for csv_file in csv_files:
                 try:
                     self.logger.info(f"載入產品檔案: {csv_file.name}")
-                    df = pd.read_csv(csv_file)
+                    
+                    # 檢查檔案可讀性
+                    if not csv_file.exists() or csv_file.stat().st_size == 0:
+                        self.logger.warning(f"檔案 {csv_file.name} 不存在或為空")
+                        failed_files += 1
+                        continue
+                    
+                    # 讀取CSV檔案
+                    try:
+                        df = pd.read_csv(csv_file, encoding='utf-8')
+                    except UnicodeDecodeError:
+                        # 嘗試其他編碼
+                        self.logger.info(f"嘗試使用GBK編碼讀取 {csv_file.name}")
+                        df = pd.read_csv(csv_file, encoding='gbk')
+                    except pd.errors.EmptyDataError:
+                        self.logger.warning(f"檔案 {csv_file.name} 無數據")
+                        failed_files += 1
+                        continue
+                    except pd.errors.ParserError as e:
+                        self.logger.error(f"解析檔案 {csv_file.name} 失敗: {e}")
+                        failed_files += 1
+                        continue
+                    
+                    # 檢查DataFrame有效性
+                    if df.empty:
+                        self.logger.warning(f"檔案 {csv_file.name} 沒有數據行")
+                        failed_files += 1
+                        continue
+                    
+                    # 驗證必要欄位
+                    required_cols = ['modeltype', 'modelname']
+                    missing_cols = [col for col in required_cols if col not in df.columns]
+                    if missing_cols:
+                        self.logger.warning(f"檔案 {csv_file.name} 缺少必要欄位: {missing_cols}")
+                        failed_files += 1
+                        continue
                     
                     # 清理和驗證數據
                     products = df.to_dict(orient='records')
                     validated_products = self._validate_and_enrich_products(products)
                     
-                    all_products.extend(validated_products)
-                    self.logger.info(f"從 {csv_file.name} 載入了 {len(validated_products)} 個有效產品")
+                    if validated_products:
+                        all_products.extend(validated_products)
+                        successful_files += 1
+                        self.logger.info(f"從 {csv_file.name} 成功載入 {len(validated_products)} 個有效產品")
+                    else:
+                        self.logger.warning(f"檔案 {csv_file.name} 沒有有效產品數據")
+                        failed_files += 1
                     
                 except Exception as e:
-                    self.logger.error(f"載入檔案 {csv_file} 失敗: {e}")
+                    self.logger.error(f"處理檔案 {csv_file.name} 時發生錯誤: {e}")
+                    failed_files += 1
                     continue
             
+            # 結果處理
             if all_products:
-                self.logger.info(f"總共成功載入 {len(all_products)} 個公司產品")
+                self.logger.info(f"數據載入完成: 成功載入 {len(all_products)} 個產品 (成功檔案: {successful_files}, 失敗檔案: {failed_files})")
                 return all_products
             else:
-                self.logger.warning("無法載入任何有效產品，使用示例數據")
-                return self._get_sample_products()
+                self.logger.warning(f"無法從任何檔案載入有效產品數據 (處理檔案: {len(csv_files)}, 失敗檔案: {failed_files})")
+                return self._handle_data_loading_failure("所有檔案載入失敗")
                 
         except Exception as e:
-            self.logger.error(f"載入產品數據失敗: {e}")
-            return self._get_sample_products()
+            self.logger.error(f"載入產品數據過程中發生未預期錯誤: {e}")
+            return self._handle_data_loading_failure(f"系統錯誤: {str(e)}")
+    
+    def _handle_data_loading_failure(self, reason: str) -> List[Dict[str, Any]]:
+        """處理數據載入失敗的情況"""
+        self.logger.error(f"數據載入失敗原因: {reason}")
+        self.logger.info("啟用備案產品數據 - 確保系統繼續運行")
+        
+        # 記錄備案啟用事件
+        try:
+            from datetime import datetime
+            failure_log = {
+                "timestamp": datetime.now().isoformat(),
+                "reason": reason,
+                "action": "使用備案產品數據",
+                "products_count": 3
+            }
+            self.logger.warning(f"備案機制啟用: {failure_log}")
+        except Exception:
+            pass
+        
+        return self._get_sample_products()
     
     def _get_sample_products(self) -> List[Dict[str, Any]]:
-        """獲取示例產品數據"""
+        """獲取示例產品數據 - 修復版，僅包含公司產品"""
+        self.logger.warning("使用備案產品數據 - 僅包含公司內部產品")
         return [
             {
-                "id": "NB001",
-                "name": "ASUS ROG Strix G15",
-                "brand": "asus",
-                "series": "ROG",
-                "usage_purpose": ["gaming", "creative"],
-                "price_range": "premium",
-                "cpu": "AMD Ryzen 7 5800H",
-                "gpu": "NVIDIA RTX 3060",
-                "ram": "16GB",
-                "storage": "512GB SSD",
-                "display": "15.6\" FHD 144Hz",
-                "weight": "2.3kg",
-                "battery": "90Wh",
-                "description": "專為遊戲設計的高性能筆電，適合重度遊戲和創意工作"
-            },
-            {
-                "id": "NB002", 
-                "name": "Lenovo ThinkPad X1 Carbon",
-                "brand": "lenovo",
-                "series": "ThinkPad",
-                "usage_purpose": ["business", "general"],
-                "price_range": "luxury",
-                "cpu": "Intel Core i7-1165G7",
-                "gpu": "Intel Iris Xe",
-                "ram": "16GB",
-                "storage": "1TB SSD",
-                "display": "14\" 4K UHD",
-                "weight": "1.1kg",
-                "battery": "57Wh",
-                "description": "商務精英首選，輕薄便攜，性能穩定"
-            },
-            {
-                "id": "NB003",
-                "name": "Acer Aspire 5",
-                "brand": "acer", 
-                "series": "Aspire",
-                "usage_purpose": ["student", "general"],
-                "price_range": "budget",
-                "cpu": "AMD Ryzen 5 5500U",
-                "gpu": "AMD Radeon Graphics",
-                "ram": "8GB",
+                "modeltype": "819",
+                "version": "MP_v1.6",
+                "modelname": "AB819-S",
+                "cpu": "Intel Core i5-12500H",
+                "gpu": "Intel Iris Xe Graphics",
+                "memory": "8GB DDR4",
                 "storage": "256GB SSD",
-                "display": "15.6\" FHD",
-                "weight": "1.8kg",
-                "battery": "48Wh",
-                "description": "性價比之選，適合學生和一般使用"
+                "lcd": "15.6\" FHD (1920x1080)",
+                "battery": "50Wh",
+                "wireless": "Wi-Fi 6",
+                "bluetooth": "Bluetooth 5.1",
+                "iointerface": "USB-A x2, USB-C x1, HDMI",
+                "structconfig": "Commercial Notebook, 1.8kg",
+                "popularity_score": 7.5,
+                "price_tier": "mid_range",
+                "primary_usage": "business",
+                "target_users": ["professionals", "students"],
+                "key_features": ["均衡效能", "輕薄設計", "全高清顯示"]
             },
             {
-                "id": "NB004",
-                "name": "MacBook Pro 14",
-                "brand": "apple",
-                "series": "MacBook Pro", 
-                "usage_purpose": ["creative", "business"],
-                "price_range": "luxury",
-                "cpu": "Apple M1 Pro",
-                "gpu": "Apple M1 Pro GPU",
-                "ram": "16GB",
-                "storage": "512GB SSD",
-                "display": "14\" Liquid Retina XDR",
-                "weight": "1.6kg",
-                "battery": "70Wh",
-                "description": "創意專業人士的理想選擇，性能強勁，顯示效果出色"
+                "modeltype": "839",
+                "version": "EVT_v1.0", 
+                "modelname": "AKK839",
+                "cpu": "Intel Core i3-1215U",
+                "gpu": "Intel UHD Graphics",
+                "memory": "4GB DDR4",
+                "storage": "128GB SSD",
+                "lcd": "14\" HD (1366x768)",
+                "battery": "42Wh",
+                "wireless": "Wi-Fi 5",
+                "bluetooth": "Bluetooth 5.0",
+                "iointerface": "USB-A x2, USB-C x1",
+                "structconfig": "Budget Notebook, 1.6kg",
+                "popularity_score": 6.0,
+                "price_tier": "budget",
+                "primary_usage": "general",
+                "target_users": ["students", "general_users"],
+                "key_features": ["經濟實惠", "輕便攜帶", "日常辦公"]
             },
             {
-                "id": "NB005",
-                "name": "HP Pavilion Gaming",
-                "brand": "hp",
-                "series": "Pavilion",
-                "usage_purpose": ["gaming", "student"],
-                "price_range": "mid_range",
-                "cpu": "Intel Core i5-10300H",
-                "gpu": "NVIDIA GTX 1650",
-                "ram": "8GB",
+                "modeltype": "958",
+                "version": "MP_v1.1",
+                "modelname": "AG958",
+                "cpu": "Intel Core i7-12700H",
+                "gpu": "Intel Iris Xe Graphics",
+                "memory": "16GB DDR4",
                 "storage": "512GB SSD",
-                "display": "15.6\" FHD 144Hz",
-                "weight": "2.2kg",
-                "battery": "52.5Wh",
-                "description": "中端遊戲筆電，平衡性能與價格"
+                "lcd": "15.6\" FHD (1920x1080) 144Hz",
+                "battery": "65Wh",
+                "wireless": "Wi-Fi 6E",
+                "bluetooth": "Bluetooth 5.2",
+                "iointerface": "USB-A x3, USB-C x2, HDMI, Ethernet",
+                "structconfig": "Performance Notebook, 2.1kg",
+                "popularity_score": 8.5,
+                "price_tier": "premium",
+                "primary_usage": "creative",
+                "target_users": ["professionals", "creators"],
+                "key_features": ["高效能處理器", "大容量記憶體", "高刷新率螢幕"]
             }
         ]
     
@@ -274,12 +331,15 @@ class NotebookKnowledgeBase:
         
         for product in products:
             try:
+                # 清理產品數據，移除前綴
+                cleaned_product = self._clean_product_data(product)
+                
                 # 基本欄位驗證
-                if not self._validate_product_fields(product):
+                if not self._validate_product_fields(cleaned_product):
                     continue
                 
                 # 豐富化產品數據
-                enriched_product = self._enrich_product_data(product)
+                enriched_product = self._enrich_product_data(cleaned_product)
                 enriched_products.append(enriched_product)
                 
             except Exception as e:
@@ -288,15 +348,108 @@ class NotebookKnowledgeBase:
         
         return enriched_products
     
+    def _clean_product_data(self, product: Dict[str, Any]) -> Dict[str, Any]:
+        """清理產品數據，移除前綴"""
+        cleaned = product.copy()
+        
+        # 清理modelname前綴
+        if 'modelname' in cleaned:
+            modelname = str(cleaned['modelname'])
+            if 'Model Name:' in modelname:
+                cleaned['modelname'] = modelname.replace('Model Name:', '').strip()
+                self.logger.debug(f"清理modelname前綴: '{modelname}' -> '{cleaned['modelname']}'")
+        
+        # 清理version前綴
+        if 'version' in cleaned:
+            version = str(cleaned['version'])
+            if 'Version:' in version:
+                cleaned['version'] = version.replace('Version:', '').strip()
+                self.logger.debug(f"清理version前綴: '{version}' -> '{cleaned['version']}'")
+        
+        # 清理mainboard前綴
+        if 'mainboard' in cleaned:
+            mainboard = str(cleaned['mainboard'])
+            if 'MB Ver.:' in mainboard:
+                cleaned['mainboard'] = mainboard.replace('MB Ver.:', '').strip()
+                self.logger.debug(f"清理mainboard前綴: '{mainboard}' -> '{cleaned['mainboard']}'")
+        
+        return cleaned
+    
     def _validate_product_fields(self, product: Dict[str, Any]) -> bool:
-        """驗證產品必要欄位"""
+        """驗證產品必要欄位 - 強化版"""
+        # 必要欄位檢查
         required_fields = ['modeltype', 'modelname']
         
         for field in required_fields:
-            if not product.get(field):
+            value = product.get(field)
+            if not value or (isinstance(value, str) and not value.strip()):
+                self.logger.debug(f"產品缺少必要欄位 {field} 或值為空")
+                return False
+        
+        # 公司產品驗證 - 確保不是外部產品
+        modelname = str(product.get('modelname', '')).strip()
+        if not self._is_company_product(modelname):
+            self.logger.debug(f"排除非公司產品: {modelname}")
+            return False
+        
+        # 型號格式驗證
+        modeltype = str(product.get('modeltype', '')).strip()
+        if not self._is_valid_modeltype(modeltype):
+            self.logger.debug(f"無效的型號格式: {modeltype}")
+            return False
+        
+        return True
+    
+    def _is_company_product(self, modelname: str) -> bool:
+        """檢查是否為公司產品"""
+        if not modelname:
+            return False
+        
+        # 清理前綴（以防萬一）
+        if 'Model Name:' in modelname:
+            modelname = modelname.replace('Model Name:', '').strip()
+            
+        modelname_lower = modelname.lower()
+        
+        # 公司產品前綴模式
+        company_prefixes = ['ab', 'akk', 'ag', 'ac', 'apx', 'ast', 'ahp']  # 基於真實數據觀察
+        
+        # 檢查是否以公司前綴開頭
+        for prefix in company_prefixes:
+            if modelname_lower.startswith(prefix):
+                return True
+        
+        # 排除明確的外部品牌
+        external_brands = [
+            'asus', 'rog', 'strix', 'lenovo', 'thinkpad', 
+            'macbook', 'mac', 'hp', 'pavilion', 'acer', 
+            'aspire', 'dell', 'surface', 'msi', 'razer'
+        ]
+        
+        for brand in external_brands:
+            if brand in modelname_lower:
                 return False
         
         return True
+    
+    def _is_valid_modeltype(self, modeltype: str) -> bool:
+        """檢查是否為有效的型號"""
+        if not modeltype:
+            return False
+        
+        # 基於實際數據，公司型號主要為數字，但也可能包含字母
+        modeltype_clean = modeltype.strip()
+        
+        # 檢查是否為純數字
+        try:
+            int(modeltype_clean)
+            return True
+        except ValueError:
+            # 如果不是純數字，檢查是否為數字+字母的組合（如AC01）
+            if modeltype_clean and len(modeltype_clean) <= 10:
+                return True
+        
+        return False
     
     def _enrich_product_data(self, product: Dict[str, Any]) -> Dict[str, Any]:
         """豐富化產品數據，添加計算字段"""

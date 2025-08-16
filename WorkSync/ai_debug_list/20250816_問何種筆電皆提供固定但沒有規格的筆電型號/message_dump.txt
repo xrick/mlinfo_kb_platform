@@ -1,0 +1,136 @@
+Frontend Messages
+mgfd_cursor:476 🆕 New session created, question history cleared
+mgfd_cursor:618 🔧 renderAssistantMessage called with: Object
+mgfd_cursor:661 📄 Processing plain text response
+mgfd_cursor:547 🔄 Received data from backend: Object
+mgfd_cursor:561 📦 Detected standard response format
+mgfd_cursor:618 🔧 renderAssistantMessage called with: Object
+mgfd_cursor:657 📋 Processing legacy recommendation format
+mgfd_cursor:547 🔄 Received data from backend: Object
+mgfd_cursor:561 📦 Detected standard response format
+mgfd_cursor:618 🔧 renderAssistantMessage called with: Object
+mgfd_cursor:657 📋 Processing legacy recommendation format
+
+
+
+
+
+
+Backend Messages
+
+2025-08-16 20:48:01,168 - libs.mgfd_cursor.mgfd_system - INFO - 處理會話 85605ce6-339d-431c-9d69-6d7d2cfdc9fb 的消息: 請介紹目前比較新出來的筆電...
+2025-08-16 20:48:01,168 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: 請介紹目前比較新出來的筆電...
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  6.31it/s]
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 13.56it/s]
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  9.27it/s]
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 14.67it/s]
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 11.35it/s]
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 13.18it/s]
+2025-08-16 20:48:01,753 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 找到特殊案例匹配: DSL003
+2025-08-16 20:48:01,753 - libs.mgfd_cursor.user_input_handler - INFO - 完整槽位提取結果: {'extracted_slots': {'usage_purpose': 'general', 'budget_range': 'mid_range', 'popularity_focus': True}, 'special_case': {'type': 'special_case_response', 'case_id': 'DSL003', 'matched_category': 'difficult_slot_detection', 'similarity_score': 0.8383034586906433, 'message': '我了解您想要了解熱門筆電！讓我為您推薦目前最受歡迎的選擇：', 'response_type': 'popular_recommendation', 'confidence': 0.95, 'timestamp': '2025-08-16T20:48:01.753733', 'inferred_slots': {'usage_purpose': 'general', 'budget_range': 'mid_range', 'popularity_focus': True}}, 'extraction_method': 'special_case_knowledge'}
+2025-08-16 20:48:01,753 - libs.mgfd_cursor.user_input_handler - INFO - 提取方法: special_case_knowledge
+2025-08-16 20:48:01,753 - libs.mgfd_cursor.user_input_handler - INFO - 實際提取的槽位: {'usage_purpose': 'general', 'budget_range': 'mid_range', 'popularity_focus': True}
+2025-08-16 20:48:01,753 - libs.mgfd_cursor.user_input_handler - INFO - 特殊案例匹配: DSL003
+2025-08-16 20:48:01,753 - libs.mgfd_cursor.user_input_handler - INFO - 特殊案例推斷槽位: {'usage_purpose': 'general', 'budget_range': 'mid_range', 'popularity_focus': True}
+2025-08-16 20:48:01,753 - libs.mgfd_cursor.user_input_handler - INFO - 準備更新槽位: {'usage_purpose': 'general', 'budget_range': 'mid_range', 'popularity_focus': True}
+2025-08-16 20:48:01,753 - libs.mgfd_cursor.user_input_handler - INFO - 槽位更新: usage_purpose = 'None' → 'general'
+2025-08-16 20:48:01,753 - libs.mgfd_cursor.user_input_handler - INFO - 槽位更新: budget_range = 'None' → 'mid_range'
+2025-08-16 20:48:01,753 - libs.mgfd_cursor.user_input_handler - INFO - 槽位更新: popularity_focus = 'None' → 'True'
+2025-08-16 20:48:01,753 - libs.mgfd_cursor.user_input_handler - INFO - 更新後的槽位狀態: {'usage_purpose': 'general', 'budget_range': 'mid_range', 'popularity_focus': True}
+2025-08-16 20:48:01,755 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 85605ce6-339d-431c-9d69-6d7d2cfdc9fb
+2025-08-16 20:48:01,755 - libs.mgfd_cursor.dialogue_manager - INFO - 槽位檢查結果 - 缺失的必要槽位: []
+2025-08-16 20:48:01,755 - libs.mgfd_cursor.dialogue_manager - INFO - 對話決策分析:
+2025-08-16 20:48:01,755 - libs.mgfd_cursor.dialogue_manager - INFO -   - 當前已填槽位: {'usage_purpose': 'general', 'budget_range': 'mid_range', 'popularity_focus': True}
+2025-08-16 20:48:01,755 - libs.mgfd_cursor.dialogue_manager - INFO -   - 缺失的必要槽位: []
+2025-08-16 20:48:01,755 - libs.mgfd_cursor.dialogue_manager - INFO -   - 用戶輸入: '請介紹目前比較新出來的筆電'
+2025-08-16 20:48:01,755 - libs.mgfd_cursor.dialogue_manager - INFO - 決策結果: 所有必要槽位已填寫，進行產品推薦
+2025-08-16 20:48:01,823 - watchfiles.main - INFO - 1 change detected
+2025-08-16 20:48:06,334 - watchfiles.main - INFO - 5 changes detected
+WARNING:  WatchFiles detected changes in 'test_rag_system.py', 'libs/mgfd_cursor/chunking_engine.py', 'libs/mgfd_cursor/knowledge_base.py', 'test_data_cleaning_fix.py'. Reloading...
+2025-08-16 20:48:06,491 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-16 20:48:10,970 - libs.mgfd_cursor.llm_manager - INFO - Act階段結果: 您好！您有特定的偏好（如品牌、预算等）嗎？
+2025-08-16 20:48:10,971 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 17_result.csv
+2025-08-16 20:48:10,981 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 17_result.csv 沒有有效產品數據
+2025-08-16 20:48:10,982 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 839_result.csv
+2025-08-16 20:48:10,988 - libs.mgfd_cursor.knowledge_base - INFO - 從 839_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:10,988 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: AC01_result.csv
+2025-08-16 20:48:10,993 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 AC01_result.csv 沒有有效產品數據
+2025-08-16 20:48:10,993 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 928_result.csv
+2025-08-16 20:48:10,996 - libs.mgfd_cursor.knowledge_base - INFO - 從 928_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:10,996 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 918_result.csv
+2025-08-16 20:48:11,000 - libs.mgfd_cursor.knowledge_base - INFO - 從 918_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,001 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 531_result.csv
+2025-08-16 20:48:11,004 - libs.mgfd_cursor.knowledge_base - INFO - 從 531_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,004 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 8329_result.csv
+2025-08-16 20:48:11,007 - libs.mgfd_cursor.knowledge_base - INFO - 從 8329_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,007 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 525_result.csv
+2025-08-16 20:48:11,010 - libs.mgfd_cursor.knowledge_base - INFO - 從 525_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,010 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 27_result.csv
+2025-08-16 20:48:11,012 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 27_result.csv 沒有有效產品數據
+2025-08-16 20:48:11,012 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 938_result.csv
+2025-08-16 20:48:11,015 - libs.mgfd_cursor.knowledge_base - INFO - 從 938_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,015 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 728_result.csv
+2025-08-16 20:48:11,017 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 728_result.csv 沒有有效產品數據
+2025-08-16 20:48:11,017 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 960_result.csv
+2025-08-16 20:48:11,019 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 960_result.csv 沒有有效產品數據
+2025-08-16 20:48:11,019 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 656_result.csv
+2025-08-16 20:48:11,021 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 656_result.csv 沒有有效產品數據
+2025-08-16 20:48:11,021 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 829_result.csv
+2025-08-16 20:48:11,023 - libs.mgfd_cursor.knowledge_base - INFO - 從 829_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,023 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 326_result.csv
+2025-08-16 20:48:11,025 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 326_result.csv 沒有有效產品數據
+2025-08-16 20:48:11,025 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 835_result.csv
+2025-08-16 20:48:11,027 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 835_result.csv 沒有有效產品數據
+2025-08-16 20:48:11,027 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 819_result.csv
+2025-08-16 20:48:11,029 - libs.mgfd_cursor.knowledge_base - INFO - 從 819_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,029 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 958_result.csv
+2025-08-16 20:48:11,031 - libs.mgfd_cursor.knowledge_base - INFO - 從 958_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,031 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 529_result.csv
+2025-08-16 20:48:11,033 - libs.mgfd_cursor.knowledge_base - INFO - 從 529_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,033 - libs.mgfd_cursor.knowledge_base - INFO - 數據載入完成: 成功載入 11 個產品 (成功檔案: 11, 失敗檔案: 8)
+2025-08-16 20:48:11,033 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 17_result.csv
+2025-08-16 20:48:11,035 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 17_result.csv 沒有有效產品數據
+2025-08-16 20:48:11,035 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 839_result.csv
+2025-08-16 20:48:11,036 - libs.mgfd_cursor.knowledge_base - INFO - 從 839_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,036 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: AC01_result.csv
+2025-08-16 20:48:11,038 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 AC01_result.csv 沒有有效產品數據
+2025-08-16 20:48:11,038 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 928_result.csv
+2025-08-16 20:48:11,040 - libs.mgfd_cursor.knowledge_base - INFO - 從 928_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,040 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 918_result.csv
+2025-08-16 20:48:11,041 - libs.mgfd_cursor.knowledge_base - INFO - 從 918_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,041 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 531_result.csv
+2025-08-16 20:48:11,043 - libs.mgfd_cursor.knowledge_base - INFO - 從 531_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,043 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 8329_result.csv
+2025-08-16 20:48:11,044 - libs.mgfd_cursor.knowledge_base - INFO - 從 8329_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,044 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 525_result.csv
+2025-08-16 20:48:11,046 - libs.mgfd_cursor.knowledge_base - INFO - 從 525_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,046 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 27_result.csv
+2025-08-16 20:48:11,047 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 27_result.csv 沒有有效產品數據
+2025-08-16 20:48:11,047 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 938_result.csv
+2025-08-16 20:48:11,049 - libs.mgfd_cursor.knowledge_base - INFO - 從 938_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,049 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 728_result.csv
+2025-08-16 20:48:11,050 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 728_result.csv 沒有有效產品數據
+2025-08-16 20:48:11,050 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 960_result.csv
+2025-08-16 20:48:11,051 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 960_result.csv 沒有有效產品數據
+2025-08-16 20:48:11,051 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 656_result.csv
+2025-08-16 20:48:11,053 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 656_result.csv 沒有有效產品數據
+2025-08-16 20:48:11,053 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 829_result.csv
+2025-08-16 20:48:11,054 - libs.mgfd_cursor.knowledge_base - INFO - 從 829_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,054 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 326_result.csv
+2025-08-16 20:48:11,055 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 326_result.csv 沒有有效產品數據
+2025-08-16 20:48:11,056 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 835_result.csv
+2025-08-16 20:48:11,057 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 835_result.csv 沒有有效產品數據
+2025-08-16 20:48:11,057 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 819_result.csv
+2025-08-16 20:48:11,058 - libs.mgfd_cursor.knowledge_base - INFO - 從 819_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,058 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 958_result.csv
+2025-08-16 20:48:11,059 - libs.mgfd_cursor.knowledge_base - INFO - 從 958_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,059 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 529_result.csv
+2025-08-16 20:48:11,060 - libs.mgfd_cursor.knowledge_base - INFO - 從 529_result.csv 成功載入 1 個有效產品
+2025-08-16 20:48:11,060 - libs.mgfd_cursor.knowledge_base - INFO - 數據載入完成: 成功載入 11 個產品 (成功檔案: 11, 失敗檔案: 8)
+2025-08-16 20:48:11,061 - libs.mgfd_cursor.response_generator - INFO - 生成回應: recommendation
+2025-08-16 20:48:11,062 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 85605ce6-339d-431c-9d69-6d7d2cfdc9fb
+2025-08-16 20:48:11,062 - libs.mgfd_cursor.mgfd_system - INFO - 會話 85605ce6-339d-431c-9d69-6d7d2cfdc9fb 處理完成，動作類型: recommend_products
+INFO:     Shutting down
+INFO:     127.0.0.1:52049 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
+INFO:     Waiting for application shutdown.
+2025-08-16 20:48:11,162 - root - INFO - 🛑 MGFD SalesRAG Integration System 關閉中...

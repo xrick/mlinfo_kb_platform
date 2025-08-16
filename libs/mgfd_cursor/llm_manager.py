@@ -13,13 +13,30 @@ from datetime import datetime, timedelta
 from pathlib import Path
 import os
 
+# Import availability tracking
+OLLAMA_AVAILABLE = False
+OPENAI_AVAILABLE = False
+ANTHROPIC_AVAILABLE = False
+
 try:
-    from langchain_community.llms import Ollama
-    from langchain_openai import ChatOpenAI
-    from langchain_anthropic import ChatAnthropic
-    LANGCHAIN_AVAILABLE = True
+    from langchain_ollama import OllamaLLM
+    OLLAMA_AVAILABLE = True
 except ImportError:
-    LANGCHAIN_AVAILABLE = False
+    pass
+
+try:
+    from langchain_openai import ChatOpenAI
+    OPENAI_AVAILABLE = True
+except ImportError:
+    pass
+
+try:
+    from langchain_anthropic import ChatAnthropic
+    ANTHROPIC_AVAILABLE = True
+except ImportError:
+    pass
+
+LANGCHAIN_AVAILABLE = OLLAMA_AVAILABLE or OPENAI_AVAILABLE or ANTHROPIC_AVAILABLE
 
 class MGFDLLMManager:
     """MGFD LLM 管理器"""
@@ -64,22 +81,31 @@ class MGFDLLMManager:
     def _initialize_llm(self):
         """初始化 LLM"""
         if not LANGCHAIN_AVAILABLE:
-            self.logger.warning("LangChain 不可用，將使用模擬 LLM")
+            self.logger.warning("所有 LangChain 提供商套件都不可用，將使用模擬 LLM")
             return
         
         try:
             if self.provider == "ollama":
-                self.llm = Ollama(
+                if not OLLAMA_AVAILABLE:
+                    self.logger.warning("langchain-ollama 套件不可用，將使用模擬 LLM")
+                    return
+                self.llm = OllamaLLM(
                     model=self.model_name,
                     temperature=self.temperature
                 )
             elif self.provider == "openai":
+                if not OPENAI_AVAILABLE:
+                    self.logger.warning("langchain-openai 套件不可用，將使用模擬 LLM")
+                    return
                 self.llm = ChatOpenAI(
                     model=self.model_name,
                     temperature=self.temperature,
                     max_tokens=self.max_tokens
                 )
             elif self.provider == "anthropic":
+                if not ANTHROPIC_AVAILABLE:
+                    self.logger.warning("langchain-anthropic 套件不可用，將使用模擬 LLM")
+                    return
                 self.llm = ChatAnthropic(
                     model=self.model_name,
                     temperature=self.temperature,
@@ -91,7 +117,7 @@ class MGFDLLMManager:
             self.logger.info(f"成功初始化 {self.provider} LLM: {self.model_name}")
             
         except Exception as e:
-            self.logger.error(f"初始化 LLM 失敗: {e}")
+            self.logger.error(f"初始化 {self.provider} LLM 失敗: {e}")
             self.llm = None
 
     # ===== 主提示與模板構建 =====
@@ -608,6 +634,12 @@ class MGFDLLMManager:
             "cache_enabled": self.cache_enabled,
             "cache_ttl": self.cache_ttl,
             "llm_available": self.llm is not None,
+            "provider_availability": {
+                "ollama": OLLAMA_AVAILABLE,
+                "openai": OPENAI_AVAILABLE,
+                "anthropic": ANTHROPIC_AVAILABLE,
+                "langchain_available": LANGCHAIN_AVAILABLE
+            },
             "cache_stats": self.get_cache_stats()
         }
 

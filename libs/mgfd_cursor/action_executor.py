@@ -27,7 +27,7 @@ class ActionExecutor:
         
         # 初始化RAG檢索系統
         try:
-            from .chunking_engine import ProductChunkingEngine
+            from .chunking import ProductChunkingEngine
             from .hybrid_retriever import HybridProductRetriever
             
             self.chunking_engine = ProductChunkingEngine()
@@ -115,7 +115,8 @@ class ActionExecutor:
             "target_slot": target_slot,
             "content": response,
             "suggestions": suggestions,
-            "confidence": command.get("confidence", 0.8)
+            "confidence": command.get("confidence", 0.8),
+            "session_id": state.get("session_id", "")
         }
     
     def _handle_recommend_products(self, command: Dict[str, Any], state: Dict[str, Any]) -> Dict[str, Any]:
@@ -142,7 +143,8 @@ class ActionExecutor:
             "action_type": "recommendation",
             "content": response,
             "recommendations": recommendations,
-            "confidence": command.get("confidence", 0.9)
+            "confidence": command.get("confidence", 0.9),
+            "session_id": state.get("session_id", "")
         }
     
     def _handle_recommend_popular_products(self, command: Dict[str, Any], state: Dict[str, Any]) -> Dict[str, Any]:
@@ -195,7 +197,8 @@ class ActionExecutor:
         return {
             "action_type": "clarification",
             "content": response,
-            "confidence": command.get("confidence", 0.7)
+            "confidence": command.get("confidence", 0.7),
+            "session_id": state.get("session_id", "")
         }
     
     def _handle_interruption(self, command: Dict[str, Any], state: Dict[str, Any]) -> Dict[str, Any]:
@@ -211,7 +214,8 @@ class ActionExecutor:
         return {
             "action_type": "interruption",
             "content": response,
-            "confidence": command.get("confidence", 0.9)
+            "confidence": command.get("confidence", 0.9),
+            "session_id": state.get("session_id", "")
         }
     
     def _handle_unknown_action(self, command: Dict[str, Any], state: Dict[str, Any]) -> Dict[str, Any]:
@@ -219,7 +223,8 @@ class ActionExecutor:
         return {
             "action_type": "unknown",
             "content": "抱歉，我不太理解您的需求。請重新描述一下您想要什麼樣的筆電？",
-            "confidence": 0.5
+            "confidence": 0.5,
+            "session_id": state.get("session_id", "")
         }
     
     def _handle_error(self, command: Dict[str, Any], state: Dict[str, Any], error: str) -> Dict[str, Any]:
@@ -228,7 +233,8 @@ class ActionExecutor:
             "action_type": "error",
             "content": "抱歉，系統遇到了一些問題。請稍後再試。",
             "error": error,
-            "confidence": 0.3
+            "confidence": 0.3,
+            "session_id": state.get("session_id", "")
         }
     
     def _generate_elicitation_prompt(self, target_slot: str, state: Dict[str, Any]) -> str:
@@ -589,6 +595,7 @@ class ActionExecutor:
             "funnel_question": special_case.get("funnel_question", {}),
             "loop_breaking": True,
             "confidence": 0.95,
+            "session_id": state.get("session_id", ""),
             "timestamp": datetime.now().isoformat()
         }
     
@@ -601,6 +608,7 @@ class ActionExecutor:
             "funnel_question": special_case.get("funnel_question", {}),
             "special_case_id": special_case.get("case_id", ""),
             "confidence": special_case.get("similarity_score", 0.8),
+            "session_id": state.get("session_id", ""),
             "timestamp": datetime.now().isoformat()
         }
     
@@ -614,6 +622,7 @@ class ActionExecutor:
             "special_case_id": special_case.get("case_id", ""),
             "tone": "reassuring_and_helpful",
             "confidence": special_case.get("similarity_score", 0.8),
+            "session_id": state.get("session_id", ""),
             "timestamp": datetime.now().isoformat()
         }
     
@@ -629,6 +638,7 @@ class ActionExecutor:
             "follow_up_questions": follow_up_questions,
             "special_case_id": special_case.get("case_id", ""),
             "confidence": special_case.get("similarity_score", 0.8),
+            "session_id": state.get("session_id", ""),
             "timestamp": datetime.now().isoformat()
         }
     
@@ -640,6 +650,7 @@ class ActionExecutor:
             "case_id": special_case.get("case_id", ""),
             "response_type": special_case.get("response_type", ""),
             "confidence": special_case.get("similarity_score", 0.8),
+            "session_id": state.get("session_id", ""),
             "timestamp": datetime.now().isoformat()
         }
     

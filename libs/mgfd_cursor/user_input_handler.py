@@ -43,10 +43,32 @@ class UserInputHandler:
         try:
             # 使用增強型槽位提取器
             current_slots = current_state.get("filled_slots", {})
-            extracted_slots = self.enhanced_extractor.extract_slots_with_classification(text, current_slots)
+            session_id = current_state.get("session_id", "")
             
-            self.logger.info(f"槽位提取結果: {extracted_slots}")
-            return extracted_slots
+            # 獲取增強型提取器的完整結果
+            extraction_result = self.enhanced_extractor.extract_slots_with_classification(
+                text, current_slots, session_id
+            )
+            
+            # 記錄完整結果供調試
+            self.logger.info(f"完整槽位提取結果: {extraction_result}")
+            
+            # 正確提取純槽位數據
+            actual_slots = extraction_result.get("extracted_slots", {})
+            extraction_method = extraction_result.get("extraction_method", "unknown")
+            
+            # 記錄實際提取的槽位
+            self.logger.info(f"提取方法: {extraction_method}")
+            self.logger.info(f"實際提取的槽位: {actual_slots}")
+            
+            # 如果是特殊案例，記錄額外信息
+            if extraction_method == "special_case_knowledge":
+                special_case = extraction_result.get("special_case", {})
+                case_id = special_case.get("case_id", "unknown")
+                self.logger.info(f"特殊案例匹配: {case_id}")
+                self.logger.info(f"特殊案例推斷槽位: {special_case.get('inferred_slots', {})}")
+            
+            return actual_slots  # 只返回純槽位數據
             
         except Exception as e:
             self.logger.error(f"槽位提取失敗: {e}")
@@ -167,6 +189,10 @@ class UserInputHandler:
         """更新對話狀態"""
         updated_state = current_state.copy()
         
+        # 記錄更新前的狀態
+        old_filled_slots = updated_state.get("filled_slots", {}).copy()
+        self.logger.debug(f"更新前的槽位狀態: {old_filled_slots}")
+        
         # 添加用戶消息到歷史記錄
         user_message = {
             "role": "user",
@@ -177,9 +203,34 @@ class UserInputHandler:
         
         # 更新已填寫的槽位
         if extracted_slots:
+            self.logger.info(f"準備更新槽位: {extracted_slots}")
+            
             current_filled_slots = updated_state.get("filled_slots", {})
-            current_filled_slots.update(extracted_slots)
+            
+            # 記錄每個槽位的更新
+            for slot_name, slot_value in extracted_slots.items():
+                old_value = current_filled_slots.get(slot_name, None)
+                current_filled_slots[slot_name] = slot_value
+                
+                if old_value != slot_value:
+                    self.logger.info(f"槽位更新: {slot_name} = '{old_value}' → '{slot_value}'")
+                else:
+                    self.logger.debug(f"槽位保持: {slot_name} = '{slot_value}'")
+            
             updated_state["filled_slots"] = current_filled_slots
+            
+            # 驗證更新是否成功
+            new_filled_slots = updated_state.get("filled_slots", {})
+            self.logger.info(f"更新後的槽位狀態: {new_filled_slots}")
+            
+            # 確認所有提取的槽位都已成功更新
+            for slot_name, slot_value in extracted_slots.items():
+                if new_filled_slots.get(slot_name) != slot_value:
+                    self.logger.error(f"槽位更新失敗: {slot_name} 期望 '{slot_value}' 但得到 '{new_filled_slots.get(slot_name)}'")
+                else:
+                    self.logger.debug(f"槽位更新驗證成功: {slot_name} = '{slot_value}'")
+        else:
+            self.logger.debug("沒有新的槽位需要更新")
         
         # 更新時間戳
         updated_state["last_updated"] = datetime.now().isoformat()

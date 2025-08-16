@@ -734,8 +734,8 @@
                     }
                 }
                 
-                // 🔄 新增：去重邏輯檢查
-                const questionKey = this.generateQuestionKey(question);
+                // 🔄 新增：去重邏輯檢查  
+                const questionKey = this.generateQuestionKey(question, session_id);
                 const currentTime = Date.now();
                 
                 // 檢查是否是重複的問題（5分鐘內的相同問題視為重複）
@@ -800,13 +800,14 @@
             }
             
             // 🆕 新增：生成問題唯一鍵的方法
-            generateQuestionKey(question) {
-                // 基於問題文字和選項生成唯一鍵
+            generateQuestionKey(question, sessionId = '') {
+                // 基於問題文字、選項和會話ID生成唯一鍵
                 const questionText = question.question_text || '';
                 const optionsText = question.options ? 
                     question.options.map(opt => `${opt.option_id}-${opt.label}`).join('|') : '';
                 
-                const key = `${questionText}::${optionsText}`;
+                // 包含session_id避免不同會話間的重複問題誤判
+                const key = `${sessionId}::${questionText}::${optionsText}`;
                 
                 // 使用簡單的雜湊函數生成較短的鍵
                 let hash = 0;
@@ -980,7 +981,7 @@
                     const data = await response.json();
                     
                     // 🗺️ 清理相關的問題歷史（避免重複問題）
-                    this.clearRelatedQuestionHistory(optionId);
+                    this.clearRelatedQuestionHistory(optionId, sessionId);
                     
                     // 添加新的回應
                     this.addMessage('assistant', data.response, data);
@@ -1001,31 +1002,48 @@
             }
             
             // 🗺️ 新增：清理相關問題歷史的方法
-            clearRelatedQuestionHistory(selectedOptionId) {
-                console.log('🧹 Clearing related question history for option:', selectedOptionId);
+            clearRelatedQuestionHistory(selectedOptionId, currentSessionId = '') {
+                console.log('🧹 Clearing related question history for option:', selectedOptionId, 'session:', currentSessionId);
                 
-                // 清理可能相關的問題歷史（防止循環）
+                // 清理策略：
+                // 1. 清理超過10分鐘的舊問題歷史
+                // 2. 清理當前會話中可能導致循環的相關問題
                 const keysToDelete = [];
+                const currentTime = Date.now();
+                const MAX_AGE = 10 * 60 * 1000; // 10分鐘
                 
                 for (const [key, timestamp] of this.questionHistory.entries()) {
                     // 清理超過10分鐘的舊問題歷史
-                    const age = Date.now() - timestamp;
-                    const MAX_AGE = 10 * 60 * 1000; // 10分鐘
-                    
+                    const age = currentTime - timestamp;
                     if (age > MAX_AGE) {
                         keysToDelete.push(key);
+                        console.log('🕒 Marking old question for deletion:', key, `(${Math.round(age/1000)}s old)`);
+                        continue;
+                    }
+                    
+                    // 清理當前會話中5分鐘內的相關問題（防止立即重複）
+                    if (currentSessionId && age < 5 * 60 * 1000) {
+                        // 如果問題包含當前會話ID且時間較近，考慮清理
+                        const sessionPrefix = `fq_`;
+                        if (key.startsWith(sessionPrefix)) {
+                            // 這是一個funnel question，如果用戶已經選擇了選項，清理相關的問題
+                            keysToDelete.push(key);
+                            console.log('🔄 Marking recent related question for deletion:', key, `(${Math.round(age/1000)}s ago)`);
+                        }
                     }
                 }
                 
-                // 刪除舊的問題歷史
+                // 刪除標記的問題歷史
                 keysToDelete.forEach(key => {
                     this.questionHistory.delete(key);
-                    console.log('🗑️ Cleaned old question:', key);
+                    console.log('🗑️ Cleaned question:', key);
                 });
                 
                 console.log('✅ Question history cleanup complete:', {
                     remainingEntries: this.questionHistory.size,
-                    deletedEntries: keysToDelete.length
+                    deletedEntries: keysToDelete.length,
+                    selectedOption: selectedOptionId,
+                    sessionId: currentSessionId
                 });
             }
 

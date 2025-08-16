@@ -1,0 +1,95 @@
+現在又出現一個新的問題，描述如下：
+
+user input:"請介紹目前比較新出來的筆電"
+system:"您好！目前比较新出来的笔记本电脑有哪些值得考虑的呢？"
+同時提供三個筆電機型名稱，但沒有任何規格。
+------------------
+AKK839
+品牌: UNKNOWN BRAND
+處理器: undefined
+顯示卡: undefined
+記憶體: undefined
+重量: undefined
+描述: undefined
+------------------
+ARB928
+品牌: UNKNOWN BRAND
+處理器: undefined
+顯示卡: undefined
+記憶體: undefined
+重量: undefined
+描述: undefined
+------------------
+AC918
+品牌: UNKNOWN BRAND
+處理器: undefined
+顯示卡: undefined
+記憶體: undefined
+重量: undefined
+描述: undefined
+------------------
+
+user再次問："有適合遊戲的筆電嗎?"
+system:"您好！目前新 release 的笔记本电脑有哪些型号？"
+------------------
+AKK839
+品牌: UNKNOWN BRAND
+處理器: undefined
+顯示卡: undefined
+記憶體: undefined
+重量: undefined
+描述: undefined
+------------------
+ARB928
+品牌: UNKNOWN BRAND
+處理器: undefined
+顯示卡: undefined
+記憶體: undefined
+重量: undefined
+描述: undefined
+------------------
+AC918
+品牌: UNKNOWN BRAND
+處理器: undefined
+顯示卡: undefined
+記憶體: undefined
+重量: undefined
+描述: undefined
+------------------
+
+這不是我們預期的行為，預期的系統行為：
+1.user input:"請介紹目前比較新出來的筆電"
+2.system:請問您有主要需求呢？
+3.user:輕便，開關機快，適合攜帶。
+4.system:請問您的預算區間
+5.user: 4~5萬。
+6.system:好的，我立刻為您進行搜尋
+
+以上是一個標準的使用案例，但目前如上所述, 同時提供三個筆電機型名稱，但沒有任何規格。系統完全不可用
+user input:"請介紹目前比較新出來的筆電"
+system:"您好！目前比较新出来的笔记本电脑有哪些值得考虑的呢？"
+------------------
+AKK839
+品牌: UNKNOWN BRAND
+處理器: undefined
+顯示卡: undefined
+記憶體: undefined
+重量: undefined
+描述: undefined
+------------------
+ARB928
+品牌: UNKNOWN BRAND
+處理器: undefined
+顯示卡: undefined
+記憶體: undefined
+重量: undefined
+描述: undefined
+------------------
+AC918
+品牌: UNKNOWN BRAND
+處理器: undefined
+顯示卡: undefined
+記憶體: undefined
+重量: undefined
+描述: undefined
+------------------

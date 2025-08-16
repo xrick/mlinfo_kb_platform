@@ -7,17 +7,34 @@
 
 在AI-Coder開始執行時，就必須告訴ai-coder。或者在每次進行修正錯誤時放在Prompt最後的部份：
 
-以下是整個專案開發過程中請務必遵守的規則：
+<chat_way>
+請**務必了解及完全遵守**一個客戶跟系統進行互動時最基本原因：
+1.收集客戶的需求，也就是我們所稱的槽位值，然後依照這些槽位值在我們自己的產品(內部)資料進行搜尋，並把較為符合客戶需求的產品推薦(各個槽位值比較接近客戶的需求)給客戶。
+我用一個簡單的flow圖來圖式化這個過程：
+round-1
+user-input -> sales-ai -> [user-input+prompt] -> LLM -> response to user for collecting user requirements -> user give one requirement value which is the actually slot value our system need.
+[check whether have collected enough data for search product]
+a. yes, perform internal data search for customer.
+b. no, create new question to ask user for another requirements values
+sales-ai -> [llm-generated-prompt according to next customer requirement] -> LLM -> generate question to user for collecting another requirement -> user give one requirement value which is the actually slot value our system need.
+[check whether have collected enough data for search product]
+..........
+we can see it is necessary for system to have multi-turn chats with customer for the requirements(slots) values collections.
+</chat_way>
+<other_init_rules>
+以下是其它在整個專案開發過程中請務必遵守的規則：
 - 請務必注意目前新架構進行的目錄位於libs/mgfd_cursor，所有的程式碼新增、修改都在這個目錄下。
-- 請**務必一步一步小心分析**整個問題，從使用者輸入，一直到出錯的資料處理順序與流程。請詳細記錄除錯歷程，經歷了哪些模組、哪些函式，關聯問題的發現、發現更有效率的解決方法或架構，請盡量解釋所有的資料。**務必先進行穩定且具可行性的計畫，不要直接進行修改**。
-- 將除錯過程寫入到WorkSync/MGFD_DEV_Diary/mgfd_dev_diary.md、WorkSync/debugzilla/bugzilla.md，然後擬定一個具可行性且完整的修復計畫。
-
+- 請**務必一步一步小心分析**整個問題，從使用者輸入，一直到出錯的資料處理順序與流程。請詳細記錄除錯歷程，
+  經歷了哪些模組、哪些函式，關聯問題的發現、發現更有效率的解決方法或架構，請盡量解釋所有的資料。
+  **務必先進行穩定且具可行性的計畫，不要直接進行修改**。
+- 將除錯過程寫入到WorkSync/MGFD_DEV_Diary/mgfd_dev_diary_2_update.md，然後擬定一個具可行性且完整的修復計畫。
+- Read("WorkSync/MGFD_DEV_Diary/mgfd_dev_diary_2_update.md", offset=0, limit=25000)
+</other_init_rules>
 
 Read Documents for continue work MGFD_DEV_Progress
 Read("WorkSync/MGFD_DEV_Diary/mgfd_dev_diary.md", offset=0, limit=25000)
 Read("WorkSync/MGFD_DEV_Diary/mgfd_dev_diary.md", offset=25001, limit=50000)
 Read(WorkSync/lessons_from_debug/bugzilla.md, offset=0, limit=25000)
-將除錯過程寫入到WorkSync/MGFD_DEV_Diary/mgfd_dev_diary.md、WorkSync/lessons_from_debug/bugzilla.md
 
 請AI說明debug的細節，尤其是資料流的流向及處理
 1.請用對我說明這個BUG的資料流是怎麼傳遞
@@ -28,3 +45,11 @@ Read(WorkSync/lessons_from_debug/bugzilla.md, offset=0, limit=25000)
 2.we use milvus as our vector database
 3.we use redis as our data necessary for running system.
 </environment>
+
+debug 常用句
+請逐步並詳細分析這個問題。
+請呈現資料流從使用者輸入開始，經歷了哪些模組、函式、採用了哪些額外的資料、做了哪些運算。
+
+
+分析模組的用語
+請＊＊絕對務必極盡詳細＊＊解析libs/mgfd_cursor/mgfd_system.py這個模組，包括每一個函式的傳入參入參數、函式中做了哪哪些運算，最後的輸出的資料。另外還要分析這個模組中各個函式間的依賴關係，以及與外面模組的依賴關係。請把結果寫入到docs/

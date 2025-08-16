@@ -1,0 +1,889 @@
+# MGFDûq‹|å v2.0 - RAG¢"¶ËÍË
+
+**úËå**: 2025-08-15
+**+**: Claude Code
+**ûqH,**: MGFD SalesRAG Integration System v2.1
+**ÍËî**: î©"Á¨¦UOLúËmRAG¢"¶Ë
+
+---
+
+## =¨ Í'OL|þ (2025-08-15)
+
+### OLÌo
+
+¢6åb"ËkË9îMÔºxÇ„Fû"
+ûqÞÉ+**^lø"Á**´ÍUÍmÙG
+
+### =4 OL1: lè¼"ÁxÚU (CRITICAL)
+
+#### €S
+
+**Mn**: `libs/mgfd_cursor/action_executor.py:_get_popular_products()`
+
+**Ug¹**:
+
+```python
+def _get_popular_products(self) -> List[Dict[str, Any]]:
+    return [
+        {
+            "name": "ASUS ROG Strix G15",     # L ^lø"Á
+            "price": "NT$ 45,900",
+        },
+        {
+            "name": "Lenovo ThinkPad X1 Carbon", # L ^lø"Á  
+            "price": "NT$ 52,900",
+        },
+        {
+            "name": "MacBook Air M2",         # L ^lø"Á
+            "price": "NT$ 35,900",
+        }
+    ]
+```
+
+**9,Ÿà**:
+
+- ûq(lè¼„:‹xÚ
+- Œh*#¥løgè"ÁÇ™«
+- UÍ"@	"ÁÞTÅŒh†êløgèÇ™«"„8ÃŸG
+
+#### Ç™A
+
+```
+(6åb ’ DSL003yŠH‹9M  
+’ ActionType.RECOMMEND_POPULAR_PRODUCTS 
+’ ActionExecutor._get_popular_products() L (lè¼xÚ)
+’ ÔÞ^lø"Á L (mÙU)
+```
+
+### =4 OL2: :RAG¢"æ\ (CRITICAL)
+
+#### RAG¶Ë:1
+
+**vMÀÁ**:
+
+-  **Think-Then-Act¶Ë**: DialogueManager + ActionExecutor
+-  **yŠH‹ûq**: SpecialCasesKnowledgeBase
+- L **RAG¢"h**: !"Á¢"Dö
+- L **JVe**: !g¹J_6
+- L **Ï**: !ž©ý›
+- L **"ÁNþ**: !ýMúNþ
+
+#### Ç™«ÀÁ
+
+- **”H**: `data/raw/notebook_products.csv` (
+  X()
+- **æ›”H**: `data/raw/EM_New TTL_241104_AllTransformedToGoogleSheet/*.csv` (*#¥)
+- **"ÁxÏ**: 19‹_”H (819, 839, 958I)
+- **Ç™<**: Œt"Á< (CPU, GPU, ¶Ô, ù<I)
+
+### =à OL3: Mïª°OL (HIGH)
+
+#### ª°!
+
+```
+(6xÇx ’ ûq°funnel_question ’ Ío:øx ’ !Õ2e�e
+```
+
+**€SŸà**:
+
+- Session ID
+  �ôôÀK÷‚
+- RedisÀK¡p8: `'str' object has no attribute 'decode'`
+- MïÍ2Óø„funnel_questionPË
+
+---
+
+## >é Parent-Child ChunkingVe-
+
+### 1. ¶Ë‚ð
+
+ú¼"ÁÇ™„y'¡(**Parent-Child Chunking**Ve
+
+```
+Parent Chunk ("Á8ÃX)
+�� Child 1: Performance Chunk (Hý<)
+�� Child 2: Design Chunk (-yµ)  
+�� Child 3: Connectivity Chunk (#¥')
+�� Child 4: Business Chunk (FÙyµ)
+```
+
+### 2. Parent Chunks-
+
+#### "Á8ÃX
+
+```python
+class ProductParentChunk:
+    def __init__(self, product: Dict):
+        self.chunk_id = f"parent_{product['id']}"
+        self.content = self._create_summary(product)
+        self.metadata = {
+            "modeltype": product["modeltype"],
+            "modelname": product["modelname"],
+            "price_tier": self._categorize_price(product),
+            "primary_usage": self._infer_usage(product),
+            "popularity_score": self._calculate_popularity(product),
+            "key_features": self._extract_features(product)
+        }
+```
+
+#### XVe
+
+```python
+def _create_summary(self, product: Dict) -> str:
+    return f"""
+    {product['modelname']} - {product['modeltype']}û
+  
+    8Ãyr
+    - Uh{product['cpu']}
+    - o:a{product['gpu']}
+    - ¶Ô{product['memory']}
+    - ;({self._infer_primary_usage(product)}
+    - iÏ¤{self._identify_target_users(product)}
+    - ù<šM{self._get_price_positioning(product)}
+    """
+```
+
+### 3. Child Chunks^
+
+#### 3.1 Performance Chunk (Hý<)
+
+```python
+class PerformanceChunk:
+    def create_content(self, product: Dict) -> str:
+        return f"""
+        HýMn{product['modelname']}
+      
+        8ÃUh{product['cpu']}
+        - HýI{self._categorize_cpu_tier(product['cpu'])}
+        - i(4o{self._get_cpu_use_cases(product['cpu'])}
+      
+        o:'ý{product['gpu']}
+        - bUý›{self._assess_gpu_capability(product['gpu'])}
+        - J2/ô¦{self._evaluate_gaming_support(product['gpu'])}
+      
+        ¶ÔMn{product['memory']}
+        - åU{self._assess_multitasking(product['memory'])}
+      
+        2XHý{product['storage']}
+        - 	e¦{self._evaluate_storage_speed(product['storage'])}
+      
+        œHýU{self._calculate_performance_score(product)}/10
+        """
+      
+    metadata = {
+        "focus": "performance",
+        "cpu_tier": "high|medium|basic",
+        "gpu_tier": "gaming|professional|integrated",
+        "performance_score": 0.0-10.0,
+        "target_workloads": ["gaming", "content_creation", "business"]
+    }
+```
+
+#### 3.2 Design Chunk (-yµ)
+
+```python
+class DesignChunk:
+    def create_content(self, product: Dict) -> str:
+        return f"""
+        -6'{product['modelname']}
+      
+        ¢U<{product['lcd']}
+        - ¢U:ø{self._extract_screen_size(product['lcd'])}
+        - o:Áê{self._assess_display_quality(product['lcd'])}
+        - w<yr{self._identify_eye_care_features(product['lcd'])}
+      
+        _«-
+        - ÍÏI{self._categorize_weight(product)}
+        - 6¿)'{self._assess_portability(product)}
+        - À¨<{self._identify_design_style(product)}
+      
+        û`Œ*{product['battery']}
+        - (B“{self._estimate_battery_life(product['battery'])}
+        - Eûyr{self._identify_charging_features(product['battery'])}
+      
+        #¥àMn{product['iointerface']}
+        - ôE'{self._assess_connectivity(product['iointerface'])}
+      
+        6'U{self._calculate_portability_score(product)}/10
+        """
+      
+    metadata = {
+        "focus": "design_portability",
+        "screen_size_category": "13|14|15|16|17",
+        "weight_category": "ultrabook|standard|gaming",
+        "portability_score": 0.0-10.0,
+        "target_scenarios": ["business_travel", "home_office", "gaming_setup"]
+    }
+```
+
+#### 3.3 Connectivity Chunk (#¥')
+
+```python
+class ConnectivityChunk:
+    def create_content(self, product: Dict) -> str:
+        return f"""
+        #¥ôE{product['modelname']}
+      
+        !Ú#¥{product['wireless']}
+        - Wi-Fi–{self._extract_wifi_standard(product['wireless'])}
+        - #¥iš'{self._assess_wifi_performance(product['wireless'])}
+      
+        ÍYŸý{product['bluetooth']}
+        - ÍYH,{self._extract_bluetooth_version(product['bluetooth'])}
+        - ø¹'{self._assess_bluetooth_compatibility(product['bluetooth'])}
+      
+        	Ú²ï{product['lan']}
+        - ²ï¦{self._assess_lan_speed(product['lan'])}
+      
+        #¥à{product['iointerface']}
+        - USBMn{self._analyze_usb_ports(product['iointerface'])}
+        - o:8ú{self._identify_display_outputs(product['iointerface'])}
+        - vÖ¥ã{self._list_other_ports(product['iointerface'])}
+      
+        ôEý›U{self._calculate_connectivity_score(product)}/10
+        """
+      
+    metadata = {
+        "focus": "connectivity_expansion",
+        "wifi_generation": "wifi6|wifi5|wifi4",
+        "usb_types": ["usb_a", "usb_c", "thunderbolt"],
+        "connectivity_score": 0.0-10.0,
+        "target_needs": ["multi_monitor", "peripheral_heavy", "network_intensive"]
+    }
+```
+
+#### 3.4 Business Chunk (FÙyµ)
+
+```python
+class BusinessChunk:
+    def create_content(self, product: Dict) -> str:
+        return f"""
+        FÙm{product['modelname']}
+      
+        mI{product['certifications']}
+        - mI{self._identify_enterprise_certs(product['certifications'])}
+        - Ç‰–{self._assess_security_standards(product['certifications'])}
+      
+        ‰hŸý
+        - ¨X{product['fingerprint']}
+        - TPM‰h{product.get('tpm', 'N/A')}
+        -  Æ/ô{self._assess_encryption_support(product)}
+      
+        FÙyr
+        - –
+p{self._assess_meeting_capability(product)}
+        - ‡øU{self._evaluate_office_performance(product)}
+        - åH‡{self._assess_productivity(product)}
+      
+        ­w/ô
+        - Ýú
+Ù{self._identify_warranty_features(product)}
+        - m/ô{self._assess_enterprise_support(product)}
+      
+        FÙi(¦{self._calculate_business_score(product)}/10
+        """
+      
+    metadata = {
+        "focus": "business_professional",
+        "security_level": "enterprise|standard|basic",
+        "meeting_capability": "excellent|good|basic",
+        "business_score": 0.0-10.0,
+        "target_users": ["enterprise", "soho", "remote_worker"]
+    }
+```
+
+### 4. ¢"A-
+
+#### 4.1 ÙŽµ¢"Ve
+
+```python
+class HybridProductRetriever:
+    def retrieve(self, query: str, user_slots: Dict, top_k: int = 5) -> List[Dict]:
+        # Žµ1: ž©¢" ((child chunks-)
+        semantic_matches = self._semantic_retrieval(query, top_k * 4)
+      
+        # Žµ2: ýMNþ ((parent metadata)
+        filtered_matches = self._slot_based_filtering(semantic_matches, user_slots)
+      
+        # Žµ3: ParentZ (	"Áuchild chunks)
+        aggregated_products = self._aggregate_by_parent(filtered_matches)
+      
+        # Žµ4: œ’ (ž©ø<¦ + ýM9M + ±€¦)
+        final_ranking = self._comprehensive_ranking(aggregated_products, query, user_slots)
+      
+        return final_ranking[:top_k]
+```
+
+#### 4.2 ž©¢"æ\
+
+```python
+def _semantic_retrieval(self, query: str, top_k: int) -> List[Dict]:
+    """(child chunks-2Lž©"""
+    query_embedding = self.sentence_transformer.encode(query)
+  
+    similarities = []
+    for chunk in self.child_chunks:
+        similarity = float(cosine_similarity(
+            query_embedding.reshape(1, -1),
+            chunk['embedding'].reshape(1, -1)
+        )[0][0])
+      
+        similarities.append({
+            "chunk": chunk,
+            "parent_id": chunk["parent_id"],
+            "chunk_type": chunk["metadata"]["focus"],
+            "similarity": similarity
+        })
+  
+    return sorted(similarities, key=lambda x: x['similarity'], reverse=True)[:top_k]
+```
+
+#### 4.3 ýMNþ_6
+
+```python
+def _slot_based_filtering(self, semantic_matches: List[Dict], user_slots: Dict) -> List[Dict]:
+    """ú¼(6ýMNþ"Á"""
+    filtered = []
+  
+    for match in semantic_matches:
+        parent_metadata = self.parent_chunks[match["parent_id"]]["metadata"]
+      
+        # —Nþ
+        if "budget_range" in user_slots:
+            if not self._match_budget(parent_metadata["price_tier"], user_slots["budget_range"]):
+                continue
+      
+        # (Nþ
+        if "usage_purpose" in user_slots:
+            if not self._match_usage(parent_metadata["primary_usage"], user_slots["usage_purpose"]):
+                continue
+      
+        # ÁLNþ
+        if "brand_preference" in user_slots:
+            if not self._match_brand(parent_metadata["modelname"], user_slots["brand_preference"]):
+                continue
+      
+        # Hý�BNþ
+        if "performance_priority" in user_slots:
+            if not self._match_performance_need(match["chunk"], user_slots["performance_priority"]):
+                continue
+      
+        filtered.append(match)
+  
+    return filtered
+```
+
+#### 4.4 øÜ'U—Õ
+
+```python
+def _comprehensive_ranking(self, products: List[Dict], query: str, user_slots: Dict) -> List[Dict]:
+    """œU’"""
+    for product in products:
+        # ž©ø<¦x (40%)
+        semantic_score = product["max_similarity"]
+      
+        # ýM9Mx (35%)
+        slot_match_score = self._calculate_slot_match_score(product, user_slots)
+      
+        # ±€¦x (15%)
+        popularity_score = product["parent_metadata"]["popularity_score"]
+      
+        # Œt'x (10%) - "ÁÇ
+Œt¦
+        completeness_score = self._assess_data_completeness(product)
+      
+        # œU
+        product["final_score"] = (
+            semantic_score * 0.4 +
+            slot_match_score * 0.35 +
+            popularity_score * 0.15 +
+            completeness_score * 0.1
+        )
+  
+    return sorted(products, key=lambda x: x["final_score"], reverse=True)
+```
+
+---
+
+## =
+
+ ÷¢"ûq¶Ë
+
+### 1. åb^‹iÉ¢"
+
+#### ±€"ÁåbU
+
+```python
+def handle_popular_request(self, query: str) -> List[Dict]:
+    """U±€"Áåb"""
+    # ;¢"strategy: ±€¦*H
+    products = self.retrieve_with_strategy(
+        query=query,
+        strategy="popularity_focused",
+        weights={
+            "popularity_score": 0.5,
+            "semantic_similarity": 0.3,
+            "user_rating": 0.2
+        }
+    )
+  
+    # ºÝÔÞ„ý/lø"Á
+    verified_products = self._verify_company_products(products)
+  
+    return verified_products
+```
+
+#### HýåbU
+
+```python
+def handle_performance_request(self, query: str, user_slots: Dict) -> List[Dict]:
+    """UHýåb"""
+    # ;¢"performance chunks
+    return self.retrieve_with_strategy(
+        query=query,
+        strategy="performance_focused",
+        chunk_weights={
+            "performance": 0.6,
+            "design": 0.2,
+            "connectivity": 0.1,
+            "business": 0.1
+        },
+        user_slots=user_slots
+    )
+```
+
+### 2. æB¢"*
+
+#### éXVe
+
+```python
+class CachedProductRetriever:
+    def __init__(self):
+        self.query_cache = LRUCache(maxsize=1000)
+        self.embedding_cache = {}
+      
+    def retrieve_with_cache(self, query: str, user_slots: Dict) -> List[Dict]:
+        cache_key = self._generate_cache_key(query, user_slots)
+      
+        if cache_key in self.query_cache:
+            return self.query_cache[cache_key]
+      
+        results = self.retrieve(query, user_slots)
+        self.query_cache[cache_key] = results
+        return results
+```
+
+---
+
+## <¯ æ\k
+
+### Žµ1: Ê%î© (Critical - 3B)
+
+#### 1.1 î©lè¼"ÁxÚ
+
+- **”H**: `libs/mgfd_cursor/action_executor.py`
+- **ûÙ**: ûd `_get_popular_products()`-„lè¼xÚ
+- **æ\**: #¥0 `NotebookKnowledgeBase`rÖæ"Á
+
+```python
+def _get_popular_products(self) -> List[Dict[str, Any]]:
+    """rÖ±€"Áh - î©H"""
+    try:
+        # žåX«rÖæ"Á
+        kb = NotebookKnowledgeBase()
+        all_products = kb.get_all_products()
+      
+        # 	±€¦’ (ú¼æxÚ)
+        popular_products = sorted(
+            all_products, 
+            key=lambda x: x.get('popularity_score', 0), 
+            reverse=True
+        )[:5]
+      
+        return popular_products
+    except Exception as e:
+        self.logger.error(f"rÖ±€"Á1W: {e}")
+        return []  # ÔÞzh^lè¼xÚ
+```
+
+#### 1.2 î©"ÁåX«
+
+- **”H**: `libs/mgfd_cursor/knowledge_base.py`
+- **ûÙ**: îcCSV”Hï‘	eæ"ÁxÚ
+
+```python
+def _get_default_csv_path(self) -> str:
+    """îcCSVï‘æ"Á”H"""
+    base_path = Path(__file__).parent.parent.parent
+    data_dir = base_path / "data" / "raw" / "EM_New TTL_241104_AllTransformedToGoogleSheet"
+  
+    # 	e@	‹_”H
+    csv_files = list(data_dir.glob("*_result.csv"))
+    return csv_files  # ÔÞ”Hh^®�”H
+```
+
+### Žµ2: RAGûqúË (High - 5B)
+
+#### 2.1 úËParent-Child Chunkingûq
+
+- **°”H**: `libs/mgfd_cursor/chunking_engine.py`
+
+```python
+class ProductChunkingEngine:
+    def __init__(self):
+        self.sentence_transformer = SentenceTransformer(
+            'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'
+        )
+      
+    def create_product_chunks(self, product: Dict) -> Tuple[Dict, List[Dict]]:
+        """º®�"ÁuúparentŒchild chunks"""
+        parent = self._create_parent_chunk(product)
+        children = [
+            self._create_performance_chunk(product),
+            self._create_design_chunk(product),
+            self._create_connectivity_chunk(product),
+            self._create_business_chunk(product)
+        ]
+      
+        # embeddings
+        parent['embedding'] = self.sentence_transformer.encode(parent['content'])
+        for child in children:
+            child['embedding'] = self.sentence_transformer.encode(child['content'])
+      
+        return parent, children
+```
+
+#### 2.2 úË÷¢"ûq
+
+- **°”H**: `libs/mgfd_cursor/hybrid_retriever.py`
+
+```python
+class HybridProductRetriever:
+    def __init__(self, chunking_engine: ProductChunkingEngine):
+        self.chunking_engine = chunking_engine
+        self.parent_chunks = {}
+        self.child_chunks = []
+        self.load_all_chunks()
+      
+    def retrieve_popular_products(self, criteria: Dict = None) -> List[Dict]:
+        """¢"±€"Á"""
+        # 	±€¦’@	parent chunks
+        popular_parents = sorted(
+            self.parent_chunks.values(),
+            key=lambda x: x['metadata']['popularity_score'],
+            reverse=True
+        )
+      
+        return self._format_retrieval_results(popular_parents[:5])
+```
+
+#### 2.3 tActionExecutor
+
+- **î9”H**: `libs/mgfd_cursor/action_executor.py`
+
+```python
+class ActionExecutor:
+    def __init__(self, llm_manager, config_loader):
+        self.llm_manager = llm_manager
+        self.config_loader = config_loader
+      
+        # Ë¢"ûq
+        self.chunking_engine = ProductChunkingEngine()
+        self.retriever = HybridProductRetriever(self.chunking_engine)
+      
+    def _handle_recommend_popular_products(self, command: Dict[str, Any], state: Dict[str, Any]) -> Dict[str, Any]:
+        """U±€"Á¨¦ - (RAG¢""""
+        try:
+            # (¢"ûqrÖ±€"Á
+            popular_products = self.retriever.retrieve_popular_products()
+          
+            # ¨¦ÞÉ
+            response = self._generate_rag_based_response(popular_products)
+          
+            return {
+                "action_type": "popular_recommendation",
+                "content": response,
+                "recommendations": popular_products,
+                "confidence": 0.95,
+                "data_source": "company_database"  # xÚ†
+            }
+        except Exception as e:
+            self.logger.error(f"RAG¢"1W: {e}")
+            return self._handle_error_gracefully()
+```
+
+### Žµ3: ¢"* (Medium - 3B)
+
+#### 3.1 æ\ž©
+
+- **°”H**: `libs/mgfd_cursor/semantic_search.py`
+
+#### 3.2 æ\ýMNþ
+
+- **°”H**: `libs/mgfd_cursor/slot_filter.py`
+
+#### 3.3 æ\øÜ'U
+
+- **°”H**: `libs/mgfd_cursor/relevance_scorer.py`
+
+### Žµ4: Mïî© (Medium - 2B)
+
+#### 4.1 î©SessionÀK¡
+
+- **”H**: `libs/mgfd_cursor/redis_state_manager.py`
+
+#### 4.2 î©ª°OL
+
+- **”H**: `templates/mgfd_interface.html`
+
+---
+
+## =Ê €S<
+
+### 8ÃDö¶Ë
+
+```
+MGFD RAGûq
+�� ChunkingEngine (JÎ)
+   �� ProductParentChunk
+   �� PerformanceChunk  
+   �� DesignChunk
+   �� ConnectivityChunk
+   �� BusinessChunk
+�� HybridRetriever (÷¢"h)
+   �� SemanticSearch
+   �� SlotFilter
+   �� RelevanceScorer
+�� KnowledgeBase (åX«)
+   �� ProductLoader
+   �� DataValidator
+   �� IndexManager
+�� ResponseGenerator (ÞÉh)
+    �� TemplateEngine
+    �� ContentFormatter
+    �� MetadataEnricher
+```
+
+### Ç™«t¹H
+
+#### "ÁÇ™	e
+
+```python
+class MultiFileProductLoader:
+    def load_all_products(self) -> List[Dict]:
+        """	e@	‹_„"ÁxÚ"""
+        products = []
+        data_dir = self._get_data_directory()
+      
+        for csv_file in data_dir.glob("*_result.csv"):
+            model_products = self._load_single_model(csv_file)
+            products.extend(model_products)
+      
+        return self._validate_and_enrich(products)
+  
+    def _validate_and_enrich(self, products: List[Dict]) -> List[Dict]:
+        """WIŒPÌ"ÁxÚ"""
+        enriched = []
+        for product in products:
+            # Ç™WI
+            if self._validate_product(product):
+                # xÚPÌ
+                product['popularity_score'] = self._calculate_popularity(product)
+                product['price_tier'] = self._categorize_price(product)
+                product['target_users'] = self._identify_target_users(product)
+                enriched.append(product)
+      
+        return enriched
+```
+
+### APIËb-
+
+#### °ž¢"ïÞ
+
+```python
+# api/mgfd_routes.py
+@router.post("/search")
+async def search_products(request: ProductSearchRequest):
+    """"ÁAPI"""
+    try:
+        retriever = HybridProductRetriever()
+        results = retriever.retrieve(
+            query=request.query,
+            user_slots=request.slots,
+            top_k=request.limit
+        )
+      
+        return ProductSearchResponse(
+            success=True,
+            products=results,
+            total_count=len(results),
+            data_source="company_database"
+        )
+    except Exception as e:
+        return ProductSearchResponse(
+            success=False,
+            error=str(e),
+            products=[]
+        )
+```
+
+### ,fVe
+
+#### ®C,f
+
+```python
+class TestProductRetriever(unittest.TestCase):
+    def test_popular_products_are_company_products(self):
+        """ºÝ±€"Á¨¦ê+lø"Á"""
+        retriever = HybridProductRetriever()
+        results = retriever.retrieve_popular_products()
+      
+        for product in results:
+            # WI"Á†
+            self.assertIn('modeltype', product)
+            self.assertIn('modelname', product)
+            # ºÝ
+/lè¼„^lø"Á
+            self.assertNotIn('ASUS ROG Strix', product['modelname'])
+            self.assertNotIn('MacBook Air', product['modelname'])
+  
+    def test_retrieval_accuracy(self):
+        """,f¢"–º'"""
+        retriever = HybridProductRetriever()
+      
+        # ,fHýåb
+        results = retriever.retrieve("ØHýJ2Fû", {"usage_purpose": "gaming"})
+        for product in results:
+            self.assertGreater(product['performance_score'], 7.0)
+```
+
+---
+
+## =à æ\W
+
+### ”Hî9®
+
+#### Ësî9 (Critical)
+
+1. `libs/mgfd_cursor/action_executor.py` - ûdlè¼"Á
+2. `libs/mgfd_cursor/knowledge_base.py` - îc"Á	eï‘
+
+#### °ž”H (High)
+
+1. `libs/mgfd_cursor/chunking_engine.py` - Parent-ChildJûq
+2. `libs/mgfd_cursor/hybrid_retriever.py` - ÷¢"ûq
+3. `libs/mgfd_cursor/semantic_search.py` - ž©Î
+4. `libs/mgfd_cursor/slot_filter.py` - ýMNþûq
+5. `libs/mgfd_cursor/relevance_scorer.py` - øÜ'Uûq
+
+#### Mn”H (Medium)
+
+1. `libs/mgfd_cursor/humandata/retrieval_config.json` - ¢"Mn
+2. `libs/mgfd_cursor/humandata/chunking_rules.json` - JG
+
+### ¼Ä‹
+
+#### Œt¢"A
+
+```python
+# (Ä‹
+retriever = HybridProductRetriever()
+
+# ±€"Áåb
+popular_products = retriever.retrieve_popular_products()
+
+# ú¼ýM„åb
+gaming_laptops = retriever.retrieve(
+    query="ØHýJ2Fû",
+    user_slots={
+        "usage_purpose": "gaming",
+        "budget_range": "high",
+        "performance_priority": ["gpu", "cpu"]
+    }
+)
+
+# ž©
+similar_products = retriever.semantic_search(
+    "„FÙFû¨¦"
+)
+```
+
+### MnÃx
+
+#### ¢"Mn
+
+```json
+{
+  "retrieval_config": {
+    "top_k_semantic": 20,
+    "top_k_final": 5,
+    "similarity_threshold": 0.7,
+    "chunk_weights": {
+      "performance": 0.3,
+      "design": 0.25, 
+      "connectivity": 0.2,
+      "business": 0.25
+    },
+    "ranking_weights": {
+      "semantic_similarity": 0.4,
+      "slot_match": 0.35,
+      "popularity": 0.15,
+      "completeness": 0.1
+    }
+  }
+}
+```
+
+### èr¢å®
+
+#### xÚWI
+
+- [ ] º@	"Á”Hò	e
+- [ ] WI"ÁxÚŒt'
+- [ ] ¢åembeddingc8
+- [ ] ,f¢"Pœ–º'
+
+#### ŸýWI
+
+- [ ] ±€"ÁåbÔÞlø"Á
+- [ ] ýMNþŸýc8
+- [ ] ž©9M–º
+- [ ] øÜ'’
+
+#### 'ýWI
+
+- [ ] ¢"ÿÉB“ < 500ms
+- [ ] ¶Ô(Ï
+- [ ] &|Uý›E³
+- [ ] éX_6	H
+
+---
+
+## <– œ
+
+### ËsãzOL
+
+1. **ˆd"ÁU**: 100%(lø"ÁxÚ
+2. **úËRAG¶Ë**: Œt„¢"Œ¨¦ûq
+3. **î©ª°OL**: A¢„
+   qÔW
+
+### €SÐG
+
+1. **mRAG**: Parent-Child chunking + ÷¢"
+2. **zý¨¦**: ú¼ž©ã„"Á9M
+3. **ïôU¶Ë**: /ô*†ŸýôU
+
+### mÙù<
+
+1. **'**: ´<uˆmÙG
+2. **–º'**: ¾–„"Á¨¦
+3. **(6ÔW**: zý„
+   q
+
+---
+
+**=Å ô°B“**: 2025-08-15
+**ÀK**: kŒ…æ\÷L
+**0ŒB“**: 13B (Critical: 3h, High: 5h, Medium: 5h)
+**Ÿ–**: ûqê¨¦lø"ÁRAG¢"–º‡ > 90%

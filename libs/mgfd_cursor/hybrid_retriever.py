@@ -14,7 +14,7 @@ from pathlib import Path
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
-from .chunking_engine import ProductChunkingEngine
+from .chunking import ProductChunkingEngine, ChunkingContext, ChunkingStrategyType
 from .knowledge_base import NotebookKnowledgeBase
 
 
@@ -30,8 +30,15 @@ class HybridProductRetriever:
         """
         self.logger = logging.getLogger(__name__)
         
-        # 初始化組件
-        self.chunking_engine = chunking_engine or ProductChunkingEngine()
+        # 初始化組件 - 使用Strategy模式
+        if chunking_engine:
+            self.chunking_context = ChunkingContext(chunking_engine)
+        else:
+            # 默認使用parent_child策略
+            default_engine = ProductChunkingEngine()
+            self.chunking_context = ChunkingContext(default_engine)
+        
+        self.chunking_engine = self.chunking_context.get_strategy()
         self.knowledge_base = NotebookKnowledgeBase()
         
         # 分塊存儲
@@ -186,7 +193,7 @@ class HybridProductRetriever:
         """語義檢索 - 從child chunks中搜索"""
         try:
             # 生成查詢嵌入
-            query_embedding = self.chunking_engine._generate_embedding(query)
+            query_embedding = self.chunking_engine.generate_embedding(query)
             
             similarities = []
             

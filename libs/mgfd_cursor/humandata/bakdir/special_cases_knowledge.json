@@ -89,8 +89,8 @@
             }
           },
           "success_rate": 0.92,
-          "usage_count": 11,
-          "last_used": "2025-08-15T18:08:01.603999",
+          "usage_count": 12,
+          "last_used": "2025-08-16T23:19:26.576568",
           "created_date": "2025-08-14",
           "tags": [
             "performance",
@@ -202,8 +202,8 @@
             }
           },
           "success_rate": 0.98,
-          "usage_count": 1,
-          "last_used": "2025-08-14T17:28:07.773459",
+          "usage_count": 11,
+          "last_used": "2025-08-17T01:44:16.154535",
           "created_date": "2025-08-14",
           "tags": [
             "popular_choice",
@@ -400,8 +400,8 @@
   },
   "usage_statistics": {
     "total_cases": 6,
-    "total_successful_matches": 20,
+    "total_successful_matches": 31,
     "average_success_rate": 0.877,
-    "last_statistics_update": "2025-08-15T18:08:01.604052"
+    "last_statistics_update": "2025-08-17T01:44:16.154586"
   }
 }

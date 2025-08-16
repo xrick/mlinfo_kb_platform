@@ -7,6 +7,7 @@ MGFD 增強型槽位提取器
 
 import json
 import logging
+import re
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 from .special_cases_knowledge import SpecialCasesKnowledgeBase
@@ -88,7 +89,16 @@ class EnhancedSlotExtractor:
         """
         self.logger.info(f"增強型槽位提取，輸入: {user_input[:50]}...")
         
-        # 0. 首先檢查特殊案例知識庫
+        # 0. 首先檢查是否為funnel question選項回應
+        if self._is_funnel_option_response(user_input):
+            self.logger.info("檢測到funnel question選項回應，跳過特殊案例檢查")
+            extracted_slots = self._extract_option_selection(user_input)
+            return {
+                "extracted_slots": extracted_slots,
+                "extraction_method": "funnel_option_selection"
+            }
+        
+        # 1. 檢查特殊案例知識庫
         special_case_result = self._check_special_cases(user_input, session_id)
         if special_case_result:
             self.logger.info(f"找到特殊案例匹配: {special_case_result['case_id']}")
@@ -366,3 +376,105 @@ class EnhancedSlotExtractor:
         """清除特定會話的循環歷史"""
         if self.knowledge_base:
             self.knowledge_base.clear_loop_history(session_id)
+    
+    def _is_funnel_option_response(self, user_input: str) -> bool:
+        """檢查輸入是否為funnel question選項回應"""
+        try:
+            user_input_lower = user_input.lower().strip()
+            self.logger.debug(f"檢查funnel選項回應: '{user_input_lower}'")
+            
+            # 檢查是否為"選擇選項: xxx"格式
+            option_patterns = [
+                r"選擇選項[:：]\s*(\w+)",
+                r"option[:：]\s*(\w+)",
+                r"我選擇\s*(\w+)",
+                r"選\s*(\w+)",
+            ]
+            
+            for pattern in option_patterns:
+                match = re.search(pattern, user_input_lower)
+                if match:
+                    self.logger.info(f"匹配到funnel選項模式 '{pattern}': {match.group(1)}")
+                    return True
+            
+            # 檢查是否直接是選項值
+            known_options = [
+                "gaming", "business", "student", "creative", "general",
+                "budget", "mid_range", "premium", "luxury",
+                "ultra_portable", "balanced", "desktop_replacement"
+            ]
+            
+            if user_input_lower in known_options:
+                self.logger.info(f"檢測到直接選項值: '{user_input_lower}'")
+                return True
+            
+            self.logger.debug(f"未檢測到funnel選項回應: '{user_input_lower}'")
+            return False
+            
+        except Exception as e:
+            self.logger.error(f"檢查funnel選項回應時發生錯誤: {e}")
+            return False
+    
+    def _extract_option_selection(self, user_input: str) -> Dict[str, Any]:
+        """從選項回應中提取槽位信息"""
+        try:
+            extracted_slots = {}
+            user_input_lower = user_input.lower().strip()
+            self.logger.debug(f"開始提取選項選擇: '{user_input_lower}'")
+            
+            # 提取選項值
+            option_value = None
+            
+            # 從"選擇選項: xxx"格式中提取
+            option_patterns = [
+                r"選擇選項[:：]\s*(\w+)",
+                r"option[:：]\s*(\w+)",
+                r"我選擇\s*(\w+)",
+                r"選\s*(\w+)",
+            ]
+            
+            for pattern in option_patterns:
+                match = re.search(pattern, user_input_lower)
+                if match:
+                    option_value = match.group(1)
+                    self.logger.debug(f"使用模式 '{pattern}' 提取到選項值: '{option_value}'")
+                    break
+            
+            # 如果沒有匹配到模式，檢查是否直接是選項值
+            if not option_value:
+                known_options = [
+                    "gaming", "business", "student", "creative", "general",
+                    "budget", "mid_range", "premium", "luxury", 
+                    "ultra_portable", "balanced", "desktop_replacement"
+                ]
+                if user_input_lower in known_options:
+                    option_value = user_input_lower
+                    self.logger.debug(f"直接匹配到選項值: '{option_value}'")
+            
+            # 根據選項值確定槽位
+            if option_value:
+                # 使用目的選項
+                if option_value in ["gaming", "business", "student", "creative", "general"]:
+                    extracted_slots["usage_purpose"] = option_value
+                    self.logger.info(f"提取usage_purpose槽位: {option_value}")
+                
+                # 預算範圍選項
+                elif option_value in ["budget", "mid_range", "premium", "luxury"]:
+                    extracted_slots["budget_range"] = option_value
+                    self.logger.info(f"提取budget_range槽位: {option_value}")
+                
+                # 便攜性需求選項
+                elif option_value in ["ultra_portable", "balanced", "desktop_replacement"]:
+                    extracted_slots["portability_need"] = option_value
+                    self.logger.info(f"提取portability_need槽位: {option_value}")
+                else:
+                    self.logger.warning(f"無法分類選項值到任何槽位: '{option_value}'")
+            else:
+                self.logger.warning(f"無法從輸入中提取選項值: '{user_input_lower}'")
+            
+            self.logger.info(f"從選項回應中提取的槽位: {extracted_slots}")
+            return extracted_slots
+            
+        except Exception as e:
+            self.logger.error(f"提取選項選擇時發生錯誤: {e}")
+            return {}

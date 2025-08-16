@@ -53,6 +53,8 @@ class DialogueAction:
     target_slot: Optional[str] = None
     message: Optional[str] = None
     confidence: float = 1.0
+    extracted_slots: Optional[Dict[str, Any]] = None
+    special_case: Optional[Dict[str, Any]] = None
 
 # 筆記型電腦產品槽位架構
 NOTEBOOK_SLOT_SCHEMA = {
