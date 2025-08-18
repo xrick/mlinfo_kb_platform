@@ -1,0 +1,303 @@
+{
+  "slot_questions": {
+    "metadata": {
+      "version": "1.0",
+      "created_date": "2025-08-17",
+      "description": "MGFD系統槽位詢問問題配置 - 按照default_slots.json順序排列",
+      "author": "AI Assistant",
+      "total_questions": 11,
+      "question_order_source": "default_slots.json"
+    },
+    "question_sequence": [
+      {
+        "order": 1,
+        "slot_name": "用途",
+        "enhanced_slot_name": "usage_purpose",
+        "primary_question": "請問您主要會用這台筆電做什麼呢？",
+        "question_type": "choice_with_examples",
+        "examples": [
+          "遊戲娛樂",
+          "工作辦公",
+          "學習上課",
+          "創作設計",
+          "一般文書處理",
+          "日常上網"
+        ],
+        "follow_up_questions": {
+          "gaming": "您主要玩什麼類型的遊戲呢？（如：線上遊戲、3A大作、休閒遊戲）",
+          "business": "您的工作內容主要涉及哪些軟體？（如：Office、資料分析、程式開發）",
+          "student": "您是大學生還是研究生呢？主要需要什麼功能？",
+          "creative": "您主要從事哪類創作工作？（如：影片剪輯、平面設計、3D建模）",
+          "general": "您希望筆電具備哪些基本功能？",
+          "document_processing": "您主要處理哪些類型的文件？"
+        },
+        "priority": 1,
+        "required": true,
+        "clarification_prompt": "了解您的使用需求可以幫我推薦最適合的筆電配置哦！"
+      },
+      {
+        "order": 2,
+        "slot_name": "價格區間",
+        "enhanced_slot_name": "budget_range",
+        "primary_question": "請問您的預算範圍大概是多少呢？",
+        "question_type": "choice_with_ranges",
+        "examples": [
+          "2.5萬以下（經濟實惠型）",
+          "2.5萬-5萬（中等價位型）",
+          "5萬-8萬（高端品質型）",
+          "8萬以上（旗艦頂級型）"
+        ],
+        "follow_up_questions": {
+          "budget": "這個價位您最重視哪個方面？（如：品質穩定、基本功能完備）",
+          "mid_range": "這個價位可以選擇效能和便攜性較平衡的機型，有特別偏好嗎？",
+          "premium": "這個價位可以考慮高效能或輕薄高端機型，您比較重視哪個？",
+          "luxury": "這個價位可以選擇最頂級的配置，有什麼特殊需求嗎？"
+        },
+        "priority": 2,
+        "required": true,
+        "clarification_prompt": "預算範圍可以幫我篩選出最符合您需求的選擇！"
+      },
+      {
+        "order": 3,
+        "slot_name": "推出時間",
+        "enhanced_slot_name": "release_time",
+        "primary_question": "您對筆電的推出時間有什麼偏好嗎？",
+        "question_type": "choice",
+        "examples": [
+          "最新款（半年內推出）",
+          "較新款（1年內推出）",
+          "成熟款（1-2年前推出，價格穩定）",
+          "不在意推出時間"
+        ],
+        "follow_up_questions": {
+          "latest": "新款通常價格較高但有最新技術，這樣可以嗎？",
+          "recent": "較新的機型在功能和價格間有較好平衡。",
+          "mature": "成熟機型通常性價比較高，也比較穩定。",
+          "any": "好的，我會為您推薦各個時期的優質機型。"
+        },
+        "priority": 8,
+        "required": false,
+        "clarification_prompt": "推出時間會影響價格和技術新舊程度哦！"
+      },
+      {
+        "order": 4,
+        "slot_name": "CPU效能",
+        "enhanced_slot_name": "cpu_level",
+        "primary_question": "您對處理器效能有什麼要求嗎？",
+        "question_type": "choice_with_examples",
+        "examples": [
+          "基本文書處理即可（i3、Ryzen 3等級）",
+          "中等效能需求（i5、Ryzen 5等級）",
+          "高效能需求（i7、i9、Ryzen 7/9等級）",
+          "不確定，請幫我推薦"
+        ],
+        "follow_up_questions": {
+          "basic": "基本文書處理、上網、看影片夠用嗎？",
+          "mid": "需要處理多工作業或中等負載的軟體嗎？",
+          "high": "需要高效能運算、重度軟體或專業應用嗎？"
+        },
+        "priority": 3,
+        "required": false,
+        "clarification_prompt": "處理器效能會直接影響使用體驗和價格！"
+      },
+      {
+        "order": 5,
+        "slot_name": "GPU效能",
+        "enhanced_slot_name": "gpu_level",
+        "primary_question": "您需要獨立顯示卡嗎？",
+        "question_type": "choice_with_explanation",
+        "examples": [
+          "不需要，內建顯示卡即可（文書、上網）",
+          "需要獨立顯卡（遊戲、影片剪輯）",
+          "需要專業顯卡（3D設計、工作站等級）",
+          "不確定，請幫我評估"
+        ],
+        "follow_up_questions": {
+          "integrated": "內建顯示卡適合一般使用，夠用嗎？",
+          "dedicated": "獨立顯卡主要用於遊戲還是專業軟體？",
+          "professional": "需要專業繪圖或工作站級別的顯卡嗎？"
+        },
+        "priority": 4,
+        "required": false,
+        "clarification_prompt": "顯示卡需求會根據您的用途而有很大差異！"
+      },
+      {
+        "order": 6,
+        "slot_name": "重量",
+        "enhanced_slot_name": "weight_requirement",
+        "primary_question": "您對筆電重量有什麼要求嗎？",
+        "question_type": "choice_with_ranges",
+        "examples": [
+          "越輕越好（1kg以下，超輕便）",
+          "輕便即可（1-1.5kg，便於攜帶）",
+          "一般重量（1.5-2kg，標準重量）",
+          "重量不重要（效能優先）"
+        ],
+        "follow_up_questions": {
+          "ultra_light": "超輕便的機型通常螢幕較小，可以接受嗎？",
+          "light": "輕便機型在效能和便攜性間有很好的平衡。",
+          "standard": "標準重量的機型通常有更好的散熱和效能。",
+          "heavy": "這樣可以優先考慮效能和功能配置。"
+        },
+        "priority": 5,
+        "required": false,
+        "clarification_prompt": "重量會影響攜帶便利性和機型選擇！"
+      },
+      {
+        "order": 7,
+        "slot_name": "攜帶性",
+        "enhanced_slot_name": "portability",
+        "primary_question": "您經常需要攜帶筆電外出嗎？",
+        "question_type": "choice_with_scenario",
+        "examples": [
+          "經常攜帶（每天通勤、出差）",
+          "偶爾攜帶（週末、偶爾外出）",
+          "很少攜帶（主要在固定地點使用）",
+          "完全不攜帶（桌面替代機）"
+        ],
+        "follow_up_questions": {
+          "frequent": "建議選擇輕薄、電池續航力佳的機型。",
+          "occasional": "平衡型機型會比較適合您的需求。",
+          "rare": "可以考慮效能較強但稍重的機型。",
+          "never": "可以選擇大螢幕、高效能的桌面替代機型。"
+        },
+        "priority": 6,
+        "required": false,
+        "clarification_prompt": "攜帶需求會影響機型的輕薄程度和電池要求！"
+      },
+      {
+        "order": 8,
+        "slot_name": "開關機速度",
+        "enhanced_slot_name": "performance_features",
+        "primary_question": "您對開關機速度有特別要求嗎？",
+        "question_type": "choice_with_benefits",
+        "examples": [
+          "很重視（希望10秒內開機）",
+          "有要求（希望30秒內開機）",
+          "一般即可（1分鐘內可接受）",
+          "不在意開關機速度"
+        ],
+        "follow_up_questions": {
+          "fast": "建議選擇有SSD固態硬碟的機型，開機會很快。",
+          "moderate": "大部分現代筆電都能滿足這個要求。",
+          "normal": "這個要求很容易達到，不會影響機型選擇。",
+          "no_care": "好的，我們可以專注在其他功能上。"
+        },
+        "priority": 7,
+        "required": false,
+        "clarification_prompt": "開關機速度主要受硬碟類型影響！"
+      },
+      {
+        "order": 9,
+        "slot_name": "螢幕尺寸",
+        "enhanced_slot_name": "screen_size",
+        "primary_question": "您希望螢幕尺寸是多大呢？",
+        "question_type": "choice_with_comparison",
+        "examples": [
+          "13-14吋（輕便，適合攜帶）",
+          "15.6吋（標準尺寸，平衡選擇）",
+          "17吋以上（大螢幕，桌面替代）",
+          "沒有特別偏好"
+        ],
+        "follow_up_questions": {
+          "small": "小螢幕機型通常更輕便，但工作區域較小，適合嗎？",
+          "medium": "15.6吋是最常見的尺寸，各方面都很平衡。",
+          "large": "大螢幕適合影片、遊戲，但較重且電池續航較短。"
+        },
+        "priority": 6,
+        "required": false,
+        "clarification_prompt": "螢幕尺寸會影響重量、攜帶性和視覺體驗！"
+      },
+      {
+        "order": 10,
+        "slot_name": "品牌",
+        "enhanced_slot_name": "brand_preference",
+        "primary_question": "您有品牌偏好嗎？",
+        "question_type": "choice_optional",
+        "examples": [
+          "ASUS 華碩",
+          "Acer 宏碁",
+          "Lenovo 聯想",
+          "HP 惠普",
+          "Dell 戴爾",
+          "Apple 蘋果 (MacBook)",
+          "沒有特別偏好，推薦性價比高的"
+        ],
+        "follow_up_questions": {
+          "asus": "華碩的哪個系列比較喜歡？（如：ROG、ZenBook、VivoBook）",
+          "acer": "宏碁的哪個系列比較喜歡？（如：Predator、Swift、Aspire）",
+          "lenovo": "聯想的哪個系列比較喜歡？（如：ThinkPad、IdeaPad、Legion）",
+          "hp": "惠普的哪個系列比較喜歡？（如：EliteBook、Pavilion、OMEN）",
+          "dell": "戴爾的哪個系列比較喜歡？（如：XPS、Inspiron、Alienware）",
+          "apple": "蘋果的哪個系列比較喜歡？（如：MacBook Air、MacBook Pro）"
+        },
+        "priority": 7,
+        "required": false,
+        "clarification_prompt": "品牌偏好可以幫我篩選符合您習慣的機型！"
+      },
+      {
+        "order": 11,
+        "slot_name": "觸控螢幕",
+        "enhanced_slot_name": "special_requirement",
+        "primary_question": "您需要觸控螢幕功能嗎？",
+        "question_type": "yes_no_with_explanation",
+        "examples": [
+          "需要（繪圖、觸控操作）",
+          "有更好，沒有也可以",
+          "不需要（主要用鍵盤滑鼠）"
+        ],
+        "follow_up_questions": {
+          "yes": "觸控螢幕主要用於什麼用途？（如：繪圖、手寫筆記、觸控操作）",
+          "maybe": "了解，我會優先推薦有觸控功能的機型。",
+          "no": "好的，這樣可以有更多機型選擇，通常價格也會更實惠。"
+        },
+        "priority": 8,
+        "required": false,
+        "clarification_prompt": "觸控螢幕會增加成本，但在某些用途下很實用！"
+      }
+    ],
+    "questioning_strategy": {
+      "approach": "progressive_questioning",
+      "required_first": true,
+      "adaptive_follow_up": true,
+      "skip_obvious": true,
+      "context_aware": true,
+      "max_questions_per_round": 3,
+      "confirmation_required": [
+        "usage_purpose",
+        "budget_range"
+      ],
+      "optional_skip_conditions": {
+        "if_budget_low": ["gpu_level", "performance_features"],
+        "if_usage_simple": ["cpu_level", "gpu_level"],
+        "if_portability_not_important": ["weight_requirement"]
+      }
+    },
+    "conversation_flow": {
+      "opening": "歡迎來到筆電選購助手！我會透過幾個簡單問題了解您的需求，為您推薦最適合的筆電。",
+      "transition_phrases": [
+        "接下來想了解一下...",
+        "關於配置方面...",
+        "另外想確認...",
+        "最後想問..."
+      ],
+      "closing": "謝謝您的回答！根據您的需求，我來為您推薦幾款合適的筆電。",
+      "clarification_needed": "不好意思，可以請您詳細說明一下嗎？",
+      "multiple_options": "我幫您整理了幾個選項，請選擇最符合您需求的："
+    },
+    "smart_suggestions": {
+      "based_on_usage": {
+        "gaming": ["獨立顯卡", "高效能CPU", "大螢幕", "散熱佳"],
+        "business": ["輕薄", "長續航", "穩定品牌", "快速開機"],
+        "student": ["經濟實惠", "輕便", "基本配置", "耐用"],
+        "creative": ["高效能", "大螢幕", "專業顯卡", "色彩準確"]
+      },
+      "based_on_budget": {
+        "budget": ["實用機型", "基本配置", "性價比高"],
+        "mid_range": ["平衡配置", "主流品牌", "多樣選擇"],
+        "premium": ["高端配置", "優質材質", "品牌保證"],
+        "luxury": ["頂級配置", "旗艦機型", "最新技術"]
+      }
+    }
+  }
+}

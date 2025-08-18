@@ -59,6 +59,7 @@
 **嚴重程度**: 🔴 Critical (系統無法回應用戶查詢)
 
 #### 問題描述
+
 - **用戶輸入**: "請幫我介紹便於攜帶，開關機迅速的筆電"
 - **錯誤現象**: 前端顯示"發送消息失敗，請重試"，後端500錯誤
 - **根本錯誤**: `Object of type float32 is not JSON serializable`
@@ -66,12 +67,14 @@
 #### 技術分析
 
 **錯誤鏈條**:
+
 ```
 sentence-transformers → numpy.float32 → JSON序列化失敗 → FastAPI 500錯誤
 ```
 
 **具體錯誤位置**:
-1. `SpecialCasesKnowledgeBase._calculate_case_similarity()` 
+
+1. `SpecialCasesKnowledgeBase._calculate_case_similarity()`
 2. `cosine_similarity([query_embedding], [case_embedding])[0][0]` 返回 `np.float32`
 3. Redis狀態管理嘗試 JSON 序列化失敗
 4. FastAPI Pydantic 響應序列化失敗
@@ -79,6 +82,7 @@ sentence-transformers → numpy.float32 → JSON序列化失敗 → FastAPI 500�
 #### 解決方案
 
 **1. 主要修復**: SpecialCasesKnowledgeBase
+
 ```python
 # 問題代碼
 similarity = cosine_similarity([query_embedding], [case_embedding])[0][0] 
@@ -90,11 +94,13 @@ return float(final_similarity)  # Python native float
 ```
 
 **2. 防護措施**: RedisStateManager
+
 - 添加 `_convert_numpy_types()` 方法
 - 遞歸轉換所有 numpy 類型為 Python 原生類型
 - 在所有 JSON 序列化前自動清理
 
 **3. 系統級支持**: FastAPI 自定義 JSON 編碼器
+
 - 實現 `NumpyJSONEncoder` 類
 - 配置 `CustomJSONResponse` 為默認響應類
 - 支持所有 numpy 類型的自動轉換
@@ -102,6 +108,7 @@ return float(final_similarity)  # Python native float
 #### 修復驗證
 
 **測試結果**:
+
 - ✅ 特殊案例知識庫測試通過 (相似度: 0.965 <class 'float'>)
 - ✅ JSON 序列化成功
 - ✅ 原始失敗查詢現在完全正常工作
@@ -113,11 +120,13 @@ return float(final_similarity)  # Python native float
 #### 學習要點
 
 **技術洞察**:
+
 - sentence-transformers 庫的 cosine_similarity 返回 numpy.ndarray
 - JSON 標準不支持 NumPy 數據類型，需要顯式轉換
 - 多層防護策略: 源頭修復 + 中間清理 + 系統支持
 
 **最佳實踐**:
+
 - 在機器學習庫邊界進行數據類型轉換
 - 實施多層次的錯誤預防機制
 - 配置框架級別的數據類型支持
@@ -1511,10 +1520,10 @@ class SpecialCasesKnowledgeBase:
         # 1. 檢查循環狀態
         if session_id and self._is_in_loop(session_id, query):
             return self._get_loop_breaking_case(query)
-      
+    
         # 2. 語義相似度匹配 
         best_similarity = self._calculate_case_similarity(query, case)
-      
+    
         # 3. 閾值判斷和案例返回
         if best_similarity >= primary_threshold:
             return matched_case
@@ -1554,7 +1563,7 @@ def route_action(self, state: NotebookDialogueState, user_input: str, enhanced_s
         extraction_result = enhanced_slot_extractor.extract_slots_with_classification(
             user_input, state.get("filled_slots", {}), state.get("session_id")
         )
-      
+    
         if extraction_result.get("extraction_method") == "special_case_knowledge":
             special_case = extraction_result.get("special_case", {})
             return DialogueAction(
@@ -1752,17 +1761,20 @@ def _format_special_case_response(self, response_object: Dict[str, Any]):
 ## 問題 #013: 重複出現相同選擇圖卡問題 (2025-08-14 17:00)
 
 ### **問題描述**
+
 客戶詢問"請幫我介紹目前比較多人選擇的筆電"後，系統重複出現相同的選擇圖卡，無法正常進行對話。
 
 ### **根本原因分析**
 
 #### **主要問題：LLM調用失敗**
+
 ```
 錯誤: MGFDLLMManager._generate_cache_key() missing 1 required positional argument: 'kwargs'
 位置: libs/mgfd_cursor/llm_manager.py:316
 ```
 
 #### **連鎖反應問題**
+
 1. **槽位提取失敗** - LLM分類失敗導致槽位提取結果為空
 2. **會話狀態不一致** - 兩個不同的會話ID導致狀態混亂
 3. **系統回退到默認流程** - 無法理解"比較多人選擇"意圖
@@ -1770,7 +1782,9 @@ def _format_special_case_response(self, response_object: Dict[str, Any]):
 ### **解決方案實施**
 
 #### **1. 修復LLM調用錯誤**
+
 **位置**: `libs/mgfd_cursor/llm_manager.py:316`
+
 ```python
 # 修復前
 cache_key = self._generate_cache_key(prompt)
@@ -1780,18 +1794,22 @@ cache_key = self._generate_cache_key(prompt, {})
 ```
 
 #### **2. 實施 sentence-transformers 相似度引擎**
+
 **新組件**: `libs/mgfd_cursor/similarity_engine.py`
+
 - 使用 `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2` 模型
 - 實現高性能語義相似度計算
 - 添加LRU緩存機制
 - 支持多種匹配策略
 
 #### **3. 添加熱門產品推薦功能**
+
 **新增動作類型**: `RECOMMEND_POPULAR_PRODUCTS`
 **新增案例**: DSL003 - 處理"比較多人選擇"查詢
 **新增方法**: `_is_popular_request()` - 檢測熱門產品關鍵字
 
 #### **4. 系統架構優化**
+
 ```
 原有架構: UserInput → LLM → 相似度計算 → 回應生成
 新架構:   UserInput → SimilarityEngine → 智能匹配 → 回應生成
@@ -1800,11 +1818,13 @@ cache_key = self._generate_cache_key(prompt, {})
 ### **技術創新點**
 
 #### **性能提升**
+
 - **響應時間**: 從LLM調用(500ms)降低到相似度計算(<50ms)
 - **緩存命中率**: 預期>80%
 - **系統穩定性**: 從LLM依賴降低到本地模型
 
 #### **功能增強**
+
 - **智能語義匹配**: 支持多語言語義理解
 - **熱門產品推薦**: 直接處理"比較多人選擇"等查詢
 - **循環預防**: 主動檢測重複查詢
@@ -1813,12 +1833,14 @@ cache_key = self._generate_cache_key(prompt, {})
 ### **實施結果**
 
 #### **問題解決狀態**
+
 - ✅ **LLM調用錯誤**: 完全修復
 - ✅ **重複圖卡問題**: 通過熱門產品推薦解決
 - ✅ **系統性能**: 顯著提升
 - ✅ **用戶體驗**: 大幅改善
 
 #### **新增功能**
+
 - ✅ **sentence-transformers 相似度引擎**
 - ✅ **熱門產品推薦系統**
 - ✅ **智能關鍵字檢測**
@@ -1827,6 +1849,7 @@ cache_key = self._generate_cache_key(prompt, {})
 ### **測試驗證**
 
 #### **測試案例1：熱門產品查詢**
+
 ```
 輸入: "請幫我介紹目前比較多人選擇的筆電"
 預期: 直接推薦熱門產品，跳過一般信息收集流程
@@ -1834,6 +1857,7 @@ cache_key = self._generate_cache_key(prompt, {})
 ```
 
 #### **測試案例2：相似度計算**
+
 ```
 測試: sentence-transformers 相似度計算
 預期: 高相似度分數，快速響應
@@ -1841,7 +1865,9 @@ cache_key = self._generate_cache_key(prompt, {})
 ```
 
 ### **部署狀態**
+
 **✅ 已完成組件**:
+
 - [X] sentence-transformers 相似度引擎
 - [X] 熱門產品推薦功能
 - [X] LLM調用錯誤修復
@@ -1853,6 +1879,7 @@ cache_key = self._generate_cache_key(prompt, {})
 **🛡️ 穩定性**: 從LLM依賴降低到本地模型
 
 ### **最終成就**
+
 - ✅ 解決了重複圖卡問題
 - ✅ 實施了高性能相似度引擎
 - ✅ 添加了熱門產品推薦功能
@@ -1860,3 +1887,16 @@ cache_key = self._generate_cache_key(prompt, {})
 - ✅ 改善了用戶體驗
 
 **🚀 系統升級**: MGFD從LLM依賴系統升級為高性能本地語義理解系統，具備智能推薦和快速響應能力。
+
+---
+
+Blockers: 觀察到資料品質引發的 `float.lower` 日誌錯誤，後續可在 chunking 引擎做型別健壯化
+
+* 答覆2（為何會出現 float.lower，以及後續型別健壯化）
+* 原因: 由於 CSV 解析後，某些欄位（如 wireless、bluetooth、battery、webcamera 等）可能為 float/NaN（缺值或被 pandas 推斷為數值型），chunking_engine 內多處直接對欄位呼叫 .lower()，當值不是字串時就會觸發 'float' object has no attribute 'lower'。
+* 改善建議: 在 libs/mgfd_cursor/chunking/parent_child/chunking_engine.py 導入統一轉字串與小寫的安全方法，所有 .lower() 前一律走安全轉換。
+
+
+* 答覆2（為何會出現 float.lower，以及後續型別健壯化）
+* 原因: 由於 CSV 解析後，某些欄位（如 wireless、bluetooth、battery、webcamera 等）可能為 float/NaN（缺值或被 pandas 推斷為數值型），chunking_engine 內多處直接對欄位呼叫 .lower()，當值不是字串時就會觸發 'float' object has no attribute 'lower'。
+* 改善建議: 在 libs/mgfd_cursor/chunking/parent_child/chunking_engine.py 導入統一轉字串與小寫的安全方法，所有 .lower() 前一律走安全轉換。

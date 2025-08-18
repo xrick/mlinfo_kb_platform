@@ -13,15 +13,12 @@ from datetime import datetime
 class ResponseGenerator:
     """回應生成模組"""
     
-    def __init__(self, config_loader):
+    def __init__(self):
         """
-        初始化回應生成器
-        
-        Args:
-            config_loader: 配置載入器
+        初始化回應生成器 - 簡化版
         """
-        self.config_loader = config_loader
         self.logger = logging.getLogger(__name__)
+        self.logger.info("使用簡化版回應生成器")
     
     def generate_response(self, response_object: Dict[str, Any]) -> str:
         """

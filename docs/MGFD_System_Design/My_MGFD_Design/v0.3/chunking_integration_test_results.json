@@ -1,0 +1,8 @@
+{
+  "test_name": "Chunking Integration Test",
+  "knowledge_base_stats": {},
+  "case_1_results_count": 8,
+  "average_search_time": 0.01383509635925293,
+  "test_scenarios": 3,
+  "all_scenarios_working": true
+}

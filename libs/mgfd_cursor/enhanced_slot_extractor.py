@@ -10,8 +10,9 @@ import logging
 import re
 from typing import Dict, Any, List, Optional
 from datetime import datetime
-from .special_cases_knowledge import SpecialCasesKnowledgeBase
-from .similarity_engine import MGFDSimilarityEngine
+# 移除複雜依賴，簡化為純LLM槽位提取
+# from .special_cases_knowledge import SpecialCasesKnowledgeBase
+# from .similarity_engine import MGFDSimilarityEngine
 
 class EnhancedSlotExtractor:
     """增強型槽位提取器 - 支援智能分類未知槽位"""
@@ -30,21 +31,8 @@ class EnhancedSlotExtractor:
         self.confidence_threshold = confidence_threshold
         self.logger = logging.getLogger(__name__)
         
-        # 初始化特殊案例知識庫
-        try:
-            self.knowledge_base = SpecialCasesKnowledgeBase()
-            self.logger.info("成功初始化特殊案例知識庫")
-        except Exception as e:
-            self.logger.warning(f"初始化特殊案例知識庫失敗: {e}")
-            self.knowledge_base = None
-        
-        # 初始化相似度引擎
-        try:
-            self.similarity_engine = MGFDSimilarityEngine()
-            self.logger.info("成功初始化相似度引擎")
-        except Exception as e:
-            self.logger.warning(f"初始化相似度引擎失敗: {e}")
-            self.similarity_engine = None
+        # 簡化初始化 - 移除複雜子系統
+        self.logger.info("使用簡化版槽位提取器 (純LLM模式)")
         
         # 槽位特徵定義
         self.slot_features = {

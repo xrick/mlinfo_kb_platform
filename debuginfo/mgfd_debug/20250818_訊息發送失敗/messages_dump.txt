@@ -1,0 +1,54 @@
+frontend messages:
+
+mgfd_cursor:476 🆕 New session created, question history cleared
+mgfd_cursor:618 🔧 renderAssistantMessage called with: Object
+mgfd_cursor:661 📄 Processing plain text response
+favicon.ico:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+api/mgfd_cursor/chat:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+mgfd_cursor:581 發送消息失敗: Error: 發送消息失敗
+    at MGFDChat.sendMessage (mgfd_cursor:542:31)
+sendMessage @ mgfd_cursor:581
+
+
+
+backend messages:
+2025-08-18 17:01:02,970 - watchfiles.main - INFO - 4 changes detected
+2025-08-18 17:01:54,382 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: fd55b35b-2bcc-402e-82d6-ee22f1c041ec, 消息: 請介紹目前適合文書處理的筆電...
+2025-08-18 17:01:54,382 - libs.mgfd_cursor.mgfd_system - INFO - 處理會話 fd55b35b-2bcc-402e-82d6-ee22f1c041ec 的消息: 請介紹目前適合文書處理的筆電...
+2025-08-18 17:01:54,382 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: 請介紹目前適合文書處理的筆電...
+2025-08-18 17:01:54,383 - libs.mgfd_cursor.user_input_handler - ERROR - 槽位提取失敗: 'EnhancedSlotExtractor' object has no attribute 'knowledge_base'
+2025-08-18 17:01:54,384 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: fd55b35b-2bcc-402e-82d6-ee22f1c041ec
+2025-08-18 17:01:54,384 - libs.mgfd_cursor.mgfd_system - INFO - 觸發關鍵詞: 請介紹
+2025-08-18 17:01:54,384 - libs.mgfd_cursor.mgfd_system - INFO - 觸發funnel chat模式
+2025-08-18 17:01:54,384 - libs.mgfd_cursor.question_manager - INFO - 必填槽位未完成: usage_purpose
+2025-08-18 17:01:54,385 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: fd55b35b-2bcc-402e-82d6-ee22f1c041ec
+2025-08-18 17:01:54,385 - api.mgfd_routes - ERROR - 處理聊天請求時發生錯誤: 1 validation error for ChatResponse
+dialogue_stage
+  Field required [type=missing, input_value={'success': True, 'respon... True, 'prompt_step': 1}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.11/v/missing
+Traceback (most recent call last):
+  File "/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/api/mgfd_routes.py", line 79, in chat
+    return ChatResponse(**result)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/lib/python3.11/site-packages/pydantic/main.py", line 253, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 1 validation error for ChatResponse
+dialogue_stage
+  Field required [type=missing, input_value={'success': True, 'respon... True, 'prompt_step': 1}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.11/v/missing
+INFO:     127.0.0.1:55887 - "POST /api/mgfd_cursor/chat HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:55893 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+2025-08-18 17:02:30,244 - watchfiles.main - INFO - 1 change detected
+2025-08-18 17:02:34,158 - watchfiles.main - INFO - 1 change detected
+2025-08-18 17:02:49,018 - watchfiles.main - INFO - 1 change detected
+2025-08-18 17:02:57,580 - watchfiles.main - INFO - 2 changes detected
+2025-08-18 17:03:02,580 - watchfiles.main - INFO - 1 change detected
+2025-08-18 17:03:22,274 - watchfiles.main - INFO - 1 change detected
+2025-08-18 17:03:30,705 - watchfiles.main - INFO - 3 changes detected
+2025-08-18 17:03:35,754 - watchfiles.main - INFO - 2 changes detected
+2025-08-18 17:03:47,338 - watchfiles.main - INFO - 1 change detected
+2025-08-18 17:04:14,061 - watchfiles.main - INFO - 2 changes detected
+2025-08-18 17:04:22,286 - watchfiles.main - INFO - 1 change detected
+2025-08-18 17:04:24,098 - watchfiles.main - INFO - 2 changes detected
+2025-08-18 17:04:28,936 - watchfiles.main - INFO - 2 changes detected

@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-MGFD 知識庫管理系統
+MGFD 知識庫管理系統 - 整合Chunking搜尋核心
 """
 
 import json
 import logging
 import pandas as pd
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 from pathlib import Path
 import re
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+
+# 導入chunking模組
+from .chunking import ProductChunkingEngine, ChunkingContext, ChunkingStrategyType
 
 class NotebookKnowledgeBase:
-    """筆記型電腦知識庫管理"""
+    """筆記型電腦知識庫管理 - 整合Chunking搜尋核心"""
     
     def __init__(self, csv_path: Optional[str] = None):
         """
@@ -24,6 +29,21 @@ class NotebookKnowledgeBase:
         self.logger = logging.getLogger(__name__)
         self.csv_path = csv_path or self._get_default_csv_path()
         self.products = self.load_products()
+        
+        # 初始化chunking引擎 - 搜尋核心
+        self.logger.info("初始化Chunking搜尋引擎...")
+        self.chunking_engine = ProductChunkingEngine()
+        self.chunking_context = ChunkingContext(self.chunking_engine)
+        
+        # 產品分塊儲存
+        self.parent_chunks = []
+        self.child_chunks = []
+        self.chunk_embeddings = []
+        self.embedding_index = {}  # chunk_id -> embedding index mapping
+        
+        # 初始化分塊數據
+        if self.products:
+            self._initialize_chunks()
         
     def _get_default_csv_path(self) -> Path:
         """獲取默認CSV路徑 - 修復版，指向真實產品資料目錄"""
@@ -309,6 +329,42 @@ class NotebookKnowledgeBase:
         # 按相關性排序
         relevant_products.sort(key=lambda x: x[1], reverse=True)
         return [p[0] for p in relevant_products]
+    
+    def search_products(self, slots: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """
+        根據槽位搜索產品 - 使用Chunking語義搜尋核心
+        
+        Args:
+            slots: 已收集的槽位信息
+            
+        Returns:
+            匹配的產品列表
+        """
+        try:
+            self.logger.info(f"使用Chunking引擎搜索產品: {slots}")
+            
+            # 構建搜尋查詢文本
+            search_query = self._build_search_query(slots)
+            
+            if not search_query:
+                self.logger.warning("無法構建搜尋查詢，使用傳統過濾")
+                return self._fallback_search(slots)
+            
+            # 使用chunking語義搜尋
+            semantic_results = self._semantic_search_with_chunking(search_query, top_k=10)
+            
+            if semantic_results:
+                # 轉換為產品列表
+                products = self._convert_chunks_to_products(semantic_results, slots)
+                self.logger.info(f"語義搜尋找到 {len(products)} 個產品")
+                return products
+            else:
+                self.logger.warning("語義搜尋無結果，使用傳統搜尋")
+                return self._fallback_search(slots)
+                
+        except Exception as e:
+            self.logger.error(f"Chunking搜尋失敗: {e}")
+            return self._fallback_search(slots)
     
     def get_product_by_id(self, product_id: str) -> Optional[Dict[str, Any]]:
         """根據ID獲取產品"""
@@ -603,3 +659,184 @@ class NotebookKnowledgeBase:
             
         except Exception:
             return ["高品質", "可靠穩定"]
+    
+    def reinitialize_chunks(self):
+        """重新初始化分塊 - 用於數據更新後"""
+        if hasattr(self, 'chunking_engine') and self.products:
+            self.logger.info("重新初始化產品分塊...")
+            self._initialize_chunks()
+
+    # === Chunking 與語義搜尋實作 ===
+    def _initialize_chunks(self) -> None:
+        """基於當前產品集建立 parent/child 分塊與向量索引"""
+        try:
+            parent_chunks, child_chunks = self.chunking_engine.batch_create_chunks(self.products)
+            self.parent_chunks = parent_chunks
+            self.child_chunks = child_chunks
+
+            # 僅對有 embedding 的 chunks 建立對齊陣列
+            all_chunks = self.parent_chunks + self.child_chunks
+            self.embedded_chunks: List[Dict[str, Any]] = []
+            embeddings: List[List[float]] = []
+            self.embedding_index = {}
+
+            for idx, ch in enumerate(all_chunks):
+                emb = ch.get("embedding")
+                if isinstance(emb, list) and len(emb) > 0:
+                    self.embedded_chunks.append(ch)
+                    embeddings.append(emb)
+                    self.embedding_index[ch["chunk_id"]] = len(embeddings) - 1
+
+            if embeddings:
+                self.chunk_embeddings = np.array(embeddings, dtype=np.float32)
+            else:
+                self.chunk_embeddings = np.zeros((0, 384), dtype=np.float32)
+
+            self.logger.info(
+                f"完成產品分塊初始化：parents={len(self.parent_chunks)}, children={len(self.child_chunks)}, embedded={len(self.embedded_chunks)}"
+            )
+        except Exception as e:
+            self.logger.error(f"初始化分塊失敗: {e}")
+            self.parent_chunks = []
+            self.child_chunks = []
+            self.embedded_chunks = []
+            self.chunk_embeddings = np.zeros((0, 384), dtype=np.float32)
+            self.embedding_index = {}
+
+    def _build_search_query(self, slots: Dict[str, Any]) -> str:
+        """將槽位轉換為語義查詢字串"""
+        if not slots:
+            return ""
+
+        parts: List[str] = []
+        usage = slots.get("usage_purpose") or slots.get("primary_usage")
+        if usage:
+            parts.append(f"用途:{usage}")
+        budget = slots.get("budget_range") or slots.get("price_tier")
+        if budget:
+            parts.append(f"預算:{budget}")
+        screen = slots.get("screen_size")
+        if screen:
+            parts.append(f"螢幕:{screen}吋")
+        port = slots.get("portability") or slots.get("portability_need")
+        if port:
+            parts.append(f"便攜:{port}")
+        brand = slots.get("brand_preference")
+        if brand and brand != "no_preference":
+            parts.append(f"品牌:{brand}")
+        special = slots.get("special_requirement")
+        if special:
+            parts.append(f"需求:{special}")
+
+        return "，".join(parts)
+
+    def _semantic_search_with_chunking(self, query: str, top_k: int = 10, min_score: float = 0.30) -> List[Dict[str, Any]]:
+        """對 query 進行語義檢索，返回相似的 chunk 結果集合
+
+        Returns: List[{ 'chunk': chunk_dict, 'score': float }]
+        """
+        if not query or self.chunk_embeddings.shape[0] == 0:
+            return []
+
+        try:
+            query_vec = self.chunking_engine.generate_embedding(query)
+            query_vec_np = np.array(query_vec, dtype=np.float32).reshape(1, -1)
+            scores = cosine_similarity(query_vec_np, self.chunk_embeddings)[0]
+
+            # 取得 top_k 指標
+            top_indices = np.argsort(scores)[::-1][:top_k]
+
+            # 對應回已嵌入的 chunks
+            results: List[Dict[str, Any]] = []
+            for idx in top_indices:
+                score = float(scores[idx])
+                if score < min_score:
+                    continue
+                if 0 <= idx < len(self.embedded_chunks):
+                    results.append({
+                        "chunk": self.embedded_chunks[idx],
+                        "score": score,
+                    })
+            return results
+        except Exception as e:
+            self.logger.error(f"語義搜尋計算失敗: {e}")
+            return []
+
+    def _convert_chunks_to_products(self, chunk_results: List[Dict[str, Any]], slots: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """將 chunk 相似結果彙整為產品清單，去重並附上匹配資訊"""
+        if not chunk_results:
+            return []
+
+        # 建立 modeltype -> product 的索引
+        product_map: Dict[str, Dict[str, Any]] = {}
+        for p in self.products:
+            key = str(p.get("modeltype", ""))
+            if key:
+                product_map[key] = p
+
+        seen_products = set()
+        aggregated: List[Dict[str, Any]] = []
+
+        for item in chunk_results:
+            chunk = item.get("chunk", {})
+            score = item.get("score", 0.0)
+            product_id = str(chunk.get("product_id", ""))
+            if not product_id or product_id in seen_products:
+                continue
+
+            base_product = product_map.get(product_id)
+            if not base_product:
+                continue
+
+            product_entry = base_product.copy()
+            product_entry["similarity_score"] = max(0.0, min(1.0, float(score)))
+
+            # 匹配原因：基於 chunk 類型與 metadata 簡化產生
+            match_reasons: List[str] = []
+            chunk_type = chunk.get("chunk_type", "")
+            meta = chunk.get("metadata", {}) or {}
+            if chunk_type == "child_performance":
+                if meta.get("cpu_tier"):
+                    match_reasons.append(f"CPU:{meta.get('cpu_tier')}")
+                if meta.get("gpu_tier"):
+                    match_reasons.append(f"GPU:{meta.get('gpu_tier')}")
+            elif chunk_type == "child_design":
+                if meta.get("screen_size_category"):
+                    match_reasons.append(f"尺寸:{meta.get('screen_size_category')}")
+                if meta.get("portability_score"):
+                    match_reasons.append("便攜性佳")
+            elif chunk_type == "child_business":
+                if meta.get("security_level"):
+                    match_reasons.append("商務安全")
+            elif chunk_type == "child_connectivity":
+                if meta.get("connectivity_score"):
+                    match_reasons.append("連接性豐富")
+            else:
+                # parent chunk 或未知類型
+                primary_usage = meta.get("primary_usage") or product_entry.get("primary_usage")
+                if primary_usage:
+                    match_reasons.append(f"用途:{primary_usage}")
+
+            if not match_reasons:
+                match_reasons.append("與您的需求語義相似")
+
+            product_entry["match_reasons"] = match_reasons
+            aggregated.append(product_entry)
+            seen_products.add(product_id)
+
+            if len(aggregated) >= 10:
+                break
+
+        # 依相似度排序
+        aggregated.sort(key=lambda x: x.get("similarity_score", 0.0), reverse=True)
+        return aggregated
+
+    def _fallback_search(self, slots: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """傳統後備搜尋：嘗試基礎過濾，否則返回前幾個產品"""
+        try:
+            results = self.filter_products(slots)
+            if results:
+                return results[:10]
+        except Exception:
+            pass
+        return self.products[:5] if self.products else []
