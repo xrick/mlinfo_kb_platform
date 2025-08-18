@@ -61,6 +61,13 @@ class UserInputHandler:
             self.logger.info(f"提取方法: {extraction_method}")
             self.logger.info(f"實際提取的槽位: {actual_slots}")
             
+            # 如果是字母選項，記錄但不處理（由 MGFD 系統處理）
+            if extraction_method == "funnel_letter_option":
+                letter_option = extraction_result.get("letter_option", "")
+                self.logger.info(f"檢測到字母選項: {letter_option}，由 QuestionManager 處理")
+                # 返回空槽位，讓 MGFD 系統的 awaiting_prompt_response 邏輯處理
+                return {}
+            
             # 如果是特殊案例，記錄額外信息
             if extraction_method == "special_case_knowledge":
                 special_case = extraction_result.get("special_case", {})

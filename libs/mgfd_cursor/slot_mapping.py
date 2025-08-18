@@ -63,17 +63,58 @@ class PromptOptionMapping:
             "I": "others"
         }
         
-        # 其他需求映射 (第6步)
+        # 推出時間映射 (第3步)
+        self.release_time_mapping = {
+            "A": "latest",      # 最新款（半年內推出）
+            "B": "recent",      # 較新款（1年內推出）
+            "C": "mature",      # 成熟款（1-2年前推出，價格穩定）
+            "D": "any"          # 不在意推出時間
+        }
+        
+        # CPU效能映射 (第4步)
+        self.cpu_level_mapping = {
+            "A": "basic",       # 基本文書處理即可
+            "B": "mid",         # 中等效能需求
+            "C": "high",        # 高效能需求
+            "D": "auto"         # 不確定，請幫我推薦
+        }
+        
+        # GPU效能映射 (第5步)
+        self.gpu_level_mapping = {
+            "A": "integrated",   # 不需要，內建顯示卡即可
+            "B": "dedicated",    # 需要獨立顯卡
+            "C": "professional", # 需要專業顯卡
+            "D": "auto"          # 不確定，請幫我評估
+        }
+        
+        # 重量要求映射 (第6步)
+        self.weight_requirement_mapping = {
+            "A": "ultra_light",  # 越輕越好（1kg以下）
+            "B": "light",        # 輕便即可（1-1.5kg）
+            "C": "standard",     # 一般重量（1.5-2kg）
+            "D": "heavy"         # 重量不重要（效能優先）
+        }
+        
+        # 開關機速度映射 (第8步)
+        self.performance_features_mapping = {
+            "A": "fast",         # 很重視（希望10秒內開機）
+            "B": "moderate",     # 有要求（希望30秒內開機）
+            "C": "normal",       # 一般即可（1分鐘內可接受）
+            "D": "no_care"       # 不在意開關機速度
+        }
+        
+        # 其他需求映射 (第11步) - 擴展選項
         self.special_requirements_mapping = {
-            "A": "fast_boot",        # 開關機和讀取軟體的速度要非常快
-            "B": "latest_model",     # 近一年內推出的最新款機種
-            "C": "specific_specs",   # 對CPU或GPU的型號有特定要求
-            "D": "custom_needs"      # 其他特殊需求
+            "A": "touchscreen",      # 需要觸控螢幕
+            "B": "fast_boot",        # 開關機和讀取軟體的速度要非常快
+            "C": "latest_model",     # 近一年內推出的最新款機種
+            "D": "specific_specs",   # 對CPU或GPU的型號有特定要求
+            "E": "none"              # 沒有其他特殊需求
         }
     
     def convert_prompt_to_slots(self, prompt_responses: Dict[str, str]) -> Dict[str, Any]:
         """
-        將prompt回應轉換為搜尋槽位
+        將prompt回應轉換為搜尋槽位 - 支援擴展的11步驟
         
         Args:
             prompt_responses: 用戶對prompt的回應 {"step_1": "A", "step_2": "C", ...}
@@ -98,30 +139,65 @@ class PromptOptionMapping:
                     slots["budget_range"] = self.budget_mapping[budget_choice]
                     self.logger.debug(f"預算映射: {budget_choice} -> {slots['budget_range']}")
             
-            # 處理攜帶性
+            # 處理推出時間偏好 - 新增
             if "step_3" in prompt_responses:
-                portability_choice = prompt_responses["step_3"].upper()
+                release_choice = prompt_responses["step_3"].upper()
+                if release_choice in self.release_time_mapping:
+                    slots["release_time"] = self.release_time_mapping[release_choice]
+                    self.logger.debug(f"推出時間映射: {release_choice} -> {slots['release_time']}")
+            
+            # 處理CPU效能需求 - 新增
+            if "step_4" in prompt_responses:
+                cpu_choice = prompt_responses["step_4"].upper()
+                if cpu_choice in self.cpu_level_mapping:
+                    slots["cpu_level"] = self.cpu_level_mapping[cpu_choice]
+                    self.logger.debug(f"CPU效能映射: {cpu_choice} -> {slots['cpu_level']}")
+            
+            # 處理GPU效能需求 - 新增
+            if "step_5" in prompt_responses:
+                gpu_choice = prompt_responses["step_5"].upper()
+                if gpu_choice in self.gpu_level_mapping:
+                    slots["gpu_level"] = self.gpu_level_mapping[gpu_choice]
+                    self.logger.debug(f"GPU效能映射: {gpu_choice} -> {slots['gpu_level']}")
+            
+            # 處理重量要求 - 新增
+            if "step_6" in prompt_responses:
+                weight_choice = prompt_responses["step_6"].upper()
+                if weight_choice in self.weight_requirement_mapping:
+                    slots["weight_requirement"] = self.weight_requirement_mapping[weight_choice]
+                    self.logger.debug(f"重量要求映射: {weight_choice} -> {slots['weight_requirement']}")
+            
+            # 處理攜帶性 - 調整到第7步
+            if "step_7" in prompt_responses:
+                portability_choice = prompt_responses["step_7"].upper()
                 if portability_choice in self.portability_mapping:
                     slots["portability"] = self.portability_mapping[portability_choice]
                     self.logger.debug(f"攜帶性映射: {portability_choice} -> {slots['portability']}")
             
-            # 處理螢幕尺寸
-            if "step_4" in prompt_responses:
-                screen_choice = prompt_responses["step_4"].upper()
+            # 處理開關機速度要求 - 新增
+            if "step_8" in prompt_responses:
+                perf_choice = prompt_responses["step_8"].upper()
+                if perf_choice in self.performance_features_mapping:
+                    slots["performance_features"] = self.performance_features_mapping[perf_choice]
+                    self.logger.debug(f"開關機速度映射: {perf_choice} -> {slots['performance_features']}")
+            
+            # 處理螢幕尺寸 - 調整到第9步
+            if "step_9" in prompt_responses:
+                screen_choice = prompt_responses["step_9"].upper()
                 if screen_choice in self.screen_size_mapping:
                     slots["screen_size"] = self.screen_size_mapping[screen_choice]
                     self.logger.debug(f"螢幕尺寸映射: {screen_choice} -> {slots['screen_size']}")
             
-            # 處理品牌偏好
-            if "step_5" in prompt_responses:
-                brand_choice = prompt_responses["step_5"].upper()
+            # 處理品牌偏好 - 調整到第10步
+            if "step_10" in prompt_responses:
+                brand_choice = prompt_responses["step_10"].upper()
                 if brand_choice in self.brand_mapping:
                     slots["brand_preference"] = self.brand_mapping[brand_choice]
                     self.logger.debug(f"品牌映射: {brand_choice} -> {slots['brand_preference']}")
             
-            # 處理特殊需求
-            if "step_6" in prompt_responses:
-                special_choice = prompt_responses["step_6"].upper()
+            # 處理特殊需求 - 調整到第11步，擴展選項
+            if "step_11" in prompt_responses:
+                special_choice = prompt_responses["step_11"].upper()
                 if special_choice in self.special_requirements_mapping:
                     slots["special_requirement"] = self.special_requirements_mapping[special_choice]
                     self.logger.debug(f"特殊需求映射: {special_choice} -> {slots['special_requirement']}")
@@ -248,10 +324,10 @@ class PromptOptionMapping:
     
     def validate_prompt_response(self, step: str, response: str) -> bool:
         """
-        驗證prompt回應是否有效
+        驗證prompt回應是否有效 - 支援擴展的11步驟
         
         Args:
-            step: 步驟 (step_1, step_2, ...)
+            step: 步驟 (step_1, step_2, ..., step_11)
             response: 用戶回應
             
         Returns:
@@ -264,12 +340,22 @@ class PromptOptionMapping:
         elif step == "step_2":
             mapping_dict = self.budget_mapping
         elif step == "step_3":
-            mapping_dict = self.portability_mapping
+            mapping_dict = self.release_time_mapping
         elif step == "step_4":
-            mapping_dict = self.screen_size_mapping
+            mapping_dict = self.cpu_level_mapping
         elif step == "step_5":
-            mapping_dict = self.brand_mapping
+            mapping_dict = self.gpu_level_mapping
         elif step == "step_6":
+            mapping_dict = self.weight_requirement_mapping
+        elif step == "step_7":
+            mapping_dict = self.portability_mapping
+        elif step == "step_8":
+            mapping_dict = self.performance_features_mapping
+        elif step == "step_9":
+            mapping_dict = self.screen_size_mapping
+        elif step == "step_10":
+            mapping_dict = self.brand_mapping
+        elif step == "step_11":
             mapping_dict = self.special_requirements_mapping
         
         if mapping_dict:

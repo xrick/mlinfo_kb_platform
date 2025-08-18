@@ -110,12 +110,28 @@ class MGFDSystem:
                     step = 1
 
                 self.logger.info(f"等待回覆模式命中：step={step}, slots={current_slots}")
-                updated_slots = self.question_manager.process_prompt_response(step, user_message, current_slots)
-
-                if updated_slots != current_slots:
-                    # 成功映射回覆為槽位 → 更新狀態並前進到下一步
-                    self.logger.info(f"DEBUG - 槽位更新成功: {current_slots} -> {updated_slots}")
-                    current_state["filled_slots"] = updated_slots
+                
+                # 修復：先檢查用戶回應是否有效，而不是槽位是否改變
+                is_valid_response = self._was_response_successfully_processed(step, user_message, current_slots)
+                
+                if is_valid_response:
+                    # 用戶提供了有效回應 → 處理槽位並前進到下一步
+                    updated_slots = self.question_manager.process_prompt_response(step, user_message, current_slots)
+                    
+                    # 應用智能推斷增強槽位信息
+                    inferred_slots = self.question_manager.auto_infer_slots(updated_slots)
+                    
+                    # 記錄處理結果
+                    if updated_slots != current_slots:
+                        self.logger.info(f"DEBUG - 槽位有更新: {current_slots} -> {updated_slots}")
+                    else:
+                        self.logger.info(f"DEBUG - 槽位無變化但用戶回應有效: {current_slots}")
+                    
+                    if inferred_slots != updated_slots:
+                        self.logger.info(f"DEBUG - 智能推斷增強槽位: {updated_slots} -> {inferred_slots}")
+                    
+                    # 更新狀態並前進到下一步
+                    current_state["filled_slots"] = inferred_slots
                     current_state["awaiting_prompt_response"] = False
                     current_state["current_prompt_step"] = step + 1
                     self.logger.info(f"DEBUG - 狀態更新: awaiting_prompt_response=False, current_prompt_step={step + 1}")
@@ -130,7 +146,14 @@ class MGFDSystem:
                     next_step = int(current_state.get("current_prompt_step", step + 1))
                     next_question = self.question_manager.get_prompt_style_question(next_step, updated_slots)
                     if next_question:
-                        question_text = self.question_manager.format_question_with_options(next_question)
+                        # 修復：設定等待回應狀態並保存
+                        current_state["awaiting_prompt_response"] = True
+                        current_state["current_prompt_step"] = next_step
+                        current_state["current_question_slot"] = next_question["slot_name"]
+                        self.state_manager.save_session_state(session_id, current_state)
+                        self.logger.info(f"DEBUG - 設定下一題等待狀態: awaiting_prompt_response=True, step={next_step}")
+                        
+                        question_text = self.question_manager.format_question_with_options(next_question, inferred_slots)
                         return {
                             "success": True,
                             "response": question_text,
@@ -146,10 +169,10 @@ class MGFDSystem:
                     # 若無下一題則進入搜尋
                     return self._handle_product_search(session_id, current_state)
                 else:
-                    # 未能映射，提示一次用法並重送當前題
+                    # 用戶回應無效，提示用法並重送當前題
                     active_question = self.question_manager.get_prompt_style_question(step, current_slots)
                     tip = "\n\n提示：請回覆選項字母 (如 A、B、C...) 或完整選項文字。"
-                    question_text = self.question_manager.format_question_with_options(active_question) + tip if active_question else "請回覆有效選項。"
+                    question_text = self.question_manager.format_question_with_options(active_question, current_slots) + tip if active_question else "請回覆有效選項。"
                     return {
                         "success": True,
                         "response": question_text,
@@ -263,7 +286,7 @@ class MGFDSystem:
                 if next_question:
                     self.logger.info(f"DEBUG - 獲取到問題: {next_question}")
                     # 格式化問題文字
-                    question_text = self.question_manager.format_question_with_options(next_question)
+                    question_text = self.question_manager.format_question_with_options(next_question, current_state.get("filled_slots", {}))
                     self.logger.info(f"DEBUG - 格式化問題文字: {question_text[:100]}...")
                     
                     # 更新狀態
@@ -531,6 +554,58 @@ class MGFDSystem:
                 "error": str(e)
             }
     
+    def _was_response_successfully_processed(self, step: int, user_message: str, current_slots: Dict[str, Any]) -> bool:
+        """
+        判斷用戶回應是否被成功處理（不依賴槽位是否改變）
+        
+        Args:
+            step: 當前步驟
+            user_message: 用戶消息
+            current_slots: 當前槽位
+            
+        Returns:
+            是否成功處理
+        """
+        try:
+            # 檢查是否為有效的選項回應
+            step_key = f"step_{step}"
+            normalized_upper = user_message.strip().upper()
+            
+            # 1. 檢查字母選項是否有效
+            if self.question_manager.slot_mapper.validate_prompt_response(step_key, normalized_upper):
+                self.logger.info(f"用戶回應 '{user_message}' 在步驟 {step} 中有效")
+                return True
+            
+            # 2. 檢查完整選項文字是否有效
+            options = []
+            if step == 1:
+                options = self.question_manager.slot_mapper.get_prompt_options_for_slot("usage_purpose")
+            elif step == 2:
+                options = self.question_manager.slot_mapper.get_prompt_options_for_slot("budget_range")
+            elif step == 3:
+                options = self.question_manager.slot_mapper.get_prompt_options_for_slot("portability")
+            elif step == 4:
+                options = self.question_manager.slot_mapper.get_prompt_options_for_slot("screen_size")
+            elif step == 5:
+                options = self.question_manager.slot_mapper.get_prompt_options_for_slot("brand_preference")
+            elif step == 6:
+                options = self.question_manager.slot_mapper.get_prompt_options_for_slot("special_requirement")
+            
+            # 檢查是否匹配完整選項文字
+            user_message_lower = user_message.strip().lower()
+            for opt in options:
+                if (opt.get("value", "").lower() == user_message_lower or 
+                    opt.get("text", "").lower() == user_message_lower):
+                    self.logger.info(f"用戶回應 '{user_message}' 匹配完整選項文字")
+                    return True
+            
+            self.logger.warning(f"用戶回應 '{user_message}' 在步驟 {step} 中無效")
+            return False
+            
+        except Exception as e:
+            self.logger.error(f"判斷回應處理狀態失敗: {e}")
+            return False
+
     def _handle_error(self, message: str, error: str = None) -> Dict[str, Any]:
         """
         處理錯誤並生成錯誤回應

@@ -16,6 +16,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 # 導入chunking模組
 from .chunking import ProductChunkingEngine, ChunkingContext, ChunkingStrategyType
 
+# 導入產品評分引擎
+from .product_scoring_engine import ProductScoringEngine
+
 class NotebookKnowledgeBase:
     """筆記型電腦知識庫管理 - 整合Chunking搜尋核心"""
     
@@ -34,6 +37,10 @@ class NotebookKnowledgeBase:
         self.logger.info("初始化Chunking搜尋引擎...")
         self.chunking_engine = ProductChunkingEngine()
         self.chunking_context = ChunkingContext(self.chunking_engine)
+        
+        # 初始化產品評分引擎
+        self.logger.info("初始化產品評分引擎...")
+        self.scoring_engine = ProductScoringEngine()
         
         # 產品分塊儲存
         self.parent_chunks = []
@@ -332,38 +339,63 @@ class NotebookKnowledgeBase:
     
     def search_products(self, slots: Dict[str, Any]) -> List[Dict[str, Any]]:
         """
-        根據槽位搜索產品 - 使用Chunking語義搜尋核心
+        根據槽位搜索產品 - 使用Chunking語義搜尋核心 + 多因子評分
         
         Args:
             slots: 已收集的槽位信息
             
         Returns:
-            匹配的產品列表
+            按評分排序的匹配產品列表
         """
         try:
-            self.logger.info(f"使用Chunking引擎搜索產品: {slots}")
+            self.logger.info(f"使用增強評分引擎搜索產品: {slots}")
             
-            # 構建搜尋查詢文本
+            # 第一步：語義搜尋獲取候選產品
             search_query = self._build_search_query(slots)
+            candidate_products = []
             
-            if not search_query:
-                self.logger.warning("無法構建搜尋查詢，使用傳統過濾")
-                return self._fallback_search(slots)
+            if search_query:
+                # 使用chunking語義搜尋
+                semantic_results = self._semantic_search_with_chunking(search_query, top_k=15)
+                if semantic_results:
+                    candidate_products = self._convert_chunks_to_products(semantic_results, slots)
+                    self.logger.info(f"語義搜尋找到 {len(candidate_products)} 個候選產品")
             
-            # 使用chunking語義搜尋
-            semantic_results = self._semantic_search_with_chunking(search_query, top_k=10)
+            # 如果語義搜尋結果不足，使用傳統搜尋補充
+            if len(candidate_products) < 5:
+                fallback_products = self._fallback_search(slots)
+                # 合併結果，去重
+                seen_ids = {p.get("modeltype", "") for p in candidate_products}
+                for product in fallback_products:
+                    if product.get("modeltype", "") not in seen_ids and len(candidate_products) < 10:
+                        candidate_products.append(product)
+                        seen_ids.add(product.get("modeltype", ""))
+                self.logger.info(f"傳統搜尋補充後共 {len(candidate_products)} 個候選產品")
             
-            if semantic_results:
-                # 轉換為產品列表
-                products = self._convert_chunks_to_products(semantic_results, slots)
-                self.logger.info(f"語義搜尋找到 {len(products)} 個產品")
-                return products
+            # 第二步：使用多因子評分系統對所有候選產品評分
+            if candidate_products:
+                scored_products = self.scoring_engine.batch_score_products(candidate_products, slots)
+                
+                # 整合評分結果到產品信息中
+                final_results = []
+                for product, score_result in scored_products:
+                    enhanced_product = product.copy()
+                    enhanced_product.update({
+                        "recommendation_score": score_result["total_score"],
+                        "score_breakdown": score_result["dimension_scores"],
+                        "recommendation_reason": score_result["evaluation_summary"],
+                        "match_confidence": "高" if score_result["total_score"] >= 75 else "中" if score_result["total_score"] >= 50 else "低"
+                    })
+                    final_results.append(enhanced_product)
+                
+                self.logger.info(f"完成多因子評分，返回 {len(final_results)} 個評分產品")
+                return final_results
             else:
-                self.logger.warning("語義搜尋無結果，使用傳統搜尋")
-                return self._fallback_search(slots)
+                self.logger.warning("無候選產品，返回默認推薦")
+                return self._get_default_recommendations(slots)
                 
         except Exception as e:
-            self.logger.error(f"Chunking搜尋失敗: {e}")
+            self.logger.error(f"增強搜尋失敗: {e}")
             return self._fallback_search(slots)
     
     def get_product_by_id(self, product_id: str) -> Optional[Dict[str, Any]]:
@@ -830,6 +862,45 @@ class NotebookKnowledgeBase:
         # 依相似度排序
         aggregated.sort(key=lambda x: x.get("similarity_score", 0.0), reverse=True)
         return aggregated
+
+    def _get_default_recommendations(self, slots: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """
+        當無候選產品時提供默認推薦
+        
+        Args:
+            slots: 用戶需求槽位
+            
+        Returns:
+            默認推薦產品列表，包含評分信息
+        """
+        try:
+            self.logger.info(f"提供默認推薦，基於槽位: {slots}")
+            
+            # 選擇最佳的示例產品
+            default_products = self.products[:3] if self.products else self._get_sample_products()
+            
+            # 對默認產品進行評分
+            scored_defaults = self.scoring_engine.batch_score_products(default_products, slots)
+            
+            # 整合評分結果
+            final_defaults = []
+            for product, score_result in scored_defaults:
+                enhanced_product = product.copy()
+                enhanced_product.update({
+                    "recommendation_score": score_result["total_score"],
+                    "score_breakdown": score_result["dimension_scores"],
+                    "recommendation_reason": score_result["evaluation_summary"],
+                    "match_confidence": "中",
+                    "is_default_recommendation": True
+                })
+                final_defaults.append(enhanced_product)
+            
+            return final_defaults
+            
+        except Exception as e:
+            self.logger.error(f"生成默認推薦失敗: {e}")
+            # 最後後備：返回未評分的示例產品
+            return self._get_sample_products()
 
     def _fallback_search(self, slots: Dict[str, Any]) -> List[Dict[str, Any]]:
         """傳統後備搜尋：嘗試基礎過濾，否則返回前幾個產品"""

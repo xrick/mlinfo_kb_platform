@@ -81,9 +81,19 @@ class EnhancedSlotExtractor:
         # 0. 首先檢查是否為funnel question選項回應
         if self._is_funnel_option_response(user_input):
             self.logger.info("檢測到funnel question選項回應，跳過特殊案例檢查")
-            extracted_slots = self._extract_option_selection(user_input)
+            extracted_result = self._extract_option_selection(user_input)
+            
+            # 處理字母選項的特殊情況
+            if isinstance(extracted_result, dict) and "letter_option" in extracted_result:
+                self.logger.info(f"字母選項 {extracted_result['letter_option']} 需要由上層 QuestionManager 處理")
+                return {
+                    "extracted_slots": {},  # 空槽位，讓上層處理
+                    "letter_option": extracted_result["letter_option"],
+                    "extraction_method": "funnel_letter_option"
+                }
+            
             return {
-                "extracted_slots": extracted_slots,
+                "extracted_slots": extracted_result,
                 "extraction_method": "funnel_option_selection"
             }
         
@@ -386,6 +396,11 @@ class EnhancedSlotExtractor:
                     self.logger.info(f"匹配到funnel選項模式 '{pattern}': {match.group(1)}")
                     return True
             
+            # 檢查是否為單個字母選項 (A-I)
+            if len(user_input_lower) == 1 and user_input_lower.upper() in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']:
+                self.logger.info(f"檢測到單個字母選項: '{user_input_lower.upper()}'")
+                return True
+            
             # 檢查是否直接是選項值
             known_options = [
                 "gaming", "business", "student", "creative", "general",
@@ -429,8 +444,16 @@ class EnhancedSlotExtractor:
                     self.logger.debug(f"使用模式 '{pattern}' 提取到選項值: '{option_value}'")
                     break
             
-            # 如果沒有匹配到模式，檢查是否直接是選項值
+            # 如果沒有匹配到模式，檢查是否為單個字母選項
             if not option_value:
+                # 檢查單個字母選項 (A-I)
+                if len(user_input_lower) == 1 and user_input_lower.upper() in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']:
+                    letter_option = user_input_lower.upper()
+                    self.logger.info(f"檢測到字母選項: '{letter_option}'")
+                    # 字母選項需要由上層的 QuestionManager 處理，這裡返回特殊標記
+                    return {"letter_option": letter_option}
+                
+                # 檢查是否直接是選項值
                 known_options = [
                     "gaming", "business", "student", "creative", "general",
                     "budget", "mid_range", "premium", "luxury", 
