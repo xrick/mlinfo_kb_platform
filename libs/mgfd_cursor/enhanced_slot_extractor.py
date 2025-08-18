@@ -32,6 +32,7 @@ class EnhancedSlotExtractor:
         self.logger = logging.getLogger(__name__)
         
         # 簡化初始化 - 移除複雜子系統
+        self.knowledge_base = None  # 修復缺失的屬性
         self.logger.info("使用簡化版槽位提取器 (純LLM模式)")
         
         # 槽位特徵定義

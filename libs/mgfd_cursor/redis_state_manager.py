@@ -148,7 +148,13 @@ class RedisStateManager:
                 "current_stage": state.get("current_stage", "awareness"),
                 "created_at": state.get("created_at"),
                 "last_updated": state["last_updated"],
-                "user_preferences": state.get("user_preferences", {})
+                "user_preferences": state.get("user_preferences", {}),
+                # 添加關鍵的狀態信息
+                "awaiting_prompt_response": state.get("awaiting_prompt_response", False),
+                "current_prompt_step": state.get("current_prompt_step"),
+                "funnel_mode": state.get("funnel_mode", False),
+                "current_question_order": state.get("current_question_order", 0),
+                "current_question_slot": state.get("current_question_slot")
             }
             
             self.redis_client.setex(

@@ -329,6 +329,11 @@ class QuestionManager:
             更新後的槽位
         """
         try:
+            self.logger.info(f"DEBUG - QuestionManager.process_prompt_response:")
+            self.logger.info(f"  - step: {step}")
+            self.logger.info(f"  - response: '{response}'")
+            self.logger.info(f"  - current_slots: {current_slots}")
+            
             updated_slots = current_slots.copy()
             step_key = f"step_{step}"
 
@@ -336,14 +341,20 @@ class QuestionManager:
             normalized = (response or "").strip()
             normalized_upper = normalized.upper()
             normalized_lower = normalized.lower()
+            
+            self.logger.info(f"DEBUG - 正規化輸入: '{normalized}' -> upper: '{normalized_upper}'")
 
             # 允許直接用 value/label（中文全稱）或字母鍵
             # 1) 嘗試字母鍵驗證
-            if self.slot_mapper.validate_prompt_response(step_key, normalized_upper):
+            validation_result = self.slot_mapper.validate_prompt_response(step_key, normalized_upper)
+            self.logger.info(f"DEBUG - 字母鍵驗證結果: {validation_result}")
+            
+            if validation_result:
                 prompt_responses = {step_key: normalized_upper}
                 new_slots = self.slot_mapper.convert_prompt_to_slots(prompt_responses)
                 updated_slots.update(new_slots)
-                self.logger.info(f"步驟{step}字母鍵回覆: {normalized_upper} -> {new_slots}")
+                self.logger.info(f"DEBUG - 步驟{step}字母鍵回覆成功: {normalized_upper} -> {new_slots}")
+                self.logger.info(f"DEBUG - 最終更新後的槽位: {updated_slots}")
                 return updated_slots
 
             # 2) 嘗試中文全稱/標準值匹配（從選項表反查 key）

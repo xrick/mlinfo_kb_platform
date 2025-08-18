@@ -81,7 +81,7 @@ class MGFDSystem:
             處理結果字典
         """
         try:
-            self.logger.info(f"處理會話 {session_id} 的消息: {user_message[:50]}...")
+            self.logger.info(f"========== 開始處理會話 {session_id} 的消息: {user_message[:50]}... ==========")
             
             # 步驟1: 處理用戶輸入並提取槽位
             input_result = self.user_input_handler.process_user_input(
@@ -93,6 +93,14 @@ class MGFDSystem:
             
             current_state = input_result["state"]
             current_slots = current_state.get("filled_slots", {})
+            
+            # 調試：輸出當前狀態
+            self.logger.info(f"DEBUG - 當前狀態檢查:")
+            self.logger.info(f"  - filled_slots: {current_slots}")
+            self.logger.info(f"  - awaiting_prompt_response: {current_state.get('awaiting_prompt_response', False)}")
+            self.logger.info(f"  - current_prompt_step: {current_state.get('current_prompt_step', 'None')}")
+            self.logger.info(f"  - funnel_mode: {current_state.get('funnel_mode', False)}")
+            self.logger.info(f"  - current_stage: {current_state.get('current_stage', 'None')}")
 
             # 優先處理：等待回覆模式（避免重覆同題）
             if current_state.get("awaiting_prompt_response", False):
@@ -106,10 +114,13 @@ class MGFDSystem:
 
                 if updated_slots != current_slots:
                     # 成功映射回覆為槽位 → 更新狀態並前進到下一步
+                    self.logger.info(f"DEBUG - 槽位更新成功: {current_slots} -> {updated_slots}")
                     current_state["filled_slots"] = updated_slots
                     current_state["awaiting_prompt_response"] = False
                     current_state["current_prompt_step"] = step + 1
+                    self.logger.info(f"DEBUG - 狀態更新: awaiting_prompt_response=False, current_prompt_step={step + 1}")
                     self.state_manager.save_session_state(session_id, current_state)
+                    self.logger.info(f"DEBUG - 狀態已保存到 Redis")
 
                     # 若已可直接搜尋，則跳過剩餘問題
                     if self.question_manager.should_skip_to_search(updated_slots) or self.question_manager.is_collection_complete(updated_slots):
@@ -153,23 +164,35 @@ class MGFDSystem:
                     }
             
             # 步驟2: 檢查是否需要觸發funnel chat (Case-1核心邏輯)
-            if self._should_trigger_funnel_chat(user_message, current_slots):
+            self.logger.info(f"DEBUG - 檢查是否觸發 funnel chat")
+            should_trigger = self._should_trigger_funnel_chat(user_message, current_slots)
+            self.logger.info(f"DEBUG - _should_trigger_funnel_chat 結果: {should_trigger}")
+            
+            if should_trigger:
                 # 觸發funnel chat模式
                 current_state["funnel_mode"] = True
                 current_state["current_question_order"] = 0
-                self.logger.info("觸發funnel chat模式")
+                self.logger.info("DEBUG - 觸發funnel chat模式，設置 funnel_mode=True")
             
             # 步驟3: 決定下一步動作
+            self.logger.info(f"DEBUG - 決定下一步動作，funnel_mode: {current_state.get('funnel_mode', False)}")
+            
             if current_state.get("funnel_mode", False):
                 # 在funnel chat模式中
-                if self.question_manager.is_collection_complete(current_slots):
+                is_complete = self.question_manager.is_collection_complete(current_slots)
+                self.logger.info(f"DEBUG - 槽位收集完成檢查: {is_complete}")
+                
+                if is_complete:
                     # 槽位收集完成，進行產品搜索
+                    self.logger.info("DEBUG - 進入產品搜索")
                     return self._handle_product_search(session_id, current_state)
                 else:
                     # 繼續收集槽位
+                    self.logger.info("DEBUG - 繼續收集槽位")
                     return self._handle_slot_collection(session_id, current_state)
             else:
                 # 一般對話模式 (簡化處理)
+                self.logger.info("DEBUG - 進入一般對話模式")
                 return self._handle_general_query(session_id, current_state, user_message)
             
         except Exception as e:
@@ -220,23 +243,36 @@ class MGFDSystem:
             current_slots = current_state.get("filled_slots", {})
             current_prompt_step = current_state.get("current_prompt_step", 1)
             
+            self.logger.info(f"DEBUG - _handle_slot_collection:")
+            self.logger.info(f"  - current_slots: {current_slots}")
+            self.logger.info(f"  - current_prompt_step: {current_prompt_step}")
+            self.logger.info(f"  - use_prompt_style: {self.use_prompt_style}")
+            
             # 檢查是否應該跳過到搜尋
-            if self.question_manager.should_skip_to_search(current_slots):
+            should_skip = self.question_manager.should_skip_to_search(current_slots)
+            self.logger.info(f"DEBUG - should_skip_to_search: {should_skip}")
+            
+            if should_skip:
                 return self._handle_product_search(session_id, current_state)
             
             # 使用Prompt風格獲取下一個問題
             if self.use_prompt_style and current_prompt_step <= 6:
+                self.logger.info(f"DEBUG - 使用Prompt風格，獲取步驟 {current_prompt_step} 的問題")
                 next_question = self.question_manager.get_prompt_style_question(current_prompt_step, current_slots)
                 
                 if next_question:
+                    self.logger.info(f"DEBUG - 獲取到問題: {next_question}")
                     # 格式化問題文字
                     question_text = self.question_manager.format_question_with_options(next_question)
+                    self.logger.info(f"DEBUG - 格式化問題文字: {question_text[:100]}...")
                     
                     # 更新狀態
                     current_state["current_prompt_step"] = current_prompt_step
                     current_state["current_question_slot"] = next_question["slot_name"]
                     current_state["awaiting_prompt_response"] = True
+                    self.logger.info(f"DEBUG - 更新狀態設置: awaiting_prompt_response=True, current_prompt_step={current_prompt_step}")
                     self.state_manager.save_session_state(session_id, current_state)
+                    self.logger.info(f"DEBUG - 狀態已保存完成")
                     
                     return {
                         "success": True,

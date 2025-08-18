@@ -1,0 +1,1253 @@
+/Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/lib/python3.11/site-packages/pydantic/_internal/_config.py:373: UserWarning: Valid config keys have changed in V2:
+* 'schema_extra' has been renamed to 'json_schema_extra'
+  warnings.warn(message, UserWarning)
+2025-08-18 21:31:50,300 - api.mgfd_routes - INFO - Redis連接成功
+2025-08-18 21:31:50,300 - libs.mgfd_cursor.mgfd_system - INFO - 初始化MGFD系統 (簡化版)...
+2025-08-18 21:31:50,312 - libs.mgfd_cursor.llm_manager - INFO - 成功初始化 ollama LLM: deepseek-r1:7b
+2025-08-18 21:31:50,312 - libs.mgfd_cursor.llm_manager - WARNING - 主提示不存在: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/docs/Prompts/MGFD_Foundmental_Prompt.txt
+2025-08-18 21:31:50,313 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 使用簡化版槽位提取器 (純LLM模式)
+2025-08-18 21:31:50,313 - libs.mgfd_cursor.question_manager - INFO - 成功載入 11 個問題配置
+2025-08-18 21:31:50,313 - libs.mgfd_cursor.response_generator - INFO - 使用簡化版回應生成器
+2025-08-18 21:31:50,313 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 17_result.csv
+2025-08-18 21:31:50,315 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 17_result.csv 沒有有效產品數據
+2025-08-18 21:31:50,315 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 839_result.csv
+2025-08-18 21:31:50,317 - libs.mgfd_cursor.knowledge_base - INFO - 從 839_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:50,317 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: AC01_result.csv
+2025-08-18 21:31:50,318 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 AC01_result.csv 沒有有效產品數據
+2025-08-18 21:31:50,318 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 928_result.csv
+2025-08-18 21:31:50,319 - libs.mgfd_cursor.knowledge_base - INFO - 從 928_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:50,319 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 918_result.csv
+2025-08-18 21:31:50,321 - libs.mgfd_cursor.knowledge_base - INFO - 從 918_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:50,321 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 531_result.csv
+2025-08-18 21:31:50,322 - libs.mgfd_cursor.knowledge_base - INFO - 從 531_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:50,322 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 8329_result.csv
+2025-08-18 21:31:50,323 - libs.mgfd_cursor.knowledge_base - INFO - 從 8329_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:50,323 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 525_result.csv
+2025-08-18 21:31:50,325 - libs.mgfd_cursor.knowledge_base - INFO - 從 525_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:50,325 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 27_result.csv
+2025-08-18 21:31:50,326 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 27_result.csv 沒有有效產品數據
+2025-08-18 21:31:50,326 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 938_result.csv
+2025-08-18 21:31:50,327 - libs.mgfd_cursor.knowledge_base - INFO - 從 938_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:50,327 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 728_result.csv
+2025-08-18 21:31:50,329 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 728_result.csv 沒有有效產品數據
+2025-08-18 21:31:50,329 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 960_result.csv
+2025-08-18 21:31:50,330 - libs.mgfd_cursor.knowledge_base - INFO - 從 960_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:50,330 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 656_result.csv
+2025-08-18 21:31:50,331 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 656_result.csv 沒有有效產品數據
+2025-08-18 21:31:50,331 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 829_result.csv
+2025-08-18 21:31:50,332 - libs.mgfd_cursor.knowledge_base - INFO - 從 829_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:50,332 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 326_result.csv
+2025-08-18 21:31:50,334 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 326_result.csv 沒有有效產品數據
+2025-08-18 21:31:50,334 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 835_result.csv
+2025-08-18 21:31:50,335 - libs.mgfd_cursor.knowledge_base - INFO - 從 835_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:50,335 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 819_result.csv
+2025-08-18 21:31:50,336 - libs.mgfd_cursor.knowledge_base - INFO - 從 819_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:50,336 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 958_result.csv
+2025-08-18 21:31:50,338 - libs.mgfd_cursor.knowledge_base - INFO - 從 958_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:50,338 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 529_result.csv
+2025-08-18 21:31:50,339 - libs.mgfd_cursor.knowledge_base - INFO - 從 529_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:50,339 - libs.mgfd_cursor.knowledge_base - INFO - 數據載入完成: 成功載入 13 個產品 (成功檔案: 13, 失敗檔案: 6)
+2025-08-18 21:31:50,339 - libs.mgfd_cursor.knowledge_base - INFO - 初始化Chunking搜尋引擎...
+2025-08-18 21:31:50,346 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-18 21:31:50,346 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-08-18 21:31:54,883 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 成功載入嵌入模型: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-08-18 21:31:54,884 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 開始批量處理 13 個產品
+正在搜尋服務目錄: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/services
+無法載入服務 'sales_assistant': No module named 'libs.services.sales_assistant.multichat'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.21it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 74.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 74.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.08it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 74.88it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 75.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.25it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 76.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.75it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.92it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 75.63it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.45it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 77.26it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 74.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 77.28it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 75.44it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 76.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 77.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.28it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 81.13it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 59.25it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.55it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 81.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 83.86it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.01it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 85.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 86.01it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.76it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.07it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.81it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 89.73it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 89.66it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 62.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 84.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 86.98it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.34it/s]
+2025-08-18 21:31:56,138 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 已處理 10/13 個產品
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 83.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 85.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.33it/s]
+2025-08-18 21:31:56,257 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - ERROR - 為產品創建分塊失敗: 'float' object has no attribute 'lower'
+2025-08-18 21:31:56,257 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - ERROR - 處理產品 11 失敗: 'float' object has no attribute 'lower'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 76.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.67it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 84.79it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 84.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 60.03it/s]
+2025-08-18 21:31:56,329 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 批量處理完成: 12 個父分塊, 48 個子分塊
+2025-08-18 21:31:56,329 - libs.mgfd_cursor.knowledge_base - INFO - 完成產品分塊初始化：parents=12, children=48, embedded=60
+2025-08-18 21:31:56,329 - libs.mgfd_cursor.mgfd_system - INFO - MGFD系統初始化完成 (簡化版)
+2025-08-18 21:31:56,329 - api.mgfd_routes - INFO - MGFD系統初始化成功
+/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/main.py:274: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/main.py:283: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+INFO:     Will watch for changes in these directories: ['/Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform']
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     Started reloader process [27127] using WatchFiles
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+/Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/lib/python3.11/site-packages/pydantic/_internal/_config.py:373: UserWarning: Valid config keys have changed in V2:
+* 'schema_extra' has been renamed to 'json_schema_extra'
+  warnings.warn(message, UserWarning)
+2025-08-18 21:31:59,259 - api.mgfd_routes - INFO - Redis連接成功
+2025-08-18 21:31:59,260 - libs.mgfd_cursor.mgfd_system - INFO - 初始化MGFD系統 (簡化版)...
+2025-08-18 21:31:59,272 - libs.mgfd_cursor.llm_manager - INFO - 成功初始化 ollama LLM: deepseek-r1:7b
+2025-08-18 21:31:59,272 - libs.mgfd_cursor.llm_manager - WARNING - 主提示不存在: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/docs/Prompts/MGFD_Foundmental_Prompt.txt
+2025-08-18 21:31:59,272 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 使用簡化版槽位提取器 (純LLM模式)
+2025-08-18 21:31:59,272 - libs.mgfd_cursor.question_manager - INFO - 成功載入 11 個問題配置
+2025-08-18 21:31:59,272 - libs.mgfd_cursor.response_generator - INFO - 使用簡化版回應生成器
+2025-08-18 21:31:59,272 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 17_result.csv
+2025-08-18 21:31:59,275 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 17_result.csv 沒有有效產品數據
+2025-08-18 21:31:59,275 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 839_result.csv
+2025-08-18 21:31:59,276 - libs.mgfd_cursor.knowledge_base - INFO - 從 839_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:59,276 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: AC01_result.csv
+2025-08-18 21:31:59,277 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 AC01_result.csv 沒有有效產品數據
+2025-08-18 21:31:59,277 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 928_result.csv
+2025-08-18 21:31:59,278 - libs.mgfd_cursor.knowledge_base - INFO - 從 928_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:59,278 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 918_result.csv
+2025-08-18 21:31:59,279 - libs.mgfd_cursor.knowledge_base - INFO - 從 918_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:59,279 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 531_result.csv
+2025-08-18 21:31:59,281 - libs.mgfd_cursor.knowledge_base - INFO - 從 531_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:59,281 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 8329_result.csv
+2025-08-18 21:31:59,282 - libs.mgfd_cursor.knowledge_base - INFO - 從 8329_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:59,282 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 525_result.csv
+2025-08-18 21:31:59,283 - libs.mgfd_cursor.knowledge_base - INFO - 從 525_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:59,283 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 27_result.csv
+2025-08-18 21:31:59,284 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 27_result.csv 沒有有效產品數據
+2025-08-18 21:31:59,284 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 938_result.csv
+2025-08-18 21:31:59,286 - libs.mgfd_cursor.knowledge_base - INFO - 從 938_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:59,286 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 728_result.csv
+2025-08-18 21:31:59,287 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 728_result.csv 沒有有效產品數據
+2025-08-18 21:31:59,287 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 960_result.csv
+2025-08-18 21:31:59,288 - libs.mgfd_cursor.knowledge_base - INFO - 從 960_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:59,288 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 656_result.csv
+2025-08-18 21:31:59,289 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 656_result.csv 沒有有效產品數據
+2025-08-18 21:31:59,289 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 829_result.csv
+2025-08-18 21:31:59,290 - libs.mgfd_cursor.knowledge_base - INFO - 從 829_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:59,290 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 326_result.csv
+2025-08-18 21:31:59,291 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 326_result.csv 沒有有效產品數據
+2025-08-18 21:31:59,291 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 835_result.csv
+2025-08-18 21:31:59,293 - libs.mgfd_cursor.knowledge_base - INFO - 從 835_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:59,293 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 819_result.csv
+2025-08-18 21:31:59,294 - libs.mgfd_cursor.knowledge_base - INFO - 從 819_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:59,294 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 958_result.csv
+2025-08-18 21:31:59,295 - libs.mgfd_cursor.knowledge_base - INFO - 從 958_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:59,295 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 529_result.csv
+2025-08-18 21:31:59,296 - libs.mgfd_cursor.knowledge_base - INFO - 從 529_result.csv 成功載入 1 個有效產品
+2025-08-18 21:31:59,296 - libs.mgfd_cursor.knowledge_base - INFO - 數據載入完成: 成功載入 13 個產品 (成功檔案: 13, 失敗檔案: 6)
+2025-08-18 21:31:59,296 - libs.mgfd_cursor.knowledge_base - INFO - 初始化Chunking搜尋引擎...
+2025-08-18 21:31:59,303 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-18 21:31:59,303 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-08-18 21:32:03,240 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 成功載入嵌入模型: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-08-18 21:32:03,240 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 開始批量處理 13 個產品
+正在搜尋服務目錄: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/services
+無法載入服務 'sales_assistant': No module named 'libs.services.sales_assistant.multichat'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.50it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.49it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 77.46it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 85.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 89.33it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.26it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 83.45it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 86.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 89.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.77it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 87.08it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 87.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.63it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 89.40it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.41it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 83.71it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 89.19it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 89.85it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 84.04it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 87.92it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.89it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.54it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 83.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 86.07it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.33it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 81.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 62.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 85.46it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 87.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 86.28it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.50it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 83.04it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 86.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 89.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.39it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 89.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 90.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 91.54it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 90.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 65.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 87.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 89.33it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 89.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 84.42it/s]
+2025-08-18 21:32:04,423 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 已處理 10/13 個產品
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 85.54it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 89.44it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.79it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.29it/s]
+2025-08-18 21:32:04,535 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - ERROR - 為產品創建分塊失敗: 'float' object has no attribute 'lower'
+2025-08-18 21:32:04,535 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - ERROR - 處理產品 11 失敗: 'float' object has no attribute 'lower'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 85.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 89.49it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 63.67it/s]
+2025-08-18 21:32:04,602 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 批量處理完成: 12 個父分塊, 48 個子分塊
+2025-08-18 21:32:04,603 - libs.mgfd_cursor.knowledge_base - INFO - 完成產品分塊初始化：parents=12, children=48, embedded=60
+2025-08-18 21:32:04,603 - libs.mgfd_cursor.mgfd_system - INFO - MGFD系統初始化完成 (簡化版)
+2025-08-18 21:32:04,603 - api.mgfd_routes - INFO - MGFD系統初始化成功
+INFO:     Started server process [27277]
+INFO:     Waiting for application startup.
+2025-08-18 21:32:04,636 - api.history_routes - INFO - History database initialized successfully
+2025-08-18 21:32:04,636 - root - INFO - 🚀 MGFD SalesRAG Integration System 啟動中...
+2025-08-18 21:32:04,636 - root - INFO - 📖 API文檔: http://0.0.0.0:8001/docs
+2025-08-18 21:32:04,636 - root - INFO - 🔍 ReDoc文檔: http://0.0.0.0:8001/redoc
+2025-08-18 21:32:04,636 - root - INFO - ✅ 系統啟動完成
+2025-08-18 21:32:04,636 - api.history_routes - INFO - History database initialized successfully
+INFO:     Application startup complete.
+2025-08-18 21:33:18,402 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: debug_test_session_002, 消息: 請建輕便容易攜帶的筆電...
+2025-08-18 21:33:18,402 - libs.mgfd_cursor.mgfd_system - INFO - ========== 開始處理會話 debug_test_session_002 的消息: 請建輕便容易攜帶的筆電... ==========
+2025-08-18 21:33:18,405 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: 請建輕便容易攜帶的筆電...
+2025-08-18 21:33:18,405 - libs.mgfd_cursor.user_input_handler - ERROR - 槽位提取失敗: 'EnhancedSlotExtractor' object has no attribute 'knowledge_base'
+2025-08-18 21:33:18,407 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: debug_test_session_002
+2025-08-18 21:33:18,407 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 當前狀態檢查:
+2025-08-18 21:33:18,407 - libs.mgfd_cursor.mgfd_system - INFO -   - filled_slots: {}
+2025-08-18 21:33:18,407 - libs.mgfd_cursor.mgfd_system - INFO -   - awaiting_prompt_response: False
+2025-08-18 21:33:18,407 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: None
+2025-08-18 21:33:18,407 - libs.mgfd_cursor.mgfd_system - INFO -   - funnel_mode: False
+2025-08-18 21:33:18,407 - libs.mgfd_cursor.mgfd_system - INFO -   - current_stage: awareness
+2025-08-18 21:33:18,407 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 檢查是否觸發 funnel chat
+2025-08-18 21:33:18,407 - libs.mgfd_cursor.mgfd_system - INFO - 觸發關鍵詞: 筆電
+2025-08-18 21:33:18,407 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - _should_trigger_funnel_chat 結果: True
+2025-08-18 21:33:18,407 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 觸發funnel chat模式，設置 funnel_mode=True
+2025-08-18 21:33:18,407 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 決定下一步動作，funnel_mode: True
+2025-08-18 21:33:18,407 - libs.mgfd_cursor.question_manager - INFO - 必填槽位未完成: usage_purpose
+2025-08-18 21:33:18,408 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 槽位收集完成檢查: False
+2025-08-18 21:33:18,408 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 繼續收集槽位
+2025-08-18 21:33:18,409 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: debug_test_session_002
+INFO:     127.0.0.1:61461 - "POST /api/mgfd/chat HTTP/1.1" 200 OK
+2025-08-18 21:33:35,737 - watchfiles.main - INFO - 1 change detected
+2025-08-18 21:35:03,247 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: debug_test_session_002, 消息: B...
+2025-08-18 21:35:03,247 - libs.mgfd_cursor.mgfd_system - INFO - ========== 開始處理會話 debug_test_session_002 的消息: B... ==========
+2025-08-18 21:35:03,256 - libs.mgfd_cursor.redis_state_manager - INFO - 載入會話狀態: debug_test_session_002
+2025-08-18 21:35:03,256 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: B...
+2025-08-18 21:35:03,256 - libs.mgfd_cursor.user_input_handler - ERROR - 槽位提取失敗: 'EnhancedSlotExtractor' object has no attribute 'knowledge_base'
+2025-08-18 21:35:03,260 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: debug_test_session_002
+2025-08-18 21:35:03,260 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 當前狀態檢查:
+2025-08-18 21:35:03,260 - libs.mgfd_cursor.mgfd_system - INFO -   - filled_slots: {}
+2025-08-18 21:35:03,260 - libs.mgfd_cursor.mgfd_system - INFO -   - awaiting_prompt_response: False
+2025-08-18 21:35:03,260 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: None
+2025-08-18 21:35:03,260 - libs.mgfd_cursor.mgfd_system - INFO -   - funnel_mode: False
+2025-08-18 21:35:03,260 - libs.mgfd_cursor.mgfd_system - INFO -   - current_stage: awareness
+2025-08-18 21:35:03,260 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 檢查是否觸發 funnel chat
+2025-08-18 21:35:03,260 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - _should_trigger_funnel_chat 結果: False
+2025-08-18 21:35:03,260 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 決定下一步動作，funnel_mode: False
+2025-08-18 21:35:03,260 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 進入一般對話模式
+INFO:     127.0.0.1:62022 - "POST /api/mgfd/chat HTTP/1.1" 200 OK
+2025-08-18 21:35:33,137 - watchfiles.main - INFO - 3 changes detected
+WARNING:  WatchFiles detected changes in 'libs/mgfd_cursor/enhanced_slot_extractor.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2025-08-18 21:35:33,289 - root - INFO - 🛑 MGFD SalesRAG Integration System 關閉中...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [27277]
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+2025-08-18 21:35:34,074 - watchfiles.main - INFO - 3 changes detected
+/Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/lib/python3.11/site-packages/pydantic/_internal/_config.py:373: UserWarning: Valid config keys have changed in V2:
+* 'schema_extra' has been renamed to 'json_schema_extra'
+  warnings.warn(message, UserWarning)
+2025-08-18 21:35:36,288 - api.mgfd_routes - INFO - Redis連接成功
+2025-08-18 21:35:36,289 - libs.mgfd_cursor.mgfd_system - INFO - 初始化MGFD系統 (簡化版)...
+2025-08-18 21:35:36,301 - libs.mgfd_cursor.llm_manager - INFO - 成功初始化 ollama LLM: deepseek-r1:7b
+2025-08-18 21:35:36,301 - libs.mgfd_cursor.llm_manager - WARNING - 主提示不存在: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/docs/Prompts/MGFD_Foundmental_Prompt.txt
+2025-08-18 21:35:36,301 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 使用簡化版槽位提取器 (純LLM模式)
+2025-08-18 21:35:36,301 - libs.mgfd_cursor.question_manager - INFO - 成功載入 11 個問題配置
+2025-08-18 21:35:36,301 - libs.mgfd_cursor.response_generator - INFO - 使用簡化版回應生成器
+2025-08-18 21:35:36,302 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 17_result.csv
+2025-08-18 21:35:36,304 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 17_result.csv 沒有有效產品數據
+2025-08-18 21:35:36,304 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 839_result.csv
+2025-08-18 21:35:36,305 - libs.mgfd_cursor.knowledge_base - INFO - 從 839_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:36,305 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: AC01_result.csv
+2025-08-18 21:35:36,306 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 AC01_result.csv 沒有有效產品數據
+2025-08-18 21:35:36,306 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 928_result.csv
+2025-08-18 21:35:36,308 - libs.mgfd_cursor.knowledge_base - INFO - 從 928_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:36,308 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 918_result.csv
+2025-08-18 21:35:36,309 - libs.mgfd_cursor.knowledge_base - INFO - 從 918_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:36,309 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 531_result.csv
+2025-08-18 21:35:36,310 - libs.mgfd_cursor.knowledge_base - INFO - 從 531_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:36,310 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 8329_result.csv
+2025-08-18 21:35:36,311 - libs.mgfd_cursor.knowledge_base - INFO - 從 8329_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:36,311 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 525_result.csv
+2025-08-18 21:35:36,313 - libs.mgfd_cursor.knowledge_base - INFO - 從 525_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:36,313 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 27_result.csv
+2025-08-18 21:35:36,314 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 27_result.csv 沒有有效產品數據
+2025-08-18 21:35:36,314 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 938_result.csv
+2025-08-18 21:35:36,315 - libs.mgfd_cursor.knowledge_base - INFO - 從 938_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:36,315 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 728_result.csv
+2025-08-18 21:35:36,317 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 728_result.csv 沒有有效產品數據
+2025-08-18 21:35:36,317 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 960_result.csv
+2025-08-18 21:35:36,318 - libs.mgfd_cursor.knowledge_base - INFO - 從 960_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:36,318 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 656_result.csv
+2025-08-18 21:35:36,319 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 656_result.csv 沒有有效產品數據
+2025-08-18 21:35:36,319 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 829_result.csv
+2025-08-18 21:35:36,320 - libs.mgfd_cursor.knowledge_base - INFO - 從 829_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:36,320 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 326_result.csv
+2025-08-18 21:35:36,321 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 326_result.csv 沒有有效產品數據
+2025-08-18 21:35:36,321 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 835_result.csv
+2025-08-18 21:35:36,322 - libs.mgfd_cursor.knowledge_base - INFO - 從 835_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:36,323 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 819_result.csv
+2025-08-18 21:35:36,324 - libs.mgfd_cursor.knowledge_base - INFO - 從 819_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:36,324 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 958_result.csv
+2025-08-18 21:35:36,325 - libs.mgfd_cursor.knowledge_base - INFO - 從 958_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:36,325 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 529_result.csv
+2025-08-18 21:35:36,326 - libs.mgfd_cursor.knowledge_base - INFO - 從 529_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:36,326 - libs.mgfd_cursor.knowledge_base - INFO - 數據載入完成: 成功載入 13 個產品 (成功檔案: 13, 失敗檔案: 6)
+2025-08-18 21:35:36,326 - libs.mgfd_cursor.knowledge_base - INFO - 初始化Chunking搜尋引擎...
+2025-08-18 21:35:36,333 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-18 21:35:36,333 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-08-18 21:35:40,205 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 成功載入嵌入模型: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-08-18 21:35:40,205 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 開始批量處理 13 個產品
+正在搜尋服務目錄: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/services
+無法載入服務 'sales_assistant': No module named 'libs.services.sales_assistant.multichat'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.35it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.44it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 77.98it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.66it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.68it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 74.01it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.35it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 84.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 86.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 83.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 85.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.24it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 77.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 76.92it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.68it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 73.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 81.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 72.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 56.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 83.24it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.63it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 73.69it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.37it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 83.54it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.92it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 81.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 84.75it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 84.71it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 54.46it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 81.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.84it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 81.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.77it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.80it/s]
+2025-08-18 21:35:41,467 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 已處理 10/13 個產品
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 83.49it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 81.35it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 81.44it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.73it/s]
+2025-08-18 21:35:41,586 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - ERROR - 為產品創建分塊失敗: 'float' object has no attribute 'lower'
+2025-08-18 21:35:41,586 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - ERROR - 處理產品 11 失敗: 'float' object has no attribute 'lower'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 76.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.66it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 84.86it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 85.87it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 62.46it/s]
+2025-08-18 21:35:41,657 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 批量處理完成: 12 個父分塊, 48 個子分塊
+2025-08-18 21:35:41,657 - libs.mgfd_cursor.knowledge_base - INFO - 完成產品分塊初始化：parents=12, children=48, embedded=60
+2025-08-18 21:35:41,657 - libs.mgfd_cursor.mgfd_system - INFO - MGFD系統初始化完成 (簡化版)
+2025-08-18 21:35:41,657 - api.mgfd_routes - INFO - MGFD系統初始化成功
+INFO:     Started server process [28766]
+INFO:     Waiting for application startup.
+2025-08-18 21:35:41,691 - api.history_routes - INFO - History database initialized successfully
+2025-08-18 21:35:41,691 - root - INFO - 🚀 MGFD SalesRAG Integration System 啟動中...
+2025-08-18 21:35:41,691 - root - INFO - 📖 API文檔: http://0.0.0.0:8001/docs
+2025-08-18 21:35:41,691 - root - INFO - 🔍 ReDoc文檔: http://0.0.0.0:8001/redoc
+2025-08-18 21:35:41,691 - root - INFO - ✅ 系統啟動完成
+2025-08-18 21:35:41,691 - api.history_routes - INFO - History database initialized successfully
+INFO:     Application startup complete.
+2025-08-18 21:35:45,281 - watchfiles.main - INFO - 1 change detected
+2025-08-18 21:35:56,228 - watchfiles.main - INFO - 3 changes detected
+WARNING:  WatchFiles detected changes in 'libs/mgfd_cursor/mgfd_system.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2025-08-18 21:35:56,351 - root - INFO - 🛑 MGFD SalesRAG Integration System 關閉中...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [28766]
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+2025-08-18 21:35:57,082 - watchfiles.main - INFO - 3 changes detected
+/Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/lib/python3.11/site-packages/pydantic/_internal/_config.py:373: UserWarning: Valid config keys have changed in V2:
+* 'schema_extra' has been renamed to 'json_schema_extra'
+  warnings.warn(message, UserWarning)
+2025-08-18 21:35:59,328 - api.mgfd_routes - INFO - Redis連接成功
+2025-08-18 21:35:59,328 - libs.mgfd_cursor.mgfd_system - INFO - 初始化MGFD系統 (簡化版)...
+2025-08-18 21:35:59,339 - libs.mgfd_cursor.llm_manager - INFO - 成功初始化 ollama LLM: deepseek-r1:7b
+2025-08-18 21:35:59,339 - libs.mgfd_cursor.llm_manager - WARNING - 主提示不存在: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/docs/Prompts/MGFD_Foundmental_Prompt.txt
+2025-08-18 21:35:59,340 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 使用簡化版槽位提取器 (純LLM模式)
+2025-08-18 21:35:59,340 - libs.mgfd_cursor.question_manager - INFO - 成功載入 11 個問題配置
+2025-08-18 21:35:59,340 - libs.mgfd_cursor.response_generator - INFO - 使用簡化版回應生成器
+2025-08-18 21:35:59,340 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 17_result.csv
+2025-08-18 21:35:59,342 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 17_result.csv 沒有有效產品數據
+2025-08-18 21:35:59,342 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 839_result.csv
+2025-08-18 21:35:59,344 - libs.mgfd_cursor.knowledge_base - INFO - 從 839_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:59,344 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: AC01_result.csv
+2025-08-18 21:35:59,345 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 AC01_result.csv 沒有有效產品數據
+2025-08-18 21:35:59,345 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 928_result.csv
+2025-08-18 21:35:59,347 - libs.mgfd_cursor.knowledge_base - INFO - 從 928_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:59,347 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 918_result.csv
+2025-08-18 21:35:59,348 - libs.mgfd_cursor.knowledge_base - INFO - 從 918_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:59,348 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 531_result.csv
+2025-08-18 21:35:59,349 - libs.mgfd_cursor.knowledge_base - INFO - 從 531_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:59,349 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 8329_result.csv
+2025-08-18 21:35:59,350 - libs.mgfd_cursor.knowledge_base - INFO - 從 8329_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:59,350 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 525_result.csv
+2025-08-18 21:35:59,352 - libs.mgfd_cursor.knowledge_base - INFO - 從 525_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:59,352 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 27_result.csv
+2025-08-18 21:35:59,353 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 27_result.csv 沒有有效產品數據
+2025-08-18 21:35:59,353 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 938_result.csv
+2025-08-18 21:35:59,354 - libs.mgfd_cursor.knowledge_base - INFO - 從 938_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:59,354 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 728_result.csv
+2025-08-18 21:35:59,355 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 728_result.csv 沒有有效產品數據
+2025-08-18 21:35:59,355 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 960_result.csv
+2025-08-18 21:35:59,356 - libs.mgfd_cursor.knowledge_base - INFO - 從 960_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:59,356 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 656_result.csv
+2025-08-18 21:35:59,358 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 656_result.csv 沒有有效產品數據
+2025-08-18 21:35:59,358 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 829_result.csv
+2025-08-18 21:35:59,359 - libs.mgfd_cursor.knowledge_base - INFO - 從 829_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:59,359 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 326_result.csv
+2025-08-18 21:35:59,360 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 326_result.csv 沒有有效產品數據
+2025-08-18 21:35:59,360 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 835_result.csv
+2025-08-18 21:35:59,362 - libs.mgfd_cursor.knowledge_base - INFO - 從 835_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:59,362 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 819_result.csv
+2025-08-18 21:35:59,363 - libs.mgfd_cursor.knowledge_base - INFO - 從 819_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:59,363 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 958_result.csv
+2025-08-18 21:35:59,364 - libs.mgfd_cursor.knowledge_base - INFO - 從 958_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:59,364 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 529_result.csv
+2025-08-18 21:35:59,366 - libs.mgfd_cursor.knowledge_base - INFO - 從 529_result.csv 成功載入 1 個有效產品
+2025-08-18 21:35:59,366 - libs.mgfd_cursor.knowledge_base - INFO - 數據載入完成: 成功載入 13 個產品 (成功檔案: 13, 失敗檔案: 6)
+2025-08-18 21:35:59,366 - libs.mgfd_cursor.knowledge_base - INFO - 初始化Chunking搜尋引擎...
+2025-08-18 21:35:59,372 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-18 21:35:59,372 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-08-18 21:36:03,290 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 成功載入嵌入模型: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-08-18 21:36:03,290 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 開始批量處理 13 個產品
+正在搜尋服務目錄: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/services
+無法載入服務 'sales_assistant': No module named 'libs.services.sales_assistant.multichat'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.48it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 68.89it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 72.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 77.09it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.82it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 77.83it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.85it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 81.17it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 77.63it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.79it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.82it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 74.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.75it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.04it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.04it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 48.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 77.54it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 77.24it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.92it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 72.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 77.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.87it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 62.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 83.81it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 86.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 85.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.08it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 76.06it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.87it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.39it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.33it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 84.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 83.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 86.49it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 89.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.58it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 58.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 81.87it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 87.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 84.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.53it/s]
+2025-08-18 21:36:04,555 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 已處理 10/13 個產品
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 84.88it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 83.12it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 87.83it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.78it/s]
+2025-08-18 21:36:04,671 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - ERROR - 為產品創建分塊失敗: 'float' object has no attribute 'lower'
+2025-08-18 21:36:04,671 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - ERROR - 處理產品 11 失敗: 'float' object has no attribute 'lower'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 84.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 84.87it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 86.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 61.41it/s]
+2025-08-18 21:36:04,741 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 批量處理完成: 12 個父分塊, 48 個子分塊
+2025-08-18 21:36:04,742 - libs.mgfd_cursor.knowledge_base - INFO - 完成產品分塊初始化：parents=12, children=48, embedded=60
+2025-08-18 21:36:04,742 - libs.mgfd_cursor.mgfd_system - INFO - MGFD系統初始化完成 (簡化版)
+2025-08-18 21:36:04,742 - api.mgfd_routes - INFO - MGFD系統初始化成功
+INFO:     Started server process [29074]
+INFO:     Waiting for application startup.
+2025-08-18 21:36:04,776 - api.history_routes - INFO - History database initialized successfully
+2025-08-18 21:36:04,776 - root - INFO - 🚀 MGFD SalesRAG Integration System 啟動中...
+2025-08-18 21:36:04,776 - root - INFO - 📖 API文檔: http://0.0.0.0:8001/docs
+2025-08-18 21:36:04,776 - root - INFO - 🔍 ReDoc文檔: http://0.0.0.0:8001/redoc
+2025-08-18 21:36:04,776 - root - INFO - ✅ 系統啟動完成
+2025-08-18 21:36:04,776 - api.history_routes - INFO - History database initialized successfully
+INFO:     Application startup complete.
+2025-08-18 21:36:05,066 - watchfiles.main - INFO - 3 changes detected
+WARNING:  WatchFiles detected changes in 'libs/mgfd_cursor/mgfd_system.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2025-08-18 21:36:05,181 - root - INFO - 🛑 MGFD SalesRAG Integration System 關閉中...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [29074]
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+2025-08-18 21:36:05,903 - watchfiles.main - INFO - 3 changes detected
+/Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/lib/python3.11/site-packages/pydantic/_internal/_config.py:373: UserWarning: Valid config keys have changed in V2:
+* 'schema_extra' has been renamed to 'json_schema_extra'
+  warnings.warn(message, UserWarning)
+2025-08-18 21:36:08,067 - api.mgfd_routes - INFO - Redis連接成功
+2025-08-18 21:36:08,067 - libs.mgfd_cursor.mgfd_system - INFO - 初始化MGFD系統 (簡化版)...
+2025-08-18 21:36:08,079 - libs.mgfd_cursor.llm_manager - INFO - 成功初始化 ollama LLM: deepseek-r1:7b
+2025-08-18 21:36:08,079 - libs.mgfd_cursor.llm_manager - WARNING - 主提示不存在: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/docs/Prompts/MGFD_Foundmental_Prompt.txt
+2025-08-18 21:36:08,079 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 使用簡化版槽位提取器 (純LLM模式)
+2025-08-18 21:36:08,080 - libs.mgfd_cursor.question_manager - INFO - 成功載入 11 個問題配置
+2025-08-18 21:36:08,080 - libs.mgfd_cursor.response_generator - INFO - 使用簡化版回應生成器
+2025-08-18 21:36:08,080 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 17_result.csv
+2025-08-18 21:36:08,082 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 17_result.csv 沒有有效產品數據
+2025-08-18 21:36:08,082 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 839_result.csv
+2025-08-18 21:36:08,083 - libs.mgfd_cursor.knowledge_base - INFO - 從 839_result.csv 成功載入 1 個有效產品
+2025-08-18 21:36:08,083 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: AC01_result.csv
+2025-08-18 21:36:08,085 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 AC01_result.csv 沒有有效產品數據
+2025-08-18 21:36:08,085 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 928_result.csv
+2025-08-18 21:36:08,086 - libs.mgfd_cursor.knowledge_base - INFO - 從 928_result.csv 成功載入 1 個有效產品
+2025-08-18 21:36:08,086 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 918_result.csv
+2025-08-18 21:36:08,087 - libs.mgfd_cursor.knowledge_base - INFO - 從 918_result.csv 成功載入 1 個有效產品
+2025-08-18 21:36:08,087 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 531_result.csv
+2025-08-18 21:36:08,089 - libs.mgfd_cursor.knowledge_base - INFO - 從 531_result.csv 成功載入 1 個有效產品
+2025-08-18 21:36:08,089 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 8329_result.csv
+2025-08-18 21:36:08,090 - libs.mgfd_cursor.knowledge_base - INFO - 從 8329_result.csv 成功載入 1 個有效產品
+2025-08-18 21:36:08,090 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 525_result.csv
+2025-08-18 21:36:08,091 - libs.mgfd_cursor.knowledge_base - INFO - 從 525_result.csv 成功載入 1 個有效產品
+2025-08-18 21:36:08,091 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 27_result.csv
+2025-08-18 21:36:08,092 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 27_result.csv 沒有有效產品數據
+2025-08-18 21:36:08,092 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 938_result.csv
+2025-08-18 21:36:08,093 - libs.mgfd_cursor.knowledge_base - INFO - 從 938_result.csv 成功載入 1 個有效產品
+2025-08-18 21:36:08,093 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 728_result.csv
+2025-08-18 21:36:08,094 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 728_result.csv 沒有有效產品數據
+2025-08-18 21:36:08,094 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 960_result.csv
+2025-08-18 21:36:08,096 - libs.mgfd_cursor.knowledge_base - INFO - 從 960_result.csv 成功載入 1 個有效產品
+2025-08-18 21:36:08,096 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 656_result.csv
+2025-08-18 21:36:08,097 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 656_result.csv 沒有有效產品數據
+2025-08-18 21:36:08,097 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 829_result.csv
+2025-08-18 21:36:08,098 - libs.mgfd_cursor.knowledge_base - INFO - 從 829_result.csv 成功載入 1 個有效產品
+2025-08-18 21:36:08,098 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 326_result.csv
+2025-08-18 21:36:08,099 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 326_result.csv 沒有有效產品數據
+2025-08-18 21:36:08,099 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 835_result.csv
+2025-08-18 21:36:08,100 - libs.mgfd_cursor.knowledge_base - INFO - 從 835_result.csv 成功載入 1 個有效產品
+2025-08-18 21:36:08,100 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 819_result.csv
+2025-08-18 21:36:08,101 - libs.mgfd_cursor.knowledge_base - INFO - 從 819_result.csv 成功載入 1 個有效產品
+2025-08-18 21:36:08,101 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 958_result.csv
+2025-08-18 21:36:08,102 - libs.mgfd_cursor.knowledge_base - INFO - 從 958_result.csv 成功載入 1 個有效產品
+2025-08-18 21:36:08,102 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 529_result.csv
+2025-08-18 21:36:08,103 - libs.mgfd_cursor.knowledge_base - INFO - 從 529_result.csv 成功載入 1 個有效產品
+2025-08-18 21:36:08,103 - libs.mgfd_cursor.knowledge_base - INFO - 數據載入完成: 成功載入 13 個產品 (成功檔案: 13, 失敗檔案: 6)
+2025-08-18 21:36:08,103 - libs.mgfd_cursor.knowledge_base - INFO - 初始化Chunking搜尋引擎...
+2025-08-18 21:36:08,110 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-18 21:36:08,110 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-08-18 21:36:11,948 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 成功載入嵌入模型: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-08-18 21:36:11,948 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 開始批量處理 13 個產品
+正在搜尋服務目錄: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/services
+無法載入服務 'sales_assistant': No module named 'libs.services.sales_assistant.multichat'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.42it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.41it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 71.06it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.45it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 85.76it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.00it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 85.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.40it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 81.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 83.76it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 86.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 81.76it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 86.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.32it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.93it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.93it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.26it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 83.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 81.73it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 58.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.06it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 84.38it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 81.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.01it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.69it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 87.28it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 84.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 83.13it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 86.69it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 56.79it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.77it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 84.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 87.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.77it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.99it/s]
+2025-08-18 21:36:13,183 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 已處理 10/13 個產品
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 81.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 84.82it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 86.09it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.14it/s]
+2025-08-18 21:36:13,297 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - ERROR - 為產品創建分塊失敗: 'float' object has no attribute 'lower'
+2025-08-18 21:36:13,297 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - ERROR - 處理產品 11 失敗: 'float' object has no attribute 'lower'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 87.54it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.63it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.35it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 63.16it/s]
+2025-08-18 21:36:13,364 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 批量處理完成: 12 個父分塊, 48 個子分塊
+2025-08-18 21:36:13,365 - libs.mgfd_cursor.knowledge_base - INFO - 完成產品分塊初始化：parents=12, children=48, embedded=60
+2025-08-18 21:36:13,365 - libs.mgfd_cursor.mgfd_system - INFO - MGFD系統初始化完成 (簡化版)
+2025-08-18 21:36:13,365 - api.mgfd_routes - INFO - MGFD系統初始化成功
+INFO:     Started server process [29167]
+INFO:     Waiting for application startup.
+2025-08-18 21:36:13,398 - api.history_routes - INFO - History database initialized successfully
+2025-08-18 21:36:13,398 - root - INFO - 🚀 MGFD SalesRAG Integration System 啟動中...
+2025-08-18 21:36:13,398 - root - INFO - 📖 API文檔: http://0.0.0.0:8001/docs
+2025-08-18 21:36:13,398 - root - INFO - 🔍 ReDoc文檔: http://0.0.0.0:8001/redoc
+2025-08-18 21:36:13,398 - root - INFO - ✅ 系統啟動完成
+2025-08-18 21:36:13,398 - api.history_routes - INFO - History database initialized successfully
+INFO:     Application startup complete.
+2025-08-18 21:37:13,681 - watchfiles.main - INFO - 1 change detected
+2025-08-18 21:38:08,638 - watchfiles.main - INFO - 1 change detected
+2025-08-18 21:38:35,733 - watchfiles.main - INFO - 1 change detected
+2025-08-18 21:38:38,577 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: debug_test_session_003, 消息: 請建輕便容易攜帶的筆電...
+2025-08-18 21:38:38,577 - libs.mgfd_cursor.mgfd_system - INFO - ========== 開始處理會話 debug_test_session_003 的消息: 請建輕便容易攜帶的筆電... ==========
+2025-08-18 21:38:38,577 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: 請建輕便容易攜帶的筆電...
+2025-08-18 21:38:38,578 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 槽位提取結果: {'timestamp': '2025-08-18T21:38:38.577998', 'user_input': '請建輕便容易攜帶的筆電', 'extracted_slots': {'portability_need': 'balanced'}, 'extraction_method': 'enhanced'}
+2025-08-18 21:38:38,578 - libs.mgfd_cursor.user_input_handler - INFO - 完整槽位提取結果: {'extracted_slots': {'portability_need': 'balanced'}, 'extraction_method': 'enhanced_extraction'}
+2025-08-18 21:38:38,578 - libs.mgfd_cursor.user_input_handler - INFO - 提取方法: enhanced_extraction
+2025-08-18 21:38:38,578 - libs.mgfd_cursor.user_input_handler - INFO - 實際提取的槽位: {'portability_need': 'balanced'}
+2025-08-18 21:38:38,578 - libs.mgfd_cursor.user_input_handler - INFO - 準備更新槽位: {'portability_need': 'balanced'}
+2025-08-18 21:38:38,578 - libs.mgfd_cursor.user_input_handler - INFO - 槽位更新: portability_need = 'None' → 'balanced'
+2025-08-18 21:38:38,578 - libs.mgfd_cursor.user_input_handler - INFO - 更新後的槽位狀態: {'portability_need': 'balanced'}
+2025-08-18 21:38:38,578 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: debug_test_session_003
+2025-08-18 21:38:38,578 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 當前狀態檢查:
+2025-08-18 21:38:38,578 - libs.mgfd_cursor.mgfd_system - INFO -   - filled_slots: {'portability_need': 'balanced'}
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO -   - awaiting_prompt_response: False
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: None
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO -   - funnel_mode: False
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO -   - current_stage: awareness
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 檢查是否觸發 funnel chat
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO - 觸發關鍵詞: 筆電
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - _should_trigger_funnel_chat 結果: True
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 觸發funnel chat模式，設置 funnel_mode=True
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 決定下一步動作，funnel_mode: True
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.question_manager - INFO - 必填槽位未完成: usage_purpose
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 槽位收集完成檢查: False
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 繼續收集槽位
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - _handle_slot_collection:
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO -   - current_slots: {'portability_need': 'balanced'}
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: 1
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO -   - use_prompt_style: True
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - should_skip_to_search: False
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 使用Prompt風格，獲取步驟 1 的問題
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 獲取到問題: {'step': 1, 'question': '首先，請問您購買這台新電腦，最主要的用途是什麼呢？這將幫助我判斷電腦需要的核心效能。', 'type': 'choice', 'slot_name': 'usage_purpose', 'options': [{'key': 'A', 'text': '日常文書處理與上網', 'value': 'document_processing'}, {'key': 'B', 'text': '影音娛樂', 'value': 'entertainment'}, {'key': 'C', 'text': '專業創作 (例如：修圖、影片剪輯)', 'value': 'creative'}, {'key': 'D', 'text': '電競遊戲', 'value': 'gaming'}, {'key': 'E', 'text': '商務辦公', 'value': 'business'}, {'key': 'F', 'text': '程式開發', 'value': 'programming'}], 'transition': ''}
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 格式化問題文字: 首先，請問您購買這台新電腦，最主要的用途是什麼呢？這將幫助我判斷電腦需要的核心效能。
+
+選項：
+A) 日常文書處理與上網
+B) 影音娛樂
+C) 專業創作 (例如：修圖、影片剪輯)
+D) 電競遊戲
+E)...
+2025-08-18 21:38:38,579 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 更新狀態設置: awaiting_prompt_response=True, current_prompt_step=1
+2025-08-18 21:38:38,580 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: debug_test_session_003
+2025-08-18 21:38:38,580 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 狀態已保存完成
+INFO:     127.0.0.1:63104 - "POST /api/mgfd/chat HTTP/1.1" 200 OK
+2025-08-18 21:43:35,721 - watchfiles.main - INFO - 1 change detected
+2025-08-18 21:44:32,328 - watchfiles.main - INFO - 1 change detected
+2025-08-18 21:44:33,035 - watchfiles.main - INFO - 3 changes detected
+2025-08-18 21:44:33,685 - watchfiles.main - INFO - 4 changes detected
+2025-08-18 21:48:35,742 - watchfiles.main - INFO - 1 change detected
+2025-08-18 21:53:35,684 - watchfiles.main - INFO - 1 change detected
+2025-08-18 21:58:36,873 - watchfiles.main - INFO - 1 change detected
+2025-08-18 22:03:04,876 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: debug_test_session_003, 消息: B...
+2025-08-18 22:03:04,876 - libs.mgfd_cursor.mgfd_system - INFO - ========== 開始處理會話 debug_test_session_003 的消息: B... ==========
+2025-08-18 22:03:04,888 - libs.mgfd_cursor.redis_state_manager - INFO - 載入會話狀態: debug_test_session_003
+2025-08-18 22:03:04,888 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: B...
+2025-08-18 22:03:04,889 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 傳統提取未找到槽位，使用LLM智能分類
+2025-08-18 22:03:04,889 - libs.mgfd_cursor.llm_manager - INFO - 執行槽位分類...
+2025-08-18 22:03:04,889 - libs.mgfd_cursor.llm_manager - ERROR - 槽位分類失敗: 'MGFDLLMManager' object has no attribute '_get_from_cache'
+2025-08-18 22:03:04,889 - libs.mgfd_cursor.enhanced_slot_extractor - WARNING - LLM分類置信度不足: 0.0
+2025-08-18 22:03:04,889 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 槽位提取結果: {'timestamp': '2025-08-18T22:03:04.889140', 'user_input': 'B', 'extracted_slots': {}, 'extraction_method': 'failed'}
+2025-08-18 22:03:04,889 - libs.mgfd_cursor.user_input_handler - INFO - 完整槽位提取結果: {'extracted_slots': {}, 'extraction_method': 'enhanced_extraction'}
+2025-08-18 22:03:04,889 - libs.mgfd_cursor.user_input_handler - INFO - 提取方法: enhanced_extraction
+2025-08-18 22:03:04,889 - libs.mgfd_cursor.user_input_handler - INFO - 實際提取的槽位: {}
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: debug_test_session_003
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 當前狀態檢查:
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO -   - filled_slots: {'portability_need': 'balanced'}
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO -   - awaiting_prompt_response: False
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: None
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO -   - funnel_mode: False
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO -   - current_stage: awareness
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 檢查是否觸發 funnel chat
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.question_manager - INFO - 必填槽位未完成: usage_purpose
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - _should_trigger_funnel_chat 結果: True
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 觸發funnel chat模式，設置 funnel_mode=True
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 決定下一步動作，funnel_mode: True
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.question_manager - INFO - 必填槽位未完成: usage_purpose
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 槽位收集完成檢查: False
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 繼續收集槽位
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - _handle_slot_collection:
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO -   - current_slots: {'portability_need': 'balanced'}
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: 1
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO -   - use_prompt_style: True
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - should_skip_to_search: False
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 使用Prompt風格，獲取步驟 1 的問題
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 獲取到問題: {'step': 1, 'question': '首先，請問您購買這台新電腦，最主要的用途是什麼呢？這將幫助我判斷電腦需要的核心效能。', 'type': 'choice', 'slot_name': 'usage_purpose', 'options': [{'key': 'A', 'text': '日常文書處理與上網', 'value': 'document_processing'}, {'key': 'B', 'text': '影音娛樂', 'value': 'entertainment'}, {'key': 'C', 'text': '專業創作 (例如：修圖、影片剪輯)', 'value': 'creative'}, {'key': 'D', 'text': '電競遊戲', 'value': 'gaming'}, {'key': 'E', 'text': '商務辦公', 'value': 'business'}, {'key': 'F', 'text': '程式開發', 'value': 'programming'}], 'transition': ''}
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 格式化問題文字: 首先，請問您購買這台新電腦，最主要的用途是什麼呢？這將幫助我判斷電腦需要的核心效能。
+
+選項：
+A) 日常文書處理與上網
+B) 影音娛樂
+C) 專業創作 (例如：修圖、影片剪輯)
+D) 電競遊戲
+E)...
+2025-08-18 22:03:04,894 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 更新狀態設置: awaiting_prompt_response=True, current_prompt_step=1
+2025-08-18 22:03:04,896 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: debug_test_session_003
+2025-08-18 22:03:04,896 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 狀態已保存完成
+INFO:     127.0.0.1:53342 - "POST /api/mgfd/chat HTTP/1.1" 200 OK
+2025-08-18 22:03:35,718 - watchfiles.main - INFO - 1 change detected
+2025-08-18 22:04:15,166 - watchfiles.main - INFO - 3 changes detected
+WARNING:  WatchFiles detected changes in 'libs/mgfd_cursor/redis_state_manager.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2025-08-18 22:04:15,273 - root - INFO - 🛑 MGFD SalesRAG Integration System 關閉中...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [29167]
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+2025-08-18 22:04:16,055 - watchfiles.main - INFO - 3 changes detected
+/Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/lib/python3.11/site-packages/pydantic/_internal/_config.py:373: UserWarning: Valid config keys have changed in V2:
+* 'schema_extra' has been renamed to 'json_schema_extra'
+  warnings.warn(message, UserWarning)
+2025-08-18 22:04:18,259 - api.mgfd_routes - INFO - Redis連接成功
+2025-08-18 22:04:18,259 - libs.mgfd_cursor.mgfd_system - INFO - 初始化MGFD系統 (簡化版)...
+2025-08-18 22:04:18,271 - libs.mgfd_cursor.llm_manager - INFO - 成功初始化 ollama LLM: deepseek-r1:7b
+2025-08-18 22:04:18,271 - libs.mgfd_cursor.llm_manager - WARNING - 主提示不存在: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/docs/Prompts/MGFD_Foundmental_Prompt.txt
+2025-08-18 22:04:18,272 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 使用簡化版槽位提取器 (純LLM模式)
+2025-08-18 22:04:18,272 - libs.mgfd_cursor.question_manager - INFO - 成功載入 11 個問題配置
+2025-08-18 22:04:18,272 - libs.mgfd_cursor.response_generator - INFO - 使用簡化版回應生成器
+2025-08-18 22:04:18,272 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 17_result.csv
+2025-08-18 22:04:18,274 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 17_result.csv 沒有有效產品數據
+2025-08-18 22:04:18,274 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 839_result.csv
+2025-08-18 22:04:18,276 - libs.mgfd_cursor.knowledge_base - INFO - 從 839_result.csv 成功載入 1 個有效產品
+2025-08-18 22:04:18,276 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: AC01_result.csv
+2025-08-18 22:04:18,277 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 AC01_result.csv 沒有有效產品數據
+2025-08-18 22:04:18,277 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 928_result.csv
+2025-08-18 22:04:18,279 - libs.mgfd_cursor.knowledge_base - INFO - 從 928_result.csv 成功載入 1 個有效產品
+2025-08-18 22:04:18,279 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 918_result.csv
+2025-08-18 22:04:18,280 - libs.mgfd_cursor.knowledge_base - INFO - 從 918_result.csv 成功載入 1 個有效產品
+2025-08-18 22:04:18,280 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 531_result.csv
+2025-08-18 22:04:18,281 - libs.mgfd_cursor.knowledge_base - INFO - 從 531_result.csv 成功載入 1 個有效產品
+2025-08-18 22:04:18,281 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 8329_result.csv
+2025-08-18 22:04:18,283 - libs.mgfd_cursor.knowledge_base - INFO - 從 8329_result.csv 成功載入 1 個有效產品
+2025-08-18 22:04:18,283 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 525_result.csv
+2025-08-18 22:04:18,284 - libs.mgfd_cursor.knowledge_base - INFO - 從 525_result.csv 成功載入 1 個有效產品
+2025-08-18 22:04:18,284 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 27_result.csv
+2025-08-18 22:04:18,285 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 27_result.csv 沒有有效產品數據
+2025-08-18 22:04:18,285 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 938_result.csv
+2025-08-18 22:04:18,286 - libs.mgfd_cursor.knowledge_base - INFO - 從 938_result.csv 成功載入 1 個有效產品
+2025-08-18 22:04:18,286 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 728_result.csv
+2025-08-18 22:04:18,287 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 728_result.csv 沒有有效產品數據
+2025-08-18 22:04:18,288 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 960_result.csv
+2025-08-18 22:04:18,289 - libs.mgfd_cursor.knowledge_base - INFO - 從 960_result.csv 成功載入 1 個有效產品
+2025-08-18 22:04:18,289 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 656_result.csv
+2025-08-18 22:04:18,290 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 656_result.csv 沒有有效產品數據
+2025-08-18 22:04:18,290 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 829_result.csv
+2025-08-18 22:04:18,291 - libs.mgfd_cursor.knowledge_base - INFO - 從 829_result.csv 成功載入 1 個有效產品
+2025-08-18 22:04:18,291 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 326_result.csv
+2025-08-18 22:04:18,293 - libs.mgfd_cursor.knowledge_base - WARNING - 檔案 326_result.csv 沒有有效產品數據
+2025-08-18 22:04:18,293 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 835_result.csv
+2025-08-18 22:04:18,294 - libs.mgfd_cursor.knowledge_base - INFO - 從 835_result.csv 成功載入 1 個有效產品
+2025-08-18 22:04:18,294 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 819_result.csv
+2025-08-18 22:04:18,295 - libs.mgfd_cursor.knowledge_base - INFO - 從 819_result.csv 成功載入 1 個有效產品
+2025-08-18 22:04:18,295 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 958_result.csv
+2025-08-18 22:04:18,296 - libs.mgfd_cursor.knowledge_base - INFO - 從 958_result.csv 成功載入 1 個有效產品
+2025-08-18 22:04:18,296 - libs.mgfd_cursor.knowledge_base - INFO - 載入產品檔案: 529_result.csv
+2025-08-18 22:04:18,298 - libs.mgfd_cursor.knowledge_base - INFO - 從 529_result.csv 成功載入 1 個有效產品
+2025-08-18 22:04:18,298 - libs.mgfd_cursor.knowledge_base - INFO - 數據載入完成: 成功載入 13 個產品 (成功檔案: 13, 失敗檔案: 6)
+2025-08-18 22:04:18,298 - libs.mgfd_cursor.knowledge_base - INFO - 初始化Chunking搜尋引擎...
+2025-08-18 22:04:18,305 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-08-18 22:04:18,305 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-08-18 22:04:22,210 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 成功載入嵌入模型: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-08-18 22:04:22,210 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 開始批量處理 13 個產品
+正在搜尋服務目錄: /Users/xrickliao/WorkSpaces/Work/Projects/mlinfo_kb_platform/libs/services
+無法載入服務 'sales_assistant': No module named 'libs.services.sales_assistant.multichat'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.53it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 75.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.81it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 75.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 76.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.13it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.45it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.55it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.32it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.75it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.54it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.46it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 74.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.73it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 77.98it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 79.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 81.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.85it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 77.44it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 61.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.50it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 86.23it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.04it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 86.01it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 90.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 87.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 87.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 89.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 90.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 91.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 63.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 87.09it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.85it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.28it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 85.16it/s]
+2025-08-18 22:04:23,427 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 已處理 10/13 個產品
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 86.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 87.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.67it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.36it/s]
+2025-08-18 22:04:23,539 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - ERROR - 為產品創建分塊失敗: 'float' object has no attribute 'lower'
+2025-08-18 22:04:23,539 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - ERROR - 處理產品 11 失敗: 'float' object has no attribute 'lower'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 82.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 87.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 88.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 89.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 65.58it/s]
+2025-08-18 22:04:23,605 - libs.mgfd_cursor.chunking.parent_child.chunking_engine - INFO - 批量處理完成: 12 個父分塊, 48 個子分塊
+2025-08-18 22:04:23,606 - libs.mgfd_cursor.knowledge_base - INFO - 完成產品分塊初始化：parents=12, children=48, embedded=60
+2025-08-18 22:04:23,606 - libs.mgfd_cursor.mgfd_system - INFO - MGFD系統初始化完成 (簡化版)
+2025-08-18 22:04:23,606 - api.mgfd_routes - INFO - MGFD系統初始化成功
+INFO:     Started server process [39225]
+INFO:     Waiting for application startup.
+2025-08-18 22:04:23,638 - api.history_routes - INFO - History database initialized successfully
+2025-08-18 22:04:23,638 - root - INFO - 🚀 MGFD SalesRAG Integration System 啟動中...
+2025-08-18 22:04:23,638 - root - INFO - 📖 API文檔: http://0.0.0.0:8001/docs
+2025-08-18 22:04:23,638 - root - INFO - 🔍 ReDoc文檔: http://0.0.0.0:8001/redoc
+2025-08-18 22:04:23,638 - root - INFO - ✅ 系統啟動完成
+2025-08-18 22:04:23,638 - api.history_routes - INFO - History database initialized successfully
+INFO:     Application startup complete.
+2025-08-18 22:04:29,665 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: debug_test_session_004, 消息: 請建輕便容易攜帶的筆電...
+2025-08-18 22:04:29,665 - libs.mgfd_cursor.mgfd_system - INFO - ========== 開始處理會話 debug_test_session_004 的消息: 請建輕便容易攜帶的筆電... ==========
+2025-08-18 22:04:29,665 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: 請建輕便容易攜帶的筆電...
+2025-08-18 22:04:29,666 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 槽位提取結果: {'timestamp': '2025-08-18T22:04:29.666061', 'user_input': '請建輕便容易攜帶的筆電', 'extracted_slots': {'portability_need': 'balanced'}, 'extraction_method': 'enhanced'}
+2025-08-18 22:04:29,666 - libs.mgfd_cursor.user_input_handler - INFO - 完整槽位提取結果: {'extracted_slots': {'portability_need': 'balanced'}, 'extraction_method': 'enhanced_extraction'}
+2025-08-18 22:04:29,666 - libs.mgfd_cursor.user_input_handler - INFO - 提取方法: enhanced_extraction
+2025-08-18 22:04:29,666 - libs.mgfd_cursor.user_input_handler - INFO - 實際提取的槽位: {'portability_need': 'balanced'}
+2025-08-18 22:04:29,666 - libs.mgfd_cursor.user_input_handler - INFO - 準備更新槽位: {'portability_need': 'balanced'}
+2025-08-18 22:04:29,666 - libs.mgfd_cursor.user_input_handler - INFO - 槽位更新: portability_need = 'None' → 'balanced'
+2025-08-18 22:04:29,666 - libs.mgfd_cursor.user_input_handler - INFO - 更新後的槽位狀態: {'portability_need': 'balanced'}
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: debug_test_session_004
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 當前狀態檢查:
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO -   - filled_slots: {'portability_need': 'balanced'}
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO -   - awaiting_prompt_response: False
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: None
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO -   - funnel_mode: False
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO -   - current_stage: awareness
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 檢查是否觸發 funnel chat
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO - 觸發關鍵詞: 筆電
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - _should_trigger_funnel_chat 結果: True
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 觸發funnel chat模式，設置 funnel_mode=True
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 決定下一步動作，funnel_mode: True
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.question_manager - INFO - 必填槽位未完成: usage_purpose
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 槽位收集完成檢查: False
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 繼續收集槽位
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - _handle_slot_collection:
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO -   - current_slots: {'portability_need': 'balanced'}
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: 1
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO -   - use_prompt_style: True
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - should_skip_to_search: False
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 使用Prompt風格，獲取步驟 1 的問題
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 獲取到問題: {'step': 1, 'question': '首先，請問您購買這台新電腦，最主要的用途是什麼呢？這將幫助我判斷電腦需要的核心效能。', 'type': 'choice', 'slot_name': 'usage_purpose', 'options': [{'key': 'A', 'text': '日常文書處理與上網', 'value': 'document_processing'}, {'key': 'B', 'text': '影音娛樂', 'value': 'entertainment'}, {'key': 'C', 'text': '專業創作 (例如：修圖、影片剪輯)', 'value': 'creative'}, {'key': 'D', 'text': '電競遊戲', 'value': 'gaming'}, {'key': 'E', 'text': '商務辦公', 'value': 'business'}, {'key': 'F', 'text': '程式開發', 'value': 'programming'}], 'transition': ''}
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 格式化問題文字: 首先，請問您購買這台新電腦，最主要的用途是什麼呢？這將幫助我判斷電腦需要的核心效能。
+
+選項：
+A) 日常文書處理與上網
+B) 影音娛樂
+C) 專業創作 (例如：修圖、影片剪輯)
+D) 電競遊戲
+E)...
+2025-08-18 22:04:29,667 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 更新狀態設置: awaiting_prompt_response=True, current_prompt_step=1
+2025-08-18 22:04:29,668 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: debug_test_session_004
+2025-08-18 22:04:29,668 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 狀態已保存完成
+INFO:     127.0.0.1:53879 - "POST /api/mgfd/chat HTTP/1.1" 200 OK
+2025-08-18 22:04:38,061 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: debug_test_session_004, 消息: B...
+2025-08-18 22:04:38,061 - libs.mgfd_cursor.mgfd_system - INFO - ========== 開始處理會話 debug_test_session_004 的消息: B... ==========
+2025-08-18 22:04:38,064 - libs.mgfd_cursor.redis_state_manager - INFO - 載入會話狀態: debug_test_session_004
+2025-08-18 22:04:38,065 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: B...
+2025-08-18 22:04:38,065 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 傳統提取未找到槽位，使用LLM智能分類
+2025-08-18 22:04:38,065 - libs.mgfd_cursor.llm_manager - INFO - 執行槽位分類...
+2025-08-18 22:04:38,065 - libs.mgfd_cursor.llm_manager - ERROR - 槽位分類失敗: 'MGFDLLMManager' object has no attribute '_get_from_cache'
+2025-08-18 22:04:38,065 - libs.mgfd_cursor.enhanced_slot_extractor - WARNING - LLM分類置信度不足: 0.0
+2025-08-18 22:04:38,065 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 槽位提取結果: {'timestamp': '2025-08-18T22:04:38.065206', 'user_input': 'B', 'extracted_slots': {}, 'extraction_method': 'failed'}
+2025-08-18 22:04:38,065 - libs.mgfd_cursor.user_input_handler - INFO - 完整槽位提取結果: {'extracted_slots': {}, 'extraction_method': 'enhanced_extraction'}
+2025-08-18 22:04:38,065 - libs.mgfd_cursor.user_input_handler - INFO - 提取方法: enhanced_extraction
+2025-08-18 22:04:38,065 - libs.mgfd_cursor.user_input_handler - INFO - 實際提取的槽位: {}
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: debug_test_session_004
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 當前狀態檢查:
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.mgfd_system - INFO -   - filled_slots: {'portability_need': 'balanced'}
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.mgfd_system - INFO -   - awaiting_prompt_response: True
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: 1
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.mgfd_system - INFO -   - funnel_mode: True
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.mgfd_system - INFO -   - current_stage: awareness
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.mgfd_system - INFO - 等待回覆模式命中：step=1, slots={'portability_need': 'balanced'}
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.question_manager - INFO - DEBUG - QuestionManager.process_prompt_response:
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.question_manager - INFO -   - step: 1
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.question_manager - INFO -   - response: 'B'
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.question_manager - INFO -   - current_slots: {'portability_need': 'balanced'}
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.question_manager - INFO - DEBUG - 正規化輸入: 'B' -> upper: 'B'
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.question_manager - INFO - DEBUG - 字母鍵驗證結果: True
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.slot_mapping - INFO - Prompt轉換為槽位完成: 1 個槽位
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.question_manager - INFO - DEBUG - 步驟1字母鍵回覆成功: B -> {'usage_purpose': 'entertainment'}
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.question_manager - INFO - DEBUG - 最終更新後的槽位: {'portability_need': 'balanced', 'usage_purpose': 'entertainment'}
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 槽位更新成功: {'portability_need': 'balanced'} -> {'portability_need': 'balanced', 'usage_purpose': 'entertainment'}
+2025-08-18 22:04:38,066 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 狀態更新: awaiting_prompt_response=False, current_prompt_step=2
+2025-08-18 22:04:38,067 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: debug_test_session_004
+2025-08-18 22:04:38,067 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 狀態已保存到 Redis
+2025-08-18 22:04:38,067 - libs.mgfd_cursor.question_manager - INFO - 必填槽位未完成: budget_range
+INFO:     127.0.0.1:53946 - "POST /api/mgfd/chat HTTP/1.1" 200 OK
+2025-08-18 22:04:50,279 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: debug_test_session_004, 消息: C...
+2025-08-18 22:04:50,279 - libs.mgfd_cursor.mgfd_system - INFO - ========== 開始處理會話 debug_test_session_004 的消息: C... ==========
+2025-08-18 22:04:50,287 - libs.mgfd_cursor.redis_state_manager - INFO - 載入會話狀態: debug_test_session_004
+2025-08-18 22:04:50,287 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: C...
+2025-08-18 22:04:50,287 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 傳統提取未找到槽位，使用LLM智能分類
+2025-08-18 22:04:50,287 - libs.mgfd_cursor.llm_manager - INFO - 執行槽位分類...
+2025-08-18 22:04:50,287 - libs.mgfd_cursor.llm_manager - ERROR - 槽位分類失敗: 'MGFDLLMManager' object has no attribute '_get_from_cache'
+2025-08-18 22:04:50,287 - libs.mgfd_cursor.enhanced_slot_extractor - WARNING - LLM分類置信度不足: 0.0
+2025-08-18 22:04:50,287 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 槽位提取結果: {'timestamp': '2025-08-18T22:04:50.287929', 'user_input': 'C', 'extracted_slots': {}, 'extraction_method': 'failed'}
+2025-08-18 22:04:50,287 - libs.mgfd_cursor.user_input_handler - INFO - 完整槽位提取結果: {'extracted_slots': {}, 'extraction_method': 'enhanced_extraction'}
+2025-08-18 22:04:50,287 - libs.mgfd_cursor.user_input_handler - INFO - 提取方法: enhanced_extraction
+2025-08-18 22:04:50,287 - libs.mgfd_cursor.user_input_handler - INFO - 實際提取的槽位: {}
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: debug_test_session_004
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 當前狀態檢查:
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO -   - filled_slots: {'portability_need': 'balanced', 'usage_purpose': 'entertainment'}
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO -   - awaiting_prompt_response: False
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: 2
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO -   - funnel_mode: True
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO -   - current_stage: awareness
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 檢查是否觸發 funnel chat
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.question_manager - INFO - 必填槽位未完成: budget_range
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - _should_trigger_funnel_chat 結果: True
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 觸發funnel chat模式，設置 funnel_mode=True
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 決定下一步動作，funnel_mode: True
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.question_manager - INFO - 必填槽位未完成: budget_range
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 槽位收集完成檢查: False
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 繼續收集槽位
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - _handle_slot_collection:
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO -   - current_slots: {'portability_need': 'balanced', 'usage_purpose': 'entertainment'}
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: 2
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO -   - use_prompt_style: True
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - should_skip_to_search: False
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 使用Prompt風格，獲取步驟 2 的問題
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 獲取到問題: {'step': 2, 'question': '了解了！接下來，請問您的預算大概是多少呢？', 'type': 'choice', 'slot_name': 'budget_range', 'options': [{'key': 'A', 'text': '25,000元 以下', 'value': 'budget'}, {'key': 'B', 'text': '25,001 - 40,000元', 'value': 'low_mid'}, {'key': 'C', 'text': '40,001 - 55,000元', 'value': 'mid_range'}, {'key': 'D', 'text': '55,001 - 70,000元', 'value': 'high_mid'}, {'key': 'E', 'text': '70,000元 以上', 'value': 'premium'}], 'transition': '了解了！接下來，'}
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 格式化問題文字: 了解了！接下來，了解了！接下來，請問您的預算大概是多少呢？
+
+選項：
+A) 25,000元 以下
+B) 25,001 - 40,000元
+C) 40,001 - 55,000元
+D) 55,001 -...
+2025-08-18 22:04:50,289 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 更新狀態設置: awaiting_prompt_response=True, current_prompt_step=2
+2025-08-18 22:04:50,290 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: debug_test_session_004
+2025-08-18 22:04:50,290 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 狀態已保存完成
+INFO:     127.0.0.1:54013 - "POST /api/mgfd/chat HTTP/1.1" 200 OK
+2025-08-18 22:06:27,312 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: final_test_session, 消息: 請建輕便容易攜帶的筆電...
+2025-08-18 22:06:27,312 - libs.mgfd_cursor.mgfd_system - INFO - ========== 開始處理會話 final_test_session 的消息: 請建輕便容易攜帶的筆電... ==========
+2025-08-18 22:06:27,319 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: 請建輕便容易攜帶的筆電...
+2025-08-18 22:06:27,319 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 槽位提取結果: {'timestamp': '2025-08-18T22:06:27.319350', 'user_input': '請建輕便容易攜帶的筆電', 'extracted_slots': {'portability_need': 'balanced'}, 'extraction_method': 'enhanced'}
+2025-08-18 22:06:27,319 - libs.mgfd_cursor.user_input_handler - INFO - 完整槽位提取結果: {'extracted_slots': {'portability_need': 'balanced'}, 'extraction_method': 'enhanced_extraction'}
+2025-08-18 22:06:27,319 - libs.mgfd_cursor.user_input_handler - INFO - 提取方法: enhanced_extraction
+2025-08-18 22:06:27,319 - libs.mgfd_cursor.user_input_handler - INFO - 實際提取的槽位: {'portability_need': 'balanced'}
+2025-08-18 22:06:27,319 - libs.mgfd_cursor.user_input_handler - INFO - 準備更新槽位: {'portability_need': 'balanced'}
+2025-08-18 22:06:27,319 - libs.mgfd_cursor.user_input_handler - INFO - 槽位更新: portability_need = 'None' → 'balanced'
+2025-08-18 22:06:27,319 - libs.mgfd_cursor.user_input_handler - INFO - 更新後的槽位狀態: {'portability_need': 'balanced'}
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: final_test_session
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 當前狀態檢查:
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO -   - filled_slots: {'portability_need': 'balanced'}
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO -   - awaiting_prompt_response: False
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: None
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO -   - funnel_mode: False
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO -   - current_stage: awareness
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 檢查是否觸發 funnel chat
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO - 觸發關鍵詞: 筆電
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - _should_trigger_funnel_chat 結果: True
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 觸發funnel chat模式，設置 funnel_mode=True
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 決定下一步動作，funnel_mode: True
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.question_manager - INFO - 必填槽位未完成: usage_purpose
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 槽位收集完成檢查: False
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 繼續收集槽位
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - _handle_slot_collection:
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO -   - current_slots: {'portability_need': 'balanced'}
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: 1
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO -   - use_prompt_style: True
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - should_skip_to_search: False
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 使用Prompt風格，獲取步驟 1 的問題
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 獲取到問題: {'step': 1, 'question': '首先，請問您購買這台新電腦，最主要的用途是什麼呢？這將幫助我判斷電腦需要的核心效能。', 'type': 'choice', 'slot_name': 'usage_purpose', 'options': [{'key': 'A', 'text': '日常文書處理與上網', 'value': 'document_processing'}, {'key': 'B', 'text': '影音娛樂', 'value': 'entertainment'}, {'key': 'C', 'text': '專業創作 (例如：修圖、影片剪輯)', 'value': 'creative'}, {'key': 'D', 'text': '電競遊戲', 'value': 'gaming'}, {'key': 'E', 'text': '商務辦公', 'value': 'business'}, {'key': 'F', 'text': '程式開發', 'value': 'programming'}], 'transition': ''}
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 格式化問題文字: 首先，請問您購買這台新電腦，最主要的用途是什麼呢？這將幫助我判斷電腦需要的核心效能。
+
+選項：
+A) 日常文書處理與上網
+B) 影音娛樂
+C) 專業創作 (例如：修圖、影片剪輯)
+D) 電競遊戲
+E)...
+2025-08-18 22:06:27,321 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 更新狀態設置: awaiting_prompt_response=True, current_prompt_step=1
+2025-08-18 22:06:27,322 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: final_test_session
+2025-08-18 22:06:27,322 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 狀態已保存完成
+INFO:     127.0.0.1:54466 - "POST /api/mgfd/chat HTTP/1.1" 200 OK
+2025-08-18 22:06:35,452 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: final_test_session, 消息: B...
+2025-08-18 22:06:35,452 - libs.mgfd_cursor.mgfd_system - INFO - ========== 開始處理會話 final_test_session 的消息: B... ==========
+2025-08-18 22:06:35,461 - libs.mgfd_cursor.redis_state_manager - INFO - 載入會話狀態: final_test_session
+2025-08-18 22:06:35,461 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: B...
+2025-08-18 22:06:35,461 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 傳統提取未找到槽位，使用LLM智能分類
+2025-08-18 22:06:35,461 - libs.mgfd_cursor.llm_manager - INFO - 執行槽位分類...
+2025-08-18 22:06:35,461 - libs.mgfd_cursor.llm_manager - ERROR - 槽位分類失敗: 'MGFDLLMManager' object has no attribute '_get_from_cache'
+2025-08-18 22:06:35,461 - libs.mgfd_cursor.enhanced_slot_extractor - WARNING - LLM分類置信度不足: 0.0
+2025-08-18 22:06:35,461 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 槽位提取結果: {'timestamp': '2025-08-18T22:06:35.461433', 'user_input': 'B', 'extracted_slots': {}, 'extraction_method': 'failed'}
+2025-08-18 22:06:35,461 - libs.mgfd_cursor.user_input_handler - INFO - 完整槽位提取結果: {'extracted_slots': {}, 'extraction_method': 'enhanced_extraction'}
+2025-08-18 22:06:35,461 - libs.mgfd_cursor.user_input_handler - INFO - 提取方法: enhanced_extraction
+2025-08-18 22:06:35,461 - libs.mgfd_cursor.user_input_handler - INFO - 實際提取的槽位: {}
+2025-08-18 22:06:35,462 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: final_test_session
+2025-08-18 22:06:35,462 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 當前狀態檢查:
+2025-08-18 22:06:35,462 - libs.mgfd_cursor.mgfd_system - INFO -   - filled_slots: {'portability_need': 'balanced'}
+2025-08-18 22:06:35,462 - libs.mgfd_cursor.mgfd_system - INFO -   - awaiting_prompt_response: True
+2025-08-18 22:06:35,462 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: 1
+2025-08-18 22:06:35,462 - libs.mgfd_cursor.mgfd_system - INFO -   - funnel_mode: True
+2025-08-18 22:06:35,463 - libs.mgfd_cursor.mgfd_system - INFO -   - current_stage: awareness
+2025-08-18 22:06:35,463 - libs.mgfd_cursor.mgfd_system - INFO - 等待回覆模式命中：step=1, slots={'portability_need': 'balanced'}
+2025-08-18 22:06:35,463 - libs.mgfd_cursor.question_manager - INFO - DEBUG - QuestionManager.process_prompt_response:
+2025-08-18 22:06:35,463 - libs.mgfd_cursor.question_manager - INFO -   - step: 1
+2025-08-18 22:06:35,463 - libs.mgfd_cursor.question_manager - INFO -   - response: 'B'
+2025-08-18 22:06:35,463 - libs.mgfd_cursor.question_manager - INFO -   - current_slots: {'portability_need': 'balanced'}
+2025-08-18 22:06:35,463 - libs.mgfd_cursor.question_manager - INFO - DEBUG - 正規化輸入: 'B' -> upper: 'B'
+2025-08-18 22:06:35,463 - libs.mgfd_cursor.question_manager - INFO - DEBUG - 字母鍵驗證結果: True
+2025-08-18 22:06:35,463 - libs.mgfd_cursor.slot_mapping - INFO - Prompt轉換為槽位完成: 1 個槽位
+2025-08-18 22:06:35,463 - libs.mgfd_cursor.question_manager - INFO - DEBUG - 步驟1字母鍵回覆成功: B -> {'usage_purpose': 'entertainment'}
+2025-08-18 22:06:35,463 - libs.mgfd_cursor.question_manager - INFO - DEBUG - 最終更新後的槽位: {'portability_need': 'balanced', 'usage_purpose': 'entertainment'}
+2025-08-18 22:06:35,463 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 槽位更新成功: {'portability_need': 'balanced'} -> {'portability_need': 'balanced', 'usage_purpose': 'entertainment'}
+2025-08-18 22:06:35,463 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 狀態更新: awaiting_prompt_response=False, current_prompt_step=2
+2025-08-18 22:06:35,463 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: final_test_session
+2025-08-18 22:06:35,464 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 狀態已保存到 Redis
+2025-08-18 22:06:35,464 - libs.mgfd_cursor.question_manager - INFO - 必填槽位未完成: budget_range
+INFO:     127.0.0.1:54528 - "POST /api/mgfd/chat HTTP/1.1" 200 OK
+2025-08-18 22:06:42,488 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: final_test_session, 消息: 請介紹一個適合文書處理的筆電...
+2025-08-18 22:06:42,488 - libs.mgfd_cursor.mgfd_system - INFO - ========== 開始處理會話 final_test_session 的消息: 請介紹一個適合文書處理的筆電... ==========
+2025-08-18 22:06:42,495 - libs.mgfd_cursor.redis_state_manager - INFO - 載入會話狀態: final_test_session
+2025-08-18 22:06:42,495 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: 請介紹一個適合文書處理的筆電...
+2025-08-18 22:06:42,495 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 傳統提取未找到槽位，使用LLM智能分類
+2025-08-18 22:06:42,495 - libs.mgfd_cursor.llm_manager - INFO - 執行槽位分類...
+2025-08-18 22:06:42,495 - libs.mgfd_cursor.llm_manager - ERROR - 槽位分類失敗: 'MGFDLLMManager' object has no attribute '_get_from_cache'
+2025-08-18 22:06:42,496 - libs.mgfd_cursor.enhanced_slot_extractor - WARNING - LLM分類置信度不足: 0.0
+2025-08-18 22:06:42,496 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 槽位提取結果: {'timestamp': '2025-08-18T22:06:42.496024', 'user_input': '請介紹一個適合文書處理的筆電', 'extracted_slots': {}, 'extraction_method': 'failed'}
+2025-08-18 22:06:42,496 - libs.mgfd_cursor.user_input_handler - INFO - 完整槽位提取結果: {'extracted_slots': {}, 'extraction_method': 'enhanced_extraction'}
+2025-08-18 22:06:42,496 - libs.mgfd_cursor.user_input_handler - INFO - 提取方法: enhanced_extraction
+2025-08-18 22:06:42,496 - libs.mgfd_cursor.user_input_handler - INFO - 實際提取的槽位: {}
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: final_test_session
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 當前狀態檢查:
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO -   - filled_slots: {'portability_need': 'balanced', 'usage_purpose': 'entertainment'}
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO -   - awaiting_prompt_response: False
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: 2
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO -   - funnel_mode: True
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO -   - current_stage: awareness
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 檢查是否觸發 funnel chat
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO - 觸發關鍵詞: 請介紹
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - _should_trigger_funnel_chat 結果: True
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 觸發funnel chat模式，設置 funnel_mode=True
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 決定下一步動作，funnel_mode: True
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.question_manager - INFO - 必填槽位未完成: budget_range
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 槽位收集完成檢查: False
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 繼續收集槽位
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - _handle_slot_collection:
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO -   - current_slots: {'portability_need': 'balanced', 'usage_purpose': 'entertainment'}
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: 2
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO -   - use_prompt_style: True
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - should_skip_to_search: False
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 使用Prompt風格，獲取步驟 2 的問題
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 獲取到問題: {'step': 2, 'question': '了解了！接下來，請問您的預算大概是多少呢？', 'type': 'choice', 'slot_name': 'budget_range', 'options': [{'key': 'A', 'text': '25,000元 以下', 'value': 'budget'}, {'key': 'B', 'text': '25,001 - 40,000元', 'value': 'low_mid'}, {'key': 'C', 'text': '40,001 - 55,000元', 'value': 'mid_range'}, {'key': 'D', 'text': '55,001 - 70,000元', 'value': 'high_mid'}, {'key': 'E', 'text': '70,000元 以上', 'value': 'premium'}], 'transition': '了解了！接下來，'}
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 格式化問題文字: 了解了！接下來，了解了！接下來，請問您的預算大概是多少呢？
+
+選項：
+A) 25,000元 以下
+B) 25,001 - 40,000元
+C) 40,001 - 55,000元
+D) 55,001 -...
+2025-08-18 22:06:42,497 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 更新狀態設置: awaiting_prompt_response=True, current_prompt_step=2
+2025-08-18 22:06:42,498 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: final_test_session
+2025-08-18 22:06:42,498 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 狀態已保存完成
+INFO:     127.0.0.1:54573 - "POST /api/mgfd/chat HTTP/1.1" 200 OK
+2025-08-18 22:08:35,761 - watchfiles.main - INFO - 1 change detected
+2025-08-18 22:10:55,812 - watchfiles.main - INFO - 3 changes detected
+2025-08-18 22:12:05,647 - watchfiles.main - INFO - 1 change detected
+2025-08-18 22:12:06,121 - watchfiles.main - INFO - 1 change detected
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2025-08-18 22:12:50,047 - root - INFO - 🛑 MGFD SalesRAG Integration System 關閉中...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [39225]
+INFO:     Stopping reloader process [27127]
+/Users/xrickliao/miniconda3/miniconda3/envs/salesragenv/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 5 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
