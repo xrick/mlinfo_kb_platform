@@ -93,6 +93,64 @@ class MGFDSystem:
             
             current_state = input_result["state"]
             current_slots = current_state.get("filled_slots", {})
+
+            # 優先處理：等待回覆模式（避免重覆同題）
+            if current_state.get("awaiting_prompt_response", False):
+                try:
+                    step = int(current_state.get("current_prompt_step", 1))
+                except Exception:
+                    step = 1
+
+                self.logger.info(f"等待回覆模式命中：step={step}, slots={current_slots}")
+                updated_slots = self.question_manager.process_prompt_response(step, user_message, current_slots)
+
+                if updated_slots != current_slots:
+                    # 成功映射回覆為槽位 → 更新狀態並前進到下一步
+                    current_state["filled_slots"] = updated_slots
+                    current_state["awaiting_prompt_response"] = False
+                    current_state["current_prompt_step"] = step + 1
+                    self.state_manager.save_session_state(session_id, current_state)
+
+                    # 若已可直接搜尋，則跳過剩餘問題
+                    if self.question_manager.should_skip_to_search(updated_slots) or self.question_manager.is_collection_complete(updated_slots):
+                        return self._handle_product_search(session_id, current_state)
+
+                    # 否則進入下一題
+                    next_step = int(current_state.get("current_prompt_step", step + 1))
+                    next_question = self.question_manager.get_prompt_style_question(next_step, updated_slots)
+                    if next_question:
+                        question_text = self.question_manager.format_question_with_options(next_question)
+                        return {
+                            "success": True,
+                            "response": question_text,
+                            "session_id": session_id,
+                            "timestamp": datetime.now().isoformat(),
+                            "action_type": "ask_prompt_question",
+                            "question_info": next_question,
+                            "filled_slots": updated_slots,
+                            "dialogue_stage": current_state.get("current_stage", "awareness"),
+                            "funnel_mode": True,
+                            "prompt_step": next_step
+                        }
+                    # 若無下一題則進入搜尋
+                    return self._handle_product_search(session_id, current_state)
+                else:
+                    # 未能映射，提示一次用法並重送當前題
+                    active_question = self.question_manager.get_prompt_style_question(step, current_slots)
+                    tip = "\n\n提示：請回覆選項字母 (如 A、B、C...) 或完整選項文字。"
+                    question_text = self.question_manager.format_question_with_options(active_question) + tip if active_question else "請回覆有效選項。"
+                    return {
+                        "success": True,
+                        "response": question_text,
+                        "session_id": session_id,
+                        "timestamp": datetime.now().isoformat(),
+                        "action_type": "ask_prompt_question",
+                        "question_info": active_question,
+                        "filled_slots": current_slots,
+                        "dialogue_stage": current_state.get("current_stage", "awareness"),
+                        "funnel_mode": True,
+                        "prompt_step": step
+                    }
             
             # 步驟2: 檢查是否需要觸發funnel chat (Case-1核心邏輯)
             if self._should_trigger_funnel_chat(user_message, current_slots):

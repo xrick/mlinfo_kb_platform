@@ -1,0 +1,65 @@
+frontend messages:
+cleared
+mgfd_cursor:618 🔧 renderAssistantMessage called with: Object
+mgfd_cursor:661 📄 Processing plain text response
+content_script.js:6998 Immersive Translate INFO: 全局时间戳一致，检查单个术语库更新
+content_script.js:6998 Immersive Translate INFO: 开始下载 1 个术语库...
+content_script.js:6998 Immersive Translate INFO: 本地同步时间戳无需更新 (2025/7/17 下午9:55:46)
+mgfd_cursor:547 🔄 Received data from backend: Object
+mgfd_cursor:561 📦 Detected standard response format
+mgfd_cursor:618 🔧 renderAssistantMessage called with: Object
+mgfd_cursor:661 📄 Processing plain text response
+mgfd_cursor:547 🔄 Received data from backend: Object
+mgfd_cursor:561 📦 Detected standard response format
+mgfd_cursor:618 🔧 renderAssistantMessage called with: Object
+mgfd_cursor:661 📄 Processing plain text response
+mgfd_cursor:547 🔄 Received data from backend: Object
+mgfd_cursor:561 📦 Detected standard response format
+mgfd_cursor:618 🔧 renderAssistantMessage called with: Object
+mgfd_cursor:661 📄 Processing plain text response
+
+
+
+backend message:
+INFO:     127.0.0.1:61993 - "GET /api/mgfd_cursor/stats HTTP/1.1" 200 OK
+2025-08-18 18:26:57,317 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: 2e52309f-4a04-4dee-937a-d6bcd08b3b25, 消息: 請介紹目前適合文書處理的筆電...
+2025-08-18 18:26:57,317 - libs.mgfd_cursor.mgfd_system - INFO - 處理會話 2e52309f-4a04-4dee-937a-d6bcd08b3b25 的消息: 請介紹目前適合文書處理的筆電...
+2025-08-18 18:26:57,318 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: 請介紹目前適合文書處理的筆電...
+2025-08-18 18:26:57,318 - libs.mgfd_cursor.user_input_handler - ERROR - 槽位提取失敗: 'EnhancedSlotExtractor' object has no attribute 'knowledge_base'
+2025-08-18 18:26:57,319 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 2e52309f-4a04-4dee-937a-d6bcd08b3b25
+2025-08-18 18:26:57,319 - libs.mgfd_cursor.mgfd_system - INFO - 觸發關鍵詞: 請介紹
+2025-08-18 18:26:57,319 - libs.mgfd_cursor.mgfd_system - INFO - 觸發funnel chat模式
+2025-08-18 18:26:57,319 - libs.mgfd_cursor.question_manager - INFO - 必填槽位未完成: usage_purpose
+2025-08-18 18:26:57,320 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 2e52309f-4a04-4dee-937a-d6bcd08b3b25
+INFO:     127.0.0.1:61998 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
+2025-08-18 18:27:08,788 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: 2e52309f-4a04-4dee-937a-d6bcd08b3b25, 消息: C...
+2025-08-18 18:27:08,788 - libs.mgfd_cursor.mgfd_system - INFO - 處理會話 2e52309f-4a04-4dee-937a-d6bcd08b3b25 的消息: C...
+2025-08-18 18:27:08,789 - libs.mgfd_cursor.redis_state_manager - INFO - 載入會話狀態: 2e52309f-4a04-4dee-937a-d6bcd08b3b25
+2025-08-18 18:27:08,789 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: C...
+2025-08-18 18:27:08,789 - libs.mgfd_cursor.user_input_handler - ERROR - 槽位提取失敗: 'EnhancedSlotExtractor' object has no attribute 'knowledge_base'
+2025-08-18 18:27:08,790 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 2e52309f-4a04-4dee-937a-d6bcd08b3b25
+INFO:     127.0.0.1:62001 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
+2025-08-18 18:27:23,224 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: 2e52309f-4a04-4dee-937a-d6bcd08b3b25, 消息: 專業創作...
+2025-08-18 18:27:23,225 - libs.mgfd_cursor.mgfd_system - INFO - 處理會話 2e52309f-4a04-4dee-937a-d6bcd08b3b25 的消息: 專業創作...
+2025-08-18 18:27:23,226 - libs.mgfd_cursor.redis_state_manager - INFO - 載入會話狀態: 2e52309f-4a04-4dee-937a-d6bcd08b3b25
+2025-08-18 18:27:23,226 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: 專業創作...
+2025-08-18 18:27:23,226 - libs.mgfd_cursor.user_input_handler - ERROR - 槽位提取失敗: 'EnhancedSlotExtractor' object has no attribute 'knowledge_base'
+2025-08-18 18:27:23,227 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 2e52309f-4a04-4dee-937a-d6bcd08b3b25
+INFO:     127.0.0.1:62004 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
+2025-08-18 18:27:30,266 - watchfiles.main - INFO - 1 change detected
+2025-08-18 18:32:30,268 - watchfiles.main - INFO - 1 change detected
+2025-08-18 18:37:30,301 - watchfiles.main - INFO - 1 change detected
+2025-08-18 18:39:21,475 - watchfiles.main - INFO - 1 change detected
+2025-08-18 18:39:22,050 - watchfiles.main - INFO - 3 changes detected
+2025-08-18 18:39:22,676 - watchfiles.main - INFO - 4 changes detected
+2025-08-18 18:42:30,265 - watchfiles.main - INFO - 1 change detected
+2025-08-18 18:43:04,515 - watchfiles.main - INFO - 377 changes detected
+2025-08-18 18:43:07,621 - watchfiles.main - INFO - 5 changes detected
+2025-08-18 18:43:08,306 - watchfiles.main - INFO - 3 changes detected
+2025-08-18 18:43:08,929 - watchfiles.main - INFO - 4 changes detected
+INFO:     127.0.0.1:62671 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+2025-08-18 18:44:46,130 - watchfiles.main - INFO - 2 changes detected
+2025-08-18 18:45:31,566 - watchfiles.main - INFO - 2 changes detected
+2025-08-18 18:45:33,951 - watchfiles.main - INFO - 1 change detected
+2025-08-18 18:45:35,793 - watchfiles.main - INFO - 2 changes detected
+2025-08-18 18:45:41,105 - watchfiles.main - INFO - 2 changes detected

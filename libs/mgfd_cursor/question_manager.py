@@ -331,24 +331,61 @@ class QuestionManager:
         try:
             updated_slots = current_slots.copy()
             step_key = f"step_{step}"
-            
-            # 驗證回應
-            if self.slot_mapper.validate_prompt_response(step_key, response):
-                # 轉換為槽位
-                prompt_responses = {step_key: response}
+
+            # 正規化輸入（允許 A-F 與完整選項文字）
+            normalized = (response or "").strip()
+            normalized_upper = normalized.upper()
+            normalized_lower = normalized.lower()
+
+            # 允許直接用 value/label（中文全稱）或字母鍵
+            # 1) 嘗試字母鍵驗證
+            if self.slot_mapper.validate_prompt_response(step_key, normalized_upper):
+                prompt_responses = {step_key: normalized_upper}
                 new_slots = self.slot_mapper.convert_prompt_to_slots(prompt_responses)
                 updated_slots.update(new_slots)
-                
-                self.logger.info(f"處理步驟{step}回應: {response} -> {new_slots}")
-            else:
-                # 嘗試自然語言處理
-                enhanced_slots = self.slot_mapper.enhance_slots_from_natural_input(response, current_slots)
-                if enhanced_slots != current_slots:
-                    updated_slots.update(enhanced_slots)
-                    self.logger.info(f"自然語言處理步驟{step}: {response} -> 新增槽位")
-                else:
-                    self.logger.warning(f"無法處理步驟{step}的回應: {response}")
-            
+                self.logger.info(f"步驟{step}字母鍵回覆: {normalized_upper} -> {new_slots}")
+                return updated_slots
+
+            # 2) 嘗試中文全稱/標準值匹配（從選項表反查 key）
+            options = []
+            if step == 1:
+                options = self.slot_mapper.get_prompt_options_for_slot("usage_purpose")
+            elif step == 2:
+                options = self.slot_mapper.get_prompt_options_for_slot("budget_range")
+            elif step == 3:
+                options = self.slot_mapper.get_prompt_options_for_slot("portability")
+            elif step == 4:
+                options = self.slot_mapper.get_prompt_options_for_slot("screen_size")
+            elif step == 5:
+                options = self.slot_mapper.get_prompt_options_for_slot("brand_preference")
+            elif step == 6:
+                options = self.slot_mapper.get_prompt_options_for_slot("special_requirement")
+
+            def find_key_by_label_or_value(text: str) -> Optional[str]:
+                t = (text or "").strip().lower()
+                for opt in options:
+                    if opt.get("value", "").lower() == t:
+                        return opt.get("key")
+                    if opt.get("text", "").lower() == t:
+                        return opt.get("key")
+                return None
+
+            inferred_key = find_key_by_label_or_value(normalized)
+            if inferred_key and self.slot_mapper.validate_prompt_response(step_key, inferred_key):
+                prompt_responses = {step_key: inferred_key}
+                new_slots = self.slot_mapper.convert_prompt_to_slots(prompt_responses)
+                updated_slots.update(new_slots)
+                self.logger.info(f"步驟{step}文本回覆匹配: {normalized} -> key={inferred_key} -> {new_slots}")
+                return updated_slots
+
+            # 3) 最後嘗試自然語言增強（不推薦，但作為保底）
+            enhanced_slots = self.slot_mapper.enhance_slots_from_natural_input(response, current_slots)
+            if enhanced_slots != current_slots:
+                updated_slots.update(enhanced_slots)
+                self.logger.info(f"自然語言處理步驟{step}: {response} -> 新增槽位")
+                return updated_slots
+
+            self.logger.warning(f"無法處理步驟{step}的回應: {response}")
             return updated_slots
             
         except Exception as e:

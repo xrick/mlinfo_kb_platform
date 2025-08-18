@@ -1,0 +1,36 @@
+請先解釋「槽位擷取：EnhancedSlotExtractor.extract_slots_with_classification(...) 對「請介紹目前適合文書處理的筆電」通常回傳空集合 {}（此路徑未處理 A/B/C 類型輸入，也未從此句提取明確槽位）」
+
+
+
+重點結論
+對「A/B/C」這種回覆：目前路徑不支援，會回傳空集合 {}。
+對「請介紹目前適合文書處理的筆電」這種自然語句：因含「文書」，實作會提取到 usage_purpose（非空）。
+為什麼 A/B/C 會是空 {}
+邏輯先檢查是否為「選項回覆」：
+# 0. 首先檢查是否為funnel question選項回應
+if self._is_funnel_option_response(user_input):
+    ...
+    extracted_slots = self._extract_option_selection(user_input)
+    return {...}
+但「選項回覆」的判斷與提取僅支援下列格式與英文字值，沒有將「A/B/C...」字母對應到槽位：
+# 支援的格式（需有前綴）
+r"選擇選項[:：]\s*(\w+)", r"option[:：]\s*(\w+)", r"我選擇\s*(\w+)", r"選\s*(\w+)"
+
+# 直接值白名單（英文字）
+known_options = [
+  "gaming","business","student","creative","general",
+  "budget","mid_range","premium","luxury",
+  "ultra_portable","balanced","desktop_replacement"
+]
+# 只把英文字值映射到槽位，沒有 A/B/C → usage_purpose 的對應
+if option_value in ["gaming","business","student","creative","general"]:
+    extracted_slots["usage_purpose"] = option_value
+...
+結果：「A」或「B」這種輸入不符合「前綴模式」也不在「英文字白名單」，因此當作非選項回覆處理；後續傳統關鍵詞與 LLM 分類也無法從單一字母推出槽位，回傳 {}。
+為什麼「請介紹目前適合文書處理的筆電」不會是空 {}
+傳統關鍵字提取支援「文書/上網/日常」等字樣，會對應 usage_purpose：
+if any(word in user_input_lower for word in ["工作","business","辦公","商務","文書"]):
+    extracted_slots["usage_purpose"] = "business"
+elif any(word in user_input_lower for word in ["一般","general","日常","上網"]):
+    extracted_slots["usage_purpose"] = "general"
+因此這句通常可提取到 usage_purpose（非空）。但「仍重覆問第一題」是另一個問題：回覆流程沒有把使用者第二輪回覆（如 A 或中文字）映射進槽位、也沒把 current_prompt_step 往後推，和你觀察到的重覆一致。

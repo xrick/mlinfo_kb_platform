@@ -6,7 +6,8 @@
       "description": "MGFD系統槽位詢問問題配置 - 按照default_slots.json順序排列",
       "author": "AI Assistant",
       "total_questions": 11,
-      "question_order_source": "default_slots.json"
+      "question_order_source": "default_slots.json",
+      "question_presentation_type": ["one_by_one_with_follow_up", "one_by_one_with_follow_up_and_clarification", "one_by_one_with_follow_up_and_clarification_and_skip", "one_by_one_with_follow_up_and_clarification_and_skip_and_confirm"]
     },
     "question_sequence": [
       {

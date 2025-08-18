@@ -1,0 +1,54 @@
+enter research
+既然如此，請採用圖卡選擇方式來呈現「槽位資料收集問題」，讓這種風格成為我們的系統風格
+
+核心目標
+將槽位收集統一改為「圖卡選擇」風格，避免文字/字母雙軌輸入造成歧義。
+後端以結構化卡片問題回傳；前端渲染卡片並回送標準化選擇值。
+後端資料契約（建議）
+回傳型態統一成「卡片問題」：
+  {
+    "success": true,
+    "action_type": "card_question",
+    "dialogue_stage": "awareness",
+    "session_id": "xxx",
+    "timestamp": "2025-08-18T17:30:00",
+    "slot_name": "usage_purpose",
+    "step": 1,
+    "input_type": "single_choice",
+    "cards": [
+      {"id": "A", "value": "document_processing", "label": "日常文書處理與上網"},
+      {"id": "B", "value": "entertainment", "label": "影音娛樂"},
+      {"id": "C", "value": "creative", "label": "專業創作"},
+      {"id": "D", "value": "gaming", "label": "電競遊戲"},
+      {"id": "E", "value": "business", "label": "商務辦公"},
+      {"id": "F", "value": "programming", "label": "程式開發"}
+    ]
+  }
+重點：
+移除「其他/請簡要說明」卡，避免不具體輸入。
+value 使用 slot_mapping.py 定義的標準值；id 用於前端展示，不作為後端依據。
+前端行為（建議）
+ui_type=cards 渲染卡片；點擊後：
+將選擇以標準化訊息送回："選擇選項: document_processing"（或 POST body 的 selection.value）
+立即將 UI 進入「已選擇」狀態，避免重複點擊。
+與既有擷取邏輯相容：EnhancedSlotExtractor 會辨識 選擇選項: 並抽出 usage_purpose=document_processing，無需自由文字解析。
+流程銜接（最小必要）
+在後端接到卡片選擇後，除了已更新 filled_slots，還需：
+將 awaiting_prompt_response 設為 False
+current_prompt_step += 1
+否則會重覆第1題（這是現有重覆的直接原因）。
+選項來源與一致性
+QuestionManager.get_prompt_style_question(step) → options 應回傳 {id,label,value} 統一欄位，value 來自 slot_mapping.py。
+僅允許單選或多選兩類：input_type = single_choice/multi_choice；前端據此限制 UI。
+兼容與過渡
+回傳維持 response（純文字）作為後備顯示，但前端以 cards 優先。
+前端未更新時，依舊可讀 response 文本，不影響存量。
+影響面
+後端：libs/mgfd_cursor/question_manager.py（options 結構）、libs/mgfd_cursor/mgfd_system.py（回傳 card_question、步驟遞增）、libs/mgfd_cursor/slot_mapping.py（標準值）。
+前端：templates/mgfd_interface.html、static/js/app.js（或現有前端檔）新增卡片渲染與點擊送出。
+測試建議
+兩輪用例：
+Q1: usage_purpose（卡片）→ 選擇 E.business → 確認 slots 更新且 current_prompt_step 由 1→2。
+Q2: budget_range（卡片）→ 選擇 mid_range → 第3題顯示（不重覆 Q1）。
+說明
+本回覆為規格與資料契約確認，尚未做任何程式修改。若你同意，我再依此契約完成最小實作與前端卡片渲染。

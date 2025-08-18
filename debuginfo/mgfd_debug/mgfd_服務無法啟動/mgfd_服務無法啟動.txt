@@ -1,0 +1,10 @@
+2025-08-18 20:07:30,290 - watchfiles.main - INFO - 1 change detected
+INFO:     127.0.0.1:55135 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55135 - "GET /static/css/integrated.css?v=20250724e HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:55135 - "GET /static/js/app.js?v=20250724e HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:55135 - "GET /static/js/history.js?v=20250724e HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:55135 - "GET /api/history/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55135 - "GET /mgfd_cursor HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55135 - "POST /api/mgfd_cursor/session/create HTTP/1.1" 503 Service Unavailable
+INFO:     127.0.0.1:55160 - "GET /mgfd_cursor HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55160 - "POST /api/mgfd_cursor/session/create HTTP/1.1" 503 Service Unavailable

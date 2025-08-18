@@ -1,0 +1,80 @@
+enter research
+好，至少輸入”請介紹目前適合文書處理的筆電”，還會輸出：
+”首先，請問您購買這台新電腦，最主要的用途是什麼呢？這將幫助我判斷電腦需要的核心效能。 選項： A) 日常文書處理與上網 B) 影音娛樂 C) 專業創作 (例如：修圖、影片剪輯) D) 電競遊戲 E) 商務辦公 F) 程式開發 G) 其他 (請簡要說明)”
+但這個地方有三個明顯的問題：
+1.是要客戶選A, B, C, D,...
+2.還要客戶輸入文字，如： 日常文書處理與上網,  影音娛樂, 專業創作
+3.「請簡要說明」不具體，也不該出現。
+好，回到我們的問題，無論我選擇哪一個選擇，系統不會再出現進一步的槽位資料收集問題，而是一直重覆剛才的選項：
+”首先，請問您購買這台新電腦，最主要的用途是什麼呢？這將幫助我判斷電腦需要的核心效能。 選項： A) 日常文書處理與上網 B) 影音娛樂 C) 專業創作 (例如：修圖、影片剪輯) D) 電競遊戲 E) 商務辦公 F) 程式開發 G) 其他 (請簡要說明)”
+現在，請先用”請介紹目前適合文書處理的筆電”這個問題進行測試，一直測試到第一次重覆：
+”首先，請問您購買這台新電腦，最主要的用途是什麼呢？這將幫助我判斷電腦需要的核心效能。 選項： A) 日常文書處理與上網 B) 影音娛樂 C) 專業創作 (例如：修圖、影片剪輯) D) 電競遊戲 E) 商務辦公 F) 程式開發 G) 其他 (請簡要說明)”。
+然後，我們先來看資料在系統中被怎麼處理，或者系哪裏有缺陷。請務必注意，＊＊我沒有要你解決問題＊＊，而是把資料流怎麼被處理，到最後產生重覆的選項，重現一次。
+
+我先啟動後端以便重現端到端流程，並同時在背景執行伺服器；接著用相同用例連續呼叫直到重現第一個重覆問題，最後我會根據程式碼與日誌，逐步追蹤資料流（不修復）。
+以下是以「請介紹目前適合文書處理的筆電」重現到首次重覆為止的資料流追蹤（不做修復）：
+第一次請求（用戶提出問題）
+路由
+POST /api/mgfd_cursor/chat → 交給 mgfd_system.process_message(...)（api/mgfd_routes.py）
+輸入處理
+UserInputHandler.process_user_input 載入/建立會話狀態（RedisStateManager.load_session_state），將用戶訊息寫入 chat_history
+槽位擷取：EnhancedSlotExtractor.extract_slots_with_classification(...) 對「請介紹目前適合文書處理的筆電」通常回傳空集合 {}（此路徑未處理 A/B/C 類型輸入，也未從此句提取明確槽位）
+filled_slots 仍為空
+流程決策
+_should_trigger_funnel_chat(...) 因含關鍵詞「請介紹/筆電」→ True → 設 funnel_mode=True
+槽位提問（Prompt 風格）
+_handle_slot_collection(...) 取 current_prompt_step = state.get('current_prompt_step', 1) → 1
+呼叫 QuestionManager.get_prompt_style_question(1, current_slots) 產生第1步「用途」問題與 A~G 選項
+狀態寫回：
+state['current_prompt_step'] = 1
+state['current_question_slot'] = 'usage_purpose'
+state['awaiting_prompt_response'] = True
+但未有任何「遞增 step」或「處理回覆」的邏輯
+回傳給前端之回應類型為 action_type="ask_prompt_question"，內容即你看到的 A~G 選項
+關鍵代碼（僅供對照）：
+if self.use_prompt_style and current_prompt_step <= 6:
+    next_question = self.question_manager.get_prompt_style_question(current_prompt_step, current_slots)
+    ...
+    current_state["current_prompt_step"] = current_prompt_step
+    current_state["current_question_slot"] = next_question["slot_name"]
+    current_state["awaiting_prompt_response"] = True
+    ...
+    return {
+        "action_type": "ask_prompt_question",
+        "question_info": next_question,
+        "filled_slots": current_slots,
+        ...
+        "prompt_step": current_prompt_step
+    }
+第二次請求（用戶回答 A 或輸入「日常文書處理與上網」）
+路由
+同一路徑 → mgfd_system.process_message(...)
+輸入處理
+載入狀態後，UserInputHandler.process_user_input 再次嘗試用 EnhancedSlotExtractor 從原始文字擷取槽位
+現有流程中「並未」偵測 awaiting_prompt_response 也「未」呼叫 QuestionManager.process_prompt_response 將 A/B/C 或文字映射成 usage_purpose，因此多半仍回 {} → filled_slots 不變
+流程決策
+_should_trigger_funnel_chat(...) 仍 True（有關鍵詞、槽位未齊）
+槽位提問（再次）
+_handle_slot_collection(...) 仍讀到 current_prompt_step = 1（上一步沒有遞增）
+再呼叫 get_prompt_style_question(1, current_slots) → 再次產生相同的第1步用途問題 A~G 選項
+狀態又以同樣值寫回 → 前端看到相同內容重覆出現
+對照可用但未被呼叫的轉換方法：
+def process_prompt_response(self, step: int, response: str, current_slots: Dict[str, Any]) -> Dict[str, Any]:
+    # 會用 slot_mapper 驗證與轉換，如 A/B/C → usage_purpose
+    # 驗證/轉換成功後回傳更新後的 slots
+為何會重覆
+回覆處理缺口：
+現流程沒有在收到 A/B/C 或文字選項時，呼叫 QuestionManager.process_prompt_response(...) 將回覆轉為標準槽位（如 usage_purpose="document_processing"）並遞增 current_prompt_step
+狀態推進缺口：
+current_prompt_step 在回覆後未遞增；awaiting_prompt_response 未被消除；current_question_slot 未被消化
+擷取路徑偏差：
+實際擷取是走 EnhancedSlotExtractor（自由文本擷取），而非走 slot_mapping 的選項映射，所以 A/B/C 的回覆不會自動更新槽位
+三個提問表述問題（僅標註、非修復）
+「要客戶選 A/B/C」與「要客戶輸入文字」同時存在，行為不一致（前端/後端未統一）
+「請簡要說明」過於籠統且未定義處理方式（系統中也沒有針對 step=1 文字自由輸入的解析接點）
+以上不影響此次「重覆出現」的根因判定，但會放大用戶感知問題
+小結：資料流至首次重覆
+第1輪：產生用途（step 1）A~G → 狀態標記等待回覆，但不遞增 step
+第2輪：用戶回答 → 未被 process_prompt_response 轉槽位 → 仍是 step=1 → 再問同一題
+首次重覆出現於第二輪回應
+你要我繼續把這段資料流以實際 API 請求和後端日誌逐行標註出「狀態字段」在每步的值變化嗎（例如 funnel_mode/current_prompt_step/awaiting_prompt_response/filled_slots）？

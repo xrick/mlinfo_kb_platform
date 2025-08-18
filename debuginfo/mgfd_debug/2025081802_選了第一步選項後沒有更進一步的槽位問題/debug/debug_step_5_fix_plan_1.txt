@@ -1,0 +1,65 @@
+[enter research]
+we have discussed many points of the system, let's back track to our original problem:
+好，至少輸入”請介紹目前適合文書處理的筆電”，還會輸出：
+”首先，請問您購買這台新電腦，最主要的用途是什麼呢？這將幫助我判斷電腦需要的核心效能。 選項： A) 日常文書處理與上網 B) 影音娛樂 C) 專業創作 (例如：修圖、影片剪輯) D) 電競遊戲 E) 商務辦公 F) 程式開發 G) 其他 (請簡要說明)”
+但這個地方有三個明顯的問題：
+1.是要客戶選A, B, C, D,...
+2.還要客戶輸入文字，如： 日常文書處理與上網,  影音娛樂, 專業創作
+3.「請簡要說明」不具體，也不該出現。
+好，回到我們的問題，無論我選擇哪一個選擇，系統不會再出現進一步的槽位資料收集問題，而是一直重覆剛才的選項：
+”首先，請問您購買這台新電腦，最主要的用途是什麼呢？這將幫助我判斷電腦需要的核心效能。 選項： A) 日常文書處理與上網 B) 影音娛樂 C) 專業創作 (例如：修圖、影片剪輯) D) 電競遊戲 E) 商務辦公 F) 程式開發 G) 其他 (請簡要說明)”
+please think step by step, comprehensively, and **he most important do not increase system complexity** to make a fix plan
+
+
+
+修復計劃（維持最低複雜度、不加大架構）
+核心目標
+讓使用者回答一次選項後，系統正確更新槽位、遞增步驟、進入下一題。
+統一輸入方式，避免「A/B/C」與「自由文字」雙軌造成混亂。
+移除「其他（請簡要說明）」這類不具體的選項。
+最小改動清單（後端僅小幅接線＋微調）
+對話流程銜接（關鍵修復）
+在 libs/mgfd_cursor/mgfd_system.py 的 process_message/_handle_slot_collection 前，新增一個簡單判斷：
+若 state['awaiting_prompt_response'] == True，則：
+1) 讀取 current_prompt_step 與 current_slots
+2) 呼叫 QuestionManager.process_prompt_response(step, user_message, current_slots) 進行「回覆→槽位」轉換
+3) 如有新增槽位：更新 filled_slots、current_prompt_step += 1、awaiting_prompt_response = False
+4) 若已滿足「足夠搜尋」則直接進入搜尋；否則呼叫 get_prompt_style_question(next_step) 發問下一題
+如無新增槽位：保持 awaiting_prompt_response = True，回覆「請用 A/B/C... 格式或回覆完整選項文字」並重送同題（但這是防呆，不是預設路徑）
+選項映射（最小支援 A/B/C）
+在 libs/mgfd_cursor/question_manager.py 的 process_prompt_response 中，加入步驟感知的選項映射：
+step=1（用途）允許輸入「A/B/C/D/E/F」或完整文字，轉換為標準值（例如 A→document_processing，E→business）
+只針對當前步驟有效，不做全域解析（避免複雜化）
+移除不具體選項
+在 QuestionManager.get_prompt_style_question(step) 回傳 options 時，移除「G) 其他（請簡要說明）」；僅保留可映射到標準槽位的卡片。
+回傳鍵統一性（避免 API 驗證問題）
+確認所有回傳皆使用 filled_slots，並包含 dialogue_stage（你已補齊，保持一致即可）。
+不改的部分（刻意避免增加複雜度）
+不改前端：仍用純文字對話；短期不引入卡片 UI（圖卡風格可留待後續版）。
+不改 EnhancedSlotExtractor 的主流程：只在「等待回覆模式」走 QuestionManager.process_prompt_response 的路徑；一般非等待回覆時才走擷取器（避免雙重解析衝突）。
+不引入新狀態機/新模組：僅在現有模組補「回覆→槽位」接線與步驟前進。
+期待行為（以你的案例驗證）
+輸入1：「請介紹目前適合文書處理的筆電」
+系統：問「用途」選項（A-F）
+狀態：awaiting_prompt_response=True, current_prompt_step=1
+輸入2：「E」或「商務辦公」
+系統：process_prompt_response(1, "E", slots) → 轉換 usage_purpose=business
+狀態：filled_slots 更新、awaiting_prompt_response=False、current_prompt_step=2
+系統：發第2題（預算）
+不會再重覆問第1題。
+驗收手順（最小）
+兩輪 API 測試（同一 session_id）
+檢查 filled_slots 是否更新
+current_prompt_step 是否 1→2
+awaiting_prompt_response 是否 False
+一輪「字母」＋一輪「完整選項文字」都應通過。
+風險與緩解
+風險：使用者輸入非預期格式（如小寫/空白）
+緩解：process_prompt_response 先做 strip().lower()，並允許字母/全名兩種。
+風險：已收集足夠槽位卻仍繼續提問
+緩解：在提問前檢查 should_skip_to_search(slots)。
+變更範圍（精準）
+libs/mgfd_cursor/mgfd_system.py：新增「等待回覆模式」處理分支、步驟遞增與旗標更新
+libs/mgfd_cursor/question_manager.py：process_prompt_response 新增步驟對應的 A-F 映射；get_prompt_style_question 移除「其他」
+無其它檔案變更
+這樣做能以最小代價解決「選了選項仍重覆同題」與「輸入方式混亂」兩個關鍵問題，且不引入新模組或前端大改。

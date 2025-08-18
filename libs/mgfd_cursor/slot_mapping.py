@@ -201,8 +201,7 @@ class PromptOptionMapping:
                 {"key": "C", "text": "專業創作 (例如：修圖、影片剪輯)", "value": "creative"},
                 {"key": "D", "text": "電競遊戲", "value": "gaming"},
                 {"key": "E", "text": "商務辦公", "value": "business"},
-                {"key": "F", "text": "程式開發", "value": "programming"},
-                {"key": "G", "text": "其他 (請簡要說明)", "value": "general"}
+                {"key": "F", "text": "程式開發", "value": "programming"}
             ]
         elif slot_name == "budget_range":
             return [

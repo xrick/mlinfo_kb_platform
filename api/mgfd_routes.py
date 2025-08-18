@@ -35,7 +35,7 @@ except Exception as e:
     logger.error(f"Redis連接失敗: {e}")
     redis_client = None
 
-# 初始化MGFD系統
+# 初始化MGFD系統（僅使用 Redis）
 try:
     mgfd_system = MGFDSystem(redis_client) if redis_client else None
     logger.info("MGFD系統初始化成功")

@@ -1,0 +1,20 @@
+503 的原因
+POST /api/mgfd_cursor/session/create 走 get_mgfd_system()，回 503 表示 mgfd_system 未初始化。
+在 api/mgfd_routes.py：若 Redis 連線失敗（redis_client=None），就不會建立 MGFDSystem → 之後所有 mgfd 端點回 503。
+快速解法（選一）
+啟動本機 Redis（建議）
+啟動 Redis 後，確認 redis-cli ping 為 PONG，重啟後端，再試 session/create。
+或暫時免 Redis（需要小改）
+讓 mgfd_routes.py 在 redis_client=None 時，仍建立 MGFDSystem（內部用記憶體狀態管理 fallback）。
+或在 MGFDSystem/RedisStateManager 內加入 in-memory fallback。
+接下來要我
+幫你啟動 Redis 並重試
+或實作最小 in-memory fallback，避免依賴 Redis
+結果還是不行，先採
+
+mgfd_routes.py 在 redis_client=None 時，仍建立 MGFDSystem（內部用記憶體狀態管理 fallback）。
+之後改回來
+我已加入無 Redis 的記憶體狀態管理 fallback：
+新增 libs/mgfd_cursor/inmemory_state_manager.py，介面與 RedisStateManager 對齊
+調整 api/mgfd_routes.py：若 redis_client 不可用，仍建立 MGFDSystem，並把 state_manager 換成 InMemoryStateManager
+請重新載入後端或查看日誌是否已顯示 “MGFD系統初始化成功 (InMemory)”；初始化完成後，再試一次 POST /api/mgfd_cursor/session/create。
