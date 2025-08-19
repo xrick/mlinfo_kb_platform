@@ -94,13 +94,14 @@ templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
 # 導入 API 路由模組
 try:
     # 嘗試導入各種 API 路由模組
-    from api import sales_routes, specs_routes, history_routes, import_data_routes
+    from api import sales_routes, specs_routes, history_routes, import_data_routes, mgfdsys_routes
     
     # 將各個路由模組註冊到主應用程式中
     app.include_router(sales_routes.router, prefix="/api/sales", tags=["sales"])  # 銷售相關 API
     app.include_router(specs_routes.router, prefix="/api/specs", tags=["specs"])  # 規格相關 API
     app.include_router(history_routes.router, prefix="/api/history", tags=["history"])  # 歷史記錄相關 API
     app.include_router(import_data_routes.router, prefix="/api", tags=["import"])  # 資料匯入相關 API
+    app.include_router(mgfdsys_routes.router, prefix="/api/mgfdsys", tags=["mgfdsys"])  # MGFDSYS 相關 API
 except ImportError as e:
     # 如果某些 API 路由模組無法導入，記錄警告訊息
     logging.warning(f"Some API routes not yet available: {e}")
@@ -146,7 +147,13 @@ def custom_openapi():
 
 app.openapi = custom_openapi
 
+###　原本的根路徑定義
 # 定義根路徑 "/" 的處理函數，返回主要的整合介面
+# @app.get("/", response_class=HTMLResponse)
+# async def main_interface(request: Request):
+#     """主要整合介面"""
+#     return templates.TemplateResponse("index.html", {"request": request})
+
 @app.get("/", response_class=HTMLResponse)
 async def main_interface(request: Request):
     """主要整合介面"""
