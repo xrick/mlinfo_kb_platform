@@ -31,11 +31,11 @@ def connect_to_milvus():
         logging.error(f"Failed to connect to Milvus: {e}")
         raise
 
-def create_milvus_collection():
-    """Creates the Milvus collection if it doesn't exist."""
+def setup_milvus_collection():
+    """Drops the collection if it exists, then creates a new one."""
     if utility.has_collection(MILVUS_COLLECTION_NAME):
-        logging.info(f"Collection '{MILVUS_COLLECTION_NAME}' already exists. Skipping creation.")
-        return Collection(MILVUS_COLLECTION_NAME)
+        logging.warning(f"Collection '{MILVUS_COLLECTION_NAME}' exists. Dropping it.")
+        utility.drop_collection(MILVUS_COLLECTION_NAME)
 
     fields = [
         FieldSchema(name="chunk_id", dtype=DataType.VARCHAR, is_primary=True, max_length=256),
@@ -61,7 +61,7 @@ def create_milvus_collection():
 def process_files():
     """Main function to process all CSV files."""
     connect_to_milvus()
-    milvus_collection = create_milvus_collection()
+    milvus_collection = setup_milvus_collection()
     
     # Initialize DuckDB connection
     con = duckdb.connect(database=DUCKDB_FILE, read_only=False)
@@ -74,11 +74,12 @@ def process_files():
 
     for filename in files_to_process:
         file_path = os.path.join(SOURCE_DIR, filename)
-        table_name = os.path.splitext(filename)[0] # Use filename as table name
+        table_name = f"spec_{os.path.splitext(filename)[0]}" # Use filename as table name
 
         try:
             logging.info(f"--- Processing file: {filename} ---")
-            df = pd.read_csv(file_path)
+            # Ensure modeltype is read as string to prevent Milvus type errors
+            df = pd.read_csv(file_path, dtype={'modeltype': str})
             
             # 1. Store raw data in DuckDB
             con.register('df_temp', df)

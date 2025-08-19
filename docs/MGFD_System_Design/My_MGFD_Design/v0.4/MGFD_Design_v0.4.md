@@ -89,7 +89,7 @@ StateManager (state_manager.py)
 
 ### 所有模組運作總述：
 
-* 會話狀態機
+* 狀態管理
   每一個新的客戶與AI會話開始，在redis中就要建立一個Chat State Machine:
 
 ```mermaid
