@@ -1,5 +1,5 @@
 ﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
-529,Version: MP_v1.8,Model Name: AB529,MB Ver.: v1.2,"stage: Planning：N/A
+529,Version: MP_v1.8,AB529,MB Ver.: v1.2,"stage: Planning：N/A
 Kick-off：2023/03/05
 EVT：2023/03/05-2023/07/14
 DVT：N/A

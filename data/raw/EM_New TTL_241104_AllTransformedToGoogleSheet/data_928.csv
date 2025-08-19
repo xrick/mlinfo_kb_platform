@@ -1,5 +1,5 @@
 ﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
-928,Version: MP_v1.3,Model Name: ARB928,MB Ver.: v1.0?,"stage: Planning：N/A
+928,Version: MP_v1.3,ARB928,MB Ver.: v1.0?,"stage: Planning：N/A
 Kick-off：N/A
 EVT：N/A
 DVT：N/A

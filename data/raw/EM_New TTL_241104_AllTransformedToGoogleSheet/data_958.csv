@@ -1,5 +1,5 @@
 ﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
-958,Version: MP_v1.1,Model Name: AG958,MB Ver.: v3.0,"stage: Planning：N/A
+958,Version: MP_v1.1,AG958,MB Ver.: v3.0,"stage: Planning：N/A
 Kick-off：2022/09/30
 EVT：2022/10/01-2023/01/27
 DVT：2023/01/28-2023/04/15

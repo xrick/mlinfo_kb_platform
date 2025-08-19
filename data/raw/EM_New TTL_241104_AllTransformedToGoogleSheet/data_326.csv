@@ -1,5 +1,5 @@
 ﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
-326,Version: EVT 1.2,Model Name: AHP326,MB Ver.: v1.0,"stage: Planning：2023/10/02-2024/04/02
+326,Version: EVT 1.2,''AHP326,MB Ver.: v1.0,"stage: Planning：2023/10/02-2024/04/02
 Kick-off：2024/04/03
 EVT：2024/08/07-2024/11/05
 DVT：

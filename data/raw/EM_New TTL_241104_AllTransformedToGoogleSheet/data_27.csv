@@ -1,5 +1,5 @@
 ﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
-27,Version: MP_v1.2,Model Name: AB27-HDMI/IN,MB Ver.: v1.0?,"stage: Planning：2023/10/02-2023/Now
+27,Version: MP_v1.2,AB27-HDMI/IN,MB Ver.: v1.0?,"stage: Planning：2023/10/02-2023/Now
 Kick-off：2023/**/**
 EVT：
 DVT：
@@ -11,7 +11,7 @@ SSD/HDD/eMMC: No Data
 No Data",,SSD/HDD/eMMC: No Data,No Data,Thermal Solution: No Data,,,,Ethernet Network: No Data,,"WIFI: No Data
 Adapter: No Data","Operating system: No Data
 Office Version: No Data",,,
-27,Version: MP_v1.0,Model Name: AB27,MB Ver.: 1,"stage: Planning：2023/10/02-2023/Now
+27,Version: MP_v1.0,''AB27,MB Ver.: 1,"stage: Planning：2023/10/02-2023/Now
 Kick-off：
 EVT：
 DVT：
@@ -26,7 +26,7 @@ Optional 3：6222C-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + 
 Optional 4：6252C-PUB(FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –  RTL8852BE-CG)
 Adapter: DC φ5.5mm  65W/19V","Operating system: Windows 11 Home/Pro SV2
 Office Version: Office 365 (Optional)",,,
-27,Version: EVT_v1.2,Model Name: ARB27,MB Ver.: 1,"stage: Planning：2023/05/03-2023/05/09
+27,Version: EVT_v1.2,''ARB27,MB Ver.: 1,"stage: Planning：2023/05/03-2023/05/09
 Kick-off：2023/05/11
 EVT：2023/05/15-2023/11/29
 DVT：N/A
@@ -42,7 +42,7 @@ Optional 4：6252C-PUB(FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + B
 Adapter: DC φ5.5mm  65W/19V (for U series)
 DC φ5.5mm  90W/19V (for H series)","Operating system: Windows 11 Home/Pro SV2
 Office Version: Office 365 (Optional)",,,
-27,Version: EVT_v1.1 (11/29pedding),Model Name: APX27,MB Ver.: 1,"stage: Planning：2023/05/03-2023/05/09
+27,Version: EVT_v1.1 (11/29pedding),''APX27,MB Ver.: 1,"stage: Planning：2023/05/03-2023/05/09
 Kick-off：2023/05/11
 EVT：2023/05/15-2023/12/M
 DVT：N/A
@@ -59,7 +59,7 @@ Optional 4：6252C-PUB(FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + B
 Adapter: DC φ5.5mm  65W/19V (for U series)
 DC φ5.5mm  90W/19V (for H series)","Operating system: Windows 11 Home/Pro SV2
 Office Version: Office 365 (Optional)",,,
-27,Version: MP_V1.0,Model Name: AB27V,MB Ver.: 1,"stage: Planning：2023/07/06-2023/10/24
+27,Version: MP_V1.0,''AB27V,MB Ver.: 1,"stage: Planning：2023/07/06-2023/10/24
 Kick-off：
 EVT：
 DVT：

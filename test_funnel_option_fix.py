@@ -10,7 +10,8 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from libs.mgfd_cursor.enhanced_slot_extractor import EnhancedSlotExtractor
 from libs.mgfd_cursor.dialogue_manager import MGFDDialogueManager
-from libs.mgfd_cursor.state_machine import MGFDStateMachine
+import redis
+from libs.mgfd_cursor.state_manager import StateManager
 
 def test_funnel_option_selection():
     """測試funnel選項選擇流程"""
@@ -18,7 +19,8 @@ def test_funnel_option_selection():
     
     # 初始化組件
     dialogue_manager = MGFDDialogueManager()
-    state_machine = MGFDStateMachine(dialogue_manager)
+    redis_client = redis.Redis(decode_responses=True)
+    state_manager = StateManager(redis_client, dialogue_manager)
     
     try:
         # 步驟1: 創建會話
@@ -43,7 +45,7 @@ def test_funnel_option_selection():
                 continue
                 
             # 處理用戶輸入  
-            result = state_machine.process_user_input(session_id, user_input)
+            result = state_manager.process_user_input(session_id, user_input)
             
             if "error" in result:
                 print(f"✗ 處理失敗: {result['error']}")

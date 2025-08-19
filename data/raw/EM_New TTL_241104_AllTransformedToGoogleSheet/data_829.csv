@@ -1,5 +1,5 @@
 ﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
-829,Version: Planning_v0.4,Model Name: APX829,MB Ver.: v1.0,"stage: Planning：2024/01/25-2024/Now
+829,Version: Planning_v0.4,APX829,MB Ver.: v1.0,"stage: Planning：2024/01/25-2024/Now
 Est. Kick-off：2024/xx/xx
 EVT：
 DVT：

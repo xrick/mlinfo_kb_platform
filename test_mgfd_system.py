@@ -9,7 +9,7 @@ from pathlib import Path
 current_dir = Path(__file__).parent
 sys.path.insert(0, str(current_dir))
 
-from libs.mgfd_cursor import MGFDDialogueManager, create_notebook_sales_graph
+from libs.mgfd_cursor.state_manager import create_state_manager
 
 def test_mgfd_system():
     """測試MGFD系統"""
@@ -17,8 +17,8 @@ def test_mgfd_system():
     
     # 初始化系統
     print("\n1. 初始化 MGFD 系統...")
-    state_machine = create_notebook_sales_graph()
-    dialogue_manager = state_machine.dialogue_manager
+    state_manager = create_state_manager()
+    dialogue_manager = state_manager.dialogue_manager
     
     # 創建會話
     print("\n2. 創建新會話...")
@@ -38,7 +38,7 @@ def test_mgfd_system():
         print(f"\n   回合 {i}:")
         print(f"   用戶: {user_input}")
         
-        result = state_machine.process_user_input(session_id, user_input)
+        result = state_manager.process_user_input(session_id, user_input)
         
         print(f"   系統回應: {result['response']}")
         print(f"   行動類型: {result['action_type']}")
@@ -76,17 +76,17 @@ def test_error_handling():
     """測試錯誤處理"""
     print("\n🧪 測試錯誤處理...")
     
-    state_machine = create_notebook_sales_graph()
+    state_manager = create_state_manager()
     
     # 測試無效會話ID
     print("\n1. 測試無效會話ID...")
-    result = state_machine.process_user_input("invalid_session_id", "測試消息")
+    result = state_manager.process_user_input("invalid_session_id", "測試消息")
     print(f"   結果: {result.get('error', '無錯誤')}")
     
     # 測試中斷意圖
     print("\n2. 測試中斷意圖...")
-    session_id = state_machine.dialogue_manager.create_session()
-    result = state_machine.process_user_input(session_id, "重新開始")
+    session_id = state_manager.dialogue_manager.create_session()
+    result = state_manager.process_user_input(session_id, "重新開始")
     print(f"   行動類型: {result['action_type']}")
     print(f"   回應: {result['response']}")
     

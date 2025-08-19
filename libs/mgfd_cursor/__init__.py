@@ -14,12 +14,10 @@ __all__ = [
     "DialogueManager",
     "ActionExecutor",
     "ResponseGenerator",
-    "RedisStateManager",
     "MGFDLLMManager",
     "ConfigLoader",
-    
-    # 舊的組件（向後兼容）
-    "create_notebook_sales_graph",
+    "StateManager",
+    "create_state_manager",
     "NotebookKnowledgeBase",
     "NotebookDialogueState",
 ]
@@ -46,7 +44,8 @@ def __getattr__(name):
         from .response_generator import ResponseGenerator as _ResponseGenerator
         return _ResponseGenerator
     if name == "RedisStateManager":
-        from .redis_state_manager import RedisStateManager as _RedisStateManager
+        # This is now part of StateManager
+        from .state_manager import StateManager as _RedisStateManager
         return _RedisStateManager
     if name == "MGFDLLMManager":
         from .llm_manager import MGFDLLMManager as _MGFDLLMManager
@@ -54,8 +53,11 @@ def __getattr__(name):
     if name == "ConfigLoader":
         from .config_loader import ConfigLoader as _ConfigLoader
         return _ConfigLoader
-    if name == "create_notebook_sales_graph":
-        from .state_machine import create_notebook_sales_graph as _create
+    if name == "StateManager":
+        from .state_manager import StateManager as _StateManager
+        return _StateManager
+    if name == "create_state_manager":
+        from .state_manager import create_state_manager as _create
         return _create
     if name == "NotebookKnowledgeBase":
         from .knowledge_base import NotebookKnowledgeBase as _NotebookKnowledgeBase

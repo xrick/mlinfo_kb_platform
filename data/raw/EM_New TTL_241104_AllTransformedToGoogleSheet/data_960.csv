@@ -1,5 +1,5 @@
 ﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
-960,Version: EVT_v1.2,Model Name: AHP960,MB Ver.: v1.0?,"stage: Planning：2023/06/06-2023/06/09
+960,Version: EVT_v1.2,AHP960,MB Ver.: v1.0?,"stage: Planning：2023/06/06-2023/06/09
 Kick-off：2023/06/12
 EVT：2023/9/1-2023/12/02 (11/10_mockup2 review)
 DVT：2023/12/22-2024/02/21

@@ -1,5 +1,5 @@
 ﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
-938,Version: MP_v1.0,Model Name: APX938,MB Ver.: V2.0,"stage: Planning：2023/01/31-2023/02/24
+938,Version: MP_v1.0,APX938,MB Ver.: V2.0,"stage: Planning：2023/01/31-2023/02/24
 Kick-off：2023/03/01
 EVT：2023/03/03-2023/06/28
 DVT：2023/06/29-2023/10/24

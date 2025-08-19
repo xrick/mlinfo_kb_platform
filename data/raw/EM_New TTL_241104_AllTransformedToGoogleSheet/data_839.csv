@@ -1,5 +1,5 @@
 ﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
-839,Version: EVT_v1.0,Model Name: AKK839,MB Ver.: v1.0,"stage: Planning：2024/06/14-2024/07/29
+839,Version: EVT_v1.0,AKK839,MB Ver.: v1.0,"stage: Planning：2024/06/14-2024/07/29
 Kick-off：2024/07/30
 E2E：2024/07/31-2024/08/31
 EVT：2024/09/01-2024/12/01

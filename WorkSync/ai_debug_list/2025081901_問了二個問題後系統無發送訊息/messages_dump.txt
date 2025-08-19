@@ -1,0 +1,174 @@
+
+frontend message:
+
+mgfd_cursor:476 🆕 New session created, question history cleared
+mgfd_cursor:618 🔧 renderAssistantMessage called with: Object
+mgfd_cursor:661 📄 Processing plain text response
+favicon.ico:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+mgfd_cursor:547 🔄 Received data from backend: Object
+mgfd_cursor:561 📦 Detected standard response format
+mgfd_cursor:618 🔧 renderAssistantMessage called with: Object
+mgfd_cursor:661 📄 Processing plain text response
+mgfd_cursor:547 🔄 Received data from backend: Object
+mgfd_cursor:561 📦 Detected standard response format
+mgfd_cursor:618 🔧 renderAssistantMessage called with: Object
+mgfd_cursor:661 📄 Processing plain text response
+mgfd_cursor:547 🔄 Received data from backend: Object
+mgfd_cursor:561 📦 Detected standard response format
+mgfd_cursor:618 🔧 renderAssistantMessage called with: Object
+mgfd_cursor:657 📋 Processing legacy recommendation format
+mgfd_cursor:581 發送消息失敗: TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at mgfd_cursor:1060:57
+    at Array.forEach (<anonymous>)
+    at MGFDChat.formatRecommendations (mgfd_cursor:1055:37)
+    at MGFDChat.renderAssistantMessage (mgfd_cursor:658:48)
+    at MGFDChat.addMessage (mgfd_cursor:603:26)
+    at MGFDChat.sendMessage (mgfd_cursor:575:26)
+sendMessage @ mgfd_cursor:581
+
+
+backend
+
+2025-08-19 10:19:10,875 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: 3123e6ff-4b82-47f1-ba14-8c6181c64fe0, 消息: 有沒有針對文書處理及上網比較容易操作的筆電...
+2025-08-19 10:19:10,875 - libs.mgfd_cursor.mgfd_system - INFO - ========== 開始處理會話 3123e6ff-4b82-47f1-ba14-8c6181c64fe0 的消息: 有沒有針對文書處理及上網比較容易操作的筆電... ==========
+2025-08-19 10:19:10,875 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: 有沒有針對文書處理及上網比較容易操作的筆電...
+2025-08-19 10:19:10,875 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 槽位提取結果: {'timestamp': '2025-08-19T10:19:10.875565', 'user_input': '有沒有針對文書處理及上網比較容易操作的筆電', 'extracted_slots': {'usage_purpose': 'business'}, 'extraction_method': 'enhanced'}
+2025-08-19 10:19:10,875 - libs.mgfd_cursor.user_input_handler - INFO - 完整槽位提取結果: {'extracted_slots': {'usage_purpose': 'business'}, 'extraction_method': 'enhanced_extraction'}
+2025-08-19 10:19:10,875 - libs.mgfd_cursor.user_input_handler - INFO - 提取方法: enhanced_extraction
+2025-08-19 10:19:10,875 - libs.mgfd_cursor.user_input_handler - INFO - 實際提取的槽位: {'usage_purpose': 'business'}
+2025-08-19 10:19:10,875 - libs.mgfd_cursor.user_input_handler - INFO - 準備更新槽位: {'usage_purpose': 'business'}
+2025-08-19 10:19:10,875 - libs.mgfd_cursor.user_input_handler - INFO - 槽位更新: usage_purpose = 'None' → 'business'
+2025-08-19 10:19:10,875 - libs.mgfd_cursor.user_input_handler - INFO - 更新後的槽位狀態: {'usage_purpose': 'business'}
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 3123e6ff-4b82-47f1-ba14-8c6181c64fe0
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 當前狀態檢查:
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO -   - filled_slots: {'usage_purpose': 'business'}
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO -   - awaiting_prompt_response: False
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: None
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO -   - funnel_mode: False
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO -   - current_stage: awareness
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 檢查是否觸發 funnel chat
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO - 觸發關鍵詞: 筆電
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - _should_trigger_funnel_chat 結果: True
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 觸發funnel chat模式，設置 funnel_mode=True
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 決定下一步動作，funnel_mode: True
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.question_manager - INFO - 必填槽位未完成: budget_range
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 槽位收集完成檢查: False
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 繼續收集槽位
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - _handle_slot_collection:
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO -   - current_slots: {'usage_purpose': 'business'}
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: 1
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO -   - use_prompt_style: True
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - should_skip_to_search: False
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 使用Prompt風格，獲取步驟 1 的問題
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 獲取到問題: {'step': 1, 'question': '首先，請問您購買這台新電腦，最主要的用途是什麼呢？這將幫助我判斷電腦需要的核心效能。', 'type': 'choice', 'slot_name': 'usage_purpose', 'options': [{'key': 'A', 'text': '日常文書處理與上網', 'value': 'document_processing'}, {'key': 'B', 'text': '影音娛樂', 'value': 'entertainment'}, {'key': 'C', 'text': '專業創作 (例如：修圖、影片剪輯)', 'value': 'creative'}, {'key': 'D', 'text': '電競遊戲', 'value': 'gaming'}, {'key': 'E', 'text': '商務辦公', 'value': 'business'}, {'key': 'F', 'text': '程式開發', 'value': 'programming'}], 'transition': ''}
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 格式化問題文字: 首先，請問您購買這台新電腦，最主要的用途是什麼呢？這將幫助我判斷電腦需要的核心效能。
+
+選項：
+A) 日常文書處理與上網
+B) 影音娛樂
+C) 專業創作 (例如：修圖、影片剪輯)
+D) 電競遊戲
+E)...
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 更新狀態設置: awaiting_prompt_response=True, current_prompt_step=1
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 3123e6ff-4b82-47f1-ba14-8c6181c64fe0
+2025-08-19 10:19:10,876 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 狀態已保存完成
+INFO:     127.0.0.1:52834 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
+2025-08-19 10:19:25,335 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: 3123e6ff-4b82-47f1-ba14-8c6181c64fe0, 消息: A...
+2025-08-19 10:19:25,335 - libs.mgfd_cursor.mgfd_system - INFO - ========== 開始處理會話 3123e6ff-4b82-47f1-ba14-8c6181c64fe0 的消息: A... ==========
+2025-08-19 10:19:25,335 - libs.mgfd_cursor.redis_state_manager - INFO - 載入會話狀態: 3123e6ff-4b82-47f1-ba14-8c6181c64fe0
+2025-08-19 10:19:25,335 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: A...
+2025-08-19 10:19:25,335 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 檢測到單個字母選項: 'A'
+2025-08-19 10:19:25,335 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 檢測到funnel question選項回應，跳過特殊案例檢查
+2025-08-19 10:19:25,335 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 檢測到字母選項: 'A'
+2025-08-19 10:19:25,335 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 字母選項 A 需要由上層 QuestionManager 處理
+2025-08-19 10:19:25,335 - libs.mgfd_cursor.user_input_handler - INFO - 完整槽位提取結果: {'extracted_slots': {}, 'letter_option': 'A', 'extraction_method': 'funnel_letter_option'}
+2025-08-19 10:19:25,335 - libs.mgfd_cursor.user_input_handler - INFO - 提取方法: funnel_letter_option
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.user_input_handler - INFO - 實際提取的槽位: {}
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.user_input_handler - INFO - 檢測到字母選項: A，由 QuestionManager 處理
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 3123e6ff-4b82-47f1-ba14-8c6181c64fe0
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 當前狀態檢查:
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.mgfd_system - INFO -   - filled_slots: {'usage_purpose': 'business'}
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.mgfd_system - INFO -   - awaiting_prompt_response: True
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: 1
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.mgfd_system - INFO -   - funnel_mode: True
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.mgfd_system - INFO -   - current_stage: awareness
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.mgfd_system - INFO - 等待回覆模式命中：step=1, slots={'usage_purpose': 'business'}
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.mgfd_system - INFO - 用戶回應 'A' 在步驟 1 中有效
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.question_manager - INFO - DEBUG - QuestionManager.process_prompt_response:
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.question_manager - INFO -   - step: 1
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.question_manager - INFO -   - response: 'A'
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.question_manager - INFO -   - current_slots: {'usage_purpose': 'business'}
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.question_manager - INFO - DEBUG - 正規化輸入: 'A' -> upper: 'A'
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.question_manager - INFO - DEBUG - 字母鍵驗證結果: True
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.slot_mapping - INFO - Prompt轉換為槽位完成: 1 個槽位
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.question_manager - INFO - DEBUG - 步驟1字母鍵回覆成功: A -> {'usage_purpose': 'document_processing'}
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.question_manager - INFO - DEBUG - 最終更新後的槽位: {'usage_purpose': 'document_processing'}
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.question_manager - INFO - 基於用途 document_processing 推斷CPU需求: basic
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.question_manager - INFO - 基於用途 document_processing 推斷GPU需求: integrated
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 槽位有更新: {'usage_purpose': 'business'} -> {'usage_purpose': 'document_processing'}
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 智能推斷增強槽位: {'usage_purpose': 'document_processing'} -> {'usage_purpose': 'document_processing', 'cpu_level': 'basic', 'gpu_level': 'integrated'}
+2025-08-19 10:19:25,336 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 狀態更新: awaiting_prompt_response=False, current_prompt_step=2
+2025-08-19 10:19:25,337 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 3123e6ff-4b82-47f1-ba14-8c6181c64fe0
+2025-08-19 10:19:25,337 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 狀態已保存到 Redis
+2025-08-19 10:19:25,337 - libs.mgfd_cursor.question_manager - INFO - 必填槽位未完成: budget_range
+2025-08-19 10:19:25,337 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 3123e6ff-4b82-47f1-ba14-8c6181c64fe0
+2025-08-19 10:19:25,337 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 設定下一題等待狀態: awaiting_prompt_response=True, step=2
+2025-08-19 10:19:25,337 - libs.mgfd_cursor.question_manager - INFO - 文書處理用途，跳過高效能問題: performance_features
+INFO:     127.0.0.1:50104 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
+2025-08-19 10:19:30,242 - api.mgfd_routes - INFO - 處理聊天請求 - 會話ID: 3123e6ff-4b82-47f1-ba14-8c6181c64fe0, 消息: c...
+2025-08-19 10:19:30,242 - libs.mgfd_cursor.mgfd_system - INFO - ========== 開始處理會話 3123e6ff-4b82-47f1-ba14-8c6181c64fe0 的消息: c... ==========
+2025-08-19 10:19:30,242 - libs.mgfd_cursor.redis_state_manager - INFO - 載入會話狀態: 3123e6ff-4b82-47f1-ba14-8c6181c64fe0
+2025-08-19 10:19:30,242 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 增強型槽位提取，輸入: c...
+2025-08-19 10:19:30,242 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 檢測到單個字母選項: 'C'
+2025-08-19 10:19:30,242 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 檢測到funnel question選項回應，跳過特殊案例檢查
+2025-08-19 10:19:30,242 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 檢測到字母選項: 'C'
+2025-08-19 10:19:30,242 - libs.mgfd_cursor.enhanced_slot_extractor - INFO - 字母選項 C 需要由上層 QuestionManager 處理
+2025-08-19 10:19:30,242 - libs.mgfd_cursor.user_input_handler - INFO - 完整槽位提取結果: {'extracted_slots': {}, 'letter_option': 'C', 'extraction_method': 'funnel_letter_option'}
+2025-08-19 10:19:30,242 - libs.mgfd_cursor.user_input_handler - INFO - 提取方法: funnel_letter_option
+2025-08-19 10:19:30,242 - libs.mgfd_cursor.user_input_handler - INFO - 實際提取的槽位: {}
+2025-08-19 10:19:30,242 - libs.mgfd_cursor.user_input_handler - INFO - 檢測到字母選項: C，由 QuestionManager 處理
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 3123e6ff-4b82-47f1-ba14-8c6181c64fe0
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 當前狀態檢查:
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.mgfd_system - INFO -   - filled_slots: {'usage_purpose': 'document_processing', 'cpu_level': 'basic', 'gpu_level': 'integrated'}
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.mgfd_system - INFO -   - awaiting_prompt_response: True
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.mgfd_system - INFO -   - current_prompt_step: 2
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.mgfd_system - INFO -   - funnel_mode: True
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.mgfd_system - INFO -   - current_stage: awareness
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.mgfd_system - INFO - 等待回覆模式命中：step=2, slots={'usage_purpose': 'document_processing', 'cpu_level': 'basic', 'gpu_level': 'integrated'}
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.mgfd_system - INFO - 用戶回應 'c' 在步驟 2 中有效
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.question_manager - INFO - DEBUG - QuestionManager.process_prompt_response:
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.question_manager - INFO -   - step: 2
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.question_manager - INFO -   - response: 'c'
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.question_manager - INFO -   - current_slots: {'usage_purpose': 'document_processing', 'cpu_level': 'basic', 'gpu_level': 'integrated'}
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.question_manager - INFO - DEBUG - 正規化輸入: 'c' -> upper: 'C'
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.question_manager - INFO - DEBUG - 字母鍵驗證結果: True
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.slot_mapping - INFO - Prompt轉換為槽位完成: 1 個槽位
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.question_manager - INFO - DEBUG - 步驟2字母鍵回覆成功: C -> {'budget_range': 'mid_range'}
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.question_manager - INFO - DEBUG - 最終更新後的槽位: {'usage_purpose': 'document_processing', 'cpu_level': 'basic', 'gpu_level': 'integrated', 'budget_range': 'mid_range'}
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 槽位有更新: {'usage_purpose': 'document_processing', 'cpu_level': 'basic', 'gpu_level': 'integrated'} -> {'usage_purpose': 'document_processing', 'cpu_level': 'basic', 'gpu_level': 'integrated', 'budget_range': 'mid_range'}
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 狀態更新: awaiting_prompt_response=False, current_prompt_step=3
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 3123e6ff-4b82-47f1-ba14-8c6181c64fe0
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.mgfd_system - INFO - DEBUG - 狀態已保存到 Redis
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.mgfd_system - INFO - 使用chunking搜尋引擎進行產品搜尋，槽位: {'usage_purpose': 'document_processing', 'cpu_level': 'basic', 'gpu_level': 'integrated', 'budget_range': 'mid_range'}
+2025-08-19 10:19:30,243 - libs.mgfd_cursor.knowledge_base - INFO - 使用增強評分引擎搜索產品: {'usage_purpose': 'document_processing', 'cpu_level': 'basic', 'gpu_level': 'integrated', 'budget_range': 'mid_range'}
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 81.45it/s]
+2025-08-19 10:19:30,259 - libs.mgfd_cursor.knowledge_base - INFO - 語義搜尋找到 4 個候選產品
+2025-08-19 10:19:30,259 - libs.mgfd_cursor.knowledge_base - INFO - 傳統搜尋補充後共 7 個候選產品
+2025-08-19 10:19:30,259 - libs.mgfd_cursor.product_scoring_engine - INFO - 完成 7 個產品的批量評分
+2025-08-19 10:19:30,259 - libs.mgfd_cursor.knowledge_base - INFO - 完成多因子評分，返回 7 個評分產品
+2025-08-19 10:19:30,260 - libs.mgfd_cursor.redis_state_manager - INFO - 保存會話狀態: 3123e6ff-4b82-47f1-ba14-8c6181c64fe0
+INFO:     127.0.0.1:50104 - "POST /api/mgfd_cursor/chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43328 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+2025-08-19 10:21:13,458 - watchfiles.main - INFO - 1 change detected
+2025-08-19 10:22:31,614 - watchfiles.main - INFO - 1 change detected
+2025-08-19 10:23:05,119 - watchfiles.main - INFO - 1 change detected
+2025-08-19 10:25:06,958 - watchfiles.main - INFO - 1 change detected
+2025-08-19 10:26:13,444 - watchfiles.main - INFO - 1 change detected
+2025-08-19 10:29:41,593 - watchfiles.main - INFO - 1 change detected
+2025-08-19 10:29:42,144 - watchfiles.main - INFO - 3 changes detected
+2025-08-19 10:29:42,695 - watchfiles.main - INFO - 4 changes detected
+2025-08-19 10:31:13,459 - watchfiles.main - INFO - 1 change detected
+2025-08-19 10:31:57,534 - watchfiles.main - INFO - 1 change detected
+2025-08-19 10:35:30,908 - watchfiles.main - INFO - 1 change detected
+2025-08-19 10:35:38,018 - watchfiles.main - INFO - 1 change detected
+2025-08-19 10:36:13,422 - watchfiles.main - INFO - 1 change detected

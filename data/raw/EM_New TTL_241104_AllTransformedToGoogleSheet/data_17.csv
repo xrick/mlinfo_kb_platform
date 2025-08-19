@@ -1,5 +1,5 @@
-﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
-17,Version: Planning_v0.3,Model Name: APX27D,MB Ver.: 1,"stage: Planning：2024/03/01-
+modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+17,Version: Planning_v0.3,APX27D,MB Ver.: 1,"stage: Planning：2024/03/01-
 Kick-off：2024/xx/xx
 EVT：
 DVT：
