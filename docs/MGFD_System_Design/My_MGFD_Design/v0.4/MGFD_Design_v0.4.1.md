@@ -31,11 +31,11 @@ UserInputHandler (user_input_handler.py)
 
 ```
 StateManager (state_manager.py)
-(MGFD State Manager Merges state persistence (Redis) and state transition logic (State Machine))
-├── 會話狀態持久化
+├── 會話狀態轉換
 ├── 對話歷史管理
 ├── 槽位信息存儲
-└── 數據類型轉換
+├── 
+└──
 ```
 
 #### **回應生成層**
@@ -73,7 +73,6 @@ PromptManager (prompt_manager.py)
 └── To-Add
 ```
 
-
 ### 狀態管理層
 
 ```
@@ -85,7 +84,7 @@ StateManager (state_manager.py)
 ├── 會話狀態持久化
 ├── 對話歷史管理
 ├── 槽位信息存儲
-└── 數據類型轉換
+└── 
 ```
 
 # 1.2 模組功能詳細分析
@@ -100,8 +99,8 @@ stateDiagram-v2
 [*] --> User
 User --> System
 System --> User
-System --> Data
-Data --> User
+System --> DataQuery
+DataQuery --> User
 System -->[*]
 ```
 

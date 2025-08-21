@@ -1,0 +1,77 @@
+﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+656,Version: PVT_1.0,APX656,MB Ver.: v1.0,"stage: Planning：2023/10/02-2024/N02/25
+Kick-off：2024/02/26
+EVT：2024/06/05-2024/11/01
+DVT：
+PVT：2024/11/02-2024/01/31
+Pilot run：
+Owner: SZ-梁森/陳曦志/TP-Jerry",Owner: SZ-梁森/陳曦志/TP-Jerry,"Form: Commercial Notebook
+Dimension: Option1：311.9 * 220.1 * 18.9mm 
+Option2：311.9 * 220.1 * 17.9mm
+Material: Option1：A Cover-Alu alloy (Anodize), B Cover-Mylar (Texture), C/D Cover-Plastic(Painting)
+Option2：A/D Cover-Alu alloy (Anodize), B Cover-Mylar (Texture), C Cover-Plastic(Painting)
+Hinge: 180 degree hinge (make sure will not touch the LCD Panel during the opening)
+one-hand opening + soft close (shouldn’t clap when closing)
+Weight: Option1：1.44 kg
+Option2：1.45 kg","Dimension: 14""  16:10
+Resolution: Default：2560*1600 QHD, TFT LCD, Anti-Glare, 120Hz, 300 nits, 100% sRGB, PSR, SDRRS, SSCG, with Touch panel(Optional)
+Option1：1920*1200 FHD, TFT LCD, Anti-Glare, 60Hz, 72%sRGB,6  
+Option2：2880*1800 UWQHD, LTPS, Anti-Glare, 120Hz, 300 nits, 100 %sRGB, 25ms, Low Blue Light, PSR2, Free Sync, HDR, VRR",Form: No Data,"MB IO(Left): 1* φ 3.5mm DC-IN port (MB) (Optional)
+1* HDMI Type A 1.4 (Support_4K/30Hz) (MB)
+1* USB 3.2 Gen1, Super Speed USB 5Gbps,Type-A (MB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps,Type-C, full function (Power Delivery100W,Data,DisplayPort) (MB)
+1* USB4.0, Super Speed USB4 40Gbps,Type-C, full function (Power Delivery100W,Data,DisplayPort) (MB)
+1* Bluetooth on/off switch  (MB)
+DB IO(Left): Option1：1*Smartcard Reader, ID card information reading (Smartcard DB)(RPL628_DB_V2.0)
+Option2：N/A
+DB IO(Right): 1* Supportive Kensington Lock Type slot (Mini Saver)
+Default：1*1G (RTL8111EPP for DASH ) RJ45
+Option1：1*1G (RTL8111H for NON dash) RJ45 
+optional(Compatible for Dash and None-Dash)
+1* USB 3.2 Gen1, Super Speed USB 5Gbp,Type A (DB)
+1* USB 2.0,Type A (DB)",,Button: Seperated Power button key(On DB),"Back light: Default：Single backlit
+Option1：No backlit KB
+Matrix: US
+Others: Spill resistant with drain for drainage (200CC waterproof),
+Typical  keyboard w/o removeable design","Front: Default：1080P/ 2M Webcam Infrared 30 fps, w/ mic*2, LED, with latch
+Option1：1080P/2M Webcam Infrared (IR)30 fps, w/ mic*2, LED, with latch
+Option2：720P/ 1M Webcam  Infrared (IR),30 fps, w/ mic*2, LED, with latch
+Support Camera+Mic physical power on/off switch
+Camera shutter
+Rear: No Data
+Windows Hello: Yes","Interface type: I2C
+Size: 114* 74 mm
+Feature: Support Number button(PCBA support)
+multi-touch support, gestures and scroll function
+Spill resistant with drain for drainage (200CC waterproof)","Location: On the Power Button
+Interface type: USB, Security level 3 -  HTX-938-GF3258
+Windows Hello: Yes","Speaker: 2* Built-in Speakers ( 2* 4Ω/2W)
+Mic: 2* Built-in (dual) digital microphones on CAM  module
+Others: HD Audio, Box(For 4G version, the box need to be removed partially,so the speaker effect will be impact.)","Type: Lithium-ion polymer smart battery, PD3.0 support fast charging (Optional)>Need check testing tesm how to test it
+Capacity: 1* 60Wh, 11.55V/6060mah,  3S1P, Smart battery
+Certification: CB, MSDS, UN38.3, Airflight transportation report
+Life: 8 Hours (U Series) TBD","Module: AMD Zen4, AMD  Phoenix 7040 U Series,  TDP: 15W~30W
+Ryzen™ 3 7440U(4C/8T, 4.7GHz/3.0GHz, 12MB, TDP: 15W~30W)
+Ryzen™ 5 7540U(6C/12T, 4.9GHz/3.2GHz, 22MB, TDP: 15W~30W)
+Ryzen™ 5 7640U (6C/12T, 4.9GHz/3.5GHz, 22MB, TDP: 15W~30W)_Main","Model: AMD Radeon™ Graphics integrated, RDNA 3 4nm iGPU, 30W
+AMD Radeon™ 740M (R3 7440U/ R5 PRO 7540U)
+AMD Radeon™ 760M (R5 7540U/ R5 7640U/ R5 PRO 7640U)
+AMD Radeon™ 780M(R7 7840U/ R5 PRO 7840U)","RAM: 2* DDR5 SO-DIMM , up to 32GB DDR5 5600MHz(2*16G)
+Port: EDP
+SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 32TB (2*4TB)
+Wifi: 1* M.2 Key-E 2230 WiFi6E 2Tx2R+ BT5.2, with wifi Dash",Port: EDP,"SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 32TB (2*4TB)","Wifi: 1* M.2 Key-E 2230 WiFi6E 2Tx2R+ BT5.2, with wifi Dash",TDP: TDP 30W,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: Default：RZ616(AMD)_WIFI 6E 802.11ax 2Tx2R + BT 5.2, on M.2 module(Major Chipset – MT7922A12L)
+Others: Support Bluetooth Power on/off switch",RJ45: Giga LAN 10/100/1000 Mbps (on DB),,"1* Bluetooth on/off switch  (MB)
+DB IO(Left): Option1：1*Smartcard Reader, ID card information reading (Smartcard DB)(RPL628_DB_V2.0)
+Option2：N/A","System: Windows11 2024H2 (2024 updated) Copilot version
+Language Support: Support multi Language","MEP
+(need OEM get approval from Microsoft): Automatic framing
+Eye contact
+Background effect
+Copilot
+(Support Region depends on Microsoft): Support
+Large language model (License requirement): Support
+Text to Image model (License requirement): Support
+Image to Image model (License requirement): Support","Standard Configuration: Default：65W, 19V/3.42A DC charger  for U Series
+Option 1：65W GaN charging Cyberize for U Series
+Option 2：100W GaN charging-same like 938 for HS  Series",

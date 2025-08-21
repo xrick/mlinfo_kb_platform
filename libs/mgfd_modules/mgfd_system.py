@@ -10,11 +10,13 @@ from typing import Dict, Any, Optional, List
 from datetime import datetime
 
 from .user_input_handler import UserInputHandler
-from .redis_state_manager import RedisStateManager
+
 from .llm_manager import MGFDLLMManager
 from .response_generator import ResponseGenerator
 from .knowledge_base import NotebookKnowledgeBase
-from .question_manager import QuestionManager
+# from .redis_state_manager import RedisStateManager
+# from .question_manager import QuestionManager
+from .Stat_Manager import *
 
 
 class MGFDSystem:
@@ -45,7 +47,7 @@ class MGFDSystem:
         # 初始化核心模組
         self.state_manager = RedisStateManager(redis_client)
         self.user_input_handler = UserInputHandler(self.llm_manager, self.slot_schema)
-        self.question_manager = QuestionManager(f"{config_path}/default_slots_questions.json")
+        # self.question_manager = QuestionManager(f"{config_path}/default_slots_questions.json")
         self.response_generator = ResponseGenerator()
         self.knowledge_base = NotebookKnowledgeBase()
         

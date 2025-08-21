@@ -1,0 +1,65 @@
+﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+525,Version: PVT_v1.2,AMD525,MB Ver.: v1.0?,"stage: Planning：N/A
+Kick-off：N/A
+EVT：N/A
+DVT：N/A
+PVT：N/A
+Pilot run：N/A
+MP：N/A",Owner: Jasper,"Form: Consumer Notebook
+Dimension: 333.0*221.5*19.7 mm (TBD)
+Material/Surface: A/B/C/D Cover：Plastic (Normal oil paiting)
+Hinge: 140 degree hinge
+Weight: 1477 g","Dimension: 14.1"" 16:9
+Resolution: 14.1"" 1920* 1080 FHD, 60Hz, Freesync",Form: No Data,"MB IO(Left): 1* φ3.5mm DC-IN port (MB)
+1* HDMI 1.4 Type A (on MB)
+2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (on MB)
+1* USB3.2 Gen2, Super Speed USB 10Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)
+1* D-MIC (MB)
+DB IO(Right): 1* Supportive Kensington Lock Type slot (DB)
+1* RJ45(RTL8111H), Giga LAN 10/100/1000Mbps (DB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (onDB)
+1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)
+1* φ3.5mm standard headphone Jack (DB)
+1* D-MIC (DB)","1x Power On/Off/Sleep: On with White light
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light
+1xWebcam: No Data
+2xSSD led: No Data
+1xCaps Lock: On with White light
+Off with no light",Button: 1*on KB,"Back light: Default：Backlight KB (Single LED-White)
+Option1：Standard no backlight KB
+Matrix: US English Layout
+Others: Standard Full Size","Front: 1* 1.0MP(720P)
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C
+Size: 106* 70 mm
+Feature: multi-touch support, gestures and scroll function","Location: 1x on Touchpad
+Interface type: USB, Security level 2 - FT9368
+Windows Hello: support Windows Hello","Speaker: 2* Built-in Speaker ( 2* 8Ω/1W)
+Mic: 1* Built-in digital microphone (on MB)
+1* Built-in digital microphone (on DB)
+Others: No Data","Type: Lithium-ion polymer battery
+Capacity: 1* 51Wh, 11.4V/4500mAh, 3S1P,Dump battery
+Certification: CB,MSDS,UN38.3, Airflight transportation report
+Life: 10 -12 Hours","Module: AMD Zen2,  AMD Mendocino U Series, TDP 15W
+Athlon™Gold 7220U (2C/4T, 3.7GHz/2.4GHz, TDP: 15W)
+Ryzen™ 3 7320U (4C/8T, 4.1GHz/2.4GHz, TDP: 15W)
+Ryzen™ 5 7520U (4C/8T, 4.3GHz/2.8GHz, TDP: 15W)","Model: AMD Radeon™ 610M
+Memory: LPDDR5-5500Mhz (315B), up to 8G/16G
+Port: LCD connector optional
+Storage/ SSD: 1* M.2 2280 PCle G3 (Lane 2)/NVME SSD, up to 8TB (2* 1TB)","Memory: LPDDR5-5500Mhz (315B), up to 8G/16G
+Port: LCD connector optional
+Storage/ SSD: 1* M.2 2280 PCle G3 (Lane 2)/NVME SSD, up to 8TB (2* 1TB)
+Wifi: 1* WiFi 6 + BT5.2 (on board)",Port: LCD connector optional,"Storage/ SSD: 1* M.2 2280 PCle G3 (Lane 2)/NVME SSD, up to 8TB (2* 1TB)",,,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: No Data,"Wifi Chip Model: 6252C-PUB(FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –  RTL8852BE-CG)
+Others: Support Wifi and Bluetooth Power on/off switch",DB IO(Right): 1* Supportive Kensington Lock Type slot (DB),,"1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light","System: Windows 11, SV2 (23H2)
+Language Support: Support multi Language",,"Standard Configuration: 1* 65W, AC in 100/240V,50/60Hz, DC output 19V /3.42A (U Series)","Safety: No Data
+No Data
+No Data"

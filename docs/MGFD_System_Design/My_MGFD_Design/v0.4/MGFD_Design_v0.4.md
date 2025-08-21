@@ -27,17 +27,6 @@ UserInputHandler (user_input_handler.py)
 └── 狀態更新管理
 ```
 
-#### **狀態管理層**
-
-```
-StateManager (state_manager.py)
-(MGFD State Manager Merges state persistence (Redis) and state transition logic (State Machine))
-├── 會話狀態持久化
-├── 對話歷史管理
-├── 槽位信息存儲
-└── 數據類型轉換
-```
-
 #### **回應生成層**
 
 ```
@@ -46,16 +35,6 @@ ResponseGenerator (response_generator.py)
 ├── 前端渲染信息
 ├── 多類型回應處理
 └── JSON序列化
-```
-
-#### **智能提取層**
-
-```
-EnhancedSlotExtractor (enhanced_slot_extractor.py)
-├── 傳統關鍵詞匹配
-├── LLM智能分類
-├── 特殊案例處理
-└── 置信度評估
 ```
 
 #### **知識庫層（整合Chunking搜尋核心）**
@@ -89,8 +68,7 @@ StateManager (state_manager.py)
 
 ### 所有模組運作總述：
 
-* 狀態管理
-  每一個新的客戶與AI會話開始，在redis中就要建立一個Chat State Machine:
+每一個新的客戶與AI會話開始，在redis中就要建立一個Chat State Machine:
 
 ```mermaid
 stateDiagram-v2
@@ -106,8 +84,9 @@ System -->[*]
 
 整個行為的流程如下：
 
-1. user input -> api router -> MGFDSystem
-2. 
+1. user input(query-1) -> api router -> MGFDSystem ->Create a Chat-State-Machine for the new chat.
+2. query-1 -> UserInputHandler -> 進行使用者輸入資料分析 -> 取得有用的槽位資料。
+3. 如果槽位資料存在 -> 知識庫層 -> 依照目前已或取的槽位資料進行語義搜尋
 
 我會先用一個案例來描述這個系統的完整且符合預期的行為。
 

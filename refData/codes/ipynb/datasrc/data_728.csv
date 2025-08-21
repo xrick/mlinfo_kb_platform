@@ -1,0 +1,89 @@
+﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+728,Version: Planning_v0.3,AST728,MB Ver.: v1.0,"stage: Planning：2023/10/02-2024/Now
+Kick-off：2024/xx/xx
+EVT：
+DVT：
+PVT：
+Pilot run：
+Owner: No Data",Owner: No Data,"Form: Commercial Notebook
+Dimension: Option1：316.1*231.4*17.75 mm  (w/o TP)_28W
+Option2：316.1*231.4*17.875 mm  (w/ TP)_28W
+Option3：316.1*231.4*17.5 mm  (w/o TP)_15W
+Option4：316.1*231.4*17.625 mm  (w/ TP)_15W
+Material: A/C/D Cover-Alu alloy (Anodize), B Cover-Plastic(Texture),
+*Fan out-let on LEFT side of C cover.
+Hinge: 135 degree hinge (make sure will not touch the LCD Panel during the opening)
+Weight: Option1：1328.8 g  (HS series w/o TP)_28W
+Option2：1353.8 g (HS series w/ TP)_28W
+Option3：1368.6 g  (U seriesw/o TP)_15W
+Option4：1393.6 g  (U seriesw/ TP)_15W","Dimension: 14.0"" (16:10)
+Resolution: Default：2560*1600 QHD, IPS, LED, Anti-Glare, 120Hz, 300 nits, 100%DCI-P3
+Option1：1920*1200 FHD IPS, LED, 300 cd/m2(SL140PN50D3314-A00)",Form: Reserved by ME,"MB IO(Left): 1* TypeC power-in port (MB) (Optional)
+Default：1*2.5G (8125BP/8125DN) RJ45
+Option1：1*1G(RTL8111H) RJ45 
+optional(Compatible for Dash and None-Dash)
+1* HDMI 2.0 Type A (Support HDMI2.1RTL_8K/60Hz)(MB)
+1* USB4.0, USB4 40Gbps, full function ,65W Power Delivery, Data, DisplayPort 1.4), Type C (MB)
+1* USB3.2 Gen2, Super Speed USB 10Gbps,Type-A (MB)
+1*Micro SD card (MB)
+DB IO(Right): 1* Supportive Kensington Lock Type slot (Mini Saver)
+1* USB 3.2 Gen1, Super Speed USB 5Gbp,Type A (DB)
+1*φ3.5mm standard headphone jack (DB)
+MB IO(Rear): No Data
+Power On/Off/Sleep: On with Green light
+Off with no light
+Sleep with breathing light",,Button: Seperated Power button key(On DB),"Back light: Default：Single backlit
+Option1：No backlit KB
+Matrix: US/UK compatible
+Others: C cover flat design,
+keyboard Spill resistant with drain for drainage (200CC waterproof)","Front: Default：1080P/ 2M Webcam  Infrared (IR),30 fps, w/ mic*2, LED, with latch
+Option1：720P/1M Webcam Infrared (IR)30 fps, w/ mic*2, LED, with latch
+Camera shutter optional
+Rear: N/a
+Windows Hello: Yes","Interface type: USB
+Size: xxx* xxx mm
+Feature: Large touch pad with left&right keys
+multi-touch support, gestures and scroll function
+Spill resistant with drain for drainage (200CC waterproof)","Location: On the Power Button
+Interface type: USB, Security level 3 -  HTX-938-GF3258
+Windows Hello: No Data","Speaker: 2* Built-in Speakers ( 2* 4Ω/2W)
+Mic: 2* Built-in (dual) digital microphones on CAM  module
+Others: HD Audio, Box","Type: Lithium-ion polymer smart battery, PD3.0 support fast charging (Optional)
+Capacity: 1* 59Wh, xxxV/xxxxmah,  3S1P, Smart battery, for HS Series
+1* 55Wh, xxxV/xxxxmah,  3S1P, Smart battery, for U Series
+Certification: CB,MSDS,UN38.3,Airflight transportation report
+Life: 8 Hours (U Series) TBD
+10 Hours (HS Series) TBD","Module: AMD Zen4,  AMD Strix Point H Series
+Ryzen™ 5 8050H
+Ryzen™ 7 8050H
+AMD Zen4,  AMD Hawk Point U Series","Model: AMD Radeon™ Graphics integrated, RDNA 3 4nm iGPU, 30W
+RAM: LPDDR5X-7500Mhz (315B)(PCB uVIA), up to 16G/32G,onboard
+Port: LCD connector optional
+SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 32TB
+1* M.2 2280 PCle G3 (Lane 4)/NVME SSD, up to 32TB","RAM: LPDDR5X-7500Mhz (315B)(PCB uVIA), up to 16G/32G,onboard
+Port: LCD connector optional
+SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 32TB
+1* M.2 2280 PCle G3 (Lane 4)/NVME SSD, up to 32TB
+Wifi: Defualt：1* WiFi6E 2Tx2R+ BT5.2 (on board)
+Option1：1* WiFi6 2Tx2R+ BT5.2 (on board)",Port: LCD connector optional,"SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 32TB
+1* M.2 2280 PCle G3 (Lane 4)/NVME SSD, up to 32TB",,TDP: TDP 28W,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: Support AMD Dash
+Default：RZ616(AMD)_WIFI 6E 2Tx2R 802.11ax+ BT 5.2, on board (Major Chipset – MT7922AE)
+Non-Dash
+Option1：AW-XM514NF(AzureWave)_Wifi 6E 2T2R 802.11ax + BT 5.3, on board (Major Chipset – MT7922A12L)
+Others: Support Wifi and Bluetooth Power on/off switch",RJ45: Giga LAN 10/100/1000/2500Mbps (on DB),,"WiFi/Bluetooth Switch: No Data
+Battery/Charge: Charging with Red light
+Full-charged with Green light 
+Off with no light","System: Windows11 2024H2 (2024 updated) Copilot version
+All functions should be compatible on Win11 & Linux OS
+Language Support: Support multi Language","MEP
+(need OEM get approval from Microsoft): Automatic framing
+Eye contact
+Background effect
+Copilot
+(Support Region depends on Microsoft): Support
+Large language model (License requirement): Support
+Text to Image model (License requirement): Support
+Image to Image model (License requirement): Support","Standard Configuration: Default：65W, 20V DC charger
+Option 1：65W GaN charging Cyberize for U Series
+Option 2：100W GaN charging-same like 938 for HS  Series",

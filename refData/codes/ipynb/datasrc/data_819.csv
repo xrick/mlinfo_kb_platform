@@ -1,0 +1,73 @@
+﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+819,Version: MP_v1.6,AB819-S,MB Ver.: v1.0,"stage: Planning：N/A
+Kick-off：N/A
+EVT：N/A
+DVT：N/A
+PVT：N/A
+Pilot run：N/A
+MP：N/A",Owner: HQCN_文鴻,"Form: Commercial Notebook
+Dimension: 359.1* 240.4* 19.5 mm
+Material/Surface: A/C/D case：Plastic (Anodize)
+B case：Plastic (Texture)
+Hinge: 140 degree hinge
+Weight: 1860 g","Dimension: 15.6"" 16:9
+Resolution: 15.6"" FHD 1920* 1080 144Hz panel 
+*3 sides narrow bezel",Form: No Data,"MB IO(Left): 1* φ 3.5mm DC-IN port (MB)
+1* HDMI 1.4 Type A (MB)
+1* USB3.2 Gen1,  Super Speed USB 5Gbps, Type A  (on MB)
+2* USB3.2 Gen2, Super Speed USB 10Gbps, full function (Power Delivery, Data, DisplayPort 1.4), Type-C (MB)
+1*Camera/Mic switch (physical power on/off)
+DB IO(Right): 1* Supportive Kensington Lock Type slot (DB)
+DB_Option1：1*RJ45, Giga LAN 10/100/1000Mbps (on DB)(EM_AB819_HLT_DB_V1.2)
+DB_Option2：1*RJ45, Giga LAN 10/100/1000Mbps (on DB)
+DB_Option3：N/A
+DB_Option1：N/A
+DB_Option2：1* USB2.0 Hi-Speed, Type A (on DB)
+DB_Option3：N/A
+DB_Option1：1* φ 3.5mm standard headphone Jack (DB)(EM_AB819_HLT_DB_V1.2)
+DB_Option2：1* φ 3.5mm standard headphone Jack (DB)
+DB_Option3：1* φ 3.5mm standard headphone Jack (DB)
+DB_Option1：N/A
+DB_Option2：1* Micro SD card, up to 2TB (on DB)
+DB_Option3：1* Micro SD card, up to 2TB (on DB)
+DB_Option1：N/A
+DB_Option2：1* Micro SD card, up to 2TB (on DB)
+DB_Option3：1* Micro SD card, up to 2TB (on DB)",,Button: Seperated Power button key (On DB),"Back light: Backlight KB (Single LED-White)
+Matrix: US
+Others: No Data","Front: 1* 1.0MP (720P), with LED
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C
+Size: No Data
+Feature: multi-touch support, gestures and scroll function","Location: 1* On Touchpad
+Interface type: USB, Security level 2 - GF3206+GM188  (Optional)
+Windows Hello: support Windows Hello","Speaker: 4* Built-in Speaker (4* 8Ω/2W) (on MB)
+Mic: 2* Built-in digital microphones (on MB)
+Others: No Data","Type: Lithium-ion polymer battery
+Capacity: 1* 55Wh, 11.4V/4825 mAh, 3S1P, Damp battery
+Certification: No Data
+Life: 10 Hours","Module: AMD Zen2, AMD Renoir
+AMD Zen2, AMD Cezanne
+AMD Zen2,  AMD Lucienne
+AMD Zen2, AMD  Barcelo Refresh","Model: AMD Radeon™ Graphics
+No Data
+No Data
+Memory: 2* SO-DIMM DDR4 up to 3200MT/s, up to 16G/32G","Memory: 2* SO-DIMM DDR4 up to 3200MT/s, up to 16G/32G
+Port: EDP
+Storage/ SSD: 1* M.2 2280 for PCle G3 (Lane 4)/NVME SSD, up to 8TB (2x 256GB)(on MB)
+Wifi: 1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)",Port: EDP,"Storage/ SSD: 1* M.2 2280 for PCle G3 (Lane 4)/NVME SSD, up to 8TB (2x 256GB)(on MB)",Wifi: 1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module),TDP: TDP 15W,"interface Type: Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)
+Option2： AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)",RTC Connector: Support,"Wifi Chip Model: Default：6222M-PUC(FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on module (Major Chipset – RTL8822CE-CG)
+Others: Support Wifi and Bluetooth Power on/off switch","DB_Option1：1*RJ45, Giga LAN 10/100/1000Mbps (on DB)(EM_AB819_HLT_DB_V1.2)
+DB_Option2：1*RJ45, Giga LAN 10/100/1000Mbps (on DB)
+DB_Option3：N/A",M.2 slot: No Data,"1*WiFi/Bluetooth: No Data
+1*Battery/Charge: Charging with Red light
+Full-charged with Blue light
+Off with no light","System: Windows11 SV2(23H2)
+Language Support: Support multi Language","MEP
+(need OEM get approval from Microsoft): No Data
+No Data
+No Data
+Copilot
+(Support Region depends on Microsoft): No Data
+Large language model (License requirement): No Data
+Text to Image model (License requirement): No Data
+Image to Image model (License requirement): No Data","Standard Configuration: 1* 65Wh, AC in 100/240V,50/60Hz, DC output 20V /3.25A",Safety: No Data

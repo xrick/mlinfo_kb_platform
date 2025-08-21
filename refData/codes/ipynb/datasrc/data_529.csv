@@ -1,0 +1,86 @@
+﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+529,Version: MP_v1.8,AB529,MB Ver.: v1.2,"stage: Planning：N/A
+Kick-off：2023/03/05
+EVT：2023/03/05-2023/07/14
+DVT：N/A
+PVT：2023/07/15
+Pilot run：
+MP：2023/07/15",Owner: Jasper,"Form: Clamshell / Notebook
+Dimension: 333.0* 221.5* 19.7 mm
+Material: A/B/C/D Cover：ABS+PC(Painting)
+Hinge: 180 degree hinge (make sure will not touch the LCD Panel during the opening)
+one-hand opening + soft close (shouldn’t clap when closing)
+Weight: 1700 g","Dimension: 15.6""  16:9
+Resolution: 15.6""1920* 1080 FHD, 60Hz, 250nits",Form: No Data,"MB IO(Left): 1* φ3.5mm DC-IN port (MB)
+1* HDMI 1.4 Type A (4K/30Hz) (MB)
+1* Displayport 1.4 (MB)
+2* USB 3.2 Gen2, Super Speed USB 10Gbp, Type-A (MB)
+1* USB3.2 Gen2, Super Speed USB 10Gbps,Type-C, full function (Power Delivery,Data,DisplayPort) (MB)
+1* USB 3.2 Gen2, Super Speed USB 10Gbp, Type-C (MB)
+DB IO(Right): 1* Security Kensington lock Type slot (DB)
+1* RJ45,  Giga LAN 10/100/1000Mbps (DB)
+2* USB 3.2 Gen1, Super Speed USB 5Gbp,Type A (DB)
+1* USB 3.2 Gen1, Super Speed USB 5Gbp,Type C (DB)
+1* USB 2.0, Super Speed,data only,Type C (DB)","1x Power On/Off/Sleep: On with White light
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light
+1xWebcam: No Data
+2xSSD led: No Data
+1xCaps Lock: On with White light
+Off with no light",Button: Seperated Power button key?,"Back light: Default：Single Color
+Option1 : Standard no backlight KB
+Matrix: US layout, Russian KB
+Others: No Data","Front: 1* 2.0MP (1080P), with LED
+Support Camera+Mic physical power on/off switch
+Camera shutter
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C
+Size: 118* 78 mm
+Feature: Mylar, Support Windows 11 default gesture","Location: 1* on touchpad
+Interface type: USB, Security level 2 - GF3206+GM188 (Optional)
+Windows Hello: Optional","Speaker: 2* Built-in Speakers (8Ω/ 1W)
+Mic: 1* Built-in digital microphone (on MB)
+1* Built-in digital microphone (on DB)
+Others: No Data","Customized: AL525 extend device
+New C & D case, IO port change
+R5 5600U & R5 5500U 
+PVT_2023/07/14
+*New Customized requirment
+New ID/Wifi changer to M.2 module/4x USB3.2 Gen2 Type A
+No Data
+Details: Descriptions
+Form: Clamshell / Notebook","Customized: AL525 extend device
+New C & D case, IO port change
+R5 5600U & R5 5500U 
+PVT_2023/07/14
+*New Customized requirment
+New ID/Wifi changer to M.2 module/4x USB3.2 Gen2 Type A
+No Data
+Details: Descriptions
+Form: Clamshell / Notebook","Model: AMD Radeon™ Graphics
+RAM: 2* DDR4 SO-DIMM, up to 64GB DDR4 3200 MHz(2*32G)
+Port: LCD connector optional
+SSD: 1* M.2 2280 PCle G3 (Lane 3)/NVMe  SSD, up to 512GB/1TB/2TB (on MB)
+1* M.2 SATA SSD, up to 256GB/512GB/1TB (on DB)","RAM: 2* DDR4 SO-DIMM, up to 64GB DDR4 3200 MHz(2*32G)
+Port: LCD connector optional
+SSD: 1* M.2 2280 PCle G3 (Lane 3)/NVMe  SSD, up to 512GB/1TB/2TB (on MB)
+1* M.2 SATA SSD, up to 256GB/512GB/1TB (on DB)
+Wifi: 1* WiFi5 + BT5.0 (on board)",Port: LCD connector optional,"SSD: 1* M.2 2280 PCle G3 (Lane 3)/NVMe  SSD, up to 512GB/1TB/2TB (on MB)
+1* M.2 SATA SSD, up to 256GB/512GB/1TB (on DB)","Customized: AL525 extend device
+New C & D case, IO port change
+R5 5600U & R5 5500U 
+PVT_2023/07/14
+*New Customized requirment
+New ID/Wifi changer to M.2 module/4x USB3.2 Gen2 Type A",,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: No Data,"Wifi Chip Model: Default：6222C-PUC(FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on board (Major Chipset – RTL8822CE-CG)
+Others: No Data","1* RJ45,  Giga LAN 10/100/1000Mbps (DB)",M.2 slot: No Data,"1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light","System: Windows 11, SV2 (23H2)
+Language Support: Support multi Language",,"Standard Configuration: 1* 65W, AC in 100/240V,50/60Hz, DC output 19V /3.42A AC adapter","Safety: CE
+FCC
+RoHS"

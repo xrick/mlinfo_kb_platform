@@ -1,0 +1,72 @@
+﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+928,Version: MP_v1.3,ARB928,MB Ver.: v1.0?,"stage: Planning：N/A
+Kick-off：N/A
+EVT：N/A
+DVT：N/A
+PVT：N/A
+Pilot run：N/A
+MP：N/A",Owner: Poling,"Form: Notebook
+Dimension: 370.6 * 247.9* 17.95mm
+Material/Surface: A/C/D Cover：Metal (Anodize), 
+B Cover：Plastic (Texture)
+Hinge: 140 degree hinge
+Weight: 1.79 Kg","Dimension: 15.6"" 16:9
+16.1"" 16:9
+Resolution: 15.6"" 1920* 1080 FHD, 144Hz, Freesync, PSR
+16.1"" 1920* 1080 FHD, 60Hz, Freesync, PSR",Form: No Data,"MB IO(Left): 1* φ5.5mm DC-IN port (MB)
+1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)
+2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (on MB)
+1* USB3.2 Gen2,  Super Speed USB 10Gbps, Type C, full function PD(5V/3A)/DP1.4/USB (on MB)
+1* φ3.5mm standard headphone Jack (MB)
+1* Camera shutter (MB)
+DB IO(Right): 1* Supportive Kensington Lock Type slot (DB)
+1* RJ45, Giga LAN 10/100/1000Mbps (On DB)
+1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (onDB)
+No Data","1x Power On/Off/Sleep: On with Blue light
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light
+1xWebcam Module: No Data
+2xSSD led: No Data
+1xCaps Lock: No Data",Button: Seperated Power button key(On DB),"Back light: Backlight KB (Single LED-White)
+Matrix: US/UK
+Others: 41*110.6*3.5mm","Front: 1* 1.0MP(720P) Front, with MIC*2, LED
+*White LED on when camera is always turned off for privacy.
+Camera shutter
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C/8pin
+Size: 125.1* 78.1mm
+Feature: multi-touch support, gestures and scroll function","Location: 1* on power button (Optional)
+Interface type: USB, Security level 2 -FT9368
+Windows Hello: support Windows Hello","Speaker: 4* Built-in Speaker ( 2* 4Ω/2W, 2* 8Ω/1W)
+Mic: 2* Built-in (dual) digital microphones on camera module
+Others: No Data","Type: Lithium-ion polymer battery
+Capacity: 1* 69.99Wh, 11.55V/6060mAh, 4S1P, Smart battery
+Certification: CB,MSDS,UN38.3, Airflight transportation report
+Life: 10 Hours","Module: AMD Zen3+,  AMD Rembrandt U Series
+Ryzen™ 5 6600U (6C/12T, 4.5GHz/2.9GHz,TDP: 15~28W)
+Ryzen™ 7 6800U (8C/16T, 4.7GHz/2.7GHz,TDP: 15~28W)
+No Data","Model: AMD Radeon™ RX6500M(P50), 4GB, GDDR6, 
+50W, Smart Shift: 60W
+No Data
+No Data
+RAM: LPDDR5-6400Mhz (315B), up to 16G/32G","RAM: LPDDR5-6400Mhz (315B), up to 16G/32G
+Port: LCD connector optional
+SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD , up to 8TB (2x 1TB)
+Wifi: Default：1* M.2 Key-E 2230 for WiFi 6 + BT5.2
+Optional 1：1* M.2 Key-E 2230 for WiFi 6E  + BT5.2",Port: LCD connector optional,"SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD , up to 8TB (2x 1TB)","Wifi: Default：1* M.2 Key-E 2230 for WiFi 6 + BT5.2
+Optional 1：1* M.2 Key-E 2230 for WiFi 6E  + BT5.2",TDP: 45W,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: Default：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset – RTL8852BE-CG)
+Option1：RZ608(AMD)_WIFI 6E Tri-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset –  MT7921K)
+Others: Support Wifi and Bluetooth Power on/off switch","1* RJ45, Giga LAN 10/100/1000Mbps (On DB)",M.2 slot: Support,"1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light","System: Windows11 SV2(23H2), Support Modern Standby
+All functions should be compatible on Win11 & Linux OS
+Language Support: Support multi Language",,"Standard Configuration: 1* 65W, AC in 100/240V,50/60Hz, DC output 19V /3.42A (U Series)","Safety: No Data
+No Data
+No Data"
