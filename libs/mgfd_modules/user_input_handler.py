@@ -3,13 +3,17 @@
 """
 MGFD UserInputHandler 模組
 實現LLM驅動的用戶輸入處理和槽位提取
+在這裏我們以slot的角度以及整句句子本身，來定義四種對話型態
+1.對話中包括有槽位資訊，這個槽位資可以經正規表示法來取得。
+2.整個句子與HumanData/SentenceHub中的句子相似度大於70%~80%，則視為對話型態2
+3.整個句子及句子中的單子，皆無法取得有用的資訊，則視為對話型態3。
 """
 
 import json
 import logging
 from typing import Dict, Any, Optional, List
 from datetime import datetime
-from .enhanced_slot_extractor import EnhancedSlotExtractor
+from ...backup.modules_removed_20250818.mgfd_cursor.enhanced_slot_extractor import EnhancedSlotExtractor
 
 class UserInputHandler:
     """用戶輸入處理模組"""

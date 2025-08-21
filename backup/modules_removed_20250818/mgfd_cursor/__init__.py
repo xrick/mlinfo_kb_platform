@@ -5,7 +5,7 @@ Multi-Guided Funnel Dialogue (MGFD) Cursor Implementation
 
 # 新的MGFD系統組件
 from .mgfd_system import MGFDSystem
-from .user_input_handler import UserInputHandler
+from ....libs.mgfd_modules.user_input_handler import UserInputHandler
 from .dialogue_manager import DialogueManager
 from .action_executor import ActionExecutor
 from .response_generator import ResponseGenerator

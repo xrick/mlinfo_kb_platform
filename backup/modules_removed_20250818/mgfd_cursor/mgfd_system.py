@@ -9,7 +9,7 @@ import redis
 from typing import Dict, Any, Optional, List
 from datetime import datetime
 
-from .user_input_handler import UserInputHandler
+from ....libs.mgfd_modules.user_input_handler import UserInputHandler
 from .redis_state_manager import RedisStateManager
 from .llm_manager import MGFDLLMManager
 from .dialogue_manager import DialogueManager

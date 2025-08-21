@@ -16,7 +16,7 @@ from .response_generator import ResponseGenerator
 from .knowledge_base import NotebookKnowledgeBase
 # from .redis_state_manager import RedisStateManager
 # from .question_manager import QuestionManager
-from .Stat_Manager import *
+from .Stat_Manager_deprecated1 import *
 
 
 class MGFDSystem:

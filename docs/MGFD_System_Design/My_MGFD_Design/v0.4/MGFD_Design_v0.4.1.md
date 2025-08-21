@@ -27,17 +27,6 @@ UserInputHandler (user_input_handler.py)
 └── 狀態更新管理
 ```
 
-#### **狀態管理層**
-
-```
-StateManager (state_manager.py)
-├── 會話狀態轉換
-├── 對話歷史管理
-├── 槽位信息存儲
-├── 
-└──
-```
-
 #### **回應生成層**
 
 ```
@@ -111,12 +100,22 @@ System -->[*]
 1. user input -> api router -> MGFDSystem
 2. 
 
+
+
+
+
+---
+
+
+
 我會先用一個案例來描述這個系統的完整且符合預期的行為。
 
 case-1:
 user-input-1 :"請介紹目前新出的筆電"-> system:各模組進行處理，發現需要啟動funnnel chat進行槽位資料收集->system:依照預設的槽位資料收集的問題向客戶詢問->客戶回答->[optional:若預到系統無法理解的字詞，請詢問LLM，並產生回答與客戶進行確認，直到確定後，再繼續進行槽位資料收集]->system進行槽位資料收集->直到槽位資料滿足可以進行產品查詢->**system使用Chunking語義搜尋引擎進行產品搜尋**->呈現產品詳細規格給客戶。
 
-## 1.3 **Chunking搜尋核心整合說明**
+---
+
+### 1.3 **Chunking搜尋核心整合說明**
 
 ### Chunking架構優勢：
 
