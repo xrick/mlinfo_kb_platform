@@ -1,0 +1,40 @@
+{
+  "states": [
+    {
+      "order": 1,
+      "state": "OnReceiveMSG",
+      "description": "接收使用者訊息",
+      "metainfo": {}
+    },
+    {
+      "order": 2,
+      "state": "OnGenNewChat",
+      "description": "產生新的聊天以獲取使用者需求資訊",
+      "metainfo": {}
+    },
+    {
+      "order": 3,
+      "state": "OnLLMGenChatFromPrompt",
+      "description": "使用LLM產生新的聊天以獲取使用者需求資訊",
+      "metainfo": {}
+    },
+    {
+      "order": 4,
+      "state": "OnGenMDContents",
+      "description": "產生Markdown內容",
+      "metainfo": {}
+    },
+    {
+      "order": 5,
+      "state": "OnSendToFront",
+      "description": "發送Markdown內容到前端",
+      "metainfo": {}
+    },
+    {
+      "order": 6,
+      "state": "OnWaitUserResponse",
+      "description": "等待使用者回應",
+      "metainfo": {}
+    }
+  ]
+}
