@@ -608,3 +608,173 @@ ENTER PLAN MODE
 13. 迴圈結束後，印出最終的問候語 (`machine.context.get("greeting")`)。
 
 這個計畫涵蓋了架構決策和詳細的程式碼重構步驟，能夠完整地實現您的新需求。
+
+---
+
+
+
+好的，現在進入執行模式。我將嚴格按照計畫清單進行實作，建立兩個檔案：`action_library.py` 和 `state_manager.py`。
+
+**IMPLEMENTATION CHECKLIST Progress:**
+
+**Phase 1: `action_library.py`**
+
+* [X] 
+* [X] 
+* [X] 
+* [X] 
+
+**Phase 2: `state_manager.py`**
+
+* [X] 
+* [X] 
+* [X] 
+* [X] 
+
+**Phase 3: 主程式進入點**
+
+* [X] 
+* [X] 
+* [X] 
+* [X] 
+* [X] 
+
+---
+
+**檔案一：`action_library.py`**
+這代表了您的業務邏輯模組 (例如 `ResponseGenHandler`, `UserInputHandler`)。
+
+**程式碼片段**
+
+```
+from typing import Dict, Any
+
+"""
+This file represents the collection of business logic modules.
+Each function is an "action" that adheres to the Standard Contract:
+- It accepts a context dictionary.
+- It returns a dictionary of updates for the context.
+"""
+
+def prompt_for_name(context: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Generates a prompt to ask for the user's name.
+    This action does not need input from the context.
+    """
+    print("  - Action: Generating a prompt for the user's name.")
+    return {"prompt": "What is your name? "}
+
+def get_user_input(context: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Simulates receiving user input in response to a prompt.
+    It reads the 'prompt' from the context.
+    """
+    prompt = context.get("prompt", "> ")
+    user_name = input(prompt)
+    print(f"  - Action: Received user input: '{user_name}'.")
+    return {"user_name": user_name}
+
+def generate_greeting(context: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Generates a personalized greeting.
+    It reads the 'user_name' from the context.
+    """
+    name = context.get("user_name", "Guest")
+    print(f"  - Action: Generating greeting for '{name}'.")
+    greeting = f"Hello, {name}! Welcome."
+    return {"greeting": greeting}
+```
+
+---
+
+**檔案二：`state_manager.py`**
+這代表了您的 `StateManagementHandler` 模組。
+
+**程式碼片段**
+
+```
+from dataclasses import dataclass
+from typing import List, Callable, Dict, Any
+
+# Import actions from the business logic library
+from action_library import prompt_for_name, get_user_input, generate_greeting
+
+# The StateTransition dataclass remains the same
+@dataclass
+class StateTransition:
+    actions: List[Callable[[Dict[str, Any]], Dict[str, Any]]]
+    next_state: str
+
+# Refactored StateMachine class with context management
+class StateMachine:
+    def __init__(self, initial_state: str, state_map: Dict[str, StateTransition], initial_context: Dict[str, Any]):
+        self.current_state: str = initial_state
+        self.state_map: Dict[str, StateTransition] = state_map
+        self.context: Dict[str, Any] = initial_context
+        print("StateMachine initialized.")
+
+    def run_step(self):
+        """
+        Executes a single step of the state machine, updating the context.
+        """
+        if self.current_state not in self.state_map:
+            print(f"State '{self.current_state}' is a terminal state. Halting.")
+            return
+
+        transition = self.state_map[self.current_state]
+      
+        # Core Logic: Execute each action and update the context with its return value
+        for action in transition.actions:
+            updates = action(self.context)
+            if updates:
+                self.context.update(updates)
+      
+        self.current_state = transition.next_state
+
+# New state table for the interactive greeting flow
+STATE_TRANSITIONS: Dict[str, StateTransition] = {
+    "START": StateTransition(
+        actions=[prompt_for_name],
+        next_state="AWAITING_INPUT"
+    ),
+    "AWAITING_INPUT": StateTransition(
+        actions=[get_user_input],
+        next_state="GENERATING_RESPONSE"
+    ),
+    "GENERATING_RESPONSE": StateTransition(
+        actions=[generate_greeting],
+        next_state="END"  # Terminal state
+    ),
+}
+
+# Main execution block
+if __name__ == "__main__":
+    print("--- Starting Interactive Greeting StateMachine ---")
+  
+    # Instantiate the state machine with an empty initial context
+    machine = StateMachine(
+        initial_state="START",
+        state_map=STATE_TRANSITIONS,
+        initial_context={}
+    )
+
+    # Drive the machine step-by-step until it reaches the terminal state
+    while machine.current_state != "END":
+        print("\n" + "="*40)
+        print(f"Current State: '{machine.current_state}'")
+        print(f"Context before step: {machine.context}")
+      
+        machine.run_step()
+      
+        print(f"Context after step:  {machine.context}")
+        print("="*40)
+
+    print("\n--- StateMachine execution finished ---")
+    final_greeting = machine.context.get("greeting", "No greeting was generated.")
+    print(f"Final Result: {final_greeting}")
+
+```
+
+計畫已完全實作。您可以將這兩個檔案儲存在同一個目錄下，然後執行 `python state_manager.py` 來查看運作結果。它將會提示您輸入姓名，並根據您的輸入完成整個資料處理流程。
+
+Status: SUCCESSFUL/UNSUCCESSFUL?
