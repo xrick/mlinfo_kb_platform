@@ -11,6 +11,14 @@
 
 ## 1. 系統模組組成
 
+#### 五大子模組:
+
+#### * UserInputHandler : 輸入處理層
+* ResponseGenHandler : 回應生成層
+* KnowledgeManagementHandler
+* PromptManagementHandler : 提示工程管理層
+* StateManagementHandler : 狀態管理層
+
 ### 1.1 核心模組架構
 
 #### **主控制器層**

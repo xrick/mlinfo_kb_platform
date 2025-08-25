@@ -70,6 +70,7 @@ class MGFDLLMManager:
         self.llm = None
         self._response_cache: Dict[str, Dict[str, Any]] = {}
         self.principal_prompt: Optional[str] = None
+        self.ai_coder_prompt: Optional[str] = None
         # 延遲載入器，避免循環依賴
         self._config_loader = None
         
@@ -77,6 +78,8 @@ class MGFDLLMManager:
         self._initialize_llm()
         # 載入主提示
         self._load_principal_prompt()
+        # 載入 AI Coder 提示
+        self._load_ai_coder_prompt()
     
     def _initialize_llm(self):
         """初始化 LLM"""
@@ -131,14 +134,14 @@ class MGFDLLMManager:
                 self._config_loader = None
 
     def _load_principal_prompt(self, custom_path: Optional[str] = None):
-        """載入主提示 (docs/Prompts/MGFD_Foundmental_Prompt.txt)"""
+        """載入主提示 (HumanData/PromptsHub/MGFD_Principal_Prompts/MGFD_Principal_Prompt_20250821.txt)"""
         try:
             if custom_path:
                 path = Path(custom_path)
             else:
                 # 專案根目錄 = libs/mgfd_cursor/../../
                 root = Path(__file__).resolve().parents[2]
-                path = root / 'docs' / 'Prompts' / 'MGFD_Foundmental_Prompt.txt'
+                path = root / 'HumanData' / 'PromptsHub' / 'MGFD_Principal_Prompts' / 'MGFD_Principal_Prompt_20250821.txt'
             if path.exists():
                 self.principal_prompt = path.read_text(encoding='utf-8')
                 self.logger.info(f"已載入主提示: {path}")
@@ -147,6 +150,24 @@ class MGFDLLMManager:
         except Exception as e:
             self.logger.warning(f"載入主提示失敗: {e}")
             self.principal_prompt = None
+
+    def _load_ai_coder_prompt(self, custom_path: Optional[str] = None):
+        """載入 AI Coder 獨立初始化提示 (HumanData/PromptsHub/MGFD_Principal_Prompts/ai_coder_indepnedent_initialization_prompt.txt)"""
+        try:
+            if custom_path:
+                path = Path(custom_path)
+            else:
+                # 專案根目錄 = libs/mgfd_cursor/../../
+                root = Path(__file__).resolve().parents[2]
+                path = root / 'HumanData' / 'PromptsHub' / 'MGFD_Principal_Prompts' / 'ai_coder_indepnedent_initialization_prompt.txt'
+            if path.exists():
+                self.ai_coder_prompt = path.read_text(encoding='utf-8')
+                self.logger.info(f"已載入 AI Coder 提示: {path}")
+            else:
+                self.logger.warning(f"AI Coder 提示不存在: {path}")
+        except Exception as e:
+            self.logger.warning(f"載入 AI Coder 提示失敗: {e}")
+            self.ai_coder_prompt = None
 
     def build_think_prompt(self, instruction: str, context: Dict[str, Any]) -> str:
         """組裝 Think 階段提示，夾帶主提示與模板。"""
@@ -624,6 +645,10 @@ class MGFDLLMManager:
         self._initialize_llm()
         self.logger.info("LLM 配置已更新")
     
+    def get_ai_coder_prompt(self) -> Optional[str]:
+        """獲取 AI Coder 提示"""
+        return self.ai_coder_prompt
+
     def get_status(self) -> Dict[str, Any]:
         """獲取 LLM 狀態"""
         return {
@@ -634,6 +659,7 @@ class MGFDLLMManager:
             "cache_enabled": self.cache_enabled,
             "cache_ttl": self.cache_ttl,
             "llm_available": self.llm is not None,
+            "ai_coder_prompt_loaded": self.ai_coder_prompt is not None,
             "provider_availability": {
                 "ollama": OLLAMA_AVAILABLE,
                 "openai": OPENAI_AVAILABLE,

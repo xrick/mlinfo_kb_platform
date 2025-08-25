@@ -1,0 +1,7 @@
+"步驟","狀態","說明"
+"1","On Receive MSG","沒有有用資料"
+"2","On Gen New Chat",""
+"3","On LLM Gen Chat From Prompt",""
+"4","On Gen MD Contents",""
+"5","On Send To Front",""
+"6","On Wait User Response",""

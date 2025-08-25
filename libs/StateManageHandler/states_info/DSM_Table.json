@@ -1,0 +1,34 @@
+{
+  "states": [
+    {
+      "step": 1,
+      "state": "On Receive MSG",
+      "description": "沒有有用資料"
+    },
+    {
+      "step": 2,
+      "state": "On Gen New Chat",
+      "description": ""
+    },
+    {
+      "step": 3,
+      "state": "On LLM Gen Chat From Prompt",
+      "description": ""
+    },
+    {
+      "step": 4,
+      "state": "On Gen MD Contents",
+      "description": ""
+    },
+    {
+      "step": 5,
+      "state": "On Send To Front",
+      "description": ""
+    },
+    {
+      "step": 6,
+      "state": "On Wait User Response",
+      "description": ""
+    }
+  ]
+}

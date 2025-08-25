@@ -1,0 +1,8 @@
+{
+  "mgfd_principal": "HumanData/PromptsHub/MGFD_Principal_Prompts/MGFD_Principal_Prompt_20250821.txt",
+  "ai_coder_initialization": "HumanData/PromptsHub/MGFD_Principal_Prompts/ai_coder_indepnedent_initialization_prompt.txt",
+  "slot_collection": "HumanData/PromptsHub/prompts_for_collect_slot_values/MGFD_collect_slot_value_prompt_v1.txt",
+  "guest_reception": "HumanData/PromptsHub/basic_prompts_for_users/recept_guest_prompt1.txt",
+  "sales_rag": "libs/services/sales_assistant/prompts/sales_prompt.txt",
+  "sales_keywords": "libs/services/sales_assistant/prompts/query_keywords.json"
+}
