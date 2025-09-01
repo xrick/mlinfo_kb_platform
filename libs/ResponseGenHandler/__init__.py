@@ -4,6 +4,6 @@ ResponseGenHandler 模組
 負責處理和生成各種類型的回應
 """
 
-from .response_generator import ResponseGenerator
+from .ResponseGenHandler import ResponseGenHandler
 
-__all__ = ['ResponseGenerator']
+__all__ = ['ResponseGenHandler']

@@ -20,7 +20,7 @@ def test_without_enhanced_extractor():
     
     try:
         # 導入必要的模組
-        from mgfd_cursor.user_input_handler import UserInputHandler
+        from libs.UserInputHandler.UserInputHandler import UserInputHandler
         from mgfd_cursor.dialogue_manager import DialogueManager
         from mgfd_cursor.state_machine import DialogueStateMachine
         from mgfd_cursor.knowledge_base import NotebookKnowledgeBase

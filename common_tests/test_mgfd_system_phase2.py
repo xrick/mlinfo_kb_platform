@@ -79,7 +79,7 @@ def test_config_loader():
 def test_user_input_handler():
     """測試用戶輸入處理器"""
     try:
-        from libs.mgfd_cursor.user_input_handler import UserInputHandler
+        from libs.UserInputHandler.UserInputHandler import UserInputHandler
         from libs.mgfd_cursor.llm_manager import MGFDLLMManager
         
         llm_manager = MGFDLLMManager()
@@ -154,7 +154,7 @@ def test_action_executor():
 def test_response_generator():
     """測試回應生成器"""
     try:
-        from libs.mgfd_cursor.response_generator import ResponseGenerator
+        from libs.ResponseGenHandler.ResponseGenHandler import ResponseGenHandler as ResponseGenerator
         from libs.mgfd_cursor.config_loader import ConfigLoader
         
         config_loader = ConfigLoader()

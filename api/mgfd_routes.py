@@ -14,6 +14,7 @@ from fastapi.responses import StreamingResponse, JSONResponse
 from fastapi.exceptions import RequestValidationError
 
 # from libs.mgfd_cursor.mgfd_system import MGFDSystem
+from libs.MGFDKernel import MGFDKernel
 from .models import (
     ChatRequest, ChatResponse, SessionState, ChatHistoryResponse,
     SystemStatus, HealthResponse, ErrorResponse, StreamResponse,
@@ -37,14 +38,14 @@ except Exception as e:
 
 # 初始化MGFD系統（僅使用 Redis）
 try:
-    mgfd_system = MGFDSystem(redis_client) if redis_client else None
+    mgfd_system = MGFDKernel(redis_client) if redis_client else None
     logger.info("MGFD系統初始化成功")
 except Exception as e:
     logger.error(f"MGFD系統初始化失敗: {e}")
     mgfd_system = None
 
 
-def get_mgfd_system() -> MGFDSystem:
+def get_mgfd_system() -> MGFDKernel:
     """依賴注入：獲取MGFD系統實例"""
     if not mgfd_system:
         raise HTTPException(status_code=503, detail="MGFD系統未初始化")
@@ -54,7 +55,7 @@ def get_mgfd_system() -> MGFDSystem:
 @router.post("/chat", response_model=ChatResponse, tags=["chat"])
 async def chat(
     request: ChatRequest,
-    mgfd: MGFDSystem = Depends(get_mgfd_system)
+    mgfd: MGFDKernel = Depends(get_mgfd_system)
 ):
     """
     處理聊天請求
@@ -90,7 +91,7 @@ async def chat(
 @router.post("/chat/stream", tags=["chat"])
 async def chat_stream(
     request: ChatRequest,
-    mgfd: MGFDSystem = Depends(get_mgfd_system)
+    mgfd: MGFDKernel = Depends(get_mgfd_system)
 ):
     """
     處理串流聊天請求
@@ -142,7 +143,7 @@ async def chat_stream(
 @router.get("/session/{session_id}", response_model=SessionState, tags=["session"])
 async def get_session_state(
     session_id: str,
-    mgfd: MGFDSystem = Depends(get_mgfd_system)
+    mgfd: MGFDKernel = Depends(get_mgfd_system)
 ):
     """
     獲取會話狀態
@@ -169,7 +170,7 @@ async def get_session_state(
 @router.post("/session/{session_id}/reset", response_model=ResetSessionResponse, tags=["session"])
 async def reset_session(
     session_id: str,
-    mgfd: MGFDSystem = Depends(get_mgfd_system)
+    mgfd: MGFDKernel = Depends(get_mgfd_system)
 ):
     """
     重置會話
@@ -197,7 +198,7 @@ async def reset_session(
 async def get_chat_history(
     session_id: str,
     limit: int = 50,
-    mgfd: MGFDSystem = Depends(get_mgfd_system)
+    mgfd: MGFDKernel = Depends(get_mgfd_system)
 ):
     """
     獲取對話歷史
@@ -224,7 +225,7 @@ async def get_chat_history(
 
 @router.get("/status", response_model=SystemStatus, tags=["system"])
 async def get_system_status(
-    mgfd: MGFDSystem = Depends(get_mgfd_system)
+    mgfd: MGFDKernel = Depends(get_mgfd_system)
 ):
     """
     獲取系統狀態
@@ -291,7 +292,7 @@ async def health_check():
 # 新增 mgfd_cursor 前端所需的端點
 @router.post("/session/create", response_model=dict, tags=["mgfd_cursor"])
 async def create_session(
-    mgfd: MGFDSystem = Depends(get_mgfd_system)
+    mgfd: MGFDKernel = Depends(get_mgfd_system)
 ):
     """
     創建新會話
@@ -323,7 +324,7 @@ async def create_session(
 
 @router.get("/stats", response_model=dict, tags=["mgfd_cursor"])
 async def get_stats(
-    mgfd: MGFDSystem = Depends(get_mgfd_system)
+    mgfd: MGFDKernel = Depends(get_mgfd_system)
 ):
     """
     獲取系統統計資訊
