@@ -246,7 +246,12 @@ function initSalesAI() {
         const thinkingBubble = showThinkingIndicator();
 
         try {
-            const response = await fetch("/api/sales/chat-stream", {
+            // const response = await fetch("/api/sales/chat-stream", {
+            //     method: "POST",
+            //     headers: { "Content-Type": "application/json" },
+            //     body: JSON.stringify({ query: query, service_name: "sales_assistant" }),
+            // });
+            const response = await fetch("/api/mgfd/chat-stream", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ query: query, service_name: "sales_assistant" }),

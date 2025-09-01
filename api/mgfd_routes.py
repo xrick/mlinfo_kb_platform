@@ -13,7 +13,7 @@ from fastapi import APIRouter, HTTPException, Request, Depends
 from fastapi.responses import StreamingResponse, JSONResponse
 from fastapi.exceptions import RequestValidationError
 
-from libs.mgfd_cursor.mgfd_system import MGFDSystem
+# from libs.mgfd_cursor.mgfd_system import MGFDSystem
 from .models import (
     ChatRequest, ChatResponse, SessionState, ChatHistoryResponse,
     SystemStatus, HealthResponse, ErrorResponse, StreamResponse,

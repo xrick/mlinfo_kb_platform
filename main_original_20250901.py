@@ -95,12 +95,10 @@ templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
 # 導入 API 路由模組
 try:
     # 嘗試導入各種 API 路由模組
-    from api import mgfd_routes,sales_routes, specs_routes, history_routes, import_data_routes
+    from api import sales_routes, specs_routes, history_routes, import_data_routes
     
     # 將各個路由模組註冊到主應用程式中
-    # 導入 MGFD (Multi-turn Guided Funnel Dialogue) 路由模組
-    app.include_router(mgfd_routes.router, prefix="/api/mgfd", tags=["mgfd"])
-    # app.include_router(sales_routes.router, prefix="/api/sales", tags=["sales"])  # 銷售相關 API
+    app.include_router(sales_routes.router, prefix="/api/sales", tags=["sales"])  # 銷售相關 API
     app.include_router(specs_routes.router, prefix="/api/specs", tags=["specs"])  # 規格相關 API
     app.include_router(history_routes.router, prefix="/api/history", tags=["history"])  # 歷史記錄相關 API
     app.include_router(import_data_routes.router, prefix="/api", tags=["import"])  # 資料匯入相關 API
@@ -109,7 +107,16 @@ except ImportError as e:
     # 如果某些 API 路由模組無法導入，記錄警告訊息
     logging.warning(f"Some API routes not yet available: {e}")
 
-
+# 導入 MGFD (Multi-turn Guided Funnel Dialogue) 路由模組
+try:
+    from api import mgfd_routes
+    # 將 MGFD 路由註冊到主應用程式中
+    app.include_router(mgfd_routes.router, prefix="/api/mgfd", tags=["mgfd"])
+    # 同時掛載 mgfd_cursor 路由以支援前端介面
+    # app.include_router(mgfd_routes.router, prefix="/api/mgfd_cursor", tags=["mgfd_cursor"])
+except ImportError as e:
+    # 如果 MGFD 路由模組無法導入，記錄警告訊息
+    logging.warning(f"MGFD routes not available: {e}")
 
 # 自定義OpenAPI文檔
 def custom_openapi():

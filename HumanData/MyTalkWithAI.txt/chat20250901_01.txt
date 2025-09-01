@@ -1,0 +1,86 @@
+
+我先快速掃描與本任務相關的設計與提示文件，並梳理後端整合點，接著會整理出逐步的實作方案與類別介面。
+
+[4 tools called]
+
+我先完成設計文件與提示的閱讀，接著會並行檢視 `api/mgfd_routes.py`、現有的 `libs/MGFDKernel.py` 與 `libs/UserInputHandler` 以對齊接口與行為，然後更新待辦並給出分步實作設計。
+
+[4 tools called]
+
+我已完成三份文件的閱讀與要點萃取，並已檢視後端路由與現有目錄結構。接下來我會提交分步實作設計，並同步勾選已完成的待辦與開啟設計任務。
+
+[1 tool called]
+
+- 我已閱讀完三份關鍵文件，並比對了 `api/mgfd_routes.py` 與現有模組路徑，現在開始設計兩個核心類別接口與行為。
+
+### MGFDKernel.py 與 UserInputHandler.py 的一步步實作思路（僅設計，未動檔）
+- 目標目錄：`libs/Implementation_references/claude/v2`
+- 設計原則：表驅動狀態機 + 標準動作合約 `def action(context: Dict[str, Any]) -> Dict[str, Any]`
+- 對齊文件：
+  - 設計文件：`docs/MGFD_System_Design/MGFD_System_Design_v0.4.3.md` 的五層架構與共享 context 流
+  - 使用者提示：`recept_guest_prompt1.txt` 的訪談漏斗與對話語氣
+  - 主提示：`MGFD_Principal_Prompt.txt` 的企業級助理規範與回覆框架
+
+### 一、MGFDKernel 類別設計（協調者/主控制器）
+- 角色：對外唯一入口；協調 UserInputHandler、PromptManager、KnowledgeManager、ResponseGen、StateManager。
+- 公開介面（初稿）：
+  - `process_message(session_id: str, message: str, stream: bool=False) -> Dict[str, Any]`
+  - `get_session_state(session_id: str) -> Dict[str, Any]`
+  - `reset_session(session_id: str) -> Dict[str, Any]`
+  - `get_system_status() -> Dict[str, Any]`
+- 核心流程（與 v0.4.3 一致）：
+  1) 建立/讀取 session context（Redis/記憶體）
+  2) 呼叫 `UserInputHandler.parse(message)` 產出 `input_intent/slots/update`
+  3) 由 StateManager 根據當前狀態與 `input_update` 執行對應 `actions`（遵循標準合約）
+  4) 如需查詢/推薦，調用 KnowledgeManagementHandler（Chunking 搜尋、語義比對）
+  5) 由 ResponseGenHandler 格式化回應（含 `content.type` 路由，如 `funnel_question`, `multichat_all_questions`, `series_comparison_result`）
+  6) 更新 `context`、回寫狀態、輸出 JSON（或 stream 片段）
+- 狀態機基本狀態（示例，可擴充）：
+  - `INIT` → `FUNNEL_START` → `FUNNEL_ASKING` → `SLOTS_FILLED` → `SEARCHING` → `RESPONDING` → `END` 或回到 `FUNNEL_ASKING`
+- 標準動作合約：
+  - 所有動作函式簽名統一為 `action(context) -> dict`，由 StateManager 逐步執行並 `context.update(updates)`
+
+### 二、UserInputHandler 類別設計（輸入解析/槽位抽取）
+- 角色：將自然語言輸入解析為意圖＋槽位更新；必要時觸發漏斗/問卷模式。
+- 公開介面（初稿）：
+  - `parse(message: str, context: Dict[str, Any]) -> Dict[str, Any]`
+    - 回傳鍵值：
+      - `intent`: 如 `greet`/`ask_compare`/`ask_recommendation`/`smalltalk`...
+      - `slots_update`: `{'usage': 'gaming', 'budget': '40k-50k', ...}`
+      - `control`: 如 `{'start_funnel': True}` 或 `{'start_multichat': True}`
+      - `errors`: 解析異常
+- 槽位策略：
+  - 根據 `recept_guest_prompt1.txt` 的問句序列，對應特徵槽：`usage_purpose`, `software_scene`, `portability`, `screen_size`, `budget`, `brand_preference`, `key_consideration`
+  - 若關鍵槽位不足，回傳 `control.start_funnel = True` 以導向 `funnel_question` 或一次性問卷（MultiChat）
+
+### 三、對前端事件型別對齊（sales_ai.js 已支援）
+- `type: 'funnel_start' | 'funnel_question' | 'funnel_complete'`
+- `type: 'multichat_all_questions' | 'multichat_complete'`
+- `type: 'series_comparison_result' | 'purpose_recommendation_result'`
+- 回應欄位按 `sales_ai.js` 所需鍵提供：`question`, `options`, `session_id`, `message`, `comparison_table`, `recommendations` 等
+
+### 四、狀態機與動作庫（示例）
+- 狀態與動作（示意）：
+  - `INIT`: actions = `[ensure_session, greet_or_route]` → `FUNNEL_START`
+  - `FUNNEL_START`: actions = `[build_funnel_intro, pick_first_question]` → `FUNNEL_ASKING`
+  - `FUNNEL_ASKING`: actions = `[merge_user_input, next_or_complete]` → `SLOTS_FILLED` or Self-loop
+  - `SLOTS_FILLED`: actions = `[build_query, semantic_search, rank_results]` → `RESPONDING`
+  - `RESPONDING`: actions = `[format_response_gfm, route_frontend_type]` → `END` or `FUNNEL_ASKING`
+- 每個 action 以 `context` 為唯一參數與回傳更新，便於測試與調試。
+
+### 五、與 Prompt 管理整合
+- `MGFD_Principal_Prompt.txt`：作為回應框架與越權邊界控制
+- `recept_guest_prompt1.txt`：作為引導式問題庫／多輪問句模板
+- `PromptManagementHandler`：提供 `select_prompt(context)` 與 `render_prompt(context)`，由 Kernel 在需要時調用
+
+### 六、資料結構（context 主要鍵）
+- `session_id`, `stage`, `slots`, `history`, `control`, `frontend_payload`, `search_results`, `recommendations`, `errors`
+- `frontend_payload` 內含交付前端之結構，避免前端耦合後端內部資料
+
+### 七、落地與檔案規劃（不修改既有檔案）
+- 新增目錄與檔案（計畫）：
+  - `libs/Implementation_references/claude/v2/MGFDKernel.py`
+  - `libs/Implementation_references/claude/v2/UserInputHandler.py`
+  - 以及後續的 `actions.py`, `state_table.py`, `prompt_manager.py`（如需要）
+
+若你同意以上設計，我會在 `libs/Implementation_references/claude/v2/` 先建立「實作計畫文件」與兩個類別的骨架（空方法＋型別註解＋docstring），不改動任何現行邏輯，便於你審閱後再逐步實作。
