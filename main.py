@@ -25,6 +25,7 @@ current_dir = Path(__file__).parent
 sys.path.insert(0, str(current_dir))
 
 # 從 config.py 導入配置常數
+from api import mgfdsys_routes_deprecated
 from config import STATIC_DIR, TEMPLATES_DIR, APP_HOST, APP_PORT
 
 # 載入 .env 檔案中的環境變數
@@ -94,14 +95,14 @@ templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
 # 導入 API 路由模組
 try:
     # 嘗試導入各種 API 路由模組
-    from api import sales_routes, specs_routes, history_routes, import_data_routes, mgfdsys_routes
+    from api import sales_routes, specs_routes, history_routes, import_data_routes
     
     # 將各個路由模組註冊到主應用程式中
     app.include_router(sales_routes.router, prefix="/api/sales", tags=["sales"])  # 銷售相關 API
     app.include_router(specs_routes.router, prefix="/api/specs", tags=["specs"])  # 規格相關 API
     app.include_router(history_routes.router, prefix="/api/history", tags=["history"])  # 歷史記錄相關 API
     app.include_router(import_data_routes.router, prefix="/api", tags=["import"])  # 資料匯入相關 API
-    app.include_router(mgfdsys_routes.router, prefix="/api/mgfdsys", tags=["mgfdsys"])  # MGFDSYS 相關 API
+    # app.include_router(mgfdsys_routes_deprecated.router, prefix="/api/mgfdsys", tags=["mgfdsys"])  # MGFDSYS 相關 API
 except ImportError as e:
     # 如果某些 API 路由模組無法導入，記錄警告訊息
     logging.warning(f"Some API routes not yet available: {e}")
@@ -112,7 +113,7 @@ try:
     # 將 MGFD 路由註冊到主應用程式中
     app.include_router(mgfd_routes.router, prefix="/api/mgfd", tags=["mgfd"])
     # 同時掛載 mgfd_cursor 路由以支援前端介面
-    app.include_router(mgfd_routes.router, prefix="/api/mgfd_cursor", tags=["mgfd_cursor"])
+    # app.include_router(mgfd_routes.router, prefix="/api/mgfd_cursor", tags=["mgfd_cursor"])
 except ImportError as e:
     # 如果 MGFD 路由模組無法導入，記錄警告訊息
     logging.warning(f"MGFD routes not available: {e}")
@@ -160,10 +161,10 @@ async def main_interface(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 # 定義 "/mgfd_cursor" 路徑的處理函數，返回 MGFD 介面
-@app.get("/mgfd_cursor", response_class=HTMLResponse)
-async def mgfd_interface(request: Request):
-    """MGFD 介面"""
-    return templates.TemplateResponse("mgfd_interface.html", {"request": request})
+# @app.get("/mgfd_cursor", response_class=HTMLResponse)
+# async def mgfd_interface(request: Request):
+#     """MGFD 介面"""
+#     return templates.TemplateResponse("mgfd_interface.html", {"request": request})
 
 # 定義健康檢查端點，用於監控服務狀態
 @app.get("/health", tags=["system"])
