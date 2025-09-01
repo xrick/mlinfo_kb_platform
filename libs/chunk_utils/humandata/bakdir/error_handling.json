@@ -1,0 +1,86 @@
+{
+  "error_handling": {
+    "error_types": {
+      "slot_extraction_failure": {
+        "description": "槽位提取失敗",
+        "severity": "medium",
+        "user_message": "抱歉，我沒有完全理解您的需求。能否請您再說得具體一些？",
+        "system_action": "CLARIFY_INPUT"
+      },
+      "llm_failure": {
+        "description": "LLM調用失敗",
+        "severity": "high",
+        "user_message": "系統暫時無法處理您的請求，請稍後再試。",
+        "system_action": "RETRY"
+      },
+      "validation_error": {
+        "description": "輸入驗證失敗",
+        "severity": "low",
+        "user_message": "請檢查您的輸入格式是否正確。",
+        "system_action": "CLARIFY_INPUT"
+      },
+      "no_products_found": {
+        "description": "找不到合適產品",
+        "severity": "medium",
+        "user_message": "抱歉，目前沒有找到完全符合您需求的產品。讓我們調整一下搜索條件。",
+        "system_action": "ELICIT_SLOT"
+      },
+      "session_expired": {
+        "description": "會話過期",
+        "severity": "low",
+        "user_message": "您的會話已過期，我們重新開始吧。",
+        "system_action": "RESET_SESSION"
+      },
+      "redis_connection_error": {
+        "description": "Redis連接錯誤",
+        "severity": "high",
+        "user_message": "系統暫時無法保存對話狀態，請稍後再試。",
+        "system_action": "CONTINUE_WITHOUT_SAVE"
+      }
+    },
+    "messages": {
+      "slot_extraction_failure": "抱歉，我沒有完全理解您的需求。能否請您再說得具體一些？",
+      "llm_failure": "系統暫時無法處理您的請求，請稍後再試。",
+      "validation_error": "請檢查您的輸入格式是否正確。",
+      "no_products_found": "抱歉，目前沒有找到完全符合您需求的產品。讓我們調整一下搜索條件。",
+      "session_expired": "您的會話已過期，我們重新開始吧。",
+      "redis_connection_error": "系統暫時無法保存對話狀態，請稍後再試。",
+      "unknown_error": "發生未知錯誤，請稍後再試。",
+      "timeout_error": "請求超時，請稍後再試。",
+      "network_error": "網絡連接問題，請檢查您的網絡連接。"
+    },
+    "retry_strategies": {
+      "llm_failure": {
+        "max_retries": 3,
+        "retry_delay": 1,
+        "backoff_factor": 2
+      },
+      "redis_connection_error": {
+        "max_retries": 2,
+        "retry_delay": 0.5,
+        "backoff_factor": 1.5
+      }
+    },
+    "fallback_responses": {
+      "default": "抱歉，我遇到了一些問題。讓我們重新開始對話吧。",
+      "technical_issue": "系統遇到技術問題，請稍後再試。",
+      "maintenance": "系統正在維護中，請稍後再試。"
+    }
+  },
+  "logging": {
+    "error_levels": {
+      "critical": "系統崩潰或無法恢復的錯誤",
+      "error": "影響功能的錯誤",
+      "warning": "可能影響功能的警告",
+      "info": "一般信息",
+      "debug": "調試信息"
+    },
+    "error_categories": {
+      "user_input": "用戶輸入相關錯誤",
+      "system_internal": "系統內部錯誤",
+      "external_service": "外部服務錯誤",
+      "database": "數據庫錯誤",
+      "network": "網絡錯誤"
+    }
+  }
+}

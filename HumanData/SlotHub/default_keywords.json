@@ -4,7 +4,7 @@
     "metadata": {
       "regex": "(用途|使用目的|應用場景|功能需求|用法|目標用途)",
       "slotvalue": "nodata",
-      "mapping": "nodata",
+      "mapping": "usage_purpose",
       "importance": 4
     }
   },
@@ -13,7 +13,7 @@
     "synonyms": ["重量重量", "機身重量", "淨重", "總重", "機重"],
     "metadata": {
       "regex": "(重量|機身重量|淨重|總重|機重)",
-      "slotvalue": "nodata",
+      "slotvalue": "weight",
       "mapping": "nodata",
       "importance": 2
     }
@@ -24,7 +24,7 @@
     "metadata": {
       "regex": "(預算|價錢|費用|花費|成本|資金)",
       "slotvalue": "nodata",
-      "mapping": "nodata",
+      "mapping": "price_range",
       "importance": 2
     }
   },
@@ -51,7 +51,7 @@
     "metadata": {
       "regex": "(推出時間|上市時間|發布時間|發售日期|推出日期|問世時間)",
       "slotvalue": "nodata",
-      "mapping": "nodata",
+      "mapping": "release_time",
       "importance": 4
     }
   },
@@ -60,7 +60,7 @@
     "metadata": {
       "regex": "(CPU效能|處理器效能|CPU性能|運算效能|處理速度|CPU表現)",
       "slotvalue": "nodata",
-      "mapping": "nodata",
+      "mapping": "cpu_performance",
       "importance": 1
     }
   },
@@ -69,7 +69,7 @@
     "metadata": {
       "regex": "(GPU效能|顯卡效能|GPU性能|圖形效能|顯示效能|繪圖效能)",
       "slotvalue": "nodata",
-      "mapping": "nodata",
+      "mapping": "gpu_performance",
       "importance": 1
     }
   },
@@ -79,7 +79,7 @@
     "metadata": {
       "regex": "(攜帶性|便攜性|可攜帶|移動性|便於攜帶|攜帶方便)",
       "slotvalue": "nodata",
-      "mapping": "nodata",
+      "mapping": "portability",
       "importance": 2
     }
   },
@@ -88,7 +88,7 @@
     "metadata": {
     "regex": "(開關機速度|啟動速度|開機時間|關機時間|開關機時間|啟動效率)",
     "slotvalue": "nodata",
-    "mapping": "nodata",
+    "mapping": "boot_speed",
     "importance": 4
     }
   },
@@ -97,7 +97,7 @@
     "metadata": {
     "regex": "(螢幕尺寸|屏幕大小|顯示器尺寸|螢幕大小|屏幕尺寸|面板尺寸)",
     "slotvalue": "nodata",
-    "mapping": "nodata",
+    "mapping": "screen_size",
     "importance": 2
     }
   },
@@ -106,7 +106,7 @@
     "metadata": {
     "regex": "(品牌|廠牌|製造商|品牌名稱|廠商|品牌商)",
     "slotvalue": "nodata",
-    "mapping": "nodata",
+    "mapping": "brand",
     "importance": 1
     }
   },
@@ -115,7 +115,7 @@
     "metadata": {
     "regex": "(觸控螢幕|觸摸屏|觸控面板|觸摸螢幕|觸控顯示|觸摸式螢幕)",
     "slotvalue": "nodata",
-    "mapping": "nodata",
+    "mapping": "touch_screen",
     "importance": 5
     }
   }

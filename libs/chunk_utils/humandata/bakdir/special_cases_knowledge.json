@@ -1,0 +1,407 @@
+{
+  "version": "1.0",
+  "created_date": "2025-08-14",
+  "last_updated": "2025-08-14",
+  "description": "MGFD系統特殊案例知識庫 - 記錄難以偵測的槽位值和特殊客戶需求",
+  "categories": {
+    "difficult_slot_detection": {
+      "description": "難以偵測的槽位值案例",
+      "total_cases": 4,
+      "cases": [
+        {
+          "case_id": "DSL001",
+          "priority": "high",
+          "customer_query": "我想要效能好的筆電",
+          "query_variants": [
+            "需要高效能的筆電",
+            "要一台跑得快的筆電",
+            "性能強悍的筆記型電腦",
+            "效能不錯的筆電",
+            "速度快的筆記型電腦"
+          ],
+          "detected_intent": {
+            "primary_slot": "performance_priority",
+            "inferred_slots": {
+              "performance_priority": [
+                "cpu",
+                "gpu"
+              ],
+              "usage_purpose": "performance_focused"
+            },
+            "confidence": 0.85,
+            "reasoning": "用戶明確提及效能需求，但未指明具體用途，需要進一步澄清"
+          },
+          "recommended_response": {
+            "response_type": "performance_clarification_funnel",
+            "skip_generic_usage_question": false,
+            "target_question": "performance_specific_inquiry",
+            "message": "我了解您需要高效能的筆電！效能有很多面向，讓我為您精準推薦：",
+            "funnel_question": {
+              "question_id": "performance_clarification",
+              "question_text": "您主要希望在哪個方面有出色的效能表現？",
+              "options": [
+                {
+                  "option_id": "gaming_performance",
+                  "label": "🎮 遊戲效能優先",
+                  "description": "重視顯卡效能，適合遊戲和圖形處理",
+                  "inferred_usage": "gaming",
+                  "performance_focus": [
+                    "gpu",
+                    "cpu",
+                    "ram"
+                  ]
+                },
+                {
+                  "option_id": "work_performance",
+                  "label": "⚡ 工作效能優先",
+                  "description": "重視處理器和多工效能，適合專業工作",
+                  "inferred_usage": "business",
+                  "performance_focus": [
+                    "cpu",
+                    "ram",
+                    "storage"
+                  ]
+                },
+                {
+                  "option_id": "creative_performance",
+                  "label": "🎨 創作效能優先",
+                  "description": "重視創作軟體效能，適合設計和影片處理",
+                  "inferred_usage": "creative",
+                  "performance_focus": [
+                    "cpu",
+                    "gpu",
+                    "ram"
+                  ]
+                },
+                {
+                  "option_id": "all_around_performance",
+                  "label": "🔧 全方位高效能",
+                  "description": "各方面都要有出色表現的頂級配置",
+                  "inferred_usage": "premium_general",
+                  "performance_focus": [
+                    "cpu",
+                    "gpu",
+                    "ram",
+                    "storage"
+                  ]
+                }
+              ]
+            }
+          },
+          "success_rate": 0.92,
+          "usage_count": 12,
+          "last_used": "2025-08-16T23:19:26.576568",
+          "created_date": "2025-08-14",
+          "tags": [
+            "performance",
+            "ambiguous_intent",
+            "needs_clarification"
+          ]
+        },
+        {
+          "case_id": "DSL002",
+          "priority": "medium",
+          "customer_query": "我要買筆電但不知道要選什麼",
+          "query_variants": [
+            "不知道該選哪台筆電",
+            "筆電選擇好多不知道怎麼挑",
+            "完全不懂筆電該買哪一台",
+            "筆電太多種類了不知道選什麼好"
+          ],
+          "detected_intent": {
+            "primary_slot": "guidance_needed",
+            "emotional_state": "overwhelmed",
+            "inferred_slots": {},
+            "confidence": 0.95,
+            "reasoning": "用戶表達選擇困難，需要引導式協助"
+          },
+          "recommended_response": {
+            "response_type": "guided_consultation_start",
+            "tone": "reassuring_and_helpful",
+            "message": "別擔心！選筆電確實有很多考量，讓我用最簡單的方式幫您找到合適的選擇。我們先從最重要的開始：",
+            "funnel_question": {
+              "question_id": "basic_usage_inquiry",
+              "question_text": "您主要會用這台筆電做什麼呢？",
+              "options": [
+                {
+                  "option_id": "daily_use",
+                  "label": "💻 日常使用",
+                  "description": "上網、看影片、處理文件等一般需求",
+                  "complexity_level": "simple"
+                },
+                {
+                  "option_id": "work_business",
+                  "label": "💼 工作商務",
+                  "description": "辦公軟體、視訊會議、商務處理",
+                  "complexity_level": "moderate"
+                },
+                {
+                  "option_id": "study_learning",
+                  "label": "📚 學習進修",
+                  "description": "上課、做報告、研究資料",
+                  "complexity_level": "moderate"
+                },
+                {
+                  "option_id": "entertainment",
+                  "label": "🎮 娛樂遊戲",
+                  "description": "玩遊戲、看高清影片等娛樂需求",
+                  "complexity_level": "advanced"
+                }
+              ]
+            }
+          },
+          "success_rate": 0.88,
+          "usage_count": 2,
+          "last_used": "2025-08-14T16:06:22.310564",
+          "created_date": "2025-08-14",
+          "tags": [
+            "guidance_needed",
+            "beginner_friendly",
+            "decision_paralysis"
+          ]
+        },
+        {
+          "case_id": "DSL003",
+          "priority": "high",
+          "customer_query": "請幫我介紹目前比較多人選擇的筆電",
+          "query_variants": [
+            "比較多人選擇的筆電",
+            "熱門筆電推薦",
+            "銷量好的筆電",
+            "最受歡迎的筆電",
+            "大家都在買的筆電",
+            "熱銷筆電",
+            "人氣筆電",
+            "推薦度高的筆電"
+          ],
+          "detected_intent": {
+            "primary_slot": "popular_choice",
+            "inferred_slots": {
+              "usage_purpose": "general",
+              "budget_range": "mid_range",
+              "popularity_focus": true
+            },
+            "confidence": 0.95,
+            "reasoning": "用戶明確要求熱門/多人選擇的筆電，應該直接推薦熱門產品"
+          },
+          "recommended_response": {
+            "response_type": "popular_recommendation",
+            "skip_generic_usage_question": true,
+            "message": "我了解您想要了解熱門筆電！讓我為您推薦目前最受歡迎的選擇：",
+            "action": "RECOMMEND_POPULAR_PRODUCTS",
+            "popularity_criteria": {
+              "sales_volume": "high",
+              "customer_rating": "excellent",
+              "market_demand": "strong",
+              "price_performance_ratio": "good"
+            },
+            "recommendation_approach": {
+              "focus": "popular_products",
+              "explanation": "這些是目前最受歡迎的筆電，性價比高且用戶評價良好",
+              "follow_up": "您對哪一款比較感興趣？我可以為您提供更詳細的規格和比較"
+            }
+          },
+          "success_rate": 0.98,
+          "usage_count": 11,
+          "last_used": "2025-08-17T01:44:16.154535",
+          "created_date": "2025-08-14",
+          "tags": [
+            "popular_choice",
+            "direct_recommendation",
+            "high_confidence"
+          ]
+        }
+      ]
+    },
+    "special_requirements": {
+      "description": "特殊需求和複雜要求",
+      "total_cases": 2,
+      "cases": [
+        {
+          "case_id": "SR001",
+          "priority": "high",
+          "customer_query": "我需要一台能帶出國，但在家也能當桌機用的筆電",
+          "query_variants": [
+            "要能攜帶又能當主力電腦的筆電",
+            "外出輕便，在家高效能的筆電",
+            "雙重使用場景的筆記型電腦",
+            "可以當桌機替代品的輕薄筆電"
+          ],
+          "detected_intent": {
+            "primary_slot": "portability_need",
+            "inferred_slots": {
+              "portability_need": "balanced_versatile",
+              "usage_purpose": "hybrid",
+              "performance_priority": [
+                "cpu",
+                "battery",
+                "display"
+              ],
+              "special_requirements": [
+                "international_travel_friendly",
+                "desktop_replacement_capability",
+                "dual_scenario_optimization"
+              ]
+            },
+            "confidence": 0.78,
+            "reasoning": "用戶有雙重使用場景需求，需要平衡便攜性和性能"
+          },
+          "recommended_response": {
+            "response_type": "specialized_recommendation_prep",
+            "message": "您的需求很實用！需要兼顧攜帶性和高效能的「雙重用途」筆電。讓我為您規劃：",
+            "specialized_criteria": {
+              "weight_range": "1.3-1.8kg",
+              "performance_tier": "high",
+              "battery_life": ">8hours",
+              "port_variety": "comprehensive",
+              "thermal_management": "excellent",
+              "display_quality": "professional"
+            },
+            "follow_up_questions": [
+              "主要會帶去哪些國家？（考慮電壓和保固）",
+              "在家使用時會接外接螢幕嗎？",
+              "預算範圍大概是多少呢？"
+            ]
+          },
+          "success_rate": 0.85,
+          "usage_count": 2,
+          "last_used": "2025-08-14T16:06:22.305448",
+          "created_date": "2025-08-14",
+          "tags": [
+            "dual_use",
+            "travel_friendly",
+            "desktop_replacement"
+          ]
+        }
+      ]
+    },
+    "emotional_context": {
+      "description": "帶有情感色彩的客戶需求",
+      "total_cases": 2,
+      "cases": [
+        {
+          "case_id": "EC001",
+          "priority": "medium",
+          "customer_query": "我對電腦不太懂，希望不要太複雜",
+          "query_variants": [
+            "我是電腦小白，需要簡單的",
+            "不太會用電腦，要好上手的",
+            "電腦新手，希望操作簡單"
+          ],
+          "detected_intent": {
+            "emotional_markers": [
+              "uncertainty",
+              "simplicity_seeking",
+              "tech_anxiety"
+            ],
+            "user_expertise_level": "beginner",
+            "confidence": 0.9
+          },
+          "recommended_approach": {
+            "tone": "reassuring_and_simple",
+            "response_style": "step_by_step_guidance",
+            "language_style": "non_technical",
+            "avoid": [
+              "technical_jargon",
+              "too_many_options",
+              "complex_specifications"
+            ],
+            "emphasize": [
+              "simplicity",
+              "user_friendly",
+              "support_available",
+              "reliability"
+            ],
+            "message_template": "完全理解！我會用最簡單的方式協助您，不用擔心技術問題。讓我們一步一步來找到最適合您的筆電。"
+          },
+          "success_rate": 0.91,
+          "usage_count": 2,
+          "last_used": "2025-08-14T16:06:22.302660",
+          "created_date": "2025-08-14",
+          "tags": [
+            "beginner_friendly",
+            "tech_anxiety",
+            "simplicity_focus"
+          ]
+        }
+      ]
+    },
+    "context_dependent": {
+      "description": "需要上下文理解的複雜查詢",
+      "total_cases": 1,
+      "cases": [
+        {
+          "case_id": "CD001",
+          "priority": "medium",
+          "customer_query": "跟我朋友那台一樣的，但要更好一點",
+          "query_variants": [
+            "類似朋友的那台但要升級版",
+            "和同事那台差不多但性能更強",
+            "參考別人那台筆電但要更進階"
+          ],
+          "detected_intent": {
+            "requires_reference_product": true,
+            "comparison_type": "upgrade_request",
+            "confidence": 0.75
+          },
+          "context_requirements": [
+            "reference_product_needed",
+            "comparative_analysis",
+            "upgrade_path_identification"
+          ],
+          "handling_strategy": {
+            "response_type": "information_gathering",
+            "clarification_questions": [
+              "能告訴我朋友/同事那台是什麼型號嗎？",
+              "您希望在哪個方面比那台更好？（效能、螢幕、重量等）",
+              "預算範圍大概比那台多多少呢？"
+            ],
+            "fallback_approach": "general_upgrade_consultation",
+            "message": "我來幫您找到更好的選擇！為了給您最準確的建議，能跟我說說："
+          },
+          "success_rate": 0.72,
+          "usage_count": 2,
+          "last_used": "2025-08-14T16:06:22.308069",
+          "created_date": "2025-08-14",
+          "tags": [
+            "reference_based",
+            "comparative",
+            "upgrade_request"
+          ]
+        }
+      ]
+    }
+  },
+  "similarity_matching": {
+    "algorithm": "semantic_vector_similarity",
+    "primary_threshold": 0.75,
+    "fallback_threshold": 0.6,
+    "embedding_model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "max_variants_to_check": 5,
+    "similarity_weights": {
+      "main_query": 0.7,
+      "variants": 0.3
+    }
+  },
+  "learning_mechanism": {
+    "auto_case_generation": true,
+    "success_tracking": true,
+    "case_refinement": true,
+    "feedback_integration": true,
+    "min_success_rate_for_learning": 0.7,
+    "max_cases_per_category": 50
+  },
+  "loop_prevention": {
+    "enabled": true,
+    "max_same_question_repeats": 2,
+    "cooldown_period_minutes": 5,
+    "fallback_to_general_recommendation": true,
+    "loop_detection_window": 10
+  },
+  "usage_statistics": {
+    "total_cases": 6,
+    "total_successful_matches": 31,
+    "average_success_rate": 0.877,
+    "last_statistics_update": "2025-08-17T01:44:16.154586"
+  }
+}

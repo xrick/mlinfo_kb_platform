@@ -1,0 +1,143 @@
+{
+  "response_templates": {
+    "greeting": {
+      "templates": [
+        "您好！我是您的筆電購物助手，很高興為您服務。",
+        "歡迎來到筆電選購中心！我是您的專屬顧問。",
+        "您好，我是專業的筆電顧問，讓我幫您找到最適合的產品。",
+        "嗨！我是您的筆電小幫手，有什麼可以協助您的嗎？"
+      ],
+      "variables": ["user_name", "time_of_day", "previous_interaction", "personality_type"],
+      "context_adaptations": {
+        "returning_user": "歡迎回來！{user_name}，很高興再次為您服務。",
+        "first_time": "您好！我是您的筆電購物助手，讓我為您介紹我們的服務。",
+        "morning": "早安！{greeting_template}",
+        "evening": "晚安！{greeting_template}"
+      }
+    },
+    "slot_elicitation": {
+      "usage_purpose": {
+        "templates": [
+          "為了幫您找到最適合的筆電，請問您主要會用它來做什麼呢？",
+          "了解您的使用需求很重要，您打算用這台筆電進行什麼工作呢？",
+          "讓我為您推薦最合適的筆電，首先請告訴我您的使用目的。",
+          "請告訴我您主要會用筆電做什麼，這樣我才能給您最好的建議。"
+        ],
+        "context_adaptations": {
+          "has_brand_preference": "考慮到您對{brand}的偏好，",
+          "has_budget": "在您的預算範圍內，",
+          "is_returning_user": "根據您之前的偏好，",
+          "has_previous_purchase": "基於您之前的購買經驗，"
+        }
+      },
+      "budget_range": {
+        "templates": [
+          "您的預算大概在哪個範圍呢？",
+          "為了給您最適合的建議，請告訴我您的預算範圍。",
+          "您希望花多少錢購買筆電呢？",
+          "請告訴我您的預算，我會為您推薦最划算的選擇。"
+        ],
+        "context_adaptations": {
+          "has_usage_purpose": "考慮到您的{usage_purpose}需求，",
+          "has_brand_preference": "針對您喜歡的{brand}品牌，"
+        }
+      },
+      "performance_priority": {
+        "templates": [
+          "您最重視哪個方面的性能呢？處理器、顯示卡、記憶體還是其他？",
+          "在性能方面，您最在意什麼？",
+          "請告訴我您最重視的性能指標。",
+          "您希望筆電在哪個方面表現最突出？"
+        ]
+      }
+    },
+    "product_recommendation": {
+      "templates": [
+        "根據您的需求，我為您推薦以下筆電：",
+        "基於您的使用場景，這些產品最適合您：",
+        "考慮到您的預算和需求，我建議您看看這些選擇：",
+        "以下是我為您精心挑選的筆電："
+      ],
+      "product_format": {
+        "name": "**{product_name}**",
+        "specs": "- {spec_name}: {spec_value}",
+        "description": "特色：{description}",
+        "price": "價格：{price}",
+        "recommendation_reason": "推薦理由：{reason}"
+      },
+      "context_adaptations": {
+        "multiple_products": "我為您推薦了{count}款產品，各有特色：",
+        "single_product": "我特別推薦這款產品：",
+        "budget_focused": "在您的預算範圍內，這是最佳選擇：",
+        "performance_focused": "針對您的性能需求，這款產品最適合："
+      }
+    },
+    "error_handling": {
+      "slot_extraction_failed": {
+        "templates": [
+          "抱歉，我沒有完全理解您的需求。讓我換個方式詢問：",
+          "為了更好地幫助您，請您用不同的方式描述一下：",
+          "讓我重新確認一下，您是指：",
+          "我可能需要更多資訊，請您詳細說明一下："
+        ],
+        "strategies": {
+          "rephrase": "讓我用更簡單的方式詢問：",
+          "provide_options": "請您從以下選項中選擇：",
+          "ask_clarification": "您是指以下哪一種情況？"
+        }
+      },
+      "no_products_found": {
+        "templates": [
+          "目前沒有完全符合您需求的產品，讓我為您推薦一些相近的選擇：",
+          "根據現有產品，我建議您考慮以下替代方案：",
+          "讓我為您提供一些符合部分需求的產品：",
+          "雖然沒有完全符合的產品，但這些選擇也很不錯："
+        ]
+      },
+      "ambiguous_input": {
+        "templates": [
+          "您的需求有點模糊，讓我幫您釐清一下：",
+          "我需要更多資訊來給您準確的建議：",
+          "請您提供更多細節，這樣我才能幫您找到最適合的產品："
+        ]
+      }
+    },
+    "confirmation": {
+      "slot_extraction_success": {
+        "templates": [
+          "好的，我了解了。您需要{usage_purpose}用途的筆電，預算在{budget_range}範圍內。",
+          "明白了！您的需求是{usage_purpose}，預算{budget_range}。",
+          "收到！{usage_purpose}用途，{budget_range}預算，我來為您推薦。"
+        ]
+      }
+    },
+    "closing": {
+      "templates": [
+        "希望我的建議對您有幫助！如有其他問題，歡迎隨時詢問。",
+        "感謝您的諮詢！如果還有任何問題，請隨時聯繫我。",
+        "很高興能協助您！有其他需要請隨時告訴我。",
+        "祝您購物愉快！如需進一步協助，請隨時詢問。"
+      ],
+      "context_adaptations": {
+        "product_selected": "恭喜您找到心儀的產品！",
+        "no_selection": "沒關係，您可以慢慢考慮。",
+        "will_return": "期待您的再次光臨！"
+      }
+    }
+  },
+  "template_variables": {
+    "user_name": "用戶姓名",
+    "time_of_day": "時間段（morning/afternoon/evening/night）",
+    "personality_type": "個性化類型",
+    "usage_purpose": "使用目的",
+    "budget_range": "預算範圍",
+    "brand": "品牌名稱",
+    "product_name": "產品名稱",
+    "spec_name": "規格名稱",
+    "spec_value": "規格數值",
+    "description": "產品描述",
+    "price": "價格",
+    "reason": "推薦理由",
+    "count": "產品數量"
+  }
+}

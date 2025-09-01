@@ -1,0 +1,92 @@
+{
+  "conversation_styles": {
+    "formal": {
+      "name": "正式風格",
+      "description": "使用敬語和完整句子的正式對話風格",
+      "features": ["使用敬語", "完整句子", "專業術語", "禮貌用語"],
+      "suitable_for": ["商務客戶", "技術人員", "正式場合", "專業諮詢"],
+      "language_patterns": {
+        "greeting": ["您好"],
+        "closing": ["謝謝您的詢問"],
+        "politeness": ["請", "麻煩", "謝謝"],
+        "formality": "完整句子結構"
+      }
+    },
+    "casual": {
+      "name": "輕鬆風格", 
+      "description": "口語化表達的輕鬆對話風格",
+      "features": ["口語化表達", "簡短句子", "親切稱呼", "表情符號"],
+      "suitable_for": ["一般用戶", "年輕族群", "休閒場合", "日常諮詢"],
+      "language_patterns": {
+        "greeting": ["嗨", "哈囉"],
+        "closing": ["掰掰", "下次見"],
+        "politeness": ["謝謝", "感恩"],
+        "formality": "簡短句子"
+      }
+    },
+    "technical": {
+      "name": "技術風格",
+      "description": "詳細技術規格和性能分析的專業風格",
+      "features": ["詳細規格", "技術參數", "性能分析", "專業術語"],
+      "suitable_for": ["IT專業人士", "技術愛好者", "深度諮詢", "技術比較"],
+      "language_patterns": {
+        "greeting": "您好，技術顧問",
+        "closing": "技術諮詢結束",
+        "politeness": "專業用語",
+        "formality": "技術詳細說明"
+      }
+    },
+    "simple": {
+      "name": "簡潔風格",
+      "description": "簡潔明瞭的直觀表達風格",
+      "features": ["簡潔表達", "重點突出", "易懂語言", "直接回答"],
+      "suitable_for": ["快速諮詢", "時間有限", "簡單需求", "初次接觸"],
+      "language_patterns": {
+        "greeting": "您好",
+        "closing": "就這樣",
+        "politeness": "謝謝",
+        "formality": "簡潔句子"
+      }
+    }
+  },
+  "style_adaptation_rules": {
+    "user_expertise_level": {
+      "beginner": "casual",
+      "intermediate": "formal", 
+      "expert": "technical",
+      "unknown": "simple"
+    },
+    "conversation_context": {
+      "first_contact": "casual",
+      "product_comparison": "technical",
+      "purchase_decision": "formal",
+      "quick_question": "simple",
+      "detailed_consultation": "technical"
+    },
+    "user_behavior": {
+      "uses_technical_terms": "technical",
+      "uses_casual_language": "casual",
+      "asks_detailed_questions": "technical",
+      "prefers_quick_answers": "simple"
+    },
+    "time_constraints": {
+      "urgent": "simple",
+      "normal": "casual",
+      "detailed": "technical"
+    }
+  },
+  "style_transition_rules": {
+    "allowed_transitions": {
+      "casual": ["formal", "simple"],
+      "formal": ["technical", "simple"],
+      "technical": ["formal", "simple"],
+      "simple": ["casual", "formal"]
+    },
+    "transition_triggers": {
+      "user_requests_change": true,
+      "context_change": true,
+      "expertise_level_change": true,
+      "conversation_duration": 10
+    }
+  }
+}
