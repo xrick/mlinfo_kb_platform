@@ -147,12 +147,18 @@
 
 ```mermaid
 stateDiagram-v2
-[*] --> User
-User --> System
-System --> User
-System --> DataQuery
-DataQuery --> User
-System -->[*]
+    [*] --> Start
+    Start --> Collecting_Needs
+    Collecting_Needs --> Needs_Defined: 需求明確
+    Collecting_Needs --> Collecting_Needs: 深入追問
+    Needs_Defined --> Providing_Options
+    Providing_Options --> Providing_Options: 客戶繼續提問
+    Providing_Options --> Decision_Making: 客戶明確意向
+    Decision_Making --> Purchase_Intention
+    Purchase_Intention --> End: 放棄購買
+    Order_Confirmed --> After_Sales
+    After_Sales --> End: 對話結束
+    End --> [*]
 ```
 
 整個對話的完整流程即依照這個State Machine在進行。 User與System間會經常有溝通進行，System對話的目的在收集槽位(slot)資訊。

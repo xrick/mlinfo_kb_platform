@@ -1,0 +1,102 @@
+{
+  "description": "用戶意圖到提示的映射配置",
+  "version": "1.0.0",
+  "last_updated": "2025-01-01",
+  "intent_mappings": {
+    "ask_recommendation": {
+      "primary_prompt": "mgfd_principal_prompt",
+      "secondary_prompts": ["sales_prompt4"],
+      "priority": 9,
+      "description": "用戶請求產品推薦"
+    },
+    "ask_comparison": {
+      "primary_prompt": "sales_prompt4",
+      "secondary_prompts": ["mgfd_principal_prompt"],
+      "priority": 8,
+      "description": "用戶要求比較產品"
+    },
+    "ask_price": {
+      "primary_prompt": "sales_prompt4",
+      "secondary_prompts": ["mgfd_principal_prompt"],
+      "priority": 8,
+      "description": "用戶詢問價格信息"
+    },
+    "ask_specs": {
+      "primary_prompt": "sales_prompt4",
+      "secondary_prompts": ["mgfd_principal_prompt"],
+      "priority": 7,
+      "description": "用戶詢問技術規格"
+    },
+    "greet": {
+      "primary_prompt": "recept_guest_prompt1",
+      "secondary_prompts": ["mgfd_principal_prompt"],
+      "priority": 6,
+      "description": "用戶問候"
+    },
+    "goodbye": {
+      "primary_prompt": "mgfd_principal_prompt",
+      "secondary_prompts": ["recept_guest_prompt1"],
+      "priority": 5,
+      "description": "用戶告別"
+    },
+    "technical_question": {
+      "primary_prompt": "sales_prompt4",
+      "secondary_prompts": ["mgfd_principal_prompt"],
+      "priority": 7,
+      "description": "技術問題"
+    },
+    "help": {
+      "primary_prompt": "mgfd_principal_prompt",
+      "secondary_prompts": ["recept_guest_prompt1"],
+      "priority": 6,
+      "description": "用戶請求幫助"
+    },
+    "complaint": {
+      "primary_prompt": "mgfd_principal_prompt",
+      "secondary_prompts": ["recept_guest_prompt1"],
+      "priority": 8,
+      "description": "用戶抱怨或投訴"
+    },
+    "unknown": {
+      "primary_prompt": "mgfd_principal_prompt",
+      "secondary_prompts": ["recept_guest_prompt1"],
+      "priority": 3,
+      "description": "未識別的意圖"
+    }
+  },
+  "intent_categories": {
+    "information_seeking": [
+      "ask_recommendation",
+      "ask_comparison", 
+      "ask_price",
+      "ask_specs",
+      "technical_question"
+    ],
+    "social": [
+      "greet",
+      "goodbye"
+    ],
+    "support": [
+      "help",
+      "complaint"
+    ],
+    "unknown": [
+      "unknown"
+    ]
+  },
+  "fallback_strategy": {
+    "default_prompt": "mgfd_principal_prompt",
+    "use_category_fallback": true,
+    "category_fallbacks": {
+      "information_seeking": "sales_prompt4",
+      "social": "recept_guest_prompt1",
+      "support": "mgfd_principal_prompt",
+      "unknown": "mgfd_principal_prompt"
+    }
+  },
+  "notes": [
+    "priority: 1-10，數字越大優先級越高",
+    "secondary_prompts: 主要提示不可用時的備選提示",
+    "category_fallbacks: 按分類的回退策略"
+  ]
+}
