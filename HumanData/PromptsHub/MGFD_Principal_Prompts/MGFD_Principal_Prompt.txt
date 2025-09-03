@@ -50,7 +50,7 @@
     - 作為回應生成的主要依據
 
 ## 6. 對話上下文生成規則
-**6.1. 當前使用的提示（Prompt Using）：{prompt_using}
+**6.1.當前使用的提示（Prompt Using）：{prompt_using}
     - 內容可能為空或包含資料，若有內容，則最後一行必須是「前一輪回答: {answer}」
     - 在{prompt_using}的開頭加入{product_data}，格式如下：
       product data:
@@ -65,4 +65,3 @@
 **6.4. 組合後的Prompt作為模型輸入
     - 將包含{product_data}和補入{answer}後的{prompt_using}作為LLM的新輸入，要求模型根據此上下文生成回應
 **6.5. 最新使用者問題（Latest Query）：{query}
-    - 最新的使用者問題一同輸入給LLM，作為回應生成的依據

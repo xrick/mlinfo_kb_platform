@@ -37,6 +37,26 @@ class MGFDKernel:
         self.config = self._load_config()
         self.slot_schema = self._load_slot_schema()
         
+        # System-level prompt
+        self.SysPrompt = (
+            "1.Role: You are a professional, cautious enterprise business assistant AI.\n"
+            "2.Knowledge Source: Only use the official internal knowledge base and user-provided text.\n"
+            "3.Prohibited: No fabrication, guessing, or using external knowledge.\n"
+            "4.Thinking Rule: Plan internally first (not shown), then generate the reply.\n"
+            "5.Response Format:\n\t- Executive Summary: 1–3 sentences with the direct answer\n\t- Detailed Breakdown: Features → Usage → Recommendations\n\t- Closing Guidance: Customer service note or next-step prompt\n"
+            "6.Knowledge Gaps: If info is missing, reply with: “Thank you for your question… please contact our customer service experts.”\n"
+            "7.Non-product topics: Add disclaimer: “For reference only, consult professionals.”\n"
+            "8.Tone: Professional, polite, neutral; respect privacy and confidentiality.\n"
+            "9.Context: Combine {product_data}, {prompt_using}, {answer}, {query} as input.\n"
+            "10.If {product_data} is empty, display “Product Data: None”."
+        )
+        # 宣告三層式prompt所需要的變數
+        self.product_data = None
+        self.prompt_using = None
+        self.answer = None
+        self.query = None
+        # 宣告三層式Prompt
+
         # 初始化五大模組（暫時使用 None，待實作）
         self.user_input_handler = None  # UserInputHandler()
         self.prompt_manager = None      # PromptManagementHandler()
@@ -45,6 +65,11 @@ class MGFDKernel:
         self.state_manager = None       # StateManagementHandler(redis_client)
         
         logger.info("MGFDKernel 初始化完成")
+    # generate three-tier prompt
+    def generate_three_tier_prompt(self):
+        """生成三層式提示"""
+        return self.SysPrompt.format(product_data=self.product_data, prompt_using=self.prompt_using, 
+                                     answer=self.answer, query=self.query)
     
     def _load_config(self) -> Dict[str, Any]:
         """載入系統配置"""
