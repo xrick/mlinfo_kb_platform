@@ -26,6 +26,16 @@ from .StateStrategyFactory import StateStrategyFactory
 from .TransitionPredictor import TransitionPredictor
 from .StateValidator import StateValidator
 
+# 新增：簡化 DSM 系統導入
+from .simplified_dsm import (
+    DSMState, 
+    DSMStateInfo, 
+    SimplifiedStateMachine, 
+    StateFlowController, 
+    LinearFlowExecutor
+)
+from .action_hub import FlowExecutor, FlowValidator
+
 logger = logging.getLogger(__name__)
 
 
@@ -109,6 +119,15 @@ class StateManagementHandler:
         # 載入狀態轉換表
         self.state_transitions = self._load_state_transitions()
         
+        # 新增：初始化簡化 DSM 系統
+        self.dsm_state_machine = SimplifiedStateMachine()
+        self.dsm_flow_controller = StateFlowController()
+        self.dsm_linear_executor = LinearFlowExecutor()
+        
+        # 新增：初始化 JSON 流程定義系統
+        self.flow_executor = None
+        self.flow_validator = FlowValidator()
+        
         # 性能監控
         self.metrics = {
             "total_transitions": 0,
@@ -117,7 +136,7 @@ class StateManagementHandler:
             "prediction_accuracy": 0.0
         }
         
-        logger.info("StateManagementHandler 初始化完成")
+        logger.info("StateManagementHandler 初始化完成，包含簡化 DSM 系統")
     
     def _load_state_transitions(self) -> Dict[str, StateTransition]:
         """載入狀態轉換表"""
@@ -500,3 +519,144 @@ class StateManagementHandler:
             "metrics": self.get_metrics(),
             "timestamp": datetime.now().isoformat()
         }
+    
+    # =================== 簡化 DSM 系統方法 ===================
+    
+    async def execute_dsm_flow(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        執行 DSM 簡化流程
+        
+        Args:
+            context: 處理上下文
+            
+        Returns:
+            流程執行結果
+        """
+        try:
+            logger.info(f"開始執行 DSM 簡化流程 - 會話: {context.get('session_id', 'unknown')}")
+            
+            # 使用線性流程執行器執行流程
+            result = await self.dsm_linear_executor.execute_linear_flow(context)
+            
+            logger.info(f"DSM 簡化流程執行完成 - 會話: {context.get('session_id', 'unknown')}")
+            return result
+            
+        except Exception as e:
+            logger.error(f"執行 DSM 流程失敗: {e}")
+            return {
+                "success": False,
+                "error": str(e),
+                "timestamp": datetime.now().isoformat()
+            }
+    
+    def load_dsm_flow_definition(self, flow_definition_path: str) -> bool:
+        """
+        載入 DSM 流程定義檔案
+        
+        Args:
+            flow_definition_path: 流程定義檔案路徑
+            
+        Returns:
+            是否成功載入
+        """
+        try:
+            from .action_hub import FlowExecutor
+            self.flow_executor = FlowExecutor(flow_definition_path)
+            logger.info(f"DSM 流程定義載入成功: {flow_definition_path}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"載入 DSM 流程定義失敗: {e}")
+            return False
+    
+    async def execute_dsm_flow_from_json(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        根據 JSON 流程定義執行 DSM 流程
+        
+        Args:
+            context: 處理上下文
+            
+        Returns:
+            流程執行結果
+        """
+        if not self.flow_executor:
+            return {
+                "success": False,
+                "error": "流程定義未載入，請先調用 load_dsm_flow_definition",
+                "timestamp": datetime.now().isoformat()
+            }
+        
+        try:
+            logger.info(f"開始執行 JSON 定義的 DSM 流程 - 會話: {context.get('session_id', 'unknown')}")
+            
+            # 使用流程執行引擎執行流程
+            result = await self.flow_executor.execute_flow(context)
+            
+            logger.info(f"JSON 定義的 DSM 流程執行完成 - 會話: {context.get('session_id', 'unknown')}")
+            return result
+            
+        except Exception as e:
+            logger.error(f"執行 JSON 定義的 DSM 流程失敗: {e}")
+            return {
+                "success": False,
+                "error": str(e),
+                "timestamp": datetime.now().isoformat()
+            }
+    
+    def get_dsm_status(self) -> Dict[str, Any]:
+        """獲取 DSM 系統狀態"""
+        return {
+            "dsm_state_machine_initialized": self.dsm_state_machine is not None,
+            "dsm_flow_controller_initialized": self.dsm_flow_controller is not None,
+            "dsm_linear_executor_initialized": self.dsm_linear_executor is not None,
+            "flow_executor_loaded": self.flow_executor is not None,
+            "flow_validator_initialized": self.flow_validator is not None,
+            "available_dsm_states": [state.value for state in DSMState],
+            "dsm_linear_flow": DSMStateInfo.get_linear_execution_order(),
+            "timestamp": datetime.now().isoformat()
+        }
+    
+    def get_dsm_state_info(self, state_id: str) -> Dict[str, Any]:
+        """獲取 DSM 狀態信息"""
+        try:
+            state = DSMState(state_id)
+            return DSMStateInfo.get_state_info().get(state, {})
+        except ValueError:
+            return {"error": f"無效的狀態 ID: {state_id}"}
+    
+    def reset_dsm_system(self):
+        """重置 DSM 系統"""
+        if self.dsm_state_machine:
+            self.dsm_state_machine.reset_state_machine()
+        
+        if self.dsm_linear_executor:
+            self.dsm_linear_executor.reset_flow()
+        
+        logger.info("DSM 系統已重置")
+    
+    def validate_dsm_flow_definition(self, flow_definition_path: str) -> Dict[str, Any]:
+        """
+        驗證 DSM 流程定義檔案
+        
+        Args:
+            flow_definition_path: 流程定義檔案路徑
+            
+        Returns:
+            驗證結果
+        """
+        try:
+            validation_result = self.flow_validator.validate_flow_file(flow_definition_path)
+            
+            return {
+                "is_valid": validation_result.is_valid,
+                "errors": validation_result.errors,
+                "warnings": validation_result.warnings,
+                "timestamp": validation_result.timestamp
+            }
+            
+        except Exception as e:
+            return {
+                "is_valid": False,
+                "error": str(e),
+                "timestamp": datetime.now().isoformat()
+            }

@@ -1,0 +1,596 @@
+[MODE: PLAN]
+
+基於您的要求和提示AI常用句中的指導原則，我將制定一個專注於 `libs/StateManageHandler` 資料夾的實作計畫，在保持原有 8 個 DSM 狀態的前提下，實現簡單的線性流程和清晰的職責分工。
+
+## 實作計畫：StateManageHandler DSM 狀態機簡化與職責分工優化
+
+### **目標分析**
+- **主要目標**: 在 `libs/StateManageHandler` 資料夾內，維持原有 8 個 DSM 狀態，實現簡單的線性流程和清晰的職責分工
+- **約束條件**: 嚴格遵守不過度設計，保持功能單純，提升容錯性，改善可讀性和可修改性
+- **架構原則**: 運用系統思維，批判性思考，確保解決方案架構的全面性
+- **範圍限制**: 專注於 `libs/StateManageHandler` 資料夾的修改，不涉及其他模組
+
+### **當前 StateManageHandler 分析**
+
+#### **現有檔案結構**
+```
+libs/StateManageHandler/
+├── __init__.py
+├── StateManagementHandler.py          # 核心狀態管理處理器
+├── StateTransitionsConfig.py         # 狀態轉換配置
+├── StateTransition.py                 # 狀態轉換定義
+└── [其他現有檔案]
+```
+
+#### **當前問題分析**
+1. **複雜的分支邏輯**: `StateTransitionsConfig.py` 中的狀態轉換邏輯複雜
+2. **狀態職責重疊**: 某些狀態功能相似，職責邊界不清
+3. **流程控制複雜**: 狀態轉換邏輯複雜，難以追蹤和維護
+4. **錯誤處理不統一**: 各狀態的錯誤處理機制不一致
+
+### **解決方案架構**
+
+#### **1. 核心設計原則**
+- **單一職責原則**: 每個狀態只負責一個明確的功能
+- **線性流程原則**: 簡化分支邏輯，實現線性執行
+- **統一接口原則**: 所有狀態遵循相同的輸入輸出格式
+- **容錯優先原則**: 每個狀態都有統一的錯誤處理機制
+
+#### **2. 技術架構設計**
+- **狀態機核心**: `SimplifiedStateMachine` - 負責狀態流程控制
+- **流程控制器**: `StateFlowController` - 負責具體狀態的業務邏輯
+- **線性執行器**: `LinearFlowExecutor` - 負責線性流程的執行
+- **狀態定義**: `DSMState` - 8 個核心狀態的枚舉定義
+
+#### **3. 數據流設計**
+- **統一上下文**: `Dict[str, Any]` 格式的上下文對象
+- **狀態標記**: 使用布爾標記位控制流程方向
+- **結果聚合**: 每個狀態的執行結果都會更新到上下文中
+- **錯誤傳遞**: 錯誤信息在狀態間傳遞，確保整個流程的容錯性
+
+### **詳細實作規範**
+
+#### **檔案結構規劃**
+```
+libs/StateManageHandler/
+├── __init__.py                        # 更新導出
+├── StateManagementHandler.py          # 現有檔案（需要更新）
+├── StateTransitionsConfig.py          # 現有檔案（需要更新）
+├── StateTransition.py                 # 現有檔案（保持不變）
+├── simplified_dsm/                    # 新增：簡化 DSM 實現
+│   ├── __init__.py
+│   ├── dsm_state_enum.py              # DSM 狀態枚舉
+│   ├── simplified_state_machine.py    # 簡化狀態機
+│   ├── state_flow_controller.py       # 狀態流程控制器
+│   └── linear_flow_executor.py        # 線性流程執行器
+└── action_hub/                        # 新增：JSON 流程定義
+    ├── __init__.py
+    ├── flow_definitions/
+    │   └── dsm_simplified_linear_flow.json
+    ├── flow_engine/
+    │   ├── __init__.py
+    │   ├── flow_executor.py
+    │   └── flow_validator.py
+    └── debug_tools/
+        ├── __init__.py
+        └── flow_debugger.py
+```
+
+#### **核心類別設計**
+
+##### **DSMState 枚舉**
+```python
+class DSMState(Enum):
+    """DSM 狀態機的 8 個狀態（保持原有數量）"""
+    ON_RECEIVE_MSG = "OnReceiveMsg"                    # 接收消息
+    ON_RESPONSE_MSG = "OnResponseMsg"                  # 回應消息
+    ON_GEN_FUNNEL_CHAT = "OnGenFunnelChat"            # 生成漏斗對話
+    ON_GEN_MD_CONTENT = "OnGenMDContent"              # 生成 Markdown 內容
+    ON_DATA_QUERY = "OnDataQuery"                      # 執行數據查詢
+    ON_QUERIED_DATA_PROCESSING = "OnQueriedDataProcessing"  # 處理查詢數據
+    ON_SEND_FRONT = "OnSendFront"                      # 發送到前端
+    ON_WAIT_MSG = "OnWaitMsg"                          # 等待下一個消息
+```
+
+##### **SimplifiedStateMachine 簡化狀態機**
+```python
+class SimplifiedStateMachine:
+    """簡化 DSM 狀態機 - 保持 8 個狀態，但簡化流程"""
+    
+    def __init__(self):
+        """初始化簡化狀態機"""
+        self.flow_controller = StateFlowController()
+        self.current_state = DSMState.ON_RECEIVE_MSG
+        
+        # 簡化後的狀態轉換表
+        self.simplified_transitions = {
+            DSMState.ON_RECEIVE_MSG: {
+                "next_state": DSMState.ON_RESPONSE_MSG,
+                "description": "接收消息後直接轉向回應消息",
+                "condition": "always"
+            },
+            DSMState.ON_RESPONSE_MSG: {
+                "next_state": DSMState.ON_GEN_FUNNEL_CHAT,
+                "description": "回應消息後轉向生成漏斗對話",
+                "condition": "always"
+            },
+            DSMState.ON_GEN_FUNNEL_CHAT: {
+                "next_state": DSMState.ON_GEN_MD_CONTENT,
+                "description": "生成漏斗對話後轉向生成 Markdown 內容",
+                "condition": "always"
+            },
+            DSMState.ON_GEN_MD_CONTENT: {
+                "next_state": DSMState.ON_DATA_QUERY,
+                "description": "生成 Markdown 內容後轉向數據查詢",
+                "condition": "always"
+            },
+            DSMState.ON_DATA_QUERY: {
+                "next_state": DSMState.ON_QUERIED_DATA_PROCESSING,
+                "description": "數據查詢後轉向數據處理",
+                "condition": "always"
+            },
+            DSMState.ON_QUERIED_DATA_PROCESSING: {
+                "next_state": DSMState.ON_SEND_FRONT,
+                "description": "數據處理後轉向發送前端",
+                "condition": "always"
+            },
+            DSMState.ON_SEND_FRONT: {
+                "next_state": DSMState.ON_WAIT_MSG,
+                "description": "發送前端後轉向等待消息",
+                "condition": "always"
+            },
+            DSMState.ON_WAIT_MSG: {
+                "next_state": DSMState.ON_RECEIVE_MSG,
+                "description": "等待消息後轉向接收消息",
+                "condition": "always"
+            }
+        }
+        
+        logger.info("DSM 簡化狀態機初始化完成")
+    
+    async def execute_simplified_flow(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        執行簡化流程 - 線性執行所有狀態
+        
+        Args:
+            context: 處理上下文
+            
+        Returns:
+            處理結果
+        """
+        session_id = context.get("session_id", "unknown")
+        logger.info(f"開始執行 DSM 簡化流程 - 會話: {session_id}")
+        
+        # 線性執行所有狀態
+        states_execution_order = [
+            DSMState.ON_RECEIVE_MSG,
+            DSMState.ON_RESPONSE_MSG,
+            DSMState.ON_GEN_FUNNEL_CHAT,
+            DSMState.ON_GEN_MD_CONTENT,
+            DSMState.ON_DATA_QUERY,
+            DSMState.ON_QUERIED_DATA_PROCESSING,
+            DSMState.ON_SEND_FRONT,
+            DSMState.ON_WAIT_MSG
+        ]
+        
+        execution_results = {}
+        
+        for state in states_execution_order:
+            logger.info(f"執行狀態: {state.value} - 會話: {session_id}")
+            
+            # 執行對應的狀態處理
+            context = await self._execute_single_state(state, context)
+            
+            # 記錄執行結果
+            execution_results[state.value] = {
+                "completed": context.get(f"{state.value.lower()}_completed", False),
+                "timestamp": context.get(f"{state.value.lower()}_timestamp", ""),
+                "error": context.get("error", None)
+            }
+            
+            # 檢查是否有錯誤
+            if context.get("error"):
+                logger.warning(f"狀態 {state.value} 執行時出現錯誤: {context.get('error')}")
+        
+        # 準備最終結果
+        final_result = {
+            "success": True,
+            "session_id": session_id,
+            "flow_completed": True,
+            "completion_timestamp": datetime.now().isoformat(),
+            "execution_summary": execution_results,
+            "final_context": context
+        }
+        
+        logger.info(f"DSM 簡化流程執行完成 - 會話: {session_id}")
+        return final_result
+    
+    async def _execute_single_state(self, state: DSMState, context: Dict[str, Any]) -> Dict[str, Any]:
+        """執行單個狀態"""
+        if state == DSMState.ON_RECEIVE_MSG:
+            return await self.flow_controller.receive_msg(context)
+        elif state == DSMState.ON_RESPONSE_MSG:
+            return await self.flow_controller.response_msg(context)
+        elif state == DSMState.ON_GEN_FUNNEL_CHAT:
+            return await self.flow_controller.gen_funnel_chat(context)
+        elif state == DSMState.ON_GEN_MD_CONTENT:
+            return await self.flow_controller.gen_md_content(context)
+        elif state == DSMState.ON_DATA_QUERY:
+            return await self.flow_controller.data_query(context)
+        elif state == DSMState.ON_QUERIED_DATA_PROCESSING:
+            return await self.flow_controller.queried_data_processing(context)
+        elif state == DSMState.ON_SEND_FRONT:
+            return await self.flow_controller.send_front(context)
+        elif state == DSMState.ON_WAIT_MSG:
+            return await self.flow_controller.wait_msg(context)
+        else:
+            raise ValueError(f"未知狀態: {state}")
+```
+
+##### **StateFlowController 狀態流程控制器**
+```python
+class StateFlowController:
+    """狀態流程控制器 - 每個狀態職責明確"""
+    
+    async def receive_msg(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        狀態 1: OnReceiveMsg
+        職責: 接收和解析用戶消息
+        
+        Args:
+            context: 處理上下文
+            
+        Returns:
+            更新後的上下文
+        """
+        try:
+            user_message = context.get("user_message", "")
+            session_id = context.get("session_id", "unknown")
+            
+            logger.info(f"執行 OnReceiveMsg - 會話: {session_id}")
+            
+            # 1. 提取關鍵詞
+            keywords = self._extract_keywords(user_message)
+            
+            # 2. 比較句子（意圖識別）
+            sentence_match = self._compare_sentence(user_message)
+            
+            # 3. 決定流程方向（簡化分支邏輯）
+            flow_direction = self._determine_flow_direction(keywords, sentence_match)
+            
+            result = {
+                "keywords": keywords,
+                "sentence_match": sentence_match,
+                "flow_direction": flow_direction,
+                "need_funnel_chat": flow_direction == "funnel_chat",
+                "need_data_query": flow_direction == "data_query",
+                "receive_msg_completed": True,
+                "receive_timestamp": datetime.now().isoformat()
+            }
+            
+            logger.info(f"OnReceiveMsg 完成 - 會話: {session_id}, 流程方向: {flow_direction}")
+            return {**context, **result}
+            
+        except Exception as e:
+            logger.error(f"OnReceiveMsg 失敗: {e}")
+            return {
+                **context,
+                "receive_msg_completed": False,
+                "error": str(e),
+                "flow_direction": "fallback"
+            }
+    
+    async def response_msg(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        狀態 2: OnResponseMsg
+        職責: 生成回應和準備數據處理
+        
+        Args:
+            context: 處理上下文
+            
+        Returns:
+            更新後的上下文
+        """
+        try:
+            session_id = context.get("session_id", "unknown")
+            flow_direction = context.get("flow_direction", "fallback")
+            
+            logger.info(f"執行 OnResponseMsg - 會話: {session_id}, 流程方向: {flow_direction}")
+            
+            if flow_direction == "data_query":
+                # 需要內部數據查詢
+                result = {
+                    "response_type": "data_query_required",
+                    "response_message": "正在為您查詢相關信息...",
+                    "need_data_query": True,
+                    "need_funnel_chat": False
+                }
+            elif flow_direction == "funnel_chat":
+                # 需要漏斗對話
+                result = {
+                    "response_type": "funnel_chat_required",
+                    "response_message": "讓我幫您找到最適合的筆電...",
+                    "need_data_query": False,
+                    "need_funnel_chat": True
+                }
+            else:
+                # 直接回應
+                result = {
+                    "response_type": "direct_response",
+                    "response_message": "我理解您的需求，讓我為您提供幫助。",
+                    "need_data_query": False,
+                    "need_funnel_chat": False
+                }
+            
+            result.update({
+                "response_msg_completed": True,
+                "response_timestamp": datetime.now().isoformat()
+            })
+            
+            logger.info(f"OnResponseMsg 完成 - 會話: {session_id}, 回應類型: {result['response_type']}")
+            return {**context, **result}
+            
+        except Exception as e:
+            logger.error(f"OnResponseMsg 失敗: {e}")
+            return {
+                **context,
+                "response_msg_completed": False,
+                "error": str(e),
+                "response_type": "error"
+            }
+    
+    # ... 其他狀態方法的實現（gen_funnel_chat, gen_md_content, data_query, 
+    #      queried_data_processing, send_front, wait_msg）
+    
+    # ==================== 輔助方法 ====================
+    
+    def _extract_keywords(self, message: str) -> List[str]:
+        """提取關鍵詞"""
+        keywords = []
+        if "筆電" in message or "laptop" in message.lower():
+            keywords.append("laptop")
+        if "推薦" in message or "建議" in message:
+            keywords.append("recommendation")
+        if "價格" in message or "預算" in message:
+            keywords.append("price")
+        if "規格" in message or "配置" in message:
+            keywords.append("specs")
+        return keywords
+    
+    def _compare_sentence(self, message: str) -> Dict[str, Any]:
+        """比較句子（意圖識別）"""
+        message_lower = message.lower()
+        
+        if any(word in message_lower for word in ["你好", "hello", "hi"]):
+            return {"intent": "greeting", "confidence": 0.9}
+        elif any(word in message_lower for word in ["推薦", "建議", "找"]):
+            return {"intent": "recommendation", "confidence": 0.8}
+        elif any(word in message_lower for word in ["比較", "對比"]):
+            return {"intent": "comparison", "confidence": 0.7}
+        else:
+            return {"intent": "general", "confidence": 0.5}
+    
+    def _determine_flow_direction(self, keywords: List[str], sentence_match: Dict[str, Any]) -> str:
+        """
+        決定流程方向 - 簡化分支邏輯
+        
+        Args:
+            keywords: 提取的關鍵詞
+            sentence_match: 句子匹配結果
+            
+        Returns:
+            流程方向: "data_query", "funnel_chat", "direct_response"
+        """
+        intent = sentence_match.get("intent", "general")
+        
+        # 簡化的決策邏輯
+        if intent in ["recommendation", "comparison"]:
+            return "data_query"
+        elif keywords and intent == "general":
+            return "funnel_chat"
+        else:
+            return "direct_response"
+```
+
+##### **LinearFlowExecutor 線性流程執行器**
+```python
+class LinearFlowExecutor:
+    """線性流程執行器 - 高層次的流程協調和執行"""
+    
+    def __init__(self):
+        """初始化線性流程執行器"""
+        self.state_machine = SimplifiedStateMachine()
+        
+    async def execute_linear_flow(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        執行線性流程 - 簡化分支邏輯
+        
+        Args:
+            context: 處理上下文
+            
+        Returns:
+            處理結果
+        """
+        session_id = context.get("session_id", "unknown")
+        logger.info(f"開始執行 DSM 線性流程 - 會話: {session_id}")
+        
+        # 使用簡化狀態機執行流程
+        result = await self.state_machine.execute_simplified_flow(context)
+        
+        logger.info(f"DSM 線性流程執行完成 - 會話: {session_id}")
+        return result
+```
+
+#### **4. 職責分工矩陣**
+
+| 狀態 | 主要職責 | 輸入 | 輸出 | 錯誤處理 |
+|------|----------|------|------|----------|
+| OnReceiveMsg | 接收和解析用戶消息 | user_message | keywords, flow_direction | 設置 fallback 流程 |
+| OnResponseMsg | 生成回應和準備數據處理 | flow_direction | response_type, need_data_query | 設置錯誤回應類型 |
+| OnGenFunnelChat | 生成漏斗對話引導 | keywords | funnel_message | 設置默認引導消息 |
+| OnGenMDContent | 生成 Markdown 內容 | response_type | markdown_content | 設置錯誤內容 |
+| OnDataQuery | 執行內部數據查詢 | context | query_result | 設置空查詢結果 |
+| OnQueriedDataProcessing | 處理查詢數據 | query_result | processed_data, updated_markdown | 設置原始內容 |
+| OnSendFront | 發送數據到前端 | markdown_content | frontend_data, send_result | 設置發送失敗標記 |
+| OnWaitMsg | 等待下一個消息 | context | wait_prepared | 設置等待失敗標記 |
+
+#### **5. 線性流程設計**
+
+```
+OnReceiveMsg → OnResponseMsg → OnGenFunnelChat → OnGenMDContent → 
+OnDataQuery → OnQueriedDataProcessing → OnSendFront → OnWaitMsg → 
+(循環回到 OnReceiveMsg)
+```
+
+**流程控制邏輯**:
+- 使用 `need_data_query` 標記位控制是否跳過數據查詢步驟
+- 使用 `need_funnel_chat` 標記位控制是否跳過漏斗對話步驟
+- 所有狀態都按順序執行，但內部邏輯根據標記位調整
+
+#### **6. 錯誤處理策略**
+
+##### **統一錯誤處理模式**
+```python
+try:
+    # 狀態業務邏輯
+    result = {...}
+    result.update({
+        f"{state_name}_completed": True,
+        f"{state_name}_timestamp": datetime.now().isoformat()
+    })
+    return {**context, **result}
+except Exception as e:
+    logger.error(f"{state_name} 失敗: {e}")
+    return {
+        **context,
+        f"{state_name}_completed": False,
+        "error": str(e),
+        "error_state": state_name
+    }
+```
+
+##### **容錯機制**
+- **狀態級容錯**: 每個狀態失敗不影響其他狀態執行
+- **流程級容錯**: 使用標記位控制流程，失敗狀態設置對應標記
+- **結果級容錯**: 最終結果包含所有狀態的執行狀態，便於診斷
+
+#### **7. 配置管理設計**
+
+##### **DSM 配置結構**
+```python
+DSM_CONFIG = {
+    "flow_control": {
+        "enable_linear_execution": True,
+        "enable_error_recovery": True,
+        "max_retry_attempts": 3
+    },
+    "state_timeout": {
+        "default_timeout_seconds": 30,
+        "data_query_timeout_seconds": 60
+    },
+    "logging": {
+        "enable_detailed_logging": True,
+        "log_level": "INFO"
+    }
+}
+```
+
+#### **8. 測試策略**
+
+##### **單元測試**
+- 每個狀態的獨立功能測試
+- 錯誤情況的處理測試
+- 標記位邏輯的驗證測試
+
+##### **整合測試**
+- 完整流程的線性執行測試
+- 錯誤恢復機制的測試
+- 性能基準測試
+
+##### **測試數據**
+- 正常流程的測試用例
+- 各種錯誤情況的測試用例
+- 邊界條件的測試用例
+
+### **實作檢查清單**
+
+#### **第一階段：核心架構建立**
+1. 在 `libs/StateManageHandler/` 下創建 `simplified_dsm/` 目錄
+2. 實現 `DSMState` 枚舉類別 (`dsm_state_enum.py`)
+3. 實現 `SimplifiedStateMachine` 簡化狀態機 (`simplified_state_machine.py`)
+4. 實現 `StateFlowController` 狀態流程控制器 (`state_flow_controller.py`)
+5. 實現 `LinearFlowExecutor` 線性流程執行器 (`linear_flow_executor.py`)
+
+#### **第二階段：JSON 流程定義系統**
+6. 在 `libs/StateManageHandler/` 下創建 `action_hub/` 目錄
+7. 創建 `dsm_simplified_linear_flow.json` 流程定義檔案
+8. 實現 `FlowValidator` 流程驗證器 (`flow_validator.py`)
+9. 實現 `FlowExecutor` 流程執行引擎 (`flow_executor.py`)
+
+#### **第三階段：狀態邏輯實現**
+10. 實現 `OnReceiveMsg` 狀態邏輯
+11. 實現 `OnResponseMsg` 狀態邏輯
+12. 實現 `OnGenFunnelChat` 狀態邏輯
+13. 實現 `OnGenMDContent` 狀態邏輯
+14. 實現 `OnDataQuery` 狀態邏輯
+15. 實現 `OnQueriedDataProcessing` 狀態邏輯
+16. 實現 `OnSendFront` 狀態邏輯
+17. 實現 `OnWaitMsg` 狀態邏輯
+
+#### **第四階段：整合與優化**
+18. 更新現有的 `StateManagementHandler.py`
+19. 更新現有的 `StateTransitionsConfig.py`
+20. 實現配置管理系統
+21. 添加日誌和監控功能
+22. 實現錯誤處理和恢復機制
+
+#### **第五階段：測試與驗證**
+23. 編寫單元測試
+24. 編寫整合測試
+25. 性能測試和優化
+26. 文檔更新和維護指南
+
+### **技術約束與注意事項**
+
+#### **避免過度設計**
+- 每個狀態只實現必要的功能
+- 不使用複雜的設計模式
+- 保持函數邏輯簡單直接
+
+#### **提升容錯性**
+- 每個狀態都有完整的錯誤處理
+- 使用標記位控制流程，避免硬編碼
+- 提供詳細的錯誤信息和狀態診斷
+
+#### **改善可讀性和可修改性**
+- 統一的命名規範
+- 清晰的函數職責分工
+- 詳細的註釋和文檔
+- 模組化的設計，便於單獨修改
+
+#### **系統思維應用**
+- 考慮整個狀態機的協調性
+- 確保各狀態間的數據流一致性
+- 設計可擴展的架構，便於未來功能添加
+
+### **預期成果**
+
+#### **功能成果**
+- 維持原有的 8 個 DSM 狀態
+- 實現簡單的線性流程控制
+- 建立清晰的職責分工
+- 提供統一的錯誤處理機制
+
+#### **技術成果**
+- 簡化且可維護的狀態機架構
+- 統一的狀態接口和數據格式
+- 完整的測試覆蓋和文檔
+- 可擴展的模組化設計
+
+#### **維護成果**
+- 降低代碼複雜度
+- 提升系統容錯能力
+- 改善開發和維護效率
+- 建立清晰的架構文檔
+
+這個實作計畫嚴格遵循您提出的指導原則，專注於 `libs/StateManageHandler` 資料夾的修改，在保持原有功能的前提下，實現簡單的線性流程和清晰的職責分工，同時提升系統的容錯性、可讀性和可修改性。

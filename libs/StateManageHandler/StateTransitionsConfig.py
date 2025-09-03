@@ -552,3 +552,142 @@ def get_state_transitions() -> Dict[str, StateTransition]:
 
 # 導出配置
 STATE_TRANSITIONS = get_state_transitions()
+
+
+# =================== 簡化 DSM 系統配置 ===================
+
+def get_dsm_simplified_config() -> Dict[str, Any]:
+    """
+    獲取簡化 DSM 系統配置
+    
+    Returns:
+        簡化 DSM 配置字典
+    """
+    return {
+        "system_name": "DSM_Simplified_Linear_Flow",
+        "version": "1.0.0",
+        "description": "DSM 簡化線性流程配置",
+        "states": {
+            "OnReceiveMsg": {
+                "state_id": "OnReceiveMsg",
+                "state_name": "接收消息",
+                "description": "接收和解析用戶消息，提取關鍵詞和意圖",
+                "execution_order": 1,
+                "action_function": "receive_msg",
+                "next_state": "OnResponseMsg",
+                "transition_condition": "always"
+            },
+            "OnResponseMsg": {
+                "state_id": "OnResponseMsg",
+                "state_name": "回應消息",
+                "description": "根據流程方向生成回應和準備數據處理",
+                "execution_order": 2,
+                "action_function": "response_msg",
+                "next_state": "OnGenFunnelChat",
+                "transition_condition": "always"
+            },
+            "OnGenFunnelChat": {
+                "state_id": "OnGenFunnelChat",
+                "state_name": "生成漏斗對話",
+                "description": "生成漏斗對話引導，收集用戶需求",
+                "execution_order": 3,
+                "action_function": "gen_funnel_chat",
+                "next_state": "OnGenMDContent",
+                "transition_condition": "always"
+            },
+            "OnGenMDContent": {
+                "state_id": "OnGenMDContent",
+                "state_name": "生成 Markdown 內容",
+                "description": "根據回應類型生成相應的 Markdown 內容",
+                "execution_order": 4,
+                "action_function": "gen_md_content",
+                "next_state": "OnDataQuery",
+                "transition_condition": "always"
+            },
+            "OnDataQuery": {
+                "state_id": "OnDataQuery",
+                "state_name": "執行數據查詢",
+                "description": "執行內部數據查詢，獲取相關信息",
+                "execution_order": 5,
+                "action_function": "data_query",
+                "next_state": "OnQueriedDataProcessing",
+                "transition_condition": "always"
+            },
+            "OnQueriedDataProcessing": {
+                "state_id": "OnQueriedDataProcessing",
+                "state_name": "處理查詢數據",
+                "description": "處理查詢結果，更新 Markdown 內容",
+                "execution_order": 6,
+                "action_function": "queried_data_processing",
+                "next_state": "OnSendFront",
+                "transition_condition": "always"
+            },
+            "OnSendFront": {
+                "state_id": "OnSendFront",
+                "state_name": "發送到前端",
+                "description": "將處理後的數據發送到前端瀏覽器",
+                "execution_order": 7,
+                "action_function": "send_front",
+                "next_state": "OnWaitMsg",
+                "transition_condition": "always"
+            },
+            "OnWaitMsg": {
+                "state_id": "OnWaitMsg",
+                "state_name": "等待下一個消息",
+                "description": "準備接收下一個用戶消息",
+                "execution_order": 8,
+                "action_function": "wait_msg",
+                "next_state": "OnReceiveMsg",
+                "transition_condition": "always"
+            }
+        },
+        "flow_transitions": {
+            "linear_sequence": [
+                "OnReceiveMsg",
+                "OnResponseMsg", 
+                "OnGenFunnelChat",
+                "OnGenMDContent",
+                "OnDataQuery",
+                "OnQueriedDataProcessing",
+                "OnSendFront",
+                "OnWaitMsg"
+            ],
+            "execution_mode": "linear",
+            "error_handling": "continue_on_error"
+        },
+        "metadata": {
+            "created_at": datetime.now().isoformat(),
+            "author": "System Architect",
+            "tags": ["DSM", "Linear Flow", "Simplified"]
+        }
+    }
+
+
+def get_dsm_linear_execution_order() -> List[str]:
+    """
+    獲取 DSM 線性執行順序
+    
+    Returns:
+        狀態執行順序列表
+    """
+    config = get_dsm_simplified_config()
+    return config["flow_transitions"]["linear_sequence"]
+
+
+def get_dsm_state_info(state_id: str) -> Dict[str, Any]:
+    """
+    獲取 DSM 狀態信息
+    
+    Args:
+        state_id: 狀態 ID
+        
+    Returns:
+        狀態信息字典
+    """
+    config = get_dsm_simplified_config()
+    return config["states"].get(state_id, {})
+
+
+# 導出 DSM 配置
+DSM_SIMPLIFIED_CONFIG = get_dsm_simplified_config()
+DSM_LINEAR_EXECUTION_ORDER = get_dsm_linear_execution_order()

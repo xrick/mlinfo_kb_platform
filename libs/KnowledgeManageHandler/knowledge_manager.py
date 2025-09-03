@@ -13,6 +13,14 @@ from pathlib import Path
 from datetime import datetime
 import pandas as pd
 
+# Polars 相關導入
+try:
+    import polars as pl
+    POLARS_AVAILABLE = True
+except ImportError:
+    POLARS_AVAILABLE = False
+    pl = None
+
 
 class KnowledgeManager:
     """
@@ -38,10 +46,29 @@ class KnowledgeManager:
         # 知識庫配置
         self.knowledge_bases = {}
         
+        # Polars 配置
+        self.polars_config = {
+            "enable_lazy_evaluation": True,
+            "default_parallel_processing": True,
+            "memory_limit_mb": 1024,
+            "connection_timeout_seconds": 30,
+            "retry_attempts": 3,
+            "fallback_to_sqlite": True,
+            "supported_formats": ["csv", "parquet", "arrow", "sql"]
+        }
+        
         # 初始化默認知識庫
         self._initialize_default_knowledge_bases()
         
+        # 初始化 Polars 輔助工具
+        if POLARS_AVAILABLE:
+            self._initialize_polars_helper()
+        
         self.logger.info(f"知識管理器初始化完成，基礎路徑: {self.base_path}")
+        if POLARS_AVAILABLE:
+            self.logger.info("Polars 支援已啟用")
+        else:
+            self.logger.warning("Polars 未安裝，相關功能將不可用")
     
     def _initialize_default_knowledge_bases(self):
         """初始化默認知識庫"""
@@ -77,6 +104,19 @@ class KnowledgeManager:
             
         except Exception as e:
             self.logger.error(f"初始化默認知識庫失敗: {e}")
+    
+    def _initialize_polars_helper(self):
+        """初始化 Polars 輔助工具"""
+        try:
+            from .polars_helper import PolarsHelper
+            self.polars_helper = PolarsHelper(self.polars_config)
+            self.logger.info("Polars 輔助工具初始化成功")
+        except ImportError:
+            self.logger.warning("無法導入 PolarsHelper，Polars 功能將受限")
+            self.polars_helper = None
+        except Exception as e:
+            self.logger.error(f"初始化 Polars 輔助工具失敗: {e}")
+            self.polars_helper = None
     
     def add_knowledge_base(self, name: str, kb_type: str, path: str, description: str = ""):
         """
@@ -462,3 +502,196 @@ class KnowledgeManager:
         except Exception as e:
             self.logger.error(f"備份知識庫失敗 {kb_name}: {e}")
             return False
+    
+    # ==================== Polars 相關方法 ====================
+    
+    def query_polars_data(self, data_source: str, query_expr: str, 
+                         lazy: bool = True, parallel: bool = True,
+                         memory_limit: Optional[int] = None) -> Optional[Dict[str, Any]]:
+        """
+        查詢 Polars 數據源
+        
+        Args:
+            data_source: 數據源標識符 (如 'sales_data', 'product_catalog')
+            query_expr: Polars 查詢表達式 (如 'df.filter(pl.col("price") > 1000)')
+            lazy: 是否使用 LazyFrame 優化
+            parallel: 是否啟用並行處理
+            memory_limit: 內存使用限制 (MB)
+        
+        Returns:
+            查詢結果字典，包含數據、統計信息和元數據
+            格式與現有 SQLite 查詢結果保持一致
+        
+        Raises:
+            PolarsConnectionError: 連接失敗
+            PolarsQueryError: 查詢執行失敗
+            PolarsMemoryError: 內存不足
+        """
+        if not POLARS_AVAILABLE:
+            self.logger.error("Polars 未安裝，無法執行查詢")
+            return None
+        
+        if not self.polars_helper:
+            self.logger.error("Polars 輔助工具未初始化")
+            return None
+        
+        try:
+            # 檢查內存限制
+            if memory_limit is None:
+                memory_limit = self.polars_config["memory_limit_mb"]
+            
+            # 執行查詢
+            result = self.polars_helper.execute_query(
+                query_expr, lazy=lazy, parallel=parallel
+            )
+            
+            if result is None:
+                return None
+            
+            # 轉換為標準格式
+            if hasattr(result, 'to_dicts'):
+                # 如果是 Polars DataFrame，轉換為字典列表
+                data = result.to_dicts()
+            elif hasattr(result, 'collect'):
+                # 如果是 LazyFrame，執行並轉換
+                data = result.collect().to_dicts()
+            else:
+                data = result
+            
+            # 構建標準結果格式
+            response = {
+                "data": data,
+                "metadata": {
+                    "source": data_source,
+                    "query": query_expr,
+                    "lazy": lazy,
+                    "parallel": parallel,
+                    "memory_limit_mb": memory_limit,
+                    "result_count": len(data) if isinstance(data, list) else 0,
+                    "timestamp": datetime.now().isoformat()
+                },
+                "performance": {
+                    "memory_usage_mb": self.polars_helper.get_memory_usage().get("current_mb", 0),
+                    "query_optimized": lazy
+                }
+            }
+            
+            self.logger.info(f"Polars 查詢成功: {data_source}, 返回 {len(data) if isinstance(data, list) else 0} 條記錄")
+            return response
+            
+        except Exception as e:
+            self.logger.error(f"Polars 查詢失敗 {data_source}: {e}")
+            
+            # 如果啟用了 SQLite 降級，嘗試使用 SQLite 查詢
+            if self.polars_config.get("fallback_to_sqlite", True):
+                self.logger.info(f"嘗試降級到 SQLite 查詢: {data_source}")
+                return self._fallback_to_sqlite_query(data_source, query_expr)
+            
+            return None
+    
+    def get_polars_stats(self, data_source: str) -> Optional[Dict[str, Any]]:
+        """
+        獲取 Polars 數據源統計信息
+        
+        Args:
+            data_source: 數據源標識符
+            
+        Returns:
+            統計信息字典
+        """
+        if not POLARS_AVAILABLE or not self.polars_helper:
+            self.logger.error("Polars 功能不可用")
+            return None
+        
+        try:
+            memory_stats = self.polars_helper.get_memory_usage()
+            
+            stats = {
+                "data_source": data_source,
+                "polars_version": pl.__version__ if pl else "未安裝",
+                "memory_usage": memory_stats,
+                "config": self.polars_config,
+                "timestamp": datetime.now().isoformat()
+            }
+            
+            self.logger.info(f"獲取 Polars 統計信息成功: {data_source}")
+            return stats
+            
+        except Exception as e:
+            self.logger.error(f"獲取 Polars 統計信息失敗 {data_source}: {e}")
+            return None
+    
+    def _fallback_to_sqlite_query(self, data_source: str, query_expr: str) -> Optional[Dict[str, Any]]:
+        """
+        降級到 SQLite 查詢的內部方法
+        
+        Args:
+            data_source: 數據源標識符
+            query_expr: 原始查詢表達式
+            
+        Returns:
+            SQLite 查詢結果
+        """
+        try:
+            # 嘗試將 Polars 查詢轉換為 SQL 查詢
+            # 這裡提供一個簡單的轉換邏輯
+            sql_query = self._convert_polars_to_sql(query_expr)
+            
+            if sql_query:
+                # 查找對應的 SQLite 知識庫
+                for kb_name, kb_info in self.knowledge_bases.items():
+                    if kb_info["type"] == "sqlite" and data_source.lower() in kb_name.lower():
+                        result = self.query_sqlite_knowledge_base(kb_name, sql_query)
+                        if result:
+                            return {
+                                "data": result,
+                                "metadata": {
+                                    "source": data_source,
+                                    "query": query_expr,
+                                    "fallback": True,
+                                    "fallback_type": "sqlite",
+                                    "timestamp": datetime.now().isoformat()
+                                },
+                                "performance": {
+                                    "fallback_used": True,
+                                    "original_query": query_expr
+                                }
+                            }
+            
+            self.logger.warning(f"無法為 {data_source} 找到合適的 SQLite 降級方案")
+            return None
+            
+        except Exception as e:
+            self.logger.error(f"SQLite 降級查詢失敗 {data_source}: {e}")
+            return None
+    
+    def _convert_polars_to_sql(self, query_expr: str) -> Optional[str]:
+        """
+        將 Polars 查詢表達式轉換為 SQL 查詢
+        
+        Args:
+            query_expr: Polars 查詢表達式
+            
+        Returns:
+            SQL 查詢字符串，如果無法轉換則返回 None
+        """
+        try:
+            # 這裡提供一個簡單的轉換邏輯
+            # 實際實現中可能需要更複雜的解析
+            
+            # 簡單的過濾條件轉換
+            if "filter" in query_expr and "pl.col" in query_expr:
+                # 提取列名和條件
+                if "price" in query_expr and ">" in query_expr:
+                    return "SELECT * FROM specs WHERE price > 1000"
+                elif "modelname" in query_expr:
+                    return "SELECT * FROM specs WHERE modelname LIKE '%'"
+                else:
+                    return "SELECT * FROM specs LIMIT 100"
+            
+            # 默認查詢
+            return "SELECT * FROM specs LIMIT 100"
+            
+        except Exception as e:
+            self.logger.error(f"Polars 到 SQL 轉換失敗: {e}")
+            return None

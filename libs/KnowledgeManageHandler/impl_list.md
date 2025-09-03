@@ -21,7 +21,12 @@ KnowledgeManageHandler 模組負責管理和處理各種知識庫，包括 SQLit
 - **狀態**: 待實現
 - **優先級**: 中
 
-### 4. 知識庫查詢器 (KnowledgeQuery)
+### 4. Polars 知識庫管理器 (PolarsKnowledgeManager)
+- **功能**: 專門管理 Polars 數據庫和 DataFrame
+- **狀態**: ✅ 已實現
+- **優先級**: 中
+
+### 5. 知識庫查詢器 (KnowledgeQuery)
 - **功能**: 提供統一的查詢接口
 - **狀態**: 待實現
 - **優先級**: 高
@@ -35,6 +40,11 @@ KnowledgeManageHandler 模組負責管理和處理各種知識庫，包括 SQLit
 - **功能**: 同步多個知識庫
 - **狀態**: 待實現
 - **優先級**: 低
+
+### 7. Polars 查詢優化器 (PolarsQueryOptimizer)
+- **功能**: 優化 Polars 查詢性能，支援 LazyFrame 和並行處理
+- **狀態**: ✅ 已實現
+- **優先級**: 中
 
 ## 實現計劃
 
@@ -51,6 +61,7 @@ KnowledgeManageHandler 模組負責管理和處理各種知識庫，包括 SQLit
 
 ### 階段 3: 高級功能
 - [ ] 實現向量知識庫管理
+- [x] 實現 Polars 知識庫管理
 - [ ] 實現知識庫索引
 - [ ] 實現知識庫同步
 - [ ] 實現知識庫備份和恢復
@@ -58,6 +69,7 @@ KnowledgeManageHandler 模組負責管理和處理各種知識庫，包括 SQLit
 ### 階段 4: 優化和擴展
 - [ ] 實現查詢緩存機制
 - [ ] 實現查詢優化
+- [x] 實現 Polars 查詢優化（LazyFrame、並行處理）
 - [ ] 實現並發查詢支援
 - [ ] 性能優化
 
@@ -69,6 +81,7 @@ KnowledgeManageHandler 模組負責管理和處理各種知識庫，包括 SQLit
 ### 外部依賴
 - `sqlite3` - SQLite 數據庫操作
 - `pandas` - 數據處理
+- `polars` - 高性能 DataFrame 處理和查詢
 - `logging` - 日誌記錄
 - `typing` - 類型提示
 - `pathlib` - 路徑處理
@@ -95,6 +108,11 @@ class KnowledgeManager:
     
     def search_semantic_knowledge_base(self, query: str, limit: int = 5) -> Optional[List[Dict[str, Any]]]:
         """語義搜索知識庫"""
+        pass
+    
+    def query_polars_knowledge_base(self, kb_name: str, query_expr: str, 
+                                   lazy: bool = True, parallel: bool = True) -> Optional[Any]:
+        """查詢 Polars 知識庫，支援 LazyFrame 和並行處理"""
         pass
     
     def get_knowledge_base_stats(self, kb_name: str) -> Optional[Dict[str, Any]]:
@@ -192,6 +210,8 @@ class KnowledgeManager:
 - 複雜查詢條件
 - 查詢優化
 - 查詢緩存
+- Polars 表達式查詢
+- LazyFrame 查詢優化
 
 ### 3. 知識庫同步
 - 多知識庫同步
@@ -207,6 +227,8 @@ class KnowledgeManager:
 - 查詢性能監控
 - 使用統計
 - 性能分析
+- Polars 查詢性能分析
+- 內存使用監控
 
 ## 知識庫類型支援
 
@@ -215,17 +237,25 @@ class KnowledgeManager:
 - 歷史記錄數據庫
 - 語義銷售規格數據庫
 
-### 2. 向量存儲
+### 2. Polars 數據庫
+- 高性能 DataFrame 存儲
+- LazyFrame 查詢優化
+- 並行處理支援
+- 內存優化數據結構
+
+### 3. 向量存儲
 - Milvus 向量數據庫
 - FAISS 向量索引
 - 自定義向量存儲
 
-### 3. 文件存儲
+### 4. 文件存儲
 - JSON 文件
 - CSV 文件
 - Excel 文件
+- Parquet 文件（Polars 優化）
+- Arrow 文件（Polars 原生支援）
 
-### 4. 外部 API
+### 5. 外部 API
 - REST API 知識庫
 - GraphQL 知識庫
 - 自定義 API 知識庫
@@ -240,3 +270,5 @@ class KnowledgeManager:
 6. 支援多種數據格式
 7. 實現查詢結果緩存
 8. 提供並發查詢支援
+9. 優化 Polars 內存使用和查詢性能
+10. 支援 Polars 的 LazyFrame 和並行處理特性

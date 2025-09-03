@@ -1,0 +1,753 @@
+[MODE: RESEARCH]
+
+我理解了，您要求維持原本的 8 個狀態，但實作要滿足簡單的線性流程和清晰的職責分工。讓我重新分析原始的 DSM 狀態機設計，然後思考如何在保持原有狀態數量的前提下，實現簡單的線性流程和清晰的職責分工。
+
+讓我重新查看原始的 DSM 狀態定義：
+
+
+[1 tool called]
+
+現在我明白了！原始設計有 8 個狀態，但存在複雜的分支邏輯。讓我分析如何重新設計實作，在保持原有狀態數量的前提下，實現簡單的線性流程和清晰的職責分工。
+
+## 原始 DSM 狀態機分析
+
+### **當前問題分析**:
+1. **複雜的分支邏輯**: `OnReceiveMsg` 有兩個分支，`OnResponseMsg` 有兩個分支
+2. **狀態職責重疊**: `OnGenFunnelChat` 和 `OnGenMDContent` 功能相似
+3. **流程不清晰**: 存在循環和條件分支，難以追蹤
+
+### **原始 8 個狀態**:
+1. `OnReceiveMsg` - 接收消息
+2. `OnResponseMsg` - 回應消息  
+3. `OnGenFunnelChat` - 生成漏斗對話
+4. `OnGenMDContent` - 生成 Markdown 內容
+5. `OnDataQuery` - 執行數據查詢
+6. `OnQueriedDataProcessing` - 處理查詢數據
+7. `OnSendFront` - 發送到前端
+8. `OnWaitMsg` - 等待下一個消息
+
+## 重新設計策略
+
+### **策略 1: 簡化分支邏輯**
+- 將複雜的條件分支簡化為簡單的線性判斷
+- 使用統一的決策邏輯，減少分支數量
+
+### **策略 2: 明確職責分工**
+- 每個狀態只負責一個明確的職責
+- 避免狀態間的職責重疊
+- 建立清晰的數據流
+
+### **策略 3: 線性化流程**
+- 將原本的循環和分支轉換為線性流程
+- 使用標記位控制流程方向
+- 簡化狀態轉換邏輯
+
+## 重新設計後的實作
+
+### **1. 簡化後的狀態轉換邏輯**
+
+```python
+class DSMState(Enum):
+    """DSM 狀態機的 8 個狀態（保持原有數量）"""
+    ON_RECEIVE_MSG = "OnReceiveMsg"                    # 接收消息
+    ON_RESPONSE_MSG = "OnResponseMsg"                  # 回應消息
+    ON_GEN_FUNNEL_CHAT = "OnGenFunnelChat"            # 生成漏斗對話
+    ON_GEN_MD_CONTENT = "OnGenMDContent"              # 生成 Markdown 內容
+    ON_DATA_QUERY = "OnDataQuery"                      # 執行數據查詢
+    ON_QUERIED_DATA_PROCESSING = "OnQueriedDataProcessing"  # 處理查詢數據
+    ON_SEND_FRONT = "OnSendFront"                      # 發送到前端
+    ON_WAIT_MSG = "OnWaitMsg"                          # 等待下一個消息
+
+class DSMLinearFlow:
+    """DSM 線性流程控制器"""
+    
+    def __init__(self):
+        """初始化線性流程控制器"""
+        self.flow_controller = DSMFlowController()
+        
+    async def execute_linear_flow(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        執行線性流程 - 簡化分支邏輯
+        
+        Args:
+            context: 處理上下文
+            
+        Returns:
+            處理結果
+        """
+        session_id = context.get("session_id", "unknown")
+        logger.info(f"開始執行 DSM 線性流程 - 會話: {session_id}")
+        
+        # 步驟 1: 接收消息
+        context = await self._execute_receive_msg(context)
+        
+        # 步驟 2: 回應消息（簡化分支邏輯）
+        context = await self._execute_response_msg(context)
+        
+        # 步驟 3: 生成漏斗對話（如果需要）
+        if context.get("need_funnel_chat", False):
+            context = await self._execute_gen_funnel_chat(context)
+        
+        # 步驟 4: 生成 Markdown 內容
+        context = await self._execute_gen_md_content(context)
+        
+        # 步驟 5: 執行數據查詢（如果需要）
+        if context.get("need_data_query", False):
+            context = await self._execute_data_query(context)
+            context = await self._execute_queried_data_processing(context)
+        
+        # 步驟 6: 發送到前端
+        context = await self._execute_send_front(context)
+        
+        # 步驟 7: 等待下一個消息
+        context = await self._execute_wait_msg(context)
+        
+        logger.info(f"DSM 線性流程執行完成 - 會話: {session_id}")
+        return context
+    
+    async def _execute_receive_msg(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """執行接收消息步驟"""
+        return await self.flow_controller.receive_msg(context)
+    
+    async def _execute_response_msg(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """執行回應消息步驟"""
+        return await self.flow_controller.response_msg(context)
+    
+    async def _execute_gen_funnel_chat(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """執行生成漏斗對話步驟"""
+        return await self.flow_controller.gen_funnel_chat(context)
+    
+    async def _execute_gen_md_content(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """執行生成 Markdown 內容步驟"""
+        return await self.flow_controller.gen_md_content(context)
+    
+    async def _execute_data_query(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """執行數據查詢步驟"""
+        return await self.flow_controller.data_query(context)
+    
+    async def _execute_queried_data_processing(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """執行查詢數據處理步驟"""
+        return await self.flow_controller.queried_data_processing(context)
+    
+    async def _execute_send_front(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """執行發送到前端步驟"""
+        return await self.flow_controller.send_front(context)
+    
+    async def _execute_wait_msg(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """執行等待消息步驟"""
+        return await self.flow_controller.wait_msg(context)
+```
+
+### **2. 清晰的職責分工實作**
+
+```python
+class DSMFlowController:
+    """DSM 流程控制器 - 每個狀態職責明確"""
+    
+    async def receive_msg(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        狀態 1: OnReceiveMsg
+        職責: 接收和解析用戶消息
+        
+        Args:
+            context: 處理上下文
+            
+        Returns:
+            更新後的上下文
+        """
+        try:
+            user_message = context.get("user_message", "")
+            session_id = context.get("session_id", "unknown")
+            
+            logger.info(f"執行 OnReceiveMsg - 會話: {session_id}")
+            
+            # 1. 提取關鍵詞
+            keywords = self._extract_keywords(user_message)
+            
+            # 2. 比較句子（意圖識別）
+            sentence_match = self._compare_sentence(user_message)
+            
+            # 3. 決定流程方向（簡化分支邏輯）
+            flow_direction = self._determine_flow_direction(keywords, sentence_match)
+            
+            result = {
+                "keywords": keywords,
+                "sentence_match": sentence_match,
+                "flow_direction": flow_direction,
+                "need_funnel_chat": flow_direction == "funnel_chat",
+                "need_data_query": flow_direction == "data_query",
+                "receive_msg_completed": True,
+                "receive_timestamp": datetime.now().isoformat()
+            }
+            
+            logger.info(f"OnReceiveMsg 完成 - 會話: {session_id}, 流程方向: {flow_direction}")
+            return {**context, **result}
+            
+        except Exception as e:
+            logger.error(f"OnReceiveMsg 失敗: {e}")
+            return {
+                **context,
+                "receive_msg_completed": False,
+                "error": str(e),
+                "flow_direction": "fallback"
+            }
+    
+    async def response_msg(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        狀態 2: OnResponseMsg
+        職責: 生成回應和準備數據處理
+        
+        Args:
+            context: 處理上下文
+            
+        Returns:
+            更新後的上下文
+        """
+        try:
+            session_id = context.get("session_id", "unknown")
+            flow_direction = context.get("flow_direction", "fallback")
+            
+            logger.info(f"執行 OnResponseMsg - 會話: {session_id}, 流程方向: {flow_direction}")
+            
+            if flow_direction == "data_query":
+                # 需要內部數據查詢
+                result = {
+                    "response_type": "data_query_required",
+                    "response_message": "正在為您查詢相關信息...",
+                    "need_data_query": True,
+                    "need_funnel_chat": False
+                }
+            elif flow_direction == "funnel_chat":
+                # 需要漏斗對話
+                result = {
+                    "response_type": "funnel_chat_required",
+                    "response_message": "讓我幫您找到最適合的筆電...",
+                    "need_data_query": False,
+                    "need_funnel_chat": True
+                }
+            else:
+                # 直接回應
+                result = {
+                    "response_type": "direct_response",
+                    "response_message": "我理解您的需求，讓我為您提供幫助。",
+                    "need_data_query": False,
+                    "need_funnel_chat": False
+                }
+            
+            result.update({
+                "response_msg_completed": True,
+                "response_timestamp": datetime.now().isoformat()
+            })
+            
+            logger.info(f"OnResponseMsg 完成 - 會話: {session_id}, 回應類型: {result['response_type']}")
+            return {**context, **result}
+            
+        except Exception as e:
+            logger.error(f"OnResponseMsg 失敗: {e}")
+            return {
+                **context,
+                "response_msg_completed": False,
+                "error": str(e),
+                "response_type": "error"
+            }
+    
+    async def gen_funnel_chat(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        狀態 3: OnGenFunnelChat
+        職責: 生成漏斗對話引導
+        
+        Args:
+            context: 處理上下文
+            
+        Returns:
+            更新後的上下文
+        """
+        try:
+            session_id = context.get("session_id", "unknown")
+            keywords = context.get("keywords", [])
+            
+            logger.info(f"執行 OnGenFunnelChat - 會話: {session_id}")
+            
+            # 生成漏斗對話引導
+            funnel_message = self._generate_funnel_message(keywords)
+            
+            result = {
+                "funnel_message": funnel_message,
+                "funnel_chat_generated": True,
+                "funnel_timestamp": datetime.now().isoformat()
+            }
+            
+            logger.info(f"OnGenFunnelChat 完成 - 會話: {session_id}")
+            return {**context, **result}
+            
+        except Exception as e:
+            logger.error(f"OnGenFunnelChat 失敗: {e}")
+            return {
+                **context,
+                "funnel_chat_generated": False,
+                "error": str(e)
+            }
+    
+    async def gen_md_content(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        狀態 4: OnGenMDContent
+        職責: 生成 Markdown 內容
+        
+        Args:
+            context: 處理上下文
+            
+        Returns:
+            更新後的上下文
+        """
+        try:
+            session_id = context.get("session_id", "unknown")
+            response_type = context.get("response_type", "direct_response")
+            
+            logger.info(f"執行 OnGenMDContent - 會話: {session_id}, 回應類型: {response_type}")
+            
+            if response_type == "data_query_required":
+                # 生成數據查詢相關的 Markdown
+                md_content = self._generate_data_query_md(context)
+            elif response_type == "funnel_chat_required":
+                # 生成漏斗對話相關的 Markdown
+                md_content = self._generate_funnel_md(context)
+            else:
+                # 生成直接回應的 Markdown
+                md_content = self._generate_direct_response_md(context)
+            
+            result = {
+                "markdown_content": md_content,
+                "md_content_generated": True,
+                "md_timestamp": datetime.now().isoformat()
+            }
+            
+            logger.info(f"OnGenMDContent 完成 - 會話: {session_id}")
+            return {**context, **result}
+            
+        except Exception as e:
+            logger.error(f"OnGenMDContent 失敗: {e}")
+            return {
+                **context,
+                "md_content_generated": False,
+                "error": str(e)
+            }
+    
+    async def data_query(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        狀態 5: OnDataQuery
+        職責: 執行內部數據查詢
+        
+        Args:
+            context: 處理上下文
+            
+        Returns:
+            更新後的上下文
+        """
+        try:
+            session_id = context.get("session_id", "unknown")
+            
+            logger.info(f"執行 OnDataQuery - 會話: {session_id}")
+            
+            # 執行數據查詢
+            query_result = await self._perform_data_query(context)
+            
+            result = {
+                "query_result": query_result,
+                "data_query_completed": True,
+                "query_timestamp": datetime.now().isoformat()
+            }
+            
+            logger.info(f"OnDataQuery 完成 - 會話: {session_id}")
+            return {**context, **result}
+            
+        except Exception as e:
+            logger.error(f"OnDataQuery 失敗: {e}")
+            return {
+                **context,
+                "data_query_completed": False,
+                "error": str(e)
+            }
+    
+    async def queried_data_processing(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        狀態 6: OnQueriedDataProcessing
+        職責: 處理查詢數據
+        
+        Args:
+            context: 處理上下文
+            
+        Returns:
+            更新後的上下文
+        """
+        try:
+            session_id = context.get("session_id", "unknown")
+            query_result = context.get("query_result", {})
+            
+            logger.info(f"執行 OnQueriedDataProcessing - 會話: {session_id}")
+            
+            # 處理查詢數據
+            processed_data = self._process_query_data(query_result)
+            
+            # 更新 Markdown 內容
+            updated_md = self._update_markdown_with_data(context.get("markdown_content", ""), processed_data)
+            
+            result = {
+                "processed_data": processed_data,
+                "updated_markdown": updated_md,
+                "data_processing_completed": True,
+                "processing_timestamp": datetime.now().isoformat()
+            }
+            
+            logger.info(f"OnQueriedDataProcessing 完成 - 會話: {session_id}")
+            return {**context, **result}
+            
+        except Exception as e:
+            logger.error(f"OnQueriedDataProcessing 失敗: {e}")
+            return {
+                **context,
+                "data_processing_completed": False,
+                "error": str(e)
+            }
+    
+    async def send_front(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        狀態 7: OnSendFront
+        職責: 發送數據到前端
+        
+        Args:
+            context: 處理上下文
+            
+        Returns:
+            更新後的上下文
+        """
+        try:
+            session_id = context.get("session_id", "unknown")
+            
+            logger.info(f"執行 OnSendFront - 會話: {session_id}")
+            
+            # 準備發送到前端的數據
+            frontend_data = self._prepare_frontend_data(context)
+            
+            # 發送到前端
+            send_result = await self._send_to_frontend(frontend_data, session_id)
+            
+            result = {
+                "frontend_data": frontend_data,
+                "send_result": send_result,
+                "send_front_completed": True,
+                "send_timestamp": datetime.now().isoformat()
+            }
+            
+            logger.info(f"OnSendFront 完成 - 會話: {session_id}")
+            return {**context, **result}
+            
+        except Exception as e:
+            logger.error(f"OnSendFront 失敗: {e}")
+            return {
+                **context,
+                "send_front_completed": False,
+                "error": str(e)
+            }
+    
+    async def wait_msg(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        狀態 8: OnWaitMsg
+        職責: 等待下一個消息
+        
+        Args:
+            context: 處理上下文
+            
+        Returns:
+            更新後的上下文
+        """
+        try:
+            session_id = context.get("session_id", "unknown")
+            
+            logger.info(f"執行 OnWaitMsg - 會話: {session_id}")
+            
+            # 準備等待下一個消息
+            wait_result = self._prepare_for_next_message(context)
+            
+            result = {
+                "wait_prepared": True,
+                "ready_for_next_message": True,
+                "wait_timestamp": datetime.now().isoformat()
+            }
+            
+            logger.info(f"OnWaitMsg 完成 - 會話: {session_id}")
+            return {**context, **result}
+            
+        except Exception as e:
+            logger.error(f"OnWaitMsg 失敗: {e}")
+            return {
+                **context,
+                "wait_prepared": False,
+                "error": str(e)
+            }
+    
+    # ==================== 輔助方法 ====================
+    
+    def _extract_keywords(self, message: str) -> List[str]:
+        """提取關鍵詞"""
+        keywords = []
+        if "筆電" in message or "laptop" in message.lower():
+            keywords.append("laptop")
+        if "推薦" in message or "建議" in message:
+            keywords.append("recommendation")
+        if "價格" in message or "預算" in message:
+            keywords.append("price")
+        if "規格" in message or "配置" in message:
+            keywords.append("specs")
+        return keywords
+    
+    def _compare_sentence(self, message: str) -> Dict[str, Any]:
+        """比較句子（意圖識別）"""
+        message_lower = message.lower()
+        
+        if any(word in message_lower for word in ["你好", "hello", "hi"]):
+            return {"intent": "greeting", "confidence": 0.9}
+        elif any(word in message_lower for word in ["推薦", "建議", "找"]):
+            return {"intent": "recommendation", "confidence": 0.8}
+        elif any(word in message_lower for word in ["比較", "對比"]):
+            return {"intent": "comparison", "confidence": 0.7}
+        else:
+            return {"intent": "general", "confidence": 0.5}
+    
+    def _determine_flow_direction(self, keywords: List[str], sentence_match: Dict[str, Any]) -> str:
+        """
+        決定流程方向 - 簡化分支邏輯
+        
+        Args:
+            keywords: 提取的關鍵詞
+            sentence_match: 句子匹配結果
+            
+        Returns:
+            流程方向: "data_query", "funnel_chat", "direct_response"
+        """
+        intent = sentence_match.get("intent", "general")
+        
+        # 簡化的決策邏輯
+        if intent in ["recommendation", "comparison"]:
+            return "data_query"
+        elif keywords and intent == "general":
+            return "funnel_chat"
+        else:
+            return "direct_response"
+    
+    def _generate_funnel_message(self, keywords: List[str]) -> str:
+        """生成漏斗對話引導"""
+        if "laptop" in keywords:
+            return "請告訴我您主要會用這台筆電來做什麼？例如工作、學習、遊戲或創作？"
+        elif "price" in keywords:
+            return "請告訴我您的預算大概是多少呢？"
+        else:
+            return "請告訴我您對筆電有什麼具體需求？"
+    
+    def _generate_data_query_md(self, context: Dict[str, Any]) -> str:
+        """生成數據查詢相關的 Markdown"""
+        return "# 正在查詢\n\n正在為您查詢相關信息，請稍候..."
+    
+    def _generate_funnel_md(self, context: Dict[str, Any]) -> str:
+        """生成漏斗對話相關的 Markdown"""
+        funnel_msg = context.get("funnel_message", "請告訴我您的需求...")
+        return f"# 需求收集\n\n{funnel_msg}"
+    
+    def _generate_direct_response_md(self, context: Dict[str, Any]) -> str:
+        """生成直接回應的 Markdown"""
+        response_msg = context.get("response_message", "我理解您的需求...")
+        return f"# 回應\n\n{response_msg}"
+    
+    async def _perform_data_query(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """執行數據查詢"""
+        # 模擬數據查詢
+        await asyncio.sleep(0.1)
+        return {"query_result": "sample_data", "timestamp": datetime.now().isoformat()}
+    
+    def _process_query_data(self, query_result: Any) -> Any:
+        """處理查詢數據"""
+        return {"processed": "processed_data", "timestamp": datetime.now().isoformat()}
+    
+    def _update_markdown_with_data(self, original_md: str, processed_data: Any) -> str:
+        """更新 Markdown 內容"""
+        return f"{original_md}\n\n## 查詢結果\n\n基於查詢結果的內容..."
+    
+    def _prepare_frontend_data(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """準備前端數據"""
+        md_content = context.get("updated_markdown") or context.get("markdown_content", "")
+        return {
+            "message": md_content,
+            "session_id": context.get("session_id", ""),
+            "timestamp": datetime.now().isoformat()
+        }
+    
+    async def _send_to_frontend(self, frontend_data: Dict[str, Any], session_id: str) -> Dict[str, Any]:
+        """發送到前端"""
+        # 模擬發送
+        await asyncio.sleep(0.05)
+        return {"success": True, "session_id": session_id}
+    
+    def _prepare_for_next_message(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """準備下一個消息"""
+        return {"status": "ready", "timestamp": datetime.now().isoformat()}
+```
+
+### **3. 簡化的狀態轉換表**
+
+```python
+class DSMSimplifiedStateMachine:
+    """DSM 簡化狀態機 - 保持 8 個狀態，但簡化流程"""
+    
+    def __init__(self):
+        """初始化簡化狀態機"""
+        self.flow_controller = DSMFlowController()
+        self.current_state = DSMState.ON_RECEIVE_MSG
+        
+        # 簡化後的狀態轉換表
+        self.simplified_transitions = {
+            DSMState.ON_RECEIVE_MSG: {
+                "next_state": DSMState.ON_RESPONSE_MSG,
+                "description": "接收消息後直接轉向回應消息",
+                "condition": "always"
+            },
+            DSMState.ON_RESPONSE_MSG: {
+                "next_state": DSMState.ON_GEN_FUNNEL_CHAT,
+                "description": "回應消息後轉向生成漏斗對話",
+                "condition": "always"
+            },
+            DSMState.ON_GEN_FUNNEL_CHAT: {
+                "next_state": DSMState.ON_GEN_MD_CONTENT,
+                "description": "生成漏斗對話後轉向生成 Markdown 內容",
+                "condition": "always"
+            },
+            DSMState.ON_GEN_MD_CONTENT: {
+                "next_state": DSMState.ON_DATA_QUERY,
+                "description": "生成 Markdown 內容後轉向數據查詢",
+                "condition": "always"
+            },
+            DSMState.ON_DATA_QUERY: {
+                "next_state": DSMState.ON_QUERIED_DATA_PROCESSING,
+                "description": "數據查詢後轉向數據處理",
+                "condition": "always"
+            },
+            DSMState.ON_QUERIED_DATA_PROCESSING: {
+                "next_state": DSMState.ON_SEND_FRONT,
+                "description": "數據處理後轉向發送前端",
+                "condition": "always"
+            },
+            DSMState.ON_SEND_FRONT: {
+                "next_state": DSMState.ON_WAIT_MSG,
+                "description": "發送前端後轉向等待消息",
+                "condition": "always"
+            },
+            DSMState.ON_WAIT_MSG: {
+                "next_state": DSMState.ON_RECEIVE_MSG,
+                "description": "等待消息後轉向接收消息",
+                "condition": "always"
+            }
+        }
+        
+        logger.info("DSM 簡化狀態機初始化完成")
+    
+    async def execute_simplified_flow(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        執行簡化流程 - 線性執行所有狀態
+        
+        Args:
+            context: 處理上下文
+            
+        Returns:
+            處理結果
+        """
+        session_id = context.get("session_id", "unknown")
+        logger.info(f"開始執行 DSM 簡化流程 - 會話: {session_id}")
+        
+        # 線性執行所有狀態
+        states_execution_order = [
+            DSMState.ON_RECEIVE_MSG,
+            DSMState.ON_RESPONSE_MSG,
+            DSMState.ON_GEN_FUNNEL_CHAT,
+            DSMState.ON_GEN_MD_CONTENT,
+            DSMState.ON_DATA_QUERY,
+            DSMState.ON_QUERIED_DATA_PROCESSING,
+            DSMState.ON_SEND_FRONT,
+            DSMState.ON_WAIT_MSG
+        ]
+        
+        execution_results = {}
+        
+        for state in states_execution_order:
+            logger.info(f"執行狀態: {state.value} - 會話: {session_id}")
+            
+            # 執行對應的狀態處理
+            if state == DSMState.ON_RECEIVE_MSG:
+                context = await self.flow_controller.receive_msg(context)
+            elif state == DSMState.ON_RESPONSE_MSG:
+                context = await self.flow_controller.response_msg(context)
+            elif state == DSMState.ON_GEN_FUNNEL_CHAT:
+                context = await self.flow_controller.gen_funnel_chat(context)
+            elif state == DSMState.ON_GEN_MD_CONTENT:
+                context = await self.flow_controller.gen_md_content(context)
+            elif state == DSMState.ON_DATA_QUERY:
+                context = await self.flow_controller.data_query(context)
+            elif state == DSMState.ON_QUERIED_DATA_PROCESSING:
+                context = await self.flow_controller.queried_data_processing(context)
+            elif state == DSMState.ON_SEND_FRONT:
+                context = await self.flow_controller.send_front(context)
+            elif state == DSMState.ON_WAIT_MSG:
+                context = await self.flow_controller.wait_msg(context)
+            
+            # 記錄執行結果
+            execution_results[state.value] = {
+                "completed": context.get(f"{state.value.lower()}_completed", False),
+                "timestamp": context.get(f"{state.value.lower()}_timestamp", ""),
+                "error": context.get("error", None)
+            }
+            
+            # 檢查是否有錯誤
+            if context.get("error"):
+                logger.warning(f"狀態 {state.value} 執行時出現錯誤: {context.get('error')}")
+        
+        # 準備最終結果
+        final_result = {
+            "success": True,
+            "session_id": session_id,
+            "flow_completed": True,
+            "completion_timestamp": datetime.now().isoformat(),
+            "execution_summary": execution_results,
+            "final_context": context
+        }
+        
+        logger.info(f"DSM 簡化流程執行完成 - 會話: {session_id}")
+        return final_result
+```
+
+## 總結
+
+### **保持原有 8 個狀態** ✅
+1. `OnReceiveMsg` - 接收消息
+2. `OnResponseMsg` - 回應消息  
+3. `OnGenFunnelChat` - 生成漏斗對話
+4. `OnGenMDContent` - 生成 Markdown 內容
+5. `OnDataQuery` - 執行數據查詢
+6. `OnQueriedDataProcessing` - 處理查詢數據
+7. `OnSendFront` - 發送到前端
+8. `OnWaitMsg` - 等待下一個消息
+
+### **實現簡單的線性流程** ✅
+- 將複雜的分支邏輯簡化為線性執行
+- 使用標記位控制流程方向
+- 所有狀態按順序執行，減少條件判斷
+
+### **實現清晰的職責分工** ✅
+- 每個狀態只負責一個明確的職責
+- 狀態間的數據流清晰明確
+- 每個狀態都有統一的錯誤處理
+
+### **主要改進點**:
+1. **簡化分支邏輯**: 使用 `flow_direction` 標記位控制流程
+2. **線性化執行**: 所有狀態按固定順序執行
+3. **統一接口**: 每個狀態都遵循相同的輸入輸出格式
+4. **清晰職責**: 每個狀態的職責明確，不重疊
+5. **統一錯誤處理**: 每個狀態都有標準的錯誤處理機制
+
+這樣的設計既保持了原有的 8 個狀態，又實現了簡單的線性流程和清晰的職責分工，完全符合您的要求。

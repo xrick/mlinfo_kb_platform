@@ -1,0 +1,331 @@
+{
+  "flow_metadata": {
+    "flow_name": "DSM_Simplified_Linear_Flow",
+    "version": "1.0.0",
+    "description": "DSM 簡化線性流程定義",
+    "created_at": "2025-01-14T10:00:00Z",
+    "author": "System Architect",
+    "tags": ["DSM", "Linear Flow", "Simplified"]
+  },
+  "flow_configuration": {
+    "execution_mode": "linear",
+    "error_handling": "continue_on_error",
+    "timeout_seconds": 300,
+    "max_retry_attempts": 3,
+    "enable_logging": true,
+    "enable_metrics": true
+  },
+  "states": {
+    "OnReceiveMsg": {
+      "state_id": "OnReceiveMsg",
+      "state_name": "接收消息",
+      "description": "接收和解析用戶消息，提取關鍵詞和意圖",
+      "execution_order": 1,
+      "action_function": "receive_msg",
+      "input_schema": {
+        "required": ["user_message", "session_id"],
+        "optional": ["context_data"]
+      },
+      "output_schema": {
+        "keywords": "List[str]",
+        "flow_direction": "str",
+        "need_funnel_chat": "bool",
+        "need_data_query": "bool"
+      },
+      "error_handling": {
+        "on_error": "set_fallback_flow",
+        "fallback_values": {
+          "flow_direction": "direct_response",
+          "need_funnel_chat": false,
+          "need_data_query": false
+        }
+      },
+      "timeout_seconds": 30,
+      "retry_policy": {
+        "max_attempts": 2,
+        "retry_delay_seconds": 1
+      },
+      "next_state": "OnResponseMsg",
+      "transition_condition": "always"
+    },
+    "OnResponseMsg": {
+      "state_id": "OnResponseMsg",
+      "state_name": "回應消息",
+      "description": "根據流程方向生成回應和準備數據處理",
+      "execution_order": 2,
+      "action_function": "response_msg",
+      "input_schema": {
+        "required": ["flow_direction", "keywords"],
+        "optional": ["session_id"]
+      },
+      "output_schema": {
+        "response_type": "str",
+        "response_message": "str",
+        "need_data_query": "bool",
+        "need_funnel_chat": "bool"
+      },
+      "error_handling": {
+        "on_error": "set_default_response",
+        "fallback_values": {
+          "response_type": "direct_response",
+          "response_message": "我理解您的需求，讓我為您提供幫助。"
+        }
+      },
+      "timeout_seconds": 25,
+      "retry_policy": {
+        "max_attempts": 1,
+        "retry_delay_seconds": 0
+      },
+      "next_state": "OnGenFunnelChat",
+      "transition_condition": "always"
+    },
+    "OnGenFunnelChat": {
+      "state_id": "OnGenFunnelChat",
+      "state_name": "生成漏斗對話",
+      "description": "生成漏斗對話引導，收集用戶需求",
+      "execution_order": 3,
+      "action_function": "gen_funnel_chat",
+      "input_schema": {
+        "required": ["keywords", "need_funnel_chat"],
+        "optional": ["session_id"]
+      },
+      "output_schema": {
+        "funnel_message": "str",
+        "funnel_chat_generated": "bool"
+      },
+      "error_handling": {
+        "on_error": "set_default_funnel",
+        "fallback_values": {
+          "funnel_message": "請告訴我您對筆電有什麼具體需求？",
+          "funnel_chat_generated": true
+        }
+      },
+      "timeout_seconds": 20,
+      "retry_policy": {
+        "max_attempts": 1,
+        "retry_delay_seconds": 0
+      },
+      "next_state": "OnGenMDContent",
+      "transition_condition": "always"
+    },
+    "OnGenMDContent": {
+      "state_id": "OnGenMDContent",
+      "state_name": "生成 Markdown 內容",
+      "description": "根據回應類型生成相應的 Markdown 內容",
+      "execution_order": 4,
+      "action_function": "gen_md_content",
+      "input_schema": {
+        "required": ["response_type", "response_message"],
+        "optional": ["funnel_message", "keywords"]
+      },
+      "output_schema": {
+        "markdown_content": "str",
+        "md_content_generated": "bool"
+      },
+      "error_handling": {
+        "on_error": "set_error_content",
+        "fallback_values": {
+          "markdown_content": "# 系統錯誤\n\n抱歉，內容生成出現問題，請稍後再試。",
+          "md_content_generated": true
+        }
+      },
+      "timeout_seconds": 35,
+      "retry_policy": {
+        "max_attempts": 2,
+        "retry_delay_seconds": 1
+      },
+      "next_state": "OnDataQuery",
+      "transition_condition": "always"
+    },
+    "OnDataQuery": {
+      "state_id": "OnDataQuery",
+      "state_name": "執行數據查詢",
+      "description": "執行內部數據查詢，獲取相關信息",
+      "execution_order": 5,
+      "action_function": "data_query",
+      "input_schema": {
+        "required": ["need_data_query", "keywords"],
+        "optional": ["session_id", "context_data"]
+      },
+      "output_schema": {
+        "query_result": "Dict[str, Any]",
+        "data_query_completed": "bool"
+      },
+      "error_handling": {
+        "on_error": "set_empty_result",
+        "fallback_values": {
+          "query_result": {},
+          "data_query_completed": true
+        }
+      },
+      "timeout_seconds": 60,
+      "retry_policy": {
+        "max_attempts": 3,
+        "retry_delay_seconds": 2
+      },
+      "next_state": "OnQueriedDataProcessing",
+      "transition_condition": "always"
+    },
+    "OnQueriedDataProcessing": {
+      "state_id": "OnQueriedDataProcessing",
+      "state_name": "處理查詢數據",
+      "description": "處理查詢結果，更新 Markdown 內容",
+      "execution_order": 6,
+      "action_function": "queried_data_processing",
+      "input_schema": {
+        "required": ["query_result", "markdown_content"],
+        "optional": ["keywords", "session_id"]
+      },
+      "output_schema": {
+        "processed_data": "Dict[str, Any]",
+        "updated_markdown": "str",
+        "data_processing_completed": "bool"
+      },
+      "error_handling": {
+        "on_error": "keep_original_content",
+        "fallback_values": {
+          "processed_data": {},
+          "updated_markdown": "{{original_markdown}}",
+          "data_processing_completed": true
+        }
+      },
+      "timeout_seconds": 30,
+      "retry_policy": {
+        "max_attempts": 2,
+        "retry_delay_seconds": 1
+      },
+      "next_state": "OnSendFront",
+      "transition_condition": "always"
+    },
+    "OnSendFront": {
+      "state_id": "OnSendFront",
+      "state_name": "發送到前端",
+      "description": "將處理後的數據發送到前端瀏覽器",
+      "execution_order": 7,
+      "action_function": "send_front",
+      "input_schema": {
+        "required": ["markdown_content", "session_id"],
+        "optional": ["processed_data", "frontend_config"]
+      },
+      "output_schema": {
+        "frontend_data": "Dict[str, Any]",
+        "send_result": "Dict[str, Any]",
+        "send_front_completed": "bool"
+      },
+      "error_handling": {
+        "on_error": "log_send_failure",
+        "fallback_values": {
+          "frontend_data": {},
+          "send_result": {"success": false, "error": "send_failed"},
+          "send_front_completed": false
+        }
+      },
+      "timeout_seconds": 25,
+      "retry_policy": {
+        "max_attempts": 2,
+        "retry_delay_seconds": 1
+      },
+      "next_state": "OnWaitMsg",
+      "transition_condition": "always"
+    },
+    "OnWaitMsg": {
+      "state_id": "OnWaitMsg",
+      "state_name": "等待下一個消息",
+      "description": "準備接收下一個用戶消息",
+      "execution_order": 8,
+      "action_function": "wait_msg",
+      "input_schema": {
+        "required": ["session_id"],
+        "optional": ["session_data", "wait_config"]
+      },
+      "output_schema": {
+        "wait_prepared": "bool",
+        "ready_for_next_message": "bool"
+      },
+      "error_handling": {
+        "on_error": "set_wait_failure",
+        "fallback_values": {
+          "wait_prepared": false,
+          "ready_for_next_message": false
+        }
+      },
+      "timeout_seconds": 15,
+      "retry_policy": {
+        "max_attempts": 1,
+        "retry_delay_seconds": 0
+      },
+      "next_state": "OnReceiveMsg",
+      "transition_condition": "always"
+    }
+  },
+  "flow_transitions": {
+    "linear_sequence": [
+      "OnReceiveMsg",
+      "OnResponseMsg", 
+      "OnGenFunnelChat",
+      "OnGenMDContent",
+      "OnDataQuery",
+      "OnQueriedDataProcessing",
+      "OnSendFront",
+      "OnWaitMsg"
+    ],
+    "transition_rules": {
+      "OnReceiveMsg": {
+        "next": "OnResponseMsg",
+        "condition": "always",
+        "description": "接收消息後直接轉向回應消息"
+      },
+      "OnResponseMsg": {
+        "next": "OnGenFunnelChat",
+        "condition": "always",
+        "description": "回應消息後轉向生成漏斗對話"
+      },
+      "OnGenFunnelChat": {
+        "next": "OnGenMDContent",
+        "condition": "always",
+        "description": "生成漏斗對話後轉向生成 Markdown 內容"
+      },
+      "OnGenMDContent": {
+        "next": "OnDataQuery",
+        "condition": "always",
+        "description": "生成 Markdown 內容後轉向數據查詢"
+      },
+      "OnDataQuery": {
+        "next": "OnQueriedDataProcessing",
+        "condition": "always",
+        "description": "數據查詢後轉向數據處理"
+      },
+      "OnQueriedDataProcessing": {
+        "next": "OnSendFront",
+        "condition": "always",
+        "description": "數據處理後轉向發送前端"
+      },
+      "OnSendFront": {
+        "next": "OnWaitMsg",
+        "condition": "always",
+        "description": "發送前端後轉向等待消息"
+      },
+      "OnWaitMsg": {
+        "next": "OnReceiveMsg",
+        "condition": "always",
+        "description": "等待消息後轉向接收消息"
+      }
+    }
+  },
+  "debug_configuration": {
+    "enable_step_by_step_debugging": true,
+    "enable_state_execution_logging": true,
+    "enable_input_output_logging": true,
+    "enable_performance_monitoring": true,
+    "debug_output_format": "json",
+    "debug_log_level": "DEBUG"
+  },
+  "metrics_configuration": {
+    "enable_execution_time_tracking": true,
+    "enable_state_success_rate_tracking": true,
+    "enable_error_rate_tracking": true,
+    "enable_performance_benchmarking": true,
+    "metrics_storage": "redis",
+    "metrics_retention_days": 30
+  }
+}

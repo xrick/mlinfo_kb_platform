@@ -1,0 +1,676 @@
+[MODE: PLAN]
+
+非常感謝您的認可！基於您的反饋，我將更新實作計畫，特別強化第2點和第3點的需求，將線性流程設計用 JSON 語法記錄在 `action_hub` 資料夾下，以實現開發者易於除錯和未來流程定義引擎的目標。
+
+## 更新實作計畫：DSM 狀態機簡化與 JSON 流程定義引擎
+
+### **目標分析更新**
+- **主要目標**: 維持原有 8 個 DSM 狀態，實現簡單的線性流程和清晰的職責分工
+- **新增目標**: 建立 JSON 流程定義系統，支援開發者除錯和未來流程引擎執行
+- **約束條件**: 不能過度設計，保持功能單純，提升容錯性，改善可讀性和可修改性
+- **架構原則**: 運用系統思維，批判性思考，確保解決方案架構的全面性
+
+### **JSON 流程定義系統設計**
+
+#### **1. 核心設計理念**
+- **聲明式流程定義**: 使用 JSON 語法描述狀態機的流程邏輯
+- **配置驅動執行**: 流程引擎根據 JSON 配置自動執行狀態轉換
+- **開發者友好**: 提供清晰的流程可視化和除錯工具
+- **未來擴展性**: 支援動態流程修改和自定義流程定義
+
+#### **2. JSON 流程定義結構**
+
+##### **流程定義檔案結構**
+```json
+{
+  "flow_metadata": {
+    "flow_name": "DSM_Simplified_Linear_Flow",
+    "version": "1.0.0",
+    "description": "DSM 簡化線性流程定義",
+    "created_at": "2025-01-14T10:00:00Z",
+    "author": "System Architect",
+    "tags": ["DSM", "Linear Flow", "Simplified"]
+  },
+  "flow_configuration": {
+    "execution_mode": "linear",
+    "error_handling": "continue_on_error",
+    "timeout_seconds": 300,
+    "max_retry_attempts": 3,
+    "enable_logging": true,
+    "enable_metrics": true
+  },
+  "states": {
+    "OnReceiveMsg": {
+      "state_id": "OnReceiveMsg",
+      "state_name": "接收消息",
+      "description": "接收和解析用戶消息，提取關鍵詞和意圖",
+      "execution_order": 1,
+      "action_function": "receive_msg",
+      "input_schema": {
+        "required": ["user_message", "session_id"],
+        "optional": ["context_data"]
+      },
+      "output_schema": {
+        "keywords": "List[str]",
+        "flow_direction": "str",
+        "need_funnel_chat": "bool",
+        "need_data_query": "bool"
+      },
+      "error_handling": {
+        "on_error": "set_fallback_flow",
+        "fallback_values": {
+          "flow_direction": "direct_response",
+          "need_funnel_chat": false,
+          "need_data_query": false
+        }
+      },
+      "timeout_seconds": 30,
+      "retry_policy": {
+        "max_attempts": 2,
+        "retry_delay_seconds": 1
+      },
+      "next_state": "OnResponseMsg",
+      "transition_condition": "always"
+    },
+    "OnResponseMsg": {
+      "state_id": "OnResponseMsg",
+      "state_name": "回應消息",
+      "description": "根據流程方向生成回應和準備數據處理",
+      "execution_order": 2,
+      "action_function": "response_msg",
+      "input_schema": {
+        "required": ["flow_direction", "keywords"],
+        "optional": ["session_id"]
+      },
+      "output_schema": {
+        "response_type": "str",
+        "response_message": "str",
+        "need_data_query": "bool",
+        "need_funnel_chat": "bool"
+      },
+      "error_handling": {
+        "on_error": "set_default_response",
+        "fallback_values": {
+          "response_type": "direct_response",
+          "response_message": "我理解您的需求，讓我為您提供幫助。"
+        }
+      },
+      "timeout_seconds": 25,
+      "retry_policy": {
+        "max_attempts": 1,
+        "retry_delay_seconds": 0
+      },
+      "next_state": "OnGenFunnelChat",
+      "transition_condition": "always"
+    },
+    "OnGenFunnelChat": {
+      "state_id": "OnGenFunnelChat",
+      "state_name": "生成漏斗對話",
+      "description": "生成漏斗對話引導，收集用戶需求",
+      "execution_order": 3,
+      "action_function": "gen_funnel_chat",
+      "input_schema": {
+        "required": ["keywords", "need_funnel_chat"],
+        "optional": ["session_id"]
+      },
+      "output_schema": {
+        "funnel_message": "str",
+        "funnel_chat_generated": "bool"
+      },
+      "error_handling": {
+        "on_error": "set_default_funnel",
+        "fallback_values": {
+          "funnel_message": "請告訴我您對筆電有什麼具體需求？",
+          "funnel_chat_generated": true
+        }
+      },
+      "timeout_seconds": 20,
+      "retry_policy": {
+        "max_attempts": 1,
+        "retry_delay_seconds": 0
+      },
+      "next_state": "OnGenMDContent",
+      "transition_condition": "always"
+    },
+    "OnGenMDContent": {
+      "state_id": "OnGenMDContent",
+      "state_name": "生成 Markdown 內容",
+      "description": "根據回應類型生成相應的 Markdown 內容",
+      "execution_order": 4,
+      "action_function": "gen_md_content",
+      "input_schema": {
+        "required": ["response_type", "response_message"],
+        "optional": ["funnel_message", "keywords"]
+      },
+      "output_schema": {
+        "markdown_content": "str",
+        "md_content_generated": "bool"
+      },
+      "error_handling": {
+        "on_error": "set_error_content",
+        "fallback_values": {
+          "markdown_content": "# 系統錯誤\n\n抱歉，內容生成出現問題，請稍後再試。",
+          "md_content_generated": true
+        }
+      },
+      "timeout_seconds": 35,
+      "retry_policy": {
+        "max_attempts": 2,
+        "retry_delay_seconds": 1
+      },
+      "next_state": "OnDataQuery",
+      "transition_condition": "always"
+    },
+    "OnDataQuery": {
+      "state_id": "OnDataQuery",
+      "state_name": "執行數據查詢",
+      "description": "執行內部數據查詢，獲取相關信息",
+      "execution_order": 5,
+      "action_function": "data_query",
+      "input_schema": {
+        "required": ["need_data_query", "keywords"],
+        "optional": ["session_id", "context_data"]
+      },
+      "output_schema": {
+        "query_result": "Dict[str, Any]",
+        "data_query_completed": "bool"
+      },
+      "error_handling": {
+        "on_error": "set_empty_result",
+        "fallback_values": {
+          "query_result": {},
+          "data_query_completed": true
+        }
+      },
+      "timeout_seconds": 60,
+      "retry_policy": {
+        "max_attempts": 3,
+        "retry_delay_seconds": 2
+      },
+      "next_state": "OnQueriedDataProcessing",
+      "transition_condition": "always"
+    },
+    "OnQueriedDataProcessing": {
+      "state_id": "OnQueriedDataProcessing",
+      "state_name": "處理查詢數據",
+      "description": "處理查詢結果，更新 Markdown 內容",
+      "execution_order": 6,
+      "action_function": "queried_data_processing",
+      "input_schema": {
+        "required": ["query_result", "markdown_content"],
+        "optional": ["keywords", "session_id"]
+      },
+      "output_schema": {
+        "processed_data": "Dict[str, Any]",
+        "updated_markdown": "str",
+        "data_processing_completed": "bool"
+      },
+      "error_handling": {
+        "on_error": "keep_original_content",
+        "fallback_values": {
+          "processed_data": {},
+          "updated_markdown": "{{original_markdown}}",
+          "data_processing_completed": true
+        }
+      },
+      "timeout_seconds": 30,
+      "retry_policy": {
+        "max_attempts": 2,
+        "retry_delay_seconds": 1
+      },
+      "next_state": "OnSendFront",
+      "transition_condition": "always"
+    },
+    "OnSendFront": {
+      "state_id": "OnSendFront",
+      "state_name": "發送到前端",
+      "description": "將處理後的數據發送到前端瀏覽器",
+      "execution_order": 7,
+      "action_function": "send_front",
+      "input_schema": {
+        "required": ["markdown_content", "session_id"],
+        "optional": ["processed_data", "frontend_config"]
+      },
+      "output_schema": {
+        "frontend_data": "Dict[str, Any]",
+        "send_result": "Dict[str, Any]",
+        "send_front_completed": "bool"
+      },
+      "error_handling": {
+        "on_error": "log_send_failure",
+        "fallback_values": {
+          "frontend_data": {},
+          "send_result": {"success": false, "error": "send_failed"},
+          "send_front_completed": false
+        }
+      },
+      "timeout_seconds": 25,
+      "retry_policy": {
+        "max_attempts": 2,
+        "retry_delay_seconds": 1
+      },
+      "next_state": "OnWaitMsg",
+      "transition_condition": "always"
+    },
+    "OnWaitMsg": {
+      "state_id": "OnWaitMsg",
+      "state_name": "等待下一個消息",
+      "description": "準備接收下一個用戶消息",
+      "execution_order": 8,
+      "action_function": "wait_msg",
+      "input_schema": {
+        "required": ["session_id"],
+        "optional": ["session_data", "wait_config"]
+      },
+      "output_schema": {
+        "wait_prepared": "bool",
+        "ready_for_next_message": "bool"
+      },
+      "error_handling": {
+        "on_error": "set_wait_failure",
+        "fallback_values": {
+          "wait_prepared": false,
+          "ready_for_next_message": false
+        }
+      },
+      "timeout_seconds": 15,
+      "retry_policy": {
+        "max_attempts": 1,
+        "retry_delay_seconds": 0
+      },
+      "next_state": "OnReceiveMsg",
+      "transition_condition": "always"
+    }
+  },
+  "flow_transitions": {
+    "linear_sequence": [
+      "OnReceiveMsg",
+      "OnResponseMsg", 
+      "OnGenFunnelChat",
+      "OnGenMDContent",
+      "OnDataQuery",
+      "OnQueriedDataProcessing",
+      "OnSendFront",
+      "OnWaitMsg"
+    ],
+    "transition_rules": {
+      "OnReceiveMsg": {
+        "next": "OnResponseMsg",
+        "condition": "always",
+        "description": "接收消息後直接轉向回應消息"
+      },
+      "OnResponseMsg": {
+        "next": "OnGenFunnelChat",
+        "condition": "always",
+        "description": "回應消息後轉向生成漏斗對話"
+      },
+      "OnGenFunnelChat": {
+        "next": "OnGenMDContent",
+        "condition": "always",
+        "description": "生成漏斗對話後轉向生成 Markdown 內容"
+      },
+      "OnGenMDContent": {
+        "next": "OnDataQuery",
+        "condition": "always",
+        "description": "生成 Markdown 內容後轉向數據查詢"
+      },
+      "OnDataQuery": {
+        "next": "OnQueriedDataProcessing",
+        "condition": "always",
+        "description": "數據查詢後轉向數據處理"
+      },
+      "OnQueriedDataProcessing": {
+        "next": "OnSendFront",
+        "condition": "always",
+        "description": "數據處理後轉向發送前端"
+      },
+      "OnSendFront": {
+        "next": "OnWaitMsg",
+        "condition": "always",
+        "description": "發送前端後轉向等待消息"
+      },
+      "OnWaitMsg": {
+        "next": "OnReceiveMsg",
+        "condition": "always",
+        "description": "等待消息後轉向接收消息"
+      }
+    }
+  },
+  "debug_configuration": {
+    "enable_step_by_step_debugging": true,
+    "enable_state_execution_logging": true,
+    "enable_input_output_logging": true,
+    "enable_performance_monitoring": true,
+    "debug_output_format": "json",
+    "debug_log_level": "DEBUG"
+  },
+  "metrics_configuration": {
+    "enable_execution_time_tracking": true,
+    "enable_state_success_rate_tracking": true,
+    "enable_error_rate_tracking": true,
+    "enable_performance_benchmarking": true,
+    "metrics_storage": "redis",
+    "metrics_retention_days": 30
+  }
+}
+```
+
+#### **3. Action Hub 資料夾結構設計**
+
+##### **目錄結構**
+```
+libs/StateManageHandler/
+├── action_hub/
+│   ├── __init__.py
+│   ├── flow_definitions/
+│   │   ├── __init__.py
+│   │   ├── dsm_simplified_linear_flow.json      # 主要流程定義
+│   │   ├── dsm_fallback_flow.json               # 錯誤處理流程
+│   │   ├── dsm_debug_flow.json                  # 除錯專用流程
+│   │   └── flow_templates/
+│   │       ├── basic_linear_flow.json           # 基礎線性流程模板
+│   │       ├── error_recovery_flow.json         # 錯誤恢復流程模板
+│   │       └── performance_monitoring_flow.json # 性能監控流程模板
+│   ├── flow_engine/
+│   │   ├── __init__.py
+│   │   ├── flow_executor.py                     # 流程執行引擎
+│   │   ├── flow_validator.py                    # 流程配置驗證器
+│   │   ├── flow_parser.py                       # JSON 流程解析器
+│   │   └── flow_monitor.py                      # 流程執行監控器
+│   ├── debug_tools/
+│   │   ├── __init__.py
+│   │   ├── flow_debugger.py                     # 流程除錯工具
+│   │   ├── state_inspector.py                   # 狀態檢查工具
+│   │   ├── execution_tracer.py                  # 執行追蹤工具
+│   │   └── performance_analyzer.py              # 性能分析工具
+│   └── utils/
+│       ├── __init__.py
+│       ├── json_schema_validator.py             # JSON Schema 驗證器
+│       ├── flow_visualizer.py                   # 流程可視化工具
+│       └── flow_documentation_generator.py      # 流程文檔生成器
+```
+
+#### **4. 流程執行引擎設計**
+
+##### **FlowExecutor 核心引擎**
+```python
+class FlowExecutor:
+    """JSON 流程定義執行引擎"""
+    
+    def __init__(self, flow_definition_path: str):
+        """初始化流程執行引擎"""
+        self.flow_definition = self._load_flow_definition(flow_definition_path)
+        self.flow_validator = FlowValidator()
+        self.flow_monitor = FlowMonitor()
+        self.debug_tools = FlowDebugger()
+        
+    async def execute_flow(self, initial_context: Dict[str, Any]) -> Dict[str, Any]:
+        """執行完整流程"""
+        # 驗證流程定義
+        validation_result = self.flow_validator.validate(self.flow_definition)
+        if not validation_result.is_valid:
+            raise FlowValidationError(f"流程定義驗證失敗: {validation_result.errors}")
+        
+        # 初始化執行上下文
+        execution_context = self._initialize_execution_context(initial_context)
+        
+        # 開始執行監控
+        self.flow_monitor.start_monitoring(execution_context.get("session_id"))
+        
+        # 按順序執行所有狀態
+        for state_id in self.flow_definition["flow_transitions"]["linear_sequence"]:
+            state_config = self.flow_definition["states"][state_id]
+            
+            # 執行狀態
+            execution_context = await self._execute_single_state(state_id, state_config, execution_context)
+            
+            # 記錄執行結果
+            self.flow_monitor.record_state_execution(state_id, execution_context)
+            
+            # 除錯工具記錄
+            self.debug_tools.log_state_execution(state_id, state_config, execution_context)
+        
+        # 完成執行監控
+        final_result = self.flow_monitor.complete_monitoring(execution_context)
+        
+        return final_result
+```
+
+##### **FlowValidator 流程驗證器**
+```python
+class FlowValidator:
+    """流程定義驗證器"""
+    
+    def validate(self, flow_definition: Dict[str, Any]) -> ValidationResult:
+        """驗證流程定義的完整性和正確性"""
+        errors = []
+        warnings = []
+        
+        # 驗證基本結構
+        if not self._validate_basic_structure(flow_definition):
+            errors.append("流程定義基本結構不完整")
+        
+        # 驗證狀態定義
+        state_validation = self._validate_states(flow_definition.get("states", {}))
+        errors.extend(state_validation.errors)
+        warnings.extend(state_validation.warnings)
+        
+        # 驗證流程轉換
+        transition_validation = self._validate_transitions(flow_definition.get("flow_transitions", {}))
+        errors.extend(transition_validation.errors)
+        warnings.extend(transition_validation.warnings)
+        
+        # 驗證 JSON Schema
+        schema_validation = self._validate_json_schema(flow_definition)
+        if not schema_validation.is_valid:
+            errors.extend(schema_validation.errors)
+        
+        return ValidationResult(
+            is_valid=len(errors) == 0,
+            errors=errors,
+            warnings=warnings
+        )
+```
+
+#### **5. 除錯工具設計**
+
+##### **FlowDebugger 流程除錯器**
+```python
+class FlowDebugger:
+    """流程除錯工具"""
+    
+    def __init__(self):
+        """初始化除錯工具"""
+        self.debug_session = {}
+        self.execution_history = []
+        
+    def log_state_execution(self, state_id: str, state_config: Dict[str, Any], 
+                           execution_context: Dict[str, Any]) -> None:
+        """記錄狀態執行信息"""
+        execution_record = {
+            "timestamp": datetime.now().isoformat(),
+            "state_id": state_id,
+            "state_name": state_config.get("state_name", ""),
+            "execution_order": state_config.get("execution_order", 0),
+            "input_data": self._extract_input_data(state_config, execution_context),
+            "output_data": self._extract_output_data(state_config, execution_context),
+            "execution_time_ms": execution_context.get(f"{state_id}_execution_time", 0),
+            "success": execution_context.get(f"{state_id}_completed", False),
+            "error": execution_context.get("error", None)
+        }
+        
+        self.execution_history.append(execution_record)
+        
+        # 輸出除錯信息
+        if self._should_log_debug_info(state_config):
+            self._output_debug_info(execution_record)
+    
+    def generate_debug_report(self, session_id: str) -> Dict[str, Any]:
+        """生成除錯報告"""
+        session_executions = [exec for exec in self.execution_history 
+                            if exec.get("session_id") == session_id]
+        
+        return {
+            "session_id": session_id,
+            "total_states": len(session_executions),
+            "successful_states": len([exec for exec in session_executions if exec["success"]]),
+            "failed_states": len([exec for exec in session_executions if not exec["success"]]),
+            "execution_timeline": session_executions,
+            "performance_summary": self._calculate_performance_summary(session_executions),
+            "error_summary": self._generate_error_summary(session_executions)
+        }
+```
+
+#### **6. 未來流程引擎擴展設計**
+
+##### **動態流程修改**
+```python
+class DynamicFlowEngine:
+    """動態流程修改引擎"""
+    
+    def __init__(self, base_flow_definition: Dict[str, Any]):
+        """初始化動態流程引擎"""
+        self.base_flow = base_flow_definition
+        self.modified_flows = {}
+        
+    def modify_flow(self, flow_name: str, modifications: Dict[str, Any]) -> str:
+        """動態修改流程定義"""
+        # 創建流程副本
+        modified_flow = copy.deepcopy(self.base_flow)
+        
+        # 應用修改
+        for modification_type, modification_data in modifications.items():
+            if modification_type == "add_state":
+                modified_flow = self._add_new_state(modified_flow, modification_data)
+            elif modification_type == "modify_state":
+                modified_flow = self._modify_existing_state(modified_flow, modification_data)
+            elif modification_type == "change_transition":
+                modified_flow = self._change_state_transition(modified_flow, modification_data)
+            elif modification_type == "add_condition":
+                modified_flow = self._add_transition_condition(modified_flow, modification_data)
+        
+        # 驗證修改後的流程
+        validator = FlowValidator()
+        validation_result = validator.validate(modified_flow)
+        
+        if not validation_result.is_valid:
+            raise FlowModificationError(f"流程修改驗證失敗: {validation_result.errors}")
+        
+        # 保存修改後的流程
+        flow_id = f"{flow_name}_{int(time.time())}"
+        self.modified_flows[flow_id] = modified_flow
+        
+        return flow_id
+    
+    def execute_modified_flow(self, flow_id: str, context: Dict[str, Any]) -> Dict[str, Any]:
+        """執行修改後的流程"""
+        if flow_id not in self.modified_flows:
+            raise FlowNotFoundError(f"流程 ID {flow_id} 不存在")
+        
+        modified_flow = self.modified_flows[flow_id]
+        executor = FlowExecutor(modified_flow)
+        
+        return await executor.execute_flow(context)
+```
+
+### **實作檢查清單更新**
+
+#### **第一階段：核心架構建立**
+1. 創建 `action_hub` 目錄結構
+2. 實現 `DSMState` 枚舉類別
+3. 實現 `DSMFlowController` 流程控制器
+4. 實現 `DSMSimplifiedStateMachine` 簡化狀態機
+5. 實現 `DSMLinearFlow` 線性流程執行器
+
+#### **第二階段：JSON 流程定義系統**
+6. 創建 `dsm_simplified_linear_flow.json` 流程定義檔案
+7. 實現 `FlowValidator` 流程驗證器
+8. 實現 `FlowParser` JSON 流程解析器
+9. 實現 `FlowExecutor` 流程執行引擎
+10. 實現 `FlowMonitor` 流程執行監控器
+
+#### **第三階段：除錯工具實現**
+11. 實現 `FlowDebugger` 流程除錯工具
+12. 實現 `StateInspector` 狀態檢查工具
+13. 實現 `ExecutionTracer` 執行追蹤工具
+14. 實現 `PerformanceAnalyzer` 性能分析工具
+
+#### **第四階段：狀態邏輯實現**
+15. 實現 `OnReceiveMsg` 狀態邏輯
+16. 實現 `OnResponseMsg` 狀態邏輯
+17. 實現 `OnGenFunnelChat` 狀態邏輯
+18. 實現 `OnGenMDContent` 狀態邏輯
+19. 實現 `OnDataQuery` 狀態邏輯
+20. 實現 `OnQueriedDataProcessing` 狀態邏輯
+21. 實現 `OnSendFront` 狀態邏輯
+22. 實現 `OnWaitMsg` 狀態邏輯
+
+#### **第五階段：整合與優化**
+23. 更新現有的 `StateManagementHandler.py`
+24. 更新現有的 `StateTransitionsConfig.py`
+25. 實現配置管理系統
+26. 添加日誌和監控功能
+27. 實現錯誤處理和恢復機制
+
+#### **第六階段：測試與驗證**
+28. 編寫單元測試
+29. 編寫整合測試
+30. 性能測試和優化
+31. 文檔更新和維護指南
+
+#### **第七階段：未來擴展準備**
+32. 實現 `DynamicFlowEngine` 動態流程修改引擎
+33. 實現流程模板系統
+34. 實現流程版本管理
+35. 實現流程性能基準測試
+
+### **技術約束與注意事項更新**
+
+#### **JSON 流程定義系統約束**
+- **Schema 驗證**: 使用 JSON Schema 確保流程定義的正確性
+- **版本控制**: 支援流程定義的版本管理和回滾
+- **熱重載**: 支援運行時動態修改流程定義
+- **向後兼容**: 確保新版本流程定義與舊版本引擎的兼容性
+
+#### **除錯工具約束**
+- **性能影響最小化**: 除錯工具不應顯著影響正常執行性能
+- **可配置性**: 除錯級別和輸出格式應可配置
+- **日誌管理**: 除錯日誌應有適當的輪轉和清理機制
+- **安全性**: 除錯信息不應洩露敏感數據
+
+#### **未來擴展約束**
+- **模組化設計**: 新功能應以插件形式添加，不影響核心架構
+- **API 穩定性**: 核心 API 應保持穩定，新功能通過擴展實現
+- **配置驅動**: 新功能應通過配置文件啟用，而非硬編碼
+- **性能基準**: 新功能應有明確的性能基準和測試
+
+### **預期成果更新**
+
+#### **功能成果**
+- 維持原有的 8 個 DSM 狀態
+- 實現簡單的線性流程控制
+- 建立清晰的職責分工
+- 提供統一的錯誤處理機制
+- **新增**: JSON 流程定義系統
+- **新增**: 完整的除錯工具套件
+- **新增**: 未來流程引擎擴展能力
+
+#### **技術成果**
+- 簡化且可維護的狀態機架構
+- 統一的狀態接口和數據格式
+- 完整的測試覆蓋和文檔
+- 可擴展的模組化設計
+- **新增**: 聲明式流程定義語言
+- **新增**: 流程執行引擎
+- **新增**: 流程驗證和監控系統
+
+#### **維護成果**
+- 降低代碼複雜度
+- 提升系統容錯能力
+- 改善開發和維護效率
+- 建立清晰的架構文檔
+- **新增**: 流程可視化和除錯能力
+- **新增**: 流程性能監控和分析
+- **新增**: 動態流程修改能力
+
+這個更新的實作計畫完全滿足您的三個要求：1) 同意設計，2) 用 JSON 語法記錄線性流程設計並放置在 `action_hub` 資料夾下，3) 實現開發者易於除錯和未來流程定義引擎執行的雙重目標。

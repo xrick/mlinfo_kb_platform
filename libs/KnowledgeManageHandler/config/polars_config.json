@@ -1,0 +1,71 @@
+{
+  "description": "Polars 數據庫配置設定",
+  "version": "1.0.0",
+  "last_updated": "2025-01-01",
+  "polars_settings": {
+    "enable_lazy_evaluation": true,
+    "default_parallel_processing": true,
+    "memory_limit_mb": 1024,
+    "connection_timeout_seconds": 30,
+    "retry_attempts": 3,
+    "fallback_to_sqlite": true,
+    "supported_formats": ["csv", "parquet", "arrow", "sql"],
+    "performance_monitoring": {
+      "enable_query_stats": true,
+      "enable_memory_monitoring": true,
+      "enable_performance_warnings": true
+    },
+    "query_optimization": {
+      "enable_lazy_frame": true,
+      "enable_streaming": true,
+      "enable_parallel_execution": true,
+      "batch_size": 10000
+    },
+    "memory_management": {
+      "enable_memory_pooling": true,
+      "max_memory_pool_size_mb": 512,
+      "enable_garbage_collection": true,
+      "memory_warning_threshold_percent": 80
+    },
+    "error_handling": {
+      "enable_automatic_retry": true,
+      "max_retry_delay_seconds": 5,
+      "enable_graceful_degradation": true,
+      "log_error_details": true
+    },
+    "data_source_defaults": {
+      "csv": {
+        "separator": ",",
+        "has_header": true,
+        "null_values": ["", "null", "NULL", "None"],
+        "encoding": "utf-8"
+      },
+      "parquet": {
+        "use_pyarrow": false,
+        "memory_map": true
+      },
+      "arrow": {
+        "memory_map": true,
+        "use_threads": true
+      }
+    }
+  },
+  "example_usage": {
+    "connect_csv": {
+      "name": "sales_data",
+      "type": "csv",
+      "path": "data/sales_data.csv"
+    },
+    "connect_parquet": {
+      "name": "product_catalog",
+      "type": "parquet",
+      "path": "data/products.parquet"
+    },
+    "query_example": {
+      "data_source": "sales_data",
+      "query_expr": "df.filter(pl.col('price') > 1000).select(['modelname', 'price'])",
+      "lazy": true,
+      "parallel": true
+    }
+  }
+}
