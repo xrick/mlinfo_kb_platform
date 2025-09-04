@@ -84,8 +84,8 @@ function testMarkdownTableConversion() {
     // Sample markdown table similar to backend output
     const sampleMarkdown = `| **規格項目** | **AG958** | **APX958** |
 | --- | --- | --- |
-| **CPU** | Intel i7-12700H | AMD Ryzen 7 6800H |
-| **GPU** | RTX 3060 | RTX 3070 |
+| **CPU** | | AMD Ryzen 7 6800H |
+| **GPU** |  |  |
 | **Memory** | 16GB DDR5 | 32GB DDR5 |`;
     
     console.log('📄 Testing with sample markdown table:');

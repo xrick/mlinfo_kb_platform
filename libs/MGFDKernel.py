@@ -69,8 +69,24 @@ class MGFDKernel:
         self.config = self._load_config()
         self.slot_schema = self._load_slot_schema()
         self.state_machine = self._load_state_machine()
-        self.states = States()
-        self.state_status = StateStatus()
+        self.states = States(
+            OnInit="OnInit",
+            OnReceiveMsg="OnReceiveMsg",
+            OnResponseMsg="OnResponseMsg",
+            OnGenFunnelChat="OnGenFunnelChat",
+            OnGenMDContent="OnGenMDContent",
+            OnDataQuery="OnDataQuery",
+            OnQueriedDataProcessing="OnQueriedDataProcessing",
+            OnSendFront="OnSendFront",
+            OnWaitMsg="OnWaitMsg"
+        )
+        self.state_status = StateStatus(
+            keyword_matched="keyword_matched",
+            keyword_not_matched="keyword_not_matched",
+            need_data_query="need_data_query",
+            no_data_query="no_data_query",
+            default="default"
+        )
         # Welcome Prompt
         self.welcome_prompt = self._load_welcome_prompt()
         # System-level prompt
@@ -97,7 +113,7 @@ class MGFDKernel:
         try:
             self.user_input_handler = UserInputHandler()
             self.prompt_manager = prompt_manager.get_global_prompt_manager()
-            self.knowledge_manager = knowledge_manager()
+            self.knowledge_manager = knowledge_manager
             self.response_generator = ResponseGenHandler()
             self.state_manager = StateManagementHandler(redis_client)
             logger.info("所有模組初始化成功")
@@ -429,25 +445,39 @@ class MGFDKernel:
             if slot_name:
                 context.setdefault("slots", {}).update({slot_name: slot_metadata})
             else:
-                context.setdefault("slots", {}).update({"nodata": {}})
+                context.setdefault("slots", {}).update({"": {}})
         
         # Step 3: 狀態機驅動（StateManager）
-        if slot_metadata["ifDBSearch"]:
-            context["state"]=self.states.OnDataQuery
+        if slot_metadata.get("ifDBSearch", False):
+            context["state"] = "OnDataQuery"#self.states.OnDataQuery
         else:
-            context["state"]=self.states.OnGenFunnelChat
+            context["state"] = "OnGenFunnelChat"#self.states.OnGenFunnelChat
 
         # Step 4: 知識查詢（如需要）
         
         # Step 5: 生成回應（ResponseGenerator）
-        if self.response_generator:
-            response_result = await self.response_generator.generate(context)
-            context.update(response_result)
-        else:
-            context.update({
-                "response_type": "general",
-                "response_message": "測試系統能回傳訊息至前端......"
-            })
+        # if self.response_generator:
+        #     response_result = await self.response_generator.generate(context)
+        #     context.update(response_result)
+        # else:
+        #     context.update({
+        #         "response_type": "general",
+        #         "response_message": "測試系統能回傳訊息至前端......"
+        #     })
+        # return context
+        # 建議用既有的回應封裝避免上游缺欄位：
+        # context.update({
+        #     "response_type": "general",
+        #     "response_message": "測試系統能回傳訊息至前端......"
+        # })
+        # return self._format_frontend_response(context)
+        # 若你仍要直接回 context，請至少加入：
+        context["success"] = True
+        context["stream_response"] = json.dumps({
+            "type": "general",
+            "message": context.get("response_message", "測試系統能回傳訊息至前端......"),
+            "session_id": context.get("session_id")
+        }, ensure_ascii=False)
         return context
     
     # async def _process_message_internal(

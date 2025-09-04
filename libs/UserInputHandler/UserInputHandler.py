@@ -109,14 +109,14 @@ class UserInputHandler:
         return extractor
     
 
-    async def parse_keyword(self, message: str) -> tuple[str,dict[str, Any]]:
+    async def parse_keyword(self, message: str) -> tuple[str, dict[str, Any]]:
         """從使用者訊息中解析是否包含 default_keywords.json 的鍵或其同義詞
 
-        返回第一個匹配到的「鍵」（中文槽位名稱）。若無匹配則返回空字串。
+        返回第一個匹配到的「鍵」（中文槽位名稱）和元數據。若無匹配則返回空字串和空字典。
         """
         try:
             if not message:
-                return ""
+                return "", {}
             text = message.strip()
             # 1) 先用每個條目的 regex（若提供）匹配，最準確
             for slot_name, slot_data in self.keywords_data.items():
@@ -125,14 +125,14 @@ class UserInputHandler:
                 if pattern:
                     try:
                         if re.search(pattern, text):
-                            return slot_name
+                            return slot_name, metadata
                     except re.error:
                         # 正則無效則跳過該條
-                        return "nodata",{}
+                        return "", {}
             # 2) 直接包含鍵名（中文）
-            for slot_name in self.keywords_data.keys():
+            for slot_name, slot_data in self.keywords_data.items():
                 if slot_name and slot_name in text:
-                    return slot_name, self.keywords_data.get("metadata", {})
+                    return slot_name, slot_data.get("metadata", {})
 
             # 3) 同義詞匹配（子字串包含）
             for slot_name, slot_data in self.keywords_data.items():
@@ -140,11 +140,11 @@ class UserInputHandler:
                 for syn in synonyms:
                     syn_norm = syn.strip()
                     if syn_norm and syn_norm in text:
-                        return slot_name, self.keywords_data.get("metadata", {})
-            return ""
+                        return slot_name, slot_data.get("metadata", {})
+            return "", {}
         except Exception as e:
             logger.error(f"parse_keyword 發生錯誤: {e}", exc_info=True)
-            return ""
+            return "", {}
 
 
     async def parse(

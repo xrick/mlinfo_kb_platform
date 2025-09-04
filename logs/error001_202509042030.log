@@ -1316,7 +1316,130 @@ chat-stream 錯誤應該不會再出現了。如果問題仍然存在，請清�
 
 ============================================================================
 
-{
-  "type": "end",
-  "session_id": "mgfd_session_1756957863443"
-}
+frontend messages:
+mgfd_ai.js?v=20250904e:2 using mgfd_ai.js
+app.js?v=20250724e:6 Initializing SalesRAG Integration App...
+app.js?v=20250724e:54 Switching to view: sales-ai
+app.js?v=20250724e:92 Initializing Sales-AI view...
+mgfd_ai.js?v=20250904e:205 Initializing Sales AI view...
+mgfd_ai.js?v=20250904e:209 ✅ marked.js is loaded and available (local version)
+mgfd_ai.js?v=20250904e:210 📚 marked.js version: unknown
+mgfd_ai.js?v=20250904e:147 ✅ marked.js configured with GFM table support
+mgfd_ai.js?v=20250904e:82 🧪 Testing markdown table conversion...
+mgfd_ai.js?v=20250904e:91 📄 Testing with sample markdown table:
+mgfd_ai.js?v=20250904e:92 | **規格項目** | **AG958** | **APX958** |
+| --- | --- | --- |
+| **CPU** | | AMD Ryzen 7 6800H |
+| **GPU** |  |  |
+| **Memory** | 16GB DDR5 | 32GB DDR5 |
+mgfd_ai.js?v=20250904e:96 🧪 Testing configured marked.js...
+mgfd_ai.js?v=20250904e:98 ✅ marked.js conversion successful
+mgfd_ai.js?v=20250904e:99 🔧 marked.js HTML result: <table>
+<thead>
+<tr>
+<th><strong>規格項目</strong></th>
+<th><strong>AG958</strong></th>
+<th><strong>APX958</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>CPU</strong></td>
+<td></td>
+<td>AMD Ryzen 7 6800H</td>
+</tr>
+<tr>
+<td><strong>GPU</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Memory</strong></td>
+<td>16GB DDR5</td>
+<td>32GB DDR5</td>
+</tr>
+</tbody></table>
+
+mgfd_ai.js?v=20250904e:106 🔍 Table element check - <table>: true <th>: true <td>: true
+mgfd_ai.js?v=20250904e:109 ✅ marked.js produced proper table elements
+mgfd_ai.js?v=20250904e:7 🔧 Using custom markdown table parser
+mgfd_ai.js?v=20250904e:8 📄 Input markdown text: "| **規格項目** | **AG958** | **APX958** |\n| --- | --- | --- |\n| **CPU** | | AMD Ryzen 7 6800H |\n| **GPU** |  |  |\n| **Memory** | 16GB DDR5 | 32GB DDR5 |"
+mgfd_ai.js?v=20250904e:12 📝 Split into lines: 5 lines: Array(5)
+mgfd_ai.js?v=20250904e:22 🔍 Table format check - First line has |: true Second line has ---: true
+mgfd_ai.js?v=20250904e:31 📊 Header cells: Array(3)
+mgfd_ai.js?v=20250904e:34 ⏭️ Skipping separator line: | --- | --- | --- |
+mgfd_ai.js?v=20250904e:41 📊 Row 1 cells: Array(2)
+mgfd_ai.js?v=20250904e:41 📊 Row 2 cells: Array(1)
+mgfd_ai.js?v=20250904e:41 📊 Row 3 cells: Array(3)
+mgfd_ai.js?v=20250904e:45 📋 Total data rows: 3
+mgfd_ai.js?v=20250904e:52 📝 Processing header 0: "**規格項目**" -> "規格項目"
+mgfd_ai.js?v=20250904e:52 📝 Processing header 1: "**AG958**" -> "AG958"
+mgfd_ai.js?v=20250904e:52 📝 Processing header 2: "**APX958**" -> "APX958"
+mgfd_ai.js?v=20250904e:62 📝 Processing row 0, cell 0: "**CPU**" -> "<strong>CPU</strong>"
+mgfd_ai.js?v=20250904e:62 📝 Processing row 0, cell 1: "AMD Ryzen 7 6800H" -> "AMD Ryzen 7 6800H"
+mgfd_ai.js?v=20250904e:62 📝 Processing row 1, cell 0: "**GPU**" -> "<strong>GPU</strong>"
+mgfd_ai.js?v=20250904e:62 📝 Processing row 2, cell 0: "**Memory**" -> "<strong>Memory</strong>"
+mgfd_ai.js?v=20250904e:62 📝 Processing row 2, cell 1: "16GB DDR5" -> "16GB DDR5"
+mgfd_ai.js?v=20250904e:62 📝 Processing row 2, cell 2: "32GB DDR5" -> "32GB DDR5"
+mgfd_ai.js?v=20250904e:70 ✅ Custom parser successfully converted table
+mgfd_ai.js?v=20250904e:71 🔧 Generated HTML: <table>
+<thead>
+<tr>
+<th>規格項目</th>
+<th>AG958</th>
+<th>APX958</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CPU</strong></td>
+<td>AMD Ryzen 7 6800H</td>
+</tr>
+<tr>
+<td><strong>GPU</strong></td>
+</tr>
+<tr>
+<td><strong>Memory</strong></td>
+<td>16GB DDR5</td>
+<td>32GB DDR5</td>
+</tr>
+</tbody>
+</table>
+mgfd_ai.js?v=20250904e:121 ✅ Custom parser conversion completed
+mgfd_ai.js?v=20250904e:122 🔧 Custom parser HTML result: <table>
+<thead>
+<tr>
+<th>規格項目</th>
+<th>AG958</th>
+<th>APX958</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CPU</strong></td>
+<td>AMD Ryzen 7 6800H</td>
+</tr>
+<tr>
+<td><strong>GPU</strong></td>
+</tr>
+<tr>
+<td><strong>Memory</strong></td>
+<td>16GB DDR5</td>
+<td>32GB DDR5</td>
+</tr>
+</tbody>
+</table>
+mgfd_ai.js?v=20250904e:125 ✅ Custom parser produced proper table elements
+mgfd_ai.js?v=20250904e:226 Setting up Sales AI event listeners (one-time)...
+history.js?v=20250724e:5 Loading history...
+app.js?v=20250724e:17 App initialized successfully
+mgfd_ai.js?v=20250904e:1378 renderMessageContent 被調用，content: 請介紹輕便、容易攜帶的筆電
+:8001/api/mgfd/chat/stream:1  Failed to load resource: the server responded with a status of 503 (Service Unavailable)
+mgfd_ai.js?v=20250904e:305 請求錯誤: Error: HTTP 錯誤！ 狀態: 503
+    at HTMLButtonElement.sendMessage (mgfd_ai.js?v=20250904e:260:37)
+sendMessage @ mgfd_ai.js?v=20250904e:305
+mgfd_ai.js?v=20250904e:1378 renderMessageContent 被調用，content: Object
+
+backend messages:
+NFO:     127.0.0.1:60322 - "POST /api/mgfd/chat/stream HTTP/1.1" 503 Service Unavailable
+INFO:     127.0.0.1:47790 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:47790 - "GET /static/js/marked.umd.js.map HTTP/1.1" 404 Not Found
