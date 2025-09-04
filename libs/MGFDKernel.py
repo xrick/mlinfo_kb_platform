@@ -456,29 +456,24 @@ class MGFDKernel:
         # Step 4: 知識查詢（如需要）
         
         # Step 5: 生成回應（ResponseGenerator）
-        # if self.response_generator:
-        #     response_result = await self.response_generator.generate(context)
-        #     context.update(response_result)
-        # else:
-        #     context.update({
-        #         "response_type": "general",
-        #         "response_message": "測試系統能回傳訊息至前端......"
-        #     })
-        # return context
-        # 建議用既有的回應封裝避免上游缺欄位：
-        # context.update({
-        #     "response_type": "general",
-        #     "response_message": "測試系統能回傳訊息至前端......"
-        # })
-        # return self._format_frontend_response(context)
-        # 若你仍要直接回 context，請至少加入：
-        context["success"] = True
-        context["stream_response"] = json.dumps({
-            "type": "general",
-            "message": context.get("response_message", "測試系統能回傳訊息至前端......"),
-            "session_id": context.get("session_id")
-        }, ensure_ascii=False)
-        return context
+        if self.response_generator:
+            response_result = await self.response_generator.generate(context)
+            context.update(response_result)
+            
+            # 映射 ResponseGenHandler 的字段到 _format_frontend_response 期待的字段
+            if response_result.get("type") == "funnel_question":
+                context["current_question"] = response_result.get("current_question")
+                context["question_options"] = response_result.get("question_options", [])
+                context["question_message"] = response_result.get("message", "")
+        else:
+            context.update({
+                "response_type": "general",
+                "message": "回應生成器未初始化"
+            })
+        
+        result = self._format_frontend_response(context)
+        logger.info(f"🔧 最終回應結果: {result}")
+        return result
     
     # async def _process_message_internal(
     #     self, 
@@ -614,8 +609,10 @@ class MGFDKernel:
             return {
                 "success": True,
                 "type": "funnel_question",
-                "question": context.get('current_question'),
-                "options": context.get('question_options', []),
+                "question": {
+                    "question_text": context.get('current_question'),
+                    "options": context.get('question_options', [])
+                },
                 "session_id": context.get('session_id'),
                 "message": context.get('question_message', '')
             }
@@ -637,15 +634,12 @@ class MGFDKernel:
                 "session_id": context.get('session_id')
             }
         else:
-            response_data = {
-                "success": True,
-                "type": "general",
-                "message": context.get('response_message', ''),
-                "session_id": context.get('session_id')
-            }
+            # 直接返回結構化格式，不要包裝成 stream_response
             return {
                 "success": True,
-                "stream_response": json.dumps(response_data, ensure_ascii=False)
+                "type": "general",
+                "message": context.get('message') or context.get('response_message', ''),
+                "session_id": context.get('session_id')
             }
     
     def _check_modules_initialized(self) -> bool:

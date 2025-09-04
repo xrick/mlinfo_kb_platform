@@ -1376,6 +1376,11 @@ function initSalesAI() {
     // ✨✨✨ 全新的、更強健的渲染函數 ✨✨✨
     function renderMessageContent(container, content) {
         console.log("renderMessageContent 被調用，content:", content);
+        console.log("📊 content 類型:", typeof content);
+        console.log("📊 content 是否為物件:", typeof content === 'object');
+        console.log("📊 content.type:", content?.type);
+        console.log("📊 content 所有屬性:", Object.keys(content || {}));
+        console.log("📊 content 完整結構:", JSON.stringify(content, null, 2));
         
         if (!content) {
             container.innerHTML = "<p>收到空的回應。</p>";
@@ -1387,6 +1392,16 @@ function initSalesAI() {
         }
         if (content.error) {
             container.innerHTML = `<p style="color: red;"><strong>錯誤：</strong> ${content.error}</p>`;
+            return;
+        }
+        
+        // 處理 SSE 控制訊息
+        if (content.type === 'start') {
+            console.log("🚀 收到 SSE start 訊息，忽略");
+            return;
+        }
+        if (content.type === 'end') {
+            console.log("🏁 收到 SSE end 訊息，忽略");
             return;
         }
 

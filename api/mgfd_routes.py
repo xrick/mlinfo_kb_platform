@@ -115,9 +115,8 @@ async def chat_stream(
             # 發送開始標記
             yield f"data: {json.dumps({'type': 'start', 'session_id': session_id})}\n\n"
             
-            # 發送串流回應
-            if 'stream_response' in result:
-                yield f"data: {result['stream_response']}\n\n"
+            # 發送主要回應（現在直接使用 result，不再依賴 stream_response）
+            yield f"data: {json.dumps(result, ensure_ascii=False)}\n\n"
             
             # 發送結束標記
             yield f"data: {json.dumps({'type': 'end', 'session_id': session_id})}\n\n"

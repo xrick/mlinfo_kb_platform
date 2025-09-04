@@ -62,12 +62,35 @@ class ResponseGenHandler:
                     super().__init__("BasicGeneralStrategy")
                 
                 def generate_response(self, context: Dict[str, Any]) -> Dict[str, Any]:
-                    message = context.get('user_message', '')
-                    return {
-                        "response_type": "general",
-                        "response_message": f"我收到了您的訊息：{message}。目前系統正在開發中，請稍後再試。",
-                        "confidence": 0.8
-                    }
+                    state = context.get('state', 'unknown')
+                    user_message = context.get('user_message', '')
+                    
+                    # 根據狀態生成不同類型的回應
+                    if state == "OnGenFunnelChat":
+                        # 漏斗對話狀態 - 生成引導性問題
+                        if "輕便" in user_message or "攜帶" in user_message:
+                            return {
+                                "type": "funnel_question",
+                                "current_question": "了解您對輕便筆電的需求！請問您主要用途是？",
+                                "question_options": ["工作辦公", "學習研讀", "娛樂遊戲", "創意設計"],
+                                "message": "基於您對輕便、容易攜帶筆電的需求，讓我為您推薦最適合的選擇！",
+                                "confidence": 0.9
+                            }
+                        else:
+                            return {
+                                "type": "funnel_question", 
+                                "current_question": "歡迎使用筆電選購助手！請問您主要的使用需求是？",
+                                "question_options": ["工作辦公", "學習研讀", "娛樂遊戲", "創意設計"],
+                                "message": "讓我幫您找到最適合的筆電！",
+                                "confidence": 0.8
+                            }
+                    else:
+                        # 一般狀態
+                        return {
+                            "type": "general",
+                            "message": f"我收到了您關於「{user_message}」的詢問。讓我為您提供協助！",
+                            "confidence": 0.8
+                        }
                 
                 def get_response_type(self) -> ResponseType:
                     return ResponseType.GENERAL
@@ -388,19 +411,39 @@ class ResponseGenHandler:
             格式是否有效
         """
         try:
-            # 檢查必要字段
-            required_fields = ["type", "message"]
-            if not all(field in response for field in required_fields):
+            # 檢查基本必要字段
+            if "type" not in response:
+                self.logger.warning(f"回應缺少 type 字段: {response}")
                 return False
             
             # 檢查回應類型是否有效
             valid_types = [rt.value for rt in ResponseType]
             if response["type"] not in valid_types:
+                self.logger.warning(f"無效的回應類型: {response['type']}")
                 return False
             
-            # 檢查消息是否為空
-            if not response["message"] or not response["message"].strip():
-                return False
+            # 根據不同類型檢查特定字段
+            response_type = response["type"]
+            
+            if response_type == "funnel_question":
+                # funnel_question 需要 current_question 和 question_options
+                if "current_question" not in response:
+                    self.logger.warning("funnel_question 缺少 current_question 字段")
+                    return False
+                if "question_options" not in response:
+                    self.logger.warning("funnel_question 缺少 question_options 字段")
+                    return False
+                if not isinstance(response["question_options"], list):
+                    self.logger.warning("question_options 必須是列表")
+                    return False
+            elif response_type in ["general", "recommendation", "elicitation"]:
+                # 這些類型需要 message 字段
+                if "message" not in response:
+                    self.logger.warning(f"{response_type} 缺少 message 字段")
+                    return False
+                if not response["message"] or not response["message"].strip():
+                    self.logger.warning(f"{response_type} 的 message 字段為空")
+                    return False
             
             return True
         except Exception as e:
@@ -448,7 +491,7 @@ class ResponseGenHandler:
         try:
             adapted_response = {
                 "type": response.get("type", "general"),
-                "message": response.get("message", ""),
+                "message": response.get("message") or response.get("response_message", ""),
                 "session_id": response.get("session_id"),
                 "timestamp": response.get("timestamp", datetime.now().isoformat())
             }
@@ -477,6 +520,10 @@ class ResponseGenHandler:
                 if key not in adapted_response:
                     adapted_response[key] = value
             
+            # 清理多餘的 message 字段
+            if "response_message" in adapted_response and adapted_response["response_message"] == adapted_response["message"]:
+                del adapted_response["response_message"]
+
             return adapted_response
         except Exception as e:
             self.logger.error(f"適配前端格式時發生錯誤: {e}")
