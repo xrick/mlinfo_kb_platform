@@ -39,29 +39,33 @@
 
 **5.2. 當前使用的提示 (Prompt Using):** {prompt_using}
     - 包含當前對話上下文的提示內容
-    - 可能為空或包含資料，若有內容，則最後一行必須是「前一輪回答: {answer}」
+    - 可能為空或包含資料，若有內容，則最後一行必須是「前一輪回答: {previous_answer}」
 
-**5.3. 前一輪回答 (Previous Answer):** {answer}
+**5.3. 前一輪回答 (Previous Answer):** {previous_answer}
     - 系統前一輪對使用者的回答內容
     - 用於維持對話連續性
 
-**5.4. 最新使用者問題 (Latest Query):** {query}
+**5.4. 最新使用者問題 (Latest Query):** {latest_query}
     - 使用者當前提出的最新問題
     - 作為回應生成的主要依據
 
 ## 6. 對話上下文生成規則
-**6.1.當前使用的提示（Prompt Using）：{prompt_using}
-    - 內容可能為空或包含資料，若有內容，則最後一行必須是「前一輪回答: {answer}」
-    - 在{prompt_using}的開頭加入{product_data}，格式如下：
-      product data:
-      ```text
-      {product_data}
-      ```
-**6.2.產品資料（Product Data）：{product_data}
-    - 當{product_data}為空值時，顯示「產品資料:無」
-    - 作為獨立變數加入到{prompt_using}的開頭
-**6.3. 前一輪回答（Previous Answer）：{answer}
-    - 請將{answer}補入{prompt_using}中的{answer}欄位
-**6.4. 組合後的Prompt作為模型輸入
-    - 將包含{product_data}和補入{answer}後的{prompt_using}作為LLM的新輸入，要求模型根據此上下文生成回應
-**6.5. 最新使用者問題（Latest Query）：{query}
+"""
+        Context: 
+            product data:
+            ```text
+                {product_data}
+            ```
+            prompt using:
+            ```text
+                {prompt_using}
+            ```
+            previous_answer:
+            ```text
+                {previous_answer}
+            ```
+            latest_query:
+            ```text
+                {latest_query}
+            ```
+"""

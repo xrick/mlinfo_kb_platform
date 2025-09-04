@@ -99,8 +99,26 @@ class MGFDKernel:
             "6.Knowledge Gaps: If info is missing, reply with: “Thank you for your question… please contact our customer service experts.”\n"
             "7.Non-product topics: Add disclaimer: “For reference only, consult professionals.”\n"
             "8.Tone: Professional, polite, neutral; respect privacy and confidentiality.\n"
-            "9.Context: Combine {product_data}, {prompt_using}, {answer}, {query} as input.\n"
-            "10.If {product_data} is empty, display “Product Data: None”."
+            """
+            9.Context: 
+                product data:
+                ```text
+                    {product_data}
+                ```
+                prompt using:
+                ```text
+                    {prompt_using}
+                ```
+                previous_answer:
+                ```text
+                    {previous_answer}
+                ```
+                latest_query:
+                ```text
+                    {latest_query}
+                ```
+            """
+            "10.If {product_data} is empty, display “Product Data: None”.\n"
         )
         # 宣告三層式prompt所需要的變數
         self.product_data = None
