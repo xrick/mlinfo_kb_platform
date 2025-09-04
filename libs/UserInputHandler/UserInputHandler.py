@@ -31,7 +31,7 @@ class UserInputHandler:
         """載入槽位架構定義"""
         try:
             # 從 default_keywords.json 載入 mapping 欄位
-            keywords_path = Path(__file__).parent.parent.parent.parent.parent / "HumanData" / "SlotHub" / "default_keywords.json"
+            keywords_path = Path(__file__).parent.parent.parent / "HumanData" / "SlotHub" / "default_keywords.json"
             if keywords_path.exists():
                 with open(keywords_path, 'r', encoding='utf-8') as f:
                     keywords_data = json.load(f)
@@ -62,7 +62,7 @@ class UserInputHandler:
         """載入 default_keywords.json 中的關鍵詞數據"""
         try:
             # 嘗試從 HumanData/SlotHub/default_keywords.json 載入
-            keywords_path = Path(__file__).parent.parent.parent.parent.parent / "HumanData" / "SlotHub" / "default_keywords.json"
+            keywords_path = Path(__file__).parent.parent.parent / "HumanData" / "SlotHub" / "default_keywords.json"
             if keywords_path.exists():
                 with open(keywords_path, 'r', encoding='utf-8') as f:
                     keywords_data = json.load(f)
@@ -108,6 +108,45 @@ class UserInputHandler:
         logger.info(f"構建槽位抽取器完成，包含 {len(extractor)} 個槽位")
         return extractor
     
+
+    async def parse_keyword(self, message: str) -> tuple[str,dict[str, Any]]:
+        """從使用者訊息中解析是否包含 default_keywords.json 的鍵或其同義詞
+
+        返回第一個匹配到的「鍵」（中文槽位名稱）。若無匹配則返回空字串。
+        """
+        try:
+            if not message:
+                return ""
+            text = message.strip()
+            # 1) 先用每個條目的 regex（若提供）匹配，最準確
+            for slot_name, slot_data in self.keywords_data.items():
+                metadata = slot_data.get("metadata", {})
+                pattern = metadata.get("regex")
+                if pattern:
+                    try:
+                        if re.search(pattern, text):
+                            return slot_name
+                    except re.error:
+                        # 正則無效則跳過該條
+                        return "nodata",{}
+            # 2) 直接包含鍵名（中文）
+            for slot_name in self.keywords_data.keys():
+                if slot_name and slot_name in text:
+                    return slot_name, self.keywords_data.get("metadata", {})
+
+            # 3) 同義詞匹配（子字串包含）
+            for slot_name, slot_data in self.keywords_data.items():
+                synonyms: List[str] = slot_data.get("synonyms", [])
+                for syn in synonyms:
+                    syn_norm = syn.strip()
+                    if syn_norm and syn_norm in text:
+                        return slot_name, self.keywords_data.get("metadata", {})
+            return ""
+        except Exception as e:
+            logger.error(f"parse_keyword 發生錯誤: {e}", exc_info=True)
+            return ""
+
+
     async def parse(
         self, 
         message: str, 

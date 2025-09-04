@@ -20,6 +20,14 @@ except ImportError:
     POLARS_AVAILABLE = False
     pl = None
 
+# 類型註解處理
+if POLARS_AVAILABLE:
+    DataFrame = pl.DataFrame
+    LazyFrame = pl.LazyFrame
+else:
+    DataFrame = Any
+    LazyFrame = Any
+
 
 class PolarsConnectionError(Exception):
     """Polars 連接錯誤"""
@@ -320,8 +328,8 @@ class PolarsHelper:
             self.logger.error(f"解析查詢表達式失敗: {e}")
             return None
     
-    def _execute_lazy_query(self, df: pl.DataFrame, parsed_query: Dict[str, Any], 
-                           parallel: bool) -> pl.LazyFrame:
+    def _execute_lazy_query(self, df: DataFrame, parsed_query: Dict[str, Any], 
+                           parallel: bool) -> LazyFrame:
         """
         執行 LazyFrame 查詢
         
@@ -362,8 +370,8 @@ class PolarsHelper:
             self.logger.error(f"執行 LazyFrame 查詢失敗: {e}")
             raise PolarsQueryError(f"LazyFrame 查詢執行失敗: {e}")
     
-    def _execute_eager_query(self, df: pl.DataFrame, parsed_query: Dict[str, Any], 
-                            parallel: bool) -> pl.DataFrame:
+    def _execute_eager_query(self, df: DataFrame, parsed_query: Dict[str, Any], 
+                            parallel: bool) -> DataFrame:
         """
         執行 Eager 查詢
         
@@ -396,7 +404,7 @@ class PolarsHelper:
             self.logger.error(f"執行 Eager 查詢失敗: {e}")
             raise PolarsQueryError(f"Eager 查詢執行失敗: {e}")
     
-    def _check_memory_usage(self, df: Union[pl.DataFrame, pl.LazyFrame]) -> bool:
+    def _check_memory_usage(self, df: Union[DataFrame, LazyFrame]) -> bool:
         """
         檢查內存使用是否超出限制
         
@@ -409,7 +417,7 @@ class PolarsHelper:
         try:
             memory_limit_mb = self.config.get("memory_limit_mb", 1024)
             
-            if isinstance(df, pl.DataFrame):
+            if POLARS_AVAILABLE and isinstance(df, pl.DataFrame):
                 estimated_memory = self._estimate_memory_usage(df)
             else:
                 # 對於 LazyFrame，提供一個保守的估計
@@ -427,7 +435,7 @@ class PolarsHelper:
             self.logger.error(f"檢查內存使用失敗: {e}")
             return True  # 如果檢查失敗，允許繼續執行
     
-    def _estimate_memory_usage(self, df: pl.DataFrame) -> float:
+    def _estimate_memory_usage(self, df: DataFrame) -> float:
         """
         估算 DataFrame 的內存使用量 (MB)
         

@@ -54,13 +54,31 @@ class ResponseGenHandler:
     def _register_strategies(self) -> None:
         """註冊所有策略"""
         try:
-            # 暫時註解策略註冊，待實作
-            # self.strategy_factory.register_strategy(FunnelQuestionStrategy())
-            # self.strategy_factory.register_strategy(RecommendationStrategy())
-            # self.strategy_factory.register_strategy(ElicitationStrategy())
-            # self.strategy_factory.register_strategy(GeneralResponseStrategy())
+            # 註冊基本通用策略
+            from .ResponseStrategy import ResponseStrategy, ResponseType
             
-            self.logger.info("策略註冊暫時停用，待實作")
+            class BasicGeneralStrategy(ResponseStrategy):
+                def __init__(self):
+                    super().__init__("BasicGeneralStrategy")
+                
+                def generate_response(self, context: Dict[str, Any]) -> Dict[str, Any]:
+                    message = context.get('user_message', '')
+                    return {
+                        "response_type": "general",
+                        "response_message": f"我收到了您的訊息：{message}。目前系統正在開發中，請稍後再試。",
+                        "confidence": 0.8
+                    }
+                
+                def get_response_type(self) -> ResponseType:
+                    return ResponseType.GENERAL
+                
+                def validate_context(self, context: Dict[str, Any]) -> bool:
+                    return True
+            
+            # 註冊基本策略
+            self.strategy_factory.register_strategy(BasicGeneralStrategy())
+            
+            self.logger.info("基本通用策略註冊完成")
         except Exception as e:
             self.logger.error(f"註冊策略時發生錯誤: {e}")
             self.logger.error(traceback.format_exc())

@@ -9,15 +9,44 @@ import redis
 from typing import Dict, Any, Optional, List
 from datetime import datetime
 from pathlib import Path
+from dataclasses import dataclass
 
 # 導入其他模組（待實作）
 # from .UserInputHandler import UserInputHandler
-# from .StateManagementHandler import StateManagementHandler
+# from .StateManageHandler import StateManagementHandler
 # from .PromptManagementHandler import PromptManagementHandler
-# from .KnowledgeManagementHandler import KnowledgeManagementHandler
+# from .KnowledgeManageHandler import KnowledgeManagementHandler
 # from .ResponseGenHandler import ResponseGenHandler
-
+from .UserInputHandler.UserInputHandler import UserInputHandler
+from .UserInputHandler import CheckUtils
+from .StateManageHandler.StateManagementHandler import StateManagementHandler
+from .PromptManagementHandler import prompt_manager
+from .KnowledgeManageHandler import knowledge_manager
+from .ResponseGenHandler import ResponseGenHandler
+from dataclasses import dataclass
+from .RAG.LLM.LLMInitializer import LLMInitializer
 logger = logging.getLogger(__name__)
+
+@dataclass
+class StateStatus:
+    keyword_matched: str
+    keyword_not_matched: str
+    need_data_query:str
+    no_data_query:str
+    default:str
+
+@dataclass
+class States:
+    OnInit: str
+    OnReceiveMsg: str
+    OnResponseMsg: str
+    OnGenFunnelChat: str
+    OnGenMDContent: str
+    OnDataQuery: str
+    OnQueriedDataProcessing: str
+    OnSendFront: str
+    OnWaitMsg: str
+
 
 
 class MGFDKernel:
@@ -33,10 +62,17 @@ class MGFDKernel:
         Args:
             redis_client: Redis 客戶端實例，用於會話狀態持久化
         """
+        #LLM Initialization
+        self.llm_initializer = LLMInitializer()
+        self.llm = self.llm_initializer.get_llm()
         self.redis_client = redis_client
         self.config = self._load_config()
         self.slot_schema = self._load_slot_schema()
-        
+        self.state_machine = self._load_state_machine()
+        self.states = States()
+        self.state_status = StateStatus()
+        # Welcome Prompt
+        self.welcome_prompt = self._load_welcome_prompt()
         # System-level prompt
         self.SysPrompt = (
             "1.Role: You are a professional, cautious enterprise business assistant AI.\n"
@@ -57,12 +93,22 @@ class MGFDKernel:
         self.query = None
         # 宣告三層式Prompt
 
-        # 初始化五大模組（暫時使用 None，待實作）
-        self.user_input_handler = None  # UserInputHandler()
-        self.prompt_manager = None      # PromptManagementHandler()
-        self.knowledge_manager = None   # KnowledgeManagementHandler()
-        self.response_generator = None  # ResponseGenHandler()
-        self.state_manager = None       # StateManagementHandler(redis_client)
+        # 初始化五大模組
+        try:
+            self.user_input_handler = UserInputHandler()
+            self.prompt_manager = prompt_manager.get_global_prompt_manager()
+            self.knowledge_manager = knowledge_manager()
+            self.response_generator = ResponseGenHandler()
+            self.state_manager = StateManagementHandler(redis_client)
+            logger.info("所有模組初始化成功")
+        except Exception as e:
+            logger.error(f"模組初始化失敗: {e}")
+            # 如果初始化失敗，設置為 None
+            self.user_input_handler = None
+            self.prompt_manager = None
+            self.knowledge_manager = None
+            self.response_generator = None
+            self.state_manager = None
         
         logger.info("MGFDKernel 初始化完成")
     # generate three-tier prompt
@@ -71,6 +117,21 @@ class MGFDKernel:
         return self.SysPrompt.format(product_data=self.product_data, prompt_using=self.prompt_using, 
                                      answer=self.answer, query=self.query)
     
+    def _load_welcome_prompt(self) -> str:
+        welcome_prompt = """
+            角色：身為一名專業且親切的筆記型電腦銷售專家，你的任務是主動迎接進入賣場的客戶，並引導他們完成一段愉快且有效率的購物體驗。
+            原則：
+                1.從現在起，請你主動提出問題直到你有足夠資訊能夠回答客戶的問題。
+            任務：
+            1. 用溫暖且開放式的問候開始對話，例如：「您好，歡迎光臨！想找一台什麼樣的筆記型電腦呢？還是先隨意看看？」
+            2. 避免給予壓力，讓客戶感到輕鬆自在。
+            3. 透過精準提問，像偵探一樣拼湊出客戶的真實需求。
+            4. 根據客戶的需求，提出 2-3 款最符合的筆電選項。
+        """
+        return welcome_prompt
+    
+
+
     def _load_config(self) -> Dict[str, Any]:
         """載入系統配置"""
         try:
@@ -106,11 +167,109 @@ class MGFDKernel:
                 "開關機速度": "boot_speed",
                 "螢幕尺寸": "screen_size",
                 "品牌": "brand",
-                "觸控螢幕": "touch_screen"
+                "觸控螢幕": "touch_screen",
+                "品牌":"brand",
+                "輕便":"light",
+                "預算":"budget"
             }
             return slot_mapping
         except Exception as e:
             logger.error(f"載入槽位架構失敗: {e}")
+            return {}
+    
+    def _load_state_machine(self) -> Dict[str, Dict[str, Any]]:
+        """載入狀態機定義"""
+        try:
+            state_machine = {
+                "OnInit": {
+                    "description": "狀態機初始化狀態",
+                    "actions": ["GenerateWelcomePrompt"],
+                    "next_states": {
+                        self.state_status.keyword_matched: "OnResponseMsg",
+                        self.state_status.keyword_not_matched: "OnGenFunnelChat"
+                    }
+                },
+                "OnReceiveMsg": {
+                    "description": "接收用戶消息狀態",
+                    "actions": [
+                        "ExtractKeyword",
+                        "CompareSentence"
+                    ],
+                    "next_states": {
+                        self.state_status.keyword_matched: "OnResponseMsg",
+                        self.state_status.keyword_not_matched: "OnGenFunnelChat"
+                    }
+                },
+                "OnResponseMsg": {
+                    "description": "回應消息狀態",
+                    "actions": [
+                        "DataQuery",
+                        "GenerateMDContent"
+                    ],
+                    "next_states": {
+                        self.state_status.need_data_query: "OnDataQuery",
+                        self.state_status.no_data_query: "OnGenFunnelChat"
+                    }
+                },
+                "OnGenFunnelChat": {
+                    "description": "生成漏斗式聊天狀態",
+                    "actions": [
+                        "Generate Messages to guide customers to our product"
+                    ],
+                    "next_states": {
+                        self.state_status.default: "OnGenMDContent"
+                    }
+                },
+                "OnGenMDContent": {
+                    "description": "生成 Markdown 內容狀態",
+                    "actions": [
+                        "GenerateMDContent"
+                    ],
+                    "next_states": {
+                        self.state_status.default: "OnGenMDContent"
+                    }
+                },
+                "OnDataQuery": {
+                    "description": "執行內部數據查詢狀態",
+                    "actions": [
+                        "DataQuery"
+                    ],
+                    "next_states": {
+                        self.state_status.default: "OnQueriedDataProcessing"
+                    }
+                },
+                "OnQueriedDataProcessing": {
+                    "description": "查詢數據後處理狀態",
+                    "actions": [
+                        "DataPostprocessing"
+                    ],
+                    "next_states": {
+                        self.state_status.default: "OnSendFront"
+                    }
+                },
+                "OnSendFront": {
+                    "description": "發送數據到前端狀態",
+                    "actions": [
+                        "SendDataToFront"
+                    ],
+                    "next_states": {
+                        self.state_status.default: "OnWaitMsg"
+                    }
+                },
+                "OnWaitMsg": {
+                    "description": "等待下一條消息狀態",
+                    "actions": [
+                        "WaitNextMessage"
+                    ],
+                    "next_states": {
+                        self.state_status.default: "OnReceiveMsg"
+                    }
+                }
+            }
+            logger.info(f"成功載入狀態機定義，包含 {len(state_machine)} 個狀態")
+            return state_machine
+        except Exception as e:
+            logger.error(f"載入狀態機定義失敗: {e}")
             return {}
     
     async def process_message(
@@ -150,6 +309,7 @@ class MGFDKernel:
         except Exception as e:
             logger.error(f"處理消息時發生錯誤: {e}", exc_info=True)
             return self._create_error_response(f"系統內部錯誤: {str(e)}")
+    
     
     async def get_session_state(self, session_id: str) -> Dict[str, Any]:
         """
@@ -240,105 +400,161 @@ class MGFDKernel:
             logger.error(f"獲取系統狀態時發生錯誤: {e}", exc_info=True)
             return self._create_error_response(f"獲取系統狀態失敗: {str(e)}")
     
+    
     async def _process_message_internal(
         self, 
         session_id: str, 
-        message: str
+        message: str #user input message
     ) -> Dict[str, Any]:
         """
         內部消息處理流程
-        
-        Args:
-            session_id: 會話識別碼
-            message: 用戶輸入消息
-            
-        Returns:
-            處理結果字典
         """
         # Step 1: 建立 context
-        context = await self._build_context(session_id, message)
-        
-        # Step 2: 解析輸入（UserInputHandler）
-        if self.user_input_handler:
-            input_result = await self.user_input_handler.parse(message, context)
-            context.update(input_result)
-        else:
-            # 暫時使用基本解析
-            context.update({
-                "intent": "unknown",
-                "slots_update": {},
-                "control": {},
-                "errors": [],
-                "confidence": 0.0
-            })
-        
-        # Step 3: 狀態機驅動（StateManager）
-        if self.state_manager:
-            state_result = await self.state_manager.process_state(context)
-            context.update(state_result)
-        else:
-            # 暫時使用基本狀態處理
-            context.update({
-                "stage": "INIT",
-                "needs_knowledge_search": False
-            })
-        
-        # Step 4: 知識查詢（如需要）
-        if context.get('needs_knowledge_search') and self.knowledge_manager:
-            knowledge_result = await self.knowledge_manager.search(context)
-            context.update(knowledge_result)
-        
-        # Step 5: 生成回應（ResponseGenerator）
-        if self.response_generator:
-            response_result = await self.response_generator.generate(context)
-            context.update(response_result)
-        else:
-            # 暫時使用基本回應
-            context.update({
-                "response_type": "general",
-                "response_message": "系統正在處理您的請求..."
-            })
-        
-        # Step 6: 更新狀態
-        if self.state_manager:
-            await self.state_manager.update_session(session_id, context)
-        
-        return self._format_frontend_response(context)
-    
-    async def _build_context(
-        self, 
-        session_id: str, 
-        message: str
-    ) -> Dict[str, Any]:
-        """
-        建立處理上下文
-        
-        Args:
-            session_id: 會話識別碼
-            message: 用戶輸入消息
-            
-        Returns:
-            上下文字典
-        """
-        # 獲取現有會話狀態
-        session_state = {}
-        if self.state_manager:
-            session_state = await self.state_manager.get_session(session_id) or {}
-        
         context = {
             "session_id": session_id,
             "user_message": message,
             "timestamp": datetime.now().isoformat(),
-            "stage": session_state.get("stage", "INIT"),
-            "slots": session_state.get("slots", {}),
-            "history": session_state.get("history", []),
+            "state": self.states.OnReceiveMsg,
+            "slots": {},
+            "history": [],
             "control": {},
             "errors": [],
             "slot_schema": self.slot_schema,
             "config": self.config
         }
         
+        # Step 2: 解析輸入（UserInputHandler）
+        if self.user_input_handler:
+            slot_name, slot_metadata = await self.user_input_handler.parse_keyword(message)
+            if slot_name:
+                context.setdefault("slots", {}).update({slot_name: slot_metadata})
+            else:
+                context.setdefault("slots", {}).update({"nodata": {}})
+        
+        # Step 3: 狀態機驅動（StateManager）
+        if slot_metadata["ifDBSearch"]:
+            context["state"]=self.states.OnDataQuery
+        else:
+            context["state"]=self.states.OnGenFunnelChat
+
+        # Step 4: 知識查詢（如需要）
+        
+        # Step 5: 生成回應（ResponseGenerator）
+        if self.response_generator:
+            response_result = await self.response_generator.generate(context)
+            context.update(response_result)
+        else:
+            context.update({
+                "response_type": "general",
+                "response_message": "測試系統能回傳訊息至前端......"
+            })
         return context
+    
+    # async def _process_message_internal(
+    #     self, 
+    #     session_id: str, 
+    #     message: str
+    # ) -> Dict[str, Any]:
+    #     """
+    #     內部消息處理流程
+        
+    #     Args:
+    #         session_id: 會話識別碼
+    #         message: 用戶輸入消息
+            
+    #     Returns:
+    #         處理結果字典
+    #     """
+    #     # Step 1: 建立 context
+    #     context = await self._build_context(session_id, message)
+        
+    #     # Step 2: 解析輸入（UserInputHandler）
+    #     if self.user_input_handler:
+    #         input_result = await self.user_input_handler.parse(message, context)
+    #         context.update(input_result)
+    #     else:
+    #         # 暫時使用基本解析
+    #         context.update({
+    #             "intent": "unknown",
+    #             "slots_update": {},
+    #             "control": {},
+    #             "errors": [],
+    #             "confidence": 0.0
+    #         })
+        
+    #     # Step 3: 狀態機驅動（StateManager）
+    #     if self.state_manager:
+    #         state_result = await self.state_manager.process_state(context)
+    #         context.update(state_result)
+    #     else:
+    #         # 暫時使用基本狀態處理
+    #         context.update({
+    #             "stage": "INIT",
+    #             "needs_knowledge_search": False
+    #         })
+        
+    #     # Step 4: 知識查詢（如需要）
+    #     if context.get('needs_knowledge_search') and self.knowledge_manager:
+    #         knowledge_result = await self.knowledge_manager.search(context)
+    #         context.update(knowledge_result)
+        
+    #     # Step 5: 生成回應（ResponseGenerator）
+    #     if self.response_generator:
+    #         response_result = await self.response_generator.generate(context)
+    #         context.update(response_result)
+    #     else:
+    #         # 暫時使用基本回應
+    #         context.update({
+    #             "response_type": "general",
+    #             "response_message": "系統正在處理您的請求..."
+    #         })
+        
+    #     # Step 6: 更新狀態
+    #     if self.state_manager:
+    #         await self.state_manager.update_session_state(session_id, context)
+        
+    #     return self._format_frontend_response(context)
+    
+    # async def _build_context(
+    #     self, 
+    #     session_id: str, 
+    #     message: str
+    # ) -> Dict[str, Any]:
+    #     """
+    #     建立處理上下文
+        
+    #     Args:
+    #         session_id: 會話識別碼
+    #         message: 用戶輸入消息
+            
+    #     Returns:
+    #         上下文字典
+    #     """
+    #     # 獲取現有會話狀態
+    #     session_state = {}
+    #     if self.state_manager:
+    #         session_state = await self.state_manager.get_session_state(session_id) or {}
+        
+    #     # 根據消息內容確定狀態
+    #     if message and message.strip():
+    #         current_state = "OnReceiveMsg"
+    #     else:
+    #         current_state = session_state.get("state", "OnWaitMsg")
+        
+    #     context = {
+    #         "session_id": session_id,
+    #         "user_message": message,
+    #         "timestamp": datetime.now().isoformat(),
+    #         "state": current_state,
+    #         "slots": session_state.get("slots", {}),
+    #         "history": session_state.get("history", []),
+    #         "control": {},
+    #         "errors": [],
+    #         "slot_schema": self.slot_schema,
+    #         "config": self.config
+    #     }
+        
+    #     return context
     
     def _format_frontend_response(
         self, 
@@ -353,44 +569,53 @@ class MGFDKernel:
         Returns:
             格式化後的回應字典
         """
-        stage = context.get('stage', 'unknown')
+        state = context.get('state', 'unknown')
         response_type = context.get('response_type', 'general')
         
-        # 根據階段和回應類型格式化
-        if stage == 'FUNNEL_START':
+        # 根據狀態和回應類型格式化
+        if state == 'OnReceiveMsg':
             return {
+                "success": True,
                 "type": "funnel_start",
                 "message": context.get('funnel_intro', '歡迎使用筆電購物助手！'),
                 "session_id": context.get('session_id')
             }
-        elif stage == 'FUNNEL_QUESTION':
+        elif state == 'OnGenFunnelChat':
             return {
+                "success": True,
                 "type": "funnel_question",
                 "question": context.get('current_question'),
                 "options": context.get('question_options', []),
                 "session_id": context.get('session_id'),
                 "message": context.get('question_message', '')
             }
-        elif stage == 'RECOMMENDATION':
+        elif state == 'OnResponseMsg':
             return {
+                "success": True,
                 "type": "recommendation",
                 "recommendations": context.get('recommendations', []),
                 "comparison_table": context.get('comparison_table'),
                 "summary": context.get('recommendation_summary'),
                 "session_id": context.get('session_id')
             }
-        elif stage == 'ELICITATION':
+        elif state == 'OnGenMDContent':
             return {
+                "success": True,
                 "type": "elicitation",
                 "message": context.get('elicitation_message'),
                 "slots_needed": context.get('slots_needed', []),
                 "session_id": context.get('session_id')
             }
         else:
-            return {
+            response_data = {
+                "success": True,
                 "type": "general",
                 "message": context.get('response_message', ''),
                 "session_id": context.get('session_id')
+            }
+            return {
+                "success": True,
+                "stream_response": json.dumps(response_data, ensure_ascii=False)
             }
     
     def _check_modules_initialized(self) -> bool:

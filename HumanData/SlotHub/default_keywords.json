@@ -26,7 +26,7 @@
     "metadata": {
       "regex": "(預算|價錢|費用|花費|成本|資金)",
       "slotvalue": "nodata",
-      "mapping": "price_range",
+      "mapping": "budget",
       "importance": 2,
       "ifDBSearch": true
     }

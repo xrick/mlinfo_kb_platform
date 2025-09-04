@@ -71,7 +71,7 @@ async def chat(
         logger.info(f"處理聊天請求 - 會話ID: {session_id}, 消息: {request.message[:50]}...")
         
         # 處理消息
-        result = mgfd.process_message(session_id, request.message, request.stream)
+        result = await mgfd.process_message(session_id, request.message, request.stream)
         
         # 添加會話ID到回應
         result['session_id'] = session_id
@@ -105,7 +105,7 @@ async def chat_stream(
         logger.info(f"處理串流聊天請求 - 會話ID: {session_id}, 消息: {request.message[:50]}...")
         
         # 處理消息（啟用串流）
-        result = mgfd.process_message(session_id, request.message, stream=True)
+        result = await mgfd.process_message(session_id, request.message, stream=True)
         
         if not result.get('success', False):
             raise HTTPException(status_code=400, detail=result.get('error', '處理失敗'))
@@ -153,7 +153,7 @@ async def get_session_state(
     try:
         logger.info(f"獲取會話狀態 - 會話ID: {session_id}")
         
-        result = mgfd.get_session_state(session_id)
+        result = await mgfd.get_session_state(session_id)
         
         if result.get('success', False):
             return SessionState(**result['state'])
@@ -194,33 +194,33 @@ async def reset_session(
         raise HTTPException(status_code=500, detail=f"系統內部錯誤: {str(e)}")
 
 
-@router.get("/session/{session_id}/history", response_model=ChatHistoryResponse, tags=["session"])
-async def get_chat_history(
-    session_id: str,
-    limit: int = 50,
-    mgfd: MGFDKernel = Depends(get_mgfd_system)
-):
-    """
-    獲取對話歷史
-    
-    - **session_id**: 會話ID
-    - **limit**: 歷史記錄限制（默認50）
-    """
-    try:
-        logger.info(f"獲取對話歷史 - 會話ID: {session_id}, 限制: {limit}")
-        
-        result = mgfd.get_chat_history(session_id, limit)
-        
-        if result.get('success', False):
-            return ChatHistoryResponse(**result)
-        else:
-            raise HTTPException(status_code=404, detail=result.get('error', '會話不存在'))
-            
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"獲取對話歷史時發生錯誤: {e}", exc_info=True)
-        raise HTTPException(status_code=500, detail=f"系統內部錯誤: {str(e)}")
+# @router.get("/session/{session_id}/history", response_model=ChatHistoryResponse, tags=["session"])
+# async def get_chat_history(
+#     session_id: str,
+#     limit: int = 50,
+#     mgfd: MGFDKernel = Depends(get_mgfd_system)
+# ):
+#     """
+#     獲取對話歷史
+#     
+#     - **session_id**: 會話ID
+#     - **limit**: 歷史記錄限制（默認50）
+#     """
+#     try:
+#         logger.info(f"獲取對話歷史 - 會話ID: {session_id}, 限制: {limit}")
+#         
+#         result = mgfd.get_chat_history(session_id, limit)
+#         
+#         if result.get('success', False):
+#             return ChatHistoryResponse(**result)
+#         else:
+#             raise HTTPException(status_code=404, detail=result.get('error', '會話不存在'))
+#             
+#     except HTTPException:
+#         raise
+#     except Exception as e:
+#         logger.error(f"獲取對話歷史時發生錯誤: {e}", exc_info=True)
+#         raise HTTPException(status_code=500, detail=f"系統內部錯誤: {str(e)}")
 
 
 @router.get("/status", response_model=SystemStatus, tags=["system"])
@@ -235,7 +235,7 @@ async def get_system_status(
     try:
         logger.info("獲取系統狀態")
         
-        result = mgfd.get_system_status()
+        result = await mgfd.get_system_status()
         
         if result.get('success', False):
             return SystemStatus(**result)
@@ -304,7 +304,7 @@ async def create_session(
         logger.info(f"創建新會話: {session_id}")
         
         # 初始化會話狀態
-        result = mgfd.reset_session(session_id)
+        result = await mgfd.reset_session(session_id)
         
         if result.get('success', False):
             return {
@@ -335,7 +335,7 @@ async def get_stats(
         logger.info("獲取系統統計資訊")
         
         # 獲取系統狀態
-        status_result = mgfd.get_system_status()
+        status_result = await mgfd.get_system_status()
         
         if status_result.get('success', False):
             return {

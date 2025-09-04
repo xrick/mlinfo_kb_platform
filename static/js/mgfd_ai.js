@@ -251,10 +251,10 @@ function initSalesAI() {
             //     headers: { "Content-Type": "application/json" },
             //     body: JSON.stringify({ query: query, service_name: "sales_assistant" }),
             // });
-            const response = await fetch("/api/mgfd/chat-stream", {
+            const response = await fetch("/api/mgfd/chat/stream", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ query: query, service_name: "sales_assistant" }),
+                body: JSON.stringify({ message: query, session_id: "mgfd_session_" + Date.now() }),
             });
 
             if (!response.ok) throw new Error(`HTTP 錯誤！ 狀態: ${response.status}`);
