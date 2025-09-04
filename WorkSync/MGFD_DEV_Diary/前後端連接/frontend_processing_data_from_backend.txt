@@ -1,0 +1,114 @@
+⏺ 基於我對程式碼的分析，我已經找到了前端JavaScript處理後端傳回結果的具體位置。以下是詳細的分析：
+
+  🎯 前端處理後端回應的關鍵位置
+
+  1. 主要請求發送位置
+
+  檔案: /static/js/mgfd_ai.js
+  - 第254-258行: 發送API請求到後端
+  const response = await fetch("/api/mgfd/chat/stream", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: query, session_id: "mgfd_session_" + Date.now() }),
+  });
+
+  2. Stream響應讀取與解析位置
+
+  檔案: /static/js/mgfd_ai.js
+  - 第262-263行: 建立Stream Reader
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+
+  - 第268-300行: 處理Stream數據流
+  - 第280-299行: 關鍵的JSON解析位置
+  if (line.startsWith('data: ')) {
+      const jsonDataString = line.substring(6);
+      if (jsonDataString) {
+          try {
+              const jsonData = JSON.parse(jsonDataString);  // ← JSON解析位置
+              if (!assistantMessageContainer) {
+                  assistantMessageContainer = createMessageContainer('assistant');
+              }
+              renderMessageContent(assistantMessageContainer.querySelector('.message-content'),
+  jsonData);  // ← 渲染位置
+          } catch (e) {
+              console.error("JSON 解析錯誤:", e, "Data:", jsonDataString);
+          }
+      }
+  }
+
+  3. 核心內容渲染處理位置
+
+  檔案: /static/js/mgfd_ai.js
+  - 第1377-1614行: renderMessageContent() 函數 - 這是處理所有後端回應的核心函數
+
+  3.1 回應類型檢測與分發 (第1377-1406行)
+
+  function renderMessageContent(container, content) {
+      console.log("renderMessageContent 被調用，content:", content);
+      console.log("📊 content 類型:", typeof content);
+      console.log("📊 content.type:", content?.type);
+
+      if (!content) {
+          container.innerHTML = "<p>收到空的回應。</p>";
+          return;
+      }
+      if (typeof content === 'string') {
+          container.innerHTML = content;
+          return;
+      }
+      if (content.error) {
+          container.innerHTML = `<p style="color: red;"><strong>錯誤：</strong> ${content.error}</p>`;
+          return;
+      }
+
+  3.2 不同類型回應的處理位置
+
+  - 第1399-1406行: SSE控制訊息 (start, end)
+  - 第1409-1424行: MultiChat回應 (multichat_start)
+  - 第1427-1431行: 漏斗對話開始 (funnel_start)
+  - 第1433-1448行: 漏斗問題 (funnel_question)
+  - 第1450-1465行: 一般回應 (general) ← 我們修復的位置
+  if (content.type === 'general') {
+      console.log("🔥 檢測到 general 回應，渲染一般消息", content);
+
+      const message = content.message || content.response_message || '系統回應';
+
+      container.innerHTML = `
+          <div class="general-response">
+              <div class="message-content">${message}</div>
+          </div>
+      `;
+
+      console.log("✅ general 回應渲染完成");
+      return;
+  }
+  - 第1467-1471行: 漏斗完成 (funnel_complete)
+  - 第1473-1477行: 系列比較結果 (series_comparison_result)
+
+  4. 數據處理流程
+
+  檔案: /static/js/mgfd_ai.js
+
+  完整的數據流程:
+  1. 第240-258行: 用戶輸入 → 發送請求
+  2. 第268-300行: 接收Stream → 解析JSON
+  3. 第287行: JSON.parse(jsonDataString) - JSON轉換
+  4. 第291行: renderMessageContent() - 內容渲染
+  5. 第1450-1465行: 根據content.type分發到對應處理器
+
+  5. 其他相關處理位置
+
+  檔案: /static/js/mgfd_ai.js
+  - 第1503-1593行: 複雜格式處理 (markdown, 表格等)
+  - 第1599-1614行: 錯誤處理與未知類型fallback
+  - 第1615-1617行: 最終HTML渲染
+
+  🔄 處理流程總結
+
+  用戶輸入 → fetch請求(第254行) → Stream讀取(第262行) →
+  JSON解析(第287行) → renderMessageContent(第291行) →
+  類型檢測(第1381行) → 分發渲染(第1450-1477行) →
+  HTML顯示(第1457-1461行)
+
+  這就是前端JavaScript處理後端JSON回應的完整位置和流程！

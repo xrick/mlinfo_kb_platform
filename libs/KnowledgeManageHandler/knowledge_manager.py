@@ -4,6 +4,13 @@
 知識管理器
 負責管理和處理各種知識庫
 """
+"""
+from sentence_transformers import SentenceTransformer
+embedding_model = 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'
+self.sentence_transformer = SentenceTransformer(embedding_model)
+embedding = self.sentence_transformer.encode(text)
+
+"""
 
 import json
 import logging

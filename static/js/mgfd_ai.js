@@ -1447,6 +1447,23 @@ function initSalesAI() {
             return;
         }
         
+        if (content.type === 'general') {
+            console.log("🔥 檢測到 general 回應，渲染一般消息", content);
+            
+            // Extract the message content
+            const message = content.message || content.response_message || '系統回應';
+            
+            // Render the general message with proper styling
+            container.innerHTML = `
+                <div class="general-response">
+                    <div class="message-content">${message}</div>
+                </div>
+            `;
+            
+            console.log("✅ general 回應渲染完成");
+            return;
+        }
+        
         if (content.type === 'funnel_complete') {
             console.log("🔥 檢測到 funnel_complete，處理漏斗完成", content);
             renderFunnelComplete(container, content);
@@ -1576,15 +1593,22 @@ function initSalesAI() {
         }
         
         console.log("📄 最終的 markdown 字串:", markdownString);
-        console.log("⚠️ [renderMessageContent] 到達函數末尾，這不應該發生在 MultiChat 模式下！");
+        console.log("⚠️ [renderMessageContent] 到達函數末尾，未知的內容類型!");
+        console.log("🔍 未處理的 content.type:", content.type);
         
         if (!markdownString) {
-            console.error("❌ markdown 字串為空，可能是數據解析問題");
+            console.error("❌ markdown 字串為空，可能是未知的回應類型或數據解析問題");
+            console.error("🔍 完整的 content 物件:", JSON.stringify(content, null, 2));
+            
+            // 對於未知類型，嘗試顯示 message 字段或完整內容
+            const fallbackMessage = content.message || content.response_message || JSON.stringify(content, null, 2);
+            
             container.innerHTML = `
-                <div class="error-message">
-                    <h4>🔧 處理中...</h4>
-                    <p>正在準備您的筆電推薦問卷，請稍候。</p>
-                    <div class="loading-spinner"></div>
+                <div class="unknown-response-type">
+                    <div class="message-content">${fallbackMessage}</div>
+                    <div class="debug-info" style="font-size: 12px; color: #666; margin-top: 10px;">
+                        未知回應類型: ${content.type || 'undefined'}
+                    </div>
                 </div>
             `;
         } else {

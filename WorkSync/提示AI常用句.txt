@@ -60,5 +60,14 @@ debug 常用句
 請務必讀取且逐步思考以下文件內容，以來解目前系統開發的架構及開發的進度
 
 
-[enter plan]
+目前針對不同ai-coder恢復實作prompt
+please carefully and completely read and analyze  the following python files:              │
+│   main.py                                                                                    │
+│   api/mgfd_routes.py                                                                         │
+│   libs/MGFDKernel.py                                                                         │
+│   libs/UserInputHandler/UserInputHandler.py                                                  │
+│   libs/KnowledgeManageHandler/knowledge_manager.py                                           │
+│   libs/ResponseGenHandler/ResponseGenHandler.py                                              │
+│   libs/StateManageHandler/StateManagementHandler.py                                          │
+│                                                             
 
