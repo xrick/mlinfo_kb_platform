@@ -448,12 +448,14 @@ class MGFDKernel:
                 context.setdefault("slots", {}).update({"": {}})
         
         # Step 3: 狀態機驅動（StateManager）
-        if slot_metadata.get("ifDBSearch", False):
+        if slot_metadata.get("ifDBSearch", True):
             context["state"] = "OnDataQuery"#self.states.OnDataQuery
         else:
             context["state"] = "OnGenFunnelChat"#self.states.OnGenFunnelChat
 
         # Step 4: 知識查詢（如需要）
+        #需要加入knowledge_manager.search(context)
+        #prompt也在這裏使用
         
         # Step 5: 生成回應（ResponseGenerator）
         if self.response_generator:
