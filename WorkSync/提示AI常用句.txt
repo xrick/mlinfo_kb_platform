@@ -71,3 +71,11 @@ please carefully and completely read and analyze  the following python files:   
 │   libs/StateManageHandler/StateManagementHandler.py                                          │
 │                                                             
 
+提示AI建立達到我要求的函式，但不要過度設計
+請你**務必嚴格**執行我的指令
+  請在libs/KnowledgeManageHandler/knowledge_manager.py中建立一個通用的產品規格搜尋函式：search_product_data(message)
+  1.message是客戶的query
+  2.先parent-child chunking語義搜尋功能，並且要在db/semantic_sales_spec.db中找出對應列的資料。
+  3.最後進行資料整理，以json格式回傳
+  4.請**嚴格遵守不要過度設計**，我只需要產品得規格
+  請先詳細計畫再進行實作

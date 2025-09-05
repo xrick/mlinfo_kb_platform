@@ -56,41 +56,53 @@ class ResponseGenHandler:
         try:
             # 註冊基本通用策略
             from .ResponseStrategy import ResponseStrategy, ResponseType
-            
             class BasicGeneralStrategy(ResponseStrategy):
-                def __init__(self):
+                def __init__(self, llm=None, prompt_using=None, context=None):
                     super().__init__("BasicGeneralStrategy")
+                    self.llm = llm
+                    self.prompt_using = prompt_using
+                    self.slot_schema = context.get('slot_schema', {}) if context else {}
                 
                 def generate_response(self, context: Dict[str, Any]) -> Dict[str, Any]:
-                    state = context.get('state', 'unknown')
-                    user_message = context.get('user_message', '')
+                    return {
+                        "type": "general",
+                        "message": "您好，我是您的筆電購物助手，有什麼可以幫您的嗎？",
+                        "confidence": 0.8
+                    }
+            # class BasicGeneralStrategy(ResponseStrategy):
+            #     def __init__(self):
+            #         super().__init__("BasicGeneralStrategy")
+                
+            #     def generate_response(self, context: Dict[str, Any]) -> Dict[str, Any]:
+            #         state = context.get('state', 'unknown')
+            #         user_message = context.get('user_message', '')
                     
-                    # 根據狀態生成不同類型的回應
-                    if state == "OnGenFunnelChat":
-                        # 漏斗對話狀態 - 生成引導性問題
-                        if "輕便" in user_message or "攜帶" in user_message:
-                            return {
-                                "type": "funnel_question",
-                                "current_question": "了解您對輕便筆電的需求！請問您主要用途是？",
-                                "question_options": ["工作辦公", "學習研讀", "娛樂遊戲", "創意設計"],
-                                "message": "基於您對輕便、容易攜帶筆電的需求，讓我為您推薦最適合的選擇！",
-                                "confidence": 0.9
-                            }
-                        else:
-                            return {
-                                "type": "funnel_question", 
-                                "current_question": "歡迎使用筆電選購助手！請問您主要的使用需求是？",
-                                "question_options": ["工作辦公", "學習研讀", "娛樂遊戲", "創意設計"],
-                                "message": "讓我幫您找到最適合的筆電！",
-                                "confidence": 0.8
-                            }
-                    else:
-                        # 一般狀態
-                        return {
-                            "type": "general",
-                            "message": f"我收到了您關於「{user_message}」的詢問。讓我為您提供協助！",
-                            "confidence": 0.8
-                        }
+            #         # 根據狀態生成不同類型的回應
+            #         if state == "OnGenFunnelChat":
+            #             # 漏斗對話狀態 - 生成引導性問題
+            #             if "輕便" in user_message or "攜帶" in user_message:
+            #                 return {
+            #                     "type": "funnel_question",
+            #                     "current_question": "了解您對輕便筆電的需求！請問您主要用途是？",
+            #                     "question_options": ["工作辦公", "學習研讀", "娛樂遊戲", "創意設計"],
+            #                     "message": "基於您對輕便、容易攜帶筆電的需求，讓我為您推薦最適合的選擇！",
+            #                     "confidence": 0.9
+            #                 }
+            #             else:
+            #                 return {
+            #                     "type": "funnel_question", 
+            #                     "current_question": "歡迎使用筆電選購助手！請問您主要的使用需求是？",
+            #                     "question_options": ["工作辦公", "學習研讀", "娛樂遊戲", "創意設計"],
+            #                     "message": "讓我幫您找到最適合的筆電！",
+            #                     "confidence": 0.8
+            #                 }
+            #         else:
+            #             # 一般狀態
+            #             return {
+            #                 "type": "general",
+            #                 "message": f"我收到了您關於「{user_message}」的詢問。讓我為您提供協助！",
+            #                 "confidence": 0.8
+            #             }
                 
                 def get_response_type(self) -> ResponseType:
                     return ResponseType.GENERAL

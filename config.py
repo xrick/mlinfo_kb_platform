@@ -5,10 +5,10 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent
 
 # Database configuration
-DB_PATH = BASE_DIR / "db" / "sales_specs.db"
+DB_PATH = BASE_DIR / "db" / "semantic_sales_spec.db"
 MILVUS_HOST = "localhost"
 MILVUS_PORT = "19530"
-MILVUS_COLLECTION_NAME = "sales_notebook_specs"
+MILVUS_COLLECTION_NAME = "product_semantic_chunks"
 
 # Application settings
 APP_HOST = "0.0.0.0"

@@ -21,7 +21,7 @@ from .UserInputHandler.UserInputHandler import UserInputHandler
 from .UserInputHandler import CheckUtils
 from .StateManageHandler.StateManagementHandler import StateManagementHandler
 from .PromptManagementHandler import prompt_manager
-from .KnowledgeManageHandler import knowledge_manager
+from .KnowledgeManageHandler.knowledge_manager import KnowledgeManager
 from .ResponseGenHandler import ResponseGenHandler
 from dataclasses import dataclass
 from .RAG.LLM.LLMInitializer import LLMInitializer
@@ -48,27 +48,24 @@ class States:
     OnWaitMsg: str
 
 
-
 class MGFDKernel:
     """
     MGFD 系統核心控制器
     職責：協調五大模組，管理對話流程，處理前端請求
     """
-    
     def __init__(self, redis_client: Optional[redis.Redis] = None) -> None:
         """
-        初始化 MGFD 核心控制器
-        
+        初始化 MGFD 核心控制器 
         Args:
             redis_client: Redis 客戶端實例，用於會話狀態持久化
         """
-        #LLM Initialization
-        self.llm_initializer = LLMInitializer()
-        self.llm = self.llm_initializer.get_llm()
+        # 初始化知識管理器（包含 LLM 功能）
+        self.knowledge_manager = KnowledgeManager()
         self.redis_client = redis_client
         self.config = self._load_config()
         self.slot_schema = self._load_slot_schema()
-        self.state_machine = self._load_state_machine()
+        
+        # Initialize states and state_status before state_machine to avoid AttributeError
         self.states = States(
             OnInit="OnInit",
             OnReceiveMsg="OnReceiveMsg",
@@ -87,8 +84,58 @@ class MGFDKernel:
             no_data_query="no_data_query",
             default="default"
         )
+        
+        # Load state machine after state_status is initialized
+        self.state_machine = self._load_state_machine()
         # Welcome Prompt
         self.welcome_prompt = self._load_welcome_prompt()
+        self.prompt_using = """
+            身為一名專業且親切的筆記型電腦銷售專家，你的任務是主動迎接進入賣場的客戶，並引導他們完成一段愉快且有效率的購物體驗。
+            你的對話應遵循以下結構與原則：
+
+            **1. 熱情開場與初步探索：**
+            * 用溫暖且開放式的問候開始對話，例如：「您好，歡迎光臨！想找一台什麼樣的筆記型電腦呢？還是先隨意看看？」
+            * 避免給予壓力，讓客戶感到輕鬆自在。
+
+            **2. 引導式需求分析（核心任務）：**
+            你的目標是透過精準提問，像偵探一樣拼湊出客戶的真實需求。請依序詢問以下關鍵問題，並根據客戶的回答追問細節：
+            * **主要用途：** 「請問您買這台電腦，最主要是用來做什麼呢？例如是工作、上課、玩遊戲，還是單純上網追劇？」
+            * **軟體與場景：**
+                * （如果工作/上課）：「會常用到哪些比較特別的軟體嗎？像是剪輯影片、寫程式或跑數據分析？」
+                * （如果玩遊戲）：「平常喜歡玩哪一種類型的遊戲呢？」
+            * **便攜性與螢幕：** 「會經常需要把它帶出門嗎？對於螢幕大小或重量有沒有特別的偏好？」
+            * **預算範圍：** 「方便請問一下您的預算大概是多少呢？我能更好地幫您篩選出CP值最高的選擇。」
+            * **品牌與偏好：** 「過去有用過哪個品牌的電腦嗎？有沒有特別喜歡或不喜歡的品牌？」
+            * **關鍵考量：** 「對您來說，一台理想的筆電，最不能妥協的功能是什麼？是效能、電池續航力，還是螢幕的畫質？」
+
+            **3. 確認需求與提出方案：**
+            * 在提問後，用一句話總結並確認客戶的需求。例如：「好的，所以我幫您整理一下，您需要一台方便攜帶、續航力長，主要用來文書處理和看影片，預算在三萬左右的筆電，對嗎？」
+            * 根據確認後的需求，提出 2-3 款最符合的筆電選項。
+            * 介紹每款筆電時，不要只講規格，要強調「它能為客戶帶來的好處」。例如，與其說「它有16GB RAM」，不如說「它有16GB的記憶體，所以您同時開很多網頁和文件都不會卡頓，非常順暢。」
+
+            **4. 處理疑慮與完成銷售：**
+            * 耐心回答客戶對推薦產品的任何問題。
+            * 如果客戶猶豫不決，可以主動詢問：「這幾款您比較喜歡哪一台的設計呢？或是您還在意哪個部分，我再幫您說明？」
+            * 最後，以親切的態度協助客戶完成購買流程或提供後續資訊。
+
+            **互動準則：**
+            * **語氣：** 始終保持專業、友善、耐心且充滿熱忱。
+            * **目標：** 你的角色是「顧問」，不是「推銷員」。專注於解決客戶的問題，而非僅僅賣出最貴的商品。
+            * **避免：** 不要使用過於深奧的技術術語，盡量用生活化的比喻來解釋。
+
+            **嚴格遵守使用內部資料:**: 請絕對務必嚴格遵守公司產品資料都完全來自公司內部提供的各種資料，嚴格禁止出現競爭公司資料。
+
+            **資料收集**:
+            在你取得以下資料前，可以不斷重複詢問使用者，直到滿足資料收集完成。
+            1. 用途
+            1. 預算
+            2. cpu規格
+            3. gpu規格
+            4. 筆電重量
+            5. ssd容量
+            6. 記憶體容量
+
+        """
         # System-level prompt
         self.SysPrompt = (
             "1.Role: You are a professional, cautious enterprise business assistant AI.\n"
@@ -107,31 +154,71 @@ class MGFDKernel:
                 ```
                 prompt using:
                 ```text
-                    {prompt_using}
+                    身為一名專業且親切的筆記型電腦銷售專家，你的任務是主動迎接進入賣場的客戶，並引導他們完成一段愉快且有效率的購物體驗。
+                        你的對話應遵循以下結構與原則：
+
+                        **1. 熱情開場與初步探索：**
+                        * 用溫暖且開放式的問候開始對話，例如：「您好，歡迎光臨！想找一台什麼樣的筆記型電腦呢？還是先隨意看看？」
+                        * 避免給予壓力，讓客戶感到輕鬆自在。
+
+                        **2. 引導式需求分析（核心任務）：**
+                        你的目標是透過精準提問，像偵探一樣拼湊出客戶的真實需求。請依序詢問以下關鍵問題，並根據客戶的回答追問細節：
+                        * **主要用途：** 「請問您買這台電腦，最主要是用來做什麼呢？例如是工作、上課、玩遊戲，還是單純上網追劇？」
+                        * **軟體與場景：**
+                            * （如果工作/上課）：「會常用到哪些比較特別的軟體嗎？像是剪輯影片、寫程式或跑數據分析？」
+                            * （如果玩遊戲）：「平常喜歡玩哪一種類型的遊戲呢？」
+                        * **便攜性與螢幕：** 「會經常需要把它帶出門嗎？對於螢幕大小或重量有沒有特別的偏好？」
+                        * **預算範圍：** 「方便請問一下您的預算大概是多少呢？我能更好地幫您篩選出CP值最高的選擇。」
+                        * **品牌與偏好：** 「過去有用過哪個品牌的電腦嗎？有沒有特別喜歡或不喜歡的品牌？」
+                        * **關鍵考量：** 「對您來說，一台理想的筆電，最不能妥協的功能是什麼？是效能、電池續航力，還是螢幕的畫質？」
+
+                        **3. 確認需求與提出方案：**
+                        * 在提問後，用一句話總結並確認客戶的需求。例如：「好的，所以我幫您整理一下，您需要一台方便攜帶、續航力長，主要用來文書處理和看影片，預算在三萬左右的筆電，對嗎？」
+                        * 根據確認後的需求，提出 2-3 款最符合的筆電選項。
+                        * 介紹每款筆電時，不要只講規格，要強調「它能為客戶帶來的好處」。例如，與其說「它有16GB RAM」，不如說「它有16GB的記憶體，所以您同時開很多網頁和文件都不會卡頓，非常順暢。」
+
+                        **4. 處理疑慮與完成銷售：**
+                        * 耐心回答客戶對推薦產品的任何問題。
+                        * 如果客戶猶豫不決，可以主動詢問：「這幾款您比較喜歡哪一台的設計呢？或是您還在意哪個部分，我再幫您說明？」
+                        * 最後，以親切的態度協助客戶完成購買流程或提供後續資訊。
+
+                        **互動準則：**
+                        * **語氣：** 始終保持專業、友善、耐心且充滿熱忱。
+                        * **目標：** 你的角色是「顧問」，不是「推銷員」。專注於解決客戶的問題，而非僅僅賣出最貴的商品。
+                        * **避免：** 不要使用過於深奧的技術術語，盡量用生活化的比喻來解釋。
+
+                        **嚴格遵守使用內部資料:**: 請絕對務必嚴格遵守公司產品資料都完全來自公司內部提供的各種資料，嚴格禁止出現競爭公司資料。
+
+                        **資料收集**:
+                        在你取得以下資料前，可以不斷重複詢問使用者，直到滿足資料收集完成。
+                        1. 用途
+                        1. 預算
+                        2. cpu規格
+                        3. gpu規格
+                        4. 筆電重量
+                        5. ssd容量
+                        6. 記憶體容量
                 ```
-                previous_answer:
+                
+                user_query:
                 ```text
-                    {previous_answer}
-                ```
-                latest_query:
-                ```text
-                    {latest_query}
+                    {user_query}
                 ```
             """
             "10.If {product_data} is empty, display “Product Data: None”.\n"
         )
         # 宣告三層式prompt所需要的變數
-        self.product_data = None
-        self.prompt_using = None
-        self.answer = None
-        self.query = None
+        # self.product_data = None
+        # self.prompt_using = None
+        # self.answer = None
+        # self.query = None
         # 宣告三層式Prompt
 
         # 初始化五大模組
         try:
             self.user_input_handler = UserInputHandler()
             self.prompt_manager = prompt_manager.get_global_prompt_manager()
-            self.knowledge_manager = knowledge_manager
+            # knowledge_manager 已經在 __init__ 開頭初始化了
             self.response_generator = ResponseGenHandler()
             self.state_manager = StateManagementHandler(redis_client)
             logger.info("所有模組初始化成功")
@@ -184,31 +271,6 @@ class MGFDKernel:
                 }
         except Exception as e:
             logger.error(f"載入配置失敗: {e}")
-            return {}
-    
-    def _load_slot_schema(self) -> Dict[str, str]:
-        """載入槽位架構定義"""
-        try:
-            # 基於 default_slots.json 的槽位映射
-            slot_mapping = {
-                "用途": "usage_purpose",
-                "價格區間": "price_range",
-                "推出時間": "release_time",
-                "CPU效能": "cpu_performance",
-                "GPU效能": "gpu_performance",
-                "重量": "weight",
-                "攜帶性": "portability",
-                "開關機速度": "boot_speed",
-                "螢幕尺寸": "screen_size",
-                "品牌": "brand",
-                "觸控螢幕": "touch_screen",
-                "品牌":"brand",
-                "輕便":"light",
-                "預算":"budget"
-            }
-            return slot_mapping
-        except Exception as e:
-            logger.error(f"載入槽位架構失敗: {e}")
             return {}
     
     def _load_state_machine(self) -> Dict[str, Dict[str, Any]]:
@@ -394,7 +456,7 @@ class MGFDKernel:
             return {
                 "success": True,
                 "session_id": session_id,
-                "message": "會話重置成功",
+                "message": "LLM Responses",
                 "timestamp": datetime.now().isoformat()
             }
             
@@ -447,9 +509,13 @@ class MGFDKernel:
         context = {
             "session_id": session_id,
             "user_message": message,
+            "keyword": "nodata",
+            "product_data": {},
             "timestamp": datetime.now().isoformat(),
             "state": self.states.OnReceiveMsg,
             "slots": {},
+            "query_result": {},
+            "previous_answer": str,
             "history": [],
             "control": {},
             "errors": [],
@@ -467,33 +533,56 @@ class MGFDKernel:
         
         # Step 3: 狀態機驅動（StateManager）
         if slot_metadata.get("ifDBSearch", True):
-            context["state"] = "OnDataQuery"#self.states.OnDataQuery
+            context["state"] = self.states.OnDataQuery#"OnDataQuery"#
         else:
-            context["state"] = "OnGenFunnelChat"#self.states.OnGenFunnelChat
+            context["state"] = self.states.OnGenFunnelChat#"OnGenFunnelChat"
+        self.query = message
 
         # Step 4: 知識查詢（如需要）
         #需要加入knowledge_manager.search(context)
-        #prompt也在這裏使用
-        
-        # Step 5: 生成回應（ResponseGenerator）
-        if self.response_generator:
-            response_result = await self.response_generator.generate(context)
-            context.update(response_result)
+        #若ifDBSearch為True，則進行知識查詢，並將結果存入context["query_result"],
+        #這是product_data
+        if slot_metadata["ifDBSearch"]:
             
-            # 映射 ResponseGenHandler 的字段到 _format_frontend_response 期待的字段
-            if response_result.get("type") == "funnel_question":
-                context["current_question"] = response_result.get("current_question")
-                context["question_options"] = response_result.get("question_options", [])
-                context["question_message"] = response_result.get("message", "")
-        else:
-            context.update({
-                "response_type": "general",
-                "message": "回應生成器未初始化"
-            })
+            logging.info(f"先查詢產品資料: {context['query_result']}")
+            #search_product_data
+            _product_data = await self.search_product_data(message)
+            #next step: generate three-tier prompt
+            self.SysPrompt = self.SysPrompt.format(product_data=_product_data,
+                                                   query=context["user_message"])
+            context['query_result'] = {"qry_result":_product_data}
+            context['keyword'] = "data"
+            logging.info(f"知識查詢結果: {context['query_result']}")
+            #進行
+            
         
-        result = self._format_frontend_response(context)
-        logger.info(f"🔧 最終回應結果: {result}")
-        return result
+        # Step 6: 生成回應（ResponseGenerator）
+        # 先手動生成回應傳回前端
+        # if self.
+        response_result = {
+            "type": "general",
+            "message": _product_data,
+            "success": True
+        }
+        return response_result
+        # if self.response_generator:
+        #     response_result = await self.response_generator.generate(context)
+        #     context.update(response_result)
+            
+        #     # 映射 ResponseGenHandler 的字段到 _format_frontend_response 期待的字段
+        #     if response_result.get("type") == "funnel_question":
+        #         context["current_question"] = response_result.get("current_question")
+        #         context["question_options"] = response_result.get("question_options", [])
+        #         context["question_message"] = response_result.get("message", "")
+        # else:
+        #     context.update({
+        #         "response_type": "general",
+        #         "message": "回應生成器未初始化"
+        #     })
+        
+        # result = self._format_frontend_response(context)
+        # logger.info(f"🔧 最終回應結果: {result}")
+        # return result
     
     # async def _process_message_internal(
     #     self, 

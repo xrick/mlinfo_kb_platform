@@ -1,0 +1,23 @@
+
+error:
+libs.MGFDKernel - ERROR - 載入狀態機定義失敗: 'MGFDKernel' object has no attribute 'state_status'
+
+sol:
+我已經找到了問題的根本原因！錯誤出現在 MGFDKernel.py 檔案中的 _load_state_machine() 方法。
+
+  🔍 問題分析
+
+  錯誤原因: 在 MGFDKernel 類的初始化過程中，存在屬性初始化順序問題：
+
+  1. 第71行: self.state_machine = self._load_state_machine() 被調用
+  2. 第83-89行: self.state_status = StateStatus(...) 才被創建
+  3. 第222行及後續: _load_state_machine() 方法中使用了 self.state_status.keyword_matched 等屬性
+
+  ★ Insight ─────────────────────────────────────
+  這是典型的 初始化順序依賴問題。在物件導向程式設計中，當一個方法依賴於尚未初始化的屬性時會發生此錯誤。Python 的 __init__
+  方法是按順序執行的，所以必須確保依賴項在使用前就已經創建。
+  ─────────────────────────────────────────────────
+
+  🔧 修復方案
+
+  我需要調整 MGFDKernel.__init__() 中的初始化順序，確保 self.state_status 在 _load_state_machine() 調用之前就被創建。
