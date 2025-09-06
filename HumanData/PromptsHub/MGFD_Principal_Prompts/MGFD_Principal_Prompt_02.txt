@@ -33,6 +33,23 @@
 </principles>
 
 <context>
-
+    """
+        product data:
+            ```text
+                {product_data}
+            ```
+            prompt using:
+            ```text
+                {prompt_using}
+            ```
+            previous_answer:
+            ```text
+                {previous_answer}
+            ```
+            latest_query:
+            ```text
+                {latest_query}
+            ```
+    """
 </context>
 
