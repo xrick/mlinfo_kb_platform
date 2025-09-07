@@ -33,6 +33,8 @@ from .KnowledgeManageHandler.knowledge_manager import KnowledgeManager
 from .ResponseGenHandler import ResponseGenHandler
 from dataclasses import dataclass
 from .RAG.LLM.LLMInitializer import LLMInitializer
+from langchain.prompts import PromptTemplate
+import re
 logger = logging.getLogger(__name__)
 
 @dataclass
@@ -146,75 +148,57 @@ class MGFDKernel:
 
         """
         # System-level prompt
-        self.SysPrompt = (
-            "1.Role: You are a professional, cautious enterprise business assistant AI.\n"
-            "2.Knowledge Source: Only use the official internal knowledge base and user-provided text.\n"
-            "3.Prohibited: No fabrication, guessing, or using external knowledge.\n"
-            "4.Thinking Rule: Plan internally first (not shown), then generate the reply.\n"
-            "5.Response Format:\n\t- Executive Summary: 1–3 sentences with the direct answer\n\t- Detailed Breakdown: Features → Usage → Recommendations\n\t- Closing Guidance: Customer service note or next-step prompt\n"
-            "6.Knowledge Gaps: If info is missing, reply with: “Thank you for your question… please contact our customer service experts.”\n"
-            "7.Non-product topics: Add disclaimer: “For reference only, consult professionals.”\n"
-            "8.Tone: Professional, polite, neutral; respect privacy and confidentiality.\n"
-            """
-            9.Context: 
-                product data:
-                ```text
-                    {product_data}
-                ```
-                prompt using:
-                ```text
-                    身為一名專業且親切的筆記型電腦銷售專家，你的任務是主動迎接進入賣場的客戶，並引導他們完成一段愉快且有效率的購物體驗。
-                        你的對話應遵循以下結構與原則：
+        self.SysPrompt = """
 
-                        **1. 熱情開場與初步探索：**
-                        * 用溫暖且開放式的問候開始對話，例如：「您好，歡迎光臨！想找一台什麼樣的筆記型電腦呢？還是先隨意看看？」
-                        * 避免給予壓力，讓客戶感到輕鬆自在。
+                1.角色：你是專業、謹慎的企業級業務助理 AI。你同時也是一位專業的技術文件撰寫者。請使用標題、列表和程式碼區塊來組織內容，使其清晰易懂。
 
-                        **2. 引導式需求分析（核心任務）：**
-                        你的目標是透過精準提問，像偵探一樣拼湊出客戶的真實需求。請依序詢問以下關鍵問題，並根據客戶的回答追問細節：
-                        * **主要用途：** 「請問您買這台電腦，最主要是用來做什麼呢？例如是工作、上課、玩遊戲，還是單純上網追劇？」
-                        * **軟體與場景：**
-                            * （如果工作/上課）：「會常用到哪些比較特別的軟體嗎？像是剪輯影片、寫程式或跑數據分析？」
-                            * （如果玩遊戲）：「平常喜歡玩哪一種類型的遊戲呢？」
-                        * **便攜性與螢幕：** 「會經常需要把它帶出門嗎？對於螢幕大小或重量有沒有特別的偏好？」
-                        * **預算範圍：** 「方便請問一下您的預算大概是多少呢？我能更好地幫您篩選出CP值最高的選擇。」
-                        * **品牌與偏好：** 「過去有用過哪個品牌的電腦嗎？有沒有特別喜歡或不喜歡的品牌？」
-                        * **關鍵考量：** 「對您來說，一台理想的筆電，最不能妥協的功能是什麼？是效能、電池續航力，還是螢幕的畫質？」
+                2.知識來源：僅能使用公司內部知識庫與使用者提供的內容。
 
-                        **3. 確認需求與提出方案：**
-                        * 在提問後，用一句話總結並確認客戶的需求。例如：「好的，所以我幫您整理一下，您需要一台方便攜帶、續航力長，主要用來文書處理和看影片，預算在三萬左右的筆電，對嗎？」
-                        * 根據確認後的需求，提出 2-3 款最符合的筆電選項。
-                        * 介紹每款筆電時，不要只講規格，要強調「它能為客戶帶來的好處」。例如，與其說「它有16GB RAM」，不如說「它有16GB的記憶體，所以您同時開很多網頁和文件都不會卡頓，非常順暢。」
+                3.禁止：不得編造、推測、引用外部資料。
 
-                        **4. 處理疑慮與完成銷售：**
-                        * 耐心回答客戶對推薦產品的任何問題。
-                        * 如果客戶猶豫不決，可以主動詢問：「這幾款您比較喜歡哪一台的設計呢？或是您還在意哪個部分，我再幫您說明？」
-                        * 最後，以親切的態度協助客戶完成購買流程或提供後續資訊。
+                4.思考原則：先內部規劃（不輸出），再生成回覆。
 
-                        **互動準則：**
-                        * **語氣：** 始終保持專業、友善、耐心且充滿熱忱。
-                        * **目標：** 你的角色是「顧問」，不是「推銷員」。專注於解決客戶的問題，而非僅僅賣出最貴的商品。
-                        * **避免：** 不要使用過於深奧的技術術語，盡量用生活化的比喻來解釋。
-                        * **輸出到前端的呈現方式：請將結果用專業、簡潔、易懂的方式呈現，讓使用者能夠清楚了解。
-                        **嚴格遵守使用內部資料:**: 請絕對務必嚴格遵守公司產品資料都完全來自公司內部提供的各種資料，嚴格禁止出現競爭公司資料。
+                5.知識缺口：若無資料，使用標準回覆「感謝您的提問…建議聯繫客服專家」。
 
-                        **資料收集**:
-                        在你取得以下資料前，可以不斷重複詢問使用者，直到滿足資料收集完成。
-                        1. 用途
-                        1. 預算
-                        2. cpu規格
-                        3. gpu規格
-                        4. 筆電重量
-                        5. ssd容量
-                        6. 記憶體容量
-                ```
+                6.非產品議題：聲明「僅供參考，請諮詢專家」。
+
+                7.語氣：專業、禮貌、中立，遵守隱私規範。
                 
-                user_query:
-                ```text
-                    {user_query}
-                ```
+                8.Context:
+                    product data: {product_data}
+                    inner prompt:
+                            
+                            你的對話應遵循以下結構與原則：
+                            **1. 熱情開場與初步探索：**
+                            * 用溫暖且開放式的問候開始對話，例如：「您好，歡迎光臨！想找一台什麼樣的筆記型電腦呢？還是先隨意看看？」
+                            * 避免給予壓力，讓客戶感到輕鬆自在。
+
+                            **2. 引導式需求分析（核心任務）：**
+                            你的目標是透過精準提問，像偵探一樣拼湊出客戶的真實需求。請依序詢問以下關鍵問題，並根據客戶的回答追問細節：
+
+                            **3. 確認需求與提出方案：**
+                            * 在提問後，用一句話總結並確認客戶的需求。例如：「好的，所以我幫您整理一下，您需要一台方便攜帶、續航力長，主要用來文書處理和看影片，預算在三萬左右的筆電，對嗎？」
+                            * 根據確認後的需求，提出 2-3 款最符合的筆電選項。
+                           
+
+                            **4. 處理疑慮與完成銷售：**
+                            * 耐心回答客戶對推薦產品的任何問題。
+                            * 如果客戶猶豫不決，可以主動詢問：「這幾款您比較喜歡哪一台的設計呢？或是您還在意哪個部分，我再幫您說明？」
+                            * 最後，以親切的態度協助客戶完成購買流程或提供後續資訊。
+
+                            **互動準則：**
+                            * **語氣：** 始終保持專業、友善、耐心且充滿熱忱。
+                            * **目標：** 你的角色是「顧問」，不是「推銷員」。專注於解決客戶的問題，而非僅僅賣出最貴的商品。
+                            * **避免：** 不要使用過於深奧的技術術語，盡量用生活化的比喻來解釋。
+
+                            **嚴格遵守使用內部資料:**: 請絕對務必嚴格遵守公司產品資料都完全來自公司內部提供的各種資料，嚴格禁止出現競爭公司資料。
+                            
+                            **輸出內容：請格式化輸出內容，產生專業、簡潔、美觀的輸出。
+
+                    user_query: {user_query}
+                    
+                9.請務必嚴格使用繁體中文來回答。
             """
-        )
         # 宣告三層式prompt所需要的變數
         # self.product_data = None
         # self.prompt_using = None
@@ -262,11 +246,35 @@ class MGFDKernel:
             pass
 
         logger.info("MGFDKernel 初始化完成")
+    
+    def extract_markdown_tables(self, text: str) -> List[str]:
+        """
+        從文字中提取所有 Markdown 表格，並以 list 形式回傳。
+
+        Args:
+            text (str): 輸入的完整文字
+
+        Returns:
+            List[str]: 所有找到的 Markdown 表格，每個元素是一個字串
+        """
+        # 使用 regex 找出 markdown 表格
+        table_pattern = re.compile(
+            r"\|.*?\|\n\|[-:\s|]+\|\n(?:\|.*?\|\n?)+",
+            re.DOTALL
+        )
+        tables = table_pattern.findall(text)
+        return tables
+    
     # generate three-tier prompt
-    def generate_three_tier_prompt(self):
+    def generate_three_tier_prompt(self,product_data=None, user_query=None):
         """生成三層式提示"""
-        return self.SysPrompt.format(product_data=self.product_data, prompt_using=self.prompt_using, 
-                                     answer=self.answer, query=self.query)
+        # 使用 str.replace 來避免 JSON 中的佔位符衝突
+        result = self.SysPrompt.replace("{product_data}", str(product_data))
+        result = result.replace("{user_query}", str(user_query))
+        return result
+    #     """生成三層式提示"""
+    #     return self.SysPrompt.format(product_data=None, prompt_using=self.prompt_using, 
+    #                                  answer=self.answer, query=self.query)
     
     def _load_welcome_prompt(self) -> str:
         welcome_prompt = """
@@ -578,22 +586,22 @@ class MGFDKernel:
         if slot_metadata.get("ifDBSearch", True):
             # 直接進行與關鍵字相關的產品規格搜尋（以非阻塞方式在執行緒池執行）
             _product_data = await asyncio.to_thread(self.knowledge_manager.search_product_data, message)
-            context['query_result'] = {"qry_result": _product_data}
             context['keyword'] = slot_name
             logging.info(f"知識查詢結果: {context['query_result']}")
             #進行
         #step 5: generate three-tier prompt and send prompt to LLM
         # 將 product_data 轉為 JSON 字串注入，降低模型誤判結構機率
         product_data_json = json.dumps(_product_data, ensure_ascii=False, indent=2)
-        # 將使用者查詢同時提供為 user_query，避免模板鍵名不一致導致 KeyError
-        self.SysPrompt = self.SysPrompt.format(
-            product_data=product_data_json,
-            user_query=context["user_message"]
-        )
+        self.SysPrompt = self.generate_three_tier_prompt(product_data=product_data_json, user_query=self.query)
+        #_product_data
+        # # 將使用者查詢同時提供為 user_query，避免模板鍵名不一致導致 KeyError
+        # 
+        # self.SysPrompt = PromptTemplate(input_variables=["product_data", "user_query"], template=self.SysPrompt)
+        # chain = self.SysPrompt | self.llm
         
         context['query_result'] = {"qry_result": _product_data}
         context['keyword'] = slot_name
-        logging.info(f"知識查詢結果: {context['query_result']}")
+        logging.info(f"product_data: {context['query_result']}")
         
         # Step 6: 生成回應（ResponseGenerator）
         # 若查無產品，直接回覆指定提示句；否則將 System Prompt 發送給 LLM
@@ -606,11 +614,18 @@ class MGFDKernel:
                     or not _product_data.get("products")
                 )
             )
+            tables = []
             if no_products:
                 llm_output = "目前尚未搜尋到符您需求的產品，是否進行不同規格產品的搜尋呢？"
             else:
                 if hasattr(self, 'llm') and self.llm:
                     llm_output = await asyncio.to_thread(self.llm.invoke, self.SysPrompt)
+                    ## format markdown tables
+                    tables = self.extract_markdown_tables(llm_output)
+                    if tables:
+                        for table in tables:
+                            llm_output = llm_output.replace(table, f"```markdown\n{table}\n```")
+                    ## end of format markdown tables
                     if isinstance(llm_output, dict):
                         llm_output = llm_output.get('content') or json.dumps(llm_output, ensure_ascii=False)
                     if llm_output is not None and not isinstance(llm_output, str):
@@ -621,12 +636,24 @@ class MGFDKernel:
         except Exception as e:
             logger.warning(f"LLM 生成失敗，回退至查詢資料: {e}")
 
+        # step 7: format frontend response
+        # presentation_data_prompt = """
+        # *採用markdown格式輸出：請markdown syntax產生專業、簡潔、美觀的報告，讓使用者能夠清楚了解。
+        # {product_data}
+        # """.format(product_data=product_data_json)
         # 若有 llm_output 則優先使用，否則回傳查詢資料字串，避免前端顯示 [object Object]
+        
         response_result = {
             "type": "general",
-            "message": llm_output if llm_output else json.dumps(_product_data, ensure_ascii=False, indent=2),
+            "message": llm_output,
             "success": True
         }
+        # # 若有 llm_output 則優先使用，否則回傳查詢資料字串，避免前端顯示 [object Object]
+        # response_result = {
+        #     "type": "general",
+        #     "message": llm_output if llm_output else json.dumps(_product_data, ensure_ascii=False, indent=2),
+        #     "success": True
+        # }
         return response_result
         # if self.response_generator:
         #     response_result = await self.response_generator.generate(context)
