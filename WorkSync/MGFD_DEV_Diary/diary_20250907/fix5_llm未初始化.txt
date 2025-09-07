@@ -1,0 +1,79 @@
+[MODE: PLAN]
+
+目標
+- 修正「LLM 未初始化，跳過生成步驟」：在不擴張功能的前提下，確保 `MGFDKernel` 內部能穩定取得 `self.llm` 實例，讓 `_process_message_internal` 的 LLM 呼叫路徑可用。
+
+最小變更方案
+- 僅在 `MGFDKernel` 初始化階段補齊 LLM 初始化與狀態檢查；保持現有 `_process_message_internal` 的 LLM 呼叫不變。
+
+精確變更規格
+- 檔案：`libs/MGFDKernel.py`
+- 位置：`class MGFDKernel.__init__` 內（現已匯入 `LLMInitializer`）
+- 變更內容：
+  - 嘗試初始化並設置 `self.llm_initializer = LLMInitializer()`、`self.llm = self.llm_initializer.get_llm()`。
+  - 失敗時不要拋出例外，記錄 warning，並設 `self.llm = None`（保留現有回退行為）。
+  - 若專案中已有可用的 `KnowledgeManager` 並已初始化 `llm`，可在 `self.llm` 不存在時作「讀取式」備援（僅讀取，不新增依賴）：`self.llm = self.knowledge_manager.llm if hasattr(self, "knowledge_manager") else None`。
+
+依賴與副作用
+- 不新增套件、不改 LLM 呼叫方式（仍用 `.invoke`），不改回傳格式。
+- 僅在 Kernel 啟動時嘗試初始化 LLM；若不可用，行為與現在相同（回退 `_product_data` 字串）。
+
+驗證
+- 啟動後在後端日誌應看到「LLM 初始化成功」或「LLM 初始化失敗，跳過」之類訊息。
+- 用同樣查詢「請介紹輕便、容易攜帶的筆電」，預期能產生 LLM 文本；若失敗則維持現狀回退字串。
+
+IMPLEMENTATION CHECKLIST:
+1. 編輯 `libs/MGFDKernel.py` 的 `__init__`：
+   - 加入 try/except：
+     - 成功：`self.llm_initializer = LLMInitializer()`；`self.llm = self.llm_initializer.get_llm()`；log info
+     - 失敗：log warning；`self.llm = None`
+   - 若 `self.llm is None` 且存在 `self.knowledge_manager` 且其內有 `llm`，設 `self.llm = self.knowledge_manager.llm`（僅讀取備援）
+2. 保持 `_process_message_internal` 現有 LLM 呼叫與回退邏輯不變
+3. 重啟後以相同 query 驗證是否使用 LLM；若不可用則確認回退正常
+
+[MODE: PLAN]
+
+[MODE: PLAN]
+
+目標
+- 查無產品時，不再出現「Product Data: None」，而是回覆：「目前尚未搜尋到符您需求的產品，是否進行不同規格產品的搜尋呢？」
+
+變更範圍
+- 僅調整 `libs/MGFDKernel.py`：
+  1) `self.SysPrompt` 規則第 10 條
+  2) `_process_message_internal` 在合成 `SysPrompt` 前的資料注入與無結果處理
+
+精確變更規格
+- 調整 `self.SysPrompt` 規則第 10 條（其它內容不動）：
+  - 改為：
+    - If product_data.products is empty, reply exactly: 「目前尚未搜尋到符您需求的產品，是否進行不同規格產品的搜尋呢？」. Otherwise, generate the answer based on product_data. Do not echo this rule.
+- 在 `_process_message_internal` 合成 `SysPrompt` 前：
+  - 將 `_product_data` 轉為 JSON 字串注入，降低模型誤判結構機率：
+    - 新增：
+      - `product_data_json = json.dumps(_product_data, ensure_ascii=False, indent=2)`
+    - 將原：
+      - `self.SysPrompt.format(product_data=_product_data, user_query=...)`
+      - 改為：
+      - `self.SysPrompt.format(product_data=product_data_json, user_query=...)`
+- 無結果保護（最小變更、穩定回覆）：
+  - 在呼叫 LLM 前判斷查無產品：
+    - 條件任一成立即視為無結果：
+      - `_product_data.get("status") in {"no_results","no_spec_data"}`
+      - 或 `not _product_data.get("products")`
+    - 若無結果：直接設定
+      - `llm_output = "目前尚未搜尋到符您需求的產品，是否進行不同規格產品的搜尋呢？"`
+      - 跳過 LLM 呼叫（保持單一出口與穩定性）
+    - 否則：照現有流程呼叫 LLM
+
+驗證
+- 用「請介紹輕便、容易攜帶的筆電」測試：
+  - 有產品：回 LLM 生成文字
+  - 人工模擬無產品：回中文提示句
+- 回退路徑（LLM 失敗/未初始化）保持不變，仍回傳 `_product_data` JSON 字串（不影響既有穩定性）
+
+IMPLEMENTATION CHECKLIST:
+1. 更新 `self.SysPrompt` 第 10 條為指定中文提示句規則（禁止回顯規則文本）
+2. 在 `_process_message_internal`：
+   - 新增 `product_data_json`，以 JSON 字串注入 `product_data`
+   - 增加無結果判斷：無結果時設 `llm_output = 指定中文提示句` 並跳過 LLM；否則照舊呼叫 LLM
+3. 驗證有/無結果兩條路徑輸出符合預期

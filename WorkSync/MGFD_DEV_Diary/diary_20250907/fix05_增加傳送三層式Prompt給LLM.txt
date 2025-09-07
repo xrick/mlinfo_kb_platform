@@ -1,0 +1,56 @@
+[MODE: PLAN]
+
+目標
+- 在 `libs/MGFDKernel.py::_process_message_internal` 中，合成 `self.SysPrompt` 後，最小變更地呼叫既有 `self.llm` 產生最終文字回覆；若 LLM 不可用或失敗，回退為目前的 `_product_data` 字串，確保穩定。
+
+變更範圍
+- 僅修改 `libs/MGFDKernel.py`、函式 `async def _process_message_internal(...)` 中「合成完 `self.SysPrompt` 之後、組裝回傳之前」的區塊。
+- 不改動其它模組、前端或資料結構。
+
+精確變更規格
+- 前置條件：檔案已 `import asyncio`，且類別建構時已有 `self.llm`（由 `LLMInitializer` 設置）。若 `self.llm` 未初始化，僅跳過 LLM 生成。
+- 插入變更位置：在下列現有區塊之後插入 LLM 呼叫（保持當前 `SysPrompt` 合成邏輯不變）。
+  - 參考位置在現有程式中：
+    - 組裝 `self.SysPrompt = self.SysPrompt.format(...)`
+    - 更新 `context['query_result'] = {"qry_result": _product_data}`
+    - 更新 `context['keyword'] = slot_name`
+    - logging.info("知識查詢結果: ...")
+- 新增局部變數與流程：
+  - 新增 `llm_output: Optional[str] = None`
+  - 若 `self.llm` 存在：
+    - 執行（異步、不阻塞 loop）：
+      - `llm_output = await asyncio.to_thread(self.llm.invoke, self.SysPrompt)`
+    - 捕捉例外：記錄警告並設 `llm_output = None`（回退）
+  - 組裝回傳時：
+    - 如果 `llm_output` 是非空字串：回傳 `message = llm_output`
+    - 否則：維持現行回退 `message = json.dumps(_product_data, ensure_ascii=False, indent=2)`
+- 錯誤處理：
+  - 僅就此段落新增 try/except；不改變全函式外層錯誤處理。
+  - 不新增超時或重試（保持最小改動）。
+- 日誌：
+  - `logger.info(f"LLM 生成成功，長度: {len(llm_output)}")`（僅在成功時）
+  - `logger.warning(f"LLM 生成失敗，回退至查詢資料: {e}")`（在例外時）
+
+預期輸出格式
+- 仍回傳：
+  - `type: "general"`
+  - `message`: 成功為 LLM 產生的格式化文字；失敗為 `_product_data` 的 JSON 字串（現行行為）
+  - `success: True`
+- 不調整既有 SSE 行為或前端渲染路徑。
+
+測試與驗證
+- 正向：以「請介紹輕便、容易攜帶的筆電」驗證。
+  - 若 `self.llm` 可用：顯示 LLM 文字；否則顯示 JSON 字串（回退）。
+- 失敗路徑：手動令 `self.llm = None` 或故意觸發 `invoke` 例外，應回退為 JSON 字串，保證 200 成功回應。
+- 維持目前成功回傳結構，前端不需要變更。
+
+IMPLEMENTATION CHECKLIST:
+1. 在 `libs/MGFDKernel.py::_process_message_internal` 合成 `self.SysPrompt` 後、回傳前，新增區塊：
+   - 宣告 `llm_output = None`
+   - 若 `self.llm` 存在：`llm_output = await asyncio.to_thread(self.llm.invoke, self.SysPrompt)`（try/except 包裹）
+2. 組裝回傳：
+   - 若 `llm_output` 為非空字串：`message = llm_output`
+   - 否則：保留既有 `message = json.dumps(_product_data, ensure_ascii=False, indent=2)`
+3. 加入成功/失敗日誌（info/warn）
+4. 驗證成功/回退兩種路徑結果顯示正常
+5. 不改動其它任何模組或行為

@@ -14,6 +14,7 @@ import logging
 import json
 import redis
 from typing import Dict, Any, Optional, List
+import asyncio
 from datetime import datetime
 from pathlib import Path
 from dataclasses import dataclass
@@ -213,7 +214,6 @@ class MGFDKernel:
                     {user_query}
                 ```
             """
-            "10.If {product_data} is empty, display “Product Data: None”.\n"
         )
         # 宣告三層式prompt所需要的變數
         # self.product_data = None
@@ -240,6 +240,27 @@ class MGFDKernel:
             self.response_generator = None
             self.state_manager = None
         
+        # 嘗試初始化 LLM（最小變更；失敗則保持回退機制）
+        self.llm = None
+        try:
+            self.llm_initializer = LLMInitializer()
+            self.llm = self.llm_initializer.get_llm()
+            logger.info("LLM 初始化成功")
+        except Exception as e:
+            logger.warning(f"LLM 初始化失敗，將使用回退機制: {e}")
+            self.llm_initializer = None
+            self.llm = None
+        # 若 Kernel 內未取得 LLM，且 KnowledgeManager 內已有 llm，可作讀取式備援
+        try:
+            if self.llm is None and getattr(self, 'knowledge_manager', None) is not None:
+                km_llm = getattr(self.knowledge_manager, 'llm', None)
+                if km_llm is not None:
+                    self.llm = km_llm
+                    logger.info("採用 KnowledgeManager 中的 LLM 作為備援")
+        except Exception:
+            # 安全保底，不阻斷初始化
+            pass
+
         logger.info("MGFDKernel 初始化完成")
     # generate three-tier prompt
     def generate_three_tier_prompt(self):
@@ -533,6 +554,9 @@ class MGFDKernel:
         }
         
         # Step 2: 解析輸入（UserInputHandler）
+        # 預設值，避免後續 NameError／KeyError
+        slot_metadata = {}
+        _product_data = {}
         if self.user_input_handler:
             slot_name, slot_metadata = await self.user_input_handler.parse_keyword(message)
             if slot_name:
@@ -552,31 +576,55 @@ class MGFDKernel:
         #若ifDBSearch為True，則進行知識查詢，並將結果存入context["query_result"],
         #這是product_data
         if slot_metadata.get("ifDBSearch", True):
-            #直接進行與關鍵字相關的產品規格搜尋
-            _product_data = await self.knowledge_manager.search_product_data(message)
-            logging.info(f"先查詢產品資料: {context['query_result']}")
-            #search_product_data
-            _product_data = await self.search_product_data(message)
-            #next step: generate three-tier prompt
-            self.SysPrompt = self.SysPrompt.format(product_data=_product_data,
-                                                   query=context["user_message"])
-            context['query_result'] = {"qry_result":_product_data}
-            context['keyword'] = "data"
+            # 直接進行與關鍵字相關的產品規格搜尋（以非阻塞方式在執行緒池執行）
+            _product_data = await asyncio.to_thread(self.knowledge_manager.search_product_data, message)
+            context['query_result'] = {"qry_result": _product_data}
+            context['keyword'] = slot_name
             logging.info(f"知識查詢結果: {context['query_result']}")
             #進行
         #step 5: generate three-tier prompt and send prompt to LLM
-        self.SysPrompt = self.SysPrompt.format(product_data=_product_data,
-                                                   query=context["user_message"])
-        context['query_result'] = {"qry_result":_product_data}
-        context['keyword'] = "data"
+        # 將 product_data 轉為 JSON 字串注入，降低模型誤判結構機率
+        product_data_json = json.dumps(_product_data, ensure_ascii=False, indent=2)
+        # 將使用者查詢同時提供為 user_query，避免模板鍵名不一致導致 KeyError
+        self.SysPrompt = self.SysPrompt.format(
+            product_data=product_data_json,
+            user_query=context["user_message"]
+        )
+        
+        context['query_result'] = {"qry_result": _product_data}
+        context['keyword'] = slot_name
         logging.info(f"知識查詢結果: {context['query_result']}")
         
         # Step 6: 生成回應（ResponseGenerator）
-        # 先手動生成回應傳回前端
-        # if self.
+        # 若查無產品，直接回覆指定提示句；否則將 System Prompt 發送給 LLM
+        llm_output = None
+        try:
+            no_products = (
+                isinstance(_product_data, dict)
+                and (
+                    _product_data.get("status") in {"no_results", "no_spec_data", "no_database", "error"}
+                    or not _product_data.get("products")
+                )
+            )
+            if no_products:
+                llm_output = "目前尚未搜尋到符您需求的產品，是否進行不同規格產品的搜尋呢？"
+            else:
+                if hasattr(self, 'llm') and self.llm:
+                    llm_output = await asyncio.to_thread(self.llm.invoke, self.SysPrompt)
+                    if isinstance(llm_output, dict):
+                        llm_output = llm_output.get('content') or json.dumps(llm_output, ensure_ascii=False)
+                    if llm_output is not None and not isinstance(llm_output, str):
+                        llm_output = str(llm_output)
+                    logger.info(f"LLM 生成成功，長度: {len(llm_output) if llm_output else 0}")
+                else:
+                    logger.info("LLM 未初始化，跳過生成步驟，回退至資料字串")
+        except Exception as e:
+            logger.warning(f"LLM 生成失敗，回退至查詢資料: {e}")
+
+        # 若有 llm_output 則優先使用，否則回傳查詢資料字串，避免前端顯示 [object Object]
         response_result = {
             "type": "general",
-            "message": _product_data,
+            "message": llm_output if llm_output else json.dumps(_product_data, ensure_ascii=False, indent=2),
             "success": True
         }
         return response_result
