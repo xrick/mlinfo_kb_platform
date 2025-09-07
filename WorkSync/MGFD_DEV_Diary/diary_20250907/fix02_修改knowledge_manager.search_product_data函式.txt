@@ -1,0 +1,128 @@
+
+[MODE: RESEARCH]
+已接收並確認您的規格要求與限制：
+資料庫為 DuckDB：db/semantic_sales_spec.db
+查詢目標表：spec_data_960
+主鍵欄位：cid
+目前階段「不用 SQLite」，請嚴格走 Polars/DuckDB
+觀察與釐清點（不提出修改，僅就現況比對）：
+search_product_data 現況是直接用 sqlite3.connect(...) 查表 specs 與欄位 product_id，與您指定的 DuckDB 檔案、目標表與主鍵名稱都不一致。
+先前我用工具列印 semantic_sales_spec.db 的 DuckDB 結構時，PRAGMA table_info('<table>') 的輸出表頭包含 cid 欄位（代表欄序 metadata），而在多數資料表（含 spec_data_960）的實際欄位列表中未見名為 cid 的資料欄位。這意味著：
+DuckDB 的 PRAGMA table_info 預設會顯示每個欄位的序號欄 cid（這是系統回報欄，不是資料表內的資料欄）。
+若您的業務主鍵確實命名為 cid，則需要確認在 spec_data_960 內是否存在名為 cid 的實際資料欄位，或是您指的主鍵為「DuckDB 內部欄序（cid）」還是實際資料欄。這會影響 Milvus 的 product_id 對應到哪個欄位。
+為了準確銜接 Milvus → DuckDB：
+請再確認一點：Milvus 搜尋結果中的 product_id 是否應直接對應到 spec_data_960 的主鍵 cid？或是應對應 modelname/version 等其他欄位？
+若主鍵確為實體欄位 cid，請確認 spec_data_960 的實際欄位清單中有 cid；否則需要提供對應欄位名稱以進行查詢比對。
+若您要我進入規劃階段，產出精確的變更規格（將查詢路徑改為 DuckDB/Polars，表與鍵對齊，且移除 SQLite 分支），請明確回覆「ENTER PLAN MODE」。
+-------------------------------------------------------
+[MODE: PLAN]
+變更目標
+在不引入 SQLite 的前提下，修正 knowledge_manager.search_product_data 實作，確保流程為「Milvus 語義搜尋 → 取得 product_id 列表 → 以 DuckDB/Polars 在 db/semantic_sales_spec.db 的 spec_data_960 表上用 modelname IN (...) 查詢 → 回傳結果」。
+涉及檔案與函式
+檔案：libs/KnowledgeManageHandler/knowledge_manager.py
+目標函式（簽名不變）：def search_product_data(self, message: str) -> Dict[str, Any]
+查詢與型別映射
+Milvus 結果欄位：
+來源：self.milvus_semantic_search(query_text=message, top_k=10)
+取值：product_id_list = list(set([str(item['product_id']) for item in semantic_results]))
+DuckDB 目標資料庫：
+路徑：db/semantic_sales_spec.db（透過 self.knowledge_bases["semantic_sales_spec"]["path"] 取得）
+表名：spec_data_960
+主鍵：cid（僅為表結構資訊，本次比對不用主鍵）
+比對欄位：modelname（等同 Milvus 回傳之 product_id）
+DuckDB SQL（精確）：
+以參數化方式建構 IN 條件：
+參數 placeholder：?, ?, ...（與 product_id_list 長度一致）
+SQL：SELECT * FROM spec_data_960 WHERE CAST(modelname AS VARCHAR) IN (?, ?, ...)
+型別處理：
+將 product_id 全部轉為字串 str(...) 後再作 IN 比對
+結果行轉為 dict 列表
+具體修改規格
+僅修改 search_product_data 函式內「第二步與第三步」：
+1) 保留第一步 Milvus 語義搜尋與「無結果」的回傳結構不變。
+2) 將「提取 product_id」之後的資料查詢，改為 DuckDB/Polars 路徑：
+不再調用 sqlite3.connect(...)
+使用 DuckDB 直接連線本地檔案並查詢，或透過現有 Polars 幫手以 DuckDB 引擎查詢（二擇一，擇 DuckDB 直連，不擴充其他路徑）
+參數化 IN 查詢，取回所有欄位，轉為標準 list[dict]
+3) 回傳結構保持現況鍵名不變：
+成功：{"query": message, "status": "success", "products": detailed_specs}
+無匹配：status: "no_spec_data"
+DB 不存在：status: "no_database"
+例外：status: "error"
+邏輯細節與邊界處理：
+若 self.knowledge_bases 無 "semantic_sales_spec"：回傳 no_database
+若 product_id_list 為空：回傳 no_results（沿用原邏輯分支）
+若 DuckDB 查無資料：回傳 no_spec_data
+僅於此函式禁用 SQLite 降級；不修改其他函式
+依賴與相容性
+依賴：duckdb 模組（本地檔案直連）
+不新增其他外部套件，不修改 polars_helper 與其他檔案
+測試方式（最小必要）
+以真實查詢字串（如「請介紹文書處理用的筆電」）觸發：
+確認 Milvus 有回傳 product_id
+確認以 modelname IN (...) 能查到 spec_data_960 的資料
+檢視 API 回傳 status: "success" 並含 products 陣列
+負例：
+Milvus 無結果 → no_results
+有 product_id 但 DuckDB 無匹配 → no_spec_data
+移除/錯誤的 DB 路徑 → no_database
+IMPLEMENTATION CHECKLIST:
+1. 在 libs/KnowledgeManageHandler/knowledge_manager.py 中定位 search_product_data
+2. 保留第一步 Milvus 語義搜尋與「無結果」處理不變
+3. 以 str(...) 正規化 semantic_results 的 product_id 列表
+4. 讀取 self.knowledge_bases["semantic_sales_spec"]["path"] 並檢查存在
+5. 使用 duckdb.connect(該路徑) 建立連線
+6. 以參數化 IN 建構 SQL：SELECT * FROM spec_data_960 WHERE CAST(modelname AS VARCHAR) IN (?,...,?)
+7. 執行查詢並將結果轉為 list[dict]
+8. 無資料時回傳 status: "no_spec_data"，有資料時回傳 status: "success" 與 products
+9. 例外捕捉維持原有格式，嚴禁導入 SQLite 降級
+10. 以範例查詢驗證成功/無結果/無匹配/無資料庫四種路徑
+======
+IMPLEMENTATION CHECKLIST:
+1. 在 libs/KnowledgeManageHandler/knowledge_manager.py 中定位 search_product_data
+2. 保留第一步 Milvus 語義搜尋與「無結果」處理不變
+3. 以 str(...) 正規化 semantic_results 的 product_id 列表
+4. 讀取 self.knowledge_bases["semantic_sales_spec"]["path"] 並檢查存在
+5. 使用 duckdb.connect(該路徑) 建立連線
+6. 以參數化 IN 建構 SQL：SELECT * FROM spec_data_960 WHERE CAST(modelname AS VARCHAR) IN (?,...,?)
+7. 執行查詢並將結果轉為 list[dict]
+8. 無資料時回傳 status: "no_spec_data"，有資料時回傳 status: "success" 與 products
+9. 例外捕捉維持原有格式，嚴禁導入 SQLite 降級
+10. 以範例查詢驗證成功/無結果/無匹配/無資料庫四種路徑
+----------------------------------------------------
+
+IMPLEMENTATION CHECKLIST:
+1. 在 libs/KnowledgeManageHandler/knowledge_manager.py 中定位 search_product_data
+2. 保留第一步 Milvus 語義搜尋與「無結果」處理不變
+3. 以 str(...) 正規化 semantic_results 的 product_id 列表
+4. 讀取 self.knowledge_bases["semantic_sales_spec"]["path"] 並檢查存在
+5. 使用 duckdb.connect(該路徑) 建立連線
+6. 以參數化 IN 建構 SQL：SELECT * FROM spec_data_960 WHERE CAST(modelname AS VARCHAR) IN (?,...,?)
+7. 執行查詢並將結果轉為 list[dict]
+8. 無資料時回傳 status: "no_spec_data"，有資料時回傳 status: "success" 與 products
+9. 例外捕捉維持原有格式，嚴禁導入 SQLite 降級
+10. 以範例查詢驗證成功/無結果/無匹配/無資料庫四種路徑
+
+----------------------------------------------------
+
+[MODE: REVIEW]
+
+- 已完成事項
+  - 分析並確認 `search_product_data` 既有流程與問題點（原以 SQLite 查 `specs.product_id`）。
+  - 建立 DuckDB 結構檢視工具：`test/print_semantic_sales_spec_schema.py`，確認 `db/semantic_sales_spec.db` 的表與欄位。
+  - 建立 SQLite 檢視與匯出工具：
+    - `test/print_nb_spec_schema.py`（列出 `db/nb_spec_0250821v1.db` 結構）
+    - `test/export_nb_spec_tables_to_csv.py`（匯出所有表到 `test/`）
+  - 擬定並核准 `search_product_data` 之 DuckDB/Polars 版本規格（不使用 SQLite）。
+  - 實作 `search_product_data`：
+    - 改為直連 DuckDB `db/semantic_sales_spec.db`，查 `spec_data_960`。
+    - 初版以 `modelname IN (milvus.product_id)`；後依您指示改為 `modeltype IN (milvus.product_id)`。
+    - 強化錯誤處理與回傳格式（`success/no_results/no_database/no_spec_data/error`）。
+  - 建立測試執行器：`test/run_search_product_data.py`，以「請介紹輕便的筆電」驗證成功回傳。
+  - 啟用 conda 環境：`salesragenv`。
+
+- 可繼續進行
+  - 以多組查詢驗證路徑與涵蓋率（成功、無結果、無匹配、錯誤）。
+  - 增加單元測試覆蓋 `search_product_data` 回傳格式與錯誤處理。
+  - 規格化 `product_id → modeltype` 對應來源（寫入設定或常數），避免日後再調整。
+  - 若需排序或限制輸出數量（例如依欄位或相似度），請指定規則後我實作。

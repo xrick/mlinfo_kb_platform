@@ -1,0 +1,20 @@
+id,filename,total_rows,imported_rows,skipped_rows,error_rows,status,error_message,import_timestamp
+1,AC01_result.csv,1,1,0,0,success,,2025-08-21 03:44:52
+2,data_17.csv,1,1,0,0,success,,2025-08-21 03:44:52
+3,data_27.csv,5,5,0,0,success,,2025-08-21 03:44:52
+4,data_326.csv,1,1,0,0,success,,2025-08-21 03:44:52
+5,data_525.csv,1,1,0,0,success,,2025-08-21 03:44:52
+6,data_529.csv,1,1,0,0,success,,2025-08-21 03:44:52
+7,data_531.csv,1,1,0,0,success,,2025-08-21 03:44:52
+8,data_656.csv,1,1,0,0,success,,2025-08-21 03:44:52
+9,data_728.csv,1,1,0,0,success,,2025-08-21 03:44:52
+10,data_819.csv,1,1,0,0,success,,2025-08-21 03:44:52
+11,data_829.csv,1,1,0,0,success,,2025-08-21 03:44:52
+12,data_8329.csv,1,1,0,0,success,,2025-08-21 03:44:52
+13,data_835.csv,1,1,0,0,success,,2025-08-21 03:44:52
+14,data_839.csv,1,1,0,0,success,,2025-08-21 03:44:52
+15,data_918.csv,1,1,0,0,success,,2025-08-21 03:44:52
+16,data_928.csv,1,1,0,0,success,,2025-08-21 03:44:52
+17,data_938.csv,1,1,0,0,success,,2025-08-21 03:44:52
+18,data_958.csv,1,1,0,0,success,,2025-08-21 03:44:52
+19,data_960.csv,1,1,0,0,success,,2025-08-21 03:44:52

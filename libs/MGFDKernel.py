@@ -1,6 +1,13 @@
 """
 MGFD 核心控制器 - 系統大腦及對外唯一介面
 負責協調五大模組，管理對話流程，處理前端請求
+後端處理完畢，回覆給前端的格式:
+return {
+        "success": True,
+        "session_id": session_id,
+        "message": "LLM Responses",
+        "timestamp": datetime.now().isoformat()
+        }
 """
 
 import logging
@@ -63,7 +70,8 @@ class MGFDKernel:
         self.knowledge_manager = KnowledgeManager()
         self.redis_client = redis_client
         self.config = self._load_config()
-        self.slot_schema = self._load_slot_schema()
+        
+        #self.slot_schema = self._load_slot_schema()
         
         # Initialize states and state_status before state_machine to avoid AttributeError
         self.states = States(
@@ -186,7 +194,7 @@ class MGFDKernel:
                         * **語氣：** 始終保持專業、友善、耐心且充滿熱忱。
                         * **目標：** 你的角色是「顧問」，不是「推銷員」。專注於解決客戶的問題，而非僅僅賣出最貴的商品。
                         * **避免：** 不要使用過於深奧的技術術語，盡量用生活化的比喻來解釋。
-
+                        * **輸出到前端的呈現方式：請將結果用專業、簡潔、易懂的方式呈現，讓使用者能夠清楚了解。
                         **嚴格遵守使用內部資料:**: 請絕對務必嚴格遵守公司產品資料都完全來自公司內部提供的各種資料，嚴格禁止出現競爭公司資料。
 
                         **資料收集**:
@@ -222,6 +230,7 @@ class MGFDKernel:
             self.response_generator = ResponseGenHandler()
             self.state_manager = StateManagementHandler(redis_client)
             logger.info("所有模組初始化成功")
+            self.slot_schema = self.user_input_handler.slot_schema
         except Exception as e:
             logger.error(f"模組初始化失敗: {e}")
             # 如果初始化失敗，設置為 None
@@ -542,8 +551,9 @@ class MGFDKernel:
         #需要加入knowledge_manager.search(context)
         #若ifDBSearch為True，則進行知識查詢，並將結果存入context["query_result"],
         #這是product_data
-        if slot_metadata["ifDBSearch"]:
-            
+        if slot_metadata.get("ifDBSearch", True):
+            #直接進行與關鍵字相關的產品規格搜尋
+            _product_data = await self.knowledge_manager.search_product_data(message)
             logging.info(f"先查詢產品資料: {context['query_result']}")
             #search_product_data
             _product_data = await self.search_product_data(message)
@@ -554,7 +564,12 @@ class MGFDKernel:
             context['keyword'] = "data"
             logging.info(f"知識查詢結果: {context['query_result']}")
             #進行
-            
+        #step 5: generate three-tier prompt and send prompt to LLM
+        self.SysPrompt = self.SysPrompt.format(product_data=_product_data,
+                                                   query=context["user_message"])
+        context['query_result'] = {"qry_result":_product_data}
+        context['keyword'] = "data"
+        logging.info(f"知識查詢結果: {context['query_result']}")
         
         # Step 6: 生成回應（ResponseGenerator）
         # 先手動生成回應傳回前端

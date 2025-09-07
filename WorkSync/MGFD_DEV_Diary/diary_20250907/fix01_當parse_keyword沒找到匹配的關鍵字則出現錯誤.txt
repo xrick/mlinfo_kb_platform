@@ -1,0 +1,103 @@
+[MODE: RESEARCH]
+
+現在我看到了新的問題！系統已經成功初始化了（不再是 503 錯誤），但是在處理消息時出現了 400 錯誤。讓我分析這個新的錯誤：
+
+
+[1 tool called]
+
+從錯誤訊息可以看到，問題出現在 `libs/MGFDKernel.py` 第 547 行：
+
+```
+KeyError: 'ifDBSearch'
+```
+
+讓我檢查這個具體的錯誤位置：
+
+
+[1 tool called]
+
+現在讓我檢查 `slot_metadata` 是如何產生的，以及為什麼缺少 `ifDBSearch` 鍵：
+
+
+[1 tool called]
+
+我發現了問題！在第 537 行，代碼使用了 `slot_metadata.get("ifDBSearch", True)` 來安全地獲取值，但在第 547 行卻直接使用 `slot_metadata["ifDBSearch"]` 而沒有檢查鍵是否存在。
+
+讓我檢查 `UserInputHandler.parse_keyword` 方法返回的 `slot_metadata` 結構：
+
+
+[1 tool called]
+
+現在我明白了問題！`UserInputHandler.parse_keyword` 方法返回的 `slot_metadata` 是從 `keywords_data` 中的 `metadata` 欄位獲取的，但這個 `metadata` 可能不包含 `ifDBSearch` 鍵。
+
+讓我檢查 `default_keywords.json` 檔案的結構：
+
+
+[1 tool called]
+
+很好！我看到 `default_keywords.json` 中確實有 `ifDBSearch` 鍵。問題可能是當 `parse_keyword` 沒有找到匹配的關鍵字時，它返回空字典 `{}`，而空字典中沒有 `ifDBSearch` 鍵。
+
+讓我檢查當查詢 "請介紹文書處理用的筆電" 時，`parse_keyword` 會返回什麼：
+
+
+[1 tool called]
+
+現在我完全理解了問題！當查詢 "請介紹文書處理用的筆電" 時：
+
+1. `UserInputHandler.parse_keyword()` 沒有找到匹配的關鍵字
+2. 返回 `("", {})` - 空字串和空字典
+3. 在 MGFDKernel 中，`slot_metadata` 變成空字典 `{}`
+4. 第 537 行使用 `slot_metadata.get("ifDBSearch", True)` 安全地獲取值（默認為 True）
+5. 但第 547 行直接使用 `slot_metadata["ifDBSearch"]` 導致 KeyError
+
+問題是代碼不一致：第 537 行使用了安全的 `.get()` 方法，但第 547 行沒有。
+
+讓我修復這個問題：
+
+
+[1 tool called]
+
+## 問題分析總結
+
+### **新問題：400 Bad Request 錯誤**
+
+**錯誤根源**：
+- 查詢 "請介紹文書處理用的筆電" 沒有匹配到任何關鍵字
+- `UserInputHandler.parse_keyword()` 返回 `("", {})` - 空字典
+- MGFDKernel 第 547 行直接訪問 `slot_metadata["ifDBSearch"]` 導致 KeyError
+- 代碼不一致：第 537 行使用安全的 `.get()` 方法，第 547 行沒有
+
+**具體錯誤位置**：
+```python
+# 第 537 行 - 安全訪問
+if slot_metadata.get("ifDBSearch", True):
+
+# 第 547 行 - 不安全訪問，導致 KeyError
+if slot_metadata["ifDBSearch"]:
+```
+
+**解決方案**：
+需要將第 547 行改為使用安全的 `.get()` 方法，與第 537 行保持一致。
+
+### **修復建議**
+
+將 `libs/MGFDKernel.py` 第 547 行：
+```python
+if slot_metadata["ifDBSearch"]:
+```
+
+改為：
+```python
+if slot_metadata.get("ifDBSearch", True):
+```
+
+這樣可以確保當 `slot_metadata` 為空字典時，`ifDBSearch` 默認為 `True`，與第 537 行的邏輯保持一致。
+
+### **根本原因**
+
+這是一個典型的防禦性編程問題：
+1. 當沒有匹配到關鍵字時，`slot_metadata` 為空字典
+2. 代碼中對同一個鍵的訪問方式不一致
+3. 缺少對空字典情況的處理
+
+修復這個問題後，系統應該能夠正常處理沒有匹配關鍵字的查詢，並進入適當的處理流程。

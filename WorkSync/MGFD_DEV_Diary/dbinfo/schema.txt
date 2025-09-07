@@ -1,0 +1,40 @@
+duckdb db
+table name: 是DuckDB, 檔案路徑：db/semantic_sales_spec.db, 
+主鍵名稱：cid, 表格名稱:spec_data_960
+cid	name	type	notnull	default	primary_key
+0	modeltype	VARCHAR	False	None	False
+1	version	VARCHAR	False	None	False
+2	modelname	VARCHAR	False	None	False
+3	mainboard	VARCHAR	False	None	False
+4	devtime	VARCHAR	False	None	False
+5	pm	VARCHAR	False	None	False
+6	structconfig	VARCHAR	False	None	False
+7	lcd	VARCHAR	False	None	False
+8	touchpanel	VARCHAR	False	None	False
+9	iointerface	DOUBLE	False	None	False
+10	ledind	VARCHAR	False	None	False
+11	powerbutton	VARCHAR	False	None	False
+12	keyboard	VARCHAR	False	None	False
+13	webcamera	VARCHAR	False	None	False
+14	touchpad	VARCHAR	False	None	False
+15	fingerprint	VARCHAR	False	None	False
+16	audio	VARCHAR	False	None	False
+17	battery	VARCHAR	False	None	False
+18	cpu	VARCHAR	False	None	False
+19	gpu	VARCHAR	False	None	False
+20	memory	VARCHAR	False	None	False
+21	lcdconnector	VARCHAR	False	None	False
+22	storage	VARCHAR	False	None	False
+23	wifislot	VARCHAR	False	None	False
+24	thermal	VARCHAR	False	None	False
+25	tpm	VARCHAR	False	None	False
+26	rtc	VARCHAR	False	None	False
+27	wireless	VARCHAR	False	None	False
+28	lan	VARCHAR	False	None	False
+29	lte	VARCHAR	False	None	False
+30	bluetooth	VARCHAR	False	None	False
+31	softwareconfig	VARCHAR	False	None	False
+32	ai	VARCHAR	False	None	False
+33	accessory	VARCHAR	False	None	False
+34	certifications	VARCHAR	False	None	False
+

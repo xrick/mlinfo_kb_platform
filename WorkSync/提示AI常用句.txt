@@ -79,3 +79,17 @@ please carefully and completely read and analyze  the following python files:   
   3.最後進行資料整理，以json格式回傳
   4.請**嚴格遵守不要過度設計**，我只需要產品得規格
   請先詳細計畫再進行實作
+
+
+請**嚴格遵守並執行我的命令**，**絕不能**自行產生額外的改動、修改、新增或刪除程式。
+
+
+[Execute Mode]
+1. 請以穩定並可正常運作為主要實作原則
+2. 若在實作過程中需要更多資料，請立即詢問
+3. 請在加強程式碼註解
+4. 請把程式發生錯誤時，如何回應給呼叫端進行實作
+
+[enter research]
+1. 請**務必詳細且嚴格分析** async def _process_message_internal 函式中實作步驟的可行性、穩定性、容錯性、如何除錯、效能如何評估。
+2. 請把input query開始，在系統中經歷了五大模組的那些模組，以及所有經歷的函式，列成表格輸出給我

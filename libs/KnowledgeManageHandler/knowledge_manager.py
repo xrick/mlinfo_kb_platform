@@ -1447,7 +1447,7 @@ class KnowledgeManager:
                 "timestamp": datetime.now().isoformat()
             }
     
-    # ==================== 通用產品規格搜尋方法 ====================
+    # ==================== 通用產品規格搜尋方法－語義搜尋 ====================
     
     def search_product_data(self, message: str) -> Dict[str, Any]:
         """
@@ -1460,6 +1460,125 @@ class KnowledgeManager:
         Returns:
             JSON格式的產品規格資料
         """
+        try:
+            self.logger.info(f"開始產品規格搜尋：'{message}'")
+            
+            # 第一步：語義搜尋
+            semantic_results = self.milvus_semantic_search(
+                query_text=message,
+                top_k=10
+            )
+            
+            if not semantic_results:
+                self.logger.warning("語義搜尋未找到相關結果")
+                return {
+                    "query": message,
+                    "status": "no_results",
+                    "products": []
+                }
+            
+            # 第二步：提取 product_id，並正規化為字串做為 modeltype 比對鍵
+            matched_keys = list({str(item.get('product_id', '')).strip() for item in semantic_results if str(item.get('product_id', '')).strip()})
+            self.logger.info(f"Milvus 對應的 modeltype 候選（matched_keys）共 {len(matched_keys)} 個：{matched_keys}")
+
+            if not matched_keys:
+                # 有語義結果但沒有有效的 product_id（modelname 對應鍵）
+                self.logger.warning("語義搜尋結果缺少可用的 product_id 作為 modelname 比對鍵")
+                return {
+                    "query": message,
+                    "status": "no_results",
+                    "products": []
+                }
+
+            # 第三步：在 DuckDB（semantic_sales_spec.db）查詢 spec_data_960
+            kb_info = self.knowledge_bases.get("semantic_sales_spec")
+            if not kb_info:
+                self.logger.error("語義銷售規格知識庫不存在")
+                return {
+                    "query": message,
+                    "status": "no_database",
+                    "products": []
+                }
+
+            detailed_specs = []
+            try:
+                # 延遲導入 duckdb，避免頂層依賴衝擊
+                import duckdb  # type: ignore
+
+                # 使用參數化 IN 查詢，比對 modeltype（等同於 milvus product_id）
+                placeholders = ','.join(['?' for _ in matched_keys])
+                sql = f"""
+                    SELECT *
+                    FROM spec_data_960
+                    WHERE CAST(modeltype AS VARCHAR) IN ({placeholders})
+                """
+
+                self.logger.info("開始在 DuckDB 查詢 spec_data_960（以 modeltype IN (?...)）")
+                con = duckdb.connect(kb_info["path"])  # 直接連線到 DuckDB 檔案
+                try:
+                    cur = con.execute(sql, matched_keys)
+                    rows = cur.fetchall()
+                    columns = [d[0] for d in cur.description] if cur.description else []
+                    for r in rows:
+                        # rows 為 tuple，需與欄位名稱對應成 dict
+                        row_dict = {columns[i]: r[i] for i in range(len(columns))}
+                        detailed_specs.append(row_dict)
+                finally:
+                    try:
+                        con.close()
+                    except Exception:
+                        pass
+            except Exception as duckdb_error:
+                # 直接返回 error，並附上清楚訊息給呼叫端
+                self.logger.error(f"DuckDB 查詢失敗: {duckdb_error}")
+                return {
+                    "query": message,
+                    "status": "error",
+                    "error": f"DuckDB query failed: {duckdb_error}",
+                    "products": []
+                }
+                
+            if not detailed_specs:
+                self.logger.warning("無法查詢到詳細規格資料")
+                return {
+                    "query": message,
+                    "status": "no_spec_data",
+                    "matched_keys": matched_keys,
+                    "products": []
+                }
+            
+            # 第四步：整理回傳資料
+            self.logger.info(f"成功找到 {len(detailed_specs)} 個產品規格")
+            return {
+                "query": message,
+                "status": "success",
+                "matched_keys": matched_keys,
+                "count": len(detailed_specs),
+                "products": detailed_specs
+            }
+            
+        except Exception as e:
+            self.logger.error(f"產品規格搜尋失敗: {e}")
+            return {
+                "query": message,
+                "status": "error",
+                "error": str(e),
+                "products": []
+            }
+
+"""
+backup function for search_product_data
+def search_product_data(self, message: str) -> Dict[str, Any]:
+        
+        # 通用產品規格搜尋函式
+        # 使用語義搜尋和 DuckDB 規格查詢
+        
+        # Args:
+        #     message: 客戶查詢字串
+            
+        # Returns:
+        #     JSON格式的產品規格資料
+        
         try:
             self.logger.info(f"開始產品規格搜尋：'{message}'")
             
@@ -1529,3 +1648,4 @@ class KnowledgeManager:
                 "error": str(e),
                 "products": []
             }
+"""
