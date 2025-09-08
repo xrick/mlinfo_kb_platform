@@ -1143,10 +1143,10 @@ class KnowledgeManager:
             id_list = [str(pid) for pid in product_ids]
             id_conditions = ','.join([f"'{pid}'" for pid in id_list])
             
-            # 構建 Polars 查詢表達式
+            # 構建 Polars 查詢表達式（移除 CAST 操作）
             query_expr = f"""
             SELECT * FROM nbtypes 
-            WHERE CAST(modeltype AS VARCHAR) IN ({id_conditions})
+            WHERE modeltype IN ({id_conditions})
             ORDER BY modeltype
             """
             
@@ -1174,11 +1174,11 @@ class KnowledgeManager:
                 conn.row_factory = sqlite3.Row
                 cursor = conn.cursor()
                 
-                # 使用參數化查詢避免 SQL 注入
-                placeholders = ','.join(['?' for _ in id_list])
-                query = f"SELECT * FROM nbtypes WHERE CAST(modeltype AS TEXT) IN ({placeholders})"
+                # 使用直接字串查詢避免 SQL 注入
+                id_conditions = ','.join([f"'{pid}'" for pid in id_list])
+                query = f"SELECT * FROM nbtypes WHERE modeltype IN ({id_conditions})"
                 
-                cursor.execute(query, id_list)
+                cursor.execute(query)
                 rows = cursor.fetchall()
                 
                 results = [dict(row) for row in rows]
@@ -1505,18 +1505,25 @@ class KnowledgeManager:
                 # 延遲導入 duckdb，避免頂層依賴衝擊
                 import duckdb  # type: ignore
 
-                # 使用參數化 IN 查詢，比對 modeltype（等同於 milvus product_id）
-                placeholders = ','.join(['?' for _ in matched_keys])
+                # 使用直接字串 IN 查詢，比對 modeltype（等同於 milvus product_id）
+                # 只選取必要欄位以提升效能
+                essential_fields = [
+                    'modeltype', 'modelname', 'cpu', 'gpu', 'memory', 'storage', 
+                    'lcd', 'battery', 'audio', 'wireless', 'bluetooth'
+                ]
+                fields_str = ', '.join(essential_fields)
+                modeltype_strs = [f"'{mt}'" for mt in matched_keys]
+                in_clause = ','.join(modeltype_strs)
                 sql = f"""
-                    SELECT *
+                    SELECT {fields_str}
                     FROM nbtypes
-                    WHERE CAST(modeltype AS VARCHAR) IN ({placeholders})
+                    WHERE modeltype IN ({in_clause})
                 """
 
-                self.logger.info("開始在 DuckDB 查詢 nbtypes（以 modeltype IN (?...)）")
+                self.logger.info(f"開始在 DuckDB 查詢 nbtypes（以 modeltype IN ({in_clause})）")
                 con = duckdb.connect(kb_info["path"])  # 直接連線到 DuckDB 檔案
                 try:
-                    cur = con.execute(sql, matched_keys)
+                    cur = con.execute(sql)
                     rows = cur.fetchall()
                     columns = [d[0] for d in cur.description] if cur.description else []
                     for r in rows:
@@ -1615,11 +1622,11 @@ def search_product_data(self, message: str) -> Dict[str, Any]:
                 conn.row_factory = sqlite3.Row
                 cursor = conn.cursor()
                 
-                # 使用參數化查詢
-                placeholders = ','.join(['?' for _ in product_ids])
-                query = f"SELECT * FROM nbtypes WHERE CAST(modeltype AS TEXT) IN ({placeholders})"
+                # 使用直接字串查詢
+                id_conditions = ','.join([f"'{pid}'" for pid in product_ids])
+                query = f"SELECT * FROM nbtypes WHERE modeltype IN ({id_conditions})"
                 
-                cursor.execute(query, product_ids)
+                cursor.execute(query)
                 rows = cursor.fetchall()
                 
                 detailed_specs = [dict(row) for row in rows]
