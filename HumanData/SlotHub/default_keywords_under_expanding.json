@@ -1,0 +1,341 @@
+{
+  "用途": {
+    "synonyms": ["使用目的", " 應用場景", "功能需求", "用法", "目標用途"],
+    "metadata": {
+      "regex": "(用途|使用目的|應用場景|功能需求|用法|目標用途)",
+      "slotvalue": "nodata",
+      "mapping": "usage_purpose",
+      "importance": 4,
+      "ifDBSearch": false
+    }
+  },
+
+  "重量": {
+    "synonyms": ["重量重量", "機身重量", "淨重", "總重", "機重"],
+    "metadata": {
+      "regex": "(重量|機身重量|淨重|總重|機重)",
+      "slotvalue": "all",
+      "mapping": "weight",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+
+  "預算": {
+    "synonyms": ["價錢", "費用", "花費", "成本", "資金"],
+    "metadata": {
+      "regex": "(預算|價錢|費用|花費|成本|資金)",
+      "slotvalue": "nodata",
+      "mapping": "budget",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+
+  "輕便": {
+    "synonyms": ["重量較輕", "容易攜帶", "便攜", "輕巧", "好攜帶"],
+    "metadata": {
+      "regex": "(輕便|重量較輕|容易攜帶|便攜|輕巧|好攜帶)",
+      "slotvalue": "2.0 KG",
+      "mapping": "light",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+
+  "價格區間": {
+    "synonyms": ["價位", "價錢範圍", "費用區間", "預算範圍", "價格帶"],
+    "metadata": {
+      "regex": "(價格區間|價位|價錢範圍|費用區間|預算範圍|價格帶)",
+      "slotvalue": "assigned",
+      "mapping": "price_range",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+  
+  "推出時間": {
+    "synonyms": ["上市時間", "發布時間", "發售日期", "推出日期", "問世時間"],
+    "metadata": {
+      "regex": "(推出時間|上市時間|發布時間|發售日期|推出日期|問世時間)",
+      "slotvalue": "nodata",
+      "mapping": "release_time",
+      "importance": 4,
+      "ifDBSearch": false
+    }
+  },
+  "CPU效能": {
+    "synonyms": ["處理器效能", "CPU性能", "運算效能", "處理速度", "CPU表現"],
+    "metadata": {
+      "regex": "(CPU效能|處理器效能|CPU性能|運算效能|處理速度|CPU表現)",
+      "slotvalue": "assigned",
+      "mapping": "cpu_performance",
+      "importance": 1,
+      "ifDBSearch": true
+    }
+  },
+  "GPU效能": {
+    "synonyms": ["顯卡效能", "GPU性能", "圖形效能", "顯示效能", "繪圖效能"],
+    "metadata": {
+      "regex": "(GPU效能|顯卡效能|GPU性能|圖形效能|顯示效能|繪圖效能)",
+      "slotvalue": "assigned",
+      "mapping": "gpu_performance",
+      "importance": 1,
+      "ifDBSearch": true
+    }
+  },
+  
+  "攜帶性": {
+    "synonyms": ["便攜性", "可攜帶", "移動性", "便於攜帶", "攜帶方便"],
+    "metadata": {
+      "regex": "(攜帶性|便攜性|可攜帶|移動性|便於攜帶|攜帶方便)",
+      "slotvalue": "2.0 KG",
+      "mapping": "portability",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+  "開關機速度": {
+    "synonyms": ["啟動速度", "開機時間", "關機時間", "開關機時間", "啟動效率"],
+    "metadata": {
+    "regex": "(開關機速度|啟動速度|開機時間|關機時間|開關機時間|啟動效率)",
+    "slotvalue": "nodata",
+    "mapping": "boot_speed",
+    "importance": 4,
+    "ifDBSearch": false
+    }
+  },
+  "螢幕尺寸": {
+    "synonyms": ["屏幕大小", "顯示器尺寸", "螢幕大小", "屏幕尺寸", "面板尺寸"],
+    "metadata": {
+    "regex": "(螢幕尺寸|屏幕大小|顯示器尺寸|螢幕大小|屏幕尺寸|面板尺寸)",
+    "slotvalue": "assigned",
+    "mapping": "screen_size",
+    "importance": 2,
+    "ifDBSearch": true
+    }
+  },
+  "品牌": {
+    "synonyms": ["廠牌", "牌子", "製造商", "品牌名稱", "廠商", "品牌商"],
+    "metadata": {
+    "regex": "(品牌|廠牌|製造商|品牌名稱|廠商|品牌商)",
+    "slotvalue": "assigned",
+    "mapping": "brand",
+    "importance": 1,
+    "ifDBSearch": true
+    }
+  },
+
+  "觸控螢幕": {
+    "synonyms": ["觸控","觸摸屏", "觸控面板", "觸摸螢幕", "觸控顯示", "觸摸式螢幕"],
+    "metadata": {
+    "regex": "(觸控螢幕|觸控|觸摸屏|觸控面板|觸摸螢幕|觸控顯示|觸摸式螢幕)",
+    "slotvalue": "all",
+    "mapping": "touch_screen",
+    "importance": 5,
+    "ifDBSearch": true
+    }
+  },
+ 
+  "SSD容量": {
+    "synonyms": ["固態硬碟容量", "SSD容量", "硬碟容量", "硬碟空間", "硬碟大小"],
+    "metadata": {
+    "regex": "(SSD容量|固態硬碟容量|硬碟容量|硬碟空間|硬碟大小)",
+    "slotvalue": "assigned",
+    "mapping": "ssd_capacity",
+    "importance": 2,
+    "ifDBSearch": true
+    }
+  },
+  
+  "螢幕大小": {
+    "synonyms": ["尺寸", "螢幕尺寸", "顯示大小", "螢幕吋數", "大小"],
+    "metadata": {
+      "regex": "(螢幕大小|尺寸|螢幕尺寸|顯示大小|螢幕吋數|大小)",
+      "slotvalue": "15.6 吋",
+      "mapping": "screen_size",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+
+  "解析度": {
+    "synonyms": ["畫質", "清晰度", "顯示解析度", "畫面細緻度"],
+    "metadata": {
+      "regex": "(解析度|畫質|清晰度|顯示解析度|畫面細緻度)",
+      "slotvalue": "1920x1080",
+      "mapping": "resolution",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+
+  "效能": {
+    "synonyms": ["性能", "處理能力", "速度", "運算效能", "效用"],
+    "metadata": {
+      "regex": "(效能|性能|處理能力|速度|運算效能|效用)",
+      "slotvalue": "nodata",
+      "mapping": "performance",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+
+  "處理器": {
+    "synonyms": ["CPU", "中央處理器", "晶片", "處理晶片"],
+    "metadata": {
+      "regex": "(處理器|CPU|中央處理器|晶片|處理晶片)",
+      "slotvalue": "Intel Core i7",
+      "mapping": "cpu",
+      "importance": 3,
+      "ifDBSearch": true
+    }
+  },
+
+  "記憶體": {
+    "synonyms": ["RAM", "記憶", "內存", "隨機存取記憶體"],
+    "metadata": {
+      "regex": "(記憶體|RAM|記憶|內存|隨機存取記憶體)",
+      "slotvalue": "16GB",
+      "mapping": "ram",
+      "importance": 3,
+      "ifDBSearch": true
+    }
+  },
+
+  "硬碟": {
+    "synonyms": ["硬碟容量", "SSD", "HDD", "儲存空間", "儲存裝置"],
+    "metadata": {
+      "regex": "(硬碟|硬碟容量|SSD|HDD|儲存空間|儲存裝置)",
+      "slotvalue": "512GB SSD",
+      "mapping": "storage",
+      "importance": 3,
+      "ifDBSearch": true
+    }
+  },
+
+  "電池續航": {
+    "synonyms": ["待機時間", "續航力", "電池壽命", "使用時間", "電量持久"],
+    "metadata": {
+      "regex": "(電池續航|待機時間|續航力|電池壽命|使用時間|電量持久)",
+      "slotvalue": "8 小時",
+      "mapping": "battery_life",
+      "importance": 3,
+      "ifDBSearch": true
+    }
+  },
+
+  "作業系統": {
+    "synonyms": ["OS", "系統版本", "軟體環境", "系統平台"],
+    "metadata": {
+      "regex": "(作業系統|OS|系統版本|軟體環境|系統平台)",
+      "slotvalue": "Windows 11",
+      "mapping": "os",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+
+  "顯示卡": {
+    "synonyms": ["GPU", "圖形卡", "繪圖卡", "顯卡", "顯示晶片"],
+    "metadata": {
+      "regex": "(顯示卡|GPU|圖形卡|繪圖卡|顯卡|顯示晶片)",
+      "slotvalue": "NVIDIA RTX 3060",
+      "mapping": "gpu",
+      "importance": 3,
+      "ifDBSearch": true
+    }
+  },
+
+  "鍵盤": {
+    "synonyms": ["背光鍵盤", "機械鍵盤", "輸入裝置"],
+    "metadata": {
+      "regex": "(鍵盤|背光鍵盤|機械鍵盤|輸入裝置)",
+      "slotvalue": "背光",
+      "mapping": "keyboard",
+      "importance": 1,
+      "ifDBSearch": true
+    }
+  },
+
+  
+
+  "外型設計": {
+    "synonyms": ["外觀", "設計風格", "機型", "造型"],
+    "metadata": {
+      "regex": "(外型設計|外觀|設計風格|機型|造型)",
+      "slotvalue": "nodata",
+      "mapping": "design",
+      "importance": 1,
+      "ifDBSearch": false
+    }
+  },
+
+  "散熱": {
+    "synonyms": ["降溫", "風扇", "散熱系統"],
+    "metadata": {
+      "regex": "(散熱|降溫|風扇|散熱系統)",
+      "slotvalue": "nodata",
+      "mapping": "cooling",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+
+  "擴充性": {
+    "synonyms": ["擴充插槽", "升級空間", "擴充能力"],
+    "metadata": {
+      "regex": "(擴充性|擴充插槽|升級空間|擴充能力)",
+      "slotvalue": "可升級到32GB RAM",
+      "mapping": "expandability",
+      "importance": 1,
+      "ifDBSearch": true
+    }
+  },
+
+  "連接埠": {
+    "synonyms": ["插槽", "接口", "USB孔", "輸出入孔"],
+    "metadata": {
+      "regex": "(連接埠|插槽|接口|USB孔|輸出入孔)",
+      "slotvalue": "USB-C, HDMI",
+      "mapping": "ports",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+
+  "攝影機": {
+    "synonyms": ["網路攝影機", "視訊鏡頭", "前鏡頭"],
+    "metadata": {
+      "regex": "(攝影機|網路攝影機|視訊鏡頭|前鏡頭)",
+      "slotvalue": "1080p",
+      "mapping": "webcam",
+      "importance": 1,
+      "ifDBSearch": true
+    }
+  },
+
+  "喇叭": {
+    "synonyms": ["音效", "揚聲器", "聲音輸出"],
+    "metadata": {
+      "regex": "(喇叭|音效|揚聲器|聲音輸出)",
+      "slotvalue": "立體聲",
+      "mapping": "speakers",
+      "importance": 1,
+      "ifDBSearch": true
+    }
+  },
+
+  "售後服務": {
+    "synonyms": ["保固", "保修", "維修服務", "保固期限"],
+    "metadata": {
+      "regex": "(售後服務|保固|保修|維修服務|保固期限)",
+      "slotvalue": "1 年保固",
+      "mapping": "warranty",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  }
+}
+  
+

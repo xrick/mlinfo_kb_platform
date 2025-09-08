@@ -1456,7 +1456,7 @@ function initSalesAI() {
             // Render the general message with proper styling
             container.innerHTML = `
                 <div class="general-response">
-                    <div class="message-content">${message}</div>
+                    <div class="message-content">${renderMarkdownContent(message)}</div>
                 </div>
             `;
             

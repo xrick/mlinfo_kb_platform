@@ -1,6 +1,8 @@
 from langchain_community.llms import Ollama
 
 class LLMInitializer:
+    # def __init__(self, model_name: str = "gpt-oss:20b", temperature: float = 0.1):
+    # def __init__(self, model_name: str = "deepseek-r1:7b", temperature: float = 0.1):
     def __init__(self, model_name: str = "gpt-oss:20b", temperature: float = 0.1):
         """
         gpt-oss:20b
