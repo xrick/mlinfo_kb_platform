@@ -1,0 +1,1705 @@
+{
+  "slot_definitions": {
+    "usage_purpose": {
+      "name": "使用目的",
+      "type": "enum",
+      "required": true,
+      "priority": 1,
+      "description": "筆電的主要使用目的",
+      "default_value": null,
+      "validation_rules": {
+        "allowed_values": [
+          "gaming",
+          "business",
+          "student",
+          "creative",
+          "general",
+          "document_processing"
+        ],
+        "min_length": 1,
+        "max_length": 50
+      },
+      "collection_prompt": "請問您主要會用這台筆電做什麼呢？",
+      "follow_up_questions": {
+        "gaming": "您主要玩什麼類型的遊戲呢？",
+        "business": "您的工作內容主要涉及哪些軟體？",
+        "student": "您是大學生還是研究生呢？",
+        "creative": "您主要從事哪類創作工作？",
+        "general": "您希望筆電具備哪些基本功能？",
+        "document_processing": "您主要處理哪些類型的文件？"
+      },
+      "matching_strategies": {
+        "primary": "hybrid",
+        "fallback": "keyword",
+        "weights": {
+          "regex": 0.4,
+          "keyword": 0.35,
+          "semantic": 0.25
+        }
+      },
+      "synonyms": {
+        "gaming": {
+          "keywords": [
+            "遊戲",
+            "打遊戲",
+            "電競",
+            "gaming",
+            "玩遊戲",
+            "娛樂",
+            "遊戲機"
+          ],
+          "regex": [
+            "遊戲|gaming|電競|娛樂|play.*game",
+            "打遊戲|玩遊戲|遊戲用|遊戲機",
+            "電競.*筆電|遊戲.*筆電|娛樂.*筆電"
+          ],
+          "semantic": [
+            "遊戲體驗",
+            "遊戲效能",
+            "遊戲需求"
+          ],
+          "fuzzy_match": [
+            "game",
+            "play",
+            "entertainment",
+            "fun"
+          ]
+        },
+        "business": {
+          "keywords": [
+            "工作",
+            "商務",
+            "辦公",
+            "business",
+            "職場",
+            "上班",
+            "Office",
+            "業務",
+            "工作用",
+            "辦公用途",
+            "商務用途"
+          ],
+          "regex": [
+            "工作|商務|辦公|business|職場|上班|office",
+            "工作用|辦公用|商務用|職場用",
+            "工作.*筆電|辦公.*筆電|商務.*筆電"
+          ],
+          "semantic": [
+            "商務辦公",
+            "工作需求",
+            "企業使用"
+          ],
+          "fuzzy_match": [
+            "work",
+            "office",
+            "business",
+            "professional"
+          ]
+        },
+        "student": {
+          "keywords": [
+            "學生",
+            "學習",
+            "上課",
+            "作業",
+            "student",
+            "讀書",
+            "研究",
+            "學業",
+            "學校",
+            "課程"
+          ],
+          "regex": [
+            "學生|學習|上課|作業|student|讀書|研究|學業|學校|課程",
+            "學生用|學習用|上課用|作業用",
+            "學生.*筆電|學習.*筆電|上課.*筆電"
+          ],
+          "semantic": [
+            "學習需求",
+            "學生使用",
+            "教育用途"
+          ],
+          "fuzzy_match": [
+            "study",
+            "learn",
+            "school",
+            "education"
+          ]
+        },
+        "creative": {
+          "keywords": [
+            "創作",
+            "設計",
+            "剪輯",
+            "creative",
+            "繪圖",
+            "藝術",
+            "製作",
+            "編輯",
+            "創作工作"
+          ],
+          "regex": [
+            "創作|設計|剪輯|creative|繪圖|藝術|製作|編輯",
+            "創作用|設計用|剪輯用|繪圖用",
+            "創作.*筆電|設計.*筆電|剪輯.*筆電"
+          ],
+          "semantic": [
+            "創作工作",
+            "設計需求",
+            "藝術創作"
+          ],
+          "fuzzy_match": [
+            "creative",
+            "design",
+            "art",
+            "edit"
+          ]
+        },
+        "general": {
+          "keywords": [
+            "一般",
+            "日常",
+            "上網",
+            "general",
+            "普通",
+            "文書",
+            "基本",
+            "一般用途",
+            "日常使用",
+            "文書處理",
+            "辦公",
+            "文書工作",
+            "文件處理",
+            "打字",
+            "文書作業"
+          ],
+          "regex": [
+            "一般|日常|上網|general|普通|文書|基本|一般用途|日常使用|文書處理|辦公|文書工作|文件處理|打字|文書作業",
+            "一般用|日常用|上網用|普通用",
+            "一般.*筆電|日常.*筆電|上網.*筆電"
+          ],
+          "semantic": [
+            "日常使用",
+            "一般用途",
+            "基本需求"
+          ],
+          "fuzzy_match": [
+            "general",
+            "daily",
+            "basic",
+            "normal"
+          ]
+        },
+        "document_processing": {
+          "keywords": [
+            "文書處理",
+            "文件處理",
+            "打字",
+            "文書工作",
+            "文書作業",
+            "office",
+            "word",
+            "excel",
+            "powerpoint",
+            "文書軟體",
+            "辦公軟體",
+            "文書編輯",
+            "文件編輯"
+          ],
+          "regex": [
+            "文書處理|文件處理|打字|文書工作|文書作業|office|word|excel|powerpoint|文書軟體|辦公軟體|文書編輯|文件編輯",
+            "文書.*處理|文件.*處理|打字.*用",
+            "文書.*筆電|文件.*筆電|打字.*筆電"
+          ],
+          "semantic": [
+            "文書處理需求",
+            "辦公軟體使用",
+            "文件編輯工作"
+          ],
+          "fuzzy_match": [
+            "document",
+            "word",
+            "excel",
+            "office"
+          ]
+        }
+      }
+    },
+    "budget_range": {
+      "name": "預算範圍",
+      "type": "enum",
+      "required": true,
+      "priority": 2,
+      "description": "用戶的預算範圍",
+      "default_value": null,
+      "validation_rules": {
+        "allowed_values": [
+          "budget",
+          "mid_range",
+          "premium",
+          "luxury"
+        ],
+        "min_length": 1,
+        "max_length": 20
+      },
+      "collection_prompt": "請問您的預算範圍大概是多少呢？",
+      "price_mapping": {
+        "budget": {
+          "min": 0,
+          "max": 25000,
+          "currency": "TWD"
+        },
+        "mid_range": {
+          "min": 25000,
+          "max": 50000,
+          "currency": "TWD"
+        },
+        "premium": {
+          "min": 50000,
+          "max": 80000,
+          "currency": "TWD"
+        },
+        "luxury": {
+          "min": 80000,
+          "max": 999999,
+          "currency": "TWD"
+        }
+      },
+      "matching_strategies": {
+        "primary": "hybrid",
+        "fallback": "regex",
+        "weights": {
+          "regex": 0.45,
+          "keyword": 0.35,
+          "semantic": 0.2
+        }
+      },
+      "synonyms": {
+        "budget": {
+          "keywords": [
+            "便宜",
+            "平價",
+            "入門",
+            "budget",
+            "實惠",
+            "經濟",
+            "低價",
+            "便宜一點",
+            "預算有限"
+          ],
+          "regex": [
+            "便宜|平價|入門|budget|實惠|經濟|低價|便宜一點|預算有限",
+            "\\d+[萬千]?以下|\\d+[萬千]?以內",
+            "預算.*有限|價格.*便宜|經濟.*實惠"
+          ],
+          "semantic": [
+            "經濟實惠",
+            "預算有限",
+            "入門級別"
+          ],
+          "fuzzy_match": [
+            "cheap",
+            "budget",
+            "affordable",
+            "low"
+          ]
+        },
+        "mid_range": {
+          "keywords": [
+            "中等",
+            "中端",
+            "mid",
+            "中價位",
+            "一般價位",
+            "適中",
+            "中等價位",
+            "合理價格"
+          ],
+          "regex": [
+            "中等|中端|mid|中價位|一般價位|適中|中等價位|合理價格",
+            "\\d+[萬千]?到\\d+[萬千]?|\\d+[萬千]?左右",
+            "價格.*適中|預算.*中等|合理.*價格"
+          ],
+          "semantic": [
+            "中等價位",
+            "合理價格",
+            "平衡選擇"
+          ],
+          "fuzzy_match": [
+            "mid",
+            "medium",
+            "reasonable",
+            "moderate"
+          ]
+        },
+        "premium": {
+          "keywords": [
+            "高端",
+            "高級",
+            "premium",
+            "高價位",
+            "高品質",
+            "高檔",
+            "高級一點"
+          ],
+          "regex": [
+            "高端|高級|premium|高價位|高品質|高檔|高級一點",
+            "\\d+[萬千]?以上|\\d+[萬千]?以上",
+            "高品質.*筆電|高端.*配置|高級.*選擇"
+          ],
+          "semantic": [
+            "高端品質",
+            "高級配置",
+            "頂級體驗"
+          ],
+          "fuzzy_match": [
+            "premium",
+            "high",
+            "quality",
+            "luxury"
+          ]
+        },
+        "luxury": {
+          "keywords": [
+            "旗艦",
+            "頂級",
+            "豪華",
+            "luxury",
+            "最高級",
+            "最頂級",
+            "旗艦級",
+            "豪華版"
+          ],
+          "regex": [
+            "旗艦|頂級|豪華|luxury|最高級|最頂級|旗艦級|豪華版",
+            "\\d+[萬千]?以上|不限.*預算|最高.*預算",
+            "旗艦.*筆電|頂級.*配置|豪華.*選擇"
+          ],
+          "semantic": [
+            "旗艦級別",
+            "頂級配置",
+            "豪華體驗"
+          ],
+          "fuzzy_match": [
+            "luxury",
+            "flagship",
+            "top",
+            "best"
+          ]
+        }
+      }
+    },
+    "cpu_level": {
+      "name": "CPU等級",
+      "type": "enum",
+      "required": false,
+      "priority": 3,
+      "description": "處理器效能等級",
+      "default_value": null,
+      "validation_rules": {
+        "allowed_values": [
+          "basic",
+          "mid",
+          "high"
+        ],
+        "min_length": 1,
+        "max_length": 20
+      },
+      "collection_prompt": "您對處理器效能有什麼要求嗎？",
+      "follow_up_questions": {
+        "basic": "基本文書處理夠用嗎？",
+        "mid": "需要處理多工嗎？",
+        "high": "需要高效能運算嗎？"
+      },
+      "matching_strategies": {
+        "primary": "regex",
+        "fallback": "keyword",
+        "weights": {
+          "regex": 0.5,
+          "keyword": 0.3,
+          "semantic": 0.2
+        }
+      },
+      "synonyms": {
+        "basic": {
+          "keywords": [
+            "基本",
+            "入門",
+            "一般",
+            "i3",
+            "ryzen 3",
+            "基本處理器",
+            "效能一般",
+            "夠用就好"
+          ],
+          "regex": [
+            "基本|入門|一般|i3|ryzen\\s*3|基本處理器|效能一般|夠用就好",
+            "i3.*處理器|ryzen\\s*3.*處理器",
+            "基本.*效能|入門.*等級|一般.*使用"
+          ],
+          "semantic": [
+            "基本效能",
+            "入門級別",
+            "一般使用"
+          ],
+          "fuzzy_match": [
+            "basic",
+            "entry",
+            "simple",
+            "i3"
+          ]
+        },
+        "mid": {
+          "keywords": [
+            "中等",
+            "中端",
+            "i5",
+            "ryzen 5",
+            "中等處理器",
+            "效能不錯",
+            "平衡效能"
+          ],
+          "regex": [
+            "中等|中端|i5|ryzen\\s*5|中等處理器|效能不錯|平衡效能",
+            "i5.*處理器|ryzen\\s*5.*處理器",
+            "中等.*效能|中端.*等級|平衡.*配置"
+          ],
+          "semantic": [
+            "中等效能",
+            "平衡配置",
+            "效能不錯"
+          ],
+          "fuzzy_match": [
+            "mid",
+            "medium",
+            "i5",
+            "balanced"
+          ]
+        },
+        "high": {
+          "keywords": [
+            "高效能",
+            "高級",
+            "i7",
+            "i9",
+            "ryzen 7",
+            "ryzen 9",
+            "高效能",
+            "效能強勁",
+            "頂級效能"
+          ],
+          "regex": [
+            "高效能|高級|i7|i9|ryzen\\s*[79]|效能強勁|頂級效能",
+            "i[79].*處理器|ryzen\\s*[79].*處理器",
+            "高效能.*處理器|強勁.*效能|頂級.*配置"
+          ],
+          "semantic": [
+            "高效能",
+            "頂級配置",
+            "強勁效能"
+          ],
+          "fuzzy_match": [
+            "high",
+            "powerful",
+            "i7",
+            "i9"
+          ]
+        }
+      }
+    },
+    "gpu_level": {
+      "name": "GPU等級",
+      "type": "enum",
+      "required": false,
+      "priority": 4,
+      "description": "顯示卡等級",
+      "default_value": null,
+      "validation_rules": {
+        "allowed_values": [
+          "integrated",
+          "dedicated",
+          "professional"
+        ],
+        "min_length": 1,
+        "max_length": 20
+      },
+      "collection_prompt": "您需要獨立顯示卡嗎？",
+      "follow_up_questions": {
+        "integrated": "內建顯示卡夠用嗎？",
+        "dedicated": "需要遊戲效能嗎？",
+        "professional": "需要專業繪圖嗎？"
+      },
+      "matching_strategies": {
+        "primary": "regex",
+        "fallback": "keyword",
+        "weights": {
+          "regex": 0.5,
+          "keyword": 0.3,
+          "semantic": 0.2
+        }
+      },
+      "synonyms": {
+        "integrated": {
+          "keywords": [
+            "內建",
+            "基本顯示",
+            "一般顯示",
+            "內建顯卡",
+            "基本圖形"
+          ],
+          "regex": [
+            "內建|基本顯示|一般顯示|內建顯卡|基本圖形",
+            "內建.*顯卡|基本.*圖形|一般.*顯示",
+            "不需要.*獨立顯卡|基本.*顯示.*效能"
+          ],
+          "semantic": [
+            "基本圖形",
+            "內建顯示",
+            "一般顯示"
+          ],
+          "fuzzy_match": [
+            "integrated",
+            "basic",
+            "built-in"
+          ]
+        },
+        "dedicated": {
+          "keywords": [
+            "獨立顯卡",
+            "遊戲顯卡",
+            "rtx",
+            "gtx",
+            "獨立顯示",
+            "遊戲效能"
+          ],
+          "regex": [
+            "獨立顯卡|遊戲顯卡|rtx|gtx|獨立顯示|遊戲效能",
+            "rtx.*顯卡|gtx.*顯卡|獨立.*顯卡",
+            "遊戲.*顯卡|遊戲.*效能|獨立.*顯示"
+          ],
+          "semantic": [
+            "獨立顯卡",
+            "遊戲效能",
+            "圖形處理"
+          ],
+          "fuzzy_match": [
+            "dedicated",
+            "gaming",
+            "rtx",
+            "gtx"
+          ]
+        },
+        "professional": {
+          "keywords": [
+            "專業顯卡",
+            "工作站顯卡",
+            "專業顯示",
+            "工作站級"
+          ],
+          "regex": [
+            "專業顯卡|工作站顯卡|專業顯示|工作站級",
+            "專業.*顯卡|工作站.*顯卡|專業.*圖形",
+            "繪圖.*顯卡|設計.*顯卡|專業.*工作"
+          ],
+          "semantic": [
+            "專業顯卡",
+            "工作站級",
+            "專業圖形"
+          ],
+          "fuzzy_match": [
+            "professional",
+            "workstation",
+            "pro"
+          ]
+        }
+      }
+    },
+    "weight_requirement": {
+      "name": "重量要求",
+      "type": "enum",
+      "required": false,
+      "priority": 5,
+      "description": "筆電重量要求",
+      "default_value": null,
+      "validation_rules": {
+        "allowed_values": [
+          "ultra_light",
+          "light",
+          "standard",
+          "heavy"
+        ],
+        "min_length": 1,
+        "max_length": 20
+      },
+      "collection_prompt": "您對筆電重量有什麼要求嗎？",
+      "follow_up_questions": {
+        "ultra_light": "需要極致輕便嗎？",
+        "light": "需要便於攜帶嗎？",
+        "standard": "重量不是主要考量嗎？",
+        "heavy": "效能比重量重要嗎？"
+      },
+      "matching_strategies": {
+        "primary": "hybrid",
+        "fallback": "keyword",
+        "weights": {
+          "regex": 0.4,
+          "keyword": 0.4,
+          "semantic": 0.2
+        }
+      },
+      "synonyms": {
+        "ultra_light": {
+          "keywords": [
+            "超輕",
+            "1kg以下",
+            "極輕",
+            "超輕便",
+            "極輕巧"
+          ],
+          "regex": [
+            "超輕|1kg以下|極輕|超輕便|極輕巧",
+            "1\\s*kg以下|1\\s*公斤以下",
+            "超輕.*筆電|極輕.*設計|最輕.*選擇"
+          ],
+          "semantic": [
+            "超輕便",
+            "極致輕巧",
+            "便攜優先"
+          ],
+          "fuzzy_match": [
+            "ultra-light",
+            "super-light",
+            "1kg"
+          ]
+        },
+        "light": {
+          "keywords": [
+            "輕便",
+            "1-1.5kg",
+            "輕巧",
+            "輕便攜帶",
+            "便於攜帶"
+          ],
+          "regex": [
+            "輕便|1-1\\.5kg|輕巧|輕便攜帶|便於攜帶",
+            "1\\s*到1\\.5\\s*kg|1\\s*到1\\.5\\s*公斤",
+            "輕便.*筆電|輕巧.*設計|便於.*攜帶"
+          ],
+          "semantic": [
+            "輕便攜帶",
+            "便於移動",
+            "輕巧設計"
+          ],
+          "fuzzy_match": [
+            "light",
+            "portable",
+            "1.5kg"
+          ]
+        },
+        "standard": {
+          "keywords": [
+            "一般",
+            "1.5-2kg",
+            "標準重量",
+            "一般重量",
+            "正常重量"
+          ],
+          "regex": [
+            "一般|1\\.5-2kg|標準重量|一般重量|正常重量",
+            "1\\.5\\s*到2\\s*kg|1\\.5\\s*到2\\s*公斤",
+            "一般.*重量|標準.*重量|正常.*重量"
+          ],
+          "semantic": [
+            "標準重量",
+            "一般重量",
+            "正常重量"
+          ],
+          "fuzzy_match": [
+            "standard",
+            "normal",
+            "2kg"
+          ]
+        },
+        "heavy": {
+          "keywords": [
+            "重量不限制",
+            "效能優先",
+            "重量不重要",
+            "效能第一"
+          ],
+          "regex": [
+            "重量不限制|效能優先|重量不重要|效能第一",
+            "重量.*不重要|效能.*優先|重量.*不限制",
+            "效能.*比.*重量.*重要|重量.*不是.*考量"
+          ],
+          "semantic": [
+            "效能優先",
+            "重量不限制",
+            "效能第一"
+          ],
+          "fuzzy_match": [
+            "heavy",
+            "performance",
+            "weight-unlimited"
+          ]
+        }
+      }
+    },
+    "screen_size": {
+      "name": "螢幕尺寸",
+      "type": "enum",
+      "required": false,
+      "priority": 6,
+      "description": "螢幕尺寸要求",
+      "default_value": null,
+      "validation_rules": {
+        "allowed_values": [
+          "small",
+          "medium",
+          "large"
+        ],
+        "min_length": 1,
+        "max_length": 20
+      },
+      "collection_prompt": "您希望螢幕尺寸是多大呢？",
+      "follow_up_questions": {
+        "small": "13-14吋夠用嗎？",
+        "medium": "15吋標準尺寸如何？",
+        "large": "需要大螢幕嗎？"
+      },
+      "matching_strategies": {
+        "primary": "regex",
+        "fallback": "keyword",
+        "weights": {
+          "regex": 0.6,
+          "keyword": 0.3,
+          "semantic": 0.1
+        }
+      },
+      "synonyms": {
+        "small": {
+          "keywords": [
+            "13吋",
+            "14吋",
+            "小螢幕",
+            "輕便",
+            "13.3吋",
+            "14吋"
+          ],
+          "regex": [
+            "13[\\\\.]?3?吋|14吋|小螢幕|輕便",
+            "13\\s*吋|14\\s*吋|13\\s*點\\s*3\\s*吋",
+            "小螢幕.*筆電|輕便.*螢幕|13.*吋.*筆電"
+          ],
+          "semantic": [
+            "小螢幕",
+            "輕便設計",
+            "便攜優先"
+          ],
+          "fuzzy_match": [
+            "13inch",
+            "14inch",
+            "small"
+          ]
+        },
+        "medium": {
+          "keywords": [
+            "15吋",
+            "15.6吋",
+            "標準螢幕",
+            "15.6吋",
+            "標準尺寸"
+          ],
+          "regex": [
+            "15[\\\\.]?6?吋|標準螢幕|標準尺寸",
+            "15\\s*吋|15\\s*點\\s*6\\s*吋",
+            "標準.*螢幕|15.*吋.*筆電|標準.*尺寸"
+          ],
+          "semantic": [
+            "標準螢幕",
+            "平衡選擇",
+            "一般尺寸"
+          ],
+          "fuzzy_match": [
+            "15inch",
+            "15.6inch",
+            "medium"
+          ]
+        },
+        "large": {
+          "keywords": [
+            "17吋",
+            "大螢幕",
+            "桌面替代",
+            "17.3吋",
+            "大尺寸"
+          ],
+          "regex": [
+            "17[\\\\.]?3?吋|大螢幕|桌面替代|大尺寸",
+            "17\\s*吋|17\\s*點\\s*3\\s*吋",
+            "大螢幕.*筆電|桌面.*替代|大尺寸.*螢幕"
+          ],
+          "semantic": [
+            "大螢幕",
+            "桌面替代",
+            "大尺寸顯示"
+          ],
+          "fuzzy_match": [
+            "17inch",
+            "17.3inch",
+            "large"
+          ]
+        }
+      }
+    },
+    "brand_preference": {
+      "name": "品牌偏好",
+      "type": "enum",
+      "required": false,
+      "priority": 7,
+      "description": "品牌偏好",
+      "default_value": null,
+      "validation_rules": {
+        "allowed_values": [
+          "asus",
+          "acer",
+          "lenovo",
+          "hp",
+          "dell",
+          "apple"
+        ],
+        "min_length": 1,
+        "max_length": 20
+      },
+      "collection_prompt": "您有品牌偏好嗎？",
+      "follow_up_questions": {
+        "asus": "華碩的哪個系列比較喜歡？",
+        "acer": "宏碁的哪個系列比較喜歡？",
+        "lenovo": "聯想的哪個系列比較喜歡？",
+        "hp": "惠普的哪個系列比較喜歡？",
+        "dell": "戴爾的哪個系列比較喜歡？",
+        "apple": "蘋果的哪個系列比較喜歡？"
+      },
+      "matching_strategies": {
+        "primary": "keyword",
+        "fallback": "regex",
+        "weights": {
+          "keyword": 0.5,
+          "regex": 0.4,
+          "semantic": 0.1
+        }
+      },
+      "synonyms": {
+        "asus": {
+          "keywords": [
+            "asus",
+            "華碩",
+            "ASUS"
+          ],
+          "regex": [
+            "asus|華碩|ASUS",
+            "華碩.*筆電|ASUS.*筆電",
+            "華碩.*品牌|ASUS.*品牌"
+          ],
+          "semantic": [
+            "華碩品牌",
+            "ASUS產品"
+          ],
+          "fuzzy_match": [
+            "asus",
+            "asustek"
+          ]
+        },
+        "acer": {
+          "keywords": [
+            "acer",
+            "宏碁",
+            "Acer"
+          ],
+          "regex": [
+            "acer|宏碁|Acer",
+            "宏碁.*筆電|Acer.*筆電",
+            "宏碁.*品牌|Acer.*品牌"
+          ],
+          "semantic": [
+            "宏碁品牌",
+            "Acer產品"
+          ],
+          "fuzzy_match": [
+            "acer"
+          ]
+        },
+        "lenovo": {
+          "keywords": [
+            "lenovo",
+            "聯想",
+            "Lenovo"
+          ],
+          "regex": [
+            "lenovo|聯想|Lenovo",
+            "聯想.*筆電|Lenovo.*筆電",
+            "聯想.*品牌|Lenovo.*品牌"
+          ],
+          "semantic": [
+            "聯想品牌",
+            "Lenovo產品"
+          ],
+          "fuzzy_match": [
+            "lenovo"
+          ]
+        },
+        "hp": {
+          "keywords": [
+            "hp",
+            "惠普",
+            "HP",
+            "Hewlett-Packard"
+          ],
+          "regex": [
+            "hp|惠普|HP|Hewlett-Packard",
+            "惠普.*筆電|HP.*筆電",
+            "惠普.*品牌|HP.*品牌"
+          ],
+          "semantic": [
+            "惠普品牌",
+            "HP產品"
+          ],
+          "fuzzy_match": [
+            "hp",
+            "hewlett"
+          ]
+        },
+        "dell": {
+          "keywords": [
+            "dell",
+            "戴爾",
+            "Dell"
+          ],
+          "regex": [
+            "dell|戴爾|Dell",
+            "戴爾.*筆電|Dell.*筆電",
+            "戴爾.*品牌|Dell.*品牌"
+          ],
+          "semantic": [
+            "戴爾品牌",
+            "Dell產品"
+          ],
+          "fuzzy_match": [
+            "dell"
+          ]
+        },
+        "apple": {
+          "keywords": [
+            "apple",
+            "蘋果",
+            "mac",
+            "macbook",
+            "Apple",
+            "MacBook"
+          ],
+          "regex": [
+            "apple|蘋果|mac|macbook|Apple|MacBook",
+            "蘋果.*筆電|MacBook.*筆電",
+            "蘋果.*品牌|Apple.*品牌"
+          ],
+          "semantic": [
+            "蘋果品牌",
+            "Mac產品"
+          ],
+          "fuzzy_match": [
+            "apple",
+            "mac",
+            "macbook"
+          ]
+        }
+      }
+    },
+    "performance_features": {
+      "name": "效能特色",
+      "type": "enum",
+      "required": false,
+      "priority": 8,
+      "description": "特殊效能要求",
+      "default_value": null,
+      "validation_rules": {
+        "allowed_values": [
+          "fast",
+          "portable",
+          "performance"
+        ],
+        "min_length": 1,
+        "max_length": 20
+      },
+      "collection_prompt": "您還有其他特殊要求嗎？",
+      "follow_up_questions": {
+        "fast": "開機速度很重要嗎？",
+        "portable": "攜帶便利性重要嗎？",
+        "performance": "整體效能重要嗎？"
+      },
+      "matching_strategies": {
+        "primary": "hybrid",
+        "fallback": "keyword",
+        "weights": {
+          "regex": 0.4,
+          "keyword": 0.4,
+          "semantic": 0.2
+        }
+      },
+      "synonyms": {
+        "fast": {
+          "keywords": [
+            "快速",
+            "快",
+            "開機快",
+            "啟動快",
+            "開關機快",
+            "快速開關機",
+            "開機速度",
+            "啟動速度"
+          ],
+          "regex": [
+            "快速|快|開機快|啟動快|開關機快|快速開關機|開機速度|啟動速度",
+            "開機.*快|啟動.*快|開關機.*快",
+            "快速.*開機|快速.*啟動|速度.*快"
+          ],
+          "semantic": [
+            "快速啟動",
+            "高效能",
+            "快速響應"
+          ],
+          "fuzzy_match": [
+            "fast",
+            "quick",
+            "speed",
+            "boot"
+          ]
+        },
+        "portable": {
+          "keywords": [
+            "輕便",
+            "攜帶",
+            "便攜",
+            "輕巧",
+            "攜帶方便",
+            "輕便攜帶",
+            "便於攜帶"
+          ],
+          "regex": [
+            "輕便|攜帶|便攜|輕巧|攜帶方便|輕便攜帶|便於攜帶",
+            "攜帶.*方便|輕便.*攜帶|便於.*攜帶",
+            "輕便.*設計|攜帶.*便利|移動.*辦公"
+          ],
+          "semantic": [
+            "便攜設計",
+            "輕便攜帶",
+            "移動辦公"
+          ],
+          "fuzzy_match": [
+            "portable",
+            "lightweight",
+            "carry"
+          ]
+        },
+        "performance": {
+          "keywords": [
+            "效能",
+            "性能",
+            "高效能",
+            "高性能",
+            "強勁",
+            "強大",
+            "效能好"
+          ],
+          "regex": [
+            "效能|性能|高效能|高性能|強勁|強大|效能好",
+            "高效能.*筆電|高性能.*筆電|強勁.*效能",
+            "效能.*好|性能.*強|整體.*效能"
+          ],
+          "semantic": [
+            "高效能",
+            "強勁性能",
+            "優秀效能"
+          ],
+          "fuzzy_match": [
+            "performance",
+            "powerful",
+            "strong"
+          ]
+        }
+      }
+    },
+    "special_requirement": {
+      "name": "special_requirement",
+      "type": "enum",
+      "required": false,
+      "priority": 5,
+      "description": "動態學習的槽位: special_requirement",
+      "default_value": null,
+      "validation_rules": {
+        "allowed_values": [
+          "觸控螢幕"
+        ],
+        "min_length": 1,
+        "max_length": 50
+      },
+      "collection_prompt": "請告訴我關於special_requirement的更多信息？",
+      "follow_up_questions": {},
+      "matching_strategies": {
+        "primary": "hybrid",
+        "fallback": "keyword",
+        "weights": {
+          "regex": 0.4,
+          "keyword": 0.35,
+          "semantic": 0.25
+        }
+      },
+      "synonyms": {
+        "觸控螢幕": {
+          "keywords": [
+            "觸控螢幕",
+            "我需要有觸控螢幕的筆電"
+          ],
+          "regex": [
+            "觸控螢幕",
+            "我需要有觸控螢幕的筆電",
+            "觸控螢幕",
+            "觸控螢幕.*筆電",
+            "筆電.*觸控螢幕"
+          ],
+          "semantic": [
+            "觸控螢幕",
+            "我需要有觸控螢幕的筆電"
+          ],
+          "fuzzy_match": [
+            "觸控螢幕",
+            "我需要有觸控螢幕的筆電"
+          ],
+          "confidence": 0.8,
+          "learning_source": "dynamic_learning",
+          "created_date": "2025-08-17T04:51:06.096740",
+          "user_input": "我需要有觸控螢幕的筆電"
+        }
+      },
+      "created_date": "2025-08-17T04:51:06.096726",
+      "learning_source": "dynamic_learning"
+    },
+    "test_slot": {
+      "name": "test_slot",
+      "type": "enum",
+      "required": false,
+      "priority": 5,
+      "description": "動態學習的槽位: test_slot",
+      "default_value": null,
+      "validation_rules": {
+        "allowed_values": [
+          "test_value"
+        ],
+        "min_length": 1,
+        "max_length": 50
+      },
+      "collection_prompt": "請告訴我關於test_slot的更多信息？",
+      "follow_up_questions": {},
+      "matching_strategies": {
+        "primary": "hybrid",
+        "fallback": "keyword",
+        "weights": {
+          "regex": 0.4,
+          "keyword": 0.35,
+          "semantic": 0.25
+        }
+      },
+      "synonyms": {
+        "test_value": {
+          "keywords": [
+            "test_value",
+            "測試文本"
+          ],
+          "regex": [
+            "test_value",
+            "測試文本",
+            "test_value",
+            "test_value.*筆電",
+            "筆電.*test_value"
+          ],
+          "semantic": [
+            "test_value",
+            "測試文本"
+          ],
+          "fuzzy_match": [
+            "test_value",
+            "測試文本"
+          ],
+          "confidence": 0.8,
+          "learning_source": "dynamic_learning",
+          "created_date": "2025-08-17T04:51:06.098574",
+          "user_input": "測試文本"
+        }
+      },
+      "created_date": "2025-08-17T04:51:06.098565",
+      "learning_source": "dynamic_learning"
+    },
+    "performance_test_slot_0": {
+      "name": "performance_test_slot_0",
+      "type": "enum",
+      "required": false,
+      "priority": 5,
+      "description": "動態學習的槽位: performance_test_slot_0",
+      "default_value": null,
+      "validation_rules": {
+        "allowed_values": [
+          "test_value_0"
+        ],
+        "min_length": 1,
+        "max_length": 50
+      },
+      "collection_prompt": "請告訴我關於performance_test_slot_0的更多信息？",
+      "follow_up_questions": {},
+      "matching_strategies": {
+        "primary": "hybrid",
+        "fallback": "keyword",
+        "weights": {
+          "regex": 0.4,
+          "keyword": 0.35,
+          "semantic": 0.25
+        }
+      },
+      "synonyms": {
+        "test_value_0": {
+          "keywords": [
+            "性能測試文本",
+            "test_value_0"
+          ],
+          "regex": [
+            "性能測試文本",
+            "test_value_0",
+            "test_value_0",
+            "test_value_0.*筆電",
+            "筆電.*test_value_0"
+          ],
+          "semantic": [
+            "性能測試文本",
+            "test_value_0"
+          ],
+          "fuzzy_match": [
+            "性能測試文本",
+            "test_value_0"
+          ],
+          "confidence": 0.8,
+          "learning_source": "dynamic_learning",
+          "created_date": "2025-08-17T04:51:06.101411",
+          "user_input": "性能測試文本 0"
+        }
+      },
+      "created_date": "2025-08-17T04:51:06.101393",
+      "learning_source": "dynamic_learning"
+    },
+    "performance_test_slot_1": {
+      "name": "performance_test_slot_1",
+      "type": "enum",
+      "required": false,
+      "priority": 5,
+      "description": "動態學習的槽位: performance_test_slot_1",
+      "default_value": null,
+      "validation_rules": {
+        "allowed_values": [
+          "test_value_1"
+        ],
+        "min_length": 1,
+        "max_length": 50
+      },
+      "collection_prompt": "請告訴我關於performance_test_slot_1的更多信息？",
+      "follow_up_questions": {},
+      "matching_strategies": {
+        "primary": "hybrid",
+        "fallback": "keyword",
+        "weights": {
+          "regex": 0.4,
+          "keyword": 0.35,
+          "semantic": 0.25
+        }
+      },
+      "synonyms": {
+        "test_value_1": {
+          "keywords": [
+            "test_value_1",
+            "性能測試文本"
+          ],
+          "regex": [
+            "test_value_1",
+            "性能測試文本",
+            "test_value_1",
+            "test_value_1.*筆電",
+            "筆電.*test_value_1"
+          ],
+          "semantic": [
+            "test_value_1",
+            "性能測試文本"
+          ],
+          "fuzzy_match": [
+            "test_value_1",
+            "性能測試文本"
+          ],
+          "confidence": 0.8,
+          "learning_source": "dynamic_learning",
+          "created_date": "2025-08-17T04:51:06.102624",
+          "user_input": "性能測試文本 1"
+        }
+      },
+      "created_date": "2025-08-17T04:51:06.102614",
+      "learning_source": "dynamic_learning"
+    },
+    "performance_test_slot_2": {
+      "name": "performance_test_slot_2",
+      "type": "enum",
+      "required": false,
+      "priority": 5,
+      "description": "動態學習的槽位: performance_test_slot_2",
+      "default_value": null,
+      "validation_rules": {
+        "allowed_values": [
+          "test_value_2"
+        ],
+        "min_length": 1,
+        "max_length": 50
+      },
+      "collection_prompt": "請告訴我關於performance_test_slot_2的更多信息？",
+      "follow_up_questions": {},
+      "matching_strategies": {
+        "primary": "hybrid",
+        "fallback": "keyword",
+        "weights": {
+          "regex": 0.4,
+          "keyword": 0.35,
+          "semantic": 0.25
+        }
+      },
+      "synonyms": {
+        "test_value_2": {
+          "keywords": [
+            "test_value_2",
+            "性能測試文本"
+          ],
+          "regex": [
+            "test_value_2",
+            "性能測試文本",
+            "test_value_2",
+            "test_value_2.*筆電",
+            "筆電.*test_value_2"
+          ],
+          "semantic": [
+            "test_value_2",
+            "性能測試文本"
+          ],
+          "fuzzy_match": [
+            "test_value_2",
+            "性能測試文本"
+          ],
+          "confidence": 0.8,
+          "learning_source": "dynamic_learning",
+          "created_date": "2025-08-17T04:51:06.103765",
+          "user_input": "性能測試文本 2"
+        }
+      },
+      "created_date": "2025-08-17T04:51:06.103757",
+      "learning_source": "dynamic_learning"
+    },
+    "performance_test_slot_3": {
+      "name": "performance_test_slot_3",
+      "type": "enum",
+      "required": false,
+      "priority": 5,
+      "description": "動態學習的槽位: performance_test_slot_3",
+      "default_value": null,
+      "validation_rules": {
+        "allowed_values": [
+          "test_value_3"
+        ],
+        "min_length": 1,
+        "max_length": 50
+      },
+      "collection_prompt": "請告訴我關於performance_test_slot_3的更多信息？",
+      "follow_up_questions": {},
+      "matching_strategies": {
+        "primary": "hybrid",
+        "fallback": "keyword",
+        "weights": {
+          "regex": 0.4,
+          "keyword": 0.35,
+          "semantic": 0.25
+        }
+      },
+      "synonyms": {
+        "test_value_3": {
+          "keywords": [
+            "性能測試文本",
+            "test_value_3"
+          ],
+          "regex": [
+            "性能測試文本",
+            "test_value_3",
+            "test_value_3",
+            "test_value_3.*筆電",
+            "筆電.*test_value_3"
+          ],
+          "semantic": [
+            "性能測試文本",
+            "test_value_3"
+          ],
+          "fuzzy_match": [
+            "性能測試文本",
+            "test_value_3"
+          ],
+          "confidence": 0.8,
+          "learning_source": "dynamic_learning",
+          "created_date": "2025-08-17T04:51:06.104905",
+          "user_input": "性能測試文本 3"
+        }
+      },
+      "created_date": "2025-08-17T04:51:06.104898",
+      "learning_source": "dynamic_learning"
+    },
+    "performance_test_slot_4": {
+      "name": "performance_test_slot_4",
+      "type": "enum",
+      "required": false,
+      "priority": 5,
+      "description": "動態學習的槽位: performance_test_slot_4",
+      "default_value": null,
+      "validation_rules": {
+        "allowed_values": [
+          "test_value_4"
+        ],
+        "min_length": 1,
+        "max_length": 50
+      },
+      "collection_prompt": "請告訴我關於performance_test_slot_4的更多信息？",
+      "follow_up_questions": {},
+      "matching_strategies": {
+        "primary": "hybrid",
+        "fallback": "keyword",
+        "weights": {
+          "regex": 0.4,
+          "keyword": 0.35,
+          "semantic": 0.25
+        }
+      },
+      "synonyms": {
+        "test_value_4": {
+          "keywords": [
+            "性能測試文本",
+            "test_value_4"
+          ],
+          "regex": [
+            "性能測試文本",
+            "test_value_4",
+            "test_value_4",
+            "test_value_4.*筆電",
+            "筆電.*test_value_4"
+          ],
+          "semantic": [
+            "性能測試文本",
+            "test_value_4"
+          ],
+          "fuzzy_match": [
+            "性能測試文本",
+            "test_value_4"
+          ],
+          "confidence": 0.8,
+          "learning_source": "dynamic_learning",
+          "created_date": "2025-08-17T04:51:06.106076",
+          "user_input": "性能測試文本 4"
+        }
+      },
+      "created_date": "2025-08-17T04:51:06.106069",
+      "learning_source": "dynamic_learning"
+    }
+  },
+  "collection_strategy": {
+    "skip_optional_slots": false,
+    "dynamic_priority": true,
+    "context_aware": true,
+    "extraction_methods": {
+      "primary": "hybrid",
+      "fallback": "keyword",
+      "strategies": {
+        "regex": {
+          "weight": 0.4,
+          "enabled": true
+        },
+        "semantic": {
+          "weight": 0.35,
+          "enabled": true
+        },
+        "keyword": {
+          "weight": 0.25,
+          "enabled": true
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "usage_purpose": {
+      "required_by": [
+        "cpu_level",
+        "gpu_level"
+      ],
+      "influences": [
+        "budget_range",
+        "weight_requirement"
+      ]
+    },
+    "budget_range": {
+      "required_by": [],
+      "influences": [
+        "cpu_level",
+        "gpu_level",
+        "brand_preference"
+      ]
+    },
+    "cpu_level": {
+      "required_by": [],
+      "influences": [
+        "gpu_level",
+        "weight_requirement"
+      ]
+    },
+    "gpu_level": {
+      "required_by": [],
+      "influences": [
+        "weight_requirement",
+        "screen_size"
+      ]
+    }
+  },
+  "validation_rules": {
+    "global": {
+      "max_slots_per_message": 3,
+      "confidence_threshold": 0.6,
+      "fuzzy_match_threshold": 0.8
+    },
+    "slot_specific": {
+      "usage_purpose": {
+        "required": true,
+        "priority": 1
+      },
+      "budget_range": {
+        "required": true,
+        "priority": 2
+      }
+    }
+  },
+  "fallback_strategy": {
+    "incomplete_slots": {
+      "action": "ELICIT_INFORMATION",
+      "priority_slots": [
+        "usage_purpose",
+        "budget_range"
+      ]
+    },
+    "ambiguous_input": {
+      "action": "CLARIFY",
+      "clarification_prompt": "請您更詳細地描述一下您的需求"
+    },
+    "no_match": {
+      "action": "GENERAL_RECOMMENDATION",
+      "fallback_message": "根據您的描述，我為您推薦一些熱門的筆電選擇"
+    }
+  },
+  "metadata": {
+    "version": "2.1",
+    "created_date": "2025-08-17",
+    "last_updated": "2025-08-17T04:51:06.106078",
+    "description": "MGFD系統增強版槽位配置 - 支援正則表達式匹配",
+    "author": "AI Assistant",
+    "integration_info": {
+      "slot_synonyms_version": "1.0",
+      "slot_synonyms_enhanced_version": "1.0",
+      "enhanced_slot_extractor_version": "2.0",
+      "system_version": "2.1"
+    },
+    "features": {
+      "hybrid_extraction": true,
+      "regex_support": true,
+      "semantic_matching": true,
+      "keyword_matching": true,
+      "fuzzy_matching": true,
+      "dependency_management": true,
+      "validation_rules": true,
+      "fallback_strategies": true,
+      "dynamic_priority": true,
+      "context_aware": true
+    },
+    "regex_features": {
+      "multi_pattern_support": true,
+      "fuzzy_matching": true,
+      "context_aware_patterns": true,
+      "performance_optimized": true,
+      "unicode_support": true
+    }
+  },
+  "learning_history": [
+    {
+      "timestamp": "2025-08-17T04:51:06.096741",
+      "slot_name": "special_requirement",
+      "slot_value": "觸控螢幕",
+      "user_input": "我需要有觸控螢幕的筆電",
+      "confidence": 0.9,
+      "learning_source": "dynamic_learning",
+      "action": "add_new_value"
+    },
+    {
+      "timestamp": "2025-08-17T04:51:06.098575",
+      "slot_name": "test_slot",
+      "slot_value": "test_value",
+      "user_input": "測試文本",
+      "confidence": 0.8,
+      "learning_source": "dynamic_learning",
+      "action": "add_new_value"
+    },
+    {
+      "timestamp": "2025-08-17T04:51:06.101412",
+      "slot_name": "performance_test_slot_0",
+      "slot_value": "test_value_0",
+      "user_input": "性能測試文本 0",
+      "confidence": 0.8,
+      "learning_source": "dynamic_learning",
+      "action": "add_new_value"
+    },
+    {
+      "timestamp": "2025-08-17T04:51:06.102626",
+      "slot_name": "performance_test_slot_1",
+      "slot_value": "test_value_1",
+      "user_input": "性能測試文本 1",
+      "confidence": 0.8,
+      "learning_source": "dynamic_learning",
+      "action": "add_new_value"
+    },
+    {
+      "timestamp": "2025-08-17T04:51:06.103766",
+      "slot_name": "performance_test_slot_2",
+      "slot_value": "test_value_2",
+      "user_input": "性能測試文本 2",
+      "confidence": 0.8,
+      "learning_source": "dynamic_learning",
+      "action": "add_new_value"
+    },
+    {
+      "timestamp": "2025-08-17T04:51:06.104906",
+      "slot_name": "performance_test_slot_3",
+      "slot_value": "test_value_3",
+      "user_input": "性能測試文本 3",
+      "confidence": 0.8,
+      "learning_source": "dynamic_learning",
+      "action": "add_new_value"
+    },
+    {
+      "timestamp": "2025-08-17T04:51:06.106077",
+      "slot_name": "performance_test_slot_4",
+      "slot_value": "test_value_4",
+      "user_input": "性能測試文本 4",
+      "confidence": 0.8,
+      "learning_source": "dynamic_learning",
+      "action": "add_new_value"
+    }
+  ]
+}
