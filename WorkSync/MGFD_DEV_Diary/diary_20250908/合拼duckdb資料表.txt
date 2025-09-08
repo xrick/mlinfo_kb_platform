@@ -1,0 +1,79 @@
+[MODE: PLAN]
+
+[CHANGE PLAN]
+- Files:
+  - 新增 `scripts/build_semantic_sales_spec_all.py`
+  - 使用來源 DB：`db/semantic_sales_spec.db`
+  - 產出目標 DB：`db/semantic_sales_spec_all.db`，若存在則覆寫
+- Rationale:
+  - 來源 DB 內存在多張依 `modeltype` 分片的表（如 `spec_data_27`、`spec_data_960`），以及特例表 `spec_AC01_result`。現有檢索僅查單表造成結果偏態。合併為單表 `nbtypes` 可支援以槽位（例如重量/攜帶性）驅動的全庫過濾與排序。
+
+技術規格
+- 來源與目標
+  - Source: `db/semantic_sales_spec.db`
+  - Target: `db/semantic_sales_spec_all.db`（覆寫）
+  - 目標表：`nbtypes`
+- 表選取規則
+  - 全部符合 `spec_data_*` 命名的表
+  - 額外包含特例表 `spec_AC01_result`
+- 欄位統一策略
+  - 全欄位「集合式聯集」：以所有來源表的欄位「全集」為最終欄位集合
+  - 來源表中不存在的欄位，以 `NULL` 補齊
+  - 所有欄位在輸出前一律 `CAST(... AS TEXT)`，確保型別一致（TEXT）
+- 主鍵與去重策略
+  - 複合鍵：`(modeltype, modelname, product_id)`
+  - 去重優先權：以時間戳優先
+    - 時間戳欄位優先序列表（由高到低）：`updated_at`, `last_updated`, `modified_at`, `timestamp`, `created_at`
+    - 不存在上述欄位時，採第一筆出現為準（可用 DuckDB 的 ROW_NUMBER over composite key 排序，無時間戳時以來源表名/內部順序穩定化）
+- 索引與效能
+  - 在目標表 `nbtypes` 建立索引（DuckDB 在 1.1 起支援部分索引；若使用版本較早，可改以 `PRAGMA create_fts_index` 或後續物化排序輔助。此處採用一般索引語法；若版本不支援，降級為記錄提案並保留排序視圖）
+  - 主要索引鍵：`modeltype`
+- 欄位保證存在
+  - 最低保證欄位：`modeltype`, `modelname`
+  - 建議嘗試補充（若來源出現）：`product_id`, 時間戳欄位（上列任一），以及與檢索相關欄位（如 `weight`, `thermal`, `battery`, `gpu`, `cpu` 等），但仍維持 TEXT 統一
+- 例外與容錯
+  - 若某些來源表完全無資料，仍納入欄位集合；合併時不致失敗
+  - 欄位名稱衝突（同義不同名）不在此次統一（保留原名）；後續如需語義統一，另行規劃 mapping
+  - 無時間戳欄位時，去重退化如上
+- 程式流程（`scripts/build_semantic_sales_spec_all.py`）
+  - 1) 連線來源 DB（唯讀）
+  - 2) 取得表清單：`SHOW TABLES`
+  - 3) 篩選表：符合 `spec_data_%` 全收；若含 `spec_AC01_result` 亦收
+  - 4) 掃描所有來源表之欄位集合（`DESCRIBE table`），彙總欄位全集
+  - 5) 為每個來源表動態產生「欄位齊次 SELECT」：
+    - 對全集欄位逐一：若該表有該欄位 → `CAST(col AS TEXT) AS col`；否則 → `CAST(NULL AS TEXT) AS col`
+  - 6) 以 `UNION ALL` 合併所有來源表的齊次 SELECT，寫入臨時 CTE 或中間表 `__nbtypes_raw`
+  - 7) 去重：
+    - 為時間戳挑選新增一個計算欄位 `ts_pick`（CASE WHEN 順序：`updated_at`→`last_updated`→`modified_at`→`timestamp`→`created_at`）
+    - 使用 `ROW_NUMBER() OVER (PARTITION BY modeltype, modelname, product_id ORDER BY ts_pick DESC NULLS LAST)` 取 `row_number = 1`
+    - 將結果輸出成 `nbtypes`
+  - 8) 建立索引：`CREATE INDEX IF NOT EXISTS idx_nbtypes_modeltype ON nbtypes(modeltype);`（若版本不支援，記錄告警並略過）
+  - 9) 完成後 VACUUM/OPTIMIZE（DuckDB 1.0+ 可 `PRAGMA optimize`），關閉連線
+- 驗證與測試
+  - 寫一個簡易驗證腳本（可複用 `check_duckdb_data.py` 的邏輯）針對 `db/semantic_sales_spec_all.db`：
+    - 確認存在表 `nbtypes`
+    - 列 `COUNT(*)` 與 `COUNT(DISTINCT modeltype, modelname, product_id)` 差距應等於被去重數量（可記錄 Log）
+    - 隨機抽樣 `modeltype` 檢視資料齊整度
+  - 基準檢查：
+    - `nbtypes` 記錄數 ≧ 任意單一來源表最大筆數
+    - `modeltype` 欄位 `NOT NULL` 比例 ≧ 95%（容許少量異常來源資料）
+
+錯誤處理策略
+- 找不到來源 DB：明確錯誤訊息並終止
+- 找不到任何來源表：產生空的 `nbtypes`（含最小欄位 `modeltype`, `modelname`），但回報警告
+- 欄位全集為空或 UNION 失敗：回報詳細欄位與表名 Log，終止
+- 索引建立失敗：回報版本/語法告警，不阻塞流程
+
+IMPLEMENTATION CHECKLIST:
+1. 建立 `scripts/build_semantic_sales_spec_all.py` 檔案骨架（參數：來源/目標路徑固定為 `db/semantic_sales_spec.db` 與 `db/semantic_sales_spec_all.db`）
+2. 連線來源 DB（唯讀）與列出所有表；篩選 `spec_data_%` 並包含 `spec_AC01_result`
+3. 掃描所有來源表欄位，彙總欄位全集
+4. 生成每表齊次 SELECT（全欄 TEXT cast；缺欄補 NULL AS col）
+5. 使用 `UNION ALL` 合併為中間表 `__nbtypes_raw`
+6. 基於 `(modeltype, modelname, product_id)` + 時間戳優先序，產生 `nbtypes` 去重結果
+7. 嘗試在 `nbtypes(modeltype)` 建立索引（不支援則跳過並記錄）
+8. 關閉來源連線，輸出至 `db/semantic_sales_spec_all.db`，覆寫
+9. 執行驗證：確認 `nbtypes` 存在、列出筆數與簡要抽樣
+10. 紀錄合併摘要（來源表總數、合併筆數、去重筆數、時間戳欄位命中率）至日誌
+
+我已將你的規格（欄位統一、主鍵與去重、型別、最低欄位、表名例外、輸出檔名與覆寫、索引）完全轉為可執行計畫。如需調整時間戳欄位的優先序或新增欄位標準化（例如將重量正規化為數值公斤），請告知後我再修訂計畫。

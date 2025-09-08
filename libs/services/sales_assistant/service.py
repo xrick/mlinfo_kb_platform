@@ -27,7 +27,7 @@ def _get_available_modelnames_from_db():
         # 排除測試資料和空值，只獲取有效的modelname
         result = conn.execute("""
             SELECT DISTINCT modelname 
-            FROM specs 
+            FROM nbtypes 
             WHERE modelname IS NOT NULL 
               AND modelname != '' 
               AND modelname != 'Test Model'
@@ -60,7 +60,7 @@ def _get_available_modeltypes_from_db():
         import duckdb
         
         conn = duckdb.connect(str(DB_PATH))
-        result = conn.execute('SELECT DISTINCT modeltype FROM specs ORDER BY modeltype').fetchall()
+        result = conn.execute('SELECT DISTINCT modeltype FROM nbtypes ORDER BY modeltype').fetchall()
         conn.close()
         
         modeltypes = [row[0] for row in result]
@@ -904,7 +904,7 @@ class SalesAssistantService(BaseService):
         """
         try:
             # 使用DuckDB直接查詢該modeltype的所有modelname
-            sql_query = "SELECT DISTINCT modelname FROM specs WHERE modeltype = ?"
+            sql_query = "SELECT DISTINCT modelname FROM nbtypes WHERE modeltype = ?"
             
             results = self.duckdb_query.query_with_params(sql_query, [modeltype])
             
@@ -1001,7 +1001,7 @@ class SalesAssistantService(BaseService):
                 
                 # 使用DuckDB查询具体型号数据
                 placeholders = ', '.join(['?'] * len(valid_modelnames))
-                sql_query = f"SELECT * FROM specs WHERE modelname IN ({placeholders})"
+                sql_query = f"SELECT * FROM nbtypes WHERE modelname IN ({placeholders})"
                 
                 full_specs_records = self.duckdb_query.query_with_params(sql_query, valid_modelnames)
                 
@@ -1031,7 +1031,7 @@ class SalesAssistantService(BaseService):
                 
                 # 使用DuckDB查询该系列所有型号数据
                 placeholders = ', '.join(['?'] * len(target_modelnames))
-                sql_query = f"SELECT * FROM specs WHERE modelname IN ({placeholders})"
+                sql_query = f"SELECT * FROM nbtypes WHERE modelname IN ({placeholders})"
                 
                 full_specs_records = self.duckdb_query.query_with_params(sql_query, target_modelnames)
                 
@@ -2747,7 +2747,7 @@ Focus your analysis on the specific intent and target models identified above.
                     SUBSTRING(memory, 1, 50) as memory_short,
                     SUBSTRING(storage, 1, 80) as storage_short,
                     SUBSTRING(lcd, 1, 80) as lcd_short
-                FROM specs 
+                FROM nbtypes 
                 WHERE modelname IN ({placeholders})
                 ORDER BY modelname
             """
@@ -3046,7 +3046,7 @@ Focus your analysis on the specific intent and target models identified above.
                 logging.info("開始查詢筆電規格數據")
                 
                 # 使用正確的SQL查詢方法
-                full_specs_records = self.duckdb_query.query("SELECT * FROM specs")
+                full_specs_records = self.duckdb_query.query("SELECT * FROM nbtypes")
                 
                 if not full_specs_records:
                     logging.warning("未查詢到任何筆電數據")

@@ -110,13 +110,13 @@ class KnowledgeManager:
     def _initialize_default_knowledge_bases(self):
         """初始化默認知識庫"""
         try:
-            # 銷售規格知識庫
-            sales_specs_db = self.base_path / "db" / "semantic_sales_spec.db"
+            # 銷售規格知識庫（整合版）
+            sales_specs_db = self.base_path / "db" / "semantic_sales_spec_all.db"
             if sales_specs_db.exists():
                 self.knowledge_bases["semantic_sales_spec"] = {
                     "type": "polars",
                     "path": str(sales_specs_db),
-                    "description": "銷售規格數據庫"
+                    "description": "銷售規格數據庫（整合版）"
                 }
             
             # 歷史記錄知識庫
@@ -128,13 +128,13 @@ class KnowledgeManager:
                     "description": "歷史記錄數據庫"
                 }
             
-            # 語義銷售規格知識庫
-            semantic_db = self.base_path / "semantic_sales_spec.db"
+            # 語義銷售規格知識庫（整合版）
+            semantic_db = self.base_path / "db" / "semantic_sales_spec_all.db"
             if semantic_db.exists():
                 self.knowledge_bases["semantic_sales_spec"] = {
                     "type": "polars",
                     "path": str(semantic_db),
-                    "description": "語義銷售規格數據庫"
+                    "description": "語義銷售規格數據庫（整合版）"
                 }
             
             self.logger.info(f"初始化了 {len(self.knowledge_bases)} 個知識庫")
@@ -330,7 +330,7 @@ class KnowledgeManager:
             # 構建 SQL 查詢
             where_clause = " AND ".join(conditions) if conditions else "1=1"
             query = f"""
-                SELECT * FROM specs 
+                SELECT * FROM nbtypes 
                 WHERE {where_clause}
                 LIMIT {limit}
             """
@@ -391,7 +391,7 @@ class KnowledgeManager:
             
             # 簡單的文本搜索實現
             search_query = f"""
-                SELECT * FROM specs 
+                SELECT * FROM nbtypes 
                 WHERE modelname LIKE ? OR modeltype LIKE ? OR cpu LIKE ? OR gpu LIKE ?
                 LIMIT {limit}
             """
@@ -436,7 +436,7 @@ class KnowledgeManager:
             
             with sqlite3.connect(kb_info["path"]) as conn:
                 cursor = conn.cursor()
-                cursor.execute("PRAGMA table_info(specs)")
+                cursor.execute("PRAGMA table_info(nbtypes)")
                 
                 columns = []
                 for row in cursor.fetchall():
@@ -469,15 +469,15 @@ class KnowledgeManager:
                 cursor = conn.cursor()
                 
                 # 獲取記錄總數
-                cursor.execute("SELECT COUNT(*) FROM specs")
+                cursor.execute("SELECT COUNT(*) FROM nbtypes")
                 total_records = cursor.fetchone()[0]
                 
                 # 獲取唯一型號數量
-                cursor.execute("SELECT COUNT(DISTINCT modelname) FROM specs")
+                cursor.execute("SELECT COUNT(DISTINCT modelname) FROM nbtypes")
                 unique_models = cursor.fetchone()[0]
                 
                 # 獲取型號類型數量
-                cursor.execute("SELECT COUNT(DISTINCT modeltype) FROM specs")
+                cursor.execute("SELECT COUNT(DISTINCT modeltype) FROM nbtypes")
                 unique_types = cursor.fetchone()[0]
                 
                 # 獲取文件大小
@@ -519,7 +519,7 @@ class KnowledgeManager:
                 return False
             
             # 查詢所有數據
-            results = self.query_sqlite_knowledge_base(kb_name, "SELECT * FROM specs")
+            results = self.query_sqlite_knowledge_base(kb_name, "SELECT * FROM nbtypes")
             if not results:
                 self.logger.error(f"查詢知識庫數據失敗: {kb_name}")
                 return False
@@ -775,14 +775,14 @@ class KnowledgeManager:
             if "filter" in query_expr and "pl.col" in query_expr:
                 # 提取列名和條件
                 if "price" in query_expr and ">" in query_expr:
-                    return "SELECT * FROM specs WHERE price > 1000"
+                    return "SELECT * FROM nbtypes WHERE price > 1000"
                 elif "modelname" in query_expr:
-                    return "SELECT * FROM specs WHERE modelname LIKE '%'"
+                    return "SELECT * FROM nbtypes WHERE modelname LIKE '%'"
                 else:
-                    return "SELECT * FROM specs LIMIT 100"
+                    return "SELECT * FROM nbtypes LIMIT 100"
             
             # 默認查詢
-            return "SELECT * FROM specs LIMIT 100"
+            return "SELECT * FROM nbtypes LIMIT 100"
             
         except Exception as e:
             self.logger.error(f"Polars 到 SQL 轉換失敗: {e}")
@@ -1145,9 +1145,9 @@ class KnowledgeManager:
             
             # 構建 Polars 查詢表達式
             query_expr = f"""
-            SELECT * FROM specs 
-            WHERE CAST(product_id AS VARCHAR) IN ({id_conditions})
-            ORDER BY product_id
+            SELECT * FROM nbtypes 
+            WHERE CAST(modeltype AS VARCHAR) IN ({id_conditions})
+            ORDER BY modeltype
             """
             
             # 使用 Polars 查詢 DuckDB
@@ -1176,7 +1176,7 @@ class KnowledgeManager:
                 
                 # 使用參數化查詢避免 SQL 注入
                 placeholders = ','.join(['?' for _ in id_list])
-                query = f"SELECT * FROM specs WHERE CAST(product_id AS TEXT) IN ({placeholders})"
+                query = f"SELECT * FROM nbtypes WHERE CAST(modeltype AS TEXT) IN ({placeholders})"
                 
                 cursor.execute(query, id_list)
                 rows = cursor.fetchall()
@@ -1490,7 +1490,7 @@ class KnowledgeManager:
                     "products": []
                 }
 
-            # 第三步：在 DuckDB（semantic_sales_spec.db）查詢 spec_data_960
+            # 第三步：在 DuckDB（semantic_sales_spec_all.db）查詢 nbtypes
             kb_info = self.knowledge_bases.get("semantic_sales_spec")
             if not kb_info:
                 self.logger.error("語義銷售規格知識庫不存在")
@@ -1509,11 +1509,11 @@ class KnowledgeManager:
                 placeholders = ','.join(['?' for _ in matched_keys])
                 sql = f"""
                     SELECT *
-                    FROM spec_data_960
+                    FROM nbtypes
                     WHERE CAST(modeltype AS VARCHAR) IN ({placeholders})
                 """
 
-                self.logger.info("開始在 DuckDB 查詢 spec_data_960（以 modeltype IN (?...)）")
+                self.logger.info("開始在 DuckDB 查詢 nbtypes（以 modeltype IN (?...)）")
                 con = duckdb.connect(kb_info["path"])  # 直接連線到 DuckDB 檔案
                 try:
                     cur = con.execute(sql, matched_keys)
@@ -1617,7 +1617,7 @@ def search_product_data(self, message: str) -> Dict[str, Any]:
                 
                 # 使用參數化查詢
                 placeholders = ','.join(['?' for _ in product_ids])
-                query = f"SELECT * FROM specs WHERE CAST(product_id AS TEXT) IN ({placeholders})"
+                query = f"SELECT * FROM nbtypes WHERE CAST(modeltype AS TEXT) IN ({placeholders})"
                 
                 cursor.execute(query, product_ids)
                 rows = cursor.fetchall()
