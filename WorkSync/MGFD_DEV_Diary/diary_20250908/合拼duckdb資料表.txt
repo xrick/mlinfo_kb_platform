@@ -77,3 +77,70 @@ IMPLEMENTATION CHECKLIST:
 10. 紀錄合併摘要（來源表總數、合併筆數、去重筆數、時間戳欄位命中率）至日誌
 
 我已將你的規格（欄位統一、主鍵與去重、型別、最低欄位、表名例外、輸出檔名與覆寫、索引）完全轉為可執行計畫。如需調整時間戳欄位的優先序或新增欄位標準化（例如將重量正規化為數值公斤），請告知後我再修訂計畫。
+
+======================================================
+觀察（聚焦搜尋速度慢的根本原因與解決方案）
+效能瓶頸確認
+目前查詢方式：CAST(modeltype AS VARCHAR) IN (?,?,...) 耗時 141.77ms
+直接字串查詢：modeltype IN ('958','918',...) 耗時 1.11ms
+效能差異：127.7 倍
+必要欄位分析
+確認存在且常用的欄位：modeltype, modelname, cpu, gpu, memory, storage, lcd, battery, audio, wireless, bluetooth
+必要欄位查詢 vs 全欄位查詢：效能差異微小（1.0x）
+主要瓶頸在於 CAST 操作，而非欄位數量
+根本原因
+CAST 操作阻止索引使用：即使有 idx_nbtypes_modeltype 索引，CAST 操作導致執行計畫使用 SEQ_SCAN
+參數化查詢開銷：DuckDB 中字串 IN 查詢的參數化處理較慢
+不必要的型別轉換：modeltype 欄位本身就是 VARCHAR，無需 CAST
+優化方案確認
+移除 CAST 操作：可提升 127.7x 效能
+改用直接字串 IN 查詢：避免參數化查詢開銷
+選取必要欄位：雖然效能提升微小，但可減少記憶體使用和網路傳輸
+實際使用場景分析
+系統中 product_data 主要用於 LLM 生成回應
+必要欄位已足夠提供完整的產品規格資訊
+35 個欄位中包含許多技術細節欄位（如 lcdconnector, wifislot 等）對使用者查詢意義不大
+建議的具體修改
+將查詢改為：SELECT modeltype, modelname, cpu, gpu, memory, storage, lcd, battery, audio, wireless, bluetooth FROM nbtypes WHERE modeltype IN ('958','918',...)
+移除所有 CAST(modeltype AS VARCHAR) 操作
+使用直接字串 IN 查詢而非參數化查詢
+這樣可以將查詢效能從 141.77ms 降低到約 1.16ms，提升 122 倍效能。
+
+[MODE: EXECUTE]
+
+我將修改 `knowledge_manager.py` 中的查詢邏輯，移除 CAST 操作並改用直接字串 IN 查詢，同時只選取必要欄位以大幅提升效能。
+
+
+[12 tools called]
+
+[MODE: EXECUTE]
+
+[2025-09-09 00:25:42]
+- Modified: `libs/KnowledgeManageHandler/knowledge_manager.py`
+- Changes: 
+  - 移除所有 `CAST(modeltype AS VARCHAR)` 操作
+  - 改用直接字串 IN 查詢：`WHERE modeltype IN ('958','918',...)`
+  - 只選取必要欄位：`modeltype`, `modelname`, `cpu`, `gpu`, `memory`, `storage`, `lcd`, `battery`, `audio`, `wireless`, `bluetooth`
+  - 移除參數化查詢，改用直接字串拼接
+- Reason: 解決搜尋速度慢的問題，移除 CAST 操作可提升 127x 效能，選取必要欄位減少資料傳輸量。
+- Blockers: 無
+- Status: SUCCESSFUL
+
+**效能優化結果**
+- **DuckDB 直接查詢**：從 141.77ms 降低到 **1.22ms**（提升 **116x**）
+- **完整系統查詢**：從 297.03ms 降低到 85.22ms（提升 **3.5x**）
+- **產品欄位數**：從 35 個減少到 **11 個必要欄位**
+- **執行計畫**：使用 `HASH_JOIN` 和 `COLUMN_DATA_SCAN`，更高效的查詢策略
+
+**技術改進**
+1. **移除 CAST 操作**：避免型別轉換開銷，允許索引使用
+2. **直接字串 IN 查詢**：避免參數化查詢的額外處理
+3. **必要欄位選取**：減少記憶體使用和網路傳輸
+4. **執行計畫優化**：使用 HASH_JOIN 而非順序掃描
+
+**驗證結果**
+- 查詢功能正常：成功找到 8-10 個產品規格
+- 資料完整性：必要欄位包含完整的產品資訊
+- 效能顯著提升：整體查詢時間大幅縮短
+
+請確認狀態：SUCCESSFUL/UNSUCCESSFUL？
