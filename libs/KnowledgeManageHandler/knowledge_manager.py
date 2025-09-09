@@ -1463,9 +1463,17 @@ class KnowledgeManager:
         try:
             self.logger.info(f"開始產品規格搜尋：'{message}'")
             
+            # 🎮 遊戲相關查詢增強處理
+            enhanced_query = message
+            gaming_keywords = ['遊戲', '游戲', 'gaming', 'game', '電玩', '遊戲體驗', '玩遊戲', '打遊戲']
+            if any(keyword in message.lower() for keyword in gaming_keywords):
+                # 為遊戲查詢添加GPU相關關鍵詞來增強語義匹配
+                enhanced_query = f"{message} 專用顯卡 GPU RTX GeForce 高效能 遊戲筆電"
+                self.logger.info(f"偵測到遊戲查詢，增強搜尋詞彙: '{enhanced_query}'")
+            
             # 第一步：語義搜尋
             semantic_results = self.milvus_semantic_search(
-                query_text=message,
+                query_text=enhanced_query,
                 top_k=10
             )
             

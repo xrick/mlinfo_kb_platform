@@ -8,12 +8,12 @@ class MilvusQuery(DatabaseQuery):
         self.port = port
         self.collection_name = collection_name
         self.collection = None
-        # 使用與 ingest_data.py 相同的嵌入模型
-        self.embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+        # 使用與 KnowledgeManager 一致的嵌入模型
+        self.embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
         self.connect()
         if self.collection_name:
             # 指定新的 collection 名稱
-            self.set_collection(collection_name if collection_name else "sales_notebook_specs_xlsx")
+            self.set_collection(collection_name if collection_name else "product_semantic_chunks")
 
     def connect(self):
         try:
