@@ -57,6 +57,37 @@ class UserInputHandler:
         except Exception as e:
             logger.error(f"載入槽位架構失敗: {e}")
             return {}
+
+    def _load_mgfd_sys_configure(self) -> Dict[str, str]:
+        """載入槽位架構定義"""
+        try:
+            # 從 default_keywords.json 載入 mapping 欄位
+            keywords_path = Path(__file__).parent.parent.parent.parent.parent / "HumanData" / "mgfd_exec_config.json"
+            if keywords_path.exists():
+                with open(keywords_path, 'r', encoding='utf-8') as f:
+                    keywords_data = json.load(f)
+                slot_mapping = keywords_data.get("mapping", {})
+                logger.info(f"成功載入槽位映射，包含 {len(slot_mapping)} 個槽位")
+                return slot_mapping
+            else:
+                logger.warning(f"關鍵詞文件不存在: {keywords_path}")
+                # 使用預設映射
+                return {
+                    "用途": "usage_purpose",
+                    "價格區間": "price_range",
+                    "推出時間": "release_time",
+                    "CPU效能": "cpu_performance",
+                    "GPU效能": "gpu_performance",
+                    "重量": "weight",
+                    "攜帶性": "portability",
+                    "開關機速度": "boot_speed",
+                    "螢幕尺寸": "screen_size",
+                    "品牌": "brand",
+                    "觸控螢幕": "touch_screen"
+                }
+        except Exception as e:
+            logger.error(f"載入槽位架構失敗: {e}")
+            return {}
     
     def _load_keywords(self) -> Dict[str, Dict[str, Any]]:
         """載入 default_keywords.json 中的關鍵詞數據"""
