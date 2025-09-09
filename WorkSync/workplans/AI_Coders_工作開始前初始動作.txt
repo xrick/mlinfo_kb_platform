@@ -1,0 +1,14 @@
+
+
+目前針對不同ai-coder恢復實作prompt, currently for all ai-coders
+please carefully and completely read and analyze  the following python files:              │
+│   main.py                                                                                    │
+│   api/mgfd_routes.py                                                                         │
+│   libs/MGFDKernel.py                                                                         │
+│   libs/UserInputHandler/UserInputHandler.py                                                  │
+│   libs/KnowledgeManageHandler/knowledge_manager.py                                           │
+│   libs/ResponseGenHandler/ResponseGenHandler.py                                              │
+│   libs/StateManageHandler/StateManagementHandler.py
+    static/js/mgfd_ai.js
+    static/js/history.js
+    HumanData/SlotHub/default_keywords.json

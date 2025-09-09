@@ -1,5 +1,5 @@
 
-
+pkill -f "python main.py"
 -------------------
 enter research
 好，至少輸入”請介紹目前適合文書處理的筆電”，還會輸出：

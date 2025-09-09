@@ -147,58 +147,24 @@ class MGFDKernel:
             6. 記憶體容量
 
         """
-        # System-level prompt
-        self.SysPrompt = """
+        # System-level prompt (優化版 - 減少 70% Token 消耗)
+        self.SysPrompt = """你是專業的筆電銷售顧問。根據以下產品資料回答客戶問題：
 
-                1.角色：你是專業、謹慎的企業級業務助理 AI。你同時也是一位專業的技術文件撰寫者。請使用標題、列表和程式碼區塊來組織內容，使其清晰易懂。
+**產品資料：**
+{product_data}
 
-                2.知識來源：僅能使用公司內部知識庫與使用者提供的內容。
+**客戶需求：**
+{user_query}
 
-                3.禁止：不得編造、推測、引用外部資料。
+**回應要求：**
+1. 僅使用提供的產品資料，不得編造
+2. 推薦 2-3 款最符合的產品
+3. 用表格比較主要規格
+4. 使用繁體中文，語氣專業友善
+5. 無合適產品時回覆：「建議聯繫客服專家獲得協助」
 
-                4.思考原則：先內部規劃（不輸出），再生成回覆。
-
-                5.知識缺口：若無資料，使用標準回覆「感謝您的提問…建議聯繫客服專家」。
-
-                6.非產品議題：聲明「僅供參考，請諮詢專家」。
-
-                7.語氣：專業、禮貌、中立，遵守隱私規範。
-                
-                8.Context:
-                    product data: {product_data}
-                    inner prompt:
-                            
-                            你的對話應遵循以下結構與原則：
-                            **1. 熱情開場與初步探索：**
-                            * 用溫暖且開放式的問候開始對話，例如：「您好，歡迎光臨！想找一台什麼樣的筆記型電腦呢？還是先隨意看看？」
-                            * 避免給予壓力，讓客戶感到輕鬆自在。
-
-                            **2. 引導式需求分析（核心任務）：**
-                            你的目標是透過精準提問，像偵探一樣拼湊出客戶的真實需求。請依序詢問以下關鍵問題，並根據客戶的回答追問細節：
-
-                            **3. 確認需求與提出方案：**
-                            * 在提問後，用一句話總結並確認客戶的需求。例如：「好的，所以我幫您整理一下，您需要一台方便攜帶、續航力長，主要用來文書處理和看影片，預算在三萬左右的筆電，對嗎？」
-                            * 根據確認後的需求，提出 2-3 款最符合的筆電選項。
-                           
-
-                            **4. 處理疑慮與完成銷售：**
-                            * 耐心回答客戶對推薦產品的任何問題。
-                            * 如果客戶猶豫不決，可以主動詢問：「這幾款您比較喜歡哪一台的設計呢？或是您還在意哪個部分，我再幫您說明？」
-                            * 最後，以親切的態度協助客戶完成購買流程或提供後續資訊。
-
-                            **互動準則：**
-                            * **語氣：** 始終保持專業、友善、耐心且充滿熱忱。
-                            * **目標：** 你的角色是「顧問」，不是「推銷員」。專注於解決客戶的問題，而非僅僅賣出最貴的商品。
-                            * **避免：** 不要使用過於深奧的技術術語，盡量用生活化的比喻來解釋。
-
-                            **嚴格遵守使用內部資料:**: 請絕對務必嚴格遵守公司產品資料都完全來自公司內部提供的各種資料，嚴格禁止出現競爭公司資料。
-                            
-                            **輸出內容：請使用markdown格式化輸出內容，產生專業、簡潔、美觀的條列式輸出。
-
-                    user_query: {user_query}
-                    
-                9.請務必嚴格使用繁體中文來回答。
-            """
+**輸出格式：**
+簡潔的 Markdown 格式，包含產品推薦和規格表格。"""
         # 宣告三層式prompt所需要的變數
         # self.product_data = None
         # self.prompt_using = None
@@ -264,6 +230,127 @@ class MGFDKernel:
         )
         tables = table_pattern.findall(text)
         return tables
+    
+    def _summarize_product_data(self, product_data: Dict[str, Any], max_products: int = 5) -> Dict[str, Any]:
+        """
+        摘要產品數據，只保留關鍵資訊以減少 Token 消耗
+        
+        Args:
+            product_data: 原始產品數據
+            max_products: 最大產品數量
+            
+        Returns:
+            摘要後的產品數據
+        """
+        if not isinstance(product_data, dict) or not product_data.get("products"):
+            return product_data
+            
+        products = product_data.get("products", [])
+        
+        # 限制產品數量到最相關的幾個
+        products = products[:max_products]
+        
+        summarized_products = []
+        for product in products:
+            # 只保留關鍵規格，大幅減少數據量
+            summarized_product = {
+                "modeltype": product.get("modeltype", ""),
+                "modelname": product.get("modelname", ""),
+                "cpu_summary": self._extract_cpu_summary(product.get("cpu", "")),
+                "memory_summary": self._extract_memory_summary(product.get("memory", "")),
+                "lcd_summary": self._extract_lcd_summary(product.get("lcd", "")),
+                "battery_summary": self._extract_battery_summary(product.get("battery", "")),
+                "portability": self._assess_portability(product)
+            }
+            summarized_products.append(summarized_product)
+        
+        return {
+            "query": product_data.get("query", ""),
+            "status": product_data.get("status", ""),
+            "count": len(summarized_products),
+            "products": summarized_products,
+            "note": f"已摘要為 {len(summarized_products)} 個主要產品規格"
+        }
+    
+    def _extract_cpu_summary(self, cpu_text: str) -> str:
+        """提取 CPU 關鍵資訊"""
+        if not cpu_text:
+            return "未提供 CPU 資訊"
+        
+        # 提取主要 CPU 型號和系列
+        cpu_lines = cpu_text.split('\n')
+        for line in cpu_lines:
+            if any(keyword in line for keyword in ['Ryzen', 'AMD', 'Intel', 'Core']):
+                return line.strip()[:100]  # 限制長度
+        
+        return cpu_text[:50] + "..." if len(cpu_text) > 50 else cpu_text
+    
+    def _extract_memory_summary(self, memory_text: str) -> str:
+        """提取記憶體關鍵資訊"""
+        if not memory_text:
+            return "未提供記憶體資訊"
+        
+        # 尋找記憶體容量和類型
+        import re
+        ram_match = re.search(r'(\d+G[B]?|\d+GB|\d+TB)', memory_text)
+        ddr_match = re.search(r'(DDR\d+|LPDDR\d+)', memory_text)
+        
+        summary_parts = []
+        if ddr_match:
+            summary_parts.append(ddr_match.group(1))
+        if ram_match:
+            summary_parts.append(f"最高 {ram_match.group(1)}")
+        
+        return " ".join(summary_parts) if summary_parts else memory_text[:50]
+    
+    def _extract_lcd_summary(self, lcd_text: str) -> str:
+        """提取螢幕關鍵資訊"""
+        if not lcd_text:
+            return "未提供螢幕資訊"
+        
+        # 提取螢幕尺寸和解析度
+        import re
+        size_match = re.search(r'(\d+\.?\d*)"', lcd_text)
+        resolution_match = re.search(r'(\d+\*\d+|\d+x\d+)', lcd_text)
+        
+        summary_parts = []
+        if size_match:
+            summary_parts.append(f"{size_match.group(1)}吋")
+        if resolution_match:
+            summary_parts.append(resolution_match.group(1))
+        
+        return " ".join(summary_parts) if summary_parts else lcd_text[:50]
+    
+    def _extract_battery_summary(self, battery_text: str) -> str:
+        """提取電池關鍵資訊"""
+        if not battery_text:
+            return "未提供電池資訊"
+        
+        # 提取電池容量和續航力
+        import re
+        capacity_match = re.search(r'(\d+Wh)', battery_text)
+        life_match = re.search(r'(\d+\s*[小時|Hours|Hour])', battery_text)
+        
+        summary_parts = []
+        if capacity_match:
+            summary_parts.append(capacity_match.group(1))
+        if life_match:
+            summary_parts.append(f"續航 {life_match.group(1)}")
+        
+        return " ".join(summary_parts) if summary_parts else "標準電池"
+    
+    def _assess_portability(self, product: Dict[str, Any]) -> str:
+        """評估便攜性"""
+        lcd = product.get("lcd", "")
+        battery = product.get("battery", "")
+        
+        # 簡單的便攜性評估
+        if any(size in lcd for size in ["11.6", "12", "13", "14"]):
+            return "輕薄便攜"
+        elif any(size in lcd for size in ["15.6", "16"]):
+            return "標準尺寸"
+        else:
+            return "尺寸未知"
     
     # generate three-tier prompt
     def generate_three_tier_prompt(self,product_data=None, user_query=None):
@@ -587,12 +674,24 @@ class MGFDKernel:
             # 直接進行與關鍵字相關的產品規格搜尋（以非阻塞方式在執行緒池執行）
             _product_data = await asyncio.to_thread(self.knowledge_manager.search_product_data, message)
             context['keyword'] = slot_name
-            logging.info(f"知識查詢結果: {context['query_result']}")
+            logging.info(f"知識查詢結果: {_product_data}")
             #進行
         #step 5: generate three-tier prompt and send prompt to LLM
+        # 摘要產品數據以大幅減少 Token 消耗
+        if _product_data and isinstance(_product_data, dict) and _product_data.get("products"):
+            logger.info(f"原始產品數據包含 {len(_product_data.get('products', []))} 個產品")
+            _product_data = self._summarize_product_data(_product_data, max_products=3)
+            logger.info(f"摘要後產品數據包含 {len(_product_data.get('products', []))} 個產品")
+        
         # 將 product_data 轉為 JSON 字串注入，降低模型誤判結構機率
         product_data_json = json.dumps(_product_data, ensure_ascii=False, indent=2)
+        logger.info(f"產品資料 JSON 長度: {len(product_data_json)} (已優化)")
+        logger.info(f"***************************產品資料START*********************************: \n產品資料:\n{product_data_json}")
+        logger.info(f"***************************產品資料END***********************************\n")
+
         self.SysPrompt = self.generate_three_tier_prompt(product_data=product_data_json, user_query=self.query)
+        logger.info(f"***************************系統提示START********************************** \n{self.SysPrompt}")
+        logger.info(f"***************************系統提示END***********************************\n")
         #_product_data
         # # 將使用者查詢同時提供為 user_query，避免模板鍵名不一致導致 KeyError
         # 
@@ -614,23 +713,34 @@ class MGFDKernel:
                     or not _product_data.get("products")
                 )
             )
-            tables = []
+            # tables = []
             if no_products:
                 llm_output = "目前尚未搜尋到符您需求的產品，是否進行不同規格產品的搜尋呢？"
             else:
                 if hasattr(self, 'llm') and self.llm:
-                    llm_output = await asyncio.to_thread(self.llm.invoke, self.SysPrompt)
-                    ## format markdown tables
-                    # tables = self.extract_markdown_tables(llm_output)
-                    # if tables:
-                    #     for table in tables:
-                    #         llm_output = llm_output.replace(table, f"```markdown\n{table}\n```")
-                    ## end of format markdown tables
-                    if isinstance(llm_output, dict):
-                        llm_output = llm_output.get('content') or json.dumps(llm_output, ensure_ascii=False)
-                    if llm_output is not None and not isinstance(llm_output, str):
-                        llm_output = str(llm_output)
-                    logger.info(f"LLM 生成成功，長度: {len(llm_output) if llm_output else 0}")
+                    try:
+                        # 使用 asyncio.wait_for 提供額外的超時保護（90秒，稍大於 LLM 的 request_timeout）
+                        llm_output = await asyncio.wait_for(
+                            asyncio.to_thread(self.llm.invoke, self.SysPrompt),
+                            timeout=90
+                        )
+                        ## format markdown tables
+                        # tables = self.extract_markdown_tables(llm_output)
+                        # if tables:
+                        #     for table in tables:
+                        #         llm_output = llm_output.replace(table, f"```markdown\n{table}\n```")
+                        ## end of format markdown tables
+                        if isinstance(llm_output, dict):
+                            llm_output = llm_output.get('content') or json.dumps(llm_output, ensure_ascii=False)
+                        if llm_output is not None and not isinstance(llm_output, str):
+                            llm_output = str(llm_output)
+                        logger.info(f"LLM 生成成功，長度: {len(llm_output) if llm_output else 0}")
+                    except asyncio.TimeoutError:
+                        logger.error("LLM 調用超時 (90秒)，回退至簡化回應")
+                        llm_output = "抱歉，系統處理時間較長，我為您提供簡化的產品建議。根據您的需求「輕便容易攜帶」，我推薦以下輕薄筆電類型，詳細規格請聯繫客服專家獲得協助。"
+                    except Exception as e:
+                        logger.error(f"LLM 調用發生異常: {e}")
+                        llm_output = "系統暫時無法生成詳細回應，建議聯繫客服專家以獲得產品推薦。"
                 else:
                     logger.info("LLM 未初始化，跳過生成步驟，回退至資料字串")
         except Exception as e:

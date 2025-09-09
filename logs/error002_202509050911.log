@@ -21,3 +21,20 @@ sol:
   🔧 修復方案
 
   我需要調整 MGFDKernel.__init__() 中的初始化順序，確保 self.state_status 在 _load_state_machine() 調用之前就被創建。
+
+  修復 MGFDKernel 初始化順序問題                                                                                                │
+     │                                                                                                                               │
+     │ 問題: MGFDKernel 類在初始化時，_load_state_machine() 方法試圖使用尚未創建的 self.state_status 屬性。                          │
+     │                                                                                                                               │
+     │ 修復步驟:                                                                                                                     │
+     │                                                                                                                               │
+     │ 1. 重新排序初始化語句 - 將 self.state_status 和 self.states 的初始化移到 self.state_machine = self._load_state_machine() 之前 │
+     │ 2. 具體變更:                                                                                                                  │
+     │   - 將第83-89行的 self.state_status 初始化移到第71行之前                                                                      │
+     │   - 將第72-82行的 self.states 初始化也一併移到第71行之前                                                                      │
+     │   - 確保依賴順序正確：state_status → states → state_machine                                                                   │
+     │ 3. 驗證修復 - 啟動系統確認錯誤已解決                                                                                          │
+     │                                                                                                                               │
+     │ 修改檔案: libs/MGFDKernel.py (僅調整 __init__ 方法中的初始化順序)                                                             │
+     │                                                                                                                               │
+     │ 這是一個簡單的順序調整，不會影響任何功能邏輯，只是確保物件屬性按正確順序初始化。
