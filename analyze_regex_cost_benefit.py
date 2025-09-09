@@ -11,8 +11,10 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Tuple, Any
 
+
 def load_default_slots():
     """載入default_slots.json"""
+
     try:
         default_slots_path = Path(__file__).parent / "libs" / "mgfd_cursor" / "humandata" / "default_slots.json"
         with open(default_slots_path, 'r', encoding='utf-8') as f:

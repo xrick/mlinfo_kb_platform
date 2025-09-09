@@ -1,0 +1,955 @@
+<!DOCTYPE html><html><head>
+<title>MGFD_System_Design_v0.4.3.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/*
+
+Arduino® Light Theme - Stefania Mellai <s.mellai@arduino.cc>
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #FFFFFF;
+}
+
+.hljs,
+.hljs-subst {
+  color: #434f54;
+}
+
+.hljs-keyword,
+.hljs-attribute,
+.hljs-selector-tag,
+.hljs-doctag,
+.hljs-name {
+  color: #00979D;
+}
+
+.hljs-built_in,
+.hljs-literal,
+.hljs-bullet,
+.hljs-code,
+.hljs-addition {
+  color: #D35400;
+}
+
+.hljs-regexp,
+.hljs-symbol,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-link,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: #00979D;
+}
+
+.hljs-type,
+.hljs-string,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-quote,
+.hljs-template-tag,
+.hljs-deletion {
+  color: #005C5F;
+}
+
+.hljs-title,
+.hljs-section {
+  color: #880000;
+  font-weight: bold;
+}
+
+.hljs-comment {
+  color: rgba(149,165,166,.8);
+}
+
+.hljs-meta-keyword {
+  color: #728E00;
+}
+
+.hljs-meta {
+  color: #434f54;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-function {
+  color: #728E00;
+}
+
+.hljs-number {
+  color: #8A7B52;  
+}
+
+</style>
+
+<style>
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family:   "HelveticaNeue-Light", sans-serif, "宋体","Segoe WPC", "Segoe UI", "SFUIText-Light","Droid Sans Fallback";
+	font-size: 18px;
+	padding: 0 12px;
+	line-height: 1.6;
+	word-wrap: break-word;
+	color: #333333;
+}
+
+.content-wrapper{
+	max-width: 860px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	color: #4080D0;
+	text-decoration: none;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom: 1px solid #eee;
+}
+
+
+h2{
+	padding-bottom: .3em;
+    font-size: 2em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;
+}
+
+h3{
+	font-size: 1.75em;
+    line-height: 1.225;
+}
+
+h1, h2, h3 {
+	font-weight: bold;
+}
+
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code {
+	font-size: inherit;
+	line-height: auto;
+}
+
+a:hover {
+	color: #4080D0;
+	text-decoration: underline;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left: 5px solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 14px;
+	line-height: 19px;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+.mac code {
+	font-size: 12px;
+	line-height: 18px;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+/** Theming */
+
+.vscode-light,
+.vscode-light pre code {
+	color: rgb(30, 30, 30);
+}
+
+.vscode-dark,
+.vscode-dark pre code {
+	color: #DDD;
+}
+
+.vscode-high-contrast,
+.vscode-high-contrast pre code {
+	color: white;
+}
+
+.vscode-light code {
+	color: #A31515;
+}
+
+.vscode-dark code {
+	color: #D7BA7D;
+}
+
+.vscode-light pre:not(.hljs),
+.vscode-light code > div {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre:not(.hljs),
+.vscode-dark code > div {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre:not(.hljs),
+.vscode-high-contrast code > div {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+.vscode-light blockquote,
+.vscode-dark blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.vscode-high-contrast blockquote {
+	background: transparent;
+	border-color: #fff;
+}
+</style>
+
+<style>
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+.table-of-contents li{
+	list-style-type: initial;
+}
+</style>
+
+<style>
+@font-face{font-family:KaTeX_AMS;font-style:normal;font-weight:400;src:url(fonts/KaTeX_AMS-Regular.woff2) format("woff2"),url(fonts/KaTeX_AMS-Regular.woff) format("woff"),url(fonts/KaTeX_AMS-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Caligraphic;font-style:normal;font-weight:700;src:url(fonts/KaTeX_Caligraphic-Bold.woff2) format("woff2"),url(fonts/KaTeX_Caligraphic-Bold.woff) format("woff"),url(fonts/KaTeX_Caligraphic-Bold.ttf) format("truetype")}@font-face{font-family:KaTeX_Caligraphic;font-style:normal;font-weight:400;src:url(fonts/KaTeX_Caligraphic-Regular.woff2) format("woff2"),url(fonts/KaTeX_Caligraphic-Regular.woff) format("woff"),url(fonts/KaTeX_Caligraphic-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Fraktur;font-style:normal;font-weight:700;src:url(fonts/KaTeX_Fraktur-Bold.woff2) format("woff2"),url(fonts/KaTeX_Fraktur-Bold.woff) format("woff"),url(fonts/KaTeX_Fraktur-Bold.ttf) format("truetype")}@font-face{font-family:KaTeX_Fraktur;font-style:normal;font-weight:400;src:url(fonts/KaTeX_Fraktur-Regular.woff2) format("woff2"),url(fonts/KaTeX_Fraktur-Regular.woff) format("woff"),url(fonts/KaTeX_Fraktur-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Main;font-style:normal;font-weight:700;src:url(fonts/KaTeX_Main-Bold.woff2) format("woff2"),url(fonts/KaTeX_Main-Bold.woff) format("woff"),url(fonts/KaTeX_Main-Bold.ttf) format("truetype")}@font-face{font-family:KaTeX_Main;font-style:italic;font-weight:700;src:url(fonts/KaTeX_Main-BoldItalic.woff2) format("woff2"),url(fonts/KaTeX_Main-BoldItalic.woff) format("woff"),url(fonts/KaTeX_Main-BoldItalic.ttf) format("truetype")}@font-face{font-family:KaTeX_Main;font-style:italic;font-weight:400;src:url(fonts/KaTeX_Main-Italic.woff2) format("woff2"),url(fonts/KaTeX_Main-Italic.woff) format("woff"),url(fonts/KaTeX_Main-Italic.ttf) format("truetype")}@font-face{font-family:KaTeX_Main;font-style:normal;font-weight:400;src:url(fonts/KaTeX_Main-Regular.woff2) format("woff2"),url(fonts/KaTeX_Main-Regular.woff) format("woff"),url(fonts/KaTeX_Main-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Math;font-style:italic;font-weight:700;src:url(fonts/KaTeX_Math-BoldItalic.woff2) format("woff2"),url(fonts/KaTeX_Math-BoldItalic.woff) format("woff"),url(fonts/KaTeX_Math-BoldItalic.ttf) format("truetype")}@font-face{font-family:KaTeX_Math;font-style:italic;font-weight:400;src:url(fonts/KaTeX_Math-Italic.woff2) format("woff2"),url(fonts/KaTeX_Math-Italic.woff) format("woff"),url(fonts/KaTeX_Math-Italic.ttf) format("truetype")}@font-face{font-family:"KaTeX_SansSerif";font-style:normal;font-weight:700;src:url(fonts/KaTeX_SansSerif-Bold.woff2) format("woff2"),url(fonts/KaTeX_SansSerif-Bold.woff) format("woff"),url(fonts/KaTeX_SansSerif-Bold.ttf) format("truetype")}@font-face{font-family:"KaTeX_SansSerif";font-style:italic;font-weight:400;src:url(fonts/KaTeX_SansSerif-Italic.woff2) format("woff2"),url(fonts/KaTeX_SansSerif-Italic.woff) format("woff"),url(fonts/KaTeX_SansSerif-Italic.ttf) format("truetype")}@font-face{font-family:"KaTeX_SansSerif";font-style:normal;font-weight:400;src:url(fonts/KaTeX_SansSerif-Regular.woff2) format("woff2"),url(fonts/KaTeX_SansSerif-Regular.woff) format("woff"),url(fonts/KaTeX_SansSerif-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Script;font-style:normal;font-weight:400;src:url(fonts/KaTeX_Script-Regular.woff2) format("woff2"),url(fonts/KaTeX_Script-Regular.woff) format("woff"),url(fonts/KaTeX_Script-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Size1;font-style:normal;font-weight:400;src:url(fonts/KaTeX_Size1-Regular.woff2) format("woff2"),url(fonts/KaTeX_Size1-Regular.woff) format("woff"),url(fonts/KaTeX_Size1-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Size2;font-style:normal;font-weight:400;src:url(fonts/KaTeX_Size2-Regular.woff2) format("woff2"),url(fonts/KaTeX_Size2-Regular.woff) format("woff"),url(fonts/KaTeX_Size2-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Size3;font-style:normal;font-weight:400;src:url(fonts/KaTeX_Size3-Regular.woff2) format("woff2"),url(fonts/KaTeX_Size3-Regular.woff) format("woff"),url(fonts/KaTeX_Size3-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Size4;font-style:normal;font-weight:400;src:url(fonts/KaTeX_Size4-Regular.woff2) format("woff2"),url(fonts/KaTeX_Size4-Regular.woff) format("woff"),url(fonts/KaTeX_Size4-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Typewriter;font-style:normal;font-weight:400;src:url(fonts/KaTeX_Typewriter-Regular.woff2) format("woff2"),url(fonts/KaTeX_Typewriter-Regular.woff) format("woff"),url(fonts/KaTeX_Typewriter-Regular.ttf) format("truetype")}.katex{text-rendering:auto;font:normal 1.21em KaTeX_Main,Times New Roman,serif;line-height:1.2;text-indent:0}.katex *{-ms-high-contrast-adjust:none!important;border-color:currentColor}.katex .katex-version:after{content:"0.16.2"}.katex .katex-mathml{clip:rect(1px,1px,1px,1px);border:0;height:1px;overflow:hidden;padding:0;position:absolute;width:1px}.katex .katex-html>.newline{display:block}.katex .base{position:relative;white-space:nowrap;width:-webkit-min-content;width:-moz-min-content;width:min-content}.katex .base,.katex .strut{display:inline-block}.katex .textbf{font-weight:700}.katex .textit{font-style:italic}.katex .textrm{font-family:KaTeX_Main}.katex .textsf{font-family:KaTeX_SansSerif}.katex .texttt{font-family:KaTeX_Typewriter}.katex .mathnormal{font-family:KaTeX_Math;font-style:italic}.katex .mathit{font-family:KaTeX_Main;font-style:italic}.katex .mathrm{font-style:normal}.katex .mathbf{font-family:KaTeX_Main;font-weight:700}.katex .boldsymbol{font-family:KaTeX_Math;font-style:italic;font-weight:700}.katex .amsrm,.katex .mathbb,.katex .textbb{font-family:KaTeX_AMS}.katex .mathcal{font-family:KaTeX_Caligraphic}.katex .mathfrak,.katex .textfrak{font-family:KaTeX_Fraktur}.katex .mathtt{font-family:KaTeX_Typewriter}.katex .mathscr,.katex .textscr{font-family:KaTeX_Script}.katex .mathsf,.katex .textsf{font-family:KaTeX_SansSerif}.katex .mathboldsf,.katex .textboldsf{font-family:KaTeX_SansSerif;font-weight:700}.katex .mathitsf,.katex .textitsf{font-family:KaTeX_SansSerif;font-style:italic}.katex .mainrm{font-family:KaTeX_Main;font-style:normal}.katex .vlist-t{border-collapse:collapse;display:inline-table;table-layout:fixed}.katex .vlist-r{display:table-row}.katex .vlist{display:table-cell;position:relative;vertical-align:bottom}.katex .vlist>span{display:block;height:0;position:relative}.katex .vlist>span>span{display:inline-block}.katex .vlist>span>.pstrut{overflow:hidden;width:0}.katex .vlist-t2{margin-right:-2px}.katex .vlist-s{display:table-cell;font-size:1px;min-width:2px;vertical-align:bottom;width:2px}.katex .vbox{align-items:baseline;display:inline-flex;flex-direction:column}.katex .hbox{width:100%}.katex .hbox,.katex .thinbox{display:inline-flex;flex-direction:row}.katex .thinbox{max-width:0;width:0}.katex .msupsub{text-align:left}.katex .mfrac>span>span{text-align:center}.katex .mfrac .frac-line{border-bottom-style:solid;display:inline-block;width:100%}.katex .hdashline,.katex .hline,.katex .mfrac .frac-line,.katex .overline .overline-line,.katex .rule,.katex .underline .underline-line{min-height:1px}.katex .mspace{display:inline-block}.katex .clap,.katex .llap,.katex .rlap{position:relative;width:0}.katex .clap>.inner,.katex .llap>.inner,.katex .rlap>.inner{position:absolute}.katex .clap>.fix,.katex .llap>.fix,.katex .rlap>.fix{display:inline-block}.katex .llap>.inner{right:0}.katex .clap>.inner,.katex .rlap>.inner{left:0}.katex .clap>.inner>span{margin-left:-50%;margin-right:50%}.katex .rule{border:0 solid;display:inline-block;position:relative}.katex .hline,.katex .overline .overline-line,.katex .underline .underline-line{border-bottom-style:solid;display:inline-block;width:100%}.katex .hdashline{border-bottom-style:dashed;display:inline-block;width:100%}.katex .sqrt>.root{margin-left:.27777778em;margin-right:-.55555556em}.katex .fontsize-ensurer.reset-size1.size1,.katex .sizing.reset-size1.size1{font-size:1em}.katex .fontsize-ensurer.reset-size1.size2,.katex .sizing.reset-size1.size2{font-size:1.2em}.katex .fontsize-ensurer.reset-size1.size3,.katex .sizing.reset-size1.size3{font-size:1.4em}.katex .fontsize-ensurer.reset-size1.size4,.katex .sizing.reset-size1.size4{font-size:1.6em}.katex .fontsize-ensurer.reset-size1.size5,.katex .sizing.reset-size1.size5{font-size:1.8em}.katex .fontsize-ensurer.reset-size1.size6,.katex .sizing.reset-size1.size6{font-size:2em}.katex .fontsize-ensurer.reset-size1.size7,.katex .sizing.reset-size1.size7{font-size:2.4em}.katex .fontsize-ensurer.reset-size1.size8,.katex .sizing.reset-size1.size8{font-size:2.88em}.katex .fontsize-ensurer.reset-size1.size9,.katex .sizing.reset-size1.size9{font-size:3.456em}.katex .fontsize-ensurer.reset-size1.size10,.katex .sizing.reset-size1.size10{font-size:4.148em}.katex .fontsize-ensurer.reset-size1.size11,.katex .sizing.reset-size1.size11{font-size:4.976em}.katex .fontsize-ensurer.reset-size2.size1,.katex .sizing.reset-size2.size1{font-size:.83333333em}.katex .fontsize-ensurer.reset-size2.size2,.katex .sizing.reset-size2.size2{font-size:1em}.katex .fontsize-ensurer.reset-size2.size3,.katex .sizing.reset-size2.size3{font-size:1.16666667em}.katex .fontsize-ensurer.reset-size2.size4,.katex .sizing.reset-size2.size4{font-size:1.33333333em}.katex .fontsize-ensurer.reset-size2.size5,.katex .sizing.reset-size2.size5{font-size:1.5em}.katex .fontsize-ensurer.reset-size2.size6,.katex .sizing.reset-size2.size6{font-size:1.66666667em}.katex .fontsize-ensurer.reset-size2.size7,.katex .sizing.reset-size2.size7{font-size:2em}.katex .fontsize-ensurer.reset-size2.size8,.katex .sizing.reset-size2.size8{font-size:2.4em}.katex .fontsize-ensurer.reset-size2.size9,.katex .sizing.reset-size2.size9{font-size:2.88em}.katex .fontsize-ensurer.reset-size2.size10,.katex .sizing.reset-size2.size10{font-size:3.45666667em}.katex .fontsize-ensurer.reset-size2.size11,.katex .sizing.reset-size2.size11{font-size:4.14666667em}.katex .fontsize-ensurer.reset-size3.size1,.katex .sizing.reset-size3.size1{font-size:.71428571em}.katex .fontsize-ensurer.reset-size3.size2,.katex .sizing.reset-size3.size2{font-size:.85714286em}.katex .fontsize-ensurer.reset-size3.size3,.katex .sizing.reset-size3.size3{font-size:1em}.katex .fontsize-ensurer.reset-size3.size4,.katex .sizing.reset-size3.size4{font-size:1.14285714em}.katex .fontsize-ensurer.reset-size3.size5,.katex .sizing.reset-size3.size5{font-size:1.28571429em}.katex .fontsize-ensurer.reset-size3.size6,.katex .sizing.reset-size3.size6{font-size:1.42857143em}.katex .fontsize-ensurer.reset-size3.size7,.katex .sizing.reset-size3.size7{font-size:1.71428571em}.katex .fontsize-ensurer.reset-size3.size8,.katex .sizing.reset-size3.size8{font-size:2.05714286em}.katex .fontsize-ensurer.reset-size3.size9,.katex .sizing.reset-size3.size9{font-size:2.46857143em}.katex .fontsize-ensurer.reset-size3.size10,.katex .sizing.reset-size3.size10{font-size:2.96285714em}.katex .fontsize-ensurer.reset-size3.size11,.katex .sizing.reset-size3.size11{font-size:3.55428571em}.katex .fontsize-ensurer.reset-size4.size1,.katex .sizing.reset-size4.size1{font-size:.625em}.katex .fontsize-ensurer.reset-size4.size2,.katex .sizing.reset-size4.size2{font-size:.75em}.katex .fontsize-ensurer.reset-size4.size3,.katex .sizing.reset-size4.size3{font-size:.875em}.katex .fontsize-ensurer.reset-size4.size4,.katex .sizing.reset-size4.size4{font-size:1em}.katex .fontsize-ensurer.reset-size4.size5,.katex .sizing.reset-size4.size5{font-size:1.125em}.katex .fontsize-ensurer.reset-size4.size6,.katex .sizing.reset-size4.size6{font-size:1.25em}.katex .fontsize-ensurer.reset-size4.size7,.katex .sizing.reset-size4.size7{font-size:1.5em}.katex .fontsize-ensurer.reset-size4.size8,.katex .sizing.reset-size4.size8{font-size:1.8em}.katex .fontsize-ensurer.reset-size4.size9,.katex .sizing.reset-size4.size9{font-size:2.16em}.katex .fontsize-ensurer.reset-size4.size10,.katex .sizing.reset-size4.size10{font-size:2.5925em}.katex .fontsize-ensurer.reset-size4.size11,.katex .sizing.reset-size4.size11{font-size:3.11em}.katex .fontsize-ensurer.reset-size5.size1,.katex .sizing.reset-size5.size1{font-size:.55555556em}.katex .fontsize-ensurer.reset-size5.size2,.katex .sizing.reset-size5.size2{font-size:.66666667em}.katex .fontsize-ensurer.reset-size5.size3,.katex .sizing.reset-size5.size3{font-size:.77777778em}.katex .fontsize-ensurer.reset-size5.size4,.katex .sizing.reset-size5.size4{font-size:.88888889em}.katex .fontsize-ensurer.reset-size5.size5,.katex .sizing.reset-size5.size5{font-size:1em}.katex .fontsize-ensurer.reset-size5.size6,.katex .sizing.reset-size5.size6{font-size:1.11111111em}.katex .fontsize-ensurer.reset-size5.size7,.katex .sizing.reset-size5.size7{font-size:1.33333333em}.katex .fontsize-ensurer.reset-size5.size8,.katex .sizing.reset-size5.size8{font-size:1.6em}.katex .fontsize-ensurer.reset-size5.size9,.katex .sizing.reset-size5.size9{font-size:1.92em}.katex .fontsize-ensurer.reset-size5.size10,.katex .sizing.reset-size5.size10{font-size:2.30444444em}.katex .fontsize-ensurer.reset-size5.size11,.katex .sizing.reset-size5.size11{font-size:2.76444444em}.katex .fontsize-ensurer.reset-size6.size1,.katex .sizing.reset-size6.size1{font-size:.5em}.katex .fontsize-ensurer.reset-size6.size2,.katex .sizing.reset-size6.size2{font-size:.6em}.katex .fontsize-ensurer.reset-size6.size3,.katex .sizing.reset-size6.size3{font-size:.7em}.katex .fontsize-ensurer.reset-size6.size4,.katex .sizing.reset-size6.size4{font-size:.8em}.katex .fontsize-ensurer.reset-size6.size5,.katex .sizing.reset-size6.size5{font-size:.9em}.katex .fontsize-ensurer.reset-size6.size6,.katex .sizing.reset-size6.size6{font-size:1em}.katex .fontsize-ensurer.reset-size6.size7,.katex .sizing.reset-size6.size7{font-size:1.2em}.katex .fontsize-ensurer.reset-size6.size8,.katex .sizing.reset-size6.size8{font-size:1.44em}.katex .fontsize-ensurer.reset-size6.size9,.katex .sizing.reset-size6.size9{font-size:1.728em}.katex .fontsize-ensurer.reset-size6.size10,.katex .sizing.reset-size6.size10{font-size:2.074em}.katex .fontsize-ensurer.reset-size6.size11,.katex .sizing.reset-size6.size11{font-size:2.488em}.katex .fontsize-ensurer.reset-size7.size1,.katex .sizing.reset-size7.size1{font-size:.41666667em}.katex .fontsize-ensurer.reset-size7.size2,.katex .sizing.reset-size7.size2{font-size:.5em}.katex .fontsize-ensurer.reset-size7.size3,.katex .sizing.reset-size7.size3{font-size:.58333333em}.katex .fontsize-ensurer.reset-size7.size4,.katex .sizing.reset-size7.size4{font-size:.66666667em}.katex .fontsize-ensurer.reset-size7.size5,.katex .sizing.reset-size7.size5{font-size:.75em}.katex .fontsize-ensurer.reset-size7.size6,.katex .sizing.reset-size7.size6{font-size:.83333333em}.katex .fontsize-ensurer.reset-size7.size7,.katex .sizing.reset-size7.size7{font-size:1em}.katex .fontsize-ensurer.reset-size7.size8,.katex .sizing.reset-size7.size8{font-size:1.2em}.katex .fontsize-ensurer.reset-size7.size9,.katex .sizing.reset-size7.size9{font-size:1.44em}.katex .fontsize-ensurer.reset-size7.size10,.katex .sizing.reset-size7.size10{font-size:1.72833333em}.katex .fontsize-ensurer.reset-size7.size11,.katex .sizing.reset-size7.size11{font-size:2.07333333em}.katex .fontsize-ensurer.reset-size8.size1,.katex .sizing.reset-size8.size1{font-size:.34722222em}.katex .fontsize-ensurer.reset-size8.size2,.katex .sizing.reset-size8.size2{font-size:.41666667em}.katex .fontsize-ensurer.reset-size8.size3,.katex .sizing.reset-size8.size3{font-size:.48611111em}.katex .fontsize-ensurer.reset-size8.size4,.katex .sizing.reset-size8.size4{font-size:.55555556em}.katex .fontsize-ensurer.reset-size8.size5,.katex .sizing.reset-size8.size5{font-size:.625em}.katex .fontsize-ensurer.reset-size8.size6,.katex .sizing.reset-size8.size6{font-size:.69444444em}.katex .fontsize-ensurer.reset-size8.size7,.katex .sizing.reset-size8.size7{font-size:.83333333em}.katex .fontsize-ensurer.reset-size8.size8,.katex .sizing.reset-size8.size8{font-size:1em}.katex .fontsize-ensurer.reset-size8.size9,.katex .sizing.reset-size8.size9{font-size:1.2em}.katex .fontsize-ensurer.reset-size8.size10,.katex .sizing.reset-size8.size10{font-size:1.44027778em}.katex .fontsize-ensurer.reset-size8.size11,.katex .sizing.reset-size8.size11{font-size:1.72777778em}.katex .fontsize-ensurer.reset-size9.size1,.katex .sizing.reset-size9.size1{font-size:.28935185em}.katex .fontsize-ensurer.reset-size9.size2,.katex .sizing.reset-size9.size2{font-size:.34722222em}.katex .fontsize-ensurer.reset-size9.size3,.katex .sizing.reset-size9.size3{font-size:.40509259em}.katex .fontsize-ensurer.reset-size9.size4,.katex .sizing.reset-size9.size4{font-size:.46296296em}.katex .fontsize-ensurer.reset-size9.size5,.katex .sizing.reset-size9.size5{font-size:.52083333em}.katex .fontsize-ensurer.reset-size9.size6,.katex .sizing.reset-size9.size6{font-size:.5787037em}.katex .fontsize-ensurer.reset-size9.size7,.katex .sizing.reset-size9.size7{font-size:.69444444em}.katex .fontsize-ensurer.reset-size9.size8,.katex .sizing.reset-size9.size8{font-size:.83333333em}.katex .fontsize-ensurer.reset-size9.size9,.katex .sizing.reset-size9.size9{font-size:1em}.katex .fontsize-ensurer.reset-size9.size10,.katex .sizing.reset-size9.size10{font-size:1.20023148em}.katex .fontsize-ensurer.reset-size9.size11,.katex .sizing.reset-size9.size11{font-size:1.43981481em}.katex .fontsize-ensurer.reset-size10.size1,.katex .sizing.reset-size10.size1{font-size:.24108004em}.katex .fontsize-ensurer.reset-size10.size2,.katex .sizing.reset-size10.size2{font-size:.28929605em}.katex .fontsize-ensurer.reset-size10.size3,.katex .sizing.reset-size10.size3{font-size:.33751205em}.katex .fontsize-ensurer.reset-size10.size4,.katex .sizing.reset-size10.size4{font-size:.38572806em}.katex .fontsize-ensurer.reset-size10.size5,.katex .sizing.reset-size10.size5{font-size:.43394407em}.katex .fontsize-ensurer.reset-size10.size6,.katex .sizing.reset-size10.size6{font-size:.48216008em}.katex .fontsize-ensurer.reset-size10.size7,.katex .sizing.reset-size10.size7{font-size:.57859209em}.katex .fontsize-ensurer.reset-size10.size8,.katex .sizing.reset-size10.size8{font-size:.69431051em}.katex .fontsize-ensurer.reset-size10.size9,.katex .sizing.reset-size10.size9{font-size:.83317261em}.katex .fontsize-ensurer.reset-size10.size10,.katex .sizing.reset-size10.size10{font-size:1em}.katex .fontsize-ensurer.reset-size10.size11,.katex .sizing.reset-size10.size11{font-size:1.19961427em}.katex .fontsize-ensurer.reset-size11.size1,.katex .sizing.reset-size11.size1{font-size:.20096463em}.katex .fontsize-ensurer.reset-size11.size2,.katex .sizing.reset-size11.size2{font-size:.24115756em}.katex .fontsize-ensurer.reset-size11.size3,.katex .sizing.reset-size11.size3{font-size:.28135048em}.katex .fontsize-ensurer.reset-size11.size4,.katex .sizing.reset-size11.size4{font-size:.32154341em}.katex .fontsize-ensurer.reset-size11.size5,.katex .sizing.reset-size11.size5{font-size:.36173633em}.katex .fontsize-ensurer.reset-size11.size6,.katex .sizing.reset-size11.size6{font-size:.40192926em}.katex .fontsize-ensurer.reset-size11.size7,.katex .sizing.reset-size11.size7{font-size:.48231511em}.katex .fontsize-ensurer.reset-size11.size8,.katex .sizing.reset-size11.size8{font-size:.57877814em}.katex .fontsize-ensurer.reset-size11.size9,.katex .sizing.reset-size11.size9{font-size:.69453376em}.katex .fontsize-ensurer.reset-size11.size10,.katex .sizing.reset-size11.size10{font-size:.83360129em}.katex .fontsize-ensurer.reset-size11.size11,.katex .sizing.reset-size11.size11{font-size:1em}.katex .delimsizing.size1{font-family:KaTeX_Size1}.katex .delimsizing.size2{font-family:KaTeX_Size2}.katex .delimsizing.size3{font-family:KaTeX_Size3}.katex .delimsizing.size4{font-family:KaTeX_Size4}.katex .delimsizing.mult .delim-size1>span{font-family:KaTeX_Size1}.katex .delimsizing.mult .delim-size4>span{font-family:KaTeX_Size4}.katex .nulldelimiter{display:inline-block;width:.12em}.katex .delimcenter,.katex .op-symbol{position:relative}.katex .op-symbol.small-op{font-family:KaTeX_Size1}.katex .op-symbol.large-op{font-family:KaTeX_Size2}.katex .accent>.vlist-t,.katex .op-limits>.vlist-t{text-align:center}.katex .accent .accent-body{position:relative}.katex .accent .accent-body:not(.accent-full){width:0}.katex .overlay{display:block}.katex .mtable .vertical-separator{display:inline-block;min-width:1px}.katex .mtable .arraycolsep{display:inline-block}.katex .mtable .col-align-c>.vlist-t{text-align:center}.katex .mtable .col-align-l>.vlist-t{text-align:left}.katex .mtable .col-align-r>.vlist-t{text-align:right}.katex .svg-align{text-align:left}.katex svg{fill:currentColor;stroke:currentColor;fill-rule:nonzero;fill-opacity:1;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:block;height:inherit;position:absolute;width:100%}.katex svg path{stroke:none}.katex img{border-style:none;max-height:none;max-width:none;min-height:0;min-width:0}.katex .stretchy{display:block;overflow:hidden;position:relative;width:100%}.katex .stretchy:after,.katex .stretchy:before{content:""}.katex .hide-tail{overflow:hidden;position:relative;width:100%}.katex .halfarrow-left{left:0;overflow:hidden;position:absolute;width:50.2%}.katex .halfarrow-right{overflow:hidden;position:absolute;right:0;width:50.2%}.katex .brace-left{left:0;overflow:hidden;position:absolute;width:25.1%}.katex .brace-center{left:25%;overflow:hidden;position:absolute;width:50%}.katex .brace-right{overflow:hidden;position:absolute;right:0;width:25.1%}.katex .x-arrow-pad{padding:0 .5em}.katex .cd-arrow-pad{padding:0 .55556em 0 .27778em}.katex .mover,.katex .munder,.katex .x-arrow{text-align:center}.katex .boxpad{padding:0 .3em}.katex .fbox,.katex .fcolorbox{border:.04em solid;box-sizing:border-box}.katex .cancel-pad{padding:0 .2em}.katex .cancel-lap{margin-left:-.2em;margin-right:-.2em}.katex .sout{border-bottom-style:solid;border-bottom-width:.08em}.katex .angl{border-right:.049em solid;border-top:.049em solid;box-sizing:border-box;margin-right:.03889em}.katex .anglpad{padding:0 .03889em}.katex .eqn-num:before{content:"(" counter(katexEqnNo) ")";counter-increment:katexEqnNo}.katex .mml-eqn-num:before{content:"(" counter(mmlEqnNo) ")";counter-increment:mmlEqnNo}.katex .mtr-glue{width:50%}.katex .cd-vert-arrow{display:inline-block;position:relative}.katex .cd-label-left{display:inline-block;position:absolute;right:calc(50% + .3em);text-align:left}.katex .cd-label-right{display:inline-block;left:calc(50% + .3em);position:absolute;text-align:right}.katex-display{display:block;margin:1em 0;text-align:center}.katex-display>.katex{display:block;text-align:center;white-space:nowrap}.katex-display>.katex>.katex-html{display:block;position:relative}.katex-display>.katex>.katex-html>.tag{position:absolute;right:0}.katex-display.leqno>.katex>.katex-html>.tag{left:0;right:auto}.katex-display.fleqn>.katex{padding-left:2em;text-align:left}body{counter-reset:katexEqnNo mmlEqnNo}
+
+</style>
+
+</head>
+<body>
+    <div class="content-wrapper">
+        <h1 id="mgfd-%E7%B3%BB%E7%B5%B1%E6%9E%B6%E6%A7%8B%E5%88%86%E6%9E%90%E5%A0%B1%E5%91%8A" tabindex="-1">MGFD 系統架構分析報告</h1>
+<h3 id="%E5%A0%B1%E5%91%8A%E6%97%A5%E6%9C%9F%3A-2025-08-26-04%3A24" tabindex="-1"><strong>報告日期</strong>: 2025-08-26 04:24</h3>
+<h3 id="%E7%B3%BB%E7%B5%B1%E7%89%88%E6%9C%AC%3A-mgfd-salesrag-integration-system-v0.4" tabindex="-1"><strong>系統版本</strong>: MGFD SalesRAG Integration System v0.4</h3>
+<h3 id="%E5%88%86%E6%9E%90%E7%AF%84%E5%9C%8D%3A-%E5%AE%8C%E6%95%B4%E7%B3%BB%E7%B5%B1%E6%9E%B6%E6%A7%8B%E3%80%81%E6%A8%A1%E7%B5%84%E4%BE%9D%E8%B3%B4%E3%80%81%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%BD%BF%E7%94%A8%E5%88%86%E6%9E%90" tabindex="-1"><strong>分析範圍</strong>: 完整系統架構、模組依賴、配置文件使用分析</h3>
+<h3 id="%E5%89%8D%E8%A8%80%EF%BC%9A" tabindex="-1">前言：</h3>
+<h3 id="%E5%9F%BA%E6%96%BC%E4%B9%8B%E5%89%8D%E7%AC%AC%E4%B8%80%E7%89%88%E5%8F%8A%E7%AC%AC%E4%BA%8C%E7%89%88%E8%A8%AD%E8%A8%88%E7%9A%84%E7%BC%BA%E9%BB%9E%EF%BC%8Cv4.2(or-v4.1)%E4%BB%A5-centre-decide%2C-extended-rule-based-and-stat-machine-based%E9%87%8D%E6%96%B0%E8%A8%AD%E8%A8%88%E4%B8%80%E5%80%8B%E9%80%9A%E7%94%A8%E3%80%81%E5%8F%AF%E9%9D%A0%E3%80%81%E4%BA%BA%E6%A9%9F%E5%90%88%E4%BD%9C%E5%8F%8A%E5%AE%B9%E6%98%93%E9%99%A4%E9%8C%AF%E7%9A%84rag%E7%AF%84%E5%BC%8F%E3%80%82" tabindex="-1">基於之前第一版及第二版設計的缺點，v4.2(or v4.1)以 centre-decide, extended rule-based and stat-machine-based重新設計一個通用、可靠、人機合作及容易除錯的RAG範式。</h3>
+<h3 id="1.-%E7%B3%BB%E7%B5%B1%E6%A8%A1%E7%B5%84%E7%B5%84%E6%88%90" tabindex="-1">1. 系統模組組成</h3>
+<h3 id="%E4%BA%94%E5%A4%A7%E5%AD%90%E6%A8%A1%E7%B5%84%3A" tabindex="-1">五大子模組:</h3>
+<h3 id="*-userinputhandler-%3A-%E8%BC%B8%E5%85%A5%E8%99%95%E7%90%86%E5%B1%A4" tabindex="-1">* UserInputHandler : 輸入處理層</h3>
+<h3 id="*-responsegenhandler-%3A-%E5%9B%9E%E6%87%89%E7%94%9F%E6%88%90%E5%B1%A4" tabindex="-1">* ResponseGenHandler : 回應生成層</h3>
+<h3 id="*-knowledgemanagementhandler%3A%E5%85%A7%E9%83%A8%E7%94%A2%E5%93%81%E8%B3%87%E6%96%99%E5%8F%8A%E5%85%B6%E5%AE%83%E6%96%87%E4%BB%B6%E5%8F%96%E5%BE%97%EF%BC%8C%E7%9B%AE%E5%89%8D%E4%BB%A5parent-child-chunking%E5%AF%A6%E4%BD%9C%E3%80%82" tabindex="-1">* KnowledgeManagementHandler:內部產品資料及其它文件取得，目前以parent-child chunking實作。</h3>
+<h3 id="*-promptmanagementhandler-%3A-%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86%E5%B1%A4" tabindex="-1">* PromptManagementHandler : 提示工程管理層</h3>
+<h3 id="*-statemanagementhandler-%3A-%E7%8B%80%E6%85%8B%E7%AE%A1%E7%90%86%E5%B1%A4" tabindex="-1">* StateManagementHandler : 狀態管理層</h3>
+<h3 id="1.1-%E6%A0%B8%E5%BF%83%E6%A8%A1%E7%B5%84%E6%9E%B6%E6%A7%8B" tabindex="-1">1.1 核心模組架構</h3>
+<h3 id="%E4%B8%BB%E6%8E%A7%E5%88%B6%E5%99%A8%E5%B1%A4" tabindex="-1"><strong>主控制器層</strong></h3>
+<h3 id="%60%60%60" tabindex="-1">```</h3>
+<h3 id="mgfdsystem-(mgfd_system.py)" tabindex="-1">MGFDSystem (mgfd_system.py)</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E7%B3%BB%E7%B5%B1%E5%88%9D%E5%A7%8B%E5%8C%96%E5%92%8C%E5%8D%94%E8%AA%BF" tabindex="-1">├── 系統初始化和協調</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%E7%AE%A1%E7%90%86" tabindex="-1">├── 工作流程管理</h3>
+<h3 id="%E2%94%94%E2%94%80%E2%94%80-%E7%B5%B1%E4%B8%80%E6%8E%A5%E5%8F%A3%E6%8F%90%E4%BE%9B" tabindex="-1">└── 統一接口提供</h3>
+<h3 id="%60%60%60-1" tabindex="-1">```</h3>
+<h3 id="%E8%BC%B8%E5%85%A5%E8%99%95%E7%90%86%E5%B1%A4" tabindex="-1"><strong>輸入處理層</strong></h3>
+<h3 id="%60%60%60-2" tabindex="-1">```</h3>
+<h3 id="userinputhandler-(user_input_handler.py)" tabindex="-1">UserInputHandler (user_input_handler.py)</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E7%94%A8%E6%88%B6%E8%BC%B8%E5%85%A5%E8%A7%A3%E6%9E%90" tabindex="-1">├── 用戶輸入解析</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E6%A7%BD%E4%BD%8D%E6%8F%90%E5%8F%96%E5%8D%94%E8%AA%BF" tabindex="-1">├── 槽位提取協調</h3>
+<h3 id="%E2%94%94%E2%94%80%E2%94%80-%E7%8B%80%E6%85%8B%E6%9B%B4%E6%96%B0%E7%AE%A1%E7%90%86" tabindex="-1">└── 狀態更新管理</h3>
+<h3 id="%60%60%60-3" tabindex="-1">```</h3>
+<h3 id="%E5%9B%9E%E6%87%89%E7%94%9F%E6%88%90%E5%B1%A4" tabindex="-1"><strong>回應生成層</strong></h3>
+<h3 id="%60%60%60-4" tabindex="-1">```</h3>
+<h3 id="responsegenerator-(response_generator.py)" tabindex="-1">ResponseGenerator (response_generator.py)</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E5%9B%9E%E6%87%89%E6%A0%BC%E5%BC%8F%E5%8C%96" tabindex="-1">├── 回應格式化</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E5%89%8D%E7%AB%AF%E6%B8%B2%E6%9F%93%E4%BF%A1%E6%81%AF" tabindex="-1">├── 前端渲染信息</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E5%A4%9A%E9%A1%9E%E5%9E%8B%E5%9B%9E%E6%87%89%E8%99%95%E7%90%86" tabindex="-1">├── 多類型回應處理</h3>
+<h3 id="%E2%94%94%E2%94%80%E2%94%80-json%E5%BA%8F%E5%88%97%E5%8C%96" tabindex="-1">└── JSON序列化</h3>
+<h3 id="%60%60%60-5" tabindex="-1">```</h3>
+<h3 id="%E7%9F%A5%E8%AD%98%E5%BA%AB%E5%B1%A4%EF%BC%88%E6%95%B4%E5%90%88chunking%E6%90%9C%E5%B0%8B%E6%A0%B8%E5%BF%83%EF%BC%89" tabindex="-1"><strong>知識庫層（整合Chunking搜尋核心）</strong></h3>
+<h3 id="%60%60%60-6" tabindex="-1">```</h3>
+<h3 id="notebookknowledgebase-(knowledge_base.py)" tabindex="-1">NotebookKnowledgeBase (knowledge_base.py)</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E7%94%A2%E5%93%81%E6%95%B8%E6%93%9A%E7%AE%A1%E7%90%86" tabindex="-1">├── 產品數據管理</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-chunking%E6%90%9C%E5%B0%8B%E5%BC%95%E6%93%8E%E6%95%B4%E5%90%88" tabindex="-1">├── Chunking搜尋引擎整合</h3>
+<h3 id="%E2%94%82-%E2%94%9C%E2%94%80%E2%94%80-productchunkingengine---parent-child%E5%88%86%E5%A1%8A%E7%AD%96%E7%95%A5" tabindex="-1">│   ├── ProductChunkingEngine - Parent-Child分塊策略</h3>
+<h3 id="%E2%94%82-%E2%94%9C%E2%94%80%E2%94%80-%E8%AA%9E%E7%BE%A9%E5%B5%8C%E5%85%A5%E5%90%91%E9%87%8F%E7%94%9F%E6%88%90" tabindex="-1">│   ├── 語義嵌入向量生成</h3>
+<h3 id="%E2%94%82-%E2%94%94%E2%94%80%E2%94%80-%E9%A4%98%E5%BC%A6%E7%9B%B8%E4%BC%BC%E5%BA%A6%E8%A8%88%E7%AE%97" tabindex="-1">│   └── 餘弦相似度計算</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E8%AA%9E%E7%BE%A9%E6%90%9C%E7%B4%A2%EF%BC%88%E5%9F%BA%E6%96%BCchunking%EF%BC%89" tabindex="-1">├── 語義搜索（基於Chunking）</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E6%99%BA%E8%83%BD%E6%8E%A8%E8%96%A6%E5%BC%95%E6%93%8E" tabindex="-1">├── 智能推薦引擎</h3>
+<h3 id="%E2%94%94%E2%94%80%E2%94%80-rdbms-and-nosql%E6%90%9C%E5%B0%8B" tabindex="-1">└── RDBMS and NoSQL搜尋</h3>
+<h3 id="%60%60%60-7" tabindex="-1">```</h3>
+<h3 id="%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86%E5%B1%A4" tabindex="-1">提示工程管理層</h3>
+<h3 id="%60%60%60-8" tabindex="-1">```</h3>
+<h3 id="promptmanager-(prompt_manager.py)" tabindex="-1">PromptManager (prompt_manager.py)</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E4%BE%9D%E6%93%9A%E6%83%85%E5%A2%83%E9%81%B8%E6%93%87%E5%90%88%E9%81%A9%E7%9A%84%E6%8F%90%E7%A4%BA" tabindex="-1">├── 依據情境選擇合適的提示</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E6%8F%90%E7%A4%BA%E5%BA%AB%E5%BB%BA%E7%AB%8B%E8%88%87%E7%AE%A1%E7%90%86" tabindex="-1">├── 提示庫建立與管理</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E6%8F%90%E7%A4%BA%E5%85%A7%E5%AE%B9%E8%AA%9E%E7%BE%A9%E6%AF%94%E5%B0%8D" tabindex="-1">├── 提示內容語義比對</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E8%87%AA%E5%8B%95%E5%8C%96%E6%8F%90%E7%A4%BA%E7%94%9F%E6%88%90%E7%B3%BB%E7%B5%B1%E7%9A%84%E8%A6%8F%E5%8A%83%E8%88%87%E5%AF%A6%E9%A9%97" tabindex="-1">├── 自動化提示生成系統的規劃與實驗</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-multi-hop-prompt" tabindex="-1">├── Multi-Hop Prompt</h3>
+<h3 id="%E2%94%94%E2%94%80%E2%94%80-to-add" tabindex="-1">└── To-Add</h3>
+<h3 id="%60%60%60-9" tabindex="-1">```</h3>
+<h3 id="%E7%8B%80%E6%85%8B%E7%AE%A1%E7%90%86%E5%B1%A4" tabindex="-1">狀態管理層</h3>
+<h3 id="%60%60%60-10" tabindex="-1">```</h3>
+<h3 id="statemanager-(state_manager.py)" tabindex="-1">StateManager (state_manager.py)</h3>
+<h3 id="(mgfd-state-manager-merges-state-persistence-(redis)-and-state-transition-logic-(state-machine))" tabindex="-1">(MGFD State Manager Merges state persistence (Redis) and state transition logic (State Machine))</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E7%8B%80%E6%85%8B%E8%BD%89%E6%8F%9B%E7%AE%A1%E7%90%86" tabindex="-1">├── 狀態轉換管理</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6" tabindex="-1">├── 流程控制</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E4%BA%8B%E4%BB%B6%E8%99%95%E7%90%86" tabindex="-1">├── 事件處理</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E6%9C%83%E8%A9%B1%E7%8B%80%E6%85%8B%E6%8C%81%E4%B9%85%E5%8C%96" tabindex="-1">├── 會話狀態持久化</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E5%B0%8D%E8%A9%B1%E6%AD%B7%E5%8F%B2%E7%AE%A1%E7%90%86" tabindex="-1">├── 對話歷史管理</h3>
+<h3 id="%E2%94%9C%E2%94%80%E2%94%80-%E6%A7%BD%E4%BD%8D%E4%BF%A1%E6%81%AF%E5%AD%98%E5%84%B2" tabindex="-1">├── 槽位信息存儲</h3>
+<h3 id="%E2%94%94%E2%94%80%E2%94%80" tabindex="-1">└──</h3>
+<h3 id="%60%60%60-11" tabindex="-1">```</h3>
+<h1 id="1.2-%E6%A8%A1%E7%B5%84%E5%8A%9F%E8%83%BD%E8%A9%B3%E7%B4%B0%E5%88%86%E6%9E%90" tabindex="-1">1.2 模組功能詳細分析</h1>
+<h3 id="%E6%89%80%E6%9C%89%E6%A8%A1%E7%B5%84%E9%81%8B%E4%BD%9C%E7%B8%BD%E8%BF%B0%EF%BC%9A" tabindex="-1">所有模組運作總述：</h3>
+<ul>
+<li>狀態管理
+每一個新的客戶與AI會話開始，在redis中就要建立一個Chat State Machine:</li>
+</ul>
+<pre>Parse error on line 1:
+stateDiagram-v2    
+^
+Expecting 'NEWLINE', 'SPACE', 'GRAPH', got 'ALPHA'</pre><p>整個對話的完整流程即依照這個State Machine在進行。 User與System間會經常有溝通進行，System對話的目的在收集槽位(slot)資訊。</p>
+<p>整個行為的流程如下：</p>
+<ol>
+<li>user input -&gt; api router -&gt; MGFDSystem</li>
+<li>……</li>
+</ol>
+<hr>
+<h3 id="%E6%88%91%E6%9C%83%E5%85%88%E7%94%A8%E4%B8%80%E5%80%8B%E6%A1%88%E4%BE%8B%E4%BE%86%E6%8F%8F%E8%BF%B0%E9%80%99%E5%80%8B%E7%B3%BB%E7%B5%B1%E7%9A%84%E5%AE%8C%E6%95%B4%E4%B8%94%E7%AC%A6%E5%90%88%E9%A0%90%E6%9C%9F%E7%9A%84%E8%A1%8C%E7%82%BA%E3%80%82" tabindex="-1">我會先用一個案例來描述這個系統的完整且符合預期的行為。</h3>
+<h3 id="case-1%3A" tabindex="-1">case-1:</h3>
+<h3 id="user-input-1-%3A%22%E8%AB%8B%E4%BB%8B%E7%B4%B9%E7%9B%AE%E5%89%8D%E6%96%B0%E5%87%BA%E7%9A%84%E7%AD%86%E9%9B%BB%22-%3E-system%3A%E5%90%84%E6%A8%A1%E7%B5%84%E9%80%B2%E8%A1%8C%E8%99%95%E7%90%86%EF%BC%8C%E7%99%BC%E7%8F%BE%E9%9C%80%E8%A6%81%E5%95%9F%E5%8B%95funnnel-chat%E9%80%B2%E8%A1%8C%E6%A7%BD%E4%BD%8D%E8%B3%87%E6%96%99%E6%94%B6%E9%9B%86-%3Esystem%3A%E4%BE%9D%E7%85%A7%E9%A0%90%E8%A8%AD%E7%9A%84%E6%A7%BD%E4%BD%8D%E8%B3%87%E6%96%99%E6%94%B6%E9%9B%86%E7%9A%84%E5%95%8F%E9%A1%8C%E5%90%91%E5%AE%A2%E6%88%B6%E8%A9%A2%E5%95%8F-%3E%E5%AE%A2%E6%88%B6%E5%9B%9E%E7%AD%94-%3E%5Boptional%3A%E8%8B%A5%E9%A0%90%E5%88%B0%E7%B3%BB%E7%B5%B1%E7%84%A1%E6%B3%95%E7%90%86%E8%A7%A3%E7%9A%84%E5%AD%97%E8%A9%9E%EF%BC%8C%E8%AB%8B%E8%A9%A2%E5%95%8Fllm%EF%BC%8C%E4%B8%A6%E7%94%A2%E7%94%9F%E5%9B%9E%E7%AD%94%E8%88%87%E5%AE%A2%E6%88%B6%E9%80%B2%E8%A1%8C%E7%A2%BA%E8%AA%8D%EF%BC%8C%E7%9B%B4%E5%88%B0%E7%A2%BA%E5%AE%9A%E5%BE%8C%EF%BC%8C%E5%86%8D%E7%B9%BC%E7%BA%8C%E9%80%B2%E8%A1%8C%E6%A7%BD%E4%BD%8D%E8%B3%87%E6%96%99%E6%94%B6%E9%9B%86%5D-%3Esystem%E9%80%B2%E8%A1%8C%E6%A7%BD%E4%BD%8D%E8%B3%87%E6%96%99%E6%94%B6%E9%9B%86-%3E%E7%9B%B4%E5%88%B0%E6%A7%BD%E4%BD%8D%E8%B3%87%E6%96%99%E6%BB%BF%E8%B6%B3%E5%8F%AF%E4%BB%A5%E9%80%B2%E8%A1%8C%E7%94%A2%E5%93%81%E6%9F%A5%E8%A9%A2-%3Esystem%E4%BD%BF%E7%94%A8chunking%E8%AA%9E%E7%BE%A9%E6%90%9C%E5%B0%8B%E5%BC%95%E6%93%8E%E9%80%B2%E8%A1%8C%E7%94%A2%E5%93%81%E6%90%9C%E5%B0%8B-%3E%E5%91%88%E7%8F%BE%E7%94%A2%E5%93%81%E8%A9%B3%E7%B4%B0%E8%A6%8F%E6%A0%BC%E7%B5%A6%E5%AE%A2%E6%88%B6%E3%80%82" tabindex="-1">user-input-1 :"請介紹目前新出的筆電"-&gt; system:各模組進行處理，發現需要啟動funnnel chat進行槽位資料收集-&gt;system:依照預設的槽位資料收集的問題向客戶詢問-&gt;客戶回答-&gt;[optional:若預到系統無法理解的字詞，請詢問LLM，並產生回答與客戶進行確認，直到確定後，再繼續進行槽位資料收集]-&gt;system進行槽位資料收集-&gt;直到槽位資料滿足可以進行產品查詢-&gt;<strong>system使用Chunking語義搜尋引擎進行產品搜尋</strong>-&gt;呈現產品詳細規格給客戶。</h3>
+<hr>
+<h3 id="1.3-chunking%E6%90%9C%E5%B0%8B%E6%A0%B8%E5%BF%83%E6%95%B4%E5%90%88%E8%AA%AA%E6%98%8E" tabindex="-1">1.3 <strong>Chunking搜尋核心整合說明</strong></h3>
+<h3 id="chunking%E6%9E%B6%E6%A7%8B%E5%84%AA%E5%8B%A2%EF%BC%9A" tabindex="-1">Chunking架構優勢：</h3>
+<h3 id="1.-parent-child%E5%88%86%E5%B1%A4%E7%B5%90%E6%A7%8B%EF%BC%9A%E6%AF%8F%E5%80%8B%E7%94%A2%E5%93%81%E7%94%9F%E6%88%901%E5%80%8B%E7%88%B6%E5%88%86%E5%A1%8A%EF%BC%88%E6%A6%82%E8%A6%BD%EF%BC%89%2B-4%E5%80%8B%E5%AD%90%E5%88%86%E5%A1%8A%EF%BC%88%E6%95%88%E8%83%BD%E3%80%81%E8%A8%AD%E8%A8%88%E3%80%81%E9%80%A3%E6%8E%A5%E6%80%A7%E3%80%81%E5%95%86%E5%8B%99%EF%BC%89" tabindex="-1">1. <strong>Parent-Child分層結構</strong>：每個產品生成1個父分塊（概覽）+ 4個子分塊（效能、設計、連接性、商務）</h3>
+<h3 id="2.-%E8%AA%9E%E7%BE%A9%E6%90%9C%E5%B0%8B%E8%83%BD%E5%8A%9B%EF%BC%9A%E5%9F%BA%E6%96%BCsentence-transformers%E6%A8%A1%E5%9E%8B%EF%BC%8C%E6%94%AF%E6%8F%B4%E8%87%AA%E7%84%B6%E8%AA%9E%E8%A8%80%E6%9F%A5%E8%A9%A2" tabindex="-1">2. <strong>語義搜尋能力</strong>：基於sentence-transformers模型，支援自然語言查詢</h3>
+<h3 id="3.-%E5%A4%9A%E7%B6%AD%E5%BA%A6%E5%8C%B9%E9%85%8D%EF%BC%9A%E5%BE%9E%E4%B8%8D%E5%90%8C%E8%A7%92%E5%BA%A6%EF%BC%88%E6%95%88%E8%83%BD%E3%80%81%E4%BE%BF%E6%94%9C%E6%80%A7%E3%80%81%E5%95%86%E5%8B%99%E9%9C%80%E6%B1%82%EF%BC%89%E5%8C%B9%E9%85%8D%E7%94%A8%E6%88%B6%E9%9C%80%E6%B1%82" tabindex="-1">3. <strong>多維度匹配</strong>：從不同角度（效能、便攜性、商務需求）匹配用戶需求</h3>
+<h3 id="4.-%E7%9B%B8%E4%BC%BC%E5%BA%A6%E8%A9%95%E5%88%86%EF%BC%9A%E6%8F%90%E4%BE%9B%E5%8C%B9%E9%85%8D%E5%BA%A6%E7%99%BE%E5%88%86%E6%AF%94%E5%92%8C%E6%8E%A8%E8%96%A6%E5%8E%9F%E5%9B%A0%EF%BC%8C%E5%A2%9E%E5%BC%B7%E7%94%A8%E6%88%B6%E9%AB%94%E9%A9%97" tabindex="-1">4. <strong>相似度評分</strong>：提供匹配度百分比和推薦原因，增強用戶體驗</h3>
+<h3 id="%E6%90%9C%E5%B0%8B%E6%B5%81%E7%A8%8B%EF%BC%9A" tabindex="-1">搜尋流程：</h3>
+<h3 id="1.-%E6%A7%BD%E4%BD%8D%E4%BF%A1%E6%81%AF-%E2%86%92-%E6%A7%8B%E5%BB%BA%E6%90%9C%E5%B0%8B%E6%9F%A5%E8%A9%A2%E6%96%87%E6%9C%AC" tabindex="-1">1. 槽位信息 → 構建搜尋查詢文本</h3>
+<h3 id="2.-%E7%94%9F%E6%88%90%E6%9F%A5%E8%A9%A2%E5%B5%8C%E5%85%A5%E5%90%91%E9%87%8F" tabindex="-1">2. 生成查詢嵌入向量</h3>
+<h3 id="3.-%E8%88%87%E7%94%A2%E5%93%81%E5%88%86%E5%A1%8A%E5%BA%AB%E9%80%B2%E8%A1%8C%E9%A4%98%E5%BC%A6%E7%9B%B8%E4%BC%BC%E5%BA%A6%E8%A8%88%E7%AE%97" tabindex="-1">3. 與產品分塊庫進行餘弦相似度計算</h3>
+<h3 id="4.-%E8%BF%94%E5%9B%9E%E7%9B%B8%E4%BC%BC%E5%BA%A6%3E30%25%E7%9A%84%E5%88%86%E5%A1%8A%E7%B5%90%E6%9E%9C" tabindex="-1">4. 返回相似度&gt;30%的分塊結果</h3>
+<h3 id="5.-%E8%BD%89%E6%8F%9B%E7%82%BA%E7%94%A2%E5%93%81%E5%88%97%E8%A1%A8%EF%BC%8C%E5%8C%85%E5%90%AB%E5%8C%B9%E9%85%8D%E5%8E%9F%E5%9B%A0%E5%92%8C%E8%A9%95%E5%88%86" tabindex="-1">5. 轉換為產品列表，包含匹配原因和評分</h3>
+<h3 id="%E4%BB%A5%E4%B8%8A%E6%98%AF%E4%B8%80%E5%80%8B%E5%9F%BA%E6%96%BCchunking%E8%AA%9E%E7%BE%A9%E6%90%9C%E5%B0%8B%E7%9A%84%E5%AE%8C%E6%95%B4%E6%B5%81%E7%A8%8B%EF%BC%8C%E5%B7%B2%E6%88%90%E5%8A%9F%E6%95%B4%E5%90%88%E5%88%B0case-1%E7%B3%BB%E7%B5%B1%E5%8A%9F%E8%83%BD%E4%B8%AD%E3%80%82" tabindex="-1">以上是一個基於Chunking語義搜尋的完整流程，已成功整合到Case-1系統功能中。</h3>
+<hr>
+<h3 id="action-thinking%2C-plan-and-implementation" tabindex="-1">Action thinking, plan and implementation</h3>
+<h3 id="%E5%A5%BD%E7%9A%84%EF%BC%8C%E9%80%99%E5%B0%B1%E7%82%BA%E6%82%A8%E5%91%88%E7%8F%BE-dataclass-%E7%9A%84%E5%AE%9A%E7%BE%A9%E4%BB%A5%E5%8F%8A%E5%AE%8C%E6%95%B4%E7%9A%84%E7%8B%80%E6%85%8B%E8%A1%A8%E6%A0%BC%E5%BC%8F%E8%88%87%E5%85%A7%E5%AE%B9%E3%80%82%E9%80%99%E5%85%A9%E9%83%A8%E5%88%86%E6%98%AF%E8%A1%A8%E9%A9%85%E5%8B%95%E6%96%B9%E6%B3%95%E7%9A%84%E6%A0%B8%E5%BF%83%EF%BC%8C%E5%AE%83%E5%80%91%E5%B0%87%E7%8B%80%E6%85%8B%E6%A9%9F%E7%9A%84%E3%80%8C%E8%A6%8F%E5%89%87%E3%80%8D%E5%BE%9E%E5%9F%B7%E8%A1%8C%E3%80%8C%E9%82%8F%E8%BC%AF%E3%80%8D%E4%B8%AD%E6%B8%85%E6%99%B0%E5%9C%B0%E5%88%86%E9%9B%A2%E5%87%BA%E4%BE%86%E3%80%82" tabindex="-1">好的，這就為您呈現 <code>dataclass</code> 的定義以及完整的狀態表格式與內容。這兩部分是表驅動方法的核心，它們將狀態機的「規則」從執行「邏輯」中清晰地分離出來。</h3>
+<hr>
+<h3 id="1.-statetransition-%E8%B3%87%E6%96%99%E9%A1%9E%E5%88%A5-(dataclass)-%E7%9A%84%E5%85%A7%E5%AE%B9" tabindex="-1">1. <code>StateTransition</code> 資料類別 (Dataclass) 的內容</h3>
+<h3 id="%E9%80%99%E6%98%AF%E7%94%A8%E4%BE%86%E5%AE%9A%E7%BE%A9%E5%96%AE%E4%B8%80%E7%8B%80%E6%85%8B%E8%BD%89%E6%8F%9B%E8%A6%8F%E5%89%87%E7%9A%84%E7%B5%90%E6%A7%8B%E8%97%8D%E5%9C%96%E3%80%82%E6%88%91%E5%80%91%E4%BD%BF%E7%94%A8-dataclass-%E6%98%AF%E7%82%BA%E4%BA%86%E8%AE%93%E6%AF%8F%E5%80%8B%E7%8B%80%E6%85%8B%E7%9A%84%E5%B1%AC%E6%80%A7%EF%BC%88%E5%8C%85%E5%90%AB%E5%93%AA%E4%BA%9B%E5%8B%95%E4%BD%9C%E3%80%81%E4%B8%8B%E4%B8%80%E5%80%8B%E7%8B%80%E6%85%8B%E6%98%AF%E4%BB%80%E9%BA%BC%EF%BC%89%E9%83%BD%E6%9C%89%E6%98%8E%E7%A2%BA%E7%9A%84%E5%90%8D%E7%A8%B1%EF%BC%8C%E5%A2%9E%E5%8A%A0%E7%A8%8B%E5%BC%8F%E7%A2%BC%E7%9A%84%E5%8F%AF%E8%AE%80%E6%80%A7%E3%80%82" tabindex="-1">這是用來定義單一狀態轉換規則的結構藍圖。我們使用 <code>dataclass</code> 是為了讓每個狀態的屬性（包含哪些動作、下一個狀態是什麼）都有明確的名稱，增加程式碼的可讀性。</h3>
+<h3 id="%E7%A8%8B%E5%BC%8F%E7%A2%BC%E7%89%87%E6%AE%B5" tabindex="-1"><strong>程式碼片段</strong></h3>
+<h3 id="%60%60%60-12" tabindex="-1">```</h3>
+<h3 id="from-dataclasses-import-dataclass" tabindex="-1">from dataclasses import dataclass</h3>
+<h3 id="from-typing-import-list%2C-callable" tabindex="-1">from typing import List, Callable</h3>
+<h3 id="...-(action-functions-are-defined-here)-..." tabindex="-1">... (action functions are defined here) ...</h3>
+<h3 id="%40dataclass" tabindex="-1">@dataclass</h3>
+<h3 id="class-statetransition%3A" tabindex="-1">class StateTransition:</h3>
+<h3 id="%22%22%22" tabindex="-1">"""</h3>
+<h3 id="%E4%B8%80%E5%80%8B%E7%94%A8%E4%BE%86%E5%AD%98%E6%94%BE%E6%8C%87%E5%AE%9A%E7%8B%80%E6%85%8B%E7%9A%84%E5%8B%95%E4%BD%9C%E5%88%97%E8%A1%A8%E8%88%87%E4%B8%8B%E4%B8%80%E5%80%8B%E7%8B%80%E6%85%8B%E7%9A%84%E8%B3%87%E6%96%99%E9%A1%9E%E5%88%A5%E3%80%82" tabindex="-1">一個用來存放指定狀態的動作列表與下一個狀態的資料類別。</h3>
+<h3 id="a-data-class-to-hold-the-actions-and-next-state-for-a-given-state." tabindex="-1">A data class to hold the actions and next state for a given state.</h3>
+<h3 id="%22%22%22-1" tabindex="-1">"""</h3>
+<h3 id="actions%3A-list%5Bcallable%5B%5B%5D%2C-none%5D%5D" tabindex="-1">actions: List[Callable[[], None]]</h3>
+<h3 id="next_state%3A-str" tabindex="-1">next_state: str</h3>
+<h3 id="%60%60%60-13" tabindex="-1">```</h3>
+<h3 id="%E8%A7%A3%E8%AA%AA%3A" tabindex="-1"><strong>解說:</strong></h3>
+<h3 id="*-%40dataclass-%3A-%E9%80%99%E6%98%AF%E4%B8%80%E5%80%8B%E8%A3%9D%E9%A3%BE%E5%99%A8%EF%BC%8C%E5%AE%83%E6%9C%83%E8%87%AA%E5%8B%95%E7%82%BA%E9%80%99%E5%80%8B%E9%A1%9E%E5%88%A5%E7%94%A2%E7%94%9F%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A4%8E%E6%96%B9%E6%B3%95%EF%BC%8C%E4%BE%8B%E5%A6%82-__init__%EF%BC%8C%E8%AE%93%E6%88%91%E5%80%91%E7%9A%84%E5%AE%9A%E7%BE%A9%E5%8F%AF%E4%BB%A5%E9%9D%9E%E5%B8%B8%E7%B0%A1%E6%BD%94%E3%80%82" tabindex="-1">* <strong><code>@dataclass</code></strong> : 這是一個裝飾器，它會自動為這個類別產生一些基礎方法，例如 <code>__init__</code>，讓我們的定義可以非常簡潔。</h3>
+<h3 id="*-actions%3A-list%5Bcallable%5B%5B%5D%2C-none%5D%5D-%3A-%E9%80%99%E5%80%8B%E6%AC%84%E4%BD%8D%E7%94%A8%E4%BE%86%E5%AD%98%E6%94%BE%E4%B8%80%E5%80%8B%E3%80%8C%E5%8B%95%E4%BD%9C%E5%87%BD%E5%BC%8F%E3%80%8D%E7%9A%84%E5%88%97%E8%A1%A8%E3%80%82" tabindex="-1">* <strong><code>actions: List[Callable[[], None]]</code></strong> : 這個欄位用來存放一個「動作函式」的列表。</h3>
+<h3 id="*-list%5B...%5D-%E8%A1%A8%E7%A4%BA%E5%AE%83%E6%98%AF%E4%B8%80%E5%80%8B%E5%88%97%E8%A1%A8%E3%80%82" tabindex="-1">* <code>List[...]</code> 表示它是一個列表。</h3>
+<h3 id="*-callable%5B%5B%5D%2C-none%5D-%E6%98%AF%E4%B8%80%E5%80%8B%E5%9E%8B%E5%88%A5%E6%8F%90%E7%A4%BA-(type-hint)%EF%BC%8C%E5%AE%83%E7%B2%BE%E7%A2%BA%E5%9C%B0%E6%8F%8F%E8%BF%B0%E4%BA%86%E5%88%97%E8%A1%A8%E4%B8%AD%E7%9A%84%E6%88%90%E5%93%A1%EF%BC%9A" tabindex="-1">* <code>Callable[[], None]</code> 是一個型別提示 (Type Hint)，它精確地描述了列表中的成員：</h3>
+<h3 id="*-callable%3A-%E8%A1%A8%E7%A4%BA%E5%AE%83%E6%98%AF%E4%B8%80%E5%80%8B%E5%8F%AF%E4%BB%A5%E8%A2%AB%E5%91%BC%E5%8F%AB%E7%9A%84%E7%89%A9%E4%BB%B6%EF%BC%88%E9%80%9A%E5%B8%B8%E6%98%AF%E5%87%BD%E5%BC%8F%EF%BC%89%E3%80%82" tabindex="-1">* <code>Callable</code>: 表示它是一個可以被呼叫的物件（通常是函式）。</h3>
+<h3 id="*-%5B%5D%3A-%E8%A1%A8%E7%A4%BA%E9%80%99%E5%80%8B%E5%87%BD%E5%BC%8F%E4%B8%8D%E6%8E%A5%E6%94%B6%E4%BB%BB%E4%BD%95%E5%8F%83%E6%95%B8%E3%80%82" tabindex="-1">* <code>[]</code>: 表示這個函式不接收任何參數。</h3>
+<h3 id="*-none%3A-%E8%A1%A8%E7%A4%BA%E9%80%99%E5%80%8B%E5%87%BD%E5%BC%8F%E6%B2%92%E6%9C%89%E5%9B%9E%E5%82%B3%E5%80%BC%E3%80%82" tabindex="-1">* <code>None</code>: 表示這個函式沒有回傳值。</h3>
+<h3 id="*-next_state%3A-str-%3A-%E9%80%99%E5%80%8B%E6%AC%84%E4%BD%8D%E5%B0%B1%E6%98%AF%E4%B8%80%E5%80%8B%E7%B0%A1%E5%96%AE%E7%9A%84%E5%AD%97%E4%B8%B2%EF%BC%8C%E7%94%A8%E4%BE%86%E5%84%B2%E5%AD%98%E5%9F%B7%E8%A1%8C%E5%AE%8C%E6%89%80%E6%9C%89-actions-%E5%BE%8C%EF%BC%8C%E6%87%89%E8%A9%B2%E8%BD%89%E6%8F%9B%E5%88%B0%E7%9A%84%E4%B8%8B%E4%B8%80%E5%80%8B%E7%8B%80%E6%85%8B%E7%9A%84%E5%90%8D%E7%A8%B1%E3%80%82" tabindex="-1">* <strong><code>next_state: str</code></strong> : 這個欄位就是一個簡單的字串，用來儲存執行完所有 <code>actions</code> 後，應該轉換到的下一個狀態的名稱。</h3>
+<h3 id="---" tabindex="-1">---</h3>
+<h3 id="2.-%E5%AE%8C%E6%95%B4%E7%8B%80%E6%85%8B%E8%A1%A8-(state_transitions)-%E7%9A%84%E6%A0%BC%E5%BC%8F%E8%88%87%E5%85%A7%E5%AE%B9" tabindex="-1">2. 完整狀態表 (<code>STATE_TRANSITIONS</code>) 的格式與內容</h3>
+<h3 id="%E9%80%99%E5%80%8B%E5%AD%97%E5%85%B8%E5%B0%B1%E6%98%AF%E6%88%91%E5%80%91%E7%8B%80%E6%85%8B%E6%A9%9F%E7%9A%84%E3%80%8C%E5%A4%A7%E8%85%A6%E3%80%8D%E3%80%82%E5%AE%83%E4%BB%A5%E7%8B%80%E6%85%8B%E5%90%8D%E7%A8%B1%E7%82%BA%E3%80%8C%E9%8D%B5%E3%80%8D%EF%BC%8C%E4%BB%A5-statetransition-%E7%89%A9%E4%BB%B6%E7%82%BA%E3%80%8C%E5%80%BC%E3%80%8D%EF%BC%8C%E5%AE%8C%E6%95%B4%E5%9C%B0%E6%8F%8F%E8%BF%B0%E4%BA%86%E6%89%80%E6%9C%89%E5%8F%AF%E8%83%BD%E7%9A%84%E7%8B%80%E6%85%8B%E8%BD%89%E6%8F%9B%E8%B7%AF%E5%BE%91%E3%80%82" tabindex="-1">這個字典就是我們狀態機的「大腦」。它以狀態名稱為「鍵」，以 <code>StateTransition</code> 物件為「值」，完整地描述了所有可能的狀態轉換路徑。</h3>
+<h3 id="%E7%A8%8B%E5%BC%8F%E7%A2%BC%E7%89%87%E6%AE%B5-1" tabindex="-1"><strong>程式碼片段</strong></h3>
+<h3 id="%60%60%60-14" tabindex="-1">```</h3>
+<h3 id="...-(action-functions-and-statetransition-class-are-defined-here)-..." tabindex="-1">... (action functions and StateTransition class are defined here) ...</h3>
+<h3 id="state_transitions%3A-dict%5Bstr%2C-statetransition%5D-%3D-%7B" tabindex="-1">STATE_TRANSITIONS: Dict[str, StateTransition] = {</h3>
+<h3 id="%22receivechat%22%3A-statetransition(" tabindex="-1">"receiveChat": StateTransition(</h3>
+<h3 id="actions%3D%5Bmatchword%2C-matchsentence%5D%2C" tabindex="-1">actions=[matchword, matchsentence],</h3>
+<h3 id="next_state%3D%22formatoutput%22" tabindex="-1">next_state="formatOutput"</h3>
+<h3 id=")%2C" tabindex="-1">),</h3>
+<h3 id="%22formatoutput%22%3A-statetransition(" tabindex="-1">"formatOutput": StateTransition(</h3>
+<h3 id="actions%3D%5Btransformdata%2C-outputmdtable%5D%2C" tabindex="-1">actions=[transformdata, outputmdtable],</h3>
+<h3 id="next_state%3D%22presenttable%22" tabindex="-1">next_state="presentTable"</h3>
+<h3 id=")%2C-1" tabindex="-1">),</h3>
+<h3 id="%22presenttable%22%3A-statetransition(" tabindex="-1">"presentTable": StateTransition(</h3>
+<h3 id="actions%3D%5Bvalidatemdtable%2C-sendtofront%5D%2C" tabindex="-1">actions=[validatemdtable, sendtofront],</h3>
+<h3 id="next_state%3D%22waitforresponse%22" tabindex="-1">next_state="waitforresponse"</h3>
+<h3 id=")%2C-2" tabindex="-1">),</h3>
+<h3 id="%7D" tabindex="-1">}</h3>
+<h3 id="%60%60%60-15" tabindex="-1">```</h3>
+<h3 id="%E8%A7%A3%E8%AA%AA%3A-1" tabindex="-1"><strong>解說:</strong></h3>
+<h3 id="*-%E6%A0%BC%E5%BC%8F-%3A" tabindex="-1">* <strong>格式</strong> :</h3>
+<h3 id="*-%E5%AE%83%E6%98%AF%E4%B8%80%E5%80%8B%E5%AD%97%E5%85%B8-(dict)%E3%80%82" tabindex="-1">* 它是一個字典 (<code>Dict</code>)。</h3>
+<h3 id="*-%E9%8D%B5-(key)-%3A-%E7%8B%80%E6%85%8B%E7%9A%84%E5%90%8D%E7%A8%B1-(-str-)%EF%BC%8C%E4%BE%8B%E5%A6%82-%22receivechat%22%E3%80%82" tabindex="-1">* <strong>鍵 (Key)</strong> : 狀態的名稱 ( <code>str</code> )，例如 <code>"receiveChat"</code>。</h3>
+<h3 id="*-%E5%80%BC-(value)-%3A-%E4%B8%80%E5%80%8B-statetransition-%E7%89%A9%E4%BB%B6%E7%9A%84%E5%AF%A6%E4%BE%8B%E3%80%82" tabindex="-1">* <strong>值 (Value)</strong> : 一個 <code>StateTransition</code> 物件的實例。</h3>
+<h3 id="*-%E5%85%A7%E5%AE%B9%E5%88%86%E6%9E%90-%3A" tabindex="-1">* <strong>內容分析</strong> :</h3>
+<h3 id="*-%E7%95%B6%E7%8B%80%E6%85%8B%E6%A9%9F%E7%9A%84%E7%95%B6%E5%89%8D%E7%8B%80%E6%85%8B%E6%98%AF-%22receivechat%22-%E6%99%82%EF%BC%9A" tabindex="-1">* 當狀態機的當前狀態是 <strong><code>"receiveChat"</code></strong> 時：</h3>
+<h3 id="1.-%E5%AE%83%E6%9C%83%E6%9F%A5%E8%A9%A2%E5%88%B0%E5%B0%8D%E6%87%89%E7%9A%84-statetransition-%E7%89%A9%E4%BB%B6%E3%80%82" tabindex="-1">1. 它會查詢到對應的 <code>StateTransition</code> 物件。</h3>
+<h3 id="2.-%E6%8E%A5%E8%91%97%E5%9F%B7%E8%A1%8C-actions-%E5%88%97%E8%A1%A8%E4%B8%AD%E7%9A%84-matchword-%E5%92%8C-matchsentence-%E9%80%99%E5%85%A9%E5%80%8B%E5%87%BD%E5%BC%8F%E3%80%82" tabindex="-1">2. 接著執行 <code>actions</code> 列表中的 <code>matchword</code> 和 <code>matchsentence</code> 這兩個函式。</h3>
+<h3 id="3.-%E6%9C%80%E5%BE%8C%E5%B0%87%E7%8B%80%E6%85%8B%E6%9B%B4%E6%96%B0%E7%82%BA-next_state-%E6%89%80%E6%8C%87%E5%AE%9A%E7%9A%84-%22formatoutput%22-%E3%80%82" tabindex="-1">3. 最後將狀態更新為 <code>next_state</code> 所指定的  <strong><code>"formatOutput"</code></strong> 。</h3>
+<h3 id="*-%22formatoutput%22-%E5%92%8C-%22presenttable%22-%E7%9A%84%E8%A6%8F%E5%89%87%E4%B9%9F%E4%BE%9D%E6%AD%A4%E9%A1%9E%E6%8E%A8%E3%80%82" tabindex="-1">* <code>"formatOutput"</code> 和 <code>"presentTable"</code> 的規則也依此類推。</h3>
+<h3 id="*-%E8%AB%8B%E6%B3%A8%E6%84%8F%EF%BC%8C%22waitforresponse%22-%E4%B8%A6%E6%B2%92%E6%9C%89%E5%87%BA%E7%8F%BE%E5%9C%A8%E5%AD%97%E5%85%B8%E7%9A%84%E3%80%8C%E9%8D%B5%E3%80%8D%E4%B8%AD%E3%80%82%E9%80%99%E6%84%8F%E5%91%B3%E8%91%97%E7%95%B6%E7%8B%80%E6%85%8B%E8%BD%89%E6%8F%9B%E5%88%B0-%22waitforresponse%22-%E6%99%82%EF%BC%8C%E5%AE%83%E5%B0%B1%E6%88%90%E4%BA%86%E4%B8%80%E5%80%8B-%E7%B5%82%E6%AD%A2%E7%8B%80%E6%85%8B-(terminal-state)-%EF%BC%8C%E7%8B%80%E6%85%8B%E6%A9%9F%E5%BC%95%E6%93%8E%E6%9C%83%E5%9B%A0%E7%82%BA%E6%89%BE%E4%B8%8D%E5%88%B0%E4%B8%8B%E4%B8%80%E6%AD%A5%E7%9A%84%E8%A6%8F%E5%89%87%E8%80%8C%E5%81%9C%E6%AD%A2%E5%9F%B7%E8%A1%8C%E3%80%82" tabindex="-1">* 請注意，<code>"waitforresponse"</code> 並沒有出現在字典的「鍵」中。這意味著當狀態轉換到 <code>"waitforresponse"</code> 時，它就成了一個 <strong>終止狀態 (Terminal State)</strong> ，狀態機引擎會因為找不到下一步的規則而停止執行。</h3>
+<h3 id="%E9%80%99%E5%80%8B%E8%A8%AD%E8%A8%88%E5%B0%87%E6%89%80%E6%9C%89%E6%A5%AD%E5%8B%99%E9%82%8F%E8%BC%AF%E9%83%BD%E9%9B%86%E4%B8%AD%E5%9C%A8%E4%BA%86%E9%80%99%E5%80%8B-state_transitions-%E5%AD%97%E5%85%B8%E4%B8%AD%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%9C%AA%E4%BE%86%E9%9C%80%E8%A6%81%E4%BF%AE%E6%94%B9%E6%B5%81%E7%A8%8B%E6%88%96%E6%96%B0%E5%A2%9E%E7%8B%80%E6%85%8B%EF%BC%8C%E6%82%A8%E5%B9%BE%E4%B9%8E%E5%8F%AA%E9%9C%80%E8%A6%81%E7%B6%AD%E8%AD%B7%E9%80%99%E5%80%8B%E5%8D%80%E5%A1%8A%E5%8D%B3%E5%8F%AF%E3%80%82" tabindex="-1">這個設計將所有業務邏輯都集中在了這個 <code>STATE_TRANSITIONS</code> 字典中，如果未來需要修改流程或新增狀態，您幾乎只需要維護這個區塊即可。</h3>
+<h3 id="%E5%A6%82%E6%9E%9Ccallable%E8%A6%81%E8%83%BD%E6%8E%A5%E6%94%B6%E5%8F%83%E6%95%B8%EF%BC%8C%E8%A6%81%E6%80%8E%E9%BA%BC%E5%AE%A3%E5%91%8A%3F" tabindex="-1">如果Callable要能接收參數，要怎麼宣告?</h3>
+<h3 id="%E9%A1%AF%E7%A4%BA%E6%80%9D%E8%B7%AF" tabindex="-1"><strong>顯示思路</strong></h3>
+<h3 id="%5Bmode%3A-innovate%5D" tabindex="-1">[MODE: INNOVATE]</h3>
+<h3 id="%E9%80%99%E6%98%AF%E4%B8%80%E5%80%8B%E9%9D%9E%E5%B8%B8%E5%A5%BD%E7%9A%84%E5%95%8F%E9%A1%8C%EF%BC%8C%E7%9B%B4%E6%8E%A5%E9%97%9C%E4%BF%82%E5%88%B0%E5%A6%82%E4%BD%95%E8%AE%93%E7%8B%80%E6%85%8B%E6%A9%9F%E8%99%95%E7%90%86%E5%AF%A6%E9%9A%9B%E7%9A%84%E8%B3%87%E6%96%99%E6%B5%81%E7%A8%8B%EF%BC%8C%E8%80%8C%E4%B8%8D%E5%83%85%E5%83%85%E6%98%AF%E5%9F%B7%E8%A1%8C%E5%9B%BA%E5%AE%9A%E7%9A%84%E7%84%A1%E5%8F%83%E6%95%B8%E5%8B%95%E4%BD%9C%E3%80%82%E8%A6%81%E8%AE%93-callable-%E6%8E%A5%E6%94%B6%E5%8F%83%E6%95%B8%EF%BC%8C%E6%88%91%E5%80%91%E9%9C%80%E8%A6%81%E5%90%8C%E6%99%82%E5%8D%87%E7%B4%9A%E4%B8%89%E5%80%8B%E9%83%A8%E5%88%86%EF%BC%9A-type-hint-%E7%9A%84%E5%AE%A3%E5%91%8A-%E3%80%81-%E5%8B%95%E4%BD%9C%E5%87%BD%E5%BC%8F%E7%9A%84%E5%AE%9A%E7%BE%A9-%EF%BC%8C%E4%BB%A5%E5%8F%8A-%E7%8B%80%E6%85%8B%E6%A9%9F%E5%BC%95%E6%93%8E%E7%9A%84%E5%91%BC%E5%8F%AB%E6%96%B9%E5%BC%8F-%E3%80%82" tabindex="-1">這是一個非常好的問題，直接關係到如何讓狀態機處理實際的資料流程，而不僅僅是執行固定的無參數動作。要讓 <code>Callable</code> 接收參數，我們需要同時升級三個部分： <strong>Type Hint 的宣告</strong> 、 <strong>動作函式的定義</strong> ，以及 <strong>狀態機引擎的呼叫方式</strong> 。</h3>
+<h3 id="%E7%9B%AE%E5%89%8D%E6%9C%80%E9%80%9A%E7%94%A8%E4%B8%94%E5%BC%B7%E5%A4%A7%E7%9A%84%E8%A8%AD%E8%A8%88%E6%A8%A1%E5%BC%8F%E6%98%AF%E5%BC%95%E5%85%A5%E4%B8%80%E5%80%8B%E3%80%8C-%E5%85%B1%E4%BA%AB%E6%83%85%E5%A2%83-(shared-context)-%E3%80%8D%E7%89%A9%E4%BB%B6%E3%80%82" tabindex="-1">目前最通用且強大的設計模式是引入一個「 <strong>共享情境 (Shared Context)</strong> 」物件。</h3>
+<h3 id="%E6%A0%B8%E5%BF%83%E6%A7%8B%E6%83%B3%EF%BC%9A" tabindex="-1"><strong>核心構想：</strong></h3>
+<h3 id="%E7%8B%80%E6%85%8B%E6%A9%9F%E5%9C%A8%E5%9F%B7%E8%A1%8C%E9%81%8E%E7%A8%8B%E4%B8%AD%EF%BC%8C%E4%B8%8D%E5%83%85%E5%83%85%E6%98%AF%E7%8B%80%E6%85%8B%E7%9A%84%E8%B7%B3%E8%BD%89%EF%BC%8C%E6%9B%B4%E9%87%8D%E8%A6%81%E7%9A%84%E6%98%AF%E8%B3%87%E6%96%99%E7%9A%84%E8%99%95%E7%90%86%E8%88%87%E5%82%B3%E9%81%9E%E3%80%82%E6%88%91%E5%80%91%E5%8F%AF%E4%BB%A5%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B-context-%E7%89%A9%E4%BB%B6%EF%BC%88%E9%80%9A%E5%B8%B8%E6%98%AF%E4%B8%80%E5%80%8B%E5%AD%97%E5%85%B8%E6%88%96%E8%87%AA%E8%A8%82%E9%A1%9E%E5%88%A5%EF%BC%89%EF%BC%8C%E4%B8%A6%E8%AE%93%E5%AE%83%E5%9C%A8%E6%95%B4%E5%80%8B%E7%8B%80%E6%85%8B%E6%A9%9F%E7%9A%84%E7%94%9F%E5%91%BD%E9%80%B1%E6%9C%9F%E4%B8%AD%E5%AD%98%E5%9C%A8%E3%80%82%E9%80%99%E5%80%8B-context-%E6%9C%83%E4%BD%9C%E7%82%BA%E4%B8%80%E5%80%8B%E3%80%8C%E8%B3%87%E6%96%99%E8%BC%89%E9%AB%94%E3%80%8D%EF%BC%8C%E5%9C%A8%E6%AF%8F%E4%B8%80%E6%AD%A5%E8%A2%AB%E5%82%B3%E9%81%9E%E7%B5%A6%E5%8B%95%E4%BD%9C%E5%87%BD%E5%BC%8F%E3%80%82%E5%8B%95%E4%BD%9C%E5%87%BD%E5%BC%8F%E5%8F%AF%E4%BB%A5%E5%BE%9E%E4%B8%AD%E8%AE%80%E5%8F%96%E5%89%8D%E5%BA%8F%E6%AD%A5%E9%A9%9F%E7%9A%84%E7%B5%90%E6%9E%9C%EF%BC%8C%E4%B8%A6%E5%B0%87%E8%87%AA%E5%B7%B1%E7%9A%84%E8%99%95%E7%90%86%E7%B5%90%E6%9E%9C%E5%AF%AB%E5%85%A5%E5%85%B6%E4%B8%AD%EF%BC%8C%E4%BE%9B%E5%BE%8C%E7%BA%8C%E6%AD%A5%E9%A9%9F%E4%BD%BF%E7%94%A8%E3%80%82" tabindex="-1">狀態機在執行過程中，不僅僅是狀態的跳轉，更重要的是資料的處理與傳遞。我們可以建立一個 <code>context</code> 物件（通常是一個字典或自訂類別），並讓它在整個狀態機的生命週期中存在。這個 <code>context</code> 會作為一個「資料載體」，在每一步被傳遞給動作函式。動作函式可以從中讀取前序步驟的結果，並將自己的處理結果寫入其中，供後續步驟使用。</h3>
+<h3 id="%E6%88%91%E5%80%91%E5%8F%AF%E4%BB%A5%E6%8E%A2%E8%A8%8E%E5%85%A9%E7%A8%AE%E4%B8%BB%E8%A6%81%E7%9A%84%E5%AF%A6%E7%8F%BE%E6%96%B9%E5%BC%8F%EF%BC%9A" tabindex="-1"><strong>我們可以探討兩種主要的實現方式：</strong></h3>
+<h3 id="%E6%96%B9%E6%A1%88%E4%B8%80%EF%BC%9A%E4%BD%BF%E7%94%A8%E5%AD%97%E5%85%B8%E4%BD%9C%E7%82%BA%E5%85%B1%E4%BA%AB%E6%83%85%E5%A2%83-(%E5%BB%BA%E8%AD%B0)" tabindex="-1"><strong>方案一：使用字典作為共享情境 (建議)</strong></h3>
+<h3 id="%E9%80%99%E6%98%AF%E5%9C%A8-python-%E4%B8%AD%E6%9C%80%E9%9D%88%E6%B4%BB%E3%80%81%E6%9C%80%E5%B8%B8%E8%A6%8B%E7%9A%84%E4%BD%9C%E6%B3%95%E3%80%82" tabindex="-1">這是在 Python 中最靈活、最常見的作法。</h3>
+<h3 id="1.-%E5%AE%A3%E5%91%8A%E6%96%B9%E5%BC%8F-%EF%BC%9Acallable-%E7%9A%84%E5%AE%A3%E5%91%8A%E6%9C%83%E6%94%B9%E8%AE%8A%E3%80%82%E5%A6%82%E6%9E%9C%E6%88%91%E5%80%91%E7%94%A8%E5%AD%97%E5%85%B8-dict-%E7%95%B6%E4%BD%9C-context%EF%BC%8C%E4%B8%A6%E4%B8%94%E5%8B%95%E4%BD%9C%E5%87%BD%E5%BC%8F%E4%B8%8D%E5%9B%9E%E5%82%B3%E5%80%BC%EF%BC%8C%E9%82%A3%E9%BA%BC%E5%9E%8B%E5%88%A5%E6%8F%90%E7%A4%BA%E6%9C%83%E5%83%8F%E9%80%99%E6%A8%A3%EF%BC%9A" tabindex="-1">1. <strong>宣告方式</strong> ：<code>Callable</code> 的宣告會改變。如果我們用字典 <code>dict</code> 當作 context，並且動作函式不回傳值，那麼型別提示會像這樣：</h3>
+<h3 id="*-from-typing-import-dict%2C-any" tabindex="-1">* <code>from typing import Dict, Any</code></h3>
+<h3 id="*-callable%5B%5Bdict%5Bstr%2C-any%5D%5D%2C-none%5D" tabindex="-1">* <code>Callable[[Dict[str, Any]], None]</code></h3>
+<h3 id="*-%E9%80%99%E6%AE%B5%E5%AE%A3%E5%91%8A%E7%9A%84%E6%84%8F%E6%80%9D%E6%98%AF%EF%BC%9A%E3%80%8C%E4%B8%80%E5%80%8B%E5%8F%AF%E5%91%BC%E5%8F%AB%E7%9A%84%E7%89%A9%E4%BB%B6%EF%BC%8C%E5%AE%83%E6%8E%A5%E6%94%B6%E4%B8%80%E5%80%8B%E5%8F%83%E6%95%B8%EF%BC%88%E5%9E%8B%E5%88%A5%E7%82%BA-dict%5Bstr%2C-any%5D%EF%BC%8C%E5%8D%B3%E9%8D%B5%E7%82%BA%E5%AD%97%E4%B8%B2%E3%80%81%E5%80%BC%E7%82%BA%E4%BB%BB%E6%84%8F%E5%9E%8B%E5%88%A5%E7%9A%84%E5%AD%97%E5%85%B8%EF%BC%89%EF%BC%8C%E4%B8%A6%E4%B8%94%E6%B2%92%E6%9C%89%E5%9B%9E%E5%82%B3%E5%80%BC-(none)%E3%80%82%E3%80%8D" tabindex="-1">* 這段宣告的意思是：「一個可呼叫的物件，它接收一個參數（型別為 <code>Dict[str, Any]</code>，即鍵為字串、值為任意型別的字典），並且沒有回傳值 (<code>None</code>)。」</h3>
+<h3 id="1.-%E8%A8%AD%E8%A8%88%E5%BD%B1%E9%9F%BF-%EF%BC%9A" tabindex="-1">1. <strong>設計影響</strong> ：</h3>
+<h3 id="*-%E5%8B%95%E4%BD%9C%E5%87%BD%E5%BC%8F-%EF%BC%9A%E6%89%80%E6%9C%89%E7%9A%84%E5%8B%95%E4%BD%9C%E5%87%BD%E5%BC%8F%E5%AE%9A%E7%BE%A9%E9%83%BD%E9%9C%80%E4%BF%AE%E6%94%B9%EF%BC%8C%E4%BB%A5%E6%8E%A5%E6%94%B6-context-%E5%AD%97%E5%85%B8%E3%80%82%E4%BE%8B%E5%A6%82%EF%BC%9A" tabindex="-1">* <strong>動作函式</strong> ：所有的動作函式定義都需修改，以接收 <code>context</code> 字典。例如：</h3>
+<h3 id="python" tabindex="-1"><strong>Python</strong></h3>
+<h3 id="%60%60%60%08python" tabindex="-1">```python</h3>
+<h3 id="def-matchword(context%3A-dict%5Bstr%2C-any%5D)%3A" tabindex="-1">def matchword(context: Dict[str, Any]):</h3>
+<h3 id="%23-%E5%BE%9E-context-%E8%AE%80%E5%8F%96%E5%8E%9F%E5%A7%8B%E5%B0%8D%E8%A9%B1" tabindex="-1"># 從 context 讀取原始對話</h3>
+<h3 id="chat_input-%3D-context.get(%22raw_chat%22%2C-%22%22)" tabindex="-1">chat_input = context.get("raw_chat", "")</h3>
+<h3 id="%23-%E5%B0%87%E5%8C%B9%E9%85%8D%E5%88%B0%E7%9A%84%E8%A9%9E%E5%AF%AB%E5%9B%9E-context" tabindex="-1"># 將匹配到的詞寫回 context</h3>
+<h3 id="context%5B%22matched_words%22%5D-%3D-%5B%22hello%22%2C-%22world%22%5D" tabindex="-1">context["matched_words"] = ["hello", "world"]</h3>
+<h3 id="print(f%22---action%3A-matching-keywords-in-''...%22)" tabindex="-1">print(f"  - Action: Matching keywords in ''...")</h3>
+<h3 id="%60%60%60-16" tabindex="-1">```</h3>
+<h3 id="*-%E7%8B%80%E6%85%8B%E6%A9%9F%E5%BC%95%E6%93%8E-%EF%BC%9Astatemachine-%E9%A1%9E%E5%88%A5%E9%9C%80%E8%A6%81%E5%A2%9E%E5%8A%A0%E4%B8%80%E5%80%8B-context-%E5%B1%AC%E6%80%A7%EF%BC%8C%E4%B8%A6%E5%9C%A8-run_step-%E6%96%B9%E6%B3%95%E4%B8%AD%E5%91%BC%E5%8F%AB%E5%8B%95%E4%BD%9C%E6%99%82%EF%BC%8C%E5%B0%87%E9%80%99%E5%80%8B-context-%E5%82%B3%E9%81%9E%E9%80%B2%E5%8E%BB%EF%BC%9A" tabindex="-1">* <strong>狀態機引擎</strong> ：<code>StateMachine</code> 類別需要增加一個 <code>context</code> 屬性，並在 <code>run_step</code> 方法中呼叫動作時，將這個 <code>context</code> 傳遞進去：</h3>
+<h3 id="python-1" tabindex="-1"><strong>Python</strong></h3>
+<h3 id="%60%60%60python" tabindex="-1">```python</h3>
+<h3 id="%23-in-statemachine.run_step" tabindex="-1"># In StateMachine.run_step</h3>
+<h3 id="for-action-in-transition.actions%3A" tabindex="-1">for action in transition.actions:</h3>
+<h3 id="action(self.context)-%23-%E5%B0%87-context-%E5%82%B3%E9%81%9E%E7%B5%A6%E5%87%BD%E5%BC%8F" tabindex="-1">action(self.context) # 將 context 傳遞給函式</h3>
+<h3 id="%60%60%60-17" tabindex="-1">```</h3>
+<h3 id="*-%E5%84%AA%E9%BB%9E-%EF%BC%9A%E6%A5%B5%E5%BA%A6%E9%9D%88%E6%B4%BB%EF%BC%8C%E5%AE%B9%E6%98%93%E6%93%B4%E5%85%85%E3%80%82%E5%87%BD%E5%BC%8F%E4%B9%8B%E9%96%93%E9%80%8F%E9%81%8E%E4%B8%80%E5%80%8B%E5%85%B1%E7%94%A8%E7%9A%84%E5%AD%97%E5%85%B8%E4%BE%86%E8%A7%A3%E8%80%A6%EF%BC%8C%E4%B8%8D%E9%9C%80%E8%A6%81%E9%97%9C%E5%BF%83%E5%BD%BC%E6%AD%A4%E7%9A%84%E5%8F%83%E6%95%B8%E7%B0%BD%E5%90%8D%E3%80%82" tabindex="-1">* <strong>優點</strong> ：極度靈活，容易擴充。函式之間透過一個共用的字典來解耦，不需要關心彼此的參數簽名。</h3>
+<h3 id="*-%E7%BC%BA%E9%BB%9E-%EF%BC%9A%E5%9B%A0%E7%82%BA%E5%AD%97%E5%85%B8%E7%9A%84%E5%80%BC%E6%98%AF-any%EF%BC%8C%E7%B7%A8%E8%AD%AF%E6%99%82%E6%9C%9F%E7%9A%84%E5%9E%8B%E5%88%A5%E6%AA%A2%E6%9F%A5%E8%BC%83%E5%BC%B1%E3%80%82" tabindex="-1">* <strong>缺點</strong> ：因為字典的值是 <code>Any</code>，編譯時期的型別檢查較弱。</h3>
+<h3 id="%E6%96%B9%E6%A1%88%E4%BA%8C%EF%BC%9A%E5%9C%A8%E7%8B%80%E6%85%8B%E8%A1%A8%E4%B8%AD%E9%9D%9C%E6%85%8B%E5%AE%9A%E7%BE%A9%E5%8F%83%E6%95%B8" tabindex="-1"><strong>方案二：在狀態表中靜態定義參數</strong></h3>
+<h3 id="%E9%80%99%E7%A8%AE%E6%96%B9%E5%BC%8F%E6%98%AF%E5%B0%87%E5%8F%83%E6%95%B8%E7%9B%B4%E6%8E%A5%E5%AE%9A%E7%BE%A9%E5%9C%A8%E7%8B%80%E6%85%8B%E8%A1%A8%E8%A3%A1%EF%BC%8C%E9%81%A9%E7%94%A8%E6%96%BC%E5%8F%83%E6%95%B8%E6%98%AF%E5%9B%BA%E5%AE%9A%E7%9A%84%E3%80%81%E5%9C%A8%E7%8B%80%E6%85%8B%E6%A9%9F%E5%95%9F%E5%8B%95%E5%89%8D%E5%B0%B1%E7%9F%A5%E9%81%93%E7%9A%84%E5%A0%B4%E6%99%AF%E3%80%82" tabindex="-1">這種方式是將參數直接定義在狀態表裡，適用於參數是固定的、在狀態機啟動前就知道的場景。</h3>
+<h3 id="1.-%E5%AE%A3%E5%91%8A%E6%96%B9%E5%BC%8F-%EF%BC%9A%E9%80%99%E6%9C%83%E8%AE%93%E7%8B%80%E6%85%8B%E8%A1%A8%E7%9A%84%E7%B5%90%E6%A7%8B%E8%AE%8A%E5%BE%97%E8%A4%87%E9%9B%9C%E3%80%82actions-%E5%88%97%E8%A1%A8%E5%84%B2%E5%AD%98%E7%9A%84%E4%B8%8D%E5%86%8D%E6%98%AF%E5%87%BD%E5%BC%8F%E6%9C%AC%E8%BA%AB%EF%BC%8C%E8%80%8C%E5%8F%AF%E8%83%BD%E6%98%AF-(%E5%87%BD%E5%BC%8F%2C-%5B%E5%8F%83%E6%95%B8%E5%88%97%E8%A1%A8%5D)-%E9%80%99%E6%A8%A3%E7%9A%84%E5%85%83%E7%B5%84%E3%80%82" tabindex="-1">1. <strong>宣告方式</strong> ：這會讓狀態表的結構變得複雜。<code>actions</code> 列表儲存的不再是函式本身，而可能是 <code>(函式, [參數列表])</code> 這樣的元組。</h3>
+<h3 id="python-2" tabindex="-1"><strong>Python</strong></h3>
+<h3 id="%60%60%60python-1" tabindex="-1">```python</h3>
+<h3 id="%23-%E7%B5%90%E6%A7%8B%E7%AF%84%E4%BE%8B" tabindex="-1"># 結構範例</h3>
+<h3 id="%22receivechat%22%3A-statetransition(-1" tabindex="-1">"receiveChat": StateTransition(</h3>
+<h3 id="actions%3D%5B" tabindex="-1">actions=[</h3>
+<h3 id="(matchword%2C-%5B%22some_static_keyword%22%5D)%2C" tabindex="-1">(matchword, ["some_static_keyword"]),</h3>
+<h3 id="(matchsentence%2C-%5Btrue%5D)-%23-true-for-case_sensitive" tabindex="-1">(matchsentence, [True]) # True for case_sensitive</h3>
+<h3 id="%5D%2C" tabindex="-1">],</h3>
+<h3 id="next_state%3D%22formatoutput%22-1" tabindex="-1">next_state="formatOutput"</h3>
+<h3 id=")%2C-3" tabindex="-1">),</h3>
+<h3 id="%60%60%60-18" tabindex="-1">```</h3>
+<h3 id="1.-%E8%A8%AD%E8%A8%88%E5%BD%B1%E9%9F%BF-%EF%BC%9A-1" tabindex="-1">1. <strong>設計影響</strong> ：</h3>
+<h3 id="*-statemachine-%E5%BC%95%E6%93%8E%E7%9A%84-run_step-%E9%82%8F%E8%BC%AF%E9%9C%80%E8%A6%81%E8%A2%AB%E5%A4%A7%E5%B9%85%E4%BF%AE%E6%94%B9%EF%BC%8C%E4%BB%A5%E8%A7%A3%E6%9E%90%E9%80%99%E7%A8%AE%E5%85%83%E7%B5%84%E7%B5%90%E6%A7%8B%EF%BC%8C%E4%B8%A6%E4%BD%BF%E7%94%A8-*args-%E7%9A%84%E6%96%B9%E5%BC%8F%E4%BE%86%E5%91%BC%E5%8F%AB%E5%87%BD%E5%BC%8F%E3%80%82" tabindex="-1">* <code>StateMachine</code> 引擎的 <code>run_step</code> 邏輯需要被大幅修改，以解析這種元組結構，並使用 <code>*args</code> 的方式來呼叫函式。</h3>
+<h3 id="*-%E9%80%99%E7%A8%AE%E6%96%B9%E6%B3%95%E7%84%A1%E6%B3%95%E8%A7%A3%E6%B1%BA%E3%80%8C%E4%B8%80%E5%80%8B%E5%8B%95%E4%BD%9C%E7%9A%84%E8%BC%B8%E5%87%BA%E6%98%AF%E4%B8%8B%E4%B8%80%E5%80%8B%E5%8B%95%E4%BD%9C%E7%9A%84%E8%BC%B8%E5%85%A5%E3%80%8D%E9%80%99%E7%A8%AE%E5%8B%95%E6%85%8B%E8%B3%87%E6%96%99%E6%B5%81%E5%95%8F%E9%A1%8C%E3%80%82" tabindex="-1">* 這種方法無法解決「一個動作的輸出是下一個動作的輸入」這種動態資料流問題。</h3>
+<h3 id="%E7%B5%90%E8%AB%96%E8%88%87%E5%BB%BA%E8%AD%B0%EF%BC%9A" tabindex="-1"><strong>結論與建議：</strong></h3>
+<h3 id="%E5%B0%8D%E6%96%BC%E6%82%A8%E6%8F%8F%E8%BF%B0%E7%9A%84%E4%BB%BB%E5%8B%99%EF%BC%8C%E6%96%B9%E6%A1%88%E4%B8%80%EF%BC%9A%E4%BD%BF%E7%94%A8%E5%85%B1%E4%BA%AB%E6%83%85%E5%A2%83%E5%AD%97%E5%85%B8-%E6%98%AF%E6%9C%80%E7%90%86%E6%83%B3%E7%9A%84%E9%81%B8%E6%93%87%E3%80%82%E5%AE%83%E4%B8%8D%E5%83%85%E8%A7%A3%E6%B1%BA%E4%BA%86%E5%A6%82%E4%BD%95%E5%90%91-callable-%E5%82%B3%E9%81%9E%E5%8F%83%E6%95%B8%E7%9A%84%E5%95%8F%E9%A1%8C%EF%BC%8C%E9%82%84%E6%8F%90%E4%BE%9B%E4%BA%86%E4%B8%80%E5%80%8B%E5%BC%B7%E5%A4%A7%E4%B8%94%E5%8F%AF%E6%93%B4%E5%85%85%E7%9A%84%E6%A9%9F%E5%88%B6%E4%BE%86%E7%AE%A1%E7%90%86%E6%95%B4%E5%80%8B%E6%B5%81%E7%A8%8B%E4%B8%AD%E7%9A%84%E8%B3%87%E6%96%99%EF%BC%8C%E9%80%99%E5%9C%A8%E7%9C%9F%E5%AF%A6%E4%B8%96%E7%95%8C%E7%9A%84%E6%87%89%E7%94%A8%E4%B8%AD%E8%87%B3%E9%97%9C%E9%87%8D%E8%A6%81%E3%80%82" tabindex="-1">對於您描述的任務，<strong>方案一：使用共享情境字典</strong> 是最理想的選擇。它不僅解決了如何向 <code>Callable</code> 傳遞參數的問題，還提供了一個強大且可擴充的機制來管理整個流程中的資料，這在真實世界的應用中至關重要。</h3>
+<h3 id="%E6%88%91%E5%BB%BA%E8%AD%B0%E6%88%91%E5%80%91%E6%8E%A1%E7%B4%8D%E3%80%8C%E5%85%B1%E4%BA%AB%E6%83%85%E5%A2%83%E3%80%8D%E6%96%B9%E6%A1%88%E4%BE%86%E5%8D%87%E7%B4%9A%E7%8F%BE%E6%9C%89%E7%9A%84%E7%8B%80%E6%85%8B%E6%A9%9F%E3%80%82" tabindex="-1">我建議我們採納「共享情境」方案來升級現有的狀態機。</h3>
+<h3 id="%E6%88%91%E7%9A%84%E7%9B%AE%E7%9A%84%E5%A6%82%E4%B8%8B%EF%BC%9A" tabindex="-1">我的目的如下：</h3>
+<h3 id="1.%E6%9C%89%E6%99%82callable%E6%9C%89%E6%99%82%E4%B8%8D%E9%9C%80%E8%A6%81%E5%8F%83%E6%95%B8%EF%BC%8C%E5%BF%85%E9%A0%88%E5%9B%9E%E5%82%B3%E8%B3%87%E6%96%99" tabindex="-1">1.有時Callable有時不需要參數，必須回傳資料</h3>
+<h3 id="2.%E6%9C%89%E6%99%82callable%E6%9C%89%E6%99%82%E9%9C%80%E8%A6%81%E5%8F%83%E6%95%B8%EF%BC%8C%E5%BF%85%E9%A0%88%E5%9B%9E%E5%82%B3%E8%B3%87%E6%96%99" tabindex="-1">2.有時Callable有時需要參數，必須回傳資料</h3>
+<h3 id="%E8%AB%8B%E6%8F%90%E5%87%BA%E5%AE%8C%E6%95%B4%E7%9A%84%E8%A8%AD%E8%A8%88%EF%BC%8C%E9%85%8D%E5%90%88%E6%88%91%E5%80%91%E7%9A%84table-driven-state-machine-table" tabindex="-1">請提出完整的設計，配合我們的table-driven state machine table</h3>
+<h3 id="%E9%A1%AF%E7%A4%BA%E6%80%9D%E8%B7%AF-1" tabindex="-1"><strong>顯示思路</strong></h3>
+<h3 id="%5Bmode-research%5D" tabindex="-1">[MODE RESEARCH]</h3>
+<h3 id="%E5%A5%BD%E7%9A%84%EF%BC%8C%E6%88%91%E5%B7%B2%E7%B6%93%E6%94%B6%E5%88%B0%E6%82%A8%E6%9B%B4%E8%A9%B3%E7%B4%B0%E7%9A%84%E9%9C%80%E6%B1%82%E3%80%82%E9%80%99%E6%98%AF%E4%B8%80%E5%80%8B%E9%87%8D%E8%A6%81%E7%9A%84%E6%BC%94%E9%80%B2%EF%BC%8C%E8%AE%93%E7%8B%80%E6%85%8B%E6%A9%9F%E5%BE%9E%E5%96%AE%E7%B4%94%E7%9A%84%E3%80%8C%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%99%A8%E3%80%8D%E8%BD%89%E8%AE%8A%E7%82%BA%E3%80%8C%E8%B3%87%E6%96%99%E8%99%95%E7%90%86%E7%AE%A1%E9%81%93%E3%80%8D%E3%80%82%E6%88%91%E5%B0%87%E5%B0%8D%E6%AD%A4%E9%80%B2%E8%A1%8C%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90%E3%80%82" tabindex="-1">好的，我已經收到您更詳細的需求。這是一個重要的演進，讓狀態機從單純的「流程控制器」轉變為「資料處理管道」。我將對此進行深入分析。</h3>
+<h3 id="%E9%9C%80%E6%B1%82%E8%A7%A3%E6%A7%8B%E8%88%87%E5%88%86%E6%9E%90%EF%BC%9A" tabindex="-1"><strong>需求解構與分析：</strong></h3>
+<h3 id="%E6%82%A8%E6%8F%90%E5%87%BA%E7%9A%84%E6%96%B0%E9%9C%80%E6%B1%82%E5%8F%AF%E4%BB%A5%E5%88%86%E8%A7%A3%E7%82%BA%E4%BB%A5%E4%B8%8B%E5%B9%BE%E5%80%8B%E9%97%9C%E9%8D%B5%E9%BB%9E%EF%BC%9A" tabindex="-1">您提出的新需求可以分解為以下幾個關鍵點：</h3>
+<h3 id="1.-%E7%95%B0%E8%B3%AA%E7%9A%84%E5%87%BD%E5%BC%8F%E7%B0%BD%E5%90%8D-(heterogeneous-function-signatures)-%EF%BC%9A" tabindex="-1">1. <strong>異質的函式簽名 (Heterogeneous Function Signatures)</strong> ：</h3>
+<h3 id="*-callable%5B%5B%5D%2C-t%5D%3A-%E4%B8%80%E7%A8%AE%E7%84%A1%E9%A0%88%E8%BC%B8%E5%85%A5%E5%8F%83%E6%95%B8%EF%BC%8C%E4%BD%86%E6%9C%83%E5%9B%9E%E5%82%B3%E8%B3%87%E6%96%99-(t)-%E7%9A%84%E5%8B%95%E4%BD%9C%E3%80%82" tabindex="-1">* <code>Callable[[], T]</code>: 一種無須輸入參數，但會回傳資料 (<code>T</code>) 的動作。</h3>
+<h3 id="*-callable%5B%5B...%5D%2C-t%5D%3A-%E4%B8%80%E7%A8%AE%E9%9C%80%E8%A6%81%E8%BC%B8%E5%85%A5%E5%8F%83%E6%95%B8%EF%BC%8C%E4%B8%A6%E4%B8%94%E4%B9%9F%E6%9C%83%E5%9B%9E%E5%82%B3%E8%B3%87%E6%96%99-(t)-%E7%9A%84%E5%8B%95%E4%BD%9C%E3%80%82" tabindex="-1">* <code>Callable[[...], T]</code>: 一種需要輸入參數，並且也會回傳資料 (<code>T</code>) 的動作。</h3>
+<h3 id="*-%E9%80%99%E5%85%A9%E7%A8%AE%E5%8B%95%E4%BD%9C%E9%9C%80%E8%A6%81%E5%9C%A8%E5%90%8C%E4%B8%80%E5%80%8B-action-list-%E4%B8%AD%E5%85%B1%E5%AD%98%E3%80%82" tabindex="-1">* 這兩種動作需要在同一個 <code>action list</code> 中共存。</h3>
+<h3 id="1.-%E8%B3%87%E6%96%99%E6%B5%81%E7%AE%A1%E7%90%86-(data-flow-management)-%EF%BC%9A" tabindex="-1">1. <strong>資料流管理 (Data Flow Management)</strong> ：</h3>
+<h3 id="*-%E8%B3%87%E6%96%99%E7%9A%84%E4%BE%86%E6%BA%90-%EF%BC%9A%E5%B0%8D%E6%96%BC%E9%9C%80%E8%A6%81%E5%8F%83%E6%95%B8%E7%9A%84%E5%87%BD%E5%BC%8F%EF%BC%8C%E5%85%B6%E8%BC%B8%E5%85%A5%E5%8F%83%E6%95%B8%E5%BE%9E%E4%BD%95%E8%80%8C%E4%BE%86%EF%BC%9F%E6%98%AF%E5%89%8D%E4%B8%80%E5%80%8B%E5%8B%95%E4%BD%9C%E7%9A%84%E8%BC%B8%E5%87%BA%E5%97%8E%EF%BC%9F%E9%82%84%E6%98%AF%E6%9F%90%E5%80%8B%E5%85%A8%E5%9F%9F%E7%9A%84%E7%8B%80%E6%85%8B%EF%BC%9F" tabindex="-1">* <strong>資料的來源</strong> ：對於需要參數的函式，其輸入參數從何而來？是前一個動作的輸出嗎？還是某個全域的狀態？</h3>
+<h3 id="*-%E8%B3%87%E6%96%99%E7%9A%84%E7%9B%AE%E7%9A%84%E5%9C%B0-%EF%BC%9A%E6%89%80%E6%9C%89%E5%8B%95%E4%BD%9C%E5%87%BD%E5%BC%8F%E5%9B%9E%E5%82%B3%E7%9A%84%E8%B3%87%E6%96%99-(t)%EF%BC%8C%E6%87%89%E8%A9%B2%E8%A2%AB%E5%A6%82%E4%BD%95%E8%99%95%E7%90%86%EF%BC%9F%E6%98%AF%E4%BD%9C%E7%82%BA%E4%B8%8B%E4%B8%80%E5%80%8B%E5%8B%95%E4%BD%9C%E7%9A%84%E8%BC%B8%E5%85%A5%EF%BC%8C%E9%82%84%E6%98%AF%E8%A2%AB%E5%84%B2%E5%AD%98%E8%B5%B7%E4%BE%86%EF%BC%9F" tabindex="-1">* <strong>資料的目的地</strong> ：所有動作函式回傳的資料 (<code>T</code>)，應該被如何處理？是作為下一個動作的輸入，還是被儲存起來？</h3>
+<h3 id="1.-%E5%B0%8D%E7%8F%BE%E6%9C%89%E8%A8%AD%E8%A8%88%E7%9A%84%E8%A1%9D%E6%93%8A-%EF%BC%9A" tabindex="-1">1. <strong>對現有設計的衝擊</strong> ：</h3>
+<h3 id="*-%E5%BC%95%E6%93%8E%E7%9A%84%E8%A4%87%E9%9B%9C%E6%80%A7-%EF%BC%9A%E7%9B%AE%E5%89%8D%E7%9A%84-statemachine-%E5%BC%95%E6%93%8E%E5%8F%AA%E6%9C%83%E5%96%AE%E7%B4%94%E5%9C%B0%E5%91%BC%E5%8F%AB-action()%E3%80%82%E7%8F%BE%E5%9C%A8%E5%AE%83%E5%BF%85%E9%A0%88%E6%9C%89%E8%83%BD%E5%8A%9B%E8%99%95%E7%90%86%E5%9B%9E%E5%82%B3%E5%80%BC%EF%BC%8C%E4%B8%A6%E6%9C%89%E6%A2%9D%E4%BB%B6%E5%9C%B0%E6%8F%90%E4%BE%9B%E5%8F%83%E6%95%B8%E3%80%82%E7%9B%B4%E6%8E%A5%E5%9C%A8%E5%BC%95%E6%93%8E%E4%B8%AD%E6%A0%B9%E6%93%9A%E5%87%BD%E5%BC%8F%E5%9E%8B%E5%88%A5%E5%AF%AB-if%2Felse-%E5%88%A4%E6%96%B7%E9%82%8F%E8%BC%AF%EF%BC%8C%E6%9C%83%E9%81%95%E8%83%8C%E6%88%91%E5%80%91%E8%A1%A8%E9%A9%85%E5%8B%95%E8%A8%AD%E8%A8%88%E7%9A%84%E5%88%9D%E8%A1%B7%EF%BC%8C%E4%BD%BF%E5%BC%95%E6%93%8E%E8%AE%8A%E5%BE%97%E8%A4%87%E9%9B%9C%E4%B8%94%E5%83%B5%E7%A1%AC%E3%80%82" tabindex="-1">* <strong>引擎的複雜性</strong> ：目前的 <code>StateMachine</code> 引擎只會單純地呼叫 <code>action()</code>。現在它必須有能力處理回傳值，並有條件地提供參數。直接在引擎中根據函式型別寫 <code>if/else</code> 判斷邏輯，會違背我們表驅動設計的初衷，使引擎變得複雜且僵硬。</h3>
+<h3 id="*-%E7%8B%80%E6%85%8B%E8%A1%A8-(state_transitions)-%E7%9A%84%E7%B5%90%E6%A7%8B-%EF%BC%9A%E6%88%91%E5%80%91%E6%98%AF%E5%90%A6%E9%9C%80%E8%A6%81%E4%BF%AE%E6%94%B9%E7%8B%80%E6%85%8B%E8%A1%A8%E7%9A%84%E7%B5%90%E6%A7%8B%E4%BE%86%E5%AE%B9%E7%B4%8D%E5%8F%83%E6%95%B8%E8%B3%87%E8%A8%8A%E6%88%96%E5%9B%9E%E5%82%B3%E5%80%BC%E7%9A%84%E8%99%95%E7%90%86%E6%8C%87%E4%BB%A4%EF%BC%9F" tabindex="-1">* <strong>狀態表 (<code>STATE_TRANSITIONS</code>) 的結構</strong> ：我們是否需要修改狀態表的結構來容納參數資訊或回傳值的處理指令？</h3>
+<h3 id="%E6%A0%B8%E5%BF%83%E6%8C%91%E6%88%B0%E5%88%86%E6%9E%90%EF%BC%9A" tabindex="-1"><strong>核心挑戰分析：</strong></h3>
+<h3 id="%E7%B6%9C%E5%90%88%E4%BE%86%E7%9C%8B%EF%BC%8C%E6%A0%B8%E5%BF%83%E6%8C%91%E6%88%B0%E5%9C%A8%E6%96%BC%E5%A6%82%E4%BD%95%E8%A8%AD%E8%A8%88%E4%B8%80%E5%80%8B-%E7%B5%B1%E4%B8%80%E7%9A%84%E4%BB%8B%E9%9D%A2-(unified-interface)-%EF%BC%8C%E8%AE%93%E7%8B%80%E6%85%8B%E6%A9%9F%E5%BC%95%E6%93%8E%E5%8F%AF%E4%BB%A5%E7%94%A8%E4%B8%80%E7%A8%AE%E6%A8%99%E6%BA%96%E5%8C%96%E7%9A%84%E6%96%B9%E5%BC%8F%E8%88%87%E9%80%99%E4%BA%9B%E4%B8%8D%E5%90%8C%E7%B0%BD%E5%90%8D%E7%9A%84%E5%8B%95%E4%BD%9C%E5%87%BD%E5%BC%8F%E4%BA%92%E5%8B%95%EF%BC%8C%E5%90%8C%E6%99%82%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E6%B8%85%E6%99%B0%E7%9A%84%E8%B3%87%E6%96%99%E5%82%B3%E9%81%9E%E6%A9%9F%E5%88%B6%E3%80%82" tabindex="-1">綜合來看，核心挑戰在於如何設計一個 <strong>統一的介面 (Unified Interface)</strong> ，讓狀態機引擎可以用一種標準化的方式與這些不同簽名的動作函式互動，同時建立一個清晰的資料傳遞機制。</h3>
+<p><strong>引出的關鍵問題：</strong></p>
+<h3 id="1.-%E6%88%91%E5%80%91%E5%A6%82%E4%BD%95%E8%A8%AD%E8%A8%88%E4%B8%80%E5%80%8B%E3%80%8C%E5%85%B1%E4%BA%AB%E6%83%85%E5%A2%83-(shared-context)%E3%80%8D%EF%BC%8C%E4%BD%BF%E5%85%B6%E6%97%A2%E8%83%BD%E7%82%BA%E9%9C%80%E8%A6%81%E5%8F%83%E6%95%B8%E7%9A%84%E5%87%BD%E5%BC%8F%E6%8F%90%E4%BE%9B%E8%BC%B8%E5%85%A5%EF%BC%8C%E5%8F%88%E8%83%BD%E6%94%B6%E9%9B%86%E6%89%80%E6%9C%89%E5%87%BD%E5%BC%8F%E7%9A%84%E8%BC%B8%E5%87%BA%EF%BC%9F" tabindex="-1">1. 我們如何設計一個「共享情境 (Shared Context)」，使其既能為需要參數的函式提供輸入，又能收集所有函式的輸出？</h3>
+<h3 id="2.-%E6%88%91%E5%80%91%E5%A6%82%E4%BD%95%E6%A8%99%E6%BA%96%E5%8C%96%E5%8B%95%E4%BD%9C%E5%87%BD%E5%BC%8F%E7%9A%84%E5%91%BC%E5%8F%AB%E6%96%B9%E5%BC%8F%EF%BC%8C%E4%BB%A5%E4%BE%BF%E5%BC%95%E6%93%8E%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E6%AF%8F%E5%80%8B%E5%87%BD%E5%BC%8F%E7%9A%84%E5%85%B7%E9%AB%94%E5%8F%83%E6%95%B8%E9%9C%80%E6%B1%82%EF%BC%9F" tabindex="-1">2. 我們如何標準化動作函式的呼叫方式，以便引擎不需要知道每個函式的具體參數需求？</h3>
+<h3 id="3.-%E5%9B%9E%E5%82%B3%E7%9A%84%E8%B3%87%E6%96%99%E6%87%89%E8%A9%B2%E5%A6%82%E4%BD%95%E6%9B%B4%E6%96%B0%E5%88%B0%E3%80%8C%E5%85%B1%E4%BA%AB%E6%83%85%E5%A2%83%E3%80%8D%E4%B8%AD%EF%BC%9F%E6%98%AF%E5%AE%8C%E5%85%A8%E5%8F%96%E4%BB%A3%EF%BC%8C%E9%82%84%E6%98%AF%E9%83%A8%E5%88%86%E5%90%88%E4%BD%B5-(merge)%EF%BC%9F%E9%83%A8%E5%88%86%E5%90%88%E4%BD%B5%E4%BC%BC%E4%B9%8E%E6%9B%B4%E5%AE%89%E5%85%A8%EF%BC%8C%E5%8F%AF%E4%BB%A5%E9%81%BF%E5%85%8D%E5%8B%95%E4%BD%9C%E7%84%A1%E6%84%8F%E4%B8%AD%E7%A0%B4%E5%A3%9E%E5%85%B6%E4%BB%96%E5%8B%95%E4%BD%9C%E7%94%A2%E7%94%9F%E7%9A%84%E8%B3%87%E6%96%99%E3%80%82" tabindex="-1">3. 回傳的資料應該如何更新到「共享情境」中？是完全取代，還是部分合併 (merge)？部分合併似乎更安全，可以避免動作無意中破壞其他動作產生的資料。</h3>
+<h3 id="%E6%88%91%E7%9A%84%E7%A0%94%E7%A9%B6%E8%A1%A8%E6%98%8E%EF%BC%8C%E8%A7%A3%E6%B1%BA%E6%96%B9%E6%A1%88%E7%9A%84%E9%97%9C%E9%8D%B5%E5%9C%A8%E6%96%BC%E5%AE%9A%E7%BE%A9%E4%B8%80%E5%80%8B%E6%89%80%E6%9C%89%E5%8B%95%E4%BD%9C%E5%87%BD%E5%BC%8F%E9%83%BD%E5%BF%85%E9%A0%88%E9%81%B5%E5%AE%88%E7%9A%84%E3%80%8C-%E6%A8%99%E6%BA%96%E5%90%88%E7%B4%84-(standard-contract)-%E3%80%8D%E3%80%82%E5%BC%95%E6%93%8E%E5%8F%AA%E8%88%87%E9%80%99%E5%80%8B%E3%80%8C%E5%90%88%E7%B4%84%E3%80%8D%E4%BA%92%E5%8B%95%EF%BC%8C%E8%80%8C%E5%B0%87%E5%87%BD%E5%BC%8F%E7%B0%BD%E5%90%8D%E7%9A%84%E5%B7%AE%E7%95%B0%E6%80%A7%E5%9C%A8%E5%90%88%E7%B4%84%E5%85%A7%E9%83%A8%E9%80%B2%E8%A1%8C%E9%81%A9%E9%85%8D%E3%80%82" tabindex="-1">我的研究表明，解決方案的關鍵在於定義一個所有動作函式都必須遵守的「 <strong>標準合約 (Standard Contract)</strong> 」。引擎只與這個「合約」互動，而將函式簽名的差異性在合約內部進行適配。</h3>
+<h3 id="%E7%A0%94%E7%A9%B6%E9%9A%8E%E6%AE%B5%E5%88%B0%E6%AD%A4%E7%82%BA%E6%AD%A2%E3%80%82%E6%88%91%E5%B7%B2%E7%B6%93%E5%B0%8D%E5%95%8F%E9%A1%8C%E7%9A%84%E8%A4%87%E9%9B%9C%E6%80%A7%E6%9C%89%E4%BA%86%E5%85%85%E5%88%86%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%8C%E4%B8%A6%E7%A2%BA%E5%AE%9A%E4%BA%86%E9%9C%80%E8%A6%81%E9%80%B2%E4%B8%80%E6%AD%A5%E5%89%B5%E6%96%B0%E7%9A%84%E9%97%9C%E9%8D%B5%E9%BB%9E%E3%80%82" tabindex="-1">研究階段到此為止。我已經對問題的複雜性有了充分的理解，並確定了需要進一步創新的關鍵點。</h3>
+<h3 id="enter-innovate-mode" tabindex="-1">ENTER INNOVATE MODE</h3>
+<h3 id="%E8%AB%8B%E7%99%BC%E6%8F%AE%E4%BD%A0%E7%9A%84%E6%80%9D%E8%80%83%E4%BE%86%E8%A8%AD%E8%A8%88%E9%80%99%E5%80%8B%E3%80%8Cstandard-contract%E3%80%8D" tabindex="-1">請發揮你的思考來設計這個「Standard Contract」</h3>
+<p><strong>顯示思路</strong></p>
+<p>[MODE: INNOVATE]</p>
+<h3 id="%E5%A5%BD%E7%9A%84%EF%BC%8C%E9%81%B5%E5%91%BD%E3%80%82%E6%88%91%E5%80%91%E4%BE%86%E8%A8%AD%E8%A8%88%E9%80%99%E5%80%8B%E3%80%8C%E6%A8%99%E6%BA%96%E5%90%88%E7%B4%84-(standard-contract)%E3%80%8D%E3%80%82%E9%80%99%E5%80%8B%E5%90%88%E7%B4%84%E7%9A%84%E7%9B%AE%E6%A8%99%E6%98%AF%E5%89%B5%E9%80%A0%E4%B8%80%E5%80%8B%E6%89%80%E6%9C%89%E5%8B%95%E4%BD%9C%E5%87%BD%E5%BC%8F%E9%83%BD%E5%BF%85%E9%A0%88%E9%81%B5%E5%AE%88%E7%9A%84%E7%B5%B1%E4%B8%80%E4%BB%8B%E9%9D%A2%EF%BC%8C%E4%BD%BF%E5%BE%97%E7%8B%80%E6%85%8B%E6%A9%9F%E5%BC%95%E6%93%8E%E5%8F%AF%E4%BB%A5%E7%94%A8%E4%B8%80%E7%A8%AE%E5%84%AA%E9%9B%85%E4%B8%94%E4%B8%80%E8%87%B4%E7%9A%84%E6%96%B9%E5%BC%8F%E8%88%87%E5%AE%83%E5%80%91%E4%BA%92%E5%8B%95%EF%BC%8C%E7%84%A1%E8%AB%96%E5%AE%83%E5%80%91%E7%9A%84%E5%85%A7%E9%83%A8%E9%82%8F%E8%BC%AF%E6%9C%89%E5%A4%9A%E5%A4%A7%E5%B7%AE%E7%95%B0%E3%80%82" tabindex="-1">好的，遵命。我們來設計這個「標準合約 (Standard Contract)」。這個合約的目標是創造一個所有動作函式都必須遵守的統一介面，使得狀態機引擎可以用一種優雅且一致的方式與它們互動，無論它們的內部邏輯有多大差異。</h3>
+<h3 id="%E9%80%99%E5%80%8B%E5%90%88%E7%B4%84%E7%9A%84%E6%A0%B8%E5%BF%83%EF%BC%8C%E5%B0%B1%E6%98%AF%E4%B8%80%E5%80%8B%E6%A8%99%E6%BA%96%E5%8C%96%E7%9A%84-%E5%87%BD%E5%BC%8F%E7%B0%BD%E5%90%8D-(function-signature)-%E3%80%82" tabindex="-1">這個合約的核心，就是一個標準化的 <strong>函式簽名 (Function Signature)</strong> 。</h3>
+<hr>
+<h3 id="%E6%8F%90%E6%A1%88%EF%BC%9A%E6%A8%99%E6%BA%96%E5%8C%96%E5%8B%95%E4%BD%9C%E5%90%88%E7%B4%84" tabindex="-1"><strong>提案：標準化動作合約</strong></h3>
+<p>我們規定，所有被放入狀態表 <code>actions</code> 列表中的函式，都必須遵循以下簽名：</p>
+<p><strong>Python</strong></p>
+<h3 id="%60%60%60python-2" tabindex="-1">```python</h3>
+<h3 id="from-typing-import-dict%2C-any" tabindex="-1">from typing import Dict, Any</h3>
+<h3 id="def-action_function(context%3A-dict%5Bstr%2C-any%5D)--%3E-dict%5Bstr%2C-any%5D%3A" tabindex="-1">def action_function(context: Dict[str, Any]) -&gt; Dict[str, Any]:</h3>
+<h3 id="%22%22%22-2" tabindex="-1">"""</h3>
+<h3 id="%E4%B8%80%E5%80%8B%E6%A8%99%E6%BA%96%E5%8B%95%E4%BD%9C%E5%87%BD%E5%BC%8F%E7%9A%84%E7%AF%84%E6%9C%AC%E3%80%82" tabindex="-1">一個標準動作函式的範本。</h3>
+<h3 id="args%3A" tabindex="-1">Args:</h3>
+<h3 id="context%3A-%E4%B8%80%E5%80%8B%E5%8C%85%E5%90%AB%E7%95%B6%E5%89%8D%E6%89%80%E6%9C%89%E7%8B%80%E6%85%8B%E8%B3%87%E6%96%99%E7%9A%84%E5%AD%97%E5%85%B8%E3%80%82%E5%87%BD%E5%BC%8F%E5%BE%9E%E9%80%99%E8%A3%A1%E8%AE%80%E5%8F%96%E8%BC%B8%E5%85%A5%E3%80%82" tabindex="-1">context: 一個包含當前所有狀態資料的字典。函式從這裡讀取輸入。</h3>
+<h3 id="returns%3A" tabindex="-1">Returns:</h3>
+<h3 id="%E4%B8%80%E5%80%8B%E5%AD%97%E5%85%B8%EF%BC%8C%E5%8C%85%E5%90%AB%E6%AD%A4%E5%87%BD%E5%BC%8F%E7%94%A2%E7%94%9F%E7%9A%84%E3%80%81%E9%9C%80%E8%A6%81%E8%A2%AB%E5%90%88%E4%BD%B5%E5%9B%9E-context-%E7%9A%84%E6%96%B0%E8%B3%87%E6%96%99%E3%80%82" tabindex="-1">一個字典，包含此函式產生的、需要被合併回 context 的新資料。</h3>
+<h3 id="%E5%A6%82%E6%9E%9C%E5%87%BD%E5%BC%8F%E6%B2%92%E6%9C%89%E7%94%A2%E7%94%9F%E6%96%B0%E8%B3%87%E6%96%99%EF%BC%8C%E5%89%87%E6%87%89%E5%9B%9E%E5%82%B3%E4%B8%80%E5%80%8B%E7%A9%BA%E5%AD%97%E5%85%B8-%7B%7D%E3%80%82" tabindex="-1">如果函式沒有產生新資料，則應回傳一個空字典 {}。</h3>
+<h3 id="%22%22%22-3" tabindex="-1">"""</h3>
+<h3 id="%23-...-%E5%87%BD%E5%BC%8F%E9%82%8F%E8%BC%AF-..." tabindex="-1"># ... 函式邏輯 ...</h3>
+<h3 id="pass" tabindex="-1">pass</h3>
+<h3 id="%60%60%60-19" tabindex="-1">```</h3>
+<h3 id="%E9%80%99%E5%80%8B%E5%90%88%E7%B4%84%E5%8C%85%E5%90%AB%E5%85%A9%E6%A2%9D%E7%B0%A1%E5%96%AE%E8%80%8C%E5%BC%B7%E5%A4%A7%E7%9A%84%E8%A6%8F%E5%89%87%EF%BC%9A" tabindex="-1">這個合約包含兩條簡單而強大的規則：</h3>
+<h3 id="%E8%A6%8F%E5%89%87%E4%B8%80-(%E8%BC%B8%E5%85%A5)%EF%BC%9A%E8%90%AC%E7%89%A9%E7%9A%86%E5%8F%96%E6%96%BC-context" tabindex="-1"><strong>規則一 (輸入)：萬物皆取於 <code>Context</code></strong></h3>
+<h3 id="*-%E6%89%80%E6%9C%89%E5%8B%95%E4%BD%9C%E5%87%BD%E5%BC%8F%E5%BF%85%E9%A0%88%E6%8E%A5%E6%94%B6%E4%B8%80%E5%80%8B-context-%E5%AD%97%E5%85%B8%E4%BD%9C%E7%82%BA%E5%85%B6%E5%94%AF%E4%B8%80%E5%8F%83%E6%95%B8%E3%80%82" tabindex="-1">* 所有動作函式<strong>必須</strong>接收一個 <code>context</code> 字典作為其唯一參數。</h3>
+<h3 id="*-%E5%B0%8D%E6%96%BC%E9%9C%80%E8%A6%81%E5%8F%83%E6%95%B8%E7%9A%84%E5%87%BD%E5%BC%8F-(%E6%82%A8%E7%9A%84%E9%9C%80%E6%B1%822)%EF%BC%9A%E5%AE%83%E6%87%89%E8%A9%B2%E5%BE%9E%E5%82%B3%E5%85%A5%E7%9A%84-context-%E5%AD%97%E5%85%B8%E4%B8%AD%E8%AE%80%E5%8F%96%E5%AE%83%E6%89%80%E9%9C%80%E8%A6%81%E7%9A%84%E8%B3%87%E6%96%99%E3%80%82%E4%BE%8B%E5%A6%82%EF%BC%9Auser_id-%3D-context.get(%22user_id%22)%E3%80%82" tabindex="-1">* <strong>對於需要參數的函式</strong> (您的需求2)：它應該從傳入的 <code>context</code> 字典中讀取它所需要的資料。例如：<code>user_id = context.get("user_id")</code>。</h3>
+<h3 id="*-%E5%B0%8D%E6%96%BC%E4%B8%8D%E9%9C%80%E8%A6%81%E5%8F%83%E6%95%B8%E7%9A%84%E5%87%BD%E5%BC%8F-(%E6%82%A8%E7%9A%84%E9%9C%80%E6%B1%821)%EF%BC%9A%E5%AE%83%E5%9C%A8%E5%AE%9A%E7%BE%A9%E6%99%82%E4%BE%9D%E7%84%B6%E8%A6%81%E5%8C%85%E5%90%AB-context-%E5%8F%83%E6%95%B8%EF%BC%8C%E4%BD%86%E5%9C%A8%E5%87%BD%E5%BC%8F%E9%AB%94%E5%85%A7%E5%8F%AF%E4%BB%A5%E5%AE%8C%E5%85%A8%E5%BF%BD%E7%95%A5%E5%AE%83%E3%80%82%E9%80%99%E7%A2%BA%E4%BF%9D%E4%BA%86%E5%91%BC%E5%8F%AB%E4%BB%8B%E9%9D%A2%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%82" tabindex="-1">* <strong>對於不需要參數的函式</strong> (您的需求1)：它在定義時依然要包含 <code>context</code> 參數，但在函式體內可以完全忽略它。這確保了呼叫介面的一致性。</h3>
+<h3 id="%E8%A6%8F%E5%89%87%E4%BA%8C-(%E8%BC%B8%E5%87%BA)%EF%BC%9A%E8%90%AC%E7%89%A9%E7%9A%86%E6%AD%B8%E6%96%BC-context-(%E4%BB%A5%E6%9B%B4%E6%96%B0%E5%BD%A2%E5%BC%8F)" tabindex="-1"><strong>規則二 (輸出)：萬物皆歸於 <code>Context</code> (以更新形式)</strong></h3>
+<h3 id="*-%E6%89%80%E6%9C%89%E5%8B%95%E4%BD%9C%E5%87%BD%E5%BC%8F%E5%BF%85%E9%A0%88%E5%9B%9E%E5%82%B3%E4%B8%80%E5%80%8B%E5%AD%97%E5%85%B8%E3%80%82" tabindex="-1">* 所有動作函式<strong>必須</strong>回傳一個字典。</h3>
+<h3 id="*-%E9%80%99%E5%80%8B%E5%9B%9E%E5%82%B3%E7%9A%84%E5%AD%97%E5%85%B8%E4%BB%A3%E8%A1%A8%E4%BA%86-%E5%B0%8D-context-%E7%9A%84%E6%9B%B4%E6%96%B0-%E3%80%82%E5%AE%83%E5%8C%85%E5%90%AB%E4%BA%86%E6%AD%A4%E5%8B%95%E4%BD%9C%E7%94%A2%E7%94%9F%E7%9A%84%E6%96%B0%E8%B3%87%E6%96%99%E6%88%96%E4%BF%AE%E6%94%B9%E5%BE%8C%E7%9A%84%E8%B3%87%E6%96%99%E3%80%82" tabindex="-1">* 這個回傳的字典代表了 <strong>對 <code>context</code> 的更新</strong> 。它包含了此動作產生的新資料或修改後的資料。</h3>
+<h3 id="*-%E7%8B%80%E6%85%8B%E6%A9%9F%E5%BC%95%E6%93%8E%E5%9C%A8%E6%94%B6%E5%88%B0%E9%80%99%E5%80%8B%E5%9B%9E%E5%82%B3%E7%9A%84%E5%AD%97%E5%85%B8%E5%BE%8C%EF%BC%8C%E6%9C%83%E4%BD%BF%E7%94%A8-update()-%E6%96%B9%E6%B3%95%E5%B0%87%E5%85%B6%E5%90%88%E4%BD%B5-(merge)-%E5%9B%9E%E4%B8%BB-context-%E4%B8%AD%E3%80%82" tabindex="-1">* 狀態機引擎在收到這個回傳的字典後，會使用 <code>update()</code> 方法將其合併 (merge) 回主 <code>context</code> 中。</h3>
+<h3 id="*-%E5%A6%82%E6%9E%9C%E4%B8%80%E5%80%8B%E5%8B%95%E4%BD%9C%E4%B8%8D%E7%94%A2%E7%94%9F%E4%BB%BB%E4%BD%95%E9%9C%80%E8%A6%81%E8%A2%AB%E5%84%B2%E5%AD%98%E7%9A%84%E8%B3%87%E6%96%99%EF%BC%8C%E5%AE%83%E5%8F%AA%E9%9C%80%E5%9B%9E%E5%82%B3%E4%B8%80%E5%80%8B-%E7%A9%BA%E5%AD%97%E5%85%B8-%7B%7D-%E3%80%82" tabindex="-1">* 如果一個動作不產生任何需要被儲存的資料，它只需回傳一個 <strong>空字典 <code>{}</code></strong> 。</h3>
+<hr>
+<h3 id="%E8%A8%AD%E8%A8%88%E6%80%9D%E6%83%B3%E8%88%87%E5%84%AA%E5%8B%A2" tabindex="-1"><strong>設計思想與優勢</strong></h3>
+<p>這種「 <strong>傳入 Context，回傳 Update</strong> 」的模式，類似於函數式程式設計中的理念，帶來了幾個關鍵好處：</p>
+<ol>
+<li><strong>引擎極簡化</strong> ：狀態機引擎的執行迴圈變得非常簡單且穩定。它不需要關心每個動作的具體需求，只需重複執行一個固定的流程：
+<strong>Python</strong></li>
+</ol>
+<h3 id="%60%60%60python-3" tabindex="-1">```python</h3>
+<h3 id="%23-%E7%8B%80%E6%85%8B%E6%A9%9F%E5%BC%95%E6%93%8E%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83%E9%82%8F%E8%BC%AF" tabindex="-1"># 狀態機引擎中的核心邏輯</h3>
+<h3 id="for-action-in-current_actions%3A" tabindex="-1">for action in current_actions:</h3>
+<h3 id="updates-%3D-action(self.context)-%23-%E9%81%B5%E5%AE%88%E5%90%88%E7%B4%84%EF%BC%9A%E7%94%A8-context-%E5%91%BC%E5%8F%AB" tabindex="-1">updates = action(self.context)  # 遵守合約：用 context 呼叫</h3>
+<h3 id="self.context.update(updates)-%23-%E9%81%B5%E5%AE%88%E5%90%88%E7%B4%84%EF%BC%9A%E7%94%A8%E5%9B%9E%E5%82%B3%E5%80%BC%E6%9B%B4%E6%96%B0" tabindex="-1">self.context.update(updates)     # 遵守合約：用回傳值更新</h3>
+<h3 id="%60%60%60-20" tabindex="-1">```</h3>
+<ol>
+<li><strong>明確的資料流</strong> ：資料的來源 (<code>context</code>) 和去向 (回傳的 <code>update</code> 字典) 都變得非常明確。這使得追蹤和除錯資料在不同動作之間的傳遞過程變得容易，有效避免了難以追蹤的「副作用 (Side Effects)」。</li>
+<li><strong>高度的可組合性與可測試性</strong> ：每個動作函式都變成了一個獨立的、可測試的單元。您只需要準備一個模擬的 <code>context</code> 字典就可以對它進行單元測試，驗證其回傳的 <code>update</code> 字典是否符合預期。</li>
+</ol>
+<h3 id="%E7%AF%84%E4%BE%8B%E5%B0%8D%E6%AF%94" tabindex="-1"><strong>範例對比</strong></h3>
+<p>讓我們看看您的需求是如何被這個合約滿足的：</p>
+<p><strong>需求1：無須參數，但需回傳資料</strong></p>
+<ul>
+<li><strong>舊思維</strong> : <code>def get_current_time() -&gt; str:</code></li>
+<li><strong>新合約</strong> :
+<strong>Python</strong></li>
+</ul>
+<h3 id="%60%60%60python-4" tabindex="-1">```python</h3>
+<h3 id="def-get_current_time(context%3A-dict%5Bstr%2C-any%5D)--%3E-dict%5Bstr%2C-any%5D%3A" tabindex="-1">def get_current_time(context: Dict[str, Any]) -&gt; Dict[str, Any]:</h3>
+<h3 id="%23-context-%E5%8F%83%E6%95%B8%E8%A2%AB%E5%BF%BD%E7%95%A5" tabindex="-1"># context 參數被忽略</h3>
+<h3 id="print(%22---action%3A-getting-current-time...%22)" tabindex="-1">print("  - Action: Getting current time...")</h3>
+<h3 id="return" tabindex="-1">return</h3>
+<h3 id="%60%60%60-21" tabindex="-1">```</h3>
+<p><strong>需求2：需要參數，且需回傳資料</strong></p>
+<ul>
+<li><strong>舊思維</strong> : <code>def format_user_greeting(user_name: str) -&gt; str:</code></li>
+</ul>
+<h3 id="*-%E6%96%B0%E5%90%88%E7%B4%84-%3A" tabindex="-1">* <strong>新合約</strong> :</h3>
+<h3 id="python-3" tabindex="-1"><strong>Python</strong></h3>
+<h3 id="%60%60%60-22" tabindex="-1">```</h3>
+<h3 id="def-format_user_greeting(context%3A-dict%5Bstr%2C-any%5D)--%3E-dict%5Bstr%2C-any%5D%3A" tabindex="-1">def format_user_greeting(context: Dict[str, Any]) -&gt; Dict[str, Any]:</h3>
+<h3 id="user_name-%3D-context.get(%22user_name%22%2C-%22guest%22)-%23-%E5%BE%9E-context-%E8%AE%80%E5%8F%96" tabindex="-1">user_name = context.get("user_name", "Guest") # 從 context 讀取</h3>
+<h3 id="print(f%22---action%3A-formatting-greeting-for...%22)" tabindex="-1">print(f"  - Action: Formatting greeting for...")</h3>
+<h3 id="greeting-%3D-f%22hello%2C!%22" tabindex="-1">greeting = f"Hello,!"</h3>
+<h3 id="return-%23-%E5%B0%87%E7%B5%90%E6%9E%9C%E6%94%BE%E5%85%A5-update-%E5%AD%97%E5%85%B8%E5%9B%9E%E5%82%B3" tabindex="-1">return # 將結果放入 update 字典回傳</h3>
+<h3 id="%60%60%60-23" tabindex="-1">```</h3>
+<h3 id="%E9%80%99%E5%80%8B%E3%80%8C%E6%A8%99%E6%BA%96%E5%90%88%E7%B4%84%E3%80%8D%E7%9A%84%E8%A8%AD%E8%A8%88%EF%BC%8C%E7%82%BA%E6%82%A8%E7%9A%84-table-driven-%E7%8B%80%E6%85%8B%E6%A9%9F%E6%8F%90%E4%BE%9B%E4%BA%86%E4%B8%80%E5%80%8B%E6%97%A2%E9%9D%88%E6%B4%BB%E5%8F%88%E7%A9%A9%E5%AE%9A%E7%9A%84%E9%AA%A8%E6%9E%B6%EF%BC%8C%E8%83%BD%E5%A4%A0%E5%84%AA%E9%9B%85%E5%9C%B0%E8%99%95%E7%90%86%E8%A4%87%E9%9B%9C%E7%9A%84%E8%B3%87%E6%96%99%E8%99%95%E7%90%86%E4%BB%BB%E5%8B%99%E3%80%82" tabindex="-1">這個「標準合約」的設計，為您的 Table-Driven 狀態機提供了一個既靈活又穩定的骨架，能夠優雅地處理複雜的資料處理任務。</h3>
+<h3 id="enter-plan-mode" tabindex="-1">ENTER PLAN MODE</h3>
+<h3 id="%E8%AB%8B%E9%80%B2%E8%A1%8C%E8%A9%B3%E7%B4%B0%E7%9A%84%E5%AF%A6%E4%BD%9C%E8%A8%88%E7%AE%97%EF%BC%8C%E4%B8%A6%E4%B8%94%E6%80%9D%E8%80%83%E9%80%99%E5%80%8B" tabindex="-1">請進行詳細的實作計算，並且思考這個</h3>
+<h3 id="def-action_function(context%3A-dict%5Bstr%2C-any%5D)--%3E-dict%5Bstr%2C-any%5D" tabindex="-1">def action_function(context: Dict[str, Any]) -&gt; Dict[str, Any]</h3>
+<h3 id="%E8%A9%B2%E6%94%BE%E5%88%B0%E6%88%91%E5%80%91%E7%9A%845%E5%A4%A7%E6%A0%B8%E5%BF%83%E5%AD%90%E6%A8%A1%E7%B5%84%E4%B8%AD%E7%9A%84%E9%82%A3%E4%B8%80%E5%80%8B%EF%BC%8C%E6%88%96%E8%80%85%E6%94%BE%E5%9C%A8mgfd_sys%E4%B8%AD" tabindex="-1">該放到我們的5大核心子模組中的那一個，或者放在MGFD_SYS中</h3>
+<h3 id="%E4%BA%94%E5%A4%A7%E6%A0%B8%E5%BF%83%E5%AD%90%E6%A8%A1%E7%B5%84%3A" tabindex="-1">五大核心子模組:</h3>
+<h3 id="1.-userinputhandler-%3A-%E8%BC%B8%E5%85%A5%E8%99%95%E7%90%86%E5%B1%A4" tabindex="-1">1. UserInputHandler : 輸入處理層</h3>
+<h3 id="2.-responsegenhandler-%3A-%E5%9B%9E%E6%87%89%E7%94%9F%E6%88%90%E5%B1%A4" tabindex="-1">2. ResponseGenHandler : 回應生成層</h3>
+<h3 id="3.-knowledgemanagementhandler" tabindex="-1">3. KnowledgeManagementHandler</h3>
+<h3 id="4.-promptmanagementhandler-%3A-%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86%E5%B1%A4" tabindex="-1">4. PromptManagementHandler : 提示工程管理層</h3>
+<h3 id="5.-statemanagementhandler-%3A-%E7%8B%80%E6%85%8B%E7%AE%A1%E7%90%86%E5%B1%A4" tabindex="-1">5. StateManagementHandler : 狀態管理層</h3>
+<p>請進行計畫</p>
+<p><strong>顯示思路</strong></p>
+<p>[MODE: PLAN]</p>
+<p>好的，我們進入計畫模式。我將對「標準合約」的實作進行詳細規劃，並就其在您提供的系統架構中的位置進行分析與決策。</p>
+<h3 id="%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%9A%E6%9E%B6%E6%A7%8B%E8%A6%8F%E5%8A%83-(architectural-placement)" tabindex="-1"><strong>第一部分：架構規劃 (Architectural Placement)</strong></h3>
+<h3 id="%E9%A6%96%E5%85%88%EF%BC%8C%E6%88%91%E5%80%91%E4%BE%86%E6%B1%BA%E5%AE%9A%E9%80%99%E4%BA%9B-action_function-%E6%87%89%E8%A9%B2%E6%94%BE%E5%9C%A8%E5%93%AA%E5%80%8B%E6%A8%A1%E7%B5%84%E3%80%82%E9%80%99%E6%98%AF%E4%B8%80%E5%80%8B%E9%97%9C%E9%8D%B5%E7%9A%84%E6%9E%B6%E6%A7%8B%E6%B1%BA%E7%AD%96%EF%BC%8C%E5%AE%83%E5%B0%87%E5%BD%B1%E9%9F%BF%E7%B3%BB%E7%B5%B1%E7%9A%84%E8%81%B7%E8%B2%AC%E5%88%86%E9%9B%A2%E5%92%8C%E6%9C%AA%E4%BE%86%E7%9A%84%E5%8F%AF%E7%B6%AD%E8%AD%B7%E6%80%A7%E3%80%82" tabindex="-1">首先，我們來決定這些 <code>action_function</code> 應該放在哪個模組。這是一個關鍵的架構決策，它將影響系統的職責分離和未來的可維護性。</h3>
+<h3 id="%E5%88%86%E6%9E%90%EF%BC%9A" tabindex="-1"><strong>分析：</strong></h3>
+<h3 id="1.-action_function-%E7%9A%84%E6%9C%AC%E8%B3%AA-%EF%BC%9A%E9%80%99%E4%BA%9B%E5%87%BD%E5%BC%8F%E6%98%AF%E3%80%8C%E6%A5%AD%E5%8B%99%E9%82%8F%E8%BC%AF%E3%80%8D%E7%9A%84%E5%85%B7%E9%AB%94%E5%9F%B7%E8%A1%8C%E5%96%AE%E5%85%83%E3%80%82%E4%BE%8B%E5%A6%82%EF%BC%8C%E3%80%8C%E9%A9%97%E8%AD%89%E4%BD%BF%E7%94%A8%E8%80%85%E5%AF%86%E7%A2%BC%E3%80%8D%E6%98%AF%E4%B8%80%E5%80%8B%E5%8B%95%E4%BD%9C%EF%BC%8C%E5%85%B6%E9%82%8F%E8%BC%AF%E5%B1%AC%E6%96%BC%E7%9F%A5%E8%AD%98%E5%BA%AB%E6%88%96%E4%BD%BF%E7%94%A8%E8%80%85%E7%AE%A1%E7%90%86%EF%BC%9B%E3%80%8C%E7%94%9F%E6%88%90%E6%AD%A1%E8%BF%8E%E8%A8%8A%E6%81%AF%E3%80%8D%E6%98%AF%E5%8F%A6%E4%B8%80%E5%80%8B%E5%8B%95%E4%BD%9C%EF%BC%8C%E5%85%B6%E9%82%8F%E8%BC%AF%E5%B1%AC%E6%96%BC%E5%9B%9E%E6%87%89%E7%94%9F%E6%88%90%E3%80%82" tabindex="-1">1. <strong><code>action_function</code> 的本質</strong> ：這些函式是「業務邏輯」的具體執行單元。例如，「驗證使用者密碼」是一個動作，其邏輯屬於知識庫或使用者管理；「生成歡迎訊息」是另一個動作，其邏輯屬於回應生成。</h3>
+<h3 id="2.-statemanagementhandler-%E7%9A%84%E8%81%B7%E8%B2%AC-%EF%BC%9A%E6%AD%A4%E6%A8%A1%E7%B5%84%E7%9A%84%E6%A0%B8%E5%BF%83%E8%81%B7%E8%B2%AC%E6%87%89%E8%A9%B2%E6%98%AF%E3%80%8C%E7%AE%A1%E7%90%86%E7%8B%80%E6%85%8B%E3%80%8D%E5%92%8C%E3%80%8C%E9%A9%85%E5%8B%95%E6%B5%81%E7%A8%8B%E3%80%8D%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E3%80%8C%E5%9F%B7%E8%A1%8C%E6%A5%AD%E5%8B%99%E9%82%8F%E8%BC%AF%E3%80%8D%E3%80%82%E5%AE%83%E6%87%89%E8%A9%B2%E5%83%8F%E4%B8%80%E5%80%8B%E4%BA%A4%E9%80%9A%E8%AD%A6%E5%AF%9F%EF%BC%8C%E6%A0%B9%E6%93%9A%E7%8B%80%E6%85%8B%E8%A1%A8%E4%BE%86%E6%8C%87%E6%8F%AE%E6%B5%81%E7%A8%8B%EF%BC%8C%E5%91%8A%E8%A8%B4%E7%B3%BB%E7%B5%B1%E3%80%8C%E4%B8%8B%E4%B8%80%E6%AD%A5%E8%A9%B2%E5%81%9A%E4%BB%80%E9%BA%BC%E3%80%8D%EF%BC%8C%E4%BD%86%E4%B8%8D%E6%87%89%E8%A9%B2%E8%A6%AA%E8%87%AA%E5%8E%BB%E5%81%9A%E9%82%A3%E4%BA%9B%E4%BA%8B%E3%80%82" tabindex="-1">2. <strong><code>StateManagementHandler</code> 的職責</strong> ：此模組的核心職責應該是「管理狀態」和「驅動流程」，而不是「執行業務邏輯」。它應該像一個交通警察，根據狀態表來指揮流程，告訴系統「下一步該做什麼」，但不應該親自去做那些事。</h3>
+<h3 id="3.-%E8%81%B7%E8%B2%AC%E5%88%86%E9%9B%A2%E5%8E%9F%E5%89%87-(separation-of-concerns)-%EF%BC%9A%E5%A6%82%E6%9E%9C%E6%88%91%E5%80%91%E6%8A%8A%E6%89%80%E6%9C%89-action_function-%E9%83%BD%E6%94%BE%E5%9C%A8-statemanagementhandler-%E4%B8%AD%EF%BC%8C%E6%9C%83%E5%B0%8E%E8%87%B4%E9%80%99%E5%80%8B%E6%A8%A1%E7%B5%84%E7%84%A1%E9%99%90%E8%86%A8%E8%84%B9%EF%BC%8C%E4%B8%A6%E8%88%87%E6%89%80%E6%9C%89%E5%85%B6%E4%BB%96%E6%A8%A1%E7%B5%84%E7%9A%84%E8%81%B7%E8%B2%AC%E7%94%A2%E7%94%9F%E8%80%A6%E5%90%88%EF%BC%8C%E9%81%95%E5%8F%8D%E4%BA%86%E5%96%AE%E4%B8%80%E8%81%B7%E8%B2%AC%E5%8E%9F%E5%89%87%E3%80%82" tabindex="-1">3. <strong>職責分離原則 (Separation of Concerns)</strong> ：如果我們把所有 <code>action_function</code> 都放在 <code>StateManagementHandler</code> 中，會導致這個模組無限膨脹，並與所有其他模組的職責產生耦合，違反了單一職責原則。</h3>
+<h3 id="%E7%B5%90%E8%AB%96%E8%88%87%E8%A8%AD%E8%A8%88%E6%B1%BA%E7%AD%96%EF%BC%9A" tabindex="-1"><strong>結論與設計決策：</strong></h3>
+<h3 id="action_function-%E4%B8%8D%E6%87%89%E8%A9%B2-%E6%94%BE%E5%9C%A8-statemanagementhandler-%E6%88%96-mgfd_sys-%E4%B8%AD%E3%80%82" tabindex="-1"><code>action_function</code> <strong>不應該</strong> 放在 <code>StateManagementHandler</code> 或 <code>MGFD_SYS</code> 中。</h3>
+<h3 id="*-%E5%AF%A6%E4%BD%9C%E4%BD%8D%E7%BD%AE-%EF%BC%9A%E6%AF%8F%E4%B8%80%E5%80%8B-action_function-%E9%83%BD%E6%87%89%E8%A9%B2%E8%A2%AB%E5%AF%A6%E4%BD%9C%E7%82%BA-%E5%85%B6%E6%A5%AD%E5%8B%99%E9%82%8F%E8%BC%AF%E6%89%80%E5%B1%AC%E7%9A%84%E6%A0%B8%E5%BF%83%E5%AD%90%E6%A8%A1%E7%B5%84%E7%9A%84%E4%B8%80%E5%80%8B%E6%96%B9%E6%B3%95-%E3%80%82" tabindex="-1">* <strong>實作位置</strong> ：每一個 <code>action_function</code> 都應該被實作為 <strong>其業務邏輯所屬的核心子模組的一個方法</strong> 。</h3>
+<h3 id="*-%E4%BE%8B%E5%A6%82%EF%BC%9Avalidate_password-%E6%87%89%E8%A9%B2%E6%98%AF-knowledgemanagementhandler-%E8%A3%A1%E7%9A%84%E4%B8%80%E5%80%8B%E6%96%B9%E6%B3%95%E3%80%82" tabindex="-1">* 例如：<code>validate_password</code> 應該是 <code>KnowledgeManagementHandler</code> 裡的一個方法。</h3>
+<h3 id="*-prompt_for_username-%E6%87%89%E8%A9%B2%E6%98%AF-responsegenhandler-%E6%88%96-userinputhandler-%E8%A3%A1%E7%9A%84%E4%B8%80%E5%80%8B%E6%96%B9%E6%B3%95%E3%80%82" tabindex="-1">* <code>prompt_for_username</code> 應該是 <code>ResponseGenHandler</code> 或 <code>UserInputHandler</code> 裡的一個方法。</h3>
+<h3 id="*-%E7%B5%84%E7%B9%94%E6%96%B9%E5%BC%8F-%EF%BC%9Astatemanagementhandler-%E8%B2%A0%E8%B2%AC%E5%AE%9A%E7%BE%A9%E7%8B%80%E6%85%8B%E6%A9%9F%E5%92%8C-%E7%B5%84%E5%90%88%E5%B7%A5%E4%BD%9C%E6%B5%81-%E3%80%82%E5%AE%83%E6%9C%83%E5%BE%9E%E5%85%B6%E4%BB%96%E6%A0%B8%E5%BF%83%E6%A8%A1%E7%B5%84%E4%B8%AD%E5%8C%AF%E5%85%A5-(import)-%E6%89%80%E9%9C%80%E7%9A%84%E5%8B%95%E4%BD%9C%E5%87%BD%E5%BC%8F%EF%BC%8C%E7%84%B6%E5%BE%8C%E5%9C%A8-state_transitions-%E8%A1%A8%E4%B8%AD%E5%B0%87%E5%AE%83%E5%80%91%E7%B5%84%E7%B9%94%E8%B5%B7%E4%BE%86%EF%BC%8C%E5%AE%9A%E7%BE%A9%E5%87%BA%E5%AE%8C%E6%95%B4%E7%9A%84%E6%A5%AD%E5%8B%99%E6%B5%81%E7%A8%8B%E3%80%82" tabindex="-1">* <strong>組織方式</strong> ：<code>StateManagementHandler</code> 負責<strong>定義狀態機</strong>和 <strong>組合工作流</strong> 。它會從其他核心模組中<strong>匯入 (import)</strong> 所需的動作函式，然後在 <code>STATE_TRANSITIONS</code> 表中將它們組織起來，定義出完整的業務流程。</h3>
+<h3 id="%E6%B5%81%E7%A8%8B%E7%A4%BA%E6%84%8F%E5%9C%96%EF%BC%9A" tabindex="-1"><strong>流程示意圖：</strong></h3>
+<h3 id="%60%60%60-24" tabindex="-1">```</h3>
+<h3 id="%5Buserinputhandler%5D" tabindex="-1">[UserInputHandler]</h3>
+<h3 id="--receive_input(context)--%3E-dict" tabindex="-1">- receive_input(context) -&gt; dict</h3>
+<h3 id="%5Bknowledgemanagementhandler%5D" tabindex="-1">[KnowledgeManagementHandler]</h3>
+<h3 id="--validate_user(context)--%3E-dict" tabindex="-1">- validate_user(context) -&gt; dict</h3>
+<h3 id="%5Bresponsegenhandler%5D" tabindex="-1">[ResponseGenHandler]</h3>
+<h3 id="--generate_greeting(context)--%3E-dict" tabindex="-1">- generate_greeting(context) -&gt; dict</h3>
+<h3 id="%7C" tabindex="-1">|</h3>
+<h3 id="%7C-(%E5%8C%AF%E5%85%A5%E9%80%99%E4%BA%9B%E5%87%BD%E5%BC%8F)" tabindex="-1">| (匯入這些函式)</h3>
+<h3 id="v" tabindex="-1">V</h3>
+<h3 id="%5Bstatemanagementhandler%5D" tabindex="-1">[StateManagementHandler]</h3>
+<h3 id="--statemachine-class" tabindex="-1">- StateMachine Class</h3>
+<h3 id="--state_transitions-%3D-%7B" tabindex="-1">- STATE_TRANSITIONS = {</h3>
+<h3 id="%22awaiting_input%22%3A-statetransition(actions%3D%5Buserinputhandler.receive_input%5D%2C-...)%2C" tabindex="-1">"awaiting_input": StateTransition(actions=[UserInputHandler.receive_input], ...),</h3>
+<h3 id="%22validating%22%3A-statetransition(actions%3D%5Bknowledgemanagementhandler.validate_user%5D%2C-...)%2C" tabindex="-1">"validating": StateTransition(actions=[KnowledgeManagementHandler.validate_user], ...),</h3>
+<h3 id="%22responding%22%3A-statetransition(actions%3D%5Bresponsegenhandler.generate_greeting%5D%2C-...)" tabindex="-1">"responding": StateTransition(actions=[ResponseGenHandler.generate_greeting], ...)</h3>
+<h3 id="%7D-1" tabindex="-1">}</h3>
+<h3 id="%60%60%60-25" tabindex="-1">```</h3>
+<h3 id="%E9%80%99%E5%80%8B%E6%9E%B6%E6%A7%8B%E5%AF%A6%E7%8F%BE%E4%BA%86%E5%AE%8C%E7%BE%8E%E7%9A%84%E8%A7%A3%E8%80%A6%EF%BC%9A%E7%8B%80%E6%85%8B%E6%B5%81%E7%A8%8B%E7%9A%84%E5%AE%9A%E7%BE%A9%E8%88%87%E6%A5%AD%E5%8B%99%E9%82%8F%E8%BC%AF%E7%9A%84%E5%AF%A6%E4%BD%9C%E5%88%86%E9%9B%A2%EF%BC%8C%E5%90%84%E8%87%AA%E5%8F%AF%E4%BB%A5%E7%8D%A8%E7%AB%8B%E4%BF%AE%E6%94%B9%E5%92%8C%E6%93%B4%E5%85%85%E3%80%82" tabindex="-1">這個架構實現了完美的解耦：狀態流程的定義與業務邏輯的實作分離，各自可以獨立修改和擴充。</h3>
+<hr>
+<h3 id="%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%9A%E8%A9%B3%E7%B4%B0%E5%AF%A6%E4%BD%9C%E8%A8%88%E7%95%AB" tabindex="-1"><strong>第二部分：詳細實作計畫</strong></h3>
+<h3 id="%E7%82%BA%E4%BA%86%E6%B8%85%E6%99%B0%E5%9C%B0%E5%B1%95%E7%A4%BA%E6%96%B0%E5%90%88%E7%B4%84%E7%9A%84%E5%A8%81%E5%8A%9B%EF%BC%8C%E6%88%91%E5%80%91%E5%B0%87%E6%8B%8B%E6%A3%84%E8%88%8A%E7%9A%84-matchword-%E7%AF%84%E4%BE%8B%EF%BC%8C%E6%94%B9%E7%82%BA%E5%AF%A6%E4%BD%9C%E4%B8%80%E5%80%8B%E6%9B%B4%E5%85%B7%E9%AB%94%E7%9A%84%E3%80%8C-%E4%BD%BF%E7%94%A8%E8%80%85%E4%BA%92%E5%8B%95%E5%BC%8F%E5%95%8F%E5%80%99-%E3%80%8D%E6%B5%81%E7%A8%8B%E3%80%82" tabindex="-1">為了清晰地展示新合約的威力，我們將拋棄舊的 <code>matchword</code> 範例，改為實作一個更具體的「 <strong>使用者互動式問候</strong> 」流程。</h3>
+<h3 id="%E5%A0%B4%E6%99%AF%E6%8F%8F%E8%BF%B0-%EF%BC%9A%E7%B3%BB%E7%B5%B1%E5%95%9F%E5%8B%95%EF%BC%8C%E8%A9%A2%E5%95%8F%E4%BD%BF%E7%94%A8%E8%80%85%E5%A7%93%E5%90%8D%EF%BC%8C%E4%BD%BF%E7%94%A8%E8%80%85%E8%BC%B8%E5%85%A5%E5%A7%93%E5%90%8D%E5%BE%8C%EF%BC%8C%E7%B3%BB%E7%B5%B1%E7%94%9F%E6%88%90%E5%80%8B%E4%BA%BA%E5%8C%96%E7%9A%84%E5%95%8F%E5%80%99%E8%AA%9E%E3%80%82" tabindex="-1"><strong>場景描述</strong> ：系統啟動，詢問使用者姓名，使用者輸入姓名後，系統生成個人化的問候語。</h3>
+<h3 id="%E5%AF%A6%E4%BD%9C%E6%AA%94%E6%A1%88-%EF%BC%9A%E7%82%BA%E7%B0%A1%E5%8C%96%E5%B1%95%E7%A4%BA%EF%BC%8C%E6%88%91%E5%80%91%E5%B0%87%E8%A8%88%E7%95%AB%E5%BB%BA%E7%AB%8B%E5%85%A9%E5%80%8B%E6%AA%94%E6%A1%88%EF%BC%9A" tabindex="-1"><strong>實作檔案</strong> ：為簡化展示，我們將計畫建立兩個檔案：</h3>
+<h3 id="*-action_library.py-(%E6%A8%A1%E6%93%AC-responsegenhandler-%E5%92%8C-userinputhandler-%E7%AD%89%E6%A8%A1%E7%B5%84)" tabindex="-1">* <code>action_library.py</code> (模擬 <code>ResponseGenHandler</code> 和 <code>UserInputHandler</code> 等模組)</h3>
+<h3 id="*-state_manager.py-(%E5%8D%B3-statemanagementhandler-%E7%9A%84%E5%AF%A6%E7%8F%BE)" tabindex="-1">* <code>state_manager.py</code> (即 <code>StateManagementHandler</code> 的實現)</h3>
+<hr>
+<h3 id="implementation-checklist%3A" tabindex="-1"><strong>IMPLEMENTATION CHECKLIST:</strong></h3>
+<h3 id="phase-1%3A-%E5%BB%BA%E7%AB%8B-action_library.py-(%E6%A5%AD%E5%8B%99%E9%82%8F%E8%BC%AF%E5%B1%A4)" tabindex="-1"><strong>Phase 1: 建立 <code>action_library.py</code> (業務邏輯層)</strong></h3>
+<h3 id="1.-%E5%9C%A8%E6%AD%A4%E6%AA%94%E6%A1%88%E4%B8%AD%EF%BC%8C%E5%AE%9A%E7%BE%A9%E6%89%80%E6%9C%89%E9%81%B5%E5%BE%AA%E3%80%8C%E6%A8%99%E6%BA%96%E5%90%88%E7%B4%84%E3%80%8Ddef-action(context)--%3E-dict%3A-%E7%9A%84%E5%8B%95%E4%BD%9C%E5%87%BD%E5%BC%8F%E3%80%82" tabindex="-1">1. 在此檔案中，定義所有遵循「標準合約」<code>def action(context) -&gt; dict:</code> 的動作函式。</h3>
+<h3 id="2.-%E5%BB%BA%E7%AB%8B-prompt_for_name-%E5%87%BD%E5%BC%8F%E3%80%82%E5%AE%83%E4%B8%8D%E8%AE%80%E5%8F%96-context%EF%BC%8C%E4%BD%86%E5%9B%9E%E5%82%B3%E4%B8%80%E5%80%8B%E5%8C%85%E5%90%AB%E5%95%8F%E9%A1%8C%E7%9A%84%E5%AD%97%E5%85%B8%E3%80%82" tabindex="-1">2. 建立 <code>prompt_for_name</code> 函式。它不讀取 context，但回傳一個包含問題的字典。</h3>
+<h3 id="*-def-prompt_for_name(context%3A-dict)--%3E-dict%3A-return-%7B%22prompt%22%3A-%22what-is-your-name%3F%22%7D" tabindex="-1">* <code>def prompt_for_name(context: Dict) -&gt; Dict: return {"prompt": "What is your name?"}</code></h3>
+<h3 id="3.-%E5%BB%BA%E7%AB%8B-get_user_input-%E5%87%BD%E5%BC%8F%E3%80%82%E5%AE%83%E5%B0%87%E6%A8%A1%E6%93%AC%E6%8E%A5%E6%94%B6%E4%BD%BF%E7%94%A8%E8%80%85%E7%9A%84%E8%BC%B8%E5%85%A5%EF%BC%8C%E4%B8%A6%E5%B0%87%E8%BC%B8%E5%85%A5%E5%AD%98%E5%85%A5%E5%9B%9E%E5%82%B3%E7%9A%84%E5%AD%97%E5%85%B8%E4%B8%AD%E3%80%82" tabindex="-1">3. 建立 <code>get_user_input</code> 函式。它將模擬接收使用者的輸入，並將輸入存入回傳的字典中。</h3>
+<h3 id="*-def-get_user_input(context%3A-dict)--%3E-dict%3A-name-%3D-input(context.get(%22prompt%22%2C-%22%3E-%22))%3B-return-%7B%22user_name%22%3A-name%7D" tabindex="-1">* <code>def get_user_input(context: Dict) -&gt; Dict: name = input(context.get("prompt", "&gt; ")); return {"user_name": name}</code></h3>
+<h3 id="4.-%E5%BB%BA%E7%AB%8B-generate_greeting-%E5%87%BD%E5%BC%8F%E3%80%82%E5%AE%83%E6%9C%83%E5%BE%9E-context-%E4%B8%AD%E8%AE%80%E5%8F%96-user_name%EF%BC%8C%E4%B8%A6%E5%9B%9E%E5%82%B3%E4%B8%80%E5%80%8B%E5%8C%85%E5%90%AB%E5%95%8F%E5%80%99%E8%AA%9E%E7%9A%84%E5%AD%97%E5%85%B8%E3%80%82" tabindex="-1">4. 建立 <code>generate_greeting</code> 函式。它會從 context 中讀取 <code>user_name</code>，並回傳一個包含問候語的字典。</h3>
+<h3 id="*-def-generate_greeting(context%3A-dict)--%3E-dict%3A-name-%3D-context.get(%22user_name%22%2C-%22guest%22)%3B-return-%7B%22greeting%22%3A-f%22hello%2C-%7Bname%7D!-welcome.%22%7D" tabindex="-1">* <code>def generate_greeting(context: Dict) -&gt; Dict: name = context.get("user_name", "Guest"); return {"greeting": f"Hello, {name}! Welcome."}</code></h3>
+<h3 id="phase-2%3A-%E9%87%8D%E6%A7%8B-state_manager.py-(%E7%8B%80%E6%85%8B%E7%AE%A1%E7%90%86%E5%B1%A4)" tabindex="-1"><strong>Phase 2: 重構 <code>state_manager.py</code> (狀態管理層)</strong></h3>
+<h3 id="5.-%E5%8C%AF%E5%85%A5%E6%A8%A1%E7%B5%84%E5%92%8C%E5%87%BD%E5%BC%8F%EF%BC%9Afrom-typing-import-*%E3%80%81from-dataclasses-import-dataclass-%E4%BB%A5%E5%8F%8A-from-action_library-import-*%E3%80%82" tabindex="-1">5. 匯入模組和函式：<code>from typing import *</code>、<code>from dataclasses import dataclass</code> 以及 <code>from action_library import *</code>。</h3>
+<h3 id="6.-statetransition-dataclass-%E7%B6%AD%E6%8C%81%E4%B8%8D%E8%AE%8A%E3%80%82" tabindex="-1">6. <code>StateTransition</code> dataclass 維持不變。</h3>
+<h3 id="7.-%E9%87%8D%E6%A7%8B-statemachine-%E9%A1%9E%E5%88%A5%EF%BC%9A" tabindex="-1">7. 重構 <code>StateMachine</code> 類別：</h3>
+<h3 id="*-__init__%3A-%E6%8E%A5%E6%94%B6-initial_state%E3%80%81state_map-%E5%92%8C%E4%B8%80%E5%80%8B%E5%8F%AF%E9%81%B8%E7%9A%84-initial_context-%E5%AD%97%E5%85%B8%E3%80%82%E9%A1%9E%E5%88%A5%E5%85%A7%E9%83%A8%E5%84%B2%E5%AD%98-self.current_state%E3%80%81self.state_map-%E5%92%8C-self.context%E3%80%82" tabindex="-1">* <code>__init__</code>: 接收 <code>initial_state</code>、<code>state_map</code> 和一個可選的 <code>initial_context</code> 字典。類別內部儲存 <code>self.current_state</code>、<code>self.state_map</code> 和 <code>self.context</code>。</h3>
+<h3 id="*-%E9%87%8D%E5%AF%AB-run_step-%E6%96%B9%E6%B3%95%EF%BC%9A" tabindex="-1">* 重寫 <code>run_step</code> 方法：</h3>
+<h3 id="a.-%E6%AA%A2%E6%9F%A5%E6%98%AF%E5%90%A6%E7%82%BA%E7%B5%82%E6%AD%A2%E7%8B%80%E6%85%8B%E3%80%82" tabindex="-1">a. 檢查是否為終止狀態。</h3>
+<h3 id="b.-%E5%8F%96%E5%BE%97%E7%95%B6%E5%89%8D%E7%8B%80%E6%85%8B%E7%9A%84-transition-%E7%89%A9%E4%BB%B6%E3%80%82" tabindex="-1">b. 取得當前狀態的 <code>transition</code> 物件。</h3>
+<h3 id="c.-%E6%A0%B8%E5%BF%83%E9%82%8F%E8%BC%AF-%EF%BC%9A%E9%81%8D%E6%AD%B7-transition.actions%EF%BC%8C%E5%B0%8D%E6%AF%8F%E5%80%8B-action-%E5%9F%B7%E8%A1%8C-updates-%3D-action(self.context)%EF%BC%8C%E7%84%B6%E5%BE%8C-self.context.update(updates)%E3%80%82" tabindex="-1">c.  <strong>核心邏輯</strong> ：遍歷 <code>transition.actions</code>，對每個 <code>action</code> 執行 <code>updates = action(self.context)</code>，然後 <code>self.context.update(updates)</code>。</h3>
+<h3 id="d.-%E6%9B%B4%E6%96%B0-self.current_state-%E5%88%B0-next_state%E3%80%82" tabindex="-1">d. 更新 <code>self.current_state</code> 到 <code>next_state</code>。</h3>
+<h3 id="*-%E7%A7%BB%E9%99%A4%E8%88%8A%E7%9A%84-run-%E6%96%B9%E6%B3%95%EF%BC%8C%E5%9B%A0%E7%82%BA%E7%8F%BE%E5%9C%A8%E7%9A%84%E6%B5%81%E7%A8%8B%E6%9B%B4%E9%81%A9%E5%90%88%E5%96%AE%E6%AD%A5%E5%9F%B7%E8%A1%8C%E4%BB%A5%E5%B1%95%E7%A4%BA-context-%E8%AE%8A%E5%8C%96%E3%80%82" tabindex="-1">* 移除舊的 <code>run</code> 方法，因為現在的流程更適合單步執行以展示 <code>context</code> 變化。</h3>
+<h3 id="8.-%E5%BB%BA%E7%AB%8B%E6%96%B0%E7%9A%84-state_transitions-%E7%8B%80%E6%85%8B%E8%A1%A8%EF%BC%9A" tabindex="-1">8. 建立新的 <code>STATE_TRANSITIONS</code> 狀態表：</h3>
+<h3 id="*-%E5%AE%9A%E7%BE%A9%E4%B8%89%E5%80%8B%E7%8B%80%E6%85%8B%3A-start%2C-awaiting_input%2C-generating_response%E3%80%82" tabindex="-1">* 定義三個狀態: <code>START</code>, <code>AWAITING_INPUT</code>, <code>GENERATING_RESPONSE</code>。</h3>
+<h3 id="*-%22start%22%3A-actions-%3D-%5Bprompt_for_name%5D%2C-next_state-%3D-%22awaiting_input%22" tabindex="-1">* <code>"START"</code>: actions = <code>[prompt_for_name]</code>, next_state = <code>"AWAITING_INPUT"</code></h3>
+<h3 id="*-%22awaiting_input%22%3A-actions-%3D-%5Bget_user_input%5D%2C-next_state-%3D-%22generating_response%22" tabindex="-1">* <code>"AWAITING_INPUT"</code>: actions = <code>[get_user_input]</code>, next_state = <code>"GENERATING_RESPONSE"</code></h3>
+<h3 id="*-%22generating_response%22%3A-actions-%3D-%5Bgenerate_greeting%5D%2C-next_state-%3D-%22end%22-(%E7%B5%82%E6%AD%A2%E7%8B%80%E6%85%8B)" tabindex="-1">* <code>"GENERATING_RESPONSE"</code>: actions = <code>[generate_greeting]</code>, next_state = <code>"END"</code> (終止狀態)</h3>
+<h3 id="phase-3%3A-%E5%BB%BA%E7%AB%8B%E4%B8%BB%E7%A8%8B%E5%BC%8F%E9%80%B2%E5%85%A5%E9%BB%9E" tabindex="-1"><strong>Phase 3: 建立主程式進入點</strong></h3>
+<h3 id="9.-%E5%9C%A8-state_manager.py-%E4%B8%AD%EF%BC%8C%E5%BB%BA%E7%AB%8B-if-__name__-%3D%3D-%22__main__%22%3A-%E5%8D%80%E5%A1%8A%E3%80%82" tabindex="-1">9. 在 <code>state_manager.py</code> 中，建立 <code>if __name__ == "__main__":</code> 區塊。</h3>
+<h3 id="10.-%E5%88%9D%E5%A7%8B%E5%8C%96-statemachine%EF%BC%8C%E5%82%B3%E5%85%A5%E5%88%9D%E5%A7%8B%E7%8B%80%E6%85%8B-%22start%22%E3%80%81%E7%8B%80%E6%85%8B%E8%A1%A8-state_transitions-%E5%92%8C%E4%B8%80%E5%80%8B%E7%A9%BA%E7%9A%84%E5%88%9D%E5%A7%8B-context-%E5%AD%97%E5%85%B8-%7B%7D%E3%80%82" tabindex="-1">10. 初始化 <code>StateMachine</code>，傳入初始狀態 <code>"START"</code>、狀態表 <code>STATE_TRANSITIONS</code> 和一個空的初始 <code>context</code> 字典 <code>{}</code>。</h3>
+<h3 id="11.-%E4%BD%BF%E7%94%A8-while-%E8%BF%B4%E5%9C%88%E4%BE%86%E9%A9%85%E5%8B%95%E7%8B%80%E6%85%8B%E6%A9%9F%EF%BC%8C%E8%BF%B4%E5%9C%88%E6%A2%9D%E4%BB%B6%E7%82%BA-machine.current_state-!%3D-%22end%22%E3%80%82" tabindex="-1">11. 使用 <code>while</code> 迴圈來驅動狀態機，迴圈條件為 <code>machine.current_state != "END"</code>。</h3>
+<h3 id="12.-%E5%9C%A8%E8%BF%B4%E5%9C%88%E4%B8%AD%EF%BC%9A" tabindex="-1">12. 在迴圈中：</h3>
+<h3 id="a.-%E5%8D%B0%E5%87%BA-----%E5%88%86%E9%9A%94%E7%B7%9A%E5%92%8C%E7%95%B6%E5%89%8D%E7%9A%84%E7%8B%80%E6%85%8B%E3%80%82" tabindex="-1">a. 印出 <code>---</code> 分隔線和當前的狀態。</h3>
+<h3 id="b.-%E5%8D%B0%E5%87%BA%E5%9F%B7%E8%A1%8C%E5%89%8D%E7%9A%84-context-%E7%8B%80%E6%85%8B%E3%80%82" tabindex="-1">b. 印出執行前的 <code>context</code> 狀態。</h3>
+<h3 id="c.-%E5%91%BC%E5%8F%AB-machine.run_step()%E3%80%82" tabindex="-1">c. 呼叫 <code>machine.run_step()</code>。</h3>
+<h3 id="d.-%E5%8D%B0%E5%87%BA%E5%9F%B7%E8%A1%8C%E5%BE%8C%E7%9A%84-context-%E7%8B%80%E6%85%8B%EF%BC%8C%E4%BB%A5%E6%B8%85%E6%99%B0%E5%B1%95%E7%A4%BA%E8%B3%87%E6%96%99%E7%9A%84%E8%AE%8A%E5%8C%96%E3%80%82" tabindex="-1">d. 印出執行後的 <code>context</code> 狀態，以清晰展示資料的變化。</h3>
+<h3 id="13.-%E8%BF%B4%E5%9C%88%E7%B5%90%E6%9D%9F%E5%BE%8C%EF%BC%8C%E5%8D%B0%E5%87%BA%E6%9C%80%E7%B5%82%E7%9A%84%E5%95%8F%E5%80%99%E8%AA%9E-(machine.context.get(%22greeting%22))%E3%80%82" tabindex="-1">13. 迴圈結束後，印出最終的問候語 (<code>machine.context.get("greeting")</code>)。</h3>
+<h3 id="%E9%80%99%E5%80%8B%E8%A8%88%E7%95%AB%E6%B6%B5%E8%93%8B%E4%BA%86%E6%9E%B6%E6%A7%8B%E6%B1%BA%E7%AD%96%E5%92%8C%E8%A9%B3%E7%B4%B0%E7%9A%84%E7%A8%8B%E5%BC%8F%E7%A2%BC%E9%87%8D%E6%A7%8B%E6%AD%A5%E9%A9%9F%EF%BC%8C%E8%83%BD%E5%A4%A0%E5%AE%8C%E6%95%B4%E5%9C%B0%E5%AF%A6%E7%8F%BE%E6%82%A8%E7%9A%84%E6%96%B0%E9%9C%80%E6%B1%82%E3%80%82" tabindex="-1">這個計畫涵蓋了架構決策和詳細的程式碼重構步驟，能夠完整地實現您的新需求。</h3>
+<hr>
+<p>好的，現在進入執行模式。我將嚴格按照計畫清單進行實作，建立兩個檔案：<code>action_library.py</code> 和 <code>state_manager.py</code>。</p>
+<p><strong>IMPLEMENTATION CHECKLIST Progress:</strong>
+<img src="impl_steps.png" alt=""></p>
+<hr>
+<h3 id="%E6%AA%94%E6%A1%88%E4%B8%80%EF%BC%9Aaction_library.py" tabindex="-1"><strong>檔案一：<code>action_library.py</code></strong></h3>
+<h3 id="%E9%80%99%E4%BB%A3%E8%A1%A8%E4%BA%86%E6%82%A8%E7%9A%84%E6%A5%AD%E5%8B%99%E9%82%8F%E8%BC%AF%E6%A8%A1%E7%B5%84-(%E4%BE%8B%E5%A6%82-responsegenhandler%2C-userinputhandler)%E3%80%82" tabindex="-1">這代表了您的業務邏輯模組 (例如 <code>ResponseGenHandler</code>, <code>UserInputHandler</code>)。</h3>
+<h3 id="%E7%A8%8B%E5%BC%8F%E7%A2%BC%E7%89%87%E6%AE%B5-2" tabindex="-1"><strong>程式碼片段</strong></h3>
+<h3 id="%60%60%60python-5" tabindex="-1">```python</h3>
+<h3 id="from-typing-import-dict%2C-any-1" tabindex="-1">from typing import Dict, Any</h3>
+<h3 id="%22%22%22-4" tabindex="-1">"""</h3>
+<h3 id="this-file-represents-the-collection-of-business-logic-modules." tabindex="-1">This file represents the collection of business logic modules.</h3>
+<h3 id="each-function-is-an-%22action%22-that-adheres-to-the-standard-contract%3A" tabindex="-1">Each function is an "action" that adheres to the Standard Contract:</h3>
+<h3 id="--it-accepts-a-context-dictionary." tabindex="-1">- It accepts a context dictionary.</h3>
+<h3 id="--it-returns-a-dictionary-of-updates-for-the-context." tabindex="-1">- It returns a dictionary of updates for the context.</h3>
+<h3 id="%22%22%22-5" tabindex="-1">"""</h3>
+<h3 id="def-prompt_for_name(context%3A-dict%5Bstr%2C-any%5D)--%3E-dict%5Bstr%2C-any%5D%3A" tabindex="-1">def prompt_for_name(context: Dict[str, Any]) -&gt; Dict[str, Any]:</h3>
+<h3 id="%22%22%22-6" tabindex="-1">"""</h3>
+<h3 id="generates-a-prompt-to-ask-for-the-user's-name." tabindex="-1">Generates a prompt to ask for the user's name.</h3>
+<h3 id="this-action-does-not-need-input-from-the-context." tabindex="-1">This action does not need input from the context.</h3>
+<h3 id="%22%22%22-7" tabindex="-1">"""</h3>
+<h3 id="print(%22---action%3A-generating-a-prompt-for-the-user's-name.%22)" tabindex="-1">print("  - Action: Generating a prompt for the user's name.")</h3>
+<h3 id="return-1" tabindex="-1">return</h3>
+<h3 id="def-get_user_input(context%3A-dict%5Bstr%2C-any%5D)--%3E-dict%5Bstr%2C-any%5D%3A" tabindex="-1">def get_user_input(context: Dict[str, Any]) -&gt; Dict[str, Any]:</h3>
+<h3 id="%22%22%22-8" tabindex="-1">"""</h3>
+<h3 id="simulates-receiving-user-input-in-response-to-a-prompt." tabindex="-1">Simulates receiving user input in response to a prompt.</h3>
+<h3 id="it-reads-the-'prompt'-from-the-context." tabindex="-1">It reads the 'prompt' from the context.</h3>
+<h3 id="%22%22%22-9" tabindex="-1">"""</h3>
+<h3 id="prompt-%3D-context.get(%22prompt%22%2C-%22%3E-%22)" tabindex="-1">prompt = context.get("prompt", "&gt; ")</h3>
+<h3 id="user_name-%3D-input(prompt)" tabindex="-1">user_name = input(prompt)</h3>
+<h3 id="print(f%22---action%3A-received-user-input%3A-''.%22)" tabindex="-1">print(f"  - Action: Received user input: ''.")</h3>
+<h3 id="return-2" tabindex="-1">return</h3>
+<h3 id="def-generate_greeting(context%3A-dict%5Bstr%2C-any%5D)--%3E-dict%5Bstr%2C-any%5D%3A" tabindex="-1">def generate_greeting(context: Dict[str, Any]) -&gt; Dict[str, Any]:</h3>
+<h3 id="%22%22%22-10" tabindex="-1">"""</h3>
+<h3 id="generates-a-personalized-greeting." tabindex="-1">Generates a personalized greeting.</h3>
+<h3 id="it-reads-the-'user_name'-from-the-context." tabindex="-1">It reads the 'user_name' from the context.</h3>
+<h3 id="%22%22%22-11" tabindex="-1">"""</h3>
+<h3 id="name-%3D-context.get(%22user_name%22%2C-%22guest%22)" tabindex="-1">name = context.get("user_name", "Guest")</h3>
+<h3 id="print(f%22---action%3A-generating-greeting-for-''.%22)" tabindex="-1">print(f"  - Action: Generating greeting for ''.")</h3>
+<h3 id="greeting-%3D-f%22hello%2C!-welcome.%22" tabindex="-1">greeting = f"Hello,! Welcome."</h3>
+<h3 id="return-3" tabindex="-1">return</h3>
+<h3 id="%60%60%60-26" tabindex="-1">```</h3>
+<h3 id="----1" tabindex="-1">---</h3>
+<h3 id="%E6%AA%94%E6%A1%88%E4%BA%8C%EF%BC%9Astate_manager.py" tabindex="-1"><strong>檔案二：<code>state_manager.py</code></strong></h3>
+<h3 id="%E9%80%99%E4%BB%A3%E8%A1%A8%E4%BA%86%E6%82%A8%E7%9A%84-statemanagementhandler-%E6%A8%A1%E7%B5%84%E3%80%82" tabindex="-1">這代表了您的 <code>StateManagementHandler</code> 模組。</h3>
+<h3 id="%E7%A8%8B%E5%BC%8F%E7%A2%BC%E7%89%87%E6%AE%B5-3" tabindex="-1"><strong>程式碼片段</strong></h3>
+<h3 id="%60%60%60-27" tabindex="-1">```</h3>
+<h3 id="from-dataclasses-import-dataclass-1" tabindex="-1">from dataclasses import dataclass</h3>
+<h3 id="from-typing-import-list%2C-callable%2C-dict%2C-any" tabindex="-1">from typing import List, Callable, Dict, Any</h3>
+<h3 id="import-actions-from-the-business-logic-library" tabindex="-1">Import actions from the business logic library</h3>
+<h3 id="from-action_library-import-prompt_for_name%2C-get_user_input%2C-generate_greeting" tabindex="-1">from action_library import prompt_for_name, get_user_input, generate_greeting</h3>
+<h3 id="the-statetransition-dataclass-remains-the-same" tabindex="-1">The StateTransition dataclass remains the same</h3>
+<h3 id="%40dataclass-1" tabindex="-1">@dataclass</h3>
+<h3 id="class-statetransition%3A-1" tabindex="-1">class StateTransition:</h3>
+<h3 id="actions%3A-list%5Bcallable%5B%5Bdict%5Bstr%2C-any%5D%5D%2C-dict%5Bstr%2C-any%5D%5D%5D" tabindex="-1">actions: List[Callable[[Dict[str, Any]], Dict[str, Any]]]</h3>
+<h3 id="next_state%3A-str-1" tabindex="-1">next_state: str</h3>
+<h3 id="refactored-statemachine-class-with-context-management" tabindex="-1">Refactored StateMachine class with context management</h3>
+<h3 id="class-statemachine%3A" tabindex="-1">class StateMachine:</h3>
+<h3 id="def-init(self%2C-initial_state%3A-str%2C-state_map%3A-dict%5Bstr%2C-statetransition%5D%2C-initial_context%3A-dict%5Bstr%2C-any%5D)%3A" tabindex="-1">def <strong>init</strong>(self, initial_state: str, state_map: Dict[str, StateTransition], initial_context: Dict[str, Any]):</h3>
+<h3 id="self.current_state%3A-str-%3D-initial_state" tabindex="-1">self.current_state: str = initial_state</h3>
+<h3 id="self.state_map%3A-dict%5Bstr%2C-statetransition%5D-%3D-state_map" tabindex="-1">self.state_map: Dict[str, StateTransition] = state_map</h3>
+<h3 id="self.context%3A-dict%5Bstr%2C-any%5D-%3D-initial_context" tabindex="-1">self.context: Dict[str, Any] = initial_context</h3>
+<h3 id="print(%22statemachine-initialized.%22)" tabindex="-1">print("StateMachine initialized.")</h3>
+<h3 id="def-run_step(self)%3A" tabindex="-1">def run_step(self):</h3>
+<h3 id="%22%22%22-12" tabindex="-1">"""</h3>
+<h3 id="executes-a-single-step-of-the-state-machine%2C-updating-the-context." tabindex="-1">Executes a single step of the state machine, updating the context.</h3>
+<h3 id="%22%22%22-13" tabindex="-1">"""</h3>
+<h3 id="if-self.current_state-not-in-self.state_map%3A" tabindex="-1">if self.current_state not in self.state_map:</h3>
+<h3 id="print(f%22state-''-is-a-terminal-state.-halting.%22)" tabindex="-1">print(f"State '' is a terminal state. Halting.")</h3>
+<h3 id="return-4" tabindex="-1">return</h3>
+<h3 id="transition-%3D-self.state_map%5Bself.current_state%5D" tabindex="-1">transition = self.state_map[self.current_state]</h3>
+<h3 id="%23-core-logic%3A-execute-each-action-and-update-the-context-with-its-return-value" tabindex="-1"># Core Logic: Execute each action and update the context with its return value</h3>
+<h3 id="for-action-in-transition.actions%3A-1" tabindex="-1">for action in transition.actions:</h3>
+<h3 id="updates-%3D-action(self.context)" tabindex="-1">updates = action(self.context)</h3>
+<h3 id="if-updates%3A" tabindex="-1">if updates:</h3>
+<h3 id="self.context.update(updates)" tabindex="-1">self.context.update(updates)</h3>
+<h3 id="self.current_state-%3D-transition.next_state" tabindex="-1">self.current_state = transition.next_state</h3>
+<h3 id="new-state-table-for-the-interactive-greeting-flow" tabindex="-1">New state table for the interactive greeting flow</h3>
+<h3 id="state_transitions%3A-dict%5Bstr%2C-statetransition%5D-%3D-%7B-1" tabindex="-1">STATE_TRANSITIONS: Dict[str, StateTransition] = {</h3>
+<h3 id="%22start%22%3A-statetransition(" tabindex="-1">"START": StateTransition(</h3>
+<h3 id="actions%3D%5Bprompt_for_name%5D%2C" tabindex="-1">actions=[prompt_for_name],</h3>
+<h3 id="next_state%3D%22awaiting_input%22" tabindex="-1">next_state="AWAITING_INPUT"</h3>
+<h3 id=")%2C-4" tabindex="-1">),</h3>
+<h3 id="%22awaiting_input%22%3A-statetransition(" tabindex="-1">"AWAITING_INPUT": StateTransition(</h3>
+<h3 id="actions%3D%5Bget_user_input%5D%2C" tabindex="-1">actions=[get_user_input],</h3>
+<h3 id="next_state%3D%22generating_response%22" tabindex="-1">next_state="GENERATING_RESPONSE"</h3>
+<h3 id=")%2C-5" tabindex="-1">),</h3>
+<h3 id="%22generating_response%22%3A-statetransition(" tabindex="-1">"GENERATING_RESPONSE": StateTransition(</h3>
+<h3 id="actions%3D%5Bgenerate_greeting%5D%2C" tabindex="-1">actions=[generate_greeting],</h3>
+<h3 id="next_state%3D%22end%22-%23-terminal-state" tabindex="-1">next_state="END"  # Terminal state</h3>
+<h3 id=")%2C-6" tabindex="-1">),</h3>
+<h3 id="%7D-2" tabindex="-1">}</h3>
+<h3 id="main-execution-block" tabindex="-1">Main execution block</h3>
+<h3 id="if-name-%3D%3D-%22main%22%3A" tabindex="-1">if <strong>name</strong> == "<strong>main</strong>":</h3>
+<h3 id="print(%22----starting-interactive-greeting-statemachine----%22)" tabindex="-1">print("--- Starting Interactive Greeting StateMachine ---")</h3>
+<h3 id="%23-instantiate-the-state-machine-with-an-empty-initial-context" tabindex="-1"># Instantiate the state machine with an empty initial context</h3>
+<h3 id="machine-%3D-statemachine(" tabindex="-1">machine = StateMachine(</h3>
+<h3 id="initial_state%3D%22start%22%2C" tabindex="-1">initial_state="START",</h3>
+<h3 id="state_map%3Dstate_transitions%2C" tabindex="-1">state_map=STATE_TRANSITIONS,</h3>
+<h3 id="initial_context%3D%7B%7D" tabindex="-1">initial_context={}</h3>
+<h3 id=")" tabindex="-1">)</h3>
+<h3 id="%23-drive-the-machine-step-by-step-until-it-reaches-the-terminal-state" tabindex="-1"># Drive the machine step-by-step until it reaches the terminal state</h3>
+<h3 id="while-machine.current_state-!%3D-%22end%22%3A" tabindex="-1">while machine.current_state != "END":</h3>
+<h3 id="print(%22%5Cn%22-%2B-%22%3D%22*40)" tabindex="-1">print("\n" + "="*40)</h3>
+<h3 id="print(f%22current-state%3A-''%22)" tabindex="-1">print(f"Current State: ''")</h3>
+<h3 id="print(f%22context-before-step%3A%22)" tabindex="-1">print(f"Context before step:")</h3>
+<h3 id="machine.run_step()" tabindex="-1">machine.run_step()</h3>
+<h3 id="print(f%22context-after-step%3A%22)" tabindex="-1">print(f"Context after step:")</h3>
+<h3 id="print(%22%3D%22*40)" tabindex="-1">print("="*40)</h3>
+<h3 id="print(%22%5Cn----statemachine-execution-finished----%22)" tabindex="-1">print("\n--- StateMachine execution finished ---")</h3>
+<h3 id="final_greeting-%3D-machine.context.get(%22greeting%22%2C-%22no-greeting-was-generated.%22)" tabindex="-1">final_greeting = machine.context.get("greeting", "No greeting was generated.")</h3>
+<h3 id="print(f%22final-result%3A%22)" tabindex="-1">print(f"Final Result:")</h3>
+<h3 id="%60%60%60-28" tabindex="-1">```</h3>
+<h3 id="%E8%A8%88%E7%95%AB%E5%B7%B2%E5%AE%8C%E5%85%A8%E5%AF%A6%E4%BD%9C%E3%80%82%E6%82%A8%E5%8F%AF%E4%BB%A5%E5%B0%87%E9%80%99%E5%85%A9%E5%80%8B%E6%AA%94%E6%A1%88%E5%84%B2%E5%AD%98%E5%9C%A8%E5%90%8C%E4%B8%80%E5%80%8B%E7%9B%AE%E9%8C%84%E4%B8%8B%EF%BC%8C%E7%84%B6%E5%BE%8C%E5%9F%B7%E8%A1%8C-python-state_manager.py-%E4%BE%86%E6%9F%A5%E7%9C%8B%E9%81%8B%E4%BD%9C%E7%B5%90%E6%9E%9C%E3%80%82%E5%AE%83%E5%B0%87%E6%9C%83%E6%8F%90%E7%A4%BA%E6%82%A8%E8%BC%B8%E5%85%A5%E5%A7%93%E5%90%8D%EF%BC%8C%E4%B8%A6%E6%A0%B9%E6%93%9A%E6%82%A8%E7%9A%84%E8%BC%B8%E5%85%A5%E5%AE%8C%E6%88%90%E6%95%B4%E5%80%8B%E8%B3%87%E6%96%99%E8%99%95%E7%90%86%E6%B5%81%E7%A8%8B%E3%80%82" tabindex="-1">計畫已完全實作。您可以將這兩個檔案儲存在同一個目錄下，然後執行 <code>python state_manager.py</code> 來查看運作結果。它將會提示您輸入姓名，並根據您的輸入完成整個資料處理流程。</h3>
+
+    </div>
+
+
+</body></html>

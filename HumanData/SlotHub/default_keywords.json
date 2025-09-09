@@ -6,7 +6,7 @@
       "slotvalue": "nodata",
       "mapping": "usage_purpose",
       "importance": 4,
-      "ifDBSearch": false
+      "ifDBSearch": true
     }
   },
 
