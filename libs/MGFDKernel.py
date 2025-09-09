@@ -147,8 +147,9 @@ class MGFDKernel:
             6. 記憶體容量
 
         """
-        # System-level prompt (優化版 - 減少 70% Token 消耗)
-        self.SysPrompt = """你是專業的筆電銷售顧問。根據以下產品資料回答客戶問題：
+        # System-level prompt template (優化版 - 減少 70% Token 消耗)
+        # 注意：這是不可變的模板，避免狀態污染
+        self.SysPromptTemplate = """你是專業的筆電銷售顧問。根據以下產品資料回答客戶問題：
 
 **產品資料：**
 {product_data}
@@ -256,10 +257,10 @@ class MGFDKernel:
             summarized_product = {
                 "modeltype": product.get("modeltype", ""),
                 "modelname": product.get("modelname", ""),
-                "cpu_summary": self._extract_cpu_summary(product.get("cpu", "")),
-                "memory_summary": self._extract_memory_summary(product.get("memory", "")),
-                "lcd_summary": self._extract_lcd_summary(product.get("lcd", "")),
-                "battery_summary": self._extract_battery_summary(product.get("battery", "")),
+                "cpu_summary": self._extract_cpu_summary(product.get("cpu", "") or ""),
+                "memory_summary": self._extract_memory_summary(product.get("memory", "") or ""),
+                "lcd_summary": self._extract_lcd_summary(product.get("lcd", "") or ""),
+                "battery_summary": self._extract_battery_summary(product.get("battery", "") or ""),
                 "portability": self._assess_portability(product)
             }
             summarized_products.append(summarized_product)
@@ -341,8 +342,8 @@ class MGFDKernel:
     
     def _assess_portability(self, product: Dict[str, Any]) -> str:
         """評估便攜性"""
-        lcd = product.get("lcd", "")
-        battery = product.get("battery", "")
+        lcd = product.get("lcd", "") or ""  # 確保不是 None
+        battery = product.get("battery", "") or ""  # 確保不是 None
         
         # 簡單的便攜性評估
         if any(size in lcd for size in ["11.6", "12", "13", "14"]):
@@ -354,9 +355,10 @@ class MGFDKernel:
     
     # generate three-tier prompt
     def generate_three_tier_prompt(self,product_data=None, user_query=None):
-        """生成三層式提示"""
+        """生成三層式提示 - 修復版：避免模板狀態污染"""
+        # 🔧 修復：每次都從乾淨的模板開始，避免狀態污染
         # 使用 str.replace 來避免 JSON 中的佔位符衝突
-        result = self.SysPrompt.replace("{product_data}", str(product_data))
+        result = self.SysPromptTemplate.replace("{product_data}", str(product_data))
         result = result.replace("{user_query}", str(user_query))
         return result
     #     """生成三層式提示"""
@@ -511,7 +513,7 @@ class MGFDKernel:
             包含回應內容的字典，格式對齊 mgfd_ai.js 期望
         """
         try:
-            logger.info(f"處理消息 - 會話: {session_id}, 消息: {message[:50]}...")
+            logger.info(f"處理消息 - 會話: {session_id}, 消息: {message}...")
             
             # 檢查模組是否已初始化
             if not self._check_modules_initialized():
@@ -654,10 +656,11 @@ class MGFDKernel:
         _product_data = {}
         if self.user_input_handler:
             slot_name, slot_metadata = await self.user_input_handler.parse_keyword(message)
-            if slot_name:
-                context.setdefault("slots", {}).update({slot_name: slot_metadata})
-            else:
-                context.setdefault("slots", {}).update({"": {}})
+            logger.info(f"***************************slot_name START*********************************: \n關鍵詞:\n{slot_name}")
+        if slot_name:
+            context.setdefault("slots", {}).update({slot_name: slot_metadata})
+        else:
+            context.setdefault("slots", {}).update({"": {}})
         
         # Step 3: 狀態機驅動（StateManager）
         if slot_metadata.get("ifDBSearch", True):
@@ -689,8 +692,9 @@ class MGFDKernel:
         logger.info(f"***************************產品資料START*********************************: \n產品資料:\n{product_data_json}")
         logger.info(f"***************************產品資料END***********************************\n")
 
-        self.SysPrompt = self.generate_three_tier_prompt(product_data=product_data_json, user_query=self.query)
-        logger.info(f"***************************系統提示START********************************** \n{self.SysPrompt}")
+        # 🔧 修復：使用局部變量避免狀態污染
+        current_prompt = self.generate_three_tier_prompt(product_data=product_data_json, user_query=self.query)
+        logger.info(f"***************************系統提示START********************************** \n{current_prompt}")
         logger.info(f"***************************系統提示END***********************************\n")
         #_product_data
         # # 將使用者查詢同時提供為 user_query，避免模板鍵名不一致導致 KeyError
@@ -721,7 +725,7 @@ class MGFDKernel:
                     try:
                         # 使用 asyncio.wait_for 提供額外的超時保護（90秒，稍大於 LLM 的 request_timeout）
                         llm_output = await asyncio.wait_for(
-                            asyncio.to_thread(self.llm.invoke, self.SysPrompt),
+                            asyncio.to_thread(self.llm.invoke, current_prompt),
                             timeout=90
                         )
                         ## format markdown tables
