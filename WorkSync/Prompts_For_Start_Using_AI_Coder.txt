@@ -15,6 +15,7 @@ please carefully and completely read and analyze  the following python files:   
 │   libs/StateManageHandler/StateManagementHandler.py  
 |   static/js/mgfd_ai.js
 |   HumanData/SlotHub/default_keywords.json
+|   config/mgfd_exec_config.json
 
 
 

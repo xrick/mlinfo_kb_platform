@@ -96,7 +96,7 @@ templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
 try:
     # 嘗試導入各種 API 路由模組
     # from api import mgfd_routes,sales_routes, specs_routes, history_routes, import_data_routes
-    from api import mgfd_routes, specs_routes, history_routes #import_data_routes
+    from api import mgfd_routes, specs_routes, history_routes, milvus_routes #import_data_routes
     
     # 將各個路由模組註冊到主應用程式中
     # 導入 MGFD (Multi-turn Guided Funnel Dialogue) 路由模組
@@ -104,6 +104,7 @@ try:
     # app.include_router(sales_routes.router, prefix="/api/sales", tags=["sales"])  # 銷售相關 API
     app.include_router(specs_routes.router, prefix="/api/specs", tags=["specs"])  # 規格相關 API
     app.include_router(history_routes.router, prefix="/api/history", tags=["history"])  # 歷史記錄相關 API
+    app.include_router(milvus_routes.router, prefix="/api/milvus", tags=["milvus"])  # Milvus Viewer 相關 API
     # app.include_router(import_data_routes.router, prefix="/api", tags=["import"])  # 資料匯入相關 API
     # app.include_router(mgfdsys_routes_deprecated.router, prefix="/api/mgfdsys", tags=["mgfdsys"])  # MGFDSYS 相關 API
 except ImportError as e:
