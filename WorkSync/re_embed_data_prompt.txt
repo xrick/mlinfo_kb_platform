@@ -1,0 +1,6 @@
+role: you are an excellent RAG and Chunking expert, please help me to create two funtions which satisfy:
+please strictly follow my instructions and **do not** make any changes and modifications I don't ask you to do.
+1. the first fuction named "gen_all_nbinfo_tb" which creates a duckdb named "nbinfo.db", then read all the rows of uploaded csv files into a table of nbinfo.db, the new table named "all_nb_spec" .
+2. the second fuction named "embed_all_nbinfo_to_collection" which use parent-child chunk technique to embed all the uploaded csv files' content into new collection named "all_nb_info_collection".
+3. before each function name, please add comments of concepts, implementation apporoach description
+4. please write these two function in a secure way, and you **must** add detailed comments to each functions you create.
