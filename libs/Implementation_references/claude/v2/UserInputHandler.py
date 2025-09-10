@@ -1,3 +1,4 @@
+# libs/Implementation_references/claude/v2/UserInputHandler.py
 """
 用戶輸入處理器 - 智能解析自然語言為結構化數據
 基於 default_slots.json 的11個核心槽位和 default_keywords.json 的同義詞進行智能匹配
@@ -11,6 +12,12 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
+###setup debug
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[logging.StreamHandler()]
+)
 
 class UserInputHandler:
     """
@@ -63,6 +70,7 @@ class UserInputHandler:
         try:
             # 從 default_keywords.json 載入 mapping 欄位
             keywords_path = Path(__file__).parent.parent.parent.parent.parent / "HumanData" / "mgfd_exec_config.json"
+            logger.info("*************載入mgfd_exec_config.json*************")
             if keywords_path.exists():
                 with open(keywords_path, 'r', encoding='utf-8') as f:
                     keywords_data = json.load(f)

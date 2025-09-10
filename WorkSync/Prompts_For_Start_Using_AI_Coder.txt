@@ -1,3 +1,4 @@
+WorkSync/Prompts_For_Start_Using_AI_Coder.txt
 以下是整個專案開發過程中請務必遵守的規則：
 - 請**務必一步一步小心分析**整個問題，從使用者輸入，一直到出錯的資料處理順序與流程。請詳細記錄除錯歷程，經歷了哪些模組、哪些函式，關聯問題的發現、發現更有效率的解決方法或架構，請盡量解釋所有的資料。**務必先進行穩定且具可行性的計畫，不要直接進行修改**。
 - 將除錯過程寫入到WorkSync/MGFD_DEV_Diary/mgfd_dev_diary.md，然後擬定一個具可行性且完整的修復計畫。
@@ -18,6 +19,6 @@ please carefully and completely read and analyze  the following python files:   
 |   config/mgfd_exec_config.json
 
 
-
+# for debug
 請**務必一步一步小心分析**整個問題，從使用者輸入，一直到出錯的資料處理順序與流程。請詳細記錄除錯歷程，經歷了哪些模組、哪些函式，
 關聯問題的發現、發現更有效率的解決方法或架構，請盡量解釋所有的資料。**務必先進行穩定且具可行性的計畫，不要直接進行修改**。

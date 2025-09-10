@@ -1,3 +1,4 @@
+# libs/MGFDKernel.py
 """
 MGFD 核心控制器 - 系統大腦及對外唯一介面
 負責協調五大模組，管理對話流程，處理前端請求
@@ -36,6 +37,13 @@ from .RAG.LLM.LLMInitializer import LLMInitializer
 from langchain.prompts import PromptTemplate
 import re
 logger = logging.getLogger(__name__)
+
+###setup debug
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[logging.StreamHandler()]
+)
 
 @dataclass
 class StateStatus:
