@@ -6,6 +6,7 @@
     <title>SalesRAG 整合系統</title>
     <link rel="stylesheet" href="/static/css/integrated.css?v=20250724e">
     <link rel="stylesheet" href="/static/css/components.css?v=20250724e">
+    <link rel="stylesheet" href="/static/css/milvus-viewer.css?v=20250910">
     <!-- Syntax highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
@@ -23,6 +24,10 @@
                 <button id="add-specs-btn" class="nav-button" onclick="switchView('add-specs')">
                     <div class="nav-icon">📊</div>
                     <div class="nav-text">Add Specifications</div>
+                </button>
+                <button id="milvus-viewer-btn" class="nav-button" onclick="switchView('milvus-viewer')">
+                    <div class="nav-icon">🗂️</div>
+                    <div class="nav-text">Milvus Viewer</div>
                 </button>
             </div>
 
@@ -135,6 +140,7 @@
     <script src="/static/js/mgfd_ai.js?v=20250904e"></script>
     <!-- <script src="/static/js/sales_ai.js?v=20250724e"></script> -->
     <script src="/static/js/history.js?v=20250724e"></script>
+    <script src="/static/js/milvus-viewer.js?v=20250910"></script>
     
     <script>
         // Initialize syntax highlighting

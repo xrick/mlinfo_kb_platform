@@ -22,6 +22,7 @@ function setupEventListeners() {
     // Navigation buttons
     document.getElementById('sales-ai-btn').addEventListener('click', () => switchView('sales-ai'));
     document.getElementById('add-specs-btn').addEventListener('click', () => switchView('add-specs'));
+    document.getElementById('milvus-viewer-btn').addEventListener('click', () => switchView('milvus-viewer'));
     
     // File upload
     const fileInput = document.getElementById('fileInput');
@@ -84,6 +85,8 @@ function switchView(viewName) {
         initializeSalesAI();
     } else if (viewName === 'add-specs') {
         initializeAddSpecs();
+    } else if (viewName === 'milvus-viewer') {
+        initializeMilvusViewer();
     }
 }
 

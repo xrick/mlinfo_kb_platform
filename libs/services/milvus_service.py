@@ -100,15 +100,14 @@ class MilvusService:
                 if not self.connect():
                     return []
             
-            collection_names = utility.list_collections()
+            collection_names = utility.list_collections(using=self.connection_alias)
             collections_info = []
             
             for name in collection_names:
                 try:
-                    collection = Collection(name)
+                    collection = Collection(name, using=self.connection_alias)
                     # 獲取集合基本資訊
-                    stats = collection.get_statistics()
-                    row_count = int(stats.get('row_count', 0))
+                    row_count = collection.num_entities
                     
                     # 獲取集合狀態
                     status = "loaded" if collection.has_index() else "not_loaded"
@@ -149,11 +148,11 @@ class MilvusService:
                 if not self.connect():
                     return None
             
-            if not utility.has_collection(collection_name):
+            if not utility.has_collection(collection_name, using=self.connection_alias):
                 logger.warning(f"集合 {collection_name} 不存在")
                 return None
             
-            collection = Collection(collection_name)
+            collection = Collection(collection_name, using=self.connection_alias)
             schema = collection.schema
             
             # 轉換 Schema 為可序列化的格式
@@ -212,18 +211,17 @@ class MilvusService:
                 if not self.connect():
                     return {"data": [], "total": 0, "has_more": False}
             
-            if not utility.has_collection(collection_name):
+            if not utility.has_collection(collection_name, using=self.connection_alias):
                 return {"data": [], "total": 0, "has_more": False}
             
-            collection = Collection(collection_name)
+            collection = Collection(collection_name, using=self.connection_alias)
             
             # 確保集合已載入
             if not collection.has_index():
                 collection.load()
             
             # 獲取總記錄數
-            stats = collection.get_statistics()
-            total_count = int(stats.get('row_count', 0))
+            total_count = collection.num_entities
             
             # 獲取非向量欄位（向量欄位太大，不適合直接顯示）
             schema = collection.schema
@@ -301,22 +299,21 @@ class MilvusService:
                 if not self.connect():
                     return {}
             
-            if not utility.has_collection(collection_name):
+            if not utility.has_collection(collection_name, using=self.connection_alias):
                 return {"error": "集合不存在"}
             
-            collection = Collection(collection_name)
-            stats = collection.get_statistics()
+            collection = Collection(collection_name, using=self.connection_alias)
             
             # 獲取更多詳細資訊
             schema = collection.schema
             
             return {
                 "collection_name": collection_name,
-                "row_count": int(stats.get('row_count', 0)),
+                "row_count": collection.num_entities,
                 "field_count": len(schema.fields),
                 "description": schema.description or "",
                 "is_loaded": collection.has_index(),
-                "raw_stats": stats
+                "raw_stats": {"row_count": collection.num_entities}
             }
             
         except Exception as e:
