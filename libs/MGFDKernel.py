@@ -262,6 +262,7 @@ class MGFDKernel:
         summarized_products = []
         for product in products:
             # 只保留關鍵規格，大幅減少數據量
+            # to-do: 是否依照用途不同，排序也不同
             summarized_product = {
                 "modeltype": product.get("modeltype", ""),
                 "modelname": product.get("modelname", ""),
