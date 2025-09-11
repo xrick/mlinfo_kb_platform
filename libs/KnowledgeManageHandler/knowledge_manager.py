@@ -808,16 +808,39 @@ class KnowledgeManager:
             搜索結果列表
         """
         try:
+            if not MILVUS_AVAILABLE:
+                self.logger.error("Milvus 依賴不可用")
+                return None
+                
             if not self.milvus_query:
-                self.logger.error("Milvus 未初始化")
+                self.logger.error("Milvus 查詢器未初始化")
                 return None
             
             if not self.sentence_transformer:
                 self.logger.error("Embedding 模型未初始化")
                 return None
             
+            # 檢查 Milvus 集合是否正確初始化
+            if not hasattr(self.milvus_query, 'collection') or not self.milvus_query.collection:
+                self.logger.error("Milvus 集合未正確載入")
+                # 嘗試重新初始化
+                try:
+                    self.logger.info("嘗試重新初始化 Milvus 連接...")
+                    self.milvus_query = MilvusQuery(
+                        host=config.MILVUS_HOST,
+                        port=config.MILVUS_PORT,
+                        collection_name=config.MILVUS_COLLECTION_NAME
+                    )
+                    if not self.milvus_query.collection:
+                        self.logger.error("重新初始化後集合仍為 None")
+                        return None
+                except Exception as reinit_error:
+                    self.logger.error(f"重新初始化 Milvus 失敗: {reinit_error}")
+                    return None
+            
             # 使用 sentence transformer 生成查詢向量
             query_vector = self.sentence_transformer.encode(query_text).tolist()
+            self.logger.debug(f"生成查詢向量成功，維度: {len(query_vector)}")
             
             # 設置搜索參數
             search_params = {"metric_type": "L2", "params": {"nprobe": 10}}
@@ -832,8 +855,10 @@ class KnowledgeManager:
             filter_expr = None
             if chunk_type_filter:
                 filter_expr = f'chunk_type == "{chunk_type_filter}"'
+                self.logger.debug(f"使用過濾條件: {filter_expr}")
             
             # 執行向量搜索
+            self.logger.debug(f"開始執行 Milvus 搜索，集合: {self.milvus_query.collection.name}")
             results = self.milvus_query.collection.search(
                 data=[query_vector],
                 anns_field="embedding",
@@ -844,27 +869,32 @@ class KnowledgeManager:
             )
             
             # 格式化結果
-            hits = results[0] if results else []
+            hits = results[0] if results and len(results) > 0 else []
             formatted_results = []
             
             for hit in hits:
-                result = {
-                    "chunk_id": hit.entity.get("chunk_id"),
-                    "product_id": hit.entity.get("product_id"),
-                    "chunk_type": hit.entity.get("chunk_type"),
-                    "semantic_group": hit.entity.get("semantic_group"),
-                    "content": hit.entity.get("content"),
-                    "distance": hit.distance,
-                    "similarity_score": 1 / (1 + hit.distance)  # 轉換為相似度分數
-                }
-                formatted_results.append(result)
+                try:
+                    result = {
+                        "chunk_id": hit.entity.get("chunk_id"),
+                        "product_id": hit.entity.get("product_id"),
+                        "chunk_type": hit.entity.get("chunk_type"),
+                        "semantic_group": hit.entity.get("semantic_group"),
+                        "content": hit.entity.get("content"),
+                        "distance": hit.distance,
+                        "similarity_score": 1 / (1 + hit.distance)  # 轉換為相似度分數
+                    }
+                    formatted_results.append(result)
+                except Exception as hit_error:
+                    self.logger.warning(f"處理搜索結果時發生錯誤: {hit_error}")
+                    continue
             
             self.logger.info(f"Milvus 搜索完成，找到 {len(formatted_results)} 個結果")
-            return formatted_results
+            return formatted_results if formatted_results else None
             
         except Exception as e:
             self.logger.error(f"Milvus 語義搜索失敗: {e}")
-            return None
+            # 提供備選搜索策略
+            return self._fallback_search(query_text, top_k)
     
     def parent_child_retrieval(
         self, 
@@ -1580,6 +1610,118 @@ class KnowledgeManager:
                 "error": str(e),
                 "products": []
             }
+
+    def _fallback_search(self, query_text: str, top_k: int = 5) -> Optional[List[Dict[str, Any]]]:
+        """
+        當 Milvus 語義搜索失敗時的備選搜索方法
+        使用傳統的關鍵字搜索
+        
+        Args:
+            query_text: 搜索查詢文本
+            top_k: 返回結果數量
+            
+        Returns:
+            搜索結果列表，如果沒有結果則返回 None
+        """
+        try:
+            self.logger.info(f"執行備選搜索策略，查詢: '{query_text}'")
+            
+            # 提取查詢中的關鍵詞
+            keywords = self._extract_keywords(query_text)
+            if not keywords:
+                self.logger.warning("無法從查詢中提取有效關鍵詞")
+                return None
+            
+            # 使用傳統 SQLite 搜索
+            kb_info = self.knowledge_bases.get("semantic_sales_spec")
+            if not kb_info:
+                self.logger.error("備選搜索: 語義銷售規格知識庫不存在")
+                return None
+            
+            # 構建搜索條件
+            search_conditions = []
+            params = []
+            
+            for keyword in keywords:
+                search_conditions.append(
+                    "(modelname LIKE ? OR cpu LIKE ? OR gpu LIKE ? OR memory LIKE ? OR storage LIKE ?)"
+                )
+                params.extend([f"%{keyword}%"] * 5)
+            
+            where_clause = " OR ".join(search_conditions)
+            query = f"""
+                SELECT modeltype, modelname, cpu, gpu, memory, storage, lcd, battery
+                FROM nbtypes 
+                WHERE {where_clause}
+                LIMIT {top_k}
+            """
+            
+            with sqlite3.connect(kb_info["path"]) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                cursor.execute(query, params)
+                rows = cursor.fetchall()
+                
+                # 格式化為類似 Milvus 的結果格式
+                fallback_results = []
+                for i, row in enumerate(rows):
+                    result = {
+                        "chunk_id": f"fallback_{i}",
+                        "product_id": row["modeltype"],
+                        "chunk_type": "fallback",
+                        "semantic_group": "keyword_search",
+                        "content": f"{row['modelname']} - CPU: {row['cpu']}, GPU: {row['gpu']}, 記憶體: {row['memory']}",
+                        "distance": 0.5,  # 假設的距離值
+                        "similarity_score": 0.7 - (i * 0.1)  # 遞減的相似度分數
+                    }
+                    fallback_results.append(result)
+                
+                self.logger.info(f"備選搜索完成，找到 {len(fallback_results)} 個結果")
+                return fallback_results if fallback_results else None
+                
+        except Exception as e:
+            self.logger.error(f"備選搜索也失敗: {e}")
+            return None
+    
+    def _extract_keywords(self, query_text: str) -> List[str]:
+        """
+        從查詢文本中提取關鍵詞
+        
+        Args:
+            query_text: 查詢文本
+            
+        Returns:
+            關鍵詞列表
+        """
+        try:
+            # 讀取關鍵字配置
+            import re
+            
+            # 基本的關鍵詞提取（可以根據需要擴展）
+            common_keywords = [
+                "輕便", "輕薄", "攜帶", "遊戲", "Gaming", "高效能", 
+                "CPU", "GPU", "記憶體", "RAM", "SSD", "硬碟",
+                "螢幕", "電池", "續航", "觸控", "i7", "i5", "RTX", "GTX"
+            ]
+            
+            found_keywords = []
+            query_lower = query_text.lower()
+            
+            for keyword in common_keywords:
+                if keyword.lower() in query_lower or keyword in query_text:
+                    found_keywords.append(keyword)
+            
+            # 如果沒有找到預定義關鍵詞，提取中文詞彙
+            if not found_keywords:
+                chinese_words = re.findall(r'[\u4e00-\u9fff]+', query_text)
+                found_keywords.extend([word for word in chinese_words if len(word) >= 2])
+            
+            self.logger.debug(f"提取的關鍵詞: {found_keywords}")
+            return found_keywords[:5]  # 限制關鍵詞數量
+            
+        except Exception as e:
+            self.logger.error(f"關鍵詞提取失敗: {e}")
+            return []
 
 """
 backup function for search_product_data

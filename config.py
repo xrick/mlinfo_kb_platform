@@ -1,3 +1,4 @@
+# config.py
 import os
 from pathlib import Path
 
@@ -9,7 +10,7 @@ DB_PATH = BASE_DIR / "db" / "semantic_sales_spec_all.db"
 MILVUS_HOST = "localhost"
 MILVUS_PORT = "19530"
 MILVUS_COLLECTION_NAME = "product_semantic_chunks"
-
+# MILVUS_COLLECTION_NAME = "all_nb_info_collection"
 # Application settings
 APP_HOST = "0.0.0.0"
 APP_PORT = 8001

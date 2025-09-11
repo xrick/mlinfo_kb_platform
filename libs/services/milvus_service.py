@@ -241,8 +241,19 @@ class MilvusService:
             # 這裡使用一個簡單的策略：查詢前 offset + limit 條記錄，然後在應用層做分頁
             query_limit = min(offset + limit, 16384)  # Milvus 查詢限制
             
-            # 構造查詢表達式（查詢所有記錄）
-            expr = f"pk >= 0"  # 假設主鍵從 0 開始，這可能需要根據實際情況調整
+            # 動態獲取主鍵欄位名稱
+            primary_key_field = None
+            for field in schema.fields:
+                if field.is_primary:
+                    primary_key_field = field.name
+                    break
+            
+            if not primary_key_field:
+                logger.warning(f"集合 {collection_name} 沒有找到主鍵欄位")
+                return {"data": [], "total": 0, "has_more": False, "error": "無法找到主鍵欄位"}
+            
+            # 構造查詢表達式（使用動態獲取的主鍵欄位）
+            expr = f"{primary_key_field} >= 0"
             
             try:
                 # 嘗試使用查詢
