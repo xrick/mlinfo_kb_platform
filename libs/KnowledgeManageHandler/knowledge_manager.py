@@ -1106,7 +1106,8 @@ class KnowledgeManager:
                         import duckdb
                         essential_fields = [
                             'modeltype', 'modelname', 'cpu', 'gpu', 'memory', 'storage', 
-                            'lcd', 'battery', 'audio', 'wireless', 'bluetooth'
+                            'lcd', 'battery', 'audio', 'wireless', 'bluetooth','structconfig',
+                            'ai','accessory'
                         ]
                         fields_str = ', '.join(essential_fields)
                         modeltype_strs = [f"'{mt}'" for mt in product_ids]
