@@ -681,13 +681,22 @@ class MGFDKernel:
         #需要加入knowledge_manager.search(context)
         #若ifDBSearch為True，則進行知識查詢，並將結果存入context["query_result"],
         #這是product_data
-        _hybrid_result = None
         if slot_metadata.get("ifDBSearch", True):
-            # 使用 hybrid search 進行語義搜尋和 LLM 分析（以非阻塞方式在執行緒池執行）
-            _hybrid_result = await asyncio.to_thread(self.knowledge_manager.hybrid_search_with_llm, message, message, True, 5)
+            # 使用 hybrid search 進行語義搜尋和產品規格查詢（以非阻塞方式在執行緒池執行）
+            _hybrid_result = await asyncio.to_thread(self.knowledge_manager.hybrid_product_search, message, True, 5)
+            
+            logger.info(f"_hybrid_result JSON 長度: {len(_hybrid_result)} (已優化)")
+            logger.info(f"***************************產品資料START*********************************: \n產品資料:\n{_hybrid_result}")
+            logger.info(f"***************************產品資料END***********************************\n")
             _product_data = self._adapt_hybrid_to_mgfd_format(_hybrid_result) if _hybrid_result else None
             context['keyword'] = slot_name
             logging.info(f"知識查詢結果: {_product_data}")
+            # 添加調試資訊
+            if _product_data:
+                logger.info(f"🔍 Debug - _product_data 狀態: {_product_data.get('status')}")
+                logger.info(f"🔍 Debug - products 數量: {len(_product_data.get('products', []))}")
+                if _product_data.get('products'):
+                    logger.info(f"🔍 Debug - 第一個產品: {_product_data['products'][0].keys()}")
             #進行
         #step 5: generate three-tier prompt and send prompt to LLM
         # 摘要產品數據以大幅減少 Token 消耗
@@ -696,6 +705,7 @@ class MGFDKernel:
             _product_data = self._summarize_product_data(_product_data, max_products=3)
             logger.info(f"摘要後產品數據包含 {len(_product_data.get('products', []))} 個產品")
         
+
         # 將 product_data 轉為 JSON 字串注入，降低模型誤判結構機率
         product_data_json = json.dumps(_product_data, ensure_ascii=False, indent=2)
         logger.info(f"產品資料 JSON 長度: {len(product_data_json)} (已優化)")
@@ -703,7 +713,7 @@ class MGFDKernel:
         logger.info(f"***************************產品資料END***********************************\n")
 
         # 🔧 修復：使用局部變量避免狀態污染
-        # current_prompt = self.generate_three_tier_prompt(product_data=product_data_json, user_query=self.query)
+        current_prompt = self.generate_three_tier_prompt(product_data=product_data_json, user_query=self.query)
         logger.info(f"***************************系統提示START********************************** \n{current_prompt}")
         logger.info(f"***************************系統提示END***********************************\n")
         #_product_data
@@ -1005,10 +1015,10 @@ class MGFDKernel:
     
     def _adapt_hybrid_to_mgfd_format(self, hybrid_result: dict) -> dict:
         """
-        將 hybrid_search_with_llm 結果轉換為 MGFD 期望的格式
+        將 hybrid_product_search 結果轉換為 MGFD 期望的格式
         
         Args:
-            hybrid_result: hybrid_search_with_llm 返回的結果
+            hybrid_result: hybrid_product_search 返回的結果
             
         Returns:
             MGFD 兼容的產品數據格式
@@ -1017,38 +1027,13 @@ class MGFDKernel:
             if not hybrid_result or not isinstance(hybrid_result, dict):
                 return {"query": "", "status": "no_results", "products": []}
             
-            # 提取搜尋結果中的產品資訊
-            products = []
-            search_results = hybrid_result.get("search_results", {})
-            
-            if "child_chunks" in search_results:
-                # Parent-Child 搜尋結果
-                for chunk in search_results["child_chunks"]:
-                    product_id = chunk.get("product_id")
-                    if product_id:
-                        products.append({
-                            "modeltype": product_id,
-                            "modelname": f"產品 {product_id}",
-                            "content": chunk.get("content", ""),
-                            "similarity_score": chunk.get("similarity_score", 0.0)
-                        })
-            elif isinstance(search_results, list):
-                # 簡單向量搜尋結果  
-                for result in search_results:
-                    product_id = result.get("product_id")
-                    if product_id:
-                        products.append({
-                            "modeltype": product_id,
-                            "modelname": f"產品 {product_id}",
-                            "content": result.get("content", ""),
-                            "similarity_score": result.get("similarity_score", 0.0)
-                        })
+            # 直接使用查詢結果中的完整產品規格資料
+            products = hybrid_result.get("products", [])
             
             return {
                 "query": hybrid_result.get("query", ""),
-                "status": "success" if products else "no_results",
+                "status": hybrid_result.get("status", "success" if products else "no_results"),
                 "products": products,
-                "llm_analysis": hybrid_result.get("llm_analysis", ""),
                 "search_method": hybrid_result.get("search_method", "hybrid")
             }
             

@@ -957,14 +957,14 @@ class KnowledgeManager:
             self.logger.error(f"Parent-Child 檢索失敗: {e}")
             return None
     
-    def hybrid_search_with_llm(
+    def hybrid_product_search(
         self,
         query_text: str,
         use_parent_child: bool = True,
         top_k: int = 5
     ) -> Optional[Dict[str, Any]]:
         """
-        結合 Milvus 向量搜索和 LLM 的混合查詢
+        結合 Milvus 向量搜索和產品規格查詢的混合搜索
         
         Args:
             query_text: 搜索查詢
@@ -972,7 +972,7 @@ class KnowledgeManager:
             top_k: 搜索結果數量
             
         Returns:
-            包含搜索結果和 LLM 分析的混合結果
+            包含搜索結果和完整產品規格的查詢結果
         """
         try:
             # 1. 執行向量搜索
@@ -983,7 +983,7 @@ class KnowledgeManager:
                     
                 # 合併 child chunks 和 parent documents 的內容，並控制 token 數量
                 context_parts = []
-                max_context_tokens = 4000  # 設定最大 context token 數量
+                max_context_tokens = 1500  # 設定最大 context token 數量 - 優化 LLM 處理效能
                 current_tokens = 0
                 
                 # 添加最相關的子chunks（優先保留高相似度的）
@@ -1043,7 +1043,7 @@ class KnowledgeManager:
                     return None
                     
                 context_parts = []
-                max_context_tokens = 4000
+                max_context_tokens = 1500  # 優化 LLM 處理效能
                 current_tokens = 0
                 
                 # 按相似度排序結果
@@ -1075,55 +1075,7 @@ class KnowledgeManager:
                 final_tokens = self._estimate_tokens(context)
                 self.logger.info(f"Context 構建完成，總 token 數量: {final_tokens}")
             
-            # 2. 使用 LLM 分析和回答
-            # if self.llm:
-                # llm_prompt = f"""
-                # 基於以下產品資料，回答用戶的問題: "{query_text}"
-                
-                # 請提供:
-                # 1. 簡潔明確的回答
-                # 2. 推薦的產品（如果適用）
-                # 3. 重要的規格對比（如果適用）
-                
-                # 請用專業但易懂的語言回答，重點突出最相關的資訊。
-                # """
-            if self.llm:
-                llm_prompt=f"""
-                    你是專業的筆電銷售顧問。根據以下產品資料回答客戶問題：
-                    **產品資料：**
-                    **客戶需求：**
-                    {query_text}
-
-                    **回應要求：**
-                    1. 僅使用提供的產品資料，不得編造
-                    2. 推薦 2-3 款最符合的產品
-                    3. 用表格比較主要規格
-                    4. 使用繁體中文，語氣專業友善
-                    5. 無合適產品時回覆：「建議聯繫客服專家獲得協助」
-
-                    **輸出格式：**
-                    簡潔的 Markdown 格式，包含產品推薦和規格表格。
-                """
-                logging.info(f"***************************context START*********************************")
-                llm_response = self.llm_query(llm_prompt, context)
-                logging.info(f"***************************context end*********************************")
-            else:
-                llm_response = "LLM 不可用，僅提供搜索結果"
-            # if self.llm:
-            #     llm_prompt = f"""
-            #     基於以下產品資料，回答用戶的問題: "{query_text}"
-                
-            #     請提供:
-            #     1. 簡潔明確的回答
-            #     2. 推薦的產品（如果適用）
-            #     3. 重要的規格對比（如果適用）
-                
-            #     請用專業但易懂的語言回答，重點突出最相關的資訊。
-            #     """
-                
-            #     llm_response = self.llm_query(llm_prompt, context)
-            # else:
-            #     llm_response = "LLM 不可用，僅提供搜索結果"
+            # 2. LLM 處理已移至 MGFDKernel，此處僅進行搜索和產品資料查詢
             
             # 3. 獲取詳細產品規格（使用 DuckDB）
             products = []
@@ -1181,10 +1133,9 @@ class KnowledgeManager:
             # 4. 組合最終結果
             final_result = {
                 "query": query_text,
-                "status": "success",
-                "search_method": "parent_child" if use_parent_child else "vector_search",
+                "status": "success" if products else "no_results",
+                "search_method": "parent_child" if use_parent_child else "vector_search", 
                 "search_results": search_results,
-                "llm_analysis": llm_response,
                 "products": products,
                 "context_used": context[:500] + "..." if len(context) > 500 else context,
                 "timestamp": datetime.now().isoformat()

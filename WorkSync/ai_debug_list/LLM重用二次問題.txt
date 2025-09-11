@@ -1,0 +1,150 @@
+請嚴格遵守我的指令進行修改
+1.原本在libs/MGFDKernel.py中knowledge_manager.hybrid_search_with_llm
+  而在hybrid_search_with_llm中的部份程式碼如下：
+  if self.llm:
+        llm_prompt=f"""
+            你是專業的筆電銷售顧問。根據以下產品資料回答客戶問題：
+            
+            **產品資料：**
+            {context}
+            
+            **客戶需求：**
+            {query_text}
+
+            **回應要求：**
+            1. 僅使用提供的產品資料，不得編造
+            2. 推薦 2-3 款最符合的產品
+            3. 用表格比較主要規格
+            4. 使用繁體中文，語氣專業友善
+            5. 無合適產品時回覆：「建議聯繫客服專家獲得協助」
+
+            **輸出格式：**
+            簡潔的 Markdown 格式，包含產品推薦和規格表格。
+        """
+        logging.info(f"***************************context START*********************************")
+        llm_response = self.llm_query(llm_prompt, context)
+        logging.info(f"***************************context end*********************************")
+
+2.但在libs/MGFDKernel.py中, line-684:
+   if slot_metadata.get("ifDBSearch", True):
+            # 使用 hybrid search 進行語義搜尋和 LLM 分析（以非阻塞方式在執行緒池執行）
+        _hybrid_result = await asyncio.to_thread(self.knowledge_manager.hybrid_search_with_llm, message, True, 5)
+        
+        logger.info(f"_hybrid_result JSON 長度: {len(_hybrid_result)} (已優化)")
+        ........
+   line-725-765:
+   llm_output = None
+        try:
+            no_products = (
+                isinstance(_product_data, dict)
+                and (
+                    _product_data.get("status") in {"no_results", "no_spec_data", "no_database", "error"}
+                    or not _product_data.get("products")
+                )
+            )
+            # tables = []
+            if no_products:
+                llm_output = "目前尚未搜尋到符您需求的產品，是否進行不同規格產品的搜尋呢？"
+            else:
+                if hasattr(self, 'llm') and self.llm:
+                    try:
+                        # 使用 asyncio.wait_for 提供額外的超時保護（90秒，稍大於 LLM 的 request_timeout）
+                        llm_output = await asyncio.wait_for(
+                            asyncio.to_thread(self.llm.invoke, current_prompt),
+                            timeout=90
+                        )
+                        ## format markdown tables
+                        # tables = self.extract_markdown_tables(llm_output)
+                        # if tables:
+                        #     for table in tables:
+                        #         llm_output = llm_output.replace(table, f"```markdown\n{table}\n```")
+                        ## end of format markdown tables
+                        if isinstance(llm_output, dict):
+                            llm_output = llm_output.get('content') or json.dumps(llm_output, ensure_ascii=False)
+                        if llm_output is not None and not isinstance(llm_output, str):
+                            llm_output = str(llm_output)
+                        logger.info(f"LLM 生成成功，長度: {len(llm_output) if llm_output else 0}")
+                    except asyncio.TimeoutError:
+                        logger.error("LLM 調用超時 (90秒)，回退至簡化回應")
+                        llm_output = "抱歉，系統處理時間較長，我為您提供簡化的產品建議。根據您的需求「輕便容易攜帶」，我推薦以下輕薄筆電類型，詳細規格請聯繫客服專家獲得協助。"
+                    except Exception as e:
+                        logger.error(f"LLM 調用發生異常: {e}")
+                        llm_output = "系統暫時無法生成詳細回應，建議聯繫客服專家以獲得產品推薦。"
+                else:
+                    logger.info("LLM 未初始化，跳過生成步驟，回退至資料字串")
+        except Exception as e:
+            logger.warning(f"LLM 生成失敗，回退至查詢資料: {e}")
+
+ 3.我們總共做而二次類似的LLM呼叫。接下來請嚴格照我所說修改，
+   a.修改knowledge_manager.hybrid_search_with_llm中呼叫llm的部份，只傳回單純
+   b.修改knowledge_manager.hybrid_search_with_llm->knowledge_manager.hybrid_product_search
+
+
+   ================================================================
+
+   ● 我理解您的需求，現在分析問題並制定修改計畫。
+
+  問題分析
+
+  目前系統中存在兩次 LLM 調用的冗餘問題：
+
+  1. 第一次調用：在 knowledge_manager.hybrid_search_with_llm 中
+    - 使用自定義的筆電銷售顧問 prompt
+    - 已經處理產品資料並生成回應
+  2. 第二次調用：在 MGFDKernel.py 中
+    - 使用 current_prompt (系統提示模板)
+    - 重複處理相同資料
+
+  這導致：
+  - 效能浪費 (兩次 LLM 調用)
+  - 邏輯重複
+  - 可能的回應衝突
+
+  修改計畫
+
+  階段一：重構 knowledge_manager 方法
+
+  1. 重新命名方法：
+    - hybrid_search_with_llm → hybrid_product_search
+  2. 修改回傳邏輯：
+    - 移除 LLM 調用部分
+    - 僅返回搜索結果和產品資料
+    - 保留所有檢索功能 (parent-child chunking, 產品規格查詢)
+
+  階段二：調整 MGFDKernel 調用
+
+  1. 更新方法調用：
+    - 改為調用新的 hybrid_product_search
+  2. 統一 LLM 處理：
+    - 在 MGFDKernel 中統一處理 LLM 調用
+    - 使用現有的 current_prompt 系統
+
+  階段三：優化資料流
+
+  1. 簡化資料處理：
+    - 確保檢索到的資料正確傳遞給 LLM
+    - 移除重複的資料處理邏輯
+  2. 錯誤處理優化：
+    - 統一錯誤處理邏輯
+    - 確保 fallback 機制正常運作
+
+  修改檔案清單
+
+  1. libs/KnowledgeManageHandler/knowledge_manager.py
+    - 重新命名 hybrid_search_with_llm → hybrid_product_search
+    - 移除 LLM 調用邏輯
+    - 保留所有搜索和資料查詢功能
+  2. libs/MGFDKernel.py
+    - 更新方法調用名稱
+    - 確保 current_prompt 變數正確使用
+    - 簡化資料處理流程
+
+  預期效果
+
+  - ✅ 消除重複 LLM 調用
+  - ✅ 統一 LLM 處理邏輯
+  - ✅ 保持所有現有功能
+  - ✅ 提升系統效能
+  - ✅ 簡化除錯和維護
+
+  這個計畫會保持系統功能完整，同時解決重複調用問題。您是否同意這個修改方向？
