@@ -125,6 +125,18 @@ class UserInputHandler:
                 if pattern:
                     try:
                         if re.search(pattern, text):
+                            # 增補用途=遊戲時的檢索過濾條件（AMD dGPU 強制）
+                            usage = self._extract_usage_purpose(text.lower())
+                            if usage == "遊戲":
+                                metadata = {**metadata, **{
+                                    "filters": {
+                                        "required_gpu": {"vendor": "AMD", "type": "dGPU"},
+                                        "exclude_vendors": ["NVIDIA"],
+                                        "exclude_iGPU": True,
+                                        "strict_amd_dgpu": True
+                                    },
+                                    "ifDBSearch": True
+                                }}
                             return slot_name, metadata
                     except re.error:
                         # 正則無效則跳過該條
@@ -132,7 +144,19 @@ class UserInputHandler:
             # 2) 直接包含鍵名（中文）
             for slot_name, slot_data in self.keywords_data.items():
                 if slot_name and slot_name in text:
-                    return slot_name, slot_data.get("metadata", {})
+                    metadata = slot_data.get("metadata", {})
+                    usage = self._extract_usage_purpose(text.lower())
+                    if usage == "遊戲":
+                        metadata = {**metadata, **{
+                            "filters": {
+                                "required_gpu": {"vendor": "AMD", "type": "dGPU"},
+                                "exclude_vendors": ["NVIDIA"],
+                                "exclude_iGPU": True,
+                                "strict_amd_dgpu": True
+                            },
+                            "ifDBSearch": True
+                        }}
+                    return slot_name, metadata
 
             # 3) 同義詞匹配（子字串包含）
             for slot_name, slot_data in self.keywords_data.items():
@@ -140,7 +164,19 @@ class UserInputHandler:
                 for syn in synonyms:
                     syn_norm = syn.strip()
                     if syn_norm and syn_norm in text:
-                        return slot_name, slot_data.get("metadata", {})
+                        metadata = slot_data.get("metadata", {})
+                        usage = self._extract_usage_purpose(text.lower())
+                        if usage == "遊戲":
+                            metadata = {**metadata, **{
+                                "filters": {
+                                    "required_gpu": {"vendor": "AMD", "type": "dGPU"},
+                                    "exclude_vendors": ["NVIDIA"],
+                                    "exclude_iGPU": True,
+                                    "strict_amd_dgpu": True
+                                },
+                                "ifDBSearch": True
+                            }}
+                        return slot_name, metadata
             return "", {}
         except Exception as e:
             logger.error(f"parse_keyword 發生錯誤: {e}", exc_info=True)

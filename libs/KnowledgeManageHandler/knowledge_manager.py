@@ -961,7 +961,8 @@ class KnowledgeManager:
         self,
         query_text: str,
         use_parent_child: bool = True,
-        top_k: int = 5
+        top_k: int = 5,
+        filters: Optional[Dict[str, Any]] = None
     ) -> Optional[Dict[str, Any]]:
         """
         結合 Milvus 向量搜索和產品規格查詢的混合搜索
@@ -1131,13 +1132,113 @@ class KnowledgeManager:
             except Exception as e:
                 self.logger.warning(f"獲取詳細產品規格失敗: {e}")
             
-            # 4. 組合最終結果
+            # 4. 遊戲規則過濾與排序（AMD dGPU 門檻與加權）
+            def _is_igpu(gpu_text: str) -> bool:
+                t = (gpu_text or "").lower()
+                igpu_markers = [
+                    "integrated", "radeon 780m", "radeon 760m", "radeon 680m", "radeon 880m",
+                    "iris xe", "intel arc", "radeon graphics integrated"
+                ]
+                return any(m in t for m in igpu_markers)
+
+            def _is_nvidia(gpu_text: str) -> bool:
+                t = (gpu_text or "").lower()
+                return any(m in t for m in ["nvidia", "rtx", "gtx"])
+
+            def _is_amd_dgpu(gpu_text: str) -> bool:
+                t = (gpu_text or "").lower()
+                # 簡單判定：包含 radeon 且包含 rx 並帶有 m（行動版），且非 integrated
+                return ("radeon" in t and "rx" in t and "m" in t and not _is_igpu(t) and not _is_nvidia(t))
+
+            def _parse_hz(lcd_text: str) -> int:
+                import re
+                if not lcd_text:
+                    return 0
+                matches = re.findall(r"(\d{2,3})\s*hz", lcd_text.lower())
+                vals = [int(m) for m in matches] if matches else []
+                return max(vals) if vals else 0
+
+            def _resolution_score(lcd_text: str) -> int:
+                t = (lcd_text or "").lower()
+                if any(k in t for k in ["wquxga", "3840 x 2400", "3840x2400", "4k"]):
+                    return 3
+                if any(k in t for k in ["wqxga", "2560*1600", "2560 x 1600", "qhd", "1440p", "2560x1600"]):
+                    return 2
+                if any(k in t for k in ["1920*1200", "1920*1080", "1080p", "1920x1080", "1920x1200"]):
+                    return 1
+                return 0
+
+            def _cpu_tier(cpu_text: str) -> int:
+                t = (cpu_text or "").lower()
+                if any(k in t for k in ["ryzen 9", "ultra 9", "i9"]):
+                    return 3
+                if any(k in t for k in ["ryzen 7", "ultra 7", "i7"]):
+                    return 2
+                if any(k in t for k in ["ryzen 5", "ultra 5", "i5"]):
+                    return 1
+                return 0
+
+            def _memory_tier(mem_text: str) -> int:
+                t = (mem_text or "").lower()
+                if any(k in t for k in ["64gb", "128gb"]):
+                    return 3
+                if "32gb" in t:
+                    return 2
+                if "16gb" in t:
+                    return 1
+                return 0
+
+            filtered_products = products[:]
+            if filters and filters.get("strict_amd_dgpu"):
+                tmp = []
+                for p in filtered_products:
+                    gpu_text = p.get("gpu", "") or ""
+                    if _is_igpu(gpu_text):
+                        continue
+                    if _is_nvidia(gpu_text):
+                        continue
+                    if not _is_amd_dgpu(gpu_text):
+                        continue
+                    tmp.append(p)
+                filtered_products = tmp
+
+            # 若嚴格過濾後為空，保留原 products 但稍後標註為 alternatives
+            has_strict = len(filtered_products) > 0
+
+            def _score(p: Dict[str, Any]) -> tuple:
+                # 排序鍵：AMD dGPU(布林反轉) > CPU tier > Memory tier > Hz > Resolution > 便攜性
+                gpu_text = p.get("gpu", "") or ""
+                amd_dgpu_ok = _is_amd_dgpu(gpu_text)
+                cpu_score = _cpu_tier(p.get("cpu", ""))
+                mem_score = _memory_tier(p.get("memory", ""))
+                hz = _parse_hz(p.get("lcd", ""))
+                res = _resolution_score(p.get("lcd", ""))
+                # 便攜性：14 吋加 1 分，16 吋 0，其他 0
+                portability_bonus = 1 if any(x in (p.get("lcd", "") or "") for x in ["14\"", '14"', "14.0"]) else 0
+                # 負排序為優先（True 要排前面）→ 使用 (not amd_dgpu_ok) 作為第一鍵，False < True
+                return (not amd_dgpu_ok, -cpu_score, -mem_score, -hz, -res, -portability_bonus)
+
+            sorted_main = sorted(filtered_products, key=_score)
+            if has_strict:
+                final_main = sorted_main[:top_k]
+                final_alternatives: List[Dict[str, Any]] = []
+            else:
+                # 無嚴格符合，主清單留空，將原 products 排序後作為替代方案並標註不符合門檻
+                final_main = []
+                final_alternatives = sorted(products, key=_score)[:top_k]
+                for p in final_alternatives:
+                    p["note"] = "不符合遊戲門檻（需 AMD dGPU）"
+
+            # 5. 組合最終結果
+            final_products = final_main if has_strict else final_alternatives
+            status_val = "success" if final_products else ("no_results")
             final_result = {
                 "query": query_text,
-                "status": "success" if products else "no_results",
-                "search_method": "parent_child" if use_parent_child else "vector_search", 
+                "status": status_val,
+                "search_method": "parent_child" if use_parent_child else "vector_search",
                 "search_results": search_results,
-                "products": products,
+                "products": final_products,
+                "alternatives": [] if has_strict else final_alternatives,
                 "context_used": context[:500] + "..." if len(context) > 500 else context,
                 "timestamp": datetime.now().isoformat()
             }
