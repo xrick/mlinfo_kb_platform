@@ -681,6 +681,7 @@ class MGFDKernel:
         #需要加入knowledge_manager.search(context)
         #若ifDBSearch為True，則進行知識查詢，並將結果存入context["query_result"],
         #這是product_data
+        _hybrid_result = None
         if slot_metadata.get("ifDBSearch", True):
             # 使用 hybrid search 進行語義搜尋和 LLM 分析（以非阻塞方式在執行緒池執行）
             _hybrid_result = await asyncio.to_thread(self.knowledge_manager.hybrid_search_with_llm, message, message, True, 5)
@@ -702,7 +703,7 @@ class MGFDKernel:
         logger.info(f"***************************產品資料END***********************************\n")
 
         # 🔧 修復：使用局部變量避免狀態污染
-        current_prompt = self.generate_three_tier_prompt(product_data=product_data_json, user_query=self.query)
+        # current_prompt = self.generate_three_tier_prompt(product_data=product_data_json, user_query=self.query)
         logger.info(f"***************************系統提示START********************************** \n{current_prompt}")
         logger.info(f"***************************系統提示END***********************************\n")
         #_product_data

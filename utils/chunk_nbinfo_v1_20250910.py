@@ -268,7 +268,7 @@ def embed_all_nbinfo_to_collection(
                     parent_text = " | ".join(parent_text_parts)
                     
                     # Generate embedding for parent chunk
-                    parent_text_for_embedding = parent_text[:5000]  # Security: Limit text size
+                    parent_text_for_embedding = parent_text[:65536]  # Security: Limit text size to varchar(65536) limit
                     parent_embedding = embedding_model.encode(parent_text_for_embedding)
                     
                     # Create parent chunk entry
@@ -583,7 +583,7 @@ def embed_all_nbinfo_to_collection_streaming(
                             parent_text_parts.append(f"{col}: {sanitized_value}")
                     
                     parent_text = " | ".join(parent_text_parts)
-                    parent_text_for_embedding = parent_text[:5000]  # Limit text size
+                    parent_text_for_embedding = parent_text[:65535]  # Limit text size to varchar(65535) limit
                     
                     # Generate embedding for parent chunk (no storing in memory)
                     parent_embedding = milvus_manager.embedding_model.encode(parent_text_for_embedding)
@@ -807,7 +807,7 @@ class MilvusParentChildManager:
             parent_fields = [
                 FieldSchema(name="id", dtype=DataType.VARCHAR, max_length=16, is_primary=True),
                 FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=self.embedding_dimension),
-                FieldSchema(name="text", dtype=DataType.VARCHAR, max_length=5000),
+                FieldSchema(name="text", dtype=DataType.VARCHAR, max_length=65535),
                 FieldSchema(name="source_file", dtype=DataType.VARCHAR, max_length=200),
                 FieldSchema(name="row_index", dtype=DataType.INT64),
                 FieldSchema(name="modeltype", dtype=DataType.VARCHAR, max_length=100),
@@ -870,7 +870,7 @@ class MilvusParentChildManager:
                 FieldSchema(name="id", dtype=DataType.VARCHAR, max_length=16, is_primary=True),
                 FieldSchema(name="parent_id", dtype=DataType.VARCHAR, max_length=16),
                 FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=self.embedding_dimension),
-                FieldSchema(name="text", dtype=DataType.VARCHAR, max_length=2000),
+                FieldSchema(name="text", dtype=DataType.VARCHAR, max_length=65535),
                 FieldSchema(name="source_file", dtype=DataType.VARCHAR, max_length=200),
                 FieldSchema(name="row_index", dtype=DataType.INT64),
                 FieldSchema(name="field_group", dtype=DataType.VARCHAR, max_length=50),
@@ -1075,9 +1075,22 @@ class MilvusParentChildManager:
                 parent_data["version"].append(chunk["metadata"]["version"])
                 parent_data["child_count"].append(len(chunk["child_chunk_ids"]))
             
-            # Insert parent chunks
+            # Insert parent chunks - convert to list of dictionaries
             parent_collection = Collection(self.parent_collection_name, using=self.connection_alias)
-            parent_result = parent_collection.insert(parent_data)
+            insert_data = []
+            for i in range(len(parent_data["id"])):
+                insert_data.append({
+                    "id": parent_data["id"][i],
+                    "embedding": parent_data["embedding"][i],
+                    "text": parent_data["text"][i],
+                    "source_file": parent_data["source_file"][i],
+                    "row_index": parent_data["row_index"][i],
+                    "modeltype": parent_data["modeltype"][i],
+                    "modelname": parent_data["modelname"][i],
+                    "version": parent_data["version"][i],
+                    "child_count": parent_data["child_count"][i]
+                })
+            parent_result = parent_collection.insert(insert_data)
             logger.info(f"Inserted {len(parent_chunks)} parent chunks")
             
             # Prepare child data for insertion
@@ -1108,9 +1121,23 @@ class MilvusParentChildManager:
                     child_data["modelname"].append(chunk["metadata"]["modelname"])
                     child_data["chunk_index"].append(chunk["metadata"]["chunk_index"])
                 
-                # Insert child chunks
+                # Insert child chunks - convert to list of dictionaries
                 child_collection = Collection(self.child_collection_name, using=self.connection_alias)
-                child_result = child_collection.insert(child_data)
+                insert_data = []
+                for i in range(len(child_data["id"])):
+                    insert_data.append({
+                        "id": child_data["id"][i],
+                        "parent_id": child_data["parent_id"][i],
+                        "embedding": child_data["embedding"][i],
+                        "text": child_data["text"][i],
+                        "source_file": child_data["source_file"][i],
+                        "row_index": child_data["row_index"][i],
+                        "field_group": child_data["field_group"][i],
+                        "modeltype": child_data["modeltype"][i],
+                        "modelname": child_data["modelname"][i],
+                        "chunk_index": child_data["chunk_index"][i]
+                    })
+                child_result = child_collection.insert(insert_data)
                 logger.info(f"Inserted {len(child_chunks)} child chunks")
             else:
                 child_result = None
@@ -1222,8 +1249,22 @@ class MilvusParentChildManager:
                 parent_data["version"].append(chunk["version"])
                 parent_data["child_count"].append(chunk["child_count"])
             
-            # Insert batch
-            parent_collection.insert(parent_data)
+            # Insert batch - convert to list of dictionaries
+            insert_data = []
+            for i in range(len(parent_data["id"])):
+                insert_data.append({
+                    "id": parent_data["id"][i],
+                    "embedding": parent_data["embedding"][i],
+                    "text": parent_data["text"][i],
+                    "source_file": parent_data["source_file"][i],
+                    "row_index": parent_data["row_index"][i],
+                    "modeltype": parent_data["modeltype"][i],
+                    "modelname": parent_data["modelname"][i],
+                    "version": parent_data["version"][i],
+                    "child_count": parent_data["child_count"][i]
+                })
+            
+            parent_collection.insert(insert_data)
             
             logger.info(f"Successfully inserted {len(parent_batch)} parent chunks")
             return True
@@ -1276,8 +1317,23 @@ class MilvusParentChildManager:
                 child_data["modeltype"].append(chunk["modeltype"])
                 child_data["modelname"].append(chunk["modelname"])
             
-            # Insert batch
-            child_collection.insert(child_data)
+            # Insert batch - convert to list of dictionaries
+            insert_data = []
+            for i in range(len(child_data["id"])):
+                insert_data.append({
+                    "id": child_data["id"][i],
+                    "parent_id": child_data["parent_id"][i],
+                    "embedding": child_data["embedding"][i],
+                    "text": child_data["text"][i],
+                    "field_group": child_data["field_group"][i],
+                    "chunk_index": child_data["chunk_index"][i],
+                    "source_file": child_data["source_file"][i],
+                    "row_index": child_data["row_index"][i],
+                    "modeltype": child_data["modeltype"][i],
+                    "modelname": child_data["modelname"][i]
+                })
+            
+            child_collection.insert(insert_data)
             
             logger.info(f"Successfully inserted {len(child_batch)} child chunks")
             return True

@@ -1,7 +1,9 @@
 <!-- utils/chunk_nbinfo_v1_使用手冊.md -->
+
 # Parent-Child Chunking 系統使用手冊
 
 ## 📖 目錄
+
 1. [系統概述](#系統概述)
 2. [環境準備](#環境準備)
 3. [基本使用方法](#基本使用方法)
@@ -16,12 +18,14 @@
 本系統是一個專為筆記型電腦規格資料設計的 Parent-Child Chunking 向量化處理系統，主要功能包括：
 
 ### 🎯 核心特色
+
 - **階層式資料結構**: 每個筆記型電腦規格為 parent chunk，語義欄位群組為 child chunks
 - **記憶體優化**: 支援流式處理，可處理大型資料集而不耗盡記憶體
 - **多種搜索策略**: 提供四種不同的檢索策略，適應不同查詢需求
 - **安全的 Collection 管理**: 自動備份、防意外刪除、詳細日誌記錄
 
 ### 🏗️ 系統架構
+
 ```
 CSV 檔案 → Parent Chunks (完整規格) → Milvus Parent Collection
             ↓
@@ -33,11 +37,13 @@ CSV 檔案 → Parent Chunks (完整規格) → Milvus Parent Collection
 ## 環境準備
 
 ### 1. 套件安裝
+
 ```bash
 pip install sentence-transformers pymilvus pandas numpy psutil
 ```
 
 ### 2. Milvus 服務啟動
+
 ```bash
 # 使用 Docker 啟動 Milvus
 docker run -d --name milvus-standalone \
@@ -47,6 +53,7 @@ docker run -d --name milvus-standalone \
 ```
 
 ### 3. 確認環境
+
 ```python
 from utils.chunk_nbinfo_v1_20250910 import MilvusParentChildManager
 
@@ -62,6 +69,7 @@ else:
 ## 基本使用方法
 
 ### 1. 快速開始 - 一鍵建立完整系統
+
 ```python
 from utils.chunk_nbinfo_v1_20250910 import create_complete_parent_child_system
 
@@ -74,7 +82,7 @@ system_result = create_complete_parent_child_system(
 if system_result["status"] == "success":
     print("✅ 系統建立成功!")
     retriever = system_result["retriever"]
-    
+  
     # 立即開始搜索
     results = retriever.hybrid_search("gaming laptop", parent_k=3, child_k=5)
     print(f"找到 {len(results.get('reranked_results', []))} 個相關結果")
@@ -83,8 +91,10 @@ else:
 ```
 
 ### 2. 標準處理模式（適合小型資料集）
+
 ```python
-from utils.chunk_nbinfo_v1_20250910 import embed_all_nbinfo_to_collection
+from utils.chunk_nbinfo_v1_20250910 import 
+
 
 result = embed_all_nbinfo_to_collection(
     csv_directory="data/laptop_specs",
@@ -97,6 +107,7 @@ print(f"處理結果: {result}")
 ```
 
 ### 3. 流式處理模式（推薦用於大型資料集）
+
 ```python
 from utils.chunk_nbinfo_v1_20250910 import embed_all_nbinfo_to_collection_streaming
 
@@ -119,6 +130,7 @@ print(f"記憶體峰值使用: {result.get('statistics', {}).get('memory_peak_mb
 ### 1. 安全的 Collection 創建
 
 #### 防意外刪除模式
+
 ```python
 from utils.chunk_nbinfo_v1_20250910 import MilvusParentChildManager
 
@@ -136,6 +148,7 @@ if "error" in result:
 ```
 
 #### 自動備份模式
+
 ```python
 # 刪除前自動備份既有資料
 result = manager.create_parent_child_collections(
@@ -187,6 +200,7 @@ semantic_results = retriever.semantic_field_search(
 ```
 
 ### 3. 系統統計與監控
+
 ```python
 # 獲取 collection 統計資訊
 stats = retriever.get_collection_stats()
@@ -203,6 +217,7 @@ for strategy, result in test_results["strategies"].items():
 ## Collection 管理
 
 ### 1. 列出現有 Collections
+
 ```python
 manager = MilvusParentChildManager()
 manager.initialize()
@@ -219,6 +234,7 @@ filtered_collections = manager.list_existing_collections(prefix_filter="laptop_"
 ```
 
 ### 2. 獲取詳細資訊
+
 ```python
 # 獲取特定 collection 的詳細資訊
 collection_info = manager.get_collection_info("laptop_specs_parent")
@@ -231,6 +247,7 @@ if collection_info["success"]:
 ```
 
 ### 3. 批量清理 Collections
+
 ```python
 # 安全檢查 - 先查看會刪除哪些 collections
 cleanup_preview = manager.cleanup_collections("test_", confirm=False)
@@ -246,6 +263,7 @@ print(f"  失敗數量: {cleanup_result['failed_count']}")
 ## 錯誤處理與除錯
 
 ### 1. 常見問題診斷
+
 ```python
 # 健康檢查函數
 def health_check():
@@ -272,6 +290,7 @@ health_check()
 ```
 
 ### 2. 系統驗證
+
 ```python
 from utils.chunk_nbinfo_v1_20250910 import validate_parent_child_system
 
@@ -291,23 +310,24 @@ for test_name, test_result in validation_result["tests"].items():
 ```
 
 ### 3. 錯誤處理最佳實務
+
 ```python
 def robust_collection_creation(collection_name, csv_directory):
     """穩健的 collection 創建函數"""
     try:
         manager = MilvusParentChildManager()
-        
+      
         # Step 1: 初始化檢查
         if not manager.initialize():
             return {"error": "無法連接到 Milvus 服務"}
-        
+      
         # Step 2: 安全創建 collections
         result = manager.create_parent_child_collections(
             collection_name,
             overwrite=False,  # 先嘗試不覆蓋
             backup_before_drop=True
         )
-        
+      
         if "error" in result and "already exists" in result["error"]:
             # 如果已存在，詢問使用者是否要覆蓋
             user_input = input(f"Collection '{collection_name}' 已存在，是否要覆蓋？(y/N): ")
@@ -319,7 +339,7 @@ def robust_collection_creation(collection_name, csv_directory):
                 )
             else:
                 return {"error": "使用者取消操作"}
-        
+      
         if result.get("parent") and result.get("child"):
             # Step 3: 處理資料
             processing_result = embed_all_nbinfo_to_collection_streaming(
@@ -331,7 +351,7 @@ def robust_collection_creation(collection_name, csv_directory):
             return processing_result
         else:
             return {"error": f"Collection 創建失敗: {result}"}
-            
+          
     except Exception as e:
         return {"error": f"未預期的錯誤: {str(e)}"}
     finally:
@@ -348,6 +368,7 @@ print(f"執行結果: {result}")
 ### 1. 效能優化
 
 #### 記憶體優化配置
+
 ```python
 # 針對大型資料集的最佳配置
 streaming_config = {
@@ -364,10 +385,11 @@ result = embed_all_nbinfo_to_collection_streaming(
 ```
 
 #### 搜索策略選擇指南
+
 ```python
 def choose_search_strategy(query_type, query_text):
     """根據查詢類型選擇最佳搜索策略"""
-    
+  
     if "比較" in query_text or "vs" in query_text.lower():
         # 需要比較時使用 hybrid search
         return "hybrid"
@@ -390,21 +412,22 @@ print(f"建議使用策略: {strategy}")
 ### 2. 安全性建議
 
 #### 重要資料的保護策略
+
 ```python
 def secure_data_processing(csv_directory, collection_name):
     """安全的資料處理流程"""
-    
+  
     # 1. 先做備份檢查
     manager = MilvusParentChildManager()
     manager.initialize()
-    
+  
     existing_collections = manager.list_existing_collections(
         prefix_filter=collection_name
     )
-    
+  
     if existing_collections.get("filtered_collections", 0) > 0:
         print("⚠️ 發現現有資料，將自動備份")
-    
+  
     # 2. 使用最安全的設定
     result = embed_all_nbinfo_to_collection_streaming(
         csv_directory=csv_directory,
@@ -412,7 +435,7 @@ def secure_data_processing(csv_directory, collection_name):
         overwrite=True,
         backup_before_drop=True  # 一定要備份
     )
-    
+  
     # 3. 驗證結果
     if result.get("success"):
         validation = validate_parent_child_system(
@@ -423,33 +446,34 @@ def secure_data_processing(csv_directory, collection_name):
             print("✅ 資料處理並驗證成功")
         else:
             print("⚠️ 資料處理成功但驗證有問題")
-    
+  
     return result
 ```
 
 ### 3. 監控與維護
 
 #### 定期系統檢查
+
 ```python
 def system_maintenance():
     """系統維護檢查清單"""
     print("🔧 系統維護檢查開始")
-    
+  
     manager = MilvusParentChildManager()
     if not manager.initialize():
         print("❌ 無法連接 Milvus")
         return
-    
+  
     try:
         # 1. 檢查所有 collections
         collections = manager.list_existing_collections()
         print(f"📊 目前有 {collections['total_collections']} 個 collections")
-        
+      
         # 2. 識別 parent-child 系統
         pc_collections = [c for c in collections["collections"] 
                          if c.get("is_parent_child", False)]
         print(f"🏗️ 其中 {len(pc_collections)} 個屬於 parent-child 系統")
-        
+      
         # 3. 檢查資料量異常的 collections
         for collection in collections["collections"]:
             count = collection.get("entity_count", 0)
@@ -457,7 +481,7 @@ def system_maintenance():
                 print(f"⚠️ {collection['name']} 沒有資料")
             elif count > 100000:
                 print(f"📈 {collection['name']} 資料量很大: {count:,} 筆")
-        
+      
         # 4. 清理建議
         test_collections = [c for c in collections["collections"] 
                            if c["name"].startswith(("test_", "demo_"))]
@@ -465,7 +489,7 @@ def system_maintenance():
             print(f"🧹 建議清理 {len(test_collections)} 個測試用 collections")
             for tc in test_collections:
                 print(f"  - {tc['name']}")
-    
+  
     finally:
         manager.disconnect()
 
@@ -478,6 +502,7 @@ system_maintenance()
 ### MilvusParentChildManager 類別
 
 #### 初始化方法
+
 ```python
 manager = MilvusParentChildManager(
     host="localhost",           # Milvus 主機
@@ -488,31 +513,32 @@ manager = MilvusParentChildManager(
 
 #### 主要方法
 
-| 方法名稱 | 參數 | 返回值 | 說明 |
-|---------|------|--------|------|
-| `initialize()` | 無 | `bool` | 初始化連接和嵌入模型 |
+| 方法名稱                              | 參數                                                         | 返回值   | 說明                          |
+| ------------------------------------- | ------------------------------------------------------------ | -------- | ----------------------------- |
+| `initialize()`                      | 無                                                           | `bool` | 初始化連接和嵌入模型          |
 | `create_parent_child_collections()` | `collection_prefix`, `overwrite`, `backup_before_drop` | `Dict` | 創建 parent-child collections |
-| `list_existing_collections()` | `prefix_filter` | `Dict` | 列出現有 collections |
-| `get_collection_info()` | `collection_name` | `Dict` | 獲取 collection 詳細資訊 |
-| `cleanup_collections()` | `prefix_filter`, `confirm` | `Dict` | 批量清理 collections |
-| `disconnect()` | 無 | 無 | 斷開連接 |
+| `list_existing_collections()`       | `prefix_filter`                                            | `Dict` | 列出現有 collections          |
+| `get_collection_info()`             | `collection_name`                                          | `Dict` | 獲取 collection 詳細資訊      |
+| `cleanup_collections()`             | `prefix_filter`, `confirm`                               | `Dict` | 批量清理 collections          |
+| `disconnect()`                      | 無                                                           | 無       | 斷開連接                      |
 
 ### HierarchicalRetriever 類別
 
 #### 搜索方法
 
-| 方法名稱 | 參數 | 返回值 | 適用場景 |
-|---------|------|--------|----------|
-| `parent_first_search()` | `query`, `k` | `List[Dict]` | 需要完整上下文的查詢 |
-| `child_first_search()` | `query`, `k` | `List[Dict]` | 針對特定屬性的查詢 |
-| `hybrid_search()` | `query`, `parent_k`, `child_k`, `rerank` | `Dict` | 一般推薦使用 |
-| `semantic_field_search()` | `query`, `field_groups`, `k` | `List[Dict]` | 特定欄位群組查詢 |
+| 方法名稱                    | 參數                                             | 返回值         | 適用場景             |
+| --------------------------- | ------------------------------------------------ | -------------- | -------------------- |
+| `parent_first_search()`   | `query`, `k`                                 | `List[Dict]` | 需要完整上下文的查詢 |
+| `child_first_search()`    | `query`, `k`                                 | `List[Dict]` | 針對特定屬性的查詢   |
+| `hybrid_search()`         | `query`, `parent_k`, `child_k`, `rerank` | `Dict`       | 一般推薦使用         |
+| `semantic_field_search()` | `query`, `field_groups`, `k`               | `List[Dict]` | 特定欄位群組查詢     |
 
 ### 處理函數
 
 #### embed_all_nbinfo_to_collection_streaming()
 
 **參數說明:**
+
 - `csv_directory` (str): CSV 檔案目錄路徑
 - `collection_name` (str): Collection 名稱
 - `chunk_size` (int): 子塊最大大小，預設 512
@@ -524,6 +550,7 @@ manager = MilvusParentChildManager(
 - `backup_before_drop` (bool): 刪除前是否備份，預設 False
 
 **返回值:**
+
 ```python
 {
     "success": bool,
@@ -570,12 +597,12 @@ field_groups = {
 
 ### 常見錯誤代碼
 
-| 錯誤訊息 | 原因 | 解決方法 |
-|---------|------|----------|
-| "Connection refused" | Milvus 服務未啟動 | 檢查 Docker 容器狀態 |
+| 錯誤訊息                    | 原因                | 解決方法                              |
+| --------------------------- | ------------------- | ------------------------------------- |
+| "Connection refused"        | Milvus 服務未啟動   | 檢查 Docker 容器狀態                  |
 | "Collection already exists" | Collection 名稱衝突 | 使用不同名稱或設定 `overwrite=True` |
-| "Memory error" | 記憶體不足 | 使用流式處理並調小 `batch_size` |
-| "Empty CSV directory" | 找不到 CSV 檔案 | 檢查檔案路徑和權限 |
+| "Memory error"              | 記憶體不足          | 使用流式處理並調小 `batch_size`     |
+| "Empty CSV directory"       | 找不到 CSV 檔案     | 檢查檔案路徑和權限                    |
 
 ---
 

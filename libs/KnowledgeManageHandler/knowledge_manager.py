@@ -16,6 +16,7 @@ embedding = self.sentence_transformer.encode(text)
 import json
 import logging
 import sqlite3
+import re
 from typing import Dict, Any, Optional, List, Union
 from pathlib import Path
 from datetime import datetime
@@ -45,6 +46,7 @@ except ImportError:
 try:
     from pymilvus import connections, utility, Collection
     from ..RAG.DB.MilvusQuery import MilvusQuery
+    from ..RAG.DB.ParentChildMilvusQuery import ParentChildMilvusQuery
     import config
     MILVUS_AVAILABLE = True
 except ImportError:
@@ -53,6 +55,7 @@ except ImportError:
     utility = None
     Collection = None
     MilvusQuery = None
+    ParentChildMilvusQuery = None
 
 
 class KnowledgeManager:
@@ -107,6 +110,73 @@ class KnowledgeManager:
             self.logger.info("Polars 支援已啟用")
         else:
             self.logger.warning("Polars 未安裝，相關功能將不可用")
+    
+    def _estimate_tokens(self, text: str) -> int:
+        """
+        估算文本的 token 數量
+        使用簡單的字符計數方法，中文字符按 2 tokens 計算，英文按 1 token 計算
+        
+        Args:
+            text: 輸入文本
+            
+        Returns:
+            估算的 token 數量
+        """
+        if not text:
+            return 0
+        
+        # 計算中文字符數量
+        chinese_chars = len(re.findall(r'[\u4e00-\u9fff]', text))
+        # 計算非中文字符數量
+        non_chinese_chars = len(text) - chinese_chars
+        
+        # 中文字符按 2 tokens 計算，其他字符按 1 token 計算
+        estimated_tokens = chinese_chars * 2 + non_chinese_chars
+        
+        return estimated_tokens
+    
+    def _truncate_text_smart(self, text: str, max_tokens: int) -> str:
+        """
+        智能截斷文本，保持句子完整性
+        
+        Args:
+            text: 原始文本
+            max_tokens: 最大 token 數量
+            
+        Returns:
+            截斷後的文本
+        """
+        if not text:
+            return text
+        
+        # 先估算當前文本的 token 數量
+        current_tokens = self._estimate_tokens(text)
+        
+        if current_tokens <= max_tokens:
+            return text
+        
+        # 計算需要截斷的比例
+        ratio = max_tokens / current_tokens
+        target_length = int(len(text) * ratio * 0.9)  # 留一些餘量
+        
+        # 截斷到目標長度
+        truncated = text[:target_length]
+        
+        # 嘗試在句子邊界截斷
+        # 尋找最後一個句號、問號或驚嘆號
+        sentence_endings = ['.', '。', '!', '！', '?', '？']
+        last_sentence_end = -1
+        
+        for i in range(len(truncated) - 1, -1, -1):
+            if truncated[i] in sentence_endings:
+                last_sentence_end = i
+                break
+        
+        # 如果在截斷範圍內找到句子邊界，就在那裡截斷
+        if last_sentence_end > target_length * 0.7:
+            truncated = truncated[:last_sentence_end + 1]
+        
+        return truncated + "..."
     
     def _initialize_default_knowledge_bases(self):
         """初始化默認知識庫"""
@@ -186,16 +256,19 @@ class KnowledgeManager:
         # 初始化 Milvus 相關功能
         if MILVUS_AVAILABLE:
             try:
-                self.logger.info("正在初始化 Milvus 連接...")
-                self.milvus_query = MilvusQuery(
+                self.logger.info("正在初始化 Parent-Child Milvus 連接...")
+                self.milvus_query = ParentChildMilvusQuery(
                     host=config.MILVUS_HOST,
                     port=config.MILVUS_PORT,
-                    collection_name=config.MILVUS_COLLECTION_NAME
+                    parent_collection_name=config.MILVUS_COLLECTION_NAME_PARENT,
+                    child_collection_name=config.MILVUS_COLLECTION_NAME_CHILD
                 )
-                self.logger.info(f"Milvus 初始化成功，Collection: {config.MILVUS_COLLECTION_NAME}")
+                self.logger.info(f"Parent-Child Milvus 初始化成功")
+                self.logger.info(f"  - Parent Collection: {config.MILVUS_COLLECTION_NAME_PARENT}")
+                self.logger.info(f"  - Child Collection: {config.MILVUS_COLLECTION_NAME_CHILD}")
                 
             except Exception as e:
-                self.logger.error(f"初始化 Milvus 組件失敗: {e}")
+                self.logger.error(f"初始化 Parent-Child Milvus 組件失敗: {e}")
                 self.milvus_query = None
         else:
             self.logger.warning("Milvus 依賴未安裝，Milvus 功能將不可用")
@@ -798,7 +871,7 @@ class KnowledgeManager:
         chunk_type_filter: Optional[str] = None
     ) -> Optional[List[Dict[str, Any]]]:
         """
-        使用 Milvus 進行語義搜索
+        使用 Parent-Child Milvus 進行語義搜索
         
         Args:
             query_text: 搜索查詢文本
@@ -814,83 +887,27 @@ class KnowledgeManager:
                 return None
                 
             if not self.milvus_query:
-                self.logger.error("Milvus 查詢器未初始化")
+                self.logger.error("Parent-Child Milvus 查詢器未初始化")
                 return None
             
-            if not self.sentence_transformer:
-                self.logger.error("Embedding 模型未初始化")
+            # 根據 chunk_type_filter 決定搜索哪個集合
+            if chunk_type_filter == "parent":
+                self.logger.debug("搜索 Parent 集合")
+                results = self.milvus_query.search_parent(query_text, top_k)
+            elif chunk_type_filter == "child":
+                self.logger.debug("搜索 Child 集合")
+                results = self.milvus_query.search_child(query_text, top_k)
+            else:
+                # 默認搜索 Child 集合（更精確）
+                self.logger.debug("搜索 Child 集合（默認）")
+                results = self.milvus_query.search_child(query_text, top_k)
+            
+            if not results:
+                self.logger.warning("Milvus 搜索未返回結果")
                 return None
             
-            # 檢查 Milvus 集合是否正確初始化
-            if not hasattr(self.milvus_query, 'collection') or not self.milvus_query.collection:
-                self.logger.error("Milvus 集合未正確載入")
-                # 嘗試重新初始化
-                try:
-                    self.logger.info("嘗試重新初始化 Milvus 連接...")
-                    self.milvus_query = MilvusQuery(
-                        host=config.MILVUS_HOST,
-                        port=config.MILVUS_PORT,
-                        collection_name=config.MILVUS_COLLECTION_NAME
-                    )
-                    if not self.milvus_query.collection:
-                        self.logger.error("重新初始化後集合仍為 None")
-                        return None
-                except Exception as reinit_error:
-                    self.logger.error(f"重新初始化 Milvus 失敗: {reinit_error}")
-                    return None
-            
-            # 使用 sentence transformer 生成查詢向量
-            query_vector = self.sentence_transformer.encode(query_text).tolist()
-            self.logger.debug(f"生成查詢向量成功，維度: {len(query_vector)}")
-            
-            # 設置搜索參數
-            search_params = {"metric_type": "L2", "params": {"nprobe": 10}}
-            
-            # 設置輸出字段
-            output_fields = [
-                "chunk_id", "product_id", "chunk_type", 
-                "semantic_group", "content"
-            ]
-            
-            # 構建過濾表達式
-            filter_expr = None
-            if chunk_type_filter:
-                filter_expr = f'chunk_type == "{chunk_type_filter}"'
-                self.logger.debug(f"使用過濾條件: {filter_expr}")
-            
-            # 執行向量搜索
-            self.logger.debug(f"開始執行 Milvus 搜索，集合: {self.milvus_query.collection.name}")
-            results = self.milvus_query.collection.search(
-                data=[query_vector],
-                anns_field="embedding",
-                param=search_params,
-                limit=top_k,
-                output_fields=output_fields,
-                expr=filter_expr
-            )
-            
-            # 格式化結果
-            hits = results[0] if results and len(results) > 0 else []
-            formatted_results = []
-            
-            for hit in hits:
-                try:
-                    result = {
-                        "chunk_id": hit.entity.get("chunk_id"),
-                        "product_id": hit.entity.get("product_id"),
-                        "chunk_type": hit.entity.get("chunk_type"),
-                        "semantic_group": hit.entity.get("semantic_group"),
-                        "content": hit.entity.get("content"),
-                        "distance": hit.distance,
-                        "similarity_score": 1 / (1 + hit.distance)  # 轉換為相似度分數
-                    }
-                    formatted_results.append(result)
-                except Exception as hit_error:
-                    self.logger.warning(f"處理搜索結果時發生錯誤: {hit_error}")
-                    continue
-            
-            self.logger.info(f"Milvus 搜索完成，找到 {len(formatted_results)} 個結果")
-            return formatted_results if formatted_results else None
+            self.logger.info(f"Milvus 搜索完成，返回 {len(results)} 個結果")
+            return results
             
         except Exception as e:
             self.logger.error(f"Milvus 語義搜索失敗: {e}")
@@ -915,43 +932,26 @@ class KnowledgeManager:
             包含子chunks和對應父documents的結果
         """
         try:
-            # 1. 先搜索子chunks，獲得精確匹配
-            child_results = self.milvus_semantic_search(
-                query_text, 
-                top_k=child_top_k,
-                chunk_type_filter="child"
-            )
-            
-            if not child_results:
-                self.logger.warning("未找到相關的子chunks")
+            if not self.milvus_query:
+                self.logger.error("Parent-Child Milvus 查詢器未初始化")
                 return None
             
-            # 2. 根據子chunks的product_id獲取對應的parent documents
-            product_ids = list(set([result["product_id"] for result in child_results]))
+            # 使用新的 Parent-Child 查詢方法
+            results = self.milvus_query.parent_child_search(
+                query_text, 
+                child_top_k=child_top_k, 
+                parent_top_k=parent_top_k
+            )
             
-            parent_results = []
-            for product_id in product_ids[:parent_top_k]:
-                # 搜索對應的parent document
-                parent_search = self.milvus_semantic_search(
-                    f"product_id:{product_id}",
-                    top_k=1,
-                    chunk_type_filter="parent"
-                )
-                if parent_search:
-                    parent_results.extend(parent_search)
+            if not results or (not results.get("child_chunks") and not results.get("parent_documents")):
+                self.logger.warning("未找到相關的 chunks")
+                return None
             
-            # 3. 整理結果
-            retrieval_result = {
-                "query": query_text,
-                "child_chunks": child_results,
-                "parent_documents": parent_results,
-                "total_child_chunks": len(child_results),
-                "total_parent_docs": len(parent_results),
-                "retrieved_at": datetime.now().isoformat()
-            }
+            # 添加時間戳
+            results["retrieved_at"] = datetime.now().isoformat()
             
-            self.logger.info(f"Parent-Child 檢索完成：{len(child_results)} 個子chunks，{len(parent_results)} 個父documents")
-            return retrieval_result
+            self.logger.info(f"Parent-Child 檢索完成：{results.get('total_child_chunks', 0)} 個子chunks，{results.get('total_parent_docs', 0)} 個父documents")
+            return results
             
         except Exception as e:
             self.logger.error(f"Parent-Child 檢索失敗: {e}")
@@ -959,7 +959,6 @@ class KnowledgeManager:
     
     def hybrid_search_with_llm(
         self,
-        query_prompt: str,
         query_text: str,
         use_parent_child: bool = True,
         top_k: int = 5
@@ -982,25 +981,60 @@ class KnowledgeManager:
                 if not search_results:
                     return None
                     
-                # 合併 child chunks 和 parent documents 的內容
+                # 合併 child chunks 和 parent documents 的內容，並控制 token 數量
                 context_parts = []
+                max_context_tokens = 4000  # 設定最大 context token 數量
+                current_tokens = 0
                 
-                # 添加最相關的子chunks
-                for i, child in enumerate(search_results["child_chunks"][:top_k], 1):
-                    context_parts.append(f"相關資訊 {i}:")
-                    context_parts.append(f"  內容: {child['content']}")
-                    context_parts.append(f"  產品ID: {child['product_id']}")
-                    context_parts.append(f"  相似度: {child['similarity_score']:.3f}")
-                    context_parts.append("")
+                # 添加最相關的子chunks（優先保留高相似度的）
+                sorted_children = sorted(search_results["child_chunks"], 
+                                       key=lambda x: x.get('similarity_score', 0), 
+                                       reverse=True)
                 
-                # 添加父documents提供完整上下文
-                if search_results["parent_documents"]:
+                for i, child in enumerate(sorted_children[:top_k], 1):
+                    child_text = child['text']
+                    # 限制每個 child chunk 的長度
+                    max_child_tokens = 300
+                    if self._estimate_tokens(child_text) > max_child_tokens:
+                        child_text = self._truncate_text_smart(child_text, max_child_tokens)
+                    
+                    child_context = f"相關資訊 {i}:\n  內容: {child_text}\n  產品ID: {child.get('modeltype', 'Unknown')}\n  相似度: {child['similarity_score']:.3f}\n"
+                    
+                    # 檢查添加這個 child 是否會超過 token 限制
+                    child_tokens = self._estimate_tokens(child_context)
+                    if current_tokens + child_tokens > max_context_tokens:
+                        self.logger.warning(f"Context token 數量接近限制，停止添加更多 child chunks")
+                        break
+                    
+                    context_parts.append(child_context)
+                    current_tokens += child_tokens
+                
+                # 添加父documents提供完整上下文（如果還有 token 餘量）
+                remaining_tokens = max_context_tokens - current_tokens
+                if remaining_tokens > 500 and search_results["parent_documents"]:
                     context_parts.append("完整產品資訊:")
-                    for parent in search_results["parent_documents"]:
-                        context_parts.append(f"  產品: {parent['content'][:200]}...")
-                        context_parts.append("")
+                    for parent in search_results["parent_documents"][:2]:  # 限制父文檔數量
+                        parent_text = parent['text']
+                        # 限制父文檔的長度
+                        max_parent_tokens = min(400, remaining_tokens - 100)
+                        if self._estimate_tokens(parent_text) > max_parent_tokens:
+                            parent_text = self._truncate_text_smart(parent_text, max_parent_tokens)
+                        
+                        parent_context = f"  產品: {parent_text}\n"
+                        parent_tokens = self._estimate_tokens(parent_context)
+                        
+                        if current_tokens + parent_tokens > max_context_tokens:
+                            break
+                        
+                        context_parts.append(parent_context)
+                        current_tokens += parent_tokens
+                        remaining_tokens -= parent_tokens
                         
                 context = "\n".join(context_parts)
+                
+                # 記錄最終的 token 數量
+                final_tokens = self._estimate_tokens(context)
+                self.logger.info(f"Context 構建完成，總 token 數量: {final_tokens}")
                 
             else:
                 # 使用簡單的向量搜索
@@ -1009,14 +1043,37 @@ class KnowledgeManager:
                     return None
                     
                 context_parts = []
-                for i, result in enumerate(search_results, 1):
-                    context_parts.append(f"搜索結果 {i}:")
-                    context_parts.append(f"  內容: {result['content']}")
-                    context_parts.append(f"  類型: {result['chunk_type']}")
-                    context_parts.append(f"  相似度: {result['similarity_score']:.3f}")
-                    context_parts.append("")
+                max_context_tokens = 4000
+                current_tokens = 0
+                
+                # 按相似度排序結果
+                sorted_results = sorted(search_results, 
+                                      key=lambda x: x.get('similarity_score', 0), 
+                                      reverse=True)
+                
+                for i, result in enumerate(sorted_results, 1):
+                    result_text = result['text']
+                    # 限制每個結果的長度
+                    max_result_tokens = 500
+                    if self._estimate_tokens(result_text) > max_result_tokens:
+                        result_text = self._truncate_text_smart(result_text, max_result_tokens)
+                    
+                    result_context = f"搜索結果 {i}:\n  內容: {result_text}\n  類型: {result['chunk_type']}\n  相似度: {result['similarity_score']:.3f}\n"
+                    
+                    # 檢查是否會超過 token 限制
+                    result_tokens = self._estimate_tokens(result_context)
+                    if current_tokens + result_tokens > max_context_tokens:
+                        self.logger.warning(f"Context token 數量接近限制，停止添加更多搜索結果")
+                        break
+                    
+                    context_parts.append(result_context)
+                    current_tokens += result_tokens
                 
                 context = "\n".join(context_parts)
+                
+                # 記錄最終的 token 數量
+                final_tokens = self._estimate_tokens(context)
+                self.logger.info(f"Context 構建完成，總 token 數量: {final_tokens}")
             
             # 2. 使用 LLM 分析和回答
             # if self.llm:
@@ -1068,12 +1125,67 @@ class KnowledgeManager:
             # else:
             #     llm_response = "LLM 不可用，僅提供搜索結果"
             
-            # 3. 組合最終結果
+            # 3. 獲取詳細產品規格（使用 DuckDB）
+            products = []
+            try:
+                # 提取產品 ID（modeltype）
+                product_ids = []
+                if use_parent_child and search_results:
+                    # 從 child chunks 和 parent documents 提取 modeltype
+                    for child in search_results.get("child_chunks", []):
+                        if "modeltype" in child:
+                            product_ids.append(child["modeltype"])
+                    for parent in search_results.get("parent_documents", []):
+                        if "modeltype" in parent:
+                            product_ids.append(parent["modeltype"])
+                else:
+                    # 從簡單搜索結果提取
+                    for result in search_results:
+                        if "modeltype" in result:
+                            product_ids.append(result["modeltype"])
+                
+                # 去重
+                product_ids = list(set(product_ids))
+                
+                if product_ids:
+                    # 查詢 DuckDB 獲取詳細規格
+                    kb_info = self.knowledge_bases.get("semantic_sales_spec")
+                    if kb_info:
+                        import duckdb
+                        essential_fields = [
+                            'modeltype', 'modelname', 'cpu', 'gpu', 'memory', 'storage', 
+                            'lcd', 'battery', 'audio', 'wireless', 'bluetooth'
+                        ]
+                        fields_str = ', '.join(essential_fields)
+                        modeltype_strs = [f"'{mt}'" for mt in product_ids]
+                        in_clause = ','.join(modeltype_strs)
+                        sql = f"""
+                            SELECT {fields_str}
+                            FROM nbtypes
+                            WHERE modeltype IN ({in_clause})
+                        """
+                        
+                        con = duckdb.connect(kb_info["path"])
+                        try:
+                            cur = con.execute(sql)
+                            rows = cur.fetchall()
+                            columns = [d[0] for d in cur.description] if cur.description else []
+                            for r in rows:
+                                row_dict = {columns[i]: r[i] for i in range(len(columns))}
+                                products.append(row_dict)
+                        finally:
+                            con.close()
+            except Exception as e:
+                self.logger.warning(f"獲取詳細產品規格失敗: {e}")
+            
+            # 4. 組合最終結果
             final_result = {
                 "query": query_text,
+                "status": "success",
                 "search_method": "parent_child" if use_parent_child else "vector_search",
                 "search_results": search_results,
                 "llm_analysis": llm_response,
+                "products": products,
                 "context_used": context[:500] + "..." if len(context) > 500 else context,
                 "timestamp": datetime.now().isoformat()
             }

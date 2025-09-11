@@ -9,8 +9,10 @@ BASE_DIR = Path(__file__).parent
 DB_PATH = BASE_DIR / "db" / "semantic_sales_spec_all.db"
 MILVUS_HOST = "localhost"
 MILVUS_PORT = "19530"
-MILVUS_COLLECTION_NAME = "all_nb_info_collection_parent"
-# MILVUS_COLLECTION_NAME = "all_nb_info_collection"
+# MILVUS_COLLECTION_NAME = "all_nb_info_collection_parent"
+MILVUS_COLLECTION_NAME = "all_nb_info_collection"
+MILVUS_COLLECTION_NAME_PARENT = "all_nb_info_collection_parent"
+MILVUS_COLLECTION_NAME_CHILD = "all_nb_info_collection_child"
 # Application settings
 APP_HOST = "0.0.0.0"
 APP_PORT = 8001
