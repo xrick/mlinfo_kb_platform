@@ -1,3 +1,4 @@
+# libs/KnowledgeManageHandler/knowledge_manager.py
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -957,7 +958,8 @@ class KnowledgeManager:
             return None
     
     def hybrid_search_with_llm(
-        self, 
+        self,
+        query_prompt: str,
         query_text: str,
         use_parent_child: bool = True,
         top_k: int = 5
@@ -1017,21 +1019,54 @@ class KnowledgeManager:
                 context = "\n".join(context_parts)
             
             # 2. 使用 LLM 分析和回答
+            # if self.llm:
+                # llm_prompt = f"""
+                # 基於以下產品資料，回答用戶的問題: "{query_text}"
+                
+                # 請提供:
+                # 1. 簡潔明確的回答
+                # 2. 推薦的產品（如果適用）
+                # 3. 重要的規格對比（如果適用）
+                
+                # 請用專業但易懂的語言回答，重點突出最相關的資訊。
+                # """
             if self.llm:
-                llm_prompt = f"""
-                基於以下產品資料，回答用戶的問題: "{query_text}"
-                
-                請提供:
-                1. 簡潔明確的回答
-                2. 推薦的產品（如果適用）
-                3. 重要的規格對比（如果適用）
-                
-                請用專業但易懂的語言回答，重點突出最相關的資訊。
+                llm_prompt=f"""
+                    你是專業的筆電銷售顧問。根據以下產品資料回答客戶問題：
+                    **產品資料：**
+                    **客戶需求：**
+                    {query_text}
+
+                    **回應要求：**
+                    1. 僅使用提供的產品資料，不得編造
+                    2. 推薦 2-3 款最符合的產品
+                    3. 用表格比較主要規格
+                    4. 使用繁體中文，語氣專業友善
+                    5. 無合適產品時回覆：「建議聯繫客服專家獲得協助」
+
+                    **輸出格式：**
+                    簡潔的 Markdown 格式，包含產品推薦和規格表格。
                 """
-                
+                logging.info(f"***************************context START*********************************")
                 llm_response = self.llm_query(llm_prompt, context)
+                logging.info(f"***************************context end*********************************")
             else:
                 llm_response = "LLM 不可用，僅提供搜索結果"
+            # if self.llm:
+            #     llm_prompt = f"""
+            #     基於以下產品資料，回答用戶的問題: "{query_text}"
+                
+            #     請提供:
+            #     1. 簡潔明確的回答
+            #     2. 推薦的產品（如果適用）
+            #     3. 重要的規格對比（如果適用）
+                
+            #     請用專業但易懂的語言回答，重點突出最相關的資訊。
+            #     """
+                
+            #     llm_response = self.llm_query(llm_prompt, context)
+            # else:
+            #     llm_response = "LLM 不可用，僅提供搜索結果"
             
             # 3. 組合最終結果
             final_result = {

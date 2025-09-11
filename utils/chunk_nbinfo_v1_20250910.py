@@ -15,6 +15,12 @@ from sentence_transformers import SentenceTransformer
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Milvus imports
+try:
+    from pymilvus import connections, utility, Collection, CollectionSchema, FieldSchema, DataType
+except ImportError:
+    logger.warning("pymilvus not available, Milvus functionality will be limited")
+
 def gen_all_nbinfo_tb(csv_directory: str = 'data/raw/EM_New TTL_241104_AllTransformedToGoogleSheet', db_path: str = 'nbinfo.db') -> bool:
     """
     Creates a SQLite database and loads all CSV files into a single table.
@@ -694,12 +700,17 @@ def embed_all_nbinfo_to_collection_streaming(
         logger.info(f"Processed {stats['parent_chunks_processed']} parent chunks and {stats['child_chunks_processed']} child chunks")
         logger.info(f"Peak memory usage: {stats['memory_peak_mb']:.1f} MB")
         
+        # Create indexes for both collections
+        logger.info("Creating indexes for collections...")
+        index_results = milvus_manager.create_indexes()
+        
         return {
             "success": True,
             "collection_name": collection_name,
             "processing_mode": "streaming",
             "statistics": stats,
-            "collections_created": collection_results
+            "collections_created": collection_results,
+            "indexes_created": index_results
         }
         
     except Exception as e:
@@ -2089,62 +2100,56 @@ def create_complete_parent_child_system(csv_file_path: str,
 if __name__ == "__main__":
     # Example usage of the complete parent-child chunking system
     
-    # Configuration
-    csv_path = "../db/laptop_specs_sample.csv"  # Update with actual path
+    # Configuration - use actual data directory
+    csv_directory = "data/raw/EM_New TTL_241104_AllTransformedToGoogleSheet"
+    collection_name = "all_nb_info_collection"
     milvus_config = {
         "host": "localhost",
         "port": "19530"
     }
     
-    print("🚀 Starting Parent-Child Chunking System Demo")
+    print("🚀 Starting Milvus Collection Creation")
     print("=" * 60)
     
-    # Create the complete system
-    system_result = create_complete_parent_child_system(
-        csv_file_path=csv_path,
+    # Create collection using streaming approach
+    print(f"Processing CSV directory: {csv_directory}")
+    print(f"Target collection: {collection_name}")
+    
+    result = embed_all_nbinfo_to_collection_streaming(
+        csv_directory=csv_directory,
+        collection_name=collection_name,
         milvus_host=milvus_config["host"],
         milvus_port=milvus_config["port"],
-        collection_prefix="demo_nb_specs"
+        overwrite=True
     )
     
-    if "error" in system_result:
-        print(f"❌ System setup failed: {system_result['error']}")
+    if "error" in result:
+        print(f"❌ Collection creation failed: {result['error']}")
     else:
-        print("✅ System setup completed successfully!")
-        print(f"📊 Collection stats: {system_result['collection_stats']}")
+        print("✅ Collection creation completed successfully!")
+        print(f"📊 Processing stats:")
+        for key, value in result.items():
+            if key != "error":
+                print(f"  {key}: {value}")
         
-        # Get the retriever for interactive testing
-        retriever = system_result.get("retriever")
+        # Test the created collection
+        print("\n🔍 Testing Collection")
+        print("-" * 30)
         
-        if retriever:
-            print("\n🔍 Interactive Search Demo")
-            print("-" * 30)
+        try:
+            from pymilvus import connections, utility
+            connections.connect("default", host=milvus_config["host"], port=milvus_config["port"])
             
-            # Demo queries
-            demo_queries = [
-                "gaming laptop with high-end graphics card",
-                "lightweight laptop for business",
-                "laptop with long battery life",
-                "CPU performance comparison"
-            ]
-            
-            for query in demo_queries:
-                print(f"\nQuery: '{query}'")
-                hybrid_results = retriever.hybrid_search(query, parent_k=2, child_k=3, rerank=True)
+            if utility.has_collection(collection_name):
+                collection = Collection(collection_name)
+                collection.load()
+                entity_count = collection.num_entities
+                print(f"✅ Collection '{collection_name}' exists with {entity_count} entities")
+            else:
+                print(f"❌ Collection '{collection_name}' not found")
                 
-                if "reranked_results" in hybrid_results:
-                    print(f"Found {len(hybrid_results['reranked_results'])} reranked results")
-                    for i, result in enumerate(hybrid_results["reranked_results"][:2]):
-                        content = result.get("content", {})
-                        result_type = result.get("type", "unknown")
-                        score = result.get("boosted_score", 0)
-                        print(f"  {i+1}. [{result_type.upper()}] Score: {score:.3f}")
-                        if result_type == "parent":
-                            print(f"      Model: {content.get('modelname', 'N/A')}")
-                        else:
-                            print(f"      Field: {content.get('field_group', 'N/A')}")
-                else:
-                    print("  No results found")
+        except Exception as e:
+            print(f"❌ Error testing collection: {e}")
         
         print(f"\n🎯 Demo completed! Full results saved in system_result variable")
         print("💡 You can now use the retriever for custom searches")

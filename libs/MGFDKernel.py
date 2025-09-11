@@ -682,8 +682,9 @@ class MGFDKernel:
         #若ifDBSearch為True，則進行知識查詢，並將結果存入context["query_result"],
         #這是product_data
         if slot_metadata.get("ifDBSearch", True):
-            # 直接進行與關鍵字相關的產品規格搜尋（以非阻塞方式在執行緒池執行）
-            _product_data = await asyncio.to_thread(self.knowledge_manager.search_product_data, message)
+            # 使用 hybrid search 進行語義搜尋和 LLM 分析（以非阻塞方式在執行緒池執行）
+            _hybrid_result = await asyncio.to_thread(self.knowledge_manager.hybrid_search_with_llm, message, message, True, 5)
+            _product_data = self._adapt_hybrid_to_mgfd_format(_hybrid_result) if _hybrid_result else None
             context['keyword'] = slot_name
             logging.info(f"知識查詢結果: {_product_data}")
             #進行
@@ -1000,3 +1001,56 @@ class MGFDKernel:
         """設置狀態管理器"""
         self.state_manager = manager
         logger.info("StateManagementHandler 已設置")
+    
+    def _adapt_hybrid_to_mgfd_format(self, hybrid_result: dict) -> dict:
+        """
+        將 hybrid_search_with_llm 結果轉換為 MGFD 期望的格式
+        
+        Args:
+            hybrid_result: hybrid_search_with_llm 返回的結果
+            
+        Returns:
+            MGFD 兼容的產品數據格式
+        """
+        try:
+            if not hybrid_result or not isinstance(hybrid_result, dict):
+                return {"query": "", "status": "no_results", "products": []}
+            
+            # 提取搜尋結果中的產品資訊
+            products = []
+            search_results = hybrid_result.get("search_results", {})
+            
+            if "child_chunks" in search_results:
+                # Parent-Child 搜尋結果
+                for chunk in search_results["child_chunks"]:
+                    product_id = chunk.get("product_id")
+                    if product_id:
+                        products.append({
+                            "modeltype": product_id,
+                            "modelname": f"產品 {product_id}",
+                            "content": chunk.get("content", ""),
+                            "similarity_score": chunk.get("similarity_score", 0.0)
+                        })
+            elif isinstance(search_results, list):
+                # 簡單向量搜尋結果  
+                for result in search_results:
+                    product_id = result.get("product_id")
+                    if product_id:
+                        products.append({
+                            "modeltype": product_id,
+                            "modelname": f"產品 {product_id}",
+                            "content": result.get("content", ""),
+                            "similarity_score": result.get("similarity_score", 0.0)
+                        })
+            
+            return {
+                "query": hybrid_result.get("query", ""),
+                "status": "success" if products else "no_results",
+                "products": products,
+                "llm_analysis": hybrid_result.get("llm_analysis", ""),
+                "search_method": hybrid_result.get("search_method", "hybrid")
+            }
+            
+        except Exception as e:
+            logger.error(f"格式適配失敗: {e}")
+            return {"query": "", "status": "error", "products": [], "error": str(e)}

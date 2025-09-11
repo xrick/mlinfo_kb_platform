@@ -45,20 +45,9 @@ class MilvusQuery(DatabaseQuery):
 
         # 2. 定義要從 Milvus 回傳的欄位
         #    這些欄位名稱必須與 ingest_data.py 中建立的 Schema 完全對應
-        # output_fields = [
-        #     'Product', 'Segment', 'Model_Year', 'KB_Language', 'OS', 
-        #     'Processor', 'Memory', 'Storage', 'Screen_Spec', 'Touch', 
-        #     'Color', 'Communication', 'Camera', 'Graphics', 'Audio', 
-        #     'Adapter', 'Battery', 'Finger_Print', 'TPM', 'Card_Reader', 
-        #     'Backlit', 'Pen', 'Weight', 'DimensionWDH'
-        # ]
+        # 更新為正確的 schema 欄位名稱
         output_fields = [
-            'modeltype', 'version', 'modelname', 'mainboard', 'devtime', 'pm', 
-            'structconfig', 'lcd', 'touchpanel', 'iointerface', 'ledind', 
-            'powerbutton', 'keyboard', 'webcamera', 'touchpad', 'fingerprint', 
-            'audio', 'battery', 'cpu', 'gpu', 'memory', 'lcdconnector', 'storage', 
-            'wifislot', 'thermal', 'tpm', 'rtc', 'wireless', 'lan', 'bluetooth', 
-            'softwareconfig', 'ai', 'accessory', 'otherfeatures', 'certfications'
+            'chunk_id', 'product_id', 'chunk_type', 'semantic_group', 'content'
         ]
 
         # 3. 執行向量搜尋
