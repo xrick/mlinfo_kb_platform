@@ -1,0 +1,106 @@
+MGFD 開發日誌 — 2025-09-12 17:50
+作者：Codex 助手
+
+一、概覽
+- 本次工作聚焦於：
+  1) 修正聊天回覆無法以 AST728 的 PD/快充資訊作答的問題（根因在於摘要階段截斷了關聯產品且未保留 PD 訊息）。
+  2) 導入「可擴充的功能特徵表」機制（JSON）以支援多特徵比對與排序強化，方便之後以設定檔擴充關鍵功能，如 PD/快充、Dual-Channel RAM、USB‑C 等。
+  3) 將 knowledge manager 的混合檢索函式移除 LLM 依賴，簡化為純檢索（易於在無網路與無 LLM 的環境運作）。
+
+二、修正與新增內容（含檔案路徑）
+1) 產品摘要優先順序與 PD 訊息保留
+- 檔案：libs/MGFDKernel.py
+  - 函式：_summarize_product_data
+    - 變更：新增「相關度排序」後再截斷，避免將使用者直接提及或向量匹配最強的產品（如 AST728/728）排除。
+    - 排序信號：
+      - modeltype 命中 matched_keys（+100）
+      - modelname 出現在查詢（+60）
+      - modeltype 代碼出現在查詢（+40）
+      - 通用特徵加權分（由 JSON 特徵表決定，可多特徵累加）
+      - 輕微原始順序偏好（穩定性）
+    - 例外處理：若排序過程有任何例外，回退為原本的前 N。
+  - 函式：_extract_battery_summary
+    - 變更：加入 PD/Power Delivery/快充關鍵字偵測，若有則在摘要末尾附加「支援 PD 快充」，並嘗試解析版本（如 PD3.0）。
+  - 新增：_load_nb_feature_table
+    - 用途：啟動時載入 config/nb_features_table.json，作為通用特徵偵測與加權的來源。
+  - 摘要輸出：每個產品新增欄位 matched_features（list[str]）以標示命中的特徵 id（例如：pd_fast_charging、dual_channel_ram）。
+
+2) 特徵表（可擴充設定）
+- 檔案：config/nb_features_table.json（新增）
+  - 初始定義的特徵：
+    - pd_fast_charging：PD/快充（含關鍵字與 regex 以嘗試抓 PD 版本）
+    - dual_channel_ram：雙通道記憶體（解析 memory 欄位）
+    - usb_c_port：USB‑C/Type‑C 介面
+  - 欄位說明：id、labels、keywords、regex、search_fields、weight。
+  - 設計理念：未來只要擴充 JSON，就能強化新特徵的偵測與排序，免改動核心程式。
+
+3) 混合檢索移除 LLM 依賴
+- 檔案：libs/KnowledgeManageHandler/knowledge_manager.py
+  - 將 hybrid_search_with_llm 更名為 hybrid_search，並移除所有 LLM 邏輯（prompt、llm_query、llm_analysis 欄位）。
+  - 新回傳結構：query、search_method（parent_child/vector_search）、search_results、context_used（供後續使用的上下文片段）、timestamp。
+
+4) 測試呼叫更新
+- 檔案：test/functional_tests/test_milvus_semantic_search.py
+  - 將 test_hybrid_search_with_llm 更名為 test_hybrid_search。
+  - 呼叫改為 self.km.hybrid_search(...)，輸出改為顯示 context_used 片段（不再檢視 llm_analysis）。
+
+三、問題根因與修正效果
+- 根因：
+  1) 摘要前僅以 products[:N] 截斷，AST728 雖出現在 Milvus/DuckDB 結果，但排序在第 4 位而被截斷。
+  2) 電池摘要未保留 PD/快充訊息，LLM 在「僅能使用提供資料」的約束下無法回答 PD 能力。
+- 修正效果：
+  1) 以「相關度排序」確保 AST728 在查詢中被優先保留於摘要（top N）內。
+  2) battery_summary 將呈現「支援 PD 快充」（若可解析則含版本，如 PD3.0）。
+  3) matched_features 讓 LLM 能清楚知道產品命中的功能特徵，支援多特徵比較。
+
+四、本地驗證（單元層級模擬，不依賴外部服務）
+- 測試 1：AST728 PD/快充
+  - 查詢：Does AST728 support fast charging or USB-C PD (Power Delivery)?
+  - 模擬產品：包含 AST728 與其他數款，AST728 的 battery 含「PD3.0 support fast charging」。
+  - 結果要點：
+    - AST728 排名第一；
+    - battery_summary 含「支援 PD3.0 快充」；
+    - matched_features 含 ["pd_fast_charging"].
+
+- 測試 2：AHP958 Dual‑channel RAM
+  - 查詢：Does AHP958 support dual-channel RAM configuration
+  - 模擬產品：AHP958 memory 含「Dual channel memory architecture...」。
+  - 結果要點：
+    - AHP958 排名第一；
+    - matched_features 含 ["dual_channel_ram"].
+
+五、API 層級驗證建議（供實機）
+1) 啟動：
+   - uvicorn main:app --reload --host 0.0.0.0 --port 8001
+2) 健康檢查：
+   - curl http://localhost:8001/health
+3) 串流測試：
+   - curl -N -H "Content-Type: application/json" \
+     -d '{"message":"Does AST728 support fast charging or USB-C PD (Power Delivery)?","session_id":"mgfd_session_test_728"}' \
+     http://localhost:8001/api/mgfd/chat/stream
+4) 預期：
+   - 伺服器日誌顯示 AST728 在摘要 3 款內；
+   - 產品資料 JSON 中 AST728 的 battery_summary 有「支援 PD3.0 快充」；
+   - 回覆不再為「建議聯繫客服專家獲得協助」，而能就 PD/快充做出說明（若原始資料標示為 Optional，則應體現）。
+
+六、已知環境訊息（僅測試時觀察）
+- 測試過程顯示環境無法連線 huggingface.co（network restricted），但本地邏輯模擬無需下載模型即可驗證排序與摘要。
+- joblib 顯示將以 serial mode 運作（權限限制），不影響本次邏輯測試。
+
+七、後續可選優化
+- 特徵表擴充：依實際銷售需求擴充 keywords/regex 與權重（weight）。
+- 記憶體摘要增強：可偵測並在 memory_summary 中直接呈現「雙通道」字樣，回應更直接。
+- 提示工程：在系統提示中引導 LLM 明確使用 matched_features 與 summary 做出「多特徵比較表」。
+- 錯誤處理：若 JSON 特徵載入失敗，已有保底空表；也可加上啟動態度外露在 /status 便於監控。
+
+八、修改檔案清單
+- 新增：config/nb_features_table.json
+- 修改：libs/MGFDKernel.py（摘要排序、電池摘要、載入特徵表、matched_features 輸出）
+- 修改：libs/KnowledgeManageHandler/knowledge_manager.py（hybrid_search 移除 LLM，函式更名）
+- 修改：test/functional_tests/test_milvus_semantic_search.py（改為呼叫 hybrid_search，移除 LLM 輸出依賴）
+
+九、備註
+- 所有變更聚焦於既有問題與目標功能，未修改其他無關模組；風險面主要在摘要排序權重調整（已保留原排序穩定性並設回退機制）。
+
+— 以上 —
+

@@ -144,12 +144,12 @@ class MilvusSearchTester:
             logger.error(f"Parent-Child 檢索失敗: {e}")
             return None
     
-    def test_hybrid_search_with_llm(self, query: str):
-        """測試混合搜索（向量搜索 + LLM）"""
+    def test_hybrid_search(self, query: str):
+        """測試混合搜索（僅向量檢索，無 LLM）"""
         try:
-            logger.info(f"--- 混合搜索 + LLM: '{query}' ---")
-            
-            results = self.km.hybrid_search_with_llm(query, use_parent_child=True, top_k=3)
+            logger.info(f"--- 混合搜索（無 LLM）: '{query}' ---")
+
+            results = self.km.hybrid_search(query, use_parent_child=True, top_k=3)
             
             if results:
                 print(f"✅ 混合搜索結果:")
@@ -161,12 +161,11 @@ class MilvusSearchTester:
                     if isinstance(search_data, dict) and 'child_chunks' in search_data:
                         print(f"  找到 {search_data['total_child_chunks']} 個相關片段")
                     
-                print("  LLM 分析結果:")
-                llm_analysis = results.get('llm_analysis', '無LLM分析')
-                if llm_analysis and llm_analysis != "LLM 不可用，僅提供搜索結果":
-                    print(f"    {llm_analysis[:300]}...")
-                else:
-                    print(f"    {llm_analysis}")
+                # 顯示截斷的上下文（原先為 LLM 用）
+                ctx = results.get('context_used', '')
+                if ctx:
+                    print("  使用的上下文片段:")
+                    print(f"    {ctx[:300]}...")
             else:
                 print("❌ 混合搜索失敗")
             
@@ -235,9 +234,9 @@ class MilvusSearchTester:
                 if basic_results:
                     pc_results = self.test_parent_child_retrieval(query)
                     
-                    # 混合搜索 + LLM（只對前幾個查詢測試以節省時間）
+                    # 混合搜索（無 LLM，只對前幾個查詢測試以節省時間）
                     if i <= 3:
-                        hybrid_results = self.test_hybrid_search_with_llm(query)
+                        hybrid_results = self.test_hybrid_search(query)
                 
                 # 測試不同chunk類型（只對第一個查詢詳細測試）
                 if i == 1:
@@ -273,8 +272,8 @@ class MilvusSearchTester:
             # 2. Parent-Child 檢索
             pc_results = self.test_parent_child_retrieval(query)
             
-            # 3. 混合搜索 + LLM
-            hybrid_results = self.test_hybrid_search_with_llm(query)
+            # 3. 混合搜索（無 LLM）
+            hybrid_results = self.test_hybrid_search(query)
             
             # 4. 不同chunk類型測試
             chunk_type_results = self.test_different_chunk_types(query)

@@ -83,7 +83,7 @@ class MGFDKernel:
         self.config = self._load_config()
         # 載入可擴充的 NB 特徵對照表（用於關鍵功能偵測與比對）
         self.nb_feature_table = self._load_nb_feature_table()
-        
+        self.ComparableNB_NUM=4
         #self.slot_schema = self._load_slot_schema()
         
         # Initialize states and state_status before state_machine to avoid AttributeError
@@ -266,7 +266,7 @@ class MGFDKernel:
         tables = table_pattern.findall(text)
         return tables
     
-    def _summarize_product_data(self, product_data: Dict[str, Any], max_products: int = 5) -> Dict[str, Any]:
+    def _postprocess_product_data(self, product_data: Dict[str, Any], max_products: int = 5) -> Dict[str, Any]:
         """
         摘要產品數據，只保留關鍵資訊以減少 Token 消耗
         
@@ -818,7 +818,8 @@ class MGFDKernel:
         # 摘要產品數據以大幅減少 Token 消耗
         if _product_data and isinstance(_product_data, dict) and _product_data.get("products"):
             logger.info(f"原始產品數據包含 {len(_product_data.get('products', []))} 個產品")
-            _product_data = self._summarize_product_data(_product_data, max_products=3)
+            # _summarize_product_data名稱不好，因為內部做了不少處理
+            _product_data = self._postprocess_product_data(_product_data, max_products=self.ComparableNB_NUM)
             logger.info(f"摘要後產品數據包含 {len(_product_data.get('products', []))} 個產品")
         
         # 將 product_data 轉為 JSON 字串注入，降低模型誤判結構機率
@@ -897,137 +898,9 @@ class MGFDKernel:
             "message": llm_output,
             "success": True
         }
-        # # 若有 llm_output 則優先使用，否則回傳查詢資料字串，避免前端顯示 [object Object]
-        # response_result = {
-        #     "type": "general",
-        #     "message": llm_output if llm_output else json.dumps(_product_data, ensure_ascii=False, indent=2),
-        #     "success": True
-        # }
+       
         return response_result
-        # if self.response_generator:
-        #     response_result = await self.response_generator.generate(context)
-        #     context.update(response_result)
-            
-        #     # 映射 ResponseGenHandler 的字段到 _format_frontend_response 期待的字段
-        #     if response_result.get("type") == "funnel_question":
-        #         context["current_question"] = response_result.get("current_question")
-        #         context["question_options"] = response_result.get("question_options", [])
-        #         context["question_message"] = response_result.get("message", "")
-        # else:
-        #     context.update({
-        #         "response_type": "general",
-        #         "message": "回應生成器未初始化"
-        #     })
         
-        # result = self._format_frontend_response(context)
-        # logger.info(f"🔧 最終回應結果: {result}")
-        # return result
-    
-    # async def _process_message_internal(
-    #     self, 
-    #     session_id: str, 
-    #     message: str
-    # ) -> Dict[str, Any]:
-    #     """
-    #     內部消息處理流程
-        
-    #     Args:
-    #         session_id: 會話識別碼
-    #         message: 用戶輸入消息
-            
-    #     Returns:
-    #         處理結果字典
-    #     """
-    #     # Step 1: 建立 context
-    #     context = await self._build_context(session_id, message)
-        
-    #     # Step 2: 解析輸入（UserInputHandler）
-    #     if self.user_input_handler:
-    #         input_result = await self.user_input_handler.parse(message, context)
-    #         context.update(input_result)
-    #     else:
-    #         # 暫時使用基本解析
-    #         context.update({
-    #             "intent": "unknown",
-    #             "slots_update": {},
-    #             "control": {},
-    #             "errors": [],
-    #             "confidence": 0.0
-    #         })
-        
-    #     # Step 3: 狀態機驅動（StateManager）
-    #     if self.state_manager:
-    #         state_result = await self.state_manager.process_state(context)
-    #         context.update(state_result)
-    #     else:
-    #         # 暫時使用基本狀態處理
-    #         context.update({
-    #             "stage": "INIT",
-    #             "needs_knowledge_search": False
-    #         })
-        
-    #     # Step 4: 知識查詢（如需要）
-    #     if context.get('needs_knowledge_search') and self.knowledge_manager:
-    #         knowledge_result = await self.knowledge_manager.search(context)
-    #         context.update(knowledge_result)
-        
-    #     # Step 5: 生成回應（ResponseGenerator）
-    #     if self.response_generator:
-    #         response_result = await self.response_generator.generate(context)
-    #         context.update(response_result)
-    #     else:
-    #         # 暫時使用基本回應
-    #         context.update({
-    #             "response_type": "general",
-    #             "response_message": "系統正在處理您的請求..."
-    #         })
-        
-    #     # Step 6: 更新狀態
-    #     if self.state_manager:
-    #         await self.state_manager.update_session_state(session_id, context)
-        
-    #     return self._format_frontend_response(context)
-    
-    # async def _build_context(
-    #     self, 
-    #     session_id: str, 
-    #     message: str
-    # ) -> Dict[str, Any]:
-    #     """
-    #     建立處理上下文
-        
-    #     Args:
-    #         session_id: 會話識別碼
-    #         message: 用戶輸入消息
-            
-    #     Returns:
-    #         上下文字典
-    #     """
-    #     # 獲取現有會話狀態
-    #     session_state = {}
-    #     if self.state_manager:
-    #         session_state = await self.state_manager.get_session_state(session_id) or {}
-        
-    #     # 根據消息內容確定狀態
-    #     if message and message.strip():
-    #         current_state = "OnReceiveMsg"
-    #     else:
-    #         current_state = session_state.get("state", "OnWaitMsg")
-        
-    #     context = {
-    #         "session_id": session_id,
-    #         "user_message": message,
-    #         "timestamp": datetime.now().isoformat(),
-    #         "state": current_state,
-    #         "slots": session_state.get("slots", {}),
-    #         "history": session_state.get("history", []),
-    #         "control": {},
-    #         "errors": [],
-    #         "slot_schema": self.slot_schema,
-    #         "config": self.config
-    #     }
-        
-    #     return context
     
     def _format_frontend_response(
         self, 
