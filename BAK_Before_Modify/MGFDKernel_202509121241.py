@@ -1,3 +1,5 @@
+# BAK_Before_Modify/MGFDKernel_202509121241.py
+# BAK_Before_Modify/MGFDKernel.py
 # libs/MGFDKernel.py
 """
 MGFD 核心控制器 - 系統大腦及對外唯一介面
@@ -255,46 +257,9 @@ class MGFDKernel:
             return product_data
             
         products = product_data.get("products", [])
-
-        # 依據查詢與 matched_keys 進行優先排序，確保最相關產品不會被截斷
-        try:
-            query_text = (product_data.get("query") or "").strip()
-            q_lower = query_text.lower()
-            matched_keys = set([str(k).strip() for k in (product_data.get("matched_keys") or []) if str(k).strip()])
-
-            def relevance_score(prod: Dict[str, Any], idx: int) -> int:
-                score = 0
-                modeltype = str(prod.get("modeltype", "")).strip()
-                modelname = str(prod.get("modelname", "")).strip()
-                battery = (prod.get("battery") or "").lower()
-
-                # 1) Milvus 對應鍵命中（最強訊號）
-                if modeltype and modeltype in matched_keys:
-                    score += 100
-
-                # 2) 使用者查詢中直接出現型號或代碼
-                if modelname and modelname.lower() in q_lower:
-                    score += 60
-                # 單純數字代碼（如 728）在查詢中出現
-                if modeltype and modeltype.lower() in q_lower:
-                    score += 40
-
-                # 3) 查詢關鍵詞與產品電池/充電描述相符（如 PD、快充）
-                if any(k in q_lower for k in ["pd", "power delivery", "快充", "fast charge", "fast charging"]):
-                    if any(k in battery for k in ["pd", "power delivery", "pd3.0", "快充", "fast charging"]):
-                        score += 20
-
-                # 4) 保留原始順序的穩定性（較小權重，避免完全打亂）
-                score += max(0, 5 - min(idx, 5))
-                return score
-
-            # 先打分再排序
-            scored = [(relevance_score(p, i), i, p) for i, p in enumerate(products)]
-            scored.sort(key=lambda x: (-x[0], x[1]))
-            products = [p for _, __, p in scored[:max_products]]
-        except Exception:
-            # 發生任何異常時，退回到原本的前 N 策略
-            products = products[:max_products]
+        
+        # 限制產品數量到最相關的幾個
+        products = products[:max_products]
         
         summarized_products = []
         for product in products:
@@ -382,16 +347,6 @@ class MGFDKernel:
             summary_parts.append(capacity_match.group(1))
         if life_match:
             summary_parts.append(f"續航 {life_match.group(1)}")
-        
-        # 檢測 PD/快充等關鍵字
-        bt_lower = battery_text.lower()
-        if any(k in bt_lower for k in ["pd", "power delivery", "快充", "fast charging", "fast charge"]):
-            # 嘗試抓 PD 版本
-            pd_ver = None
-            m = re.search(r'(pd\s*\d+(?:\.\d+)?)', bt_lower)
-            if m:
-                pd_ver = m.group(1).upper().replace(" ", "")
-            summary_parts.append(f"支援 {pd_ver if pd_ver else 'PD'} 快充")
         
         return " ".join(summary_parts) if summary_parts else "標準電池"
     

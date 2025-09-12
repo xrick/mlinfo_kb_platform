@@ -17,6 +17,12 @@ please carefully and completely read and analyze  the following python files:   
 |   static/js/mgfd_ai.js
 |   HumanData/SlotHub/default_keywords.json
 |   config/mgfd_exec_config.json
+================================================================
+    Vector Database: Milvus
+        -Parent Collection: all_nb_info_collection_parent
+        -Child Collection: all_nb_info_collection_child
+    RDBMS: duckdb
+    cache database:redis
 
 
 # for debug
