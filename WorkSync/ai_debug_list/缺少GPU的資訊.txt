@@ -197,4 +197,4 @@ IMPLEMENTATION CHECKLIST:
 9. 跑整合測試：遊戲查詢、缺 GPU 欄位、全是 iGPU、含 NVIDIA 的情境
 
 狀態更新
-- 我已建立待辦並將第一項設為進行中。若同意本規劃，請回覆「ENTER EXECUTE MODE」，我將嚴格依清單逐項實作。
+- 我已建立待辦並將第一項設為進行中。若同意本規劃，請回覆「ENTER EXECUTE MODE」，我將嚴格依清單逐項實作。	

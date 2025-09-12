@@ -17,6 +17,14 @@ please carefully and completely read and analyze  the following python files:   
 |   static/js/mgfd_ai.js
 |   HumanData/SlotHub/default_keywords.json
 |   config/mgfd_exec_config.json
+    ------------------------------
+    vector database: milvus, 
+    current used collections:
+        -
+    current RADBMS: duckdb
+    current used duckdb name:
+    current used cache db: redis
+    current used embedding model:EMEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 
 
 # for debug

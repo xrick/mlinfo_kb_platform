@@ -1,0 +1,24 @@
+ledind
+
+958
+1x Power On/Off/Sleep: On with Blue light
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light
+1xWebcam Module: On with white light
+Off with no light
+2xSSD led: No Data
+1xCaps Lock: On with white light
+Off with no light
+
+structconfig
+Form: Gaming Notebook
+Dimension: 367.6* 265.9* 19.9mm (RX 6650M)
+367.6* 265.9* 21.9mm (RX 6650M XT)
+Material/Surface: A/C/D Cover：Metal (Anodize), 
+B Cover：Plastic (Texture)
+Hinge: 140 degree hinge
+Weight: ~2.3Kg (5.08bl)
