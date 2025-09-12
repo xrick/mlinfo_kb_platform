@@ -1,0 +1,58 @@
+可以，這功能我已經實作完成。以下是我的思考步驟與已落地的方案，最後附上如何測試。
+
+目標
+
+以 JSON 管理「功能特徵」定義（例如：支援 PD 快充、Dual-channel RAM）。
+從查詢與產品欄位中偵測特徵，納入排序與輸出，支援同時比較多個特徵。
+易於擴充：新增特徵只需改 JSON，不動程式邏輯。
+設計步驟
+
+特徵表結構：放在 config/nb_features_table.json，每個特徵包含
+id：特徵代號（例如 pd_fast_charging）
+labels：顯示名稱（多語可並存）
+keywords：關鍵詞（查詢與產品文字用 substring 比對）
+regex：可選進階比對（例如 PD 版本）
+search_fields：要檢索的產品欄位（如 battery, memory）
+weight：加權分數（用於排序）
+載入與使用
+在 MGFDKernel 啟動時讀取 JSON 表。
+統一的特徵比對函式：同時檢查「查詢」與「產品欄位」。雙命中 > 產品命中 > 只查詢命中。
+排序：將特徵分數納入摘要前的產品排序（可同時累加多個特徵的分數）。
+輸出：在每個產品的摘要中新增 matched_features，列出命中的特徵 id，讓 LLM 輕鬆比較多特徵。
+已做的變更
+
+新增 JSON 特徵表
+config/nb_features_table.json
+讀取與整合邏輯
+libs/MGFDKernel.py
+新增 _load_nb_feature_table()：啟動時載入 JSON
+摘要排序 _summarize_product_data()：
+以 Milvus matched_keys、查詢中的型號字樣、與「通用特徵分數」共同排序
+每個產品新增 matched_features 欄位
+電池摘要 _extract_battery_summary()：保留 PD/快充資訊（含版本，若可解析）
+保留既有 PD 邏輯，但改為由 JSON 決定規則，可擴充到「dual-channel RAM」等特徵
+JSON 範例
+
+檔案：config/nb_features_table.json
+已包含 3 個初始特徵：
+pd_fast_charging（PD/快充）
+dual_channel_ram（雙通道記憶體）
+usb_c_port（USB-C 介面）
+如何測試
+
+啟動伺服器
+uvicorn main:app --reload --host 0.0.0.0 --port 8001
+送出查詢（多特徵也可）
+單特徵（PD/快充）：curl -N -H "Content-Type: application/json" -d '{"message":"Does AST728 support fast charging or USB-C PD (Power Delivery)?","session_id":"feat_test_1"}' http://localhost:8001/api/mgfd/chat/stream
+多特徵（PD + Dual-channel）：curl -N -H "Content-Type: application/json" -d '{"message":"AST728 支援 PD 快充與 dual-channel RAM 嗎？","session_id":"feat_test_2"}' http://localhost:8001/api/mgfd/chat/stream
+預期
+AST728 應在摘要的 3 個產品中
+產品的 battery_summary 會顯示「支援 PD3.0 快充」（如果原始資料含版本）
+每個產品輸出的摘要中包含 matched_features，如 ["pd_fast_charging", "dual_channel_ram"]（依照命中而定）
+LLM 得以依 matched_features 與各 summary 自然比較多個特徵
+之後可加強
+
+權重微調：針對您的業務需求調整特徵 weight（我已預留欄位）
+關鍵詞擴充：把品牌、介面細項、協議版本等加進 keywords/regex
+呈現：如果需要，我可以在系統提示中明確要求 LLM 以 matched_features 為主軸做條理化對照表
+需要我幫您立即跑一次請求，貼回輸出和關鍵日誌，確認 matched_features 與排序是否如預期嗎？
