@@ -1,4 +1,0 @@
-2025-09-11 14:34:03,645 - libs.services.milvus_service - INFO - 成功連接到 Milvus: localhost:19530
-2025-09-11 14:34:03,651 [ERROR][handler]: RPC error: [query], <MilvusException: (code=1100, message=failed to create query plan: cannot parse expression: chunk_id >= 0, error: comparisons between VarChar and Int64 are not supported: invalid parameter)>, <Time:{'RPC start': '2025-09-11 14:34:03.650998', 'RPC error': '2025-09-11 14:34:03.651752'}> (decorators.py:140)
-2025-09-11 14:34:03,651 - libs.services.milvus_service - WARNING - 查詢失敗，嘗試使用搜尋方法: <MilvusException: (code=1100, message=failed to create query plan: cannot parse expression: chunk_id >= 0, error: comparisons between VarChar and Int64 are not supported: invalid parameter)>
-2025-09-11 14:34:03,847 - libs.services.milvus_service - INFO - 已斷開 Milvus 連接

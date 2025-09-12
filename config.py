@@ -1,4 +1,3 @@
-# config.py
 import os
 from pathlib import Path
 
@@ -9,10 +8,8 @@ BASE_DIR = Path(__file__).parent
 DB_PATH = BASE_DIR / "db" / "semantic_sales_spec_all.db"
 MILVUS_HOST = "localhost"
 MILVUS_PORT = "19530"
-# MILVUS_COLLECTION_NAME = "all_nb_info_collection_parent"
-MILVUS_COLLECTION_NAME = "all_nb_info_collection"
-MILVUS_COLLECTION_NAME_PARENT = "all_nb_info_collection_parent"
-MILVUS_COLLECTION_NAME_CHILD = "all_nb_info_collection_child"
+MILVUS_COLLECTION_NAME = "product_semantic_chunks"
+
 # Application settings
 APP_HOST = "0.0.0.0"
 APP_PORT = 8001
@@ -34,5 +31,3 @@ SERVICES_CONFIG = {
         "collection_name": MILVUS_COLLECTION_NAME
     }
 }
-
-EMEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"

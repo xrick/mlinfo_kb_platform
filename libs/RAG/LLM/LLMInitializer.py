@@ -3,7 +3,7 @@ from langchain_community.llms import Ollama
 class LLMInitializer:
     # def __init__(self, model_name: str = "gpt-oss:20b", temperature: float = 0.1):
     # def __init__(self, model_name: str = "deepseek-r1:7b", temperature: float = 0.1):
-    def __init__(self, model_name: str = "gpt-oss:20b", temperature: float = 0.1, request_timeout: int = 300):
+    def __init__(self, model_name: str = "gpt-oss:20b", temperature: float = 0.1, request_timeout: int = 60):
         """
         gpt-oss:20b
         deepseek-r1:7b
@@ -23,8 +23,7 @@ class LLMInitializer:
             try:
                 self.llm = Ollama(
                     model=self.model_name,
-                    temperature=self.temperature,
-                    timeout=self.request_timeout
+                    temperature=self.temperature
                 )
                 print(f"成功初始化 Ollama 模型: {self.model_name} (timeout: {self.request_timeout}s)")
             except Exception as e:

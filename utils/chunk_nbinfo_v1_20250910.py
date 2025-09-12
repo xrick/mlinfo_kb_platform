@@ -15,12 +15,6 @@ from sentence_transformers import SentenceTransformer
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Milvus imports
-try:
-    from pymilvus import connections, utility, Collection, CollectionSchema, FieldSchema, DataType
-except ImportError:
-    logger.warning("pymilvus not available, Milvus functionality will be limited")
-
 def gen_all_nbinfo_tb(csv_directory: str = 'data/raw/EM_New TTL_241104_AllTransformedToGoogleSheet', db_path: str = 'nbinfo.db') -> bool:
     """
     Creates a SQLite database and loads all CSV files into a single table.
@@ -268,7 +262,7 @@ def embed_all_nbinfo_to_collection(
                     parent_text = " | ".join(parent_text_parts)
                     
                     # Generate embedding for parent chunk
-                    parent_text_for_embedding = parent_text[:65536]  # Security: Limit text size to varchar(65536) limit
+                    parent_text_for_embedding = parent_text[:5000]  # Security: Limit text size
                     parent_embedding = embedding_model.encode(parent_text_for_embedding)
                     
                     # Create parent chunk entry
@@ -583,7 +577,7 @@ def embed_all_nbinfo_to_collection_streaming(
                             parent_text_parts.append(f"{col}: {sanitized_value}")
                     
                     parent_text = " | ".join(parent_text_parts)
-                    parent_text_for_embedding = parent_text[:65535]  # Limit text size to varchar(65535) limit
+                    parent_text_for_embedding = parent_text[:5000]  # Limit text size
                     
                     # Generate embedding for parent chunk (no storing in memory)
                     parent_embedding = milvus_manager.embedding_model.encode(parent_text_for_embedding)
@@ -700,17 +694,12 @@ def embed_all_nbinfo_to_collection_streaming(
         logger.info(f"Processed {stats['parent_chunks_processed']} parent chunks and {stats['child_chunks_processed']} child chunks")
         logger.info(f"Peak memory usage: {stats['memory_peak_mb']:.1f} MB")
         
-        # Create indexes for both collections
-        logger.info("Creating indexes for collections...")
-        index_results = milvus_manager.create_indexes()
-        
         return {
             "success": True,
             "collection_name": collection_name,
             "processing_mode": "streaming",
             "statistics": stats,
-            "collections_created": collection_results,
-            "indexes_created": index_results
+            "collections_created": collection_results
         }
         
     except Exception as e:
@@ -807,7 +796,7 @@ class MilvusParentChildManager:
             parent_fields = [
                 FieldSchema(name="id", dtype=DataType.VARCHAR, max_length=16, is_primary=True),
                 FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=self.embedding_dimension),
-                FieldSchema(name="text", dtype=DataType.VARCHAR, max_length=65535),
+                FieldSchema(name="text", dtype=DataType.VARCHAR, max_length=5000),
                 FieldSchema(name="source_file", dtype=DataType.VARCHAR, max_length=200),
                 FieldSchema(name="row_index", dtype=DataType.INT64),
                 FieldSchema(name="modeltype", dtype=DataType.VARCHAR, max_length=100),
@@ -870,7 +859,7 @@ class MilvusParentChildManager:
                 FieldSchema(name="id", dtype=DataType.VARCHAR, max_length=16, is_primary=True),
                 FieldSchema(name="parent_id", dtype=DataType.VARCHAR, max_length=16),
                 FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=self.embedding_dimension),
-                FieldSchema(name="text", dtype=DataType.VARCHAR, max_length=65535),
+                FieldSchema(name="text", dtype=DataType.VARCHAR, max_length=2000),
                 FieldSchema(name="source_file", dtype=DataType.VARCHAR, max_length=200),
                 FieldSchema(name="row_index", dtype=DataType.INT64),
                 FieldSchema(name="field_group", dtype=DataType.VARCHAR, max_length=50),
@@ -1075,22 +1064,9 @@ class MilvusParentChildManager:
                 parent_data["version"].append(chunk["metadata"]["version"])
                 parent_data["child_count"].append(len(chunk["child_chunk_ids"]))
             
-            # Insert parent chunks - convert to list of dictionaries
+            # Insert parent chunks
             parent_collection = Collection(self.parent_collection_name, using=self.connection_alias)
-            insert_data = []
-            for i in range(len(parent_data["id"])):
-                insert_data.append({
-                    "id": parent_data["id"][i],
-                    "embedding": parent_data["embedding"][i],
-                    "text": parent_data["text"][i],
-                    "source_file": parent_data["source_file"][i],
-                    "row_index": parent_data["row_index"][i],
-                    "modeltype": parent_data["modeltype"][i],
-                    "modelname": parent_data["modelname"][i],
-                    "version": parent_data["version"][i],
-                    "child_count": parent_data["child_count"][i]
-                })
-            parent_result = parent_collection.insert(insert_data)
+            parent_result = parent_collection.insert(parent_data)
             logger.info(f"Inserted {len(parent_chunks)} parent chunks")
             
             # Prepare child data for insertion
@@ -1121,23 +1097,9 @@ class MilvusParentChildManager:
                     child_data["modelname"].append(chunk["metadata"]["modelname"])
                     child_data["chunk_index"].append(chunk["metadata"]["chunk_index"])
                 
-                # Insert child chunks - convert to list of dictionaries
+                # Insert child chunks
                 child_collection = Collection(self.child_collection_name, using=self.connection_alias)
-                insert_data = []
-                for i in range(len(child_data["id"])):
-                    insert_data.append({
-                        "id": child_data["id"][i],
-                        "parent_id": child_data["parent_id"][i],
-                        "embedding": child_data["embedding"][i],
-                        "text": child_data["text"][i],
-                        "source_file": child_data["source_file"][i],
-                        "row_index": child_data["row_index"][i],
-                        "field_group": child_data["field_group"][i],
-                        "modeltype": child_data["modeltype"][i],
-                        "modelname": child_data["modelname"][i],
-                        "chunk_index": child_data["chunk_index"][i]
-                    })
-                child_result = child_collection.insert(insert_data)
+                child_result = child_collection.insert(child_data)
                 logger.info(f"Inserted {len(child_chunks)} child chunks")
             else:
                 child_result = None
@@ -1249,22 +1211,8 @@ class MilvusParentChildManager:
                 parent_data["version"].append(chunk["version"])
                 parent_data["child_count"].append(chunk["child_count"])
             
-            # Insert batch - convert to list of dictionaries
-            insert_data = []
-            for i in range(len(parent_data["id"])):
-                insert_data.append({
-                    "id": parent_data["id"][i],
-                    "embedding": parent_data["embedding"][i],
-                    "text": parent_data["text"][i],
-                    "source_file": parent_data["source_file"][i],
-                    "row_index": parent_data["row_index"][i],
-                    "modeltype": parent_data["modeltype"][i],
-                    "modelname": parent_data["modelname"][i],
-                    "version": parent_data["version"][i],
-                    "child_count": parent_data["child_count"][i]
-                })
-            
-            parent_collection.insert(insert_data)
+            # Insert batch
+            parent_collection.insert(parent_data)
             
             logger.info(f"Successfully inserted {len(parent_batch)} parent chunks")
             return True
@@ -1317,23 +1265,8 @@ class MilvusParentChildManager:
                 child_data["modeltype"].append(chunk["modeltype"])
                 child_data["modelname"].append(chunk["modelname"])
             
-            # Insert batch - convert to list of dictionaries
-            insert_data = []
-            for i in range(len(child_data["id"])):
-                insert_data.append({
-                    "id": child_data["id"][i],
-                    "parent_id": child_data["parent_id"][i],
-                    "embedding": child_data["embedding"][i],
-                    "text": child_data["text"][i],
-                    "field_group": child_data["field_group"][i],
-                    "chunk_index": child_data["chunk_index"][i],
-                    "source_file": child_data["source_file"][i],
-                    "row_index": child_data["row_index"][i],
-                    "modeltype": child_data["modeltype"][i],
-                    "modelname": child_data["modelname"][i]
-                })
-            
-            child_collection.insert(insert_data)
+            # Insert batch
+            child_collection.insert(child_data)
             
             logger.info(f"Successfully inserted {len(child_batch)} child chunks")
             return True
@@ -2156,56 +2089,62 @@ def create_complete_parent_child_system(csv_file_path: str,
 if __name__ == "__main__":
     # Example usage of the complete parent-child chunking system
     
-    # Configuration - use actual data directory
-    csv_directory = "data/raw/EM_New TTL_241104_AllTransformedToGoogleSheet"
-    collection_name = "all_nb_info_collection"
+    # Configuration
+    csv_path = "../db/laptop_specs_sample.csv"  # Update with actual path
     milvus_config = {
         "host": "localhost",
         "port": "19530"
     }
     
-    print("🚀 Starting Milvus Collection Creation")
+    print("🚀 Starting Parent-Child Chunking System Demo")
     print("=" * 60)
     
-    # Create collection using streaming approach
-    print(f"Processing CSV directory: {csv_directory}")
-    print(f"Target collection: {collection_name}")
-    
-    result = embed_all_nbinfo_to_collection_streaming(
-        csv_directory=csv_directory,
-        collection_name=collection_name,
+    # Create the complete system
+    system_result = create_complete_parent_child_system(
+        csv_file_path=csv_path,
         milvus_host=milvus_config["host"],
         milvus_port=milvus_config["port"],
-        overwrite=True
+        collection_prefix="demo_nb_specs"
     )
     
-    if "error" in result:
-        print(f"❌ Collection creation failed: {result['error']}")
+    if "error" in system_result:
+        print(f"❌ System setup failed: {system_result['error']}")
     else:
-        print("✅ Collection creation completed successfully!")
-        print(f"📊 Processing stats:")
-        for key, value in result.items():
-            if key != "error":
-                print(f"  {key}: {value}")
+        print("✅ System setup completed successfully!")
+        print(f"📊 Collection stats: {system_result['collection_stats']}")
         
-        # Test the created collection
-        print("\n🔍 Testing Collection")
-        print("-" * 30)
+        # Get the retriever for interactive testing
+        retriever = system_result.get("retriever")
         
-        try:
-            from pymilvus import connections, utility
-            connections.connect("default", host=milvus_config["host"], port=milvus_config["port"])
+        if retriever:
+            print("\n🔍 Interactive Search Demo")
+            print("-" * 30)
             
-            if utility.has_collection(collection_name):
-                collection = Collection(collection_name)
-                collection.load()
-                entity_count = collection.num_entities
-                print(f"✅ Collection '{collection_name}' exists with {entity_count} entities")
-            else:
-                print(f"❌ Collection '{collection_name}' not found")
+            # Demo queries
+            demo_queries = [
+                "gaming laptop with high-end graphics card",
+                "lightweight laptop for business",
+                "laptop with long battery life",
+                "CPU performance comparison"
+            ]
+            
+            for query in demo_queries:
+                print(f"\nQuery: '{query}'")
+                hybrid_results = retriever.hybrid_search(query, parent_k=2, child_k=3, rerank=True)
                 
-        except Exception as e:
-            print(f"❌ Error testing collection: {e}")
+                if "reranked_results" in hybrid_results:
+                    print(f"Found {len(hybrid_results['reranked_results'])} reranked results")
+                    for i, result in enumerate(hybrid_results["reranked_results"][:2]):
+                        content = result.get("content", {})
+                        result_type = result.get("type", "unknown")
+                        score = result.get("boosted_score", 0)
+                        print(f"  {i+1}. [{result_type.upper()}] Score: {score:.3f}")
+                        if result_type == "parent":
+                            print(f"      Model: {content.get('modelname', 'N/A')}")
+                        else:
+                            print(f"      Field: {content.get('field_group', 'N/A')}")
+                else:
+                    print("  No results found")
         
         print(f"\n🎯 Demo completed! Full results saved in system_result variable")
         print("💡 You can now use the retriever for custom searches")

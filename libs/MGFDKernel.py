@@ -262,47 +262,24 @@ class MGFDKernel:
         summarized_products = []
         for product in products:
             # 只保留關鍵規格，大幅減少數據量
-            # to-do: 是否依照用途不同，排序也不同
             summarized_product = {
                 "modeltype": product.get("modeltype", ""),
                 "modelname": product.get("modelname", ""),
                 "cpu_summary": self._extract_cpu_summary(product.get("cpu", "") or ""),
-                "gpu_summary": self._extract_gpu_summary(product.get("gpu", "") or ""),
                 "memory_summary": self._extract_memory_summary(product.get("memory", "") or ""),
                 "lcd_summary": self._extract_lcd_summary(product.get("lcd", "") or ""),
                 "battery_summary": self._extract_battery_summary(product.get("battery", "") or ""),
-                "portability": self._assess_portability(product),
-                "note": product.get("note", None)
+                "portability": self._assess_portability(product)
             }
             summarized_products.append(summarized_product)
         
-        summarized: Dict[str, Any] = {
+        return {
             "query": product_data.get("query", ""),
             "status": product_data.get("status", ""),
             "count": len(summarized_products),
             "products": summarized_products,
             "note": f"已摘要為 {len(summarized_products)} 個主要產品規格"
         }
-
-        # 若有備選清單，進行同樣的摘要（確保前端與 LLM 可見）
-        if isinstance(product_data.get("alternatives"), list) and product_data.get("alternatives"):
-            alt_src = product_data.get("alternatives")[:max_products]
-            alt_summarized: List[Dict[str, Any]] = []
-            for product in alt_src:
-                alt_summarized.append({
-                    "modeltype": product.get("modeltype", ""),
-                    "modelname": product.get("modelname", ""),
-                    "cpu_summary": self._extract_cpu_summary(product.get("cpu", "") or ""),
-                    "gpu_summary": self._extract_gpu_summary(product.get("gpu", "") or ""),
-                    "memory_summary": self._extract_memory_summary(product.get("memory", "") or ""),
-                    "lcd_summary": self._extract_lcd_summary(product.get("lcd", "") or ""),
-                    "battery_summary": self._extract_battery_summary(product.get("battery", "") or ""),
-                    "portability": self._assess_portability(product),
-                    "note": product.get("note", None)
-                })
-            summarized["alternatives"] = alt_summarized
-
-        return summarized
     
     def _extract_cpu_summary(self, cpu_text: str) -> str:
         """提取 CPU 關鍵資訊"""
@@ -334,16 +311,6 @@ class MGFDKernel:
             summary_parts.append(f"最高 {ram_match.group(1)}")
         
         return " ".join(summary_parts) if summary_parts else memory_text[:50]
-
-    def _extract_gpu_summary(self, gpu_text: str) -> str:
-        """提取 GPU 關鍵資訊，若缺失則標註資料不足"""
-        if not gpu_text or not str(gpu_text).strip():
-            return "GPU：資料不足（建議確認詳規）"
-        # 取第一行或包含關鍵型號的簡短描述
-        text = str(gpu_text).strip()
-        first_line = text.split('\n')[0].strip()
-        # 簡單裁剪避免過長
-        return first_line[:120]
     
     def _extract_lcd_summary(self, lcd_text: str) -> str:
         """提取螢幕關鍵資訊"""
@@ -715,22 +682,10 @@ class MGFDKernel:
         #若ifDBSearch為True，則進行知識查詢，並將結果存入context["query_result"],
         #這是product_data
         if slot_metadata.get("ifDBSearch", True):
-            # 使用 hybrid search 進行語義搜尋和產品規格查詢（以非阻塞方式在執行緒池執行）
-            filters = slot_metadata.get("filters") if isinstance(slot_metadata, dict) else None
-            _hybrid_result = await asyncio.to_thread(self.knowledge_manager.hybrid_product_search, message, True, 5, filters)
-            
-            logger.info(f"_hybrid_result JSON 長度: {len(_hybrid_result)} (已優化)")
-            logger.info(f"***************************產品資料START*********************************: \n產品資料:\n{_hybrid_result}")
-            logger.info(f"***************************產品資料END***********************************\n")
-            _product_data = self._adapt_hybrid_to_mgfd_format(_hybrid_result) if _hybrid_result else None
+            # 直接進行與關鍵字相關的產品規格搜尋（以非阻塞方式在執行緒池執行）
+            _product_data = await asyncio.to_thread(self.knowledge_manager.search_product_data, message)
             context['keyword'] = slot_name
             logging.info(f"知識查詢結果: {_product_data}")
-            # 添加調試資訊
-            if _product_data:
-                logger.info(f"🔍 Debug - _product_data 狀態: {_product_data.get('status')}")
-                logger.info(f"🔍 Debug - products 數量: {len(_product_data.get('products', []))}")
-                if _product_data.get('products'):
-                    logger.info(f"🔍 Debug - 第一個產品: {_product_data['products'][0].keys()}")
             #進行
         #step 5: generate three-tier prompt and send prompt to LLM
         # 摘要產品數據以大幅減少 Token 消耗
@@ -739,7 +694,6 @@ class MGFDKernel:
             _product_data = self._summarize_product_data(_product_data, max_products=3)
             logger.info(f"摘要後產品數據包含 {len(_product_data.get('products', []))} 個產品")
         
-
         # 將 product_data 轉為 JSON 字串注入，降低模型誤判結構機率
         product_data_json = json.dumps(_product_data, ensure_ascii=False, indent=2)
         logger.info(f"產品資料 JSON 長度: {len(product_data_json)} (已優化)")
@@ -1046,33 +1000,3 @@ class MGFDKernel:
         """設置狀態管理器"""
         self.state_manager = manager
         logger.info("StateManagementHandler 已設置")
-    
-    def _adapt_hybrid_to_mgfd_format(self, hybrid_result: dict) -> dict:
-        """
-        將 hybrid_product_search 結果轉換為 MGFD 期望的格式
-        
-        Args:
-            hybrid_result: hybrid_product_search 返回的結果
-            
-        Returns:
-            MGFD 兼容的產品數據格式
-        """
-        try:
-            if not hybrid_result or not isinstance(hybrid_result, dict):
-                return {"query": "", "status": "no_results", "products": []}
-            
-            # 直接使用查詢結果中的完整產品規格資料
-            products = hybrid_result.get("products", [])
-            alternatives = hybrid_result.get("alternatives", [])
-            
-            return {
-                "query": hybrid_result.get("query", ""),
-                "status": hybrid_result.get("status", "success" if products else "no_results"),
-                "products": products,
-                "alternatives": alternatives,
-                "search_method": hybrid_result.get("search_method", "hybrid")
-            }
-            
-        except Exception as e:
-            logger.error(f"格式適配失敗: {e}")
-            return {"query": "", "status": "error", "products": [], "error": str(e)}
