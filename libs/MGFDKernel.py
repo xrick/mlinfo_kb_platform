@@ -81,6 +81,8 @@ class MGFDKernel:
         self.knowledge_manager = KnowledgeManager()
         self.redis_client = redis_client
         self.config = self._load_config()
+        # 載入可擴充的 NB 特徵對照表（用於關鍵功能偵測與比對）
+        self.nb_feature_table = self._load_nb_feature_table()
         
         #self.slot_schema = self._load_slot_schema()
         
@@ -221,6 +223,30 @@ class MGFDKernel:
             pass
 
         logger.info("MGFDKernel 初始化完成")
+
+    def _load_nb_feature_table(self) -> Dict[str, Any]:
+        """
+        載入 config/nb_features_table.json，若不存在則回傳預設空表。
+        """
+        try:
+            config_path = Path(__file__).resolve().parents[1] / "config" / "nb_features_table.json"
+            if config_path.exists():
+                with open(config_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    # 正規化：確保必要欄位存在
+                    feats = data.get("features", [])
+                    for fe in feats:
+                        fe.setdefault("keywords", [])
+                        fe.setdefault("regex", [])
+                        fe.setdefault("search_fields", [])
+                        fe.setdefault("weight", 10)
+                    return {"version": data.get("version", "1.0"), "features": feats}
+            else:
+                logger.warning("未找到 nb_features_table.json，將使用空表設定")
+                return {"version": "0", "features": []}
+        except Exception as e:
+            logger.error(f"載入 nb_features_table.json 失敗: {e}")
+            return {"version": "0", "features": []}
     
     def extract_markdown_tables(self, text: str) -> List[str]:
         """
@@ -262,11 +288,60 @@ class MGFDKernel:
             q_lower = query_text.lower()
             matched_keys = set([str(k).strip() for k in (product_data.get("matched_keys") or []) if str(k).strip()])
 
+            # 通用特徵比對：根據 JSON 特徵表對查詢與產品內容進行匹配並給分
+            def feature_score_and_hits(prod: Dict[str, Any]) -> (int, List[str]):
+                total = 0
+                hits: List[str] = []
+                features = (self.nb_feature_table or {}).get("features", [])
+                # 預先將產品各欄位轉小寫
+                field_texts = {}
+                for fld in ["cpu", "gpu", "memory", "storage", "lcd", "battery", "audio", "wireless", "bluetooth"]:
+                    field_texts[fld] = str(prod.get(fld, "") or "").lower()
+                for fe in features:
+                    fe_id = fe.get("id", "")
+                    weight = int(fe.get("weight", 10))
+                    keys = [str(k).lower() for k in fe.get("keywords", [])]
+                    regs = fe.get("regex", [])
+                    search_fields = fe.get("search_fields", []) or list(field_texts.keys())
+
+                    # 查詢命中
+                    q_hit = any(k in q_lower for k in keys) if keys else False
+
+                    # 產品欄位命中（關鍵字或 regex）
+                    p_hit = False
+                    for fld in search_fields:
+                        txt = field_texts.get(fld, "")
+                        if not txt:
+                            continue
+                        if keys and any(k in txt for k in keys):
+                            p_hit = True
+                            break
+                        # regex 檢查
+                        for rpat in regs:
+                            try:
+                                if re.search(rpat, txt):
+                                    p_hit = True
+                                    break
+                            except Exception:
+                                continue
+                        if p_hit:
+                            break
+
+                    # 計分邏輯：雙命中 > 產品命中 > 只查詢命中
+                    if q_hit and p_hit:
+                        total += weight * 2
+                        hits.append(fe_id)
+                    elif p_hit:
+                        total += weight
+                        hits.append(fe_id)
+                    elif q_hit:
+                        total += max(1, weight // 2)
+                return total, hits
+
             def relevance_score(prod: Dict[str, Any], idx: int) -> int:
                 score = 0
                 modeltype = str(prod.get("modeltype", "")).strip()
                 modelname = str(prod.get("modelname", "")).strip()
-                battery = (prod.get("battery") or "").lower()
 
                 # 1) Milvus 對應鍵命中（最強訊號）
                 if modeltype and modeltype in matched_keys:
@@ -279,10 +354,9 @@ class MGFDKernel:
                 if modeltype and modeltype.lower() in q_lower:
                     score += 40
 
-                # 3) 查詢關鍵詞與產品電池/充電描述相符（如 PD、快充）
-                if any(k in q_lower for k in ["pd", "power delivery", "快充", "fast charge", "fast charging"]):
-                    if any(k in battery for k in ["pd", "power delivery", "pd3.0", "快充", "fast charging"]):
-                        score += 20
+                # 3) 通用特徵分數（多特徵可累加）
+                f_score, _ = feature_score_and_hits(prod)
+                score += f_score
 
                 # 4) 保留原始順序的穩定性（較小權重，避免完全打亂）
                 score += max(0, 5 - min(idx, 5))
@@ -298,6 +372,11 @@ class MGFDKernel:
         
         summarized_products = []
         for product in products:
+            # 計算特徵命中（供表格與比較用）
+            try:
+                _, feature_hits = feature_score_and_hits(product)
+            except Exception:
+                feature_hits = []
             # 只保留關鍵規格，大幅減少數據量
             summarized_product = {
                 "modeltype": product.get("modeltype", ""),
@@ -306,7 +385,8 @@ class MGFDKernel:
                 "memory_summary": self._extract_memory_summary(product.get("memory", "") or ""),
                 "lcd_summary": self._extract_lcd_summary(product.get("lcd", "") or ""),
                 "battery_summary": self._extract_battery_summary(product.get("battery", "") or ""),
-                "portability": self._assess_portability(product)
+                "portability": self._assess_portability(product),
+                "matched_features": feature_hits
             }
             summarized_products.append(summarized_product)
         

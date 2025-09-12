@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "notes": "Notebook feature detection table. Extend by adding new feature entries.",
+  "features": [
+    {
+      "id": "pd_fast_charging",
+      "labels": ["PD 快充", "USB-C PD", "Power Delivery", "快充"],
+      "keywords": ["pd", "power delivery", "pd3.0", "pd 3.0", "快充", "fast charge", "fast charging"],
+      "regex": ["\\bpd\\s*\\d+(?:\\.\\d+)?\\b", "power\\s+delivery"],
+      "search_fields": ["battery", "wireless", "bluetooth"],
+      "weight": 20
+    },
+    {
+      "id": "dual_channel_ram",
+      "labels": ["雙通道記憶體", "Dual-channel RAM"],
+      "keywords": ["dual channel", "dual-channel", "dual channel memory", "雙通道"],
+      "regex": [],
+      "search_fields": ["memory"],
+      "weight": 15
+    },
+    {
+      "id": "usb_c_port",
+      "labels": ["USB-C 介面"],
+      "keywords": ["usb-c", "type-c", "usb c", "type c"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "storage", "lcd", "battery", "audio", "wireless", "bluetooth"],
+      "weight": 8
+    }
+  ]
+}
+
