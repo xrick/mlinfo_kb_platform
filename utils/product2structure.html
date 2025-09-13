@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>產品特徵擷取工具</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony (Stone neutrals with a muted Teal accent) -->
+    <!-- Application Structure Plan: A two-column "Prompt Engineering Toolkit" SPA. Left column for configuration (feature selection, format choice) and right column for user input and the dynamically generated prompt. This structure transforms the static prompt template into an interactive, customizable tool, directly enhancing the usability of the source report's content. The user flow is intuitive: configure on the left, see the generated prompt, and use it with text pasted on the right. -->
+    <!-- Visualization & Content Choices: Report Info: 35 product features list & prompt template. Goal: Organize/Interact. Viz/Method: Interactive checklist with JS-powered dynamic filtering. Interaction: User selects features and output format (Markdown/JSON) to dynamically build a tailored prompt. Justification: This is the most effective way to make a prompt template interactive and useful as a tool, far superior to a static text display. No charts are used as the source material contains no quantitative data. Library/Method: Vanilla JS for DOM manipulation and state. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: #f8f7f6; /* stone-100 */
+        }
+        .custom-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        .custom-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .custom-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(13, 148, 136, 0.2);
+        }
+        .feature-checkbox:checked {
+            background-color: #0d9488; /* teal-600 */
+            border-color: #0d9488;
+        }
+        .feature-checkbox:focus {
+            ring: 2px;
+            ring-offset: 2px;
+            ring-color: #14b8a6; /* teal-500 */
+        }
+        .output-format-radio:checked {
+            border-color: #0d9488;
+        }
+        .output-format-radio:checked::after {
+            background-color: #0d9488;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 160px;
+            background-color: #334155; /* slate-700 */
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -80px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.75rem;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="text-stone-800">
+    <div class="container mx-auto p-4 sm:p-6 md:p-8">
+
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-teal-700">產品特徵擷取工具</h1>
+            <p class="text-stone-600 mt-2 text-lg">一個將產品描述轉換為結構化規格的互動式應用程式。</p>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+            <!-- Left Column: Configuration Panel -->
+            <aside class="flex flex-col gap-6">
+                <div class="custom-card p-6">
+                    <h2 class="text-2xl font-semibold text-stone-700 mb-4 border-b pb-2">1. 選擇特徵</h2>
+                    <div class="flex justify-between items-center mb-4">
+                        <p class="text-sm text-stone-500">選擇您想從文件中擷取的特徵。</p>
+                        <div class="space-x-2">
+                            <button id="selectAllBtn" class="text-xs font-medium text-teal-600 hover:text-teal-800">全選</button>
+                            <button id="deselectAllBtn" class="text-xs font-medium text-teal-600 hover:text-teal-800">全不選</button>
+                        </div>
+                    </div>
+                    <div id="featuresList" class="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-3 max-h-96 overflow-y-auto pr-2">
+                        <!-- Features will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <div class="custom-card p-6">
+                    <h2 class="text-2xl font-semibold text-stone-700 mb-4 border-b pb-2">2. 選擇輸出格式</h2>
+                     <div id="outputFormatSelector" class="flex space-x-4">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="radio" name="outputFormat" value="markdown" class="output-format-radio appearance-none w-4 h-4 border-2 border-stone-300 rounded-full transition duration-200 relative checked:after:content-[''] checked:after:w-2 checked:after:h-2 checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2" checked>
+                            <span class="text-stone-700">Markdown 表格</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="radio" name="outputFormat" value="json" class="output-format-radio appearance-none w-4 h-4 border-2 border-stone-300 rounded-full transition duration-200 relative checked:after:content-[''] checked:after:w-2 checked:after:h-2 checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2">
+                            <span class="text-stone-700">JSON</span>
+                        </label>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Column: Input & Generated Prompt -->
+            <section class="flex flex-col gap-6">
+                <div class="custom-card p-6">
+                    <h2 class="text-2xl font-semibold text-stone-700 mb-4 border-b pb-2">3. 貼上產品資訊</h2>
+                    <textarea id="sourceText" class="w-full h-48 p-3 border border-stone-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200" placeholder="在此處貼上您的產品技術規格、描述或簡報文字..."></textarea>
+                </div>
+
+                <div class="custom-card p-6 flex-grow flex flex-col">
+                    <div class="flex justify-between items-center mb-4 border-b pb-2">
+                        <h2 class="text-2xl font-semibold text-stone-700">4. 複製產生的提示</h2>
+                        <button id="copyPromptBtn" class="custom-button bg-teal-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                            複製提示
+                        </button>
+                    </div>
+                    <textarea id="generatedPrompt" readonly class="w-full flex-grow p-3 bg-stone-50 border border-stone-200 rounded-md resize-none"></textarea>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+    <script>
+        const features = [
+            { id: 'modeltype', name: 'modeltype', tooltip: '產品類型，如筆記型電腦、平板電腦' },
+            { id: 'version', name: 'version', tooltip: '產品版本號' },
+            { id: 'modelname', name: 'modelname', tooltip: '產品型號名稱' },
+            { id: 'mainboard', name: 'mainboard', tooltip: '主機板規格' },
+            { id: 'devtime', name: 'devtime', tooltip: '開發時程或時間' },
+            { id: 'pm', name: 'pm', tooltip: '產品經理 (Product Manager)' },
+            { id: 'structconfig', name: 'structconfig', tooltip: '結構配置、機殼材質等' },
+            { id: 'lcd', name: 'lcd', tooltip: '螢幕規格 (尺寸、解析度、類型)' },
+            { id: 'touchpanel', name: 'touchpanel', tooltip: '觸控面板規格' },
+            { id: 'iointerface', name: 'iointerface', tooltip: '輸出/輸入介面 (USB, HDMI等)' },
+            { id: 'ledind', name: 'ledind', tooltip: 'LED 指示燈' },
+            { id: 'powerbutton', name: 'powerbutton', tooltip: '電源按鈕' },
+            { id: 'keyboard', name: 'keyboard', tooltip: '鍵盤規格 (佈局、背光)' },
+            { id: 'webcamera', name: 'webcamera', tooltip: '網路攝影機規格' },
+            { id: 'touchpad', name: 'touchpad', tooltip: '觸控板規格' },
+            { id: 'fingerprint', name: 'fingerprint', tooltip: '指紋辨識器' },
+            { id: 'audio', name: 'audio', tooltip: '音訊規格 (喇叭、麥克風)' },
+            { id: 'battery', name: 'battery', tooltip: '電池容量、類型' },
+            { id: 'cpu', name: 'cpu', tooltip: '中央處理器 (CPU) 型號' },
+            { id: 'gpu', name: 'gpu', tooltip: '圖形處理器 (GPU) 型號' },
+            { id: 'memory', name: 'memory', tooltip: '記憶體 (RAM) 規格' },
+            { id: 'lcdconnector', name: 'lcdconnector', tooltip: '螢幕連接器類型' },
+            { id: 'storage', name: 'storage', tooltip: '儲存裝置 (SSD/HDD) 規格' },
+            { id: 'wifislot', name: 'wifislot', tooltip: 'Wi-Fi 插槽類型' },
+            { id: 'thermal', name: 'thermal', tooltip: '散熱模組規格' },
+            { id: 'tpm', name: 'tpm', tooltip: '信賴平台模組 (TPM)' },
+            { id: 'rtc', name: 'rtc', tooltip: '即時時鐘 (Real-Time Clock)' },
+            { id: 'wireless', name: 'wireless', tooltip: '無線網路 (Wi-Fi) 規格' },
+            { id: 'lan', name: 'lan', tooltip: '有線網路 (LAN) 規格' },
+            { id: 'lte', name: 'lte', tooltip: '行動網路 (LTE/4G/5G) 規格' },
+            { id: 'bluetooth', name: 'bluetooth', tooltip: '藍牙版本' },
+            { id: 'softwareconfig', name: 'softwareconfig', tooltip: '軟體配置、作業系統' },
+            { id: 'ai', name: 'ai', tooltip: 'AI 相關功能或軟體' },
+            { id: 'accessory', name: 'accessory', tooltip: '隨附配件' },
+            { id: 'certifications', name: 'certifications', tooltip: '相關認證 (FCC, CE 等)' },
+        ];
+
+        const featuresListEl = document.getElementById('featuresList');
+        const selectAllBtn = document.getElementById('selectAllBtn');
+        const deselectAllBtn = document.getElementById('deselectAllBtn');
+        const outputFormatSelector = document.getElementById('outputFormatSelector');
+        const generatedPromptEl = document.getElementById('generatedPrompt');
+        const copyPromptBtn = document.getElementById('copyPromptBtn');
+        const sourceTextEl = document.getElementById('sourceText');
+
+        let selectedFeatures = new Set(features.map(f => f.id));
+        let outputFormat = 'markdown';
+
+        function renderFeatures() {
+            featuresListEl.innerHTML = '';
+            features.forEach(feature => {
+                const isChecked = selectedFeatures.has(feature.id);
+                const itemHtml = `
+                    <label class="flex items-center space-x-2 cursor-pointer group">
+                        <input type="checkbox" data-feature-id="${feature.id}" class="feature-checkbox h-4 w-4 rounded border-stone-300 text-teal-600 focus:ring-teal-500" ${isChecked ? 'checked' : ''}>
+                        <div class="tooltip">
+                           <span class="text-sm text-stone-700 group-hover:text-teal-600">${feature.name}</span>
+                           <span class="tooltiptext">${feature.tooltip}</span>
+                        </div>
+                    </label>
+                `;
+                featuresListEl.insertAdjacentHTML('beforeend', itemHtml);
+            });
+        }
+        
+        function generatePrompt() {
+            const featureListString = Array.from(selectedFeatures).join(', ');
+
+            let promptText = `你是一位精準的產品規格分析師。你的任務是從我提供的產品描述、規格表或簡報文字中，系統性地提取並整理出以下產品特徵的詳細資訊。
+
+**目標：**
+請比對下方特徵清單，並從我提供的產品資訊中找出對應的內容。
+
+**特徵列表：**
+${featureListString}
+
+**任務步驟：**
+1. **仔細閱讀**：我將在下方提供產品的技術規格、描述或簡報文字。
+2. **精準擷取**：針對清單中的每一項特徵，找出相關的詳細內容。
+`;
+
+            if (outputFormat === 'markdown') {
+                promptText += `3. **格式化輸出**：請使用一個 Markdown 表格來呈現結果。表格需包含兩欄：「特徵名稱」和「詳細資訊」。
+4. **處理缺失資訊**：如果某項特徵在產品資訊中沒有被提及，請在「詳細資訊」欄位填入「不適用 (N/A)」。
+
+**範例輸出格式：**
+| 特徵名稱 | 詳細資訊 |
+| :--- | :--- |
+| modeltype | 筆記型電腦 (Notebook) |
+| modelname | AcmeBook Pro |
+| ... | ... |
+| accessory | N/A |
+`;
+            } else { // json
+                promptText += `3. **格式化輸出**：請使用 JSON 格式來呈現結果。每一個特徵名稱作為 JSON 的鍵（Key），其詳細資訊作為對應的值（Value）。
+4. **處理缺失資訊**：如果某項特徵在產品資訊中沒有被提及，請將其值設為 "N/A"。
+
+**範例輸出格式：**
+\`\`\`json
+{
+  "modeltype": "筆記型電腦 (Notebook)",
+  "modelname": "AcmeBook Pro",
+  "accessory": "N/A"
+}
+\`\`\`
+`;
+            }
+
+            promptText += `
+---
+
+**請將下方提供的產品資訊填入表格中：**
+
+${sourceTextEl.value || "[在此處貼上您的產品資訊文字]"}`;
+
+            generatedPromptEl.value = promptText;
+        }
+
+        featuresListEl.addEventListener('change', (e) => {
+            if (e.target.matches('input[type="checkbox"]')) {
+                const featureId = e.target.dataset.featureId;
+                if (e.target.checked) {
+                    selectedFeatures.add(featureId);
+                } else {
+                    selectedFeatures.delete(featureId);
+                }
+                generatePrompt();
+            }
+        });
+
+        selectAllBtn.addEventListener('click', () => {
+            selectedFeatures = new Set(features.map(f => f.id));
+            renderFeatures();
+            generatePrompt();
+        });
+        
+        deselectAllBtn.addEventListener('click', () => {
+            selectedFeatures.clear();
+            renderFeatures();
+            generatePrompt();
+        });
+
+        outputFormatSelector.addEventListener('change', (e) => {
+            if (e.target.matches('input[type="radio"]')) {
+                outputFormat = e.target.value;
+                generatePrompt();
+            }
+        });
+
+        sourceTextEl.addEventListener('input', generatePrompt);
+
+        copyPromptBtn.addEventListener('click', () => {
+            generatedPromptEl.select();
+            document.execCommand('copy');
+            copyPromptBtn.textContent = '已複製！';
+            setTimeout(() => {
+                copyPromptBtn.textContent = '複製提示';
+            }, 2000);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFeatures();
+            generatePrompt();
+        });
+    </script>
+</body>
+</html>
+
+
