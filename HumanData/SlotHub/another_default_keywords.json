@@ -1,0 +1,217 @@
+很好 👍
+以下是 **完整整合版 JSON**，已經把 **基本需求 (預算、重量、尺寸、輕便、續航力、CPU、GPU、記憶體、SSD、品牌、螢幕、用途)** 和 **進階需求 (散熱、鍵盤手感、觸控螢幕、連接埠、AI 晶片、散熱噪音、網路連線、外觀設計、售後服務)** 全部合併起來：
+
+
+{
+  "預算": {
+    "synonyms": ["預算", "價錢", "價格", "花費", "價位", "價錢範圍", "多少錢"],
+    "metadata": {
+      "regex": "(預算|價錢|價格|花費|價位|價錢範圍|多少錢)",
+      "slotvalue": "all",
+      "mapping": "budget",
+      "importance": 3,
+      "ifDBSearch": true
+    }
+  },
+  "重量": {
+    "synonyms": ["重量", "機身重量", "淨重", "總重", "機重", "拿起來重不重"],
+    "metadata": {
+      "regex": "(重量|機身重量|淨重|總重|機重|重不重)",
+      "slotvalue": "all",
+      "mapping": "weight",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+  "尺寸": {
+    "synonyms": ["尺寸", "大小", "螢幕大小", "螢幕吋數", "幾吋", "長寬高"],
+    "metadata": {
+      "regex": "(尺寸|大小|螢幕大小|螢幕吋數|幾吋|長寬高)",
+      "slotvalue": "all",
+      "mapping": "size",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+  "輕便": {
+    "synonyms": ["輕便", "攜帶", "便攜", "隨身", "好帶", "輕巧"],
+    "metadata": {
+      "regex": "(輕便|攜帶|便攜|隨身|好帶|輕巧)",
+      "slotvalue": "all",
+      "mapping": "portability",
+      "importance": 2,
+      "ifDBSearch": false
+    }
+  },
+  "續航力": {
+    "synonyms": ["續航力", "電池", "待機時間", "使用時間", "電池容量", "電量"],
+    "metadata": {
+      "regex": "(續航力|電池|待機時間|使用時間|電池容量|電量)",
+      "slotvalue": "all",
+      "mapping": "battery_life",
+      "importance": 3,
+      "ifDBSearch": true
+    }
+  },
+  "CPU": {
+    "synonyms": ["CPU", "處理器", "晶片", "中央處理器", "Intel", "AMD", "效能"],
+    "metadata": {
+      "regex": "(CPU|處理器|晶片|中央處理器|Intel|AMD|效能)",
+      "slotvalue": "all",
+      "mapping": "cpu",
+      "importance": 3,
+      "ifDBSearch": true
+    }
+  },
+  "GPU": {
+    "synonyms": ["GPU", "顯卡", "顯示卡", "繪圖卡", "獨顯", "內顯"],
+    "metadata": {
+      "regex": "(GPU|顯卡|顯示卡|繪圖卡|獨顯|內顯)",
+      "slotvalue": "all",
+      "mapping": "gpu",
+      "importance": 3,
+      "ifDBSearch": true
+    }
+  },
+  "記憶體": {
+    "synonyms": ["記憶體", "RAM", "內存", "容量", "運行記憶體"],
+    "metadata": {
+      "regex": "(記憶體|RAM|內存|容量|運行記憶體)",
+      "slotvalue": "all",
+      "mapping": "memory",
+      "importance": 3,
+      "ifDBSearch": true
+    }
+  },
+  "SSD": {
+    "synonyms": ["SSD", "硬碟", "固態硬碟", "容量", "儲存空間", "HDD"],
+    "metadata": {
+      "regex": "(SSD|硬碟|固態硬碟|容量|儲存空間|HDD)",
+      "slotvalue": "all",
+      "mapping": "storage",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+  "品牌": {
+    "synonyms": ["品牌", "牌子", "廠牌", "廠商", "Apple", "華碩", "宏碁", "聯想", "Dell", "HP", "微星"],
+    "metadata": {
+      "regex": "(品牌|牌子|廠牌|廠商|Apple|華碩|宏碁|聯想|Dell|HP|微星)",
+      "slotvalue": "all",
+      "mapping": "brand",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+  "螢幕": {
+    "synonyms": ["螢幕", "顯示器", "解析度", "畫質", "OLED", "Retina", "全高清", "4K"],
+    "metadata": {
+      "regex": "(螢幕|顯示器|解析度|畫質|OLED|Retina|全高清|4K)",
+      "slotvalue": "all",
+      "mapping": "display",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+  "用途": {
+    "synonyms": ["用途", "使用情境", "工作", "文書", "上課", "遊戲", "影片剪輯", "娛樂"],
+    "metadata": {
+      "regex": "(用途|使用情境|工作|文書|上課|遊戲|影片剪輯|娛樂)",
+      "slotvalue": "all",
+      "mapping": "usage",
+      "importance": 3,
+      "ifDBSearch": false
+    }
+  },
+  "散熱": {
+    "synonyms": ["散熱", "散熱效果", "散熱系統", "降溫", "風扇", "溫度"],
+    "metadata": {
+      "regex": "(散熱|散熱效果|散熱系統|降溫|風扇|溫度)",
+      "slotvalue": "all",
+      "mapping": "cooling",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+  "鍵盤手感": {
+    "synonyms": ["鍵盤", "打字手感", "鍵程", "鍵帽", "鍵盤舒適度", "背光鍵盤"],
+    "metadata": {
+      "regex": "(鍵盤|打字手感|鍵程|鍵帽|鍵盤舒適度|背光鍵盤)",
+      "slotvalue": "all",
+      "mapping": "keyboard",
+      "importance": 2,
+      "ifDBSearch": false
+    }
+  },
+  "觸控螢幕": {
+    "synonyms": ["觸控螢幕", "觸控", "手寫筆", "可觸控", "平板模式", "2合1"],
+    "metadata": {
+      "regex": "(觸控螢幕|觸控|手寫筆|可觸控|平板模式|2合1)",
+      "slotvalue": "all",
+      "mapping": "touchscreen",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+  "連接埠": {
+    "synonyms": ["USB", "USB-C", "Type-C", "Thunderbolt", "HDMI", "DP", "插槽", "充電孔"],
+    "metadata": {
+      "regex": "(USB|USB-C|Type-C|Thunderbolt|HDMI|DP|插槽|充電孔)",
+      "slotvalue": "all",
+      "mapping": "ports",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+  "AI晶片": {
+    "synonyms": ["AI 晶片", "神經引擎", "NPU", "AI 加速器", "Neural Engine"],
+    "metadata": {
+      "regex": "(AI 晶片|神經引擎|NPU|AI 加速器|Neural Engine)",
+      "slotvalue": "all",
+      "mapping": "ai_chip",
+      "importance": 1,
+      "ifDBSearch": false
+    }
+  },
+  "散熱噪音": {
+    "synonyms": ["風扇聲", "噪音", "運轉聲", "散熱噪音", "安靜度"],
+    "metadata": {
+      "regex": "(風扇聲|噪音|運轉聲|散熱噪音|安靜度)",
+      "slotvalue": "all",
+      "mapping": "noise",
+      "importance": 1,
+      "ifDBSearch": false
+    }
+  },
+  "網路連線": {
+    "synonyms": ["Wi-Fi", "藍牙", "無線網路", "網路連線", "5G", "乙太網路"],
+    "metadata": {
+      "regex": "(Wi-Fi|藍牙|無線網路|網路連線|5G|乙太網路)",
+      "slotvalue": "all",
+      "mapping": "connectivity",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  },
+  "外觀設計": {
+    "synonyms": ["外觀", "設計", "顏色", "材質", "美觀", "時尚", "質感"],
+    "metadata": {
+      "regex": "(外觀|設計|顏色|材質|美觀|時尚|質感)",
+      "slotvalue": "all",
+      "mapping": "design",
+      "importance": 1,
+      "ifDBSearch": false
+    }
+  },
+  "售後服務": {
+    "synonyms": ["保固", "售後", "維修", "保養", "客服", "原廠服務"],
+    "metadata": {
+      "regex": "(保固|售後|維修|保養|客服|原廠服務)",
+      "slotvalue": "all",
+      "mapping": "warranty",
+      "importance": 2,
+      "ifDBSearch": true
+    }
+  }
+}
+
