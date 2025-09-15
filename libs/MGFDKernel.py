@@ -934,10 +934,10 @@ class MGFDKernel:
             else:
                 if hasattr(self, 'llm') and self.llm:
                     try:
-                        # 使用 asyncio.wait_for 提供額外的超時保護（90秒，稍大於 LLM 的 request_timeout）
+                        # 使用 asyncio.wait_for 提供額外的超時保護（120秒，稍大於 LLM 的 request_timeout）
                         llm_output = await asyncio.wait_for(
                             asyncio.to_thread(self.llm.invoke, current_prompt),
-                            timeout=90
+                            timeout=120
                         )
                         ## format markdown tables
                         # tables = self.extract_markdown_tables(llm_output)
@@ -951,7 +951,7 @@ class MGFDKernel:
                             llm_output = str(llm_output)
                         logger.info(f"LLM 生成成功，長度: {len(llm_output) if llm_output else 0}")
                     except asyncio.TimeoutError:
-                        logger.error("LLM 調用超時 (90秒)，回退至簡化回應")
+                        logger.error("LLM 調用超時 (120秒)，回退至簡化回應")
                         llm_output = "抱歉，系統處理時間較長，我為您提供簡化的產品建議。根據您的需求「輕便容易攜帶」，我推薦以下輕薄筆電類型，詳細規格請聯繫客服專家獲得協助。"
                     except Exception as e:
                         logger.error(f"LLM 調用發生異常: {e}")
