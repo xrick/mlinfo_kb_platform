@@ -23,7 +23,15 @@
       "labels": ["USB-C 介面"],
       "keywords": ["usb-c", "type-c", "usb c", "type c"],
       "regex": [],
-      "search_fields": ["cpu", "gpu", "memory", "storage", "lcd", "battery", "audio", "wireless", "bluetooth"],
+      "search_fields": ["cpu", "gpu", "memory", "storage", "iointerface","lcd", "battery", "audio", "wireless", "bluetooth"],
+      "weight": 8
+    },
+    {
+      "id": "screen_spec",
+      "labels": ["顯示螢幕規格"],
+      "keywords": ["HDMI", "type-c", "DVI", "type c"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
       "weight": 8
     }
   ]
