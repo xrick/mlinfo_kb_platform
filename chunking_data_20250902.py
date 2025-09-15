@@ -1,3 +1,4 @@
+# chunking_data_20250902.py
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -12,9 +13,9 @@ from pymilvus import connections, utility, FieldSchema, CollectionSchema, DataTy
 from libs.chunk_utils.chunking.semantic_chunking.semantic_chunking_engine import SemanticChunkingEngine
 
 # --- Configuration ---
-SOURCE_DIR = "data/raw/EM_New TTL_241104_AllTransformedToGoogleSheet/"
-DUCKDB_FILE = "semantic_sales_spec.db"
-MILVUS_COLLECTION_NAME = "product_semantic_chunks"
+SOURCE_DIR = "data/raw/EM_New TTL_241104_AllModelsParsed"
+DUCKDB_FILE = "db/semantic_sales_nb_spec_v2.db"
+MILVUS_COLLECTION_NAME = "semantic_sales_nb_spec_v2"#"product_semantic_chunks"
 MILVUS_HOST = "localhost"
 MILVUS_PORT = "19530"
 EMBEDDING_DIM = 384  # Based on the paraphrase-multilingual-MiniLM-L12-v2 model
@@ -64,7 +65,7 @@ def process_files():
     milvus_collection = setup_milvus_collection()
     
     # Initialize DuckDB connection
-    con = duckdb.connect(database=DUCKDB_FILE, read_only=False)
+    # con = duckdb.connect(database=DUCKDB_FILE, read_only=False)
     
     # Initialize the chunking engine
     chunker = SemanticChunkingEngine()
@@ -81,10 +82,10 @@ def process_files():
             # Ensure modeltype is read as string to prevent Milvus type errors
             df = pd.read_csv(file_path, dtype={'modeltype': str})
             
-            # 1. Store raw data in DuckDB
-            con.register('df_temp', df)
-            con.execute(f"CREATE OR REPLACE TABLE {table_name} AS SELECT * FROM df_temp")
-            logging.info(f"Stored raw data in DuckDB table: {table_name}")
+            # # 1. Store raw data in DuckDB
+            # con.register('df_temp', df)
+            # con.execute(f"CREATE OR REPLACE TABLE {table_name} AS SELECT * FROM df_temp")
+            # logging.info(f"Stored raw data in DuckDB table: {table_name}")
 
             # 2. Generate and store chunks in Milvus
             products = df.to_dict('records')
@@ -113,7 +114,7 @@ def process_files():
             logging.error(f"Failed to process file {filename}: {e}")
 
     # Clean up
-    con.close()
+    # con.close()
     milvus_collection.load() # Load collection into memory for searching
     milvus_collection.flush()
     connections.disconnect("default")

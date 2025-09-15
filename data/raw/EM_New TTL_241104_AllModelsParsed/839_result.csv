@@ -1,0 +1,357 @@
+modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+839,Version: EVT_v1.0,AKK839,MB Ver.: v1.0,"stage: Planning：2024/06/14-2024/07/29
+Kick-off：2024/07/30
+E2E：2024/07/31-2024/08/31
+EVT：2024/09/01-2024/12/01
+DVT：N/A
+PVT：2024/12/01-2025/02/28
+MP：2025/02/28-2025/03/31",Owner: HQ PM-梁森/TW-Jasper,"Form: Notebook
+Dimension: 14""：313.65* 220.8* 17.95 mm
+16""：TBD
+Material: Option1：A/D Cover：aluminium alloy, B  Cover：plastic, C  Cover：aluminum-magnesium alloy
+Option2：A/D Cover：aluminium alloy, B/C  Cover：plastic
+Hinge: 180 degree hinge
+Weight: 1.8 Kg","Dimension: 14""  16:10
+Resolution: Default：1920*1200 FHD, Anti-Glare, 120Hz (TCL)
+Option1：2880*1800 2.8K, Anti-Glare, 120Hz (TCL)",Form: N/A(support by PCBA ),"MB IO(Left): 1* USB3.2 Gen2,  Super Speed USB 10Gbps, full function PD/DP1.4/USB, Type C (on MB)
+1* HDMI 2.1 TMDS Type A (Support 4K/60Hz)(MB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (on MB)
+1*  USB4.0, Super Speed USB4 40Gbps,Type-C, DP1.4/USB(on MB)
+1* OCULINK (Optional)(MB)
+DB IO(Right): Default：1*2.5G RJ45, Giga LAN 10/100/1000/2500Mbps (on DB)
+Option1：1*1G RJ45, Giga LAN 10/100/1000Mbps (on DB)_ W/o AMD Dash
+2* USB3.2 Gen1, Super Speed USB 5Gbps, TypeA (onDB)
+1* φ 3.5mm Combo Jack (DB) Support EU/USA Regulation
+1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)
+MB IO(Rear): No Data
+Power On/Off/Sleep: On with White light
+Off with no light
+Sleep with breathing light",,Button: Seperated Power button key(On DB),"Back light: Default：Single backlit (Single LED-White)
+Option1：no backlit KB
+Matrix: US/UK
+Others: No Data","Front: Default：1* 720P/ 1MP HD Webcam  Infrared (IR),30 fps, w/ mic*2, LED
+Option1：1* 1080P/2MP FHD Webcam Infrared (IR)30 fps, w/ mic*2, LED
+Option2：1* 5MP  Webcam Infrared, w/ mic*2, LED
+Camera shutter
+Rear: No Data
+Windows Hello: Yes","Interface type: I2C/HID
+Size: XX* XXmm (TBD>>suggest use as big as possible)
+Feature: multi-touch support, gestures and scroll function
+Optional1：Glass material (C cover- by aluminum-magnesium)
+Optional2：Plastic material (C cover- by plastic)","Location: On Power button
+Interface type: USB, Security level 3
+Windows Hello: support Windows Hello","Speaker: 2* Built-in Speaker ( 2* 4Ω/2W) >>(suggest use HQ speaker finetune audio)
+Mic: 2* Built-in (dual) digital microphones on camera module, HD Audio
+Others: No Data","Type: Lithium-ion polymer battery, fast charging Optional
+Capacity: 14inch：1* 80Wh, 11.55V/xxxmah, 4S1P, Smart battery, fast charging
+16inch ：1* 99Wh
+*Battery charging up to 80% in less than 1 hour
+Certification: CB，MSDS，UN38.3，Airflight transportation report
+Life: >10 Hours battery life via MSFT CTS testing (TBD)","Module: AMD Zen5, AMD Krackan Series, TDP: 45W
+*CPU Support up to 60W
+Ryzen™ 5  TDP: 35W~54W)
+Ryzen™ 7 TDP: 35W~54W)
+Ryzen™ 9 TDP: 35W~54W)","Model: AMD Radeon™ 880M/ 860M
+RAM: 2x SO-DIMM DDR5, 5600MT/s, up to 16G/ 32G/ 64/ 128GB
+Port: eDP
+SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 4TB)
+1* M.2 2280 PCle G3 (Lane 4)/NVME SSD, up to 8TB","RAM: 2x SO-DIMM DDR5, 5600MT/s, up to 16G/ 32G/ 64/ 128GB
+Port: eDP
+SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 4TB)
+1* M.2 2280 PCle G3 (Lane 4)/NVME SSD, up to 8TB
+Wifi: Default：1* M.2 Key-E 2230 for WiFi 6E + BT5.2
+Option1：1* M.2 Key-E 2230 for WiFi 6 + BT5.2
+Option2：1* M.2 Key-E 2230 for WiFi 5 + BT5.2",Port: eDP,"SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 4TB)
+1* M.2 2280 PCle G3 (Lane 4)/NVME SSD, up to 8TB","Wifi: Default：1* M.2 Key-E 2230 for WiFi 6E + BT5.2
+Option1：1* M.2 Key-E 2230 for WiFi 6 + BT5.2
+Option2：1* M.2 Key-E 2230 for WiFi 5 + BT5.2",TDP: Dual Fan/TDP 45W,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: PCBA Support,"Wifi Chip Model: Support AMD Dash
+Default：RZ616(AMD)_WIFI 6E Dual-band 2Tx2R 802.11ax + Bluetooth 5.2, on M.2 module  (Major Chipset – MT7922A12L)
+Option1：AX210 (Intel)_Wi-Fi6E 2Tx2R 802.11ax + BT5.3, on M.2 module
+Non-Dash
+Option1：AWXB591NF(AzureWave)_WIFI6E 802.11ax 2Tx2R WiFi 6E Wireless LAN And BT 5.3, on M.2 2230 module (Major Chipset – MT7922AEA)
+Option2：AWXT2KV2103(HSF_RZ616)_WIFI 6E 802.11 ax 2Tx2R + Bluetooth V2.1/4.2/5.2, on M.2 2230 module
+Option3：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on M.2 2230 module (Major Chipset – RTL8852BE-CG)
+Others: No Data","DB IO(Right): Default：1*2.5G RJ45, Giga LAN 10/100/1000/2500Mbps (on DB)
+Option1：1*1G RJ45, Giga LAN 10/100/1000Mbps (on DB)_ W/o AMD Dash",,"WiFi/Bluetooth: No Data
+Battery/Charge: Charging with Orange light
+Full-charged with Green light
+Off with no light","System: Windows11 2024H2 (2024 updated) Copilot version
+Language Support: Support multi Language","MEP
+(need OEM get approval from Microsoft): Automatic framing
+Eye contact
+Background effect
+Copilot
+(Support Region depends on Microsoft): Support
+Large language model (License requirement): Support
+Text to Image model (License requirement): Support
+Image to Image model (License requirement): Support","Standard Configuration: 1* 100W, 20V,Type C, fast charger, Battery charging up to 80% in less than 1 hour","Safety: No Data
+No Data
+No Data"
+839,Version: Planning_v0.1,AHP839,MB Ver.: v1.0,"stage: Planning：2024/06/14-2024/07/29
+Kick-off：2024/07/30
+E2E：N/A
+EVT：
+DVT：N/A
+PVT：
+MP：",Owner: HQ PM-梁森/TW-Jasper,"Form: Notebook
+Dimension: 14""：313.65* 220.8* 17.95 mm
+16""：TBD
+Material: Option1：A/D Cover：aluminium alloy, B  Cover：plastic, C  Cover：aluminum-magnesium alloy
+Option2：A/D Cover：aluminium alloy, B/C  Cover：plastic
+Hinge: 180 degree hinge
+Weight: 1.8 Kg","Dimension: 14""  16:10
+Resolution: Default：1920*1200 FHD, Anti-Glare, 120Hz (TCL)
+Option1：2880*1800 2.8K, Anti-Glare, 120Hz (TCL)",Form: N/A(support by PCBA ),"MB IO(Left): 1* USB3.2 Gen2,  Super Speed USB 10Gbps, full function PD/DP1.4/USB, Type C (on MB)
+1* HDMI 2.1 TMDS Type A (Support 4K/60Hz)(MB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (on MB)
+1*  USB4.0, Super Speed USB4 40Gbps,Type-C, DP1.4/USB(on MB)
+1* OCULINK (Optional)(MB)
+DB IO(Right): Default：1*2.5G RJ45, Giga LAN 10/100/1000/2500Mbps (on DB)
+Option1：1*1G RJ45, Giga LAN 10/100/1000Mbps (on DB)_ W/o AMD Dash
+2* USB3.2 Gen1, Super Speed USB 5Gbps, TypeA (onDB)
+1* φ 3.5mm Combo Jack (DB) Support EU/USA Regulation
+1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)
+MB IO(Rear): No Data
+Power On/Off/Sleep: On with White light
+Off with no light
+Sleep with breathing light",,Button: Seperated Power button key(On DB),"Back light: Default：Single backlit (Single LED-White)
+Option1：no backlit KB
+Matrix: US/UK
+Others: No Data","Front: Default：1* 720P/ 1MP HD Webcam  Infrared (IR),30 fps, w/ mic*2, LED
+Option1：1* 1080P/2MP FHD Webcam Infrared (IR)30 fps, w/ mic*2, LED
+Option2：1* 5MP  Webcam Infrared, w/ mic*2, LED
+Camera shutter
+Rear: No Data
+Windows Hello: Yes","Interface type: I2C/HID
+Size: XX* XXmm (TBD>>suggest use as big as possible)
+Feature: multi-touch support, gestures and scroll function
+Optional1：Glass material (C cover- by aluminum-magnesium)
+Optional2：Plastic material (C cover- by plastic)","Location: On Power button
+Interface type: USB, Security level 3
+Windows Hello: support Windows Hello","Speaker: 2* Built-in Speaker ( 2* 4Ω/2W) >>(suggest use HQ speaker finetune audio)
+Mic: 2* Built-in (dual) digital microphones on camera module, HD Audio
+Others: No Data","Type: Lithium-ion polymer battery, fast charging Optional
+Capacity: 14inch：1* 80Wh, 11.55V/xxxmah, 4S1P, Smart battery, fast charging
+16inch ：1* 99Wh
+*Battery charging up to 80% in less than 1 hour
+Certification: CB，MSDS，UN38.3，Airflight transportation report
+Life: >10 Hours battery life via MSFT CTS testing (TBD)","Module: AMD Zen4, AMD Hawk Point Series, TDP: 45W
+*CPU Support up to 60W
+AMD Ryzen™ 9 Pro 8945HS (8C/16T, up to 5.2GHz/4.0GHz, TDP: 45W)
+AMD Ryzen™ 7 Pro 8845HS(8C/16T, up to 5.1GHz/3.8GHz, TDP: 45W)
+AMD Ryzen™ 5 Pro 8645HS(8C/16T, up to 5.0GHz/4.3GHz, TDP: 45W)","Model: AMD Radeon™ Graphic
+RAM: 2x SO-DIMM DDR5, 5600MT/s, up to 16G/ 32G/ 64/ 128GB
+Port: eDP
+SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 4TB)
+1* M.2 2280 PCle G3 (Lane 4)/NVME SSD, up to 8TB","RAM: 2x SO-DIMM DDR5, 5600MT/s, up to 16G/ 32G/ 64/ 128GB
+Port: eDP
+SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 4TB)
+1* M.2 2280 PCle G3 (Lane 4)/NVME SSD, up to 8TB
+Wifi: Default：1* M.2 Key-E 2230 for WiFi 6E + BT5.2
+Option1：1* M.2 Key-E 2230 for WiFi 6 + BT5.2
+Option2：1* M.2 Key-E 2230 for WiFi 5 + BT5.2",Port: eDP,"SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 4TB)
+1* M.2 2280 PCle G3 (Lane 4)/NVME SSD, up to 8TB","Wifi: Default：1* M.2 Key-E 2230 for WiFi 6E + BT5.2
+Option1：1* M.2 Key-E 2230 for WiFi 6 + BT5.2
+Option2：1* M.2 Key-E 2230 for WiFi 5 + BT5.2",TDP: Dual Fan/TDP 45W,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: PCBA Support,"Wifi Chip Model: Support AMD Dash
+Default：RZ616(AMD)_WIFI 6E Dual-band 2Tx2R 802.11ax + Bluetooth 5.2, on M.2 module  (Major Chipset – MT7922A12L)
+Option1：AX210 (Intel)_Wi-Fi6E 2Tx2R 802.11ax + BT5.3, on M.2 module
+Non-Dash
+Option1：AWXB591NF(AzureWave)_WIFI6E 802.11ax 2Tx2R WiFi 6E Wireless LAN And BT 5.3, on M.2 2230 module (Major Chipset – MT7922AEA)
+Option2：AWXT2KV2103(HSF_RZ616)_WIFI 6E 802.11 ax 2Tx2R + Bluetooth V2.1/4.2/5.2, on M.2 2230 module
+Option3：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on M.2 2230 module (Major Chipset – RTL8852BE-CG)
+Others: No Data","DB IO(Right): Default：1*2.5G RJ45, Giga LAN 10/100/1000/2500Mbps (on DB)
+Option1：1*1G RJ45, Giga LAN 10/100/1000Mbps (on DB)_ W/o AMD Dash",,"WiFi/Bluetooth: No Data
+Battery/Charge: Charging with Orange light
+Full-charged with Green light
+Off with no light","System: Windows11 2024H2 (2024 updated) Copilot version
+Language Support: Support multi Language","MEP
+(need OEM get approval from Microsoft): Automatic framing
+Eye contact
+Background effect
+Copilot
+(Support Region depends on Microsoft): Support
+Large language model (License requirement): Support
+Text to Image model (License requirement): Support
+Image to Image model (License requirement): Support","Standard Configuration: 1* 100W, 20V,Type C, fast charger, Battery charging up to 80% in less than 1 hour","Safety: No Data
+No Data
+No Data"
+839,Version: Planning_v0.1,APX839,MB Ver.: v1.0,"stage: Planning：2024/06/14-2024/07/29
+Kick-off：2024/07/30
+E2E：N/A
+EVT：
+DVT：N/A
+PVT：
+MP：",Owner: HQ PM-梁森/TW-Jasper,"Form: Notebook
+Dimension: 14""：313.65* 220.8* 17.95 mm
+16""：TBD
+Material: Option1：A/D Cover：aluminium alloy, B  Cover：plastic, C  Cover：aluminum-magnesium alloy
+Option2：A/D Cover：aluminium alloy, B/C  Cover：plastic
+Hinge: 180 degree hinge
+Weight: 1.8 Kg","Dimension: 14""  16:10
+Resolution: Default：1920*1200 FHD, Anti-Glare, 120Hz (TCL)
+Option1：2880*1800 2.8K, Anti-Glare, 120Hz (TCL)",Form: N/A(support by PCBA ),"MB IO(Left): 1* USB3.2 Gen2,  Super Speed USB 10Gbps, full function PD/DP1.4/USB, Type C (on MB)
+1* HDMI 2.1 TMDS Type A (Support 4K/60Hz)(MB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (on MB)
+1*  USB4.0, Super Speed USB4 40Gbps,Type-C, DP1.4/USB(on MB)
+1* OCULINK (Optional)(MB)
+DB IO(Right): Default：1*2.5G RJ45, Giga LAN 10/100/1000/2500Mbps (on DB)
+Option1：1*1G RJ45, Giga LAN 10/100/1000Mbps (on DB)_ W/o AMD Dash
+2* USB3.2 Gen1, Super Speed USB 5Gbps, TypeA (onDB)
+1* φ 3.5mm Combo Jack (DB) Support EU/USA Regulation
+1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)
+MB IO(Rear): No Data
+Power On/Off/Sleep: On with White light
+Off with no light
+Sleep with breathing light",,Button: Seperated Power button key(On DB),"Back light: Default：Single backlit (Single LED-White)
+Option1：no backlit KB
+Matrix: US/UK
+Others: No Data","Front: Default：1* 720P/ 1MP HD Webcam  Infrared (IR),30 fps, w/ mic*2, LED
+Option1：1* 1080P/2MP FHD Webcam Infrared (IR)30 fps, w/ mic*2, LED
+Option2：1* 5MP  Webcam Infrared, w/ mic*2, LED
+Camera shutter
+Rear: No Data
+Windows Hello: Yes","Interface type: I2C/HID
+Size: XX* XXmm (TBD>>suggest use as big as possible)
+Feature: multi-touch support, gestures and scroll function
+Optional1：Glass material (C cover- by aluminum-magnesium)
+Optional2：Plastic material (C cover- by plastic)","Location: On Power button
+Interface type: USB, Security level 3
+Windows Hello: support Windows Hello","Speaker: 2* Built-in Speaker ( 2* 4Ω/2W) >>(suggest use HQ speaker finetune audio)
+Mic: 2* Built-in (dual) digital microphones on camera module, HD Audio
+Others: No Data","Type: Lithium-ion polymer battery, fast charging Optional
+Capacity: 14inch：1* 80Wh, 11.55V/xxxmah, 4S1P, Smart battery, fast charging
+16inch ：1* 99Wh
+*Battery charging up to 80% in less than 1 hour
+Certification: CB，MSDS，UN38.3，Airflight transportation report
+Life: >10 Hours battery life via MSFT CTS testing (TBD)","Module: AMD Zen4, AMD Phoenix Series, TDP: 45W
+*CPU Support up to 60W
+Ryzen™ 5 Pro 7640HS (6C/12T, 5.0GHz/4.3GHz, TDP: 35W~54W)
+Ryzen™ 7 Pro 7840HS (8C/16T, 5.1GHz/3.8GHz, TDP: 35W~54W)
+Ryzen™ 9 Pro 7940HS (8C/16T, 5.2GHz/4.0GHz, TDP: 35W~54W)","Model: AMD Radeon™ Graphic
+RAM: 2x SO-DIMM DDR5, 5600MT/s, up to 16G/ 32G/ 64/ 128GB
+Port: eDP
+SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 4TB)
+1* M.2 2280 PCle G3 (Lane 4)/NVME SSD, up to 8TB","RAM: 2x SO-DIMM DDR5, 5600MT/s, up to 16G/ 32G/ 64/ 128GB
+Port: eDP
+SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 4TB)
+1* M.2 2280 PCle G3 (Lane 4)/NVME SSD, up to 8TB
+Wifi: Default：1* M.2 Key-E 2230 for WiFi 6E + BT5.2
+Option1：1* M.2 Key-E 2230 for WiFi 6 + BT5.2
+Option2：1* M.2 Key-E 2230 for WiFi 5 + BT5.2",Port: eDP,"SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 4TB)
+1* M.2 2280 PCle G3 (Lane 4)/NVME SSD, up to 8TB","Wifi: Default：1* M.2 Key-E 2230 for WiFi 6E + BT5.2
+Option1：1* M.2 Key-E 2230 for WiFi 6 + BT5.2
+Option2：1* M.2 Key-E 2230 for WiFi 5 + BT5.2",TDP: Dual Fan/TDP 45W,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: PCBA Support,"Wifi Chip Model: Support AMD Dash
+Default：RZ616(AMD)_WIFI 6E Dual-band 2Tx2R 802.11ax + Bluetooth 5.2, on M.2 module  (Major Chipset – MT7922A12L)
+Option1：AX210 (Intel)_Wi-Fi6E 2Tx2R 802.11ax + BT5.3, on M.2 module
+Non-Dash
+Option1：AWXB591NF(AzureWave)_WIFI6E 802.11ax 2Tx2R WiFi 6E Wireless LAN And BT 5.3, on M.2 2230 module (Major Chipset – MT7922AEA)
+Option2：AWXT2KV2103(HSF_RZ616)_WIFI 6E 802.11 ax 2Tx2R + Bluetooth V2.1/4.2/5.2, on M.2 2230 module
+Option3：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on M.2 2230 module (Major Chipset – RTL8852BE-CG)
+Others: No Data","DB IO(Right): Default：1*2.5G RJ45, Giga LAN 10/100/1000/2500Mbps (on DB)
+Option1：1*1G RJ45, Giga LAN 10/100/1000Mbps (on DB)_ W/o AMD Dash",,"WiFi/Bluetooth: No Data
+Battery/Charge: Charging with Orange light
+Full-charged with Green light
+Off with no light","System: Windows11 2024H2 (2024 updated) Copilot version
+Language Support: Support multi Language","MEP
+(need OEM get approval from Microsoft): Automatic framing
+Eye contact
+Background effect
+Copilot
+(Support Region depends on Microsoft): Support
+Large language model (License requirement): Support
+Text to Image model (License requirement): Support
+Image to Image model (License requirement): Support","Standard Configuration: 1* 100W, 20V,Type C, fast charger, Battery charging up to 80% in less than 1 hour","Safety: No Data
+No Data
+No Data"
+839,Version: Planning_v0.1,ARB839,MB Ver.: v1.0,"stage: Planning：2024/06/14-2024/07/29
+Kick-off：2024/07/30
+E2E：N/A
+EVT：
+DVT：N/A
+PVT：
+MP：",Owner: HQ PM-梁森/TW-Jasper,"Form: Notebook
+Dimension: 14""：313.65* 220.8* 17.95 mm
+16""：TBD
+Material: Option1：A/D Cover：aluminium alloy, B  Cover：plastic, C  Cover：aluminum-magnesium alloy
+Option2：A/D Cover：aluminium alloy, B/C  Cover：plastic
+Hinge: 180 degree hinge
+Weight: 1.8 Kg","Dimension: 14""  16:10
+Resolution: Default：1920*1200 FHD, Anti-Glare, 120Hz (TCL)
+Option1：2880*1800 2.8K, Anti-Glare, 120Hz (TCL)",Form: N/A(support by PCBA ),"MB IO(Left): 1* USB3.2 Gen2,  Super Speed USB 10Gbps, full function PD/DP1.4/USB, Type C (on MB)
+1* HDMI 2.1 TMDS Type A (Support 4K/60Hz)(MB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (on MB)
+1*  USB4.0, Super Speed USB4 40Gbps,Type-C, DP1.4/USB(on MB)
+1* OCULINK (Optional)(MB)
+DB IO(Right): Default：1*2.5G RJ45, Giga LAN 10/100/1000/2500Mbps (on DB)
+Option1：1*1G RJ45, Giga LAN 10/100/1000Mbps (on DB)_ W/o AMD Dash
+2* USB3.2 Gen1, Super Speed USB 5Gbps, TypeA (onDB)
+1* φ 3.5mm Combo Jack (DB) Support EU/USA Regulation
+1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)
+MB IO(Rear): No Data
+Power On/Off/Sleep: On with White light
+Off with no light
+Sleep with breathing light",,Button: Seperated Power button key(On DB),"Back light: Default：Single backlit (Single LED-White)
+Option1：no backlit KB
+Matrix: US/UK
+Others: No Data","Front: Default：1* 720P/ 1MP HD Webcam  Infrared (IR),30 fps, w/ mic*2, LED
+Option1：1* 1080P/2MP FHD Webcam Infrared (IR)30 fps, w/ mic*2, LED
+Option2：1* 5MP  Webcam Infrared, w/ mic*2, LED
+Camera shutter
+Rear: No Data
+Windows Hello: Yes","Interface type: I2C/HID
+Size: XX* XXmm (TBD>>suggest use as big as possible)
+Feature: multi-touch support, gestures and scroll function
+Optional1：Glass material (C cover- by aluminum-magnesium)
+Optional2：Plastic material (C cover- by plastic)","Location: On Power button
+Interface type: USB, Security level 3
+Windows Hello: support Windows Hello","Speaker: 2* Built-in Speaker ( 2* 4Ω/2W) >>(suggest use HQ speaker finetune audio)
+Mic: 2* Built-in (dual) digital microphones on camera module, HD Audio
+Others: No Data","Type: Lithium-ion polymer battery, fast charging Optional
+Capacity: 14inch：1* 80Wh, 11.55V/xxxmah, 4S1P, Smart battery, fast charging
+16inch ：1* 99Wh
+*Battery charging up to 80% in less than 1 hour
+Certification: CB，MSDS，UN38.3，Airflight transportation report
+Life: >10 Hours battery life via MSFT CTS testing (TBD)","Module: AMD Zen43+,AMD Rembrandt Refresh/ Rembrandt Series, TDP: 45W
+*CPU Support up to 60W
+AMD Ryzen™ 5 7535HS
+AMD Ryzen™ 7 7735HS
+AMD Ryzen™ 5 6600H","Model: AMD Radeon™ Graphic
+RAM: 2x SO-DIMM DDR5, 4800MT/s, up to 16G/ 32G/ 64/ 128GB
+Port: eDP
+SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 4TB)
+1* M.2 2280 PCle G3 (Lane 4)/NVME SSD, up to 8TB","RAM: 2x SO-DIMM DDR5, 4800MT/s, up to 16G/ 32G/ 64/ 128GB
+Port: eDP
+SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 4TB)
+1* M.2 2280 PCle G3 (Lane 4)/NVME SSD, up to 8TB
+Wifi: Default：1* M.2 Key-E 2230 for WiFi 6E + BT5.2
+Option1：1* M.2 Key-E 2230 for WiFi 6 + BT5.2
+Option2：1* M.2 Key-E 2230 for WiFi 5 + BT5.2",Port: eDP,"SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 4TB)
+1* M.2 2280 PCle G3 (Lane 4)/NVME SSD, up to 8TB","Wifi: Default：1* M.2 Key-E 2230 for WiFi 6E + BT5.2
+Option1：1* M.2 Key-E 2230 for WiFi 6 + BT5.2
+Option2：1* M.2 Key-E 2230 for WiFi 5 + BT5.2",TDP: Dual Fan/TDP 45W,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: PCBA Support,"Wifi Chip Model: Support AMD Dash
+Default：RZ616(AMD)_WIFI 6E Dual-band 2Tx2R 802.11ax + Bluetooth 5.2, on M.2 module  (Major Chipset – MT7922A12L)
+Option1：AX210 (Intel)_Wi-Fi6E 2Tx2R 802.11ax + BT5.3, on M.2 module
+Non-Dash
+Option1：AWXB591NF(AzureWave)_WIFI6E 802.11ax 2Tx2R WiFi 6E Wireless LAN And BT 5.3, on M.2 2230 module (Major Chipset – MT7922AEA)
+Option2：AWXT2KV2103(HSF_RZ616)_WIFI 6E 802.11 ax 2Tx2R + Bluetooth V2.1/4.2/5.2, on M.2 2230 module
+Option3：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on M.2 2230 module (Major Chipset – RTL8852BE-CG)
+Others: No Data","DB IO(Right): Default：1*2.5G RJ45, Giga LAN 10/100/1000/2500Mbps (on DB)
+Option1：1*1G RJ45, Giga LAN 10/100/1000Mbps (on DB)_ W/o AMD Dash",,"WiFi/Bluetooth: No Data
+Battery/Charge: Charging with Orange light
+Full-charged with Green light
+Off with no light","System: Windows11 2024H2 (2024 updated) Copilot version
+Language Support: Support multi Language","MEP
+(need OEM get approval from Microsoft): Automatic framing
+Eye contact
+Background effect
+Copilot
+(Support Region depends on Microsoft): Support
+Large language model (License requirement): Support
+Text to Image model (License requirement): Support
+Image to Image model (License requirement): Support","Standard Configuration: 1* 100W, 20V,Type C, fast charger, Battery charging up to 80% in less than 1 hour","Safety: No Data
+No Data
+No Data"

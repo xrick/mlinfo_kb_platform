@@ -6,12 +6,13 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent
 
 # Database configuration
-DB_PATH = BASE_DIR / "db" / "semantic_sales_spec_all.db"
+DB_PATH = BASE_DIR / "db" / "all_nbinfo_v2.db"
 MILVUS_HOST = "localhost"
 MILVUS_PORT = "19530"
-MILVUS_COLLECTION_NAME = "product_semantic_chunks"
-MILVUS_COLLECTION_NAME_PARENT = "all_nb_info_collection_parent"
-MILVUS_COLLECTION_NAME_CHILD = "all_nb_info_collection_child"
+DUCKDB_FILE = "db/all_nbinfo_v2.db"
+MILVUS_COLLECTION_NAME = "semantic_sales_nb_spec_v2"#"product_semantic_chunks"
+MILVUS_COLLECTION_NAME_PARENT = "new_nb_pc_v1"
+MILVUS_COLLECTION_NAME_CHILD = "new_nb_pc_v2"
 
 # Application settings
 APP_HOST = "0.0.0.0"

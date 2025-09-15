@@ -1,0 +1,19 @@
+modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+AC01,Version: MP_v1.1,AC01,MB Ver.: v1.0,"stage: Planning：
+Kick-off：
+EVT：
+DVT：
+PVT：
+Pilot run：
+Owner: Jasper",Owner: Jasper,,,,,,,,,,,"Speaker: No Data
+Microphone: 1* φ 3.5mm D-MIC
+WIFI(onboard): Optional 1 : Wi-Fi 5 Dual-band 2T2R 802.11ac (2.4GHz/5GHz, 80Mhz) + Bluetooth 5.0, on module 
+Optional 2 : Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz, 160Mhz) + Bluetooth 5.2, on module",,,,"VRAM: No Data
+RAM: Dual channel memory architecture, 2* SO-DIMM DDR4 3200MT/s, up to 16GB/32GB
+SSD/HDD/eMMC: 2* M.2 2280 PCIe G3(Lane 4)/NVMe/SATA G3 SSD, 128GB/256GB/512GB/1TB
+USB Type A: 1* USB2.0 Hi-Speed (front)
+2* USB2.0 Hi-Speed (Rear)
+2* USB3.2 Gen1, Super Speed USB 5Gpps (Rear)",,"SSD/HDD/eMMC: 2* M.2 2280 PCIe G3(Lane 4)/NVMe/SATA G3 SSD, 128GB/256GB/512GB/1TB",,Thermal Solution: No Data,,,,"Ethernet Network: 2* RJ45, Giga LAN 10/100/1000Mbps",,"WIFI(onboard): Optional 1 : Wi-Fi 5 Dual-band 2T2R 802.11ac (2.4GHz/5GHz, 80Mhz) + Bluetooth 5.0, on module 
+Optional 2 : Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz, 160Mhz) + Bluetooth 5.2, on module
+Ethernet Network: 2* RJ45, Giga LAN 10/100/1000Mbps","Operating system version: Windows 11, SV2 (23H2)
+Office Version: Office 365 (Optional)",,,

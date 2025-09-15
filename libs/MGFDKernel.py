@@ -83,7 +83,7 @@ class MGFDKernel:
         self.config = self._load_config()
         # 載入可擴充的 NB 特徵對照表（用於關鍵功能偵測與比對）
         self.nb_feature_table = self._load_nb_feature_table()
-        self.ComparableNB_NUM=4
+        self.ComparableNB_NUM=3
         #self.slot_schema = self._load_slot_schema()
         
         # Initialize states and state_status before state_machine to avoid AttributeError
@@ -146,31 +146,91 @@ class MGFDKernel:
 
         #     **嚴格遵守使用內部資料:**: 請絕對務必嚴格遵守公司產品資料都完全來自公司內部提供的各種資料，嚴格禁止出現競爭公司資料。
 
-        # """
+        """
+        self.query_prompt = 
+            你是一個負責筆記型電腦產品知識庫的查詢理解與解析助手。
+            你的工作是分析使用者提出的問題，並將其解析為與產品屬性對應的結構化結果。
+
+            每一個問題都必須解析為以下四個部分：
+
+            意圖（Intent）：使用者想知道或執行的操作，例如 "compare"（比較）、"spec_check"（規格查詢）、"recommend"（推薦）、"feature_explanation"（功能說明）。
+
+            實體（Entities）：問題中提到的特定機種或系列名稱，例如 "AST728"、"958系列"、"AMD819-S: FT6"。
+
+            屬性（Attributes）：與該問題相關的產品屬性，可包含多個。請從以下屬性清單中選取。
+
+            語言（Language）：判斷問題所使用的語言（例如 zh, en）。
+
+            有效的屬性包括：
+            modeltype, version, modelname, mainboard, devtime, pm, structconfig, lcd, touchpanel, iointerface, ledind, powerbutton, keyboard, webcamera, touchpad, fingerprint, audio, battery, cpu, gpu, memory, lcdconnector, storage, wifislot, thermal, tpm, rtc, wireless, lan, lte, bluetooth, softwareconfig, ai, accessory, certifications
+
+            處理缺失資訊：如果某項特徵在產品資訊中沒有被提及，請在「詳細資訊」欄位填入「資料未呈現」。
+
+            請僅以以下 JSON 格式回應：
+
+            {
+                "intent": "<解析後的使用者意圖>",
+                "entities": ["<機種或系列名稱>"],
+                "attributes": ["<相關屬性>"],
+                "language": "<語言>"
+            }
+   
+        """
+       
         # System-level prompt template (優化版 - 減少 70% Token 消耗)
         # 注意：這是不可變的模板，避免狀態污染
         self.query_prompt = """
-            [ROLE]\n
-            你是一位精準的產品規格分析師。你的任務是從我提供的產品描述、規格表或簡報文字中，系統性地提取並整理出以下產品特徵的詳細資訊。
-            
-            **目標：**
-            1. 若有筆電型號,請優先抽取出來,同時以這個筆電型號先比對下方特徵清單
-            2. 若有筆電系統,請優先抽取出來,同時以這個筆電系統先比對下方特徵清單
-            3. 若有筆電屬性,請優先抽取出來,同時以這個筆電屬性先比對下方特徵清單
-            4. 若有筆電動作/意圖,請優先抽取出來,同時以這個筆電動作/意圖先比對下方特徵清單
-            5. 若有筆電其他重要名詞,請優先抽取出來,同時以這個筆電其他重要名詞先比對下方特徵清單
-            6. 請比對下方特徵清單並從我提供的產品資訊中找出對應的內容。
+            你是一位精準的產品意圖分析師。你的任務是從使用者提供的筆電產品查詢中，精準地解析並結構化出以下三個核心資訊：使用者意圖、提及的產品實體、以及相關的屬性特徵。
 
-            **特徵列表：**
-            modeltype, modelname, structconfig, lcd, touchpanel, iointerface, webcamera, audio, battery, cpu, gpu, memory, lcdconnector, storage, wifislot, thermal, softwareconfig, ai, accessory
+            ---
 
-            **任務步驟：**
-            1. **仔細閱讀**：我將在下方提供產品的技術規格、描述或簡報文字。
-            2. **精準擷取**：針對清單中的每一項特徵，找出相關的詳細內容。
-            3. **格式化輸出**：請使用一個 Markdown 表格來呈現結果。表格需包含兩欄：「特徵名稱」和「詳細資訊」。
-            4. **處理缺失資訊**：如果某項特徵在產品資訊中沒有被提及，請在「詳細資訊」欄位填入「資料未呈現」。
+            ### **[任務說明]**
+            1. **意圖識別 (intent)**：判斷使用者查詢的意圖。常見意圖包括但不限於：
+                - `recommend` (推薦)：使用者想獲得產品推薦，通常不指定具體型號。
+                - `spec_check` (規格查詢)：使用者想查詢特定產品的規格細節。
+                - `compare` (比較)：使用者想比較多個產品或系列之間的差異。
+                - `feature_explanation` (功能解釋)：使用者想了解某個功能或技術的運作方式。
+                - `product_introduction` (產品介紹)：使用者想對某個產品有全面的了解。
+            2. **實體解析 (entities)**：從查詢中識別出所有明確提及的筆電型號、系列名稱或產品代碼。
+            3. **屬性解析 (attributes)**：從查詢中提取出與意圖相關的技術屬性或特徵。請參考下方提供的特徵列表。
 
+            ---
+
+            ### **[特徵列表 (Attributes)]**
+            請仔細參考以下筆電相關的屬性標籤，並在 **attributes** 欄位中填入最相關的標籤。
+            - `modeltype` (機種類型，如：商用、電競)
+            - `modelname` (產品名稱或代號)
+            - `structconfig` (結構配置，如：重量、尺寸、材質)
+            - `lcd` (螢幕規格，如：解析度、更新率)
+            - `touchpanel` (觸控面板)
+            - `iointerface` (I/O 接口，如：USB-C、HDMI)
+            - `webcamera` (網路攝影機)
+            - `audio` (音訊系統)
+            - `battery` (電池與充電)
+            - `cpu` (處理器)
+            - `gpu` (獨立顯示卡)
+            - `memory` (記憶體)
+            - `lcdconnector` (螢幕連接器)
+            - `storage` (儲存裝置)
+            - `wifislot` (無線網卡插槽)
+            - `thermal` (散熱系統)
+            - `softwareconfig` (軟體配置)
+            - `ai` (AI 功能)
+            - `accessory` (週邊配件)
+
+            ---
+
+            ### **[輸出格式與範例 (Output Format & Examples)]**
+            請僅以 JSON 格式回應，不包含任何額外文字或解釋。
+            ```json
+            {
+                "intent": "<解析後的使用者意圖>",
+                "entities": ["<識別出的筆電實體，可為多個>"],
+                "attributes": ["<相關的屬性標籤，可為多個>"],
+                "language": "<使用者查詢的語言>"
+            }
         """
+#####################################################################################
         self.SysPromptTemplate = """你是專業的筆電銷售顧問。根據以下產品資料回答客戶問題：
 
         **查詢設定**
@@ -524,7 +584,7 @@ class MGFDKernel:
             1. 用溫暖且開放式的問候開始對話，例如：「您好，歡迎光臨！想找一台什麼樣的筆記型電腦呢？還是先隨意看看？」
             2. 避免給予壓力，讓客戶感到輕鬆自在。
             3. 透過精準提問，像偵探一樣拼湊出客戶的真實需求。
-            4. 根據客戶的需求，提出 2-3 款最符合的筆電選項。
+            4. 根據客戶的需求，提出 1-3 款最符合的筆電選項。
         """
         return welcome_prompt
     

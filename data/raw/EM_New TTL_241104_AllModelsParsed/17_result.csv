@@ -1,0 +1,17 @@
+modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+17,Version: Planning_v0.3,APX27D,MB Ver.: 1,"stage: Planning：2024/03/01-
+Kick-off：2024/xx/xx
+EVT：
+DVT：
+PVT：
+Pilot run：
+MP：",Owner: No Data,,,,,,,,,,,,,,,"VRAM: No Data
+RAM: Dual channel memory architecture, 2* DIMM DDR5 5600MT/s, up to 128GB
+SSD/HDD/eMMC: 2* M.2 2280 PCIe G3(Lane 4)/NVMe SSD, 128GB/256GB/512GB/1TB
+USB Type A: 2* USB2.0, High Speed (on MB)",,"SSD/HDD/eMMC: 2* M.2 2280 PCIe G3(Lane 4)/NVMe SSD, 128GB/256GB/512GB/1TB","1* M.2 slot (Key E)_WIFI, Type 2230",Thermal Solution: No Data,,,,"Ethernet Network: 1* RJ45, Giga LAN 10/100/1000Mbps",,"WIFI: Optional 1：6222M-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on module (Major Chipset – RTL8822CE-CG)
+Optional 2：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset – RTL8852BE-CG)
+Optional 3：6222C-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on board (Major Chipset – RTL8822CE-CG)
+Optional 4：6252C-PUB(FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –  RTL8852BE-CG)
+Adapter: DC φ5.5mm, 19V 6.32A /7.89A","Operating system: Windows 11 Home/Pro SV2
+˙not support W11/ checking with AMD
+Office Version: No Data",,,
