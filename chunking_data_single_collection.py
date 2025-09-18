@@ -14,8 +14,8 @@ from libs.chunk_utils.chunking.semantic_chunking.semantic_chunking_engine import
 
 # --- Configuration ---
 SOURCE_DIR = "data/raw/EM_New TTL_241104_AllModelsParsed"
-DUCKDB_FILE = "db/semantic_sales_nb_spec_v2.db"
-MILVUS_COLLECTION_NAME = "semantic_sales_nb_spec_v2"#"product_semantic_chunks"
+DUCKDB_FILE = "db/semantic_nb_spec_250919.db"
+MILVUS_COLLECTION_NAME = "semantic_nb_spec_250919"#"product_semantic_chunks"
 MILVUS_HOST = "localhost"
 MILVUS_PORT = "19530"
 EMBEDDING_DIM = 384  # Based on the paraphrase-multilingual-MiniLM-L12-v2 model
