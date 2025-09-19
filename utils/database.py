@@ -14,7 +14,9 @@ class DatabaseManager:
     
     def __init__(self, config: Dict[str, Any]):
         self.config = config
-        self.db_path = Path(config.get("db_path", "db/sales_specs.db"))
+        # self.db_path = Path(config.get("db_path", "db/sales_specs.db"))
+        logger.info(f"@@@@@@@@@@@@@@@@@ Call Init in database.py @@@@@@@@@@@@@@@@")
+        self.db_path = Path(config.get("db_path", "db/all_nbinfo_v2.db"))
         self.history_db_path = Path(config.get("history_db_path", "db/history.db"))
         
         # Ensure database directories exist

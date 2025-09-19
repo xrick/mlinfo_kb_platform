@@ -16,7 +16,7 @@ class SystemService:
     def __init__(self):
         self.MILVUS_HOST = os.getenv("MILVUS_HOST", "localhost")
         self.MILVUS_PORT = os.getenv("MILVUS_PORT", "19530")
-        self.DUCKDB_FILE = "sales_specs.db"
+        self.DUCKDB_FILE = "all_nbinfo_v2.db"
         self.COLLECTION_NAME = "sales_notebook_specs"
         
         # 簡單的查詢統計存儲 (生產環境應使用 Redis 或數據庫)

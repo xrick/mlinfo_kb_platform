@@ -14,7 +14,7 @@ from libs.chunk_utils.chunking.semantic_chunking.semantic_chunking_engine import
 
 # --- Configuration ---
 SOURCE_DIR = "data/raw/EM_New TTL_241104_AllModelsParsed"
-DUCKDB_FILE = "db/semantic_nb_spec_250919.db"
+DUCKDB_FILE = "db/all_nbinfo_v2.db"
 MILVUS_COLLECTION_NAME = "semantic_nb_spec_250919"#"product_semantic_chunks"
 MILVUS_HOST = "localhost"
 MILVUS_PORT = "19530"

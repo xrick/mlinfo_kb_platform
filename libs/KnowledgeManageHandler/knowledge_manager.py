@@ -131,14 +131,6 @@ class KnowledgeManager:
                     "description": "歷史記錄數據庫"
                 }
             
-            # 語義銷售規格知識庫（整合版）
-            semantic_db = self.base_path / "db" / "all_nbinfo_v2.db"
-            if semantic_db.exists():
-                self.knowledge_bases["semantic_sales_spec"] = {
-                    "type": "polars",
-                    "path": str(semantic_db),
-                    "description": "語義銷售規格數據庫（整合版）"
-                }
             
             self.logger.info(f"初始化了 {len(self.knowledge_bases)} 個知識庫")
             
