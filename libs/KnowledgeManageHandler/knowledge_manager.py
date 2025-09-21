@@ -1428,20 +1428,45 @@ class KnowledgeManager:
     
     # ==================== 通用產品規格搜尋方法－語義搜尋 ====================
     
+    def _extract_product_codes(self, query: str) -> List[str]:
+        """
+        從查詢中提取產品代碼（如 APX819, APX839 等）
+
+        Args:
+            query: 用戶查詢字串
+
+        Returns:
+            提取到的產品代碼列表
+        """
+        import re
+
+        # 匹配模式：字母+數字組合，通常是產品型號
+        # 例如：APX819, APX839, AKK839 等
+        pattern = r'\b[A-Z]{2,4}\d{3,4}\b'
+        matches = re.findall(pattern, query.upper())
+
+        if matches:
+            self.logger.info(f"從查詢中提取到產品代碼: {matches}")
+
+        return matches
+
     def search_product_data(self, message: str) -> Dict[str, Any]:
         """
         通用產品規格搜尋函式
-        使用語義搜尋和 DuckDB 規格查詢
-        
+        使用語義搜尋和 DuckDB 規格查詢，並加入智能產品代碼檢測
+
         Args:
             message: 客戶查詢字串
-            
+
         Returns:
             JSON格式的產品規格資料
         """
         try:
             self.logger.info(f"開始產品規格搜尋：'{message}'")
-            
+
+            # 🔍 智能產品代碼檢測
+            detected_product_codes = self._extract_product_codes(message)
+
             # 🎮 遊戲相關查詢增強處理
             enhanced_query = message
             #gaming_keywords = ['遊戲', '游戲', 'gaming', 'game', '電玩', '遊戲體驗', '玩遊戲', '打遊戲']
@@ -1449,11 +1474,11 @@ class KnowledgeManager:
                 # 為遊戲查詢添加GPU相關關鍵詞來增強語義匹配
              #   enhanced_query = f"{message} 專用顯卡 AMD Radeon 高效能 遊戲筆電"
               #  self.logger.info(f"偵測到遊戲查詢，增強搜尋詞彙: '{enhanced_query}'")
-            
+
             # 第一步：語義搜尋
             semantic_results = self.milvus_semantic_search(
                 query_text=enhanced_query,
-                top_k=10
+                top_k=30
             )
             
             if not semantic_results:
@@ -1466,15 +1491,35 @@ class KnowledgeManager:
             
             # 第二步：提取 product_id，並正規化為字串做為 modeltype 比對鍵
             matched_keys = list({str(item.get('product_id', '')).strip() for item in semantic_results if str(item.get('product_id', '')).strip()})
-            self.logger.info(f"Milvus 對應的 modeltype 候選（matched_keys）共 {len(matched_keys)} 個：{matched_keys}")
+            self.logger.info(f"Milvus 語義搜尋的 modeltype 候選共 {len(matched_keys)} 個：{matched_keys}")
+
+            # 🔍 智能產品代碼檢測 - 將檢測到的產品代碼轉換為 modeltype 並合併
+            if detected_product_codes:
+                # 從產品代碼中提取數字部分作為 modeltype（如 APX819 -> 819）
+                detected_modeltypes = []
+                for code in detected_product_codes:
+                    # 提取數字部分
+                    import re
+                    numbers = re.findall(r'\d+', code)
+                    if numbers:
+                        modeltype = numbers[0]  # 取第一個數字序列
+                        detected_modeltypes.append(modeltype)
+
+                if detected_modeltypes:
+                    self.logger.info(f"從產品代碼提取到 modeltype: {detected_modeltypes}")
+                    # 合併語義搜尋結果和檢測到的產品代碼，確保檢測到的產品代碼優先
+                    merged_keys = detected_modeltypes + [key for key in matched_keys if key not in detected_modeltypes]
+                    matched_keys = merged_keys
+                    self.logger.info(f"合併後的 modeltype 候選（detected + semantic）共 {len(matched_keys)} 個：{matched_keys}")
 
             if not matched_keys:
-                # 有語義結果但沒有有效的 product_id（modelname 對應鍵）
-                self.logger.warning("語義搜尋結果缺少可用的 product_id 作為 modelname 比對鍵")
+                # 語義搜尋和產品代碼檢測都沒有結果
+                self.logger.warning("語義搜尋和產品代碼檢測均無結果")
                 return {
                     "query": message,
                     "status": "no_results",
-                    "products": []
+                    "products": [],
+                    "detected_product_codes": detected_product_codes
                 }
 
             # 第三步：在 DuckDB（semantic_sales_spec_all.db）查詢 nbtypes
@@ -1548,6 +1593,7 @@ class KnowledgeManager:
                 "query": message,
                 "status": "success",
                 "matched_keys": matched_keys,
+                "detected_product_codes": detected_product_codes,
                 "count": len(detailed_specs),
                 "products": detailed_specs
             }

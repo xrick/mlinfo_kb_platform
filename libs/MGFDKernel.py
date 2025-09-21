@@ -166,7 +166,7 @@ class MGFDKernel:
 
             處理缺失資訊：如果某項特徵在產品資訊中沒有被提及，請在「詳細資訊」欄位填入「資料未呈現」。
 
-            請僅以以下 JSON 格式回應：
+            請僅以以下 JSON 格式表示：
 
             {
                 "intent": "<解析後的使用者意圖>",
@@ -221,7 +221,7 @@ class MGFDKernel:
             ---
 
             ### **[輸出格式與範例 (Output Format & Examples)]**
-            請僅以 JSON 格式回應，不包含任何額外文字或解釋。
+            請僅以 JSON 格式回應，不包含任何額外文字或解釋。(請注意，不要直接輸出到前端Browser)
             ```json
             {
                 "intent": "<解析後的使用者意圖>",
@@ -567,9 +567,9 @@ class MGFDKernel:
         result = self.SysPromptTemplate.replace("{query_rules}", str(self.query_prompt))
         result = result.replace("{product_data}", str(product_data))
         result = result.replace("{user_query}", str(user_query))
-        logger.info(f"^^^^^^^^^^^^^^^^^^^^^^^^^result start^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-        logger.info(f"最後傳給AI的prompt: {result}")
-        logger.info(f"\n^^^^^^^^^^^^^^^^^^^^^^^^^result end^^^^^^^^^^^^^^^^^^^^^^^^^")
+        # logger.info(f"^^^^^^^^^^^^^^^^^^^^^^^^^result start^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+        # logger.info(f"最後傳給AI的prompt: {result}")
+        # logger.info(f"\n^^^^^^^^^^^^^^^^^^^^^^^^^result end^^^^^^^^^^^^^^^^^^^^^^^^^")
         return result
     #     """生成三層式提示"""
     #     return self.SysPrompt.format(product_data=None, prompt_using=self.prompt_using, 
@@ -900,8 +900,6 @@ class MGFDKernel:
         # 將 product_data 轉為 JSON 字串注入，降低模型誤判結構機率
         product_data_json = json.dumps(_product_data, ensure_ascii=False, indent=2)
         logger.info(f"產品資料 JSON 長度: {len(product_data_json)} (已優化)")
-        logger.info(f"***************************產品資料START*********************************: \n產品資料:\n{product_data_json}")
-        logger.info(f"***************************產品資料END***********************************\n")
 
         # 🔧 修復：使用局部變量避免狀態污染
         current_prompt = self.generate_three_tier_prompt(product_data=product_data_json, user_query=self.query)

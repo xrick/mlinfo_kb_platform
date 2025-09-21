@@ -1,38 +1,38 @@
 modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
-819,Version: MP_v1.6,AB819-S,MB Ver.: v1.0,"stage: PlanningÔºöN/A
-Kick-offÔºöN/A
-EVTÔºöN/A
-DVTÔºöN/A
-PVTÔºöN/A
-Pilot runÔºöN/A
-MPÔºöN/A",Owner: HQCN_ÊñáÈ¥ª,"Form: Commercial Notebook
+819,Version: MP_v1.6,AB819-S,MB Ver.: v1.0,"stage: PlanningÔºN/A
+Kick-offÔºN/A
+EVTÔºN/A
+DVTÔºN/A
+PVTÔºN/A
+Pilot runÔºN/A
+MPÔºN/A",Owner: HQCN_¥ª,"Form: Commercial Notebook
 Dimension: 359.1* 240.4* 19.5 mm
-Material/Surface: A/C/D caseÔºöPlastic (Anodize)
-B caseÔºöPlastic (Texture)
+Material/Surface: A/C/D caseÔºPlastic (Anodize)
+B caseÔºPlastic (Texture)
 Hinge: 140 degree hinge
 Weight: 1860 g","Dimension: 15.6"" 16:9
 Resolution: 15.6"" FHD 1920* 1080 144Hz panel 
-*3 sides narrow bezel",Form: No Data,"MB IO(Left): 1* œÜ 3.5mm DC-IN port (MB)
+*3 sides narrow bezel",Form: No Data,"MB IO(Left): 1*  3.5mm DC-IN port (MB)
 1* HDMI 1.4 Type A (MB)
 1* USB3.2 Gen1,  Super Speed USB 5Gbps, Type A  (on MB)
 2* USB3.2 Gen2, Super Speed USB 10Gbps, full function (Power Delivery, Data, DisplayPort 1.4), Type-C (MB)
 1*Camera/Mic switch (physical power on/off)
 DB IO(Right): 1* Supportive Kensington Lock Type slot (DB)
-DB_Option1Ôºö1*RJ45, Giga LAN 10/100/1000Mbps (on DB)(EM_AB819_HLT_DB_V1.2)
-DB_Option2Ôºö1*RJ45, Giga LAN 10/100/1000Mbps (on DB)
-DB_Option3ÔºöN/A
-DB_Option1ÔºöN/A
-DB_Option2Ôºö1* USB2.0 Hi-Speed, Type A (on DB)
-DB_Option3ÔºöN/A
-DB_Option1Ôºö1* œÜ 3.5mm standard headphone Jack (DB)(EM_AB819_HLT_DB_V1.2)
-DB_Option2Ôºö1* œÜ 3.5mm standard headphone Jack (DB)
-DB_Option3Ôºö1* œÜ 3.5mm standard headphone Jack (DB)
-DB_Option1ÔºöN/A
-DB_Option2Ôºö1* Micro SD card, up to 2TB (on DB)
-DB_Option3Ôºö1* Micro SD card, up to 2TB (on DB)
-DB_Option1ÔºöN/A
-DB_Option2Ôºö1* Micro SD card, up to 2TB (on DB)
-DB_Option3Ôºö1* Micro SD card, up to 2TB (on DB)",,Button: Seperated Power button key (On DB),"Back light: Backlight KB (Single LED-White)
+DB_Option1Ôº1*RJ45, Giga LAN 10/100/1000Mbps (on DB)(EM_AB819_HLT_DB_V1.2)
+DB_Option2Ôº1*RJ45, Giga LAN 10/100/1000Mbps (on DB)
+DB_Option3ÔºN/A
+DB_Option1ÔºN/A
+DB_Option2Ôº1* USB2.0 Hi-Speed, Type A (on DB)
+DB_Option3ÔºN/A
+DB_Option1Ôº1*  3.5mm standard headphone Jack (DB)(EM_AB819_HLT_DB_V1.2)
+DB_Option2Ôº1*  3.5mm standard headphone Jack (DB)
+DB_Option3Ôº1*  3.5mm standard headphone Jack (DB)
+DB_Option1ÔºN/A
+DB_Option2Ôº1* Micro SD card, up to 2TB (on DB)
+DB_Option3Ôº1* Micro SD card, up to 2TB (on DB)
+DB_Option1ÔºN/A
+DB_Option2Ôº1* Micro SD card, up to 2TB (on DB)
+DB_Option3Ôº1* Micro SD card, up to 2TB (on DB)",,Button: Seperated Power button key (On DB),"Back light: Backlight KB (Single LED-White)
 Matrix: US
 Others: No Data","Front: 1* 1.0MP (720P), with LED
 Rear: No Data
@@ -48,17 +48,17 @@ Certification: No Data
 Life: 10 Hours","Module: AMD Zen2, AMD Renoir
 AMD Zen2, AMD Cezanne
 AMD Zen2,  AMD Lucienne
-AMD Zen2, AMD  Barcelo Refresh","Model: AMD Radeon‚Ñ¢ Graphics
+AMD Zen2, AMD  Barcelo Refresh","Model: AMD Radeon Graphics
 No Data
 No Data
 Memory: 2* SO-DIMM DDR4 up to 3200MT/s, up to 16G/32G","Memory: 2* SO-DIMM DDR4 up to 3200MT/s, up to 16G/32G
 Port: EDP
 Storage/ SSD: 1* M.2 2280 for PCle G3 (Lane 4)/NVME SSD, up to 8TB (2x 256GB)(on MB)
-Wifi: 1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)",Port: EDP,"Storage/ SSD: 1* M.2 2280 for PCle G3 (Lane 4)/NVME SSD, up to 8TB (2x 256GB)(on MB)",Wifi: 1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module),TDP: TDP 15W,"interface Type: Option1ÔºöHardware chip on the MB, dTPM 2.0 (Discrete TPM)
-Option2Ôºö AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)",RTC Connector: Support,"Wifi Chip Model: DefaultÔºö6222M-PUC(FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on module (Major Chipset ‚Äì RTL8822CE-CG)
-Others: Support Wifi and Bluetooth Power on/off switch","DB_Option1Ôºö1*RJ45, Giga LAN 10/100/1000Mbps (on DB)(EM_AB819_HLT_DB_V1.2)
-DB_Option2Ôºö1*RJ45, Giga LAN 10/100/1000Mbps (on DB)
-DB_Option3ÔºöN/A",M.2 slot: No Data,"1*WiFi/Bluetooth: No Data
+Wifi: 1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)",Port: EDP,"Storage/ SSD: 1* M.2 2280 for PCle G3 (Lane 4)/NVME SSD, up to 8TB (2x 256GB)(on MB)",Wifi: 1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module),TDP: TDP 15W,"interface Type: Option1ÔºHardware chip on the MB, dTPM 2.0 (Discrete TPM)
+Option2Ôº AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)",RTC Connector: Support,"Wifi Chip Model: DefaultÔº6222M-PUC(FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on module (Major Chipset  RTL8822CE-CG)
+Others: Support Wifi and Bluetooth Power on/off switch","DB_Option1Ôº1*RJ45, Giga LAN 10/100/1000Mbps (on DB)(EM_AB819_HLT_DB_V1.2)
+DB_Option2Ôº1*RJ45, Giga LAN 10/100/1000Mbps (on DB)
+DB_Option3ÔºN/A",M.2 slot: No Data,"1*WiFi/Bluetooth: No Data
 1*Battery/Charge: Charging with Red light
 Full-charged with Blue light
 Off with no light","System: Windows11 SV2(23H2)
@@ -71,20 +71,20 @@ Copilot
 Large language model (License requirement): No Data
 Text to Image model (License requirement): No Data
 Image to Image model (License requirement): No Data","Standard Configuration: 1* 65Wh, AC in 100/240V,50/60Hz, DC output 20V /3.25A",Safety: No Data
-819,Version: PVT_v1.2,AMD819-S_ÂÆ¢Ë£ΩMedionPVT EOL,MB Ver.: No Data,"stage: PlanningÔºöN/A
-Kick-offÔºöN/A
-EVTÔºöN/A
-DVTÔºöN/A
-PVTÔºöN/A
-Pilot runÔºöN/A
-MPÔºöN/A",Owner: HQCN_Ë∂ôË≤ùÊüØ,"Form: Consumer Notebook
+819,Version: PVT_v1.2,AMD819-S_ÂÆ¢Ë£ΩMedionPVT EOL,MB Ver.: No Data,"stage: PlanningÔºN/A
+Kick-offÔºN/A
+EVTÔºN/A
+DVTÔºN/A
+PVTÔºN/A
+Pilot runÔºN/A
+MPÔºN/A",Owner: HQCN_Ë∂,"Form: Consumer Notebook
 Dimension: 359.1*240.4*19.5mm
-Material/Surface: A/C/D caseÔºöMetal (Anodize)
-B caseÔºöPlastic(Texture)
+Material/Surface: A/C/D caseÔºMetal (Anodize)
+B caseÔºPlastic(Texture)
 Hinge: 140 degree hinge
 Weight: 1860 g","Dimension: 15.6"" 16:9
 Resolution: 15.6"" FHD 1920* 1080 144Hz panel 
-*3 sides narrow bezel",Form: No Data,"MB IO(Left): 1* œÜ 3.5mm DC-IN port (MB)
+*3 sides narrow bezel",Form: No Data,"MB IO(Left): 1*  3.5mm DC-IN port (MB)
 1* HDMI 1.4 Type A (MB)
 1* USB3.2 Gen1,  Super Speed USB 5Gbps, Type A  (on MB)
 1* USB3.2 Gen2, Super Speed USB 10Gbps, full function (Power Delivery, Data, DisplayPort 1.4), Type-C (MB)
@@ -94,7 +94,7 @@ DB IO(Right): 1* Supportive Kensington Lock Type slot (DB)
 (DB Version_ IRL819_DB_V1P0_FINAL)
 2* USB2.0 Hi-Speed, Type A (on DB) 
 (DB Version_ IRL819_DB_V1P0_FINAL)
-1* œÜ 3.5mm standard headphone Jack (DB)
+1*  3.5mm standard headphone Jack (DB)
 (DB Version_ IRL819_DB_V1P0_FINAL)
 1* Micro SD card, up to 2TB (on DB)
 (DB Version_ IRL819_DB_V1P0_FINAL)
@@ -113,21 +113,21 @@ Others: No Data","Type: Lithium-ion polymer battery
 Capacity: 1* 55Wh, 11.4V/4825 mAh, 3S1P, Smart battery
 Certification: No Data
 Life: 10 Hours","Module: AMD Zen2,  AMD Mendocino U Series, TDP 15W
-Athlon‚Ñ¢ Gold 7220U (2C/4T, 3.7GHz/2.4GHz, TDP: 15W)
-Ryzen‚Ñ¢ 3 7320U (4C/8T, 4.1GHz/2.4GHz, TDP: 15W)
-Ryzen‚Ñ¢ 5 7520U (4C/8T, 4.3GHz/2.8GHz, TDP: 15W)","Model: AMD Radeon‚Ñ¢ 610M Graphics(Navi2 Small GFX: 2CU, 1RBB+, 128KB on-die Graphics Cache)
+Athlon Gold 7220U (2C/4T, 3.7GHz/2.4GHz, TDP: 15W)
+Ryzen 3 7320U (4C/8T, 4.1GHz/2.4GHz, TDP: 15W)
+Ryzen 5 7520U (4C/8T, 4.3GHz/2.8GHz, TDP: 15W)","Model: AMD Radeon 610M Graphics(Navi2 Small GFX: 2CU, 1RBB+, 128KB on-die Graphics Cache)
 No Data
 No Data
 Memory: LPDDR5-3200Mhz (315B), up to 4G/8G/16G","Memory: LPDDR5-3200Mhz (315B), up to 4G/8G/16G
 Port: EDP
 Storage/ SSD: 1* M.2 2280 for PCle G3 (Lane 2)/NVMe  SSD, up to 512GB/1TB/2TB (on MB)
 1x M.2 2280 for SATA 3.0SSD (on DB)
-Wifi: DefaultÔºö1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)
-Option1Ôºö1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module)",Port: EDP,"Storage/ SSD: 1* M.2 2280 for PCle G3 (Lane 2)/NVMe  SSD, up to 512GB/1TB/2TB (on MB)
-1x M.2 2280 for SATA 3.0SSD (on DB)","Wifi: DefaultÔºö1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)
-Option1Ôºö1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module)",TDP: TDP 15W,"interface Type: Option1ÔºöHardware chip on the MB, dTPM 2.0 (Discrete TPM)
-Option2Ôºö AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)",RTC Connector: Support,"Wifi Chip Model: DefaultÔºö6222M-PUC(FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on module (Major Chipset ‚Äì RTL8822CE-CG)
-Option1Ôºö6252M-PUB(FN-LINK)_ WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset ‚Äì RTL8852BE-CG)
+Wifi: DefaultÔº1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)
+Option1Ôº1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module)",Port: EDP,"Storage/ SSD: 1* M.2 2280 for PCle G3 (Lane 2)/NVMe  SSD, up to 512GB/1TB/2TB (on MB)
+1x M.2 2280 for SATA 3.0SSD (on DB)","Wifi: DefaultÔº1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)
+Option1Ôº1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module)",TDP: TDP 15W,"interface Type: Option1ÔºHardware chip on the MB, dTPM 2.0 (Discrete TPM)
+Option2Ôº AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)",RTC Connector: Support,"Wifi Chip Model: DefaultÔº6222M-PUC(FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on module (Major Chipset  RTL8822CE-CG)
+Option1Ôº6252M-PUB(FN-LINK)_ WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset  RTL8852BE-CG)
 Others: Support Wifi and Bluetooth Power on/off switch","1*RJ45, Giga LAN 10/100/1000Mbps (on DB)
 (DB Version_ IRL819_DB_V1P0_FINAL)",M.2 slot: No Data,"1*WiFi/Bluetooth: No Data
 1*Battery/Charge: Charging with Red light
@@ -142,18 +142,18 @@ Copilot
 Large language model (License requirement): No Data
 Text to Image model (License requirement): No Data
 Image to Image model (License requirement): No Data","Standard Configuration: 1* 65Wh, AC in 100/240V,50/60Hz, DC output 20V /3.25A",Safety: No Data
-819,Version: Planning_v0.1,AMD819,MB Ver.: EM_AMD819_MED_V2_1,"stage: PlanningÔºöN/A
-Kick-offÔºöN/A
-EVTÔºöN/A
-DVTÔºöN/A
-PVTÔºöN/A
-Pilot runÔºöN/A
-MPÔºöN/A",Owner: HQCN_,"Form: Consumer Notebook
+819,Version: Planning_v0.1,AMD819,MB Ver.: EM_AMD819_MED_V2_1,"stage: PlanningÔºN/A
+Kick-offÔºN/A
+EVTÔºN/A
+DVTÔºN/A
+PVTÔºN/A
+Pilot runÔºN/A
+MPÔºN/A",Owner: HQCN_,"Form: Consumer Notebook
 Dimension: 323.5* 219.5* 19.5mm
-Material/Surface: A/B/C/D caseÔºöPlastic
+Material/Surface: A/B/C/D caseÔºPlastic
 Hinge: 140 degree hinge
 Weight: 1487g","Dimension: 14.0"" 16:9
-Resolution: 14.0"" FHD 1920* 1080  panel 60Hz(TBC)",Form: No Data,"MB IO(Left): 1* œÜ 3.5mm DC-IN port (MB)
+Resolution: 14.0"" FHD 1920* 1080  panel 60Hz(TBC)",Form: No Data,"MB IO(Left): 1*  3.5mm DC-IN port (MB)
 1* HDMI 1.4 Type A (MB)
 1* USB3.2 Gen1,  Super Speed USB 5Gbps, Type A  (on MB)
 1* USB3.2 Gen2, Super Speed USB 10Gbps, full function (Power Delivery, Data, DisplayPort 1.4), Type-C (MB)
@@ -164,7 +164,7 @@ DB IO(Right): 1* Supportive Kensington Lock Type slot (DB)
 (DB Version_ EM_TG819_DB_V1P0)
 1* USB2.0 Hi-Speed, Type A (on DB) 
 (DB Version_ EM_TG819_DB_V1P0)
-1* œÜ 3.5mm standard headphone Jack (DB)
+1*  3.5mm standard headphone Jack (DB)
 (DB Version_ EM_TG819_DB_V1P0)
 1* Micro SD card, up to 2TB (on DB)
 (DB Version_ EM_TG819_DB_V1P0)
@@ -182,19 +182,19 @@ Others: No Data","Type: Lithium-ion polymer battery
 Capacity: 1* 55Wh, 11.4V/4825 mAh, 3S1P, Smart battery
 Certification: No Data
 Life: 10 Hours (TBC)","Module: AMD Zen2,  AMD Mendocino U Series, TDP 15W
-Athlon‚Ñ¢ Gold 7220U (2C/4T, 3.7GHz/2.4GHz, TDP: 15W)
-Ryzen‚Ñ¢ 3 7320U (4C/8T, 4.1GHz/2.4GHz, TDP: 15W)
-Ryzen‚Ñ¢ 5 7520U (4C/8T, 4.3GHz/2.8GHz, TDP: 15W)","Model: AMD Radeon‚Ñ¢ Graphics
+Athlon Gold 7220U (2C/4T, 3.7GHz/2.4GHz, TDP: 15W)
+Ryzen 3 7320U (4C/8T, 4.1GHz/2.4GHz, TDP: 15W)
+Ryzen 5 7520U (4C/8T, 4.3GHz/2.8GHz, TDP: 15W)","Model: AMD Radeon Graphics
 No Data
 No Data
 Memory: 2* LPDDR5-3200Mhz (315B), up to 4G/8G/16G","Memory: 2* LPDDR5-3200Mhz (315B), up to 4G/8G/16G
 Port: EDP
 Storage/ SSD: 1* M.2 2280 for PCle G3 (Lane 2)/NVMe  SSD, up to 512GB/1TB/2TB (on MB)
-Wifi: DefaultÔºö1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)
-Option1Ôºö1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module)",Port: EDP,"Storage/ SSD: 1* M.2 2280 for PCle G3 (Lane 2)/NVMe  SSD, up to 512GB/1TB/2TB (on MB)","Wifi: DefaultÔºö1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)
-Option1Ôºö1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module)",TDP: TDP 15W,"interface Type: Option1ÔºöHardware chip on the MB, dTPM 2.0 (Discrete TPM)
-Option2Ôºö AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)",RTC Connector: Support,"Wifi Chip Model: DefaultÔºö6222M-PUC(FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on module (Major Chipset ‚Äì RTL8822CE-CG)
-Option1Ôºö6252M-PUB(FN-LINK)_ WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset ‚Äì RTL8852BE-CG)
+Wifi: DefaultÔº1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)
+Option1Ôº1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module)",Port: EDP,"Storage/ SSD: 1* M.2 2280 for PCle G3 (Lane 2)/NVMe  SSD, up to 512GB/1TB/2TB (on MB)","Wifi: DefaultÔº1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)
+Option1Ôº1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module)",TDP: TDP 15W,"interface Type: Option1ÔºHardware chip on the MB, dTPM 2.0 (Discrete TPM)
+Option2Ôº AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)",RTC Connector: Support,"Wifi Chip Model: DefaultÔº6222M-PUC(FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on module (Major Chipset  RTL8822CE-CG)
+Option1Ôº6252M-PUB(FN-LINK)_ WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset  RTL8852BE-CG)
 Others: Support Wifi and Bluetooth Power on/off switch","1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A(on DB) 
 (DB Version_ EM_TG819_DB_V1P0)",M.2 slot: No Data,"1*WiFi/Bluetooth: No Data
 1*Battery/Charge: Charging with Red light
@@ -209,39 +209,39 @@ Copilot
 Large language model (License requirement): No Data
 Text to Image model (License requirement): No Data
 Image to Image model (License requirement): No Data",Standard Configuration: 1* 65W Type C,Safety: No Data
-819,Version: PVT_v1.3,ARB819-S,MB Ver.: v2.1,"stage: PlanningÔºö2023/05/03-2023/05/10
-Kick-offÔºö2023/05/11
-EVTÔºö2023/05/15-2023/07/24
-DVTÔºö2023/07/24-2023/08/18
-PVTÔºö2023/08/24-2024/01/31
-Pilot runÔºö2023/11/14-2023/11/24
-MPÔºö2024/04/E",Owner: Dillon,"Form: Commercial Notebook
+819,Version: PVT_v1.3,ARB819-S,MB Ver.: v2.1,"stage: PlanningÔº2023/05/03-2023/05/10
+Kick-offÔº2023/05/11
+EVTÔº2023/05/15-2023/07/24
+DVTÔº2023/07/24-2023/08/18
+PVTÔº2023/08/24-2024/01/31
+Pilot runÔº2023/11/14-2023/11/24
+MPÔº2024/04/E",Owner: Dillon,"Form: Commercial Notebook
 Dimension: 359.1* 240.4* 21.0 mm (Customized by BM)
-Material/Surface: A/B/C/D caseÔºöPlastic
+Material/Surface: A/B/C/D caseÔºPlastic
 Hinge: 140 degree hinge
 Weight: 1840 g (Customized by BM)","Dimension: 15.6"" 16:9
 Resolution: 15.6"" FHD 1920* 1080 144Hz panel 
-*3 sides narrow bezel",Form: No Data,"MB IO(Left): 1* œÜ 3.5mm DC-IN port (MB)
+*3 sides narrow bezel",Form: No Data,"MB IO(Left): 1*  3.5mm DC-IN port (MB)
 1* HDMI 1.4 Type A (MB)
-Option1(Ë∂Ö‰∫∫/ËóçÊô®)Ôºö
+Option1(Ë∂∫∫/)Ôº
 1* USB3.2 Gen1, Super Speed USB 5Gpps, Type A (on MB)
-Option2(ÂÆèÂà©Ê≥∞)Ôºö
+Option2(ÂÆÊ≥)Ôº
 1* USB3.2 Gen1, Super Speed USB 5Gpps, Type A (on MB)
 2* USB3.2 Gen2, Super Speed USB 10Gbps, full function (Power Delivery, Data, DisplayPort 1.4), Type-C (MB)
 N/A (reserved design on MB)
 DB IO(Right): 1* Supportive Kensington Lock Type slot (DB)
-Option1(Ë∂Ö‰∫∫/ËóçÊô®)Ôºö N/A
-Option2(ÂÆèÂà©Ê≥∞)Ôºö1x RJ45, Giga LAN 10/100/1000Mbps(on DB), Supportive Depends On Tooling
+Option1(Ë∂∫∫/)Ôº N/A
+Option2(ÂÆÊ≥)Ôº1x RJ45, Giga LAN 10/100/1000Mbps(on DB), Supportive Depends On Tooling
 No Data
-1* œÜ 3.5mm standard headphone Jack (DB)
+1*  3.5mm standard headphone Jack (DB)
 1* Micro SD card, up to 2TB (on DB)
-Option1(Ë∂Ö‰∫∫/ËóçÊô®)Ôºö
+Option1(Ë∂∫∫/)Ôº
 1* USB2.0, Hi-Speed, data only, Type A (on DB)
-Option2(ÂÆèÂà©Ê≥∞)Ôºö
+Option2(ÂÆÊ≥)Ôº
 1* USB2.0, Hi-Speed, data only, Type A (on DB)",,Button: Seperated Power button key (On DB),"Back light: Single color/Standard no backlight KB (Optional)
 Matrix: US
-Others: No Data","Front: DefaultÔºö1* 1.0MP (720P), with LED
-Option1Ôºö 1* 2.0MP (1080P), with LED
+Others: No Data","Front: DefaultÔº1* 1.0MP (720P), with LED
+Option1Ôº 1* 2.0MP (1080P), with LED
 Rear: No Data
 Windows Hello: Optional","Interface type: I2C
 Size: 132 *86 mm
@@ -253,19 +253,19 @@ Others: No Data","Type: Lithium-ion polymer battery
 Capacity: 1* 55Wh, 11.4V/4825 mAh, 3S1P, Damp battery
 Certification: No Data
 Life: 6-8 Hours","Module: AMD Zen3+,  AMD Rembrandt U Series, TDP 15W
-Ryzen‚Ñ¢ 5 6600U (6C/12T, 4.5GHz/2.9GHz,TDP: 15~28W)_Main
-Ryzen‚Ñ¢ 7 6800U (8C/16T, 4.7GHz/2.7GHz,TDP: 15~28W)
-AMD Zen 3+, AMD Rembrandt Refresh U Series, TDP: 28W","Model: AMD Radeon‚Ñ¢ 660M(R5 6600U/R3 7335U/R5 7535U)
-AMD Radeon‚Ñ¢ 680M (6800U/7735U)
+Ryzen 5 6600U (6C/12T, 4.5GHz/2.9GHz,TDP: 15~28W)_Main
+Ryzen 7 6800U (8C/16T, 4.7GHz/2.7GHz,TDP: 15~28W)
+AMD Zen 3+, AMD Rembrandt Refresh U Series, TDP: 28W","Model: AMD Radeon 660M(R5 6600U/R3 7335U/R5 7535U)
+AMD Radeon 680M (6800U/7735U)
 No Data
 Memory: 2* SO-DIMM DDR5 up to 4800MT/s, up to 16G/32G","Memory: 2* SO-DIMM DDR5 up to 4800MT/s, up to 16G/32G
 Port: EDP
 Storage/ SSD: 1* M.2 2280 for PCle G4 (Lane 4)/NVMe  SSD, up to 512GB/1TB/2TB (on MB)
-Wifi: DefaultÔºö1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module)",Port: EDP,"Storage/ SSD: 1* M.2 2280 for PCle G4 (Lane 4)/NVMe  SSD, up to 512GB/1TB/2TB (on MB)",Wifi: DefaultÔºö1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module),TDP: TDP 28W,"interface Type: Option1ÔºöHardware chip on the MB, dTPM 2.0 (discrete TPM)
-Option2Ôºö AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)",RTC Connector: Support,"Wifi Chip Model: DefaultÔºöRZ608(AMD)_WIFI 6E Tri-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset ‚Äì  MT7921K)
-OptionalÔºö6252M-PUB(FN-LINK)_ WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset ‚Äì RTL8852BE-CG)
-Others: Support Airplane mode (SW)","Option1(Ë∂Ö‰∫∫/ËóçÊô®)Ôºö N/A
-Option2(ÂÆèÂà©Ê≥∞)Ôºö1x RJ45, Giga LAN 10/100/1000Mbps(on DB), Supportive Depends On Tooling",M.2 slot: No Data,"1*WiFi/Bluetooth: No Data
+Wifi: DefaultÔº1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module)",Port: EDP,"Storage/ SSD: 1* M.2 2280 for PCle G4 (Lane 4)/NVMe  SSD, up to 512GB/1TB/2TB (on MB)",Wifi: DefaultÔº1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module),TDP: TDP 28W,"interface Type: Option1ÔºHardware chip on the MB, dTPM 2.0 (discrete TPM)
+Option2Ôº AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)",RTC Connector: Support,"Wifi Chip Model: DefaultÔºRZ608(AMD)_WIFI 6E Tri-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset   MT7921K)
+OptionalÔº6252M-PUB(FN-LINK)_ WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset  RTL8852BE-CG)
+Others: Support Airplane mode (SW)","Option1(Ë∂∫∫/)Ôº N/A
+Option2(ÂÆÊ≥)Ôº1x RJ45, Giga LAN 10/100/1000Mbps(on DB), Supportive Depends On Tooling",M.2 slot: No Data,"1*WiFi/Bluetooth: No Data
 1*Battery/Charge: 14"" : Charging with Red light / Full-charged with Green light / Off with no light
 15"" : Charging with Red light / Full-charged with Green light / Off with no light","System: Windows11 SV2(23H2)
 Language Support: Support multi Language","MEP
@@ -277,39 +277,39 @@ Copilot
 Large language model (License requirement): No Data
 Text to Image model (License requirement): No Data
 Image to Image model (License requirement): No Data","Standard Configuration: 1* 65Wh, AC in 100/240V,50/60Hz, DC output 19V /3.42A",Safety: No Data
-819,Version: EVT_v1.1,Model Name: APX819,MB Ver.: v2.1,"stage: PlanningÔºö2024/06/05-Now
-Kick-offÔºö2024/10/16
-EVTÔºö2024/10/17- 2024/10/30
-DVTÔºö
-PVTÔºö
-Pilot runÔºöN/A
-MPÔºö",Owner: Dillon,"Form: Commercial Notebook
+819,Version: EVT_v1.1,APX819,MB Ver.: v2.1,"stage: PlanningÔº2024/06/05-Now
+Kick-offÔº2024/10/16
+EVTÔº2024/10/17- 2024/10/30
+DVTÔº
+PVTÔº
+Pilot runÔºN/A
+MPÔº",Owner: Dillon,"Form: Commercial Notebook
 Dimension: 359.1* 240.4* 21.0 mm (TBD E/July)
-Material/Surface: A/B/C/D caseÔºöPlastic
+Material/Surface: A/B/C/D caseÔºPlastic
 Hinge: 140 degree hinge
 Weight: 1840 g (TBD E/July)","Dimension: 15.6"" 16:9
 Resolution: 15.6"" FHD 1920* 1080 60Hz/250nits panel
-*3 sides narrow bezel (TBC M/July)",Form: No Data,"MB IO(Left): 1* œÜ 3.5mm DC-IN port (MB)
+*3 sides narrow bezel (TBC M/July)",Form: No Data,"MB IO(Left): 1*  3.5mm DC-IN port (MB)
 1* HDMI 1.4 Type A (MB)
-Option1(Ë∂Ö‰∫∫/ËóçÊô®)Ôºö
+Option1(Ë∂∫∫/)Ôº
 1* USB3.2 Gen1, Super Speed USB 5Gpps, Type A (on MB)
-Option2(ÂÆèÂà©Ê≥∞)Ôºö
+Option2(ÂÆÊ≥)Ôº
 1* USB3.2 Gen1, Super Speed USB 5Gpps, Type A (on MB)
 2* USB3.2 Gen2, Super Speed USB 10Gbps, full function (Power Delivery, Data, DisplayPort 1.4), Type-C (MB)
 N/A (reserved design on MB)
 DB IO(Right): 1* Supportive Kensington Lock Type slot (DB)
-Option1(Ë∂Ö‰∫∫/ËóçÊô®)Ôºö N/A
-Option2(ÂÆèÂà©Ê≥∞)Ôºö1x RJ45, Giga LAN 10/100/1000Mbps(on DB), Supportive Depends On Tooling
+Option1(Ë∂∫∫/)Ôº N/A
+Option2(ÂÆÊ≥)Ôº1x RJ45, Giga LAN 10/100/1000Mbps(on DB), Supportive Depends On Tooling
 No Data
-1* œÜ 3.5mm standard headphone Jack (DB)
+1*  3.5mm standard headphone Jack (DB)
 1* Micro SD card, up to 2TB (on DB)
-Option1(Ë∂Ö‰∫∫/ËóçÊô®)Ôºö
+Option1(Ë∂∫∫/)Ôº
 1* USB2.0, Hi-Speed, data only, Type A (on DB)
-Option2(ÂÆèÂà©Ê≥∞)Ôºö
+Option2(ÂÆÊ≥)Ôº
 1* USB2.0, Hi-Speed, data only, Type A (on DB)",,Button: Seperated Power button key (On DB),"Back light: Single color/Standard no backlight KB (Optional)
 Matrix: US
-Others: No Data","Front: DefaultÔºö1* 1.0MP (720P), with LED
-Option1Ôºö 1* 2.0MP (1080P), with LED
+Others: No Data","Front: DefaultÔº1* 1.0MP (720P), with LED
+Option1Ôº 1* 2.0MP (1080P), with LED
 Rear: No Data
 Windows Hello: Optional","Interface type: I2C
 Size: 132 *86 mm
@@ -321,22 +321,22 @@ Others: No Data","Type: Lithium-ion polymer battery
 Capacity: 1* 55Wh, 11.4V/4825 mAh, 3S1P, Damp battery
 Certification: No Data
 Life: 6-8 Hours","Module: AMD Zen4,  AMD Phoenix U Series, TDP: 15W
-Ryzen‚Ñ¢ 3 7440U (4C/8T, 4.7GHz/3.0GHz, TDP: 15W~30W)  *Ryzen AI not available
-Ryzen‚Ñ¢ 5 7540U (6C/12T, 4.9GHz/3.2GHz, TDP: 15W~30W) *Ryzen AI not available
-Ryzen‚Ñ¢ 5 7640U (6C/12T, 4.9GHz/3.5GHz, TDP: 15W~30W)","Model: AMD Radeon‚Ñ¢ 740M (R3 7440U/7R5 540U)
-AMD Radeon‚Ñ¢ 760M (R5 7640U)
-AMD Radeon‚Ñ¢ 780M (R7 7840U)
+Ryzen 3 7440U (4C/8T, 4.7GHz/3.0GHz, TDP: 15W~30W)  *Ryzen AI not available
+Ryzen 5 7540U (6C/12T, 4.9GHz/3.2GHz, TDP: 15W~30W) *Ryzen AI not available
+Ryzen 5 7640U (6C/12T, 4.9GHz/3.5GHz, TDP: 15W~30W)","Model: AMD Radeon 740M (R3 7440U/7R5 540U)
+AMD Radeon 760M (R5 7640U)
+AMD Radeon 780M (R7 7840U)
 Memory: 2* SO-DIMM DDR5 up to 5600MT/s, up to 16G/32G","Memory: 2* SO-DIMM DDR5 up to 5600MT/s, up to 16G/32G
 Port: EDP
 Storage/ SSD: 1* M.2 2280 for PCle G4 (Lanex4)/NVMe  SSD, up to 512GB/1TB/2TB (on MB)
-Wifi: DefaultÔºö1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)
-Option1Ôºö1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module)",Port: EDP,"Storage/ SSD: 1* M.2 2280 for PCle G4 (Lanex4)/NVMe  SSD, up to 512GB/1TB/2TB (on MB)","Wifi: DefaultÔºö1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)
-Option1Ôºö1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module)","TDP: DefaultÔºöTDP 15W (Standard)
-Option1ÔºöTDP 28W","interface Type: Option1ÔºöHardware chip on the MB, dTPM 2.0 (discrete TPM)
-Option2Ôºö AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)",RTC Connector: Support,"Wifi Chip Model: DefaultÔºöRZ616(AMD)_WIFI 6E 802.11ax 2Tx2R + BT 5.2, on M.2 module(Major Chipset ‚Äì MT7922A12L)
-OptionalÔºö6252M-PUB(FN-LINK)_ WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset ‚Äì RTL8852BE-CG)
-Others: Support Airplane mode (SW)","Option1(Ë∂Ö‰∫∫/ËóçÊô®)Ôºö N/A
-Option2(ÂÆèÂà©Ê≥∞)Ôºö1x RJ45, Giga LAN 10/100/1000Mbps(on DB), Supportive Depends On Tooling",M.2 slot: No Data,"1*WiFi/Bluetooth: No Data
+Wifi: DefaultÔº1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)
+Option1Ôº1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module)",Port: EDP,"Storage/ SSD: 1* M.2 2280 for PCle G4 (Lanex4)/NVMe  SSD, up to 512GB/1TB/2TB (on MB)","Wifi: DefaultÔº1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)
+Option1Ôº1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module)","TDP: DefaultÔºTDP 15W (Standard)
+Option1ÔºTDP 28W","interface Type: Option1ÔºHardware chip on the MB, dTPM 2.0 (discrete TPM)
+Option2Ôº AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)",RTC Connector: Support,"Wifi Chip Model: DefaultÔºRZ616(AMD)_WIFI 6E 802.11ax 2Tx2R + BT 5.2, on M.2 module(Major Chipset  MT7922A12L)
+OptionalÔº6252M-PUB(FN-LINK)_ WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset  RTL8852BE-CG)
+Others: Support Airplane mode (SW)","Option1(Ë∂∫∫/)Ôº N/A
+Option2(ÂÆÊ≥)Ôº1x RJ45, Giga LAN 10/100/1000Mbps(on DB), Supportive Depends On Tooling",M.2 slot: No Data,"1*WiFi/Bluetooth: No Data
 1*Battery/Charge: 14"" : Charging with Red light / Full-charged with Green light / Off with no light
 15"" : Charging with Red light / Full-charged with Green light / Off with no light","System: Windows11 SV2(24H2)
 Language Support: Support multi Language","MEP
@@ -348,39 +348,39 @@ Copilot
 Large language model (License requirement): Support
 Text to Image model (License requirement): Support
 Image to Image model (License requirement): Support","Standard Configuration: 1* 65Wh, AC in 100/240V,50/60Hz, DC output 19V /3.42A",Safety: No Data
-819,Version: EVT_v1.1,Model Name: AHP819,MB Ver.: v2.1,"stage: PlanningÔºö2024/06/05-Now
-Kick-offÔºö2024/10/16
-EVTÔºö2024/10/17- 2024/12/15
-DVTÔºö
-PVTÔºö
-Pilot runÔºöN/A
-MPÔºö",Owner: Dillon,"Form: Commercial Notebook
+819,Version: EVT_v1.1,AHP819,MB Ver.: v2.1,"stage: PlanningÔº2024/06/05-Now
+Kick-offÔº2024/10/16
+EVTÔº2024/10/17- 2024/12/15
+DVTÔº
+PVTÔº
+Pilot runÔºN/A
+MPÔº",Owner: Dillon,"Form: Commercial Notebook
 Dimension: 359.1* 240.4* 21.0 mm (TBD E/July)
-Material/Surface: A/B/C/D caseÔºöPlastic
+Material/Surface: A/B/C/D caseÔºPlastic
 Hinge: 140 degree hinge
 Weight: 1840 g (TBD E/July)","Dimension: 15.6"" 16:9
 Resolution: 15.6"" FHD 1920* 1080 60Hz/250nits panel
-*3 sides narrow bezel (TBC M/July)",Form: No Data,"MB IO(Left): 1* œÜ 3.5mm DC-IN port (MB)
+*3 sides narrow bezel (TBC M/July)",Form: No Data,"MB IO(Left): 1*  3.5mm DC-IN port (MB)
 1* HDMI 1.4 Type A (MB)
-Option1(Ë∂Ö‰∫∫/ËóçÊô®)Ôºö
+Option1(Ë∂∫∫/)Ôº
 1* USB3.2 Gen1, Super Speed USB 5Gpps, Type A (on MB)
-Option2(ÂÆèÂà©Ê≥∞)Ôºö
+Option2(ÂÆÊ≥)Ôº
 1* USB3.2 Gen1, Super Speed USB 5Gpps, Type A (on MB)
 2* USB3.2 Gen2, Super Speed USB 10Gbps, full function (Power Delivery, Data, DisplayPort 1.4), Type-C (MB)
 N/A (reserved design on MB)
 DB IO(Right): 1* Supportive Kensington Lock Type slot (DB)
-Option1(Ë∂Ö‰∫∫/ËóçÊô®)Ôºö N/A
-Option2(ÂÆèÂà©Ê≥∞)Ôºö1x RJ45, Giga LAN 10/100/1000Mbps(on DB), Supportive Depends On Tooling
+Option1(Ë∂∫∫/)Ôº N/A
+Option2(ÂÆÊ≥)Ôº1x RJ45, Giga LAN 10/100/1000Mbps(on DB), Supportive Depends On Tooling
 No Data
-1* œÜ 3.5mm standard headphone Jack (DB)
+1*  3.5mm standard headphone Jack (DB)
 1* Micro SD card, up to 2TB (on DB)
-Option1(Ë∂Ö‰∫∫/ËóçÊô®)Ôºö
+Option1(Ë∂∫∫/)Ôº
 1* USB2.0, Hi-Speed, data only, Type A (on DB)
-Option2(ÂÆèÂà©Ê≥∞)Ôºö
+Option2(ÂÆÊ≥)Ôº
 1* USB2.0, Hi-Speed, data only, Type A (on DB)",,Button: Seperated Power button key (On DB),"Back light: Single color/Standard no backlight KB (Optional)
 Matrix: US
-Others: No Data","Front: DefaultÔºö1* 1.0MP (720P), with LED
-Option1Ôºö 1* 2.0MP (1080P), with LED
+Others: No Data","Front: DefaultÔº1* 1.0MP (720P), with LED
+Option1Ôº 1* 2.0MP (1080P), with LED
 Rear: No Data
 Windows Hello: Optional","Interface type: I2C
 Size: 132 *86 mm
@@ -392,22 +392,22 @@ Others: No Data","Type: Lithium-ion polymer battery
 Capacity: 1* 55Wh, 11.4V/4825 mAh, 3S1P, Damp battery
 Certification: No Data
 Life: 6-8 Hours","Module: AMD Zen4,  AMD Hawk Point U Series, TDP: 28W
-Ryzen‚Ñ¢ 3 8440U (4C/8T, 4.7GHz/3.0GHz, TDP: 28W)  *Ryzen AI not available
-Ryzen‚Ñ¢ 5 8540U (6C/12T, 4.9GHz/3.2GHz, TDP: 28W) *Ryzen AI not available
-Ryzen‚Ñ¢ 5 8640U (6C/12T, 4.9GHz/3.5GHz, TDP: 28W)","Model: AMD Radeon‚Ñ¢ 740M (R3 8440U/R5 7540U)
-AMD Radeon‚Ñ¢ 760M (R5 8640U)
-AMD Radeon‚Ñ¢ 780M (R7 8840U)
+Ryzen 3 8440U (4C/8T, 4.7GHz/3.0GHz, TDP: 28W)  *Ryzen AI not available
+Ryzen 5 8540U (6C/12T, 4.9GHz/3.2GHz, TDP: 28W) *Ryzen AI not available
+Ryzen 5 8640U (6C/12T, 4.9GHz/3.5GHz, TDP: 28W)","Model: AMD Radeon 740M (R3 8440U/R5 7540U)
+AMD Radeon 760M (R5 8640U)
+AMD Radeon 780M (R7 8840U)
 Memory: 2* SO-DIMM DDR5 up to 5600MT/s, up to 16G/32G","Memory: 2* SO-DIMM DDR5 up to 5600MT/s, up to 16G/32G
 Port: EDP
 Storage/ SSD: 1* M.2 2280 for PCle G4 (Lanex4)/NVMe  SSD, up to 512GB/1TB/2TB (on MB)
-Wifi: DefaultÔºö1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)
-Option1Ôºö1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module)",Port: EDP,"Storage/ SSD: 1* M.2 2280 for PCle G4 (Lanex4)/NVMe  SSD, up to 512GB/1TB/2TB (on MB)","Wifi: DefaultÔºö1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)
-Option1Ôºö1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module)","TDP: DefaultÔºöTDP 15W (Standard)
-Option1ÔºöTDP 28W","interface Type: Option1ÔºöHardware chip on the MB, dTPM 2.0 (discrete TPM)
-Option2Ôºö AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)",RTC Connector: Support,"Wifi Chip Model: DefaultÔºöRZ616(AMD)_WIFI 6E 802.11ax 2Tx2R + BT 5.2, on M.2 module(Major Chipset ‚Äì MT7922A12L)
-OptionalÔºö6252M-PUB(FN-LINK)_ WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset ‚Äì RTL8852BE-CG)
-Others: Support Airplane mode (SW)","Option1(Ë∂Ö‰∫∫/ËóçÊô®)Ôºö N/A
-Option2(ÂÆèÂà©Ê≥∞)Ôºö1x RJ45, Giga LAN 10/100/1000Mbps(on DB), Supportive Depends On Tooling",M.2 slot: No Data,"1*WiFi/Bluetooth: No Data
+Wifi: DefaultÔº1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)
+Option1Ôº1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module)",Port: EDP,"Storage/ SSD: 1* M.2 2280 for PCle G4 (Lanex4)/NVMe  SSD, up to 512GB/1TB/2TB (on MB)","Wifi: DefaultÔº1* M.2 Key-E 2230 for WiFi 5 + BT5.0 (on module)
+Option1Ôº1* M.2 Key-E 2230 for WiFi 6 + BT5.2 (on module)","TDP: DefaultÔºTDP 15W (Standard)
+Option1ÔºTDP 28W","interface Type: Option1ÔºHardware chip on the MB, dTPM 2.0 (discrete TPM)
+Option2Ôº AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)",RTC Connector: Support,"Wifi Chip Model: DefaultÔºRZ616(AMD)_WIFI 6E 802.11ax 2Tx2R + BT 5.2, on M.2 module(Major Chipset  MT7922A12L)
+OptionalÔº6252M-PUB(FN-LINK)_ WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset  RTL8852BE-CG)
+Others: Support Airplane mode (SW)","Option1(Ë∂∫∫/)Ôº N/A
+Option2(ÂÆÊ≥)Ôº1x RJ45, Giga LAN 10/100/1000Mbps(on DB), Supportive Depends On Tooling",M.2 slot: No Data,"1*WiFi/Bluetooth: No Data
 1*Battery/Charge: 14"" : Charging with Red light / Full-charged with Green light / Off with no light
 15"" : Charging with Red light / Full-charged with Green light / Off with no light","System: Windows11 SV2(24H2)
 Language Support: Support multi Language","MEP

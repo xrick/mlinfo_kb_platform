@@ -1,0 +1,2 @@
+1.我想了解faiss+langchain的合作模式可以分成哪幾類。
+2.目前我有20多個notebook 機型，每種機型以它們的nbname做為key，在我完成的notebook sales rag web application，目前採用milvus做為vector database, duckdb做為儲存詳細規格的關聯式資料庫，二者間用product_id做為連結。簡單描述一個查詢的flow
