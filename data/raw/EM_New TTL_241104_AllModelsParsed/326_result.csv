@@ -1,0 +1,153 @@
+﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+326,Version: EVT 1.2,Model Name: AHP326,MB Ver.: v1.0,"stage: Planning：2023/10/02-2024/04/02
+Kick-off：2024/04/03
+EVT：2024/08/07-2024/11/05
+DVT：
+PVT：
+Pilot run：
+Owner: Jasper",Owner: Jasper,"Form: Commercial Notebook
+Dimension: 309.26* 223.32 *17.95 mm
+Material: A/D Cover-Alu alloy (Anodize), B Cover-Mylar(Texture)
+Hinge: 180 degree hinge
+Weight: TBD","Dimension: 14.0"" (16:10)
+Resolution: Default：1920*1200 FHD IPS, LED, 
+Option1：2240*1400 2K IPS, LED
+Option2：2560*1600  QSXGA IPS, LED",Form: Reserved by PCBA,"MB IO(Left): 1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)
+EVT function test finish
+1* USB3.2 Gen2, Super Speed USB 10Gbps,Type-A (MB)
+EVT function test finish
+2* USB4.0, USB4 40Gbps, full function ,100W Power Delivery, Data, DisplayPort 1.4), Type C (MB)
+EVT function test finish
+DB IO(Right): 1* Supportive Kensington Lock Type slot (Mini Saver)
+1* USB 3.2 Gen1, Super Speed USB 5Gbp,Type A (DB)
+EVT function test finish
+1* USB 2.0, super speed ,Type A (DB)
+EVT function test finish
+1* φ3.5mm standard headphone jack (DB)
+1* USB 2.0, super speed ,Type C (DB)
+EVT function test finish
+1* Camera+Mic physical power on/off switch
+MB IO(Rear): No Data
+Power On/Off/Sleep: On with Green light
+Off with no light
+Sleep with breathing light",,Button: Seperated Power button key(On DB) TBD,"Back light: Default：Single backlit (Single LED-White)
+Option1：No backlit KB
+Matrix: US
+Others: keyboard Spill resistant with drain for drainage, Typical  keyboard w/o removeable design","Front: Default：1* 1080P/ 2M Webcam  Infrared (IR),30 fps, w/ mic*2, LED, with latch
+Option1：1* 720P/1M Webcam Infrared (IR)30 fps, w/ mic*2, LED, with latch
+Camera+Mic physical power on/off switch
+Rear: N/a
+Windows Hello: Yes","Interface type: I2C/ USB
+Size: xxx* xxx mm
+Feature: multi-touch support, gestures and scroll function","Location: On the Power Button
+Interface type: USB, Security level 3 -  HTX-938-GF3258
+Windows Hello: No Data","Speaker: 2* Built-in Speakers ( 1* 4Ω/2W,1* 8Ω/0.8W)
+Mic: 2* Built-in (dual) digital microphones on CAM  module
+Others: HD Audio, Box","Type: Lithium-ion polymer battery, PD3.0 support fast charging (fully charged in 2 hours by standard adapter)
+Capacity: 1* 50Wh, xxxV/xxxxmah,  3S1P, Smart battery
+Certification: CB, MSDS, UN38.3, Airflight transportation report, EAC
+Life: 8 Hours (U Series) TBD
+10 Hours (HS Series) TBD","Module: AMD Zen4,  AMD Hawk Point U Series, TDP: 28W
+Ryzen™ 5 8640U (6C/12T, 4.9GHz/3.5GHz, TDP: 28W) 
+NPU 16 tops, total 31Tops
+Ryzen™ 7 8840U (8C/16T, 5.1GHz/3.3GHz, TDP: 35W~54W) 
+NPU 16 tops, total 38Tops
+AMD Zen4,  AMD Hawk Point HS Series, TDP: 28W","Model: AMD Radeon™ Graphics integrated, RDNA 3 4nm iGPU, 30W
+RAM: LPDDR5X-7500Mhz (315B)(PCB uVIA), up to 16G/32G,onboard
+Port: EDP
+SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 32TB","RAM: LPDDR5X-7500Mhz (315B)(PCB uVIA), up to 16G/32G,onboard
+Port: EDP
+SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 32TB
+Wifi: Defualt：1* WiFi7 2Tx2R+ BT5.4 (on board)
+Option1：1* WiFi6E 2Tx2R+ BT5.2 (on board)
+Option2：1* WiFi6 2Tx2R+ BT5.2 (on board)",Port: EDP,"SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 32TB",,TDP: TDP 28W,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: Default：RZ616(AMD)_WIFI 6E 2Tx2R 802.11ax+ BT 5.2, on board (Major Chipset – MT7922AE)
+Option1：AW-XM514NF(AzureWave)_Wifi 6E 2T2R 802.11ax + BT 5.3, on board (Major Chipset – MT7922A12L)
+Others: Support Wifi and Bluetooth Power on/off switch",RJ45: No Data,,"WiFi/Bluetooth Switch: No Data
+Battery/Charge: Charging with Red light
+Full-charged with Green light 
+Off with no light","System: Windows11 2024H2 (2024 updated) Copilot version
+Language Support: Support multi Language","MEP
+(need OEM get approval from Microsoft): Automatic framing
+Eye contact
+Background effect
+Copilot
+(Support Region depends on Microsoft): Support
+Large language model (License requirement): Support
+Text to Image model (License requirement): Support
+Image to Image model (License requirement): Support","Standard Configuration: 1* 65W, 20V/3.25A Type C charger",
+326,Version: EVT 1.2,Model Name: AST326,MB Ver.: v1.0,"stage: Planning：2023/10/02-2024/04/02
+Kick-off：2024/04/03
+EVT：2024/08/07-2024/11/05
+DVT：
+PVT：
+Pilot run：
+Owner: Jasper",Owner: Jasper,"Form: Commercial Notebook
+Dimension: 309.26* 223.32 *17.95 mm
+Material: A/D Cover-Alu alloy (Anodize), B Cover-Mylar(Texture)
+Hinge: 180 degree hinge
+Weight: TBD","Dimension: 14.0"" (16:10)
+Resolution: Default：1920*1200 FHD IPS, LED, 
+Option1：2240*1400 2K IPS, LED
+Option2：2560*1600  QSXGA IPS, LED",Form: Reserved by PCBA,"MB IO(Left): 1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)
+EVT function test finish
+1* USB3.2 Gen2, Super Speed USB 10Gbps,Type-A (MB)
+EVT function test finish
+2* USB4.0, USB4 40Gbps, full function ,100W Power Delivery, Data, DisplayPort 1.4), Type C (MB)
+EVT function test finish
+DB IO(Right): 1* Supportive Kensington Lock Type slot (Mini Saver)
+1* USB 3.2 Gen1, Super Speed USB 5Gbp,Type A (DB)
+EVT function test finish
+1* USB 2.0, super speed ,Type A (DB)
+EVT function test finish
+1* φ3.5mm standard headphone jack (DB)
+1* USB 2.0, super speed ,Type C (DB)
+EVT function test finish
+1* Camera+Mic physical power on/off switch
+MB IO(Rear): No Data
+Power On/Off/Sleep: On with Green light
+Off with no light
+Sleep with breathing light",,Button: Seperated Power button key(On DB) TBD,"Back light: Default：Single backlit
+Option1：No backlit KB
+Matrix: US
+Others: keyboard Spill resistant with drain for drainage, Typical  keyboard w/o removeable design","Front: Default：1080P/ 2M Webcam  Infrared (IR),30 fps, w/ mic*2, LED, with latch
+Option1：720P/1M Webcam Infrared (IR)30 fps, w/ mic*2, LED, with latch
+Camera+Mic physical power on/off switch
+Rear: N/a
+Windows Hello: Yes","Interface type: I2C/ USB
+Size: xxx* xxx mm
+Feature: multi-touch support, gestures and scroll function","Location: On the Power Button
+Interface type: USB, Security level 3 -  HTX-938-GF3258
+Windows Hello: No Data","Speaker: 2* Built-in Speakers ( 1* 4Ω/2W,1* 8Ω/0.8W)
+Mic: 2* Built-in (dual) digital microphones on CAM  module
+Others: HD Audio, Box","Type: Lithium-ion polymer battery, PD3.0 support fast charging (fully charged in 2 hours by standard adapter)
+Capacity: 1* 50Wh, xxxV/xxxxmah,  3S1P, Smart battery
+Certification: CB, MSDS, UN38.3, Airflight transportation report, EAC
+Life: 8 Hours (U Series) TBD
+10 Hours (HS Series) TBD","Module: AMD Zen5,  AMD Strix Point Series, TDP: 28W
+AMD Ryzen™ AI 9 HX 375 (12C/24T, 5.1GHz/2.0GHz, 36MB, XDNA, TDP: 28W) NPU 55 tops, total 85Tops
+AMD Ryzen™ AI 9 HX 370 (12C/24T, 5.1GHz/2.0GHz, 36MB, XDNA, TDP: 28W) NPU 50 tops, total 80Tops
+AMD Ryzen™ AI 9 365 (10C/20T, 5.0GHz/2.0GHz, 36MB, XDNA, TDP: 28W)  NPU 73 tops, total 50 Tops","Model: AMD Radeon™890M
+RAM: LPDDR5X-7500Mhz (315B)(PCB uVIA), up to 16G/32G,onboard
+Port: EDP
+SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 32TB","RAM: LPDDR5X-7500Mhz (315B)(PCB uVIA), up to 16G/32G,onboard
+Port: EDP
+SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 32TB
+Wifi: Defualt：1* WiFi7 2Tx2R+ BT5.4 (on board)
+Option1：1* WiFi6E 2Tx2R+ BT5.2 (on board)
+Option2：1* WiFi6 2Tx2R+ BT5.2 (on board)",Port: EDP,"SSD: 1* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 32TB",,TDP: TDP 28W,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: Default：RZ616(AMD)_WIFI 6E 2Tx2R 802.11ax+ BT 5.2, on board (Major Chipset – MT7922AE)
+Option1：AW-XM514NF(AzureWave)_Wifi 6E 2T2R 802.11ax + BT 5.3, on board (Major Chipset – MT7922A12L)
+Others: Support Wifi and Bluetooth Power on/off switch",RJ45: No Data,,"WiFi/Bluetooth Switch: No Data
+Battery/Charge: Charging with Red light
+Full-charged with Green light 
+Off with no light","System: Windows11 2024H2 (2024 updated) Copilot version
+Language Support: Support multi Language","MEP
+(need OEM get approval from Microsoft): Automatic framing
+Eye contact
+Background effect
+Copilot
+(Support Region depends on Microsoft): Support
+Large language model (License requirement): Support
+Text to Image model (License requirement): Support
+Image to Image model (License requirement): Support","Standard Configuration: 1* 65W, 20V/3.25A Type C charger",

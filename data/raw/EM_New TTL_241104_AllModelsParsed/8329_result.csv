@@ -1,0 +1,75 @@
+﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+8329,Version: MP_v1.0,Model Name: AMD8329,MB Ver.: v1.0,"stage: Planning：2022/01/31-2022/10/13
+Kick-off：2022/10/14
+EVT：2022/10/17-2023/05/08
+DVT：N/A
+PVT：2023/05/08-2023/07/13
+Pilot run：N/A
+MP：2023/05/08-2023/07/13",Owner: Jasper,"Form: Commercial Notebook
+Dimension: 323.45* 219.9* 20.7mm
+Material/Surface: A/B/C/D Cover：Plastic
+Hinge: 175 degree hinge
+Weight: 1452 g","Dimension: 11.6"" 16:9
+14.0"" 16:9
+Resolution: 11.6"" 1280* 720 HD, 60Hz TN panel
+11.6"" 1920* 1080 FHD, 60Hz IPS panel
+14.0"" 1280* 720 HD, 60Hz IPS panel
+14.0"" 1920* 1080 FHD, 60Hz IPS panel",Form: No Data,"MB IO(Left): 1* φ 4.0mm DC-IN port (MB)
+1* HDMI 1.4 Type A (MB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)
+1* USB3.2 Gen2, Super Speed USB 10Gbps, full function (Power Delivery, Data, DisplayPort 1.4), Type-C (MB)
+1* φ 3.5mm standard headphone Jack (MB)
+DB IO(Right): 1* Supportive Kensington Lock Type slot
+MB IO(Rear): No Data
+1x Power On/Off/Sleep: On with Blue light
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Blue light
+Off with no light
+1xWebcam: On with Blue light
+Off with no light","1x Power On/Off/Sleep: On with Blue light
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Blue light
+Off with no light
+1xWebcam: On with Blue light
+Off with no light
+1xCaps Lock: On with white light
+Off with no light
+Button: on KB",Button: on KB,"Back light: Backlight KB (Single LED-White)
+Matrix: US
+Others: xx*xx* xx mm","Front: 1x 1.0MP(720P) Front, LED
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C
+Size: 125.1* 78.1mm
+Feature: multi-touch support, gestures and scroll function","Location: 1* on Touchpad
+Interface type: USB, Security level 2 - GF3206+GM188  (Optional)TBD
+Windows Hello: support Windows Hello (TBD)","Speaker: 2* Built-in Speaker (2* 8Ω/1W) (on MB)
+Mic: 1* Built-in (dual) digital microphones (on MB)
+Others: No Data","Type: Lithium-ion polymer battery
+Capacity: 1* 33Wh, 7.7V/4350 mAh, 3S1P, Damb battery (for 11.6"")
+1* 45Wh, 7.7V/5900 mAh, 3S1P, Damb battery (for 14.0"")
+Certification: No Data
+Life: 6-8 Hours","Module: AMD Zen2,  AMD Mendocino U Series, TDP 6W
+Athlon™ Gold 7220e (2C/4T, 3.3GHz/1.2GHz, TDP: 6W)
+Ryzen™ 3 7320e (4C/4T, 3.5GHz/1.2GHz, TDP: 6W)
+Model: AMD Radeon™ 610M","Model: AMD Radeon™ 610M
+Memory: LPDDR5-4267Mhz (315B), up to 8G/16G
+Port: LCD connector optional
+Storage/ SSD: 1* PCle G3 (Lane 2)/NVME SSD (M.2 2280), up to 8TB (2x 256GB)","Memory: LPDDR5-4267Mhz (315B), up to 8G/16G
+Port: LCD connector optional
+Storage/ SSD: 1* PCle G3 (Lane 2)/NVME SSD (M.2 2280), up to 8TB (2x 256GB)
+Wifi: 1* WiFi 5 + BT5.0 (on board)",Port: LCD connector optional,"Storage/ SSD: 1* PCle G3 (Lane 2)/NVME SSD (M.2 2280), up to 8TB (2x 256GB)",,,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: 6222C-PUC(FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on board (Major Chipset – RTL8822CE-CG)
+Others: Support Wifi and Bluetooth Power on/off switch",RJ45: No Data,M.2 slot: No Data,"1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Blue light
+Off with no light","System: Windows11 SV2(23H2), Support Modern Standby
+All functions should be compatible on Win11 & Linux OS
+Language Support: Support multi Language",,"Standard Configuration: 1* 30Wh, AC in 100/240V,50/60Hz, DC output 12V /2.5A","Safety: No Data
+No Data
+No Data"

@@ -1,0 +1,368 @@
+﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+958,Version: MP_v1.1,Model Name: AG958,MB Ver.: v3.0,"stage: Planning：N/A
+Kick-off：2022/09/30
+EVT：2022/10/01-2023/01/27
+DVT：2023/01/28-2023/04/15
+PVT：2023/04/15-2023/06/08
+Pilot run：N/A
+MP：2023/06/18",Owner: Jerry,"Form: Gaming Notebook
+Dimension: 367.6* 265.9* 19.9mm (RX 6650M)
+367.6* 265.9* 21.9mm (RX 6650M XT)
+Material/Surface: A/C/D Cover：Metal (Anodize), 
+B Cover：Plastic (Texture)
+Hinge: 140 degree hinge
+Weight: ~2.3Kg (5.08bl)","Dimension: 15.6"" 16:9
+16.1"" 16:9
+Resolution: 15.6"" 1920* 1080 FHD, 144Hz, Freesync, PSR
+16.1"" 1920* 1080 FHD, 144Hz, Freesync, PSR
+16.1""2560* 1440 QHD, 144Hz, Freesync, PSR
+※ Narrow bezel 5.5mm for 16.1""",Form: No Data,,"1x Power On/Off/Sleep: On with Blue light
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light
+1xWebcam Module: On with white light
+Off with no light
+2xSSD led: No Data
+1xCaps Lock: On with white light
+Off with no light",Button: Seperated Power button key,"Back light: Default：Single
+Option1 : 4-Zone RGB backlight
+Option2：Per-key RGB backlight
+Matrix: US/UK
+Others: 336*105*3.8mm","Front: 1* 2.0MP(1080P) Front, with MIC*2, LED, support 30fps
+*White LED on when camera is always turned off for privacy.
+Camera shutter
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C/ 8pin
+Size: 119±0.3* 74±0.3 mm
+Feature: multi-touch support, gestures and scroll function","Location: 1*on IO port right side
+Interface type: USB, Security level 2 - GF3206+GM188
+Windows Hello: Support Windows 11 default gesture","Speaker: 4* Built-in Speaker ( 2* 4Ω/2W, 2* 8Ω/1W)
+Mic: 2* Built-in digital microphones on camera module
+Others: No Data","Type: Lithium-ion polymer battery
+Capacity: 1*  80.08Wh, 15.4V/5200mah, 4S1P, Smart battery
+Certification: CE, FCC, CCC, CB, MSDS, UN38.3, Airflight transportation report
+Life: 10 Hours","Module: AMD Zen3+,  AMD Rembrandt H Series
+Ryzen™ 5 6600H (6C/12T, 4.5GHz/3.3GHz,TDP: 45W)
+Ryzen™ 7 6800H (8C/16T, 4.7GHz/3.2GHz,TDP: 45W)
+No Data","Model: AMD Radeon™  RX6550M (E65), 8GB, GDDR6,90W
+AMD Radeon™ RX6550M XT (E100), 8GB, GDDR6, 90W
+No Data
+RAM: 2* DDR5 SO-DIMM , up to 32GB DDR5 4800MHz(2*16G)","RAM: 2* DDR5 SO-DIMM , up to 32GB DDR5 4800MHz(2*16G)
+Port: LCD connector optional
+SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 1TB)
+Wifi: 1* M.2 2230 WiFi 6E + BT5.2",Port: LCD connector optional,"SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 1TB)",Wifi: 1* M.2 2230 WiFi 6E + BT5.2,TDP: 110W,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: Default：RZ608(AMD)_WIFI 6E Tri-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset –  MT7921K)
+Others: Support Wifi and Bluetooth Power on/off switch","1* RJ45, Giga LAN 10/100/1000Mbps (MB)",M.2 slot: No Data,"1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light","System: Windows11 SV2(23H2), Support Modern Standby
+All functions should be compatible on Win11 & Linux OS
+Language Support: Support multi Language","MEP
+(need OEM get approval from Microsoft): No Data
+No Data
+No Data
+Copilot
+(Support Region depends on Microsoft): No Data
+Large language model (License requirement): No Data
+Text to Image model (License requirement): No Data
+Image to Image model (License requirement): No Data","Standard Configuration: 1* 230W, AC in 100/240V,50/60Hz, DC output 19.5V /11.79A","Safety: CE
+FCC
+RoHS"
+958,Version: MP_v1.0,Model Name: AG958V,MB Ver.: v2.0,"stage: Planning：N/A
+Kick-off：2022/03/06
+EVT：2022/03/07-2022/07/08
+DVT：N/A
+PVT：2022/07/08- 2022/11/07
+Pilot run：N/A
+MP：2023/11/07",Owner: Jerry,"Form: Gaming Notebook
+Dimension: 367.6* 265.9* 19.9mm
+Material/Surface: A/C/D Cover：Metal (Anodize), 
+B Cover：Plastic (Texture)
+Hinge: 140 degree hinge
+Weight: ~2.3Kg (5.08bl)","Dimension: 15.6"" 16:9
+16.1"" 16:9
+Resolution: 15.6"" 1920* 1080 FHD, 144Hz, Freesync, PSR
+16.1"" 1920* 1080 FHD, 144Hz, Freesync, PSR
+16.1""2560* 1440 QHD, 144Hz, Freesync, PSR
+※ Narrow bezel 5.5mm for 16.1""",Form: No Data,,"1x Power On/Off/Sleep: On with Blue light
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light
+1xWebcam Module: On with white light
+Off with no light
+2xSSD led: No Data
+1xCaps Lock: On with white light
+Off with no light",Button: Seperated Power button key,"Back light: Default：Single
+Option1 : 4-Zone RGB backlight
+Option2：Per-key RGB backlight
+Matrix: US/UK
+Others: 336*105*3.8mm","Front: 1* 2.0MP(1080P) Front, with MIC*2, LED, support 30fps
+*White LED on when camera is always turned off for privacy.
+Camera shutter
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C/ 8pin
+Size: 119±0.3* 74±0.3 mm
+Feature: multi-touch support, gestures and scroll function","Location: 1*on IO port right side
+Interface type: USB, Security level 2 - GF3206+GM188
+Windows Hello: Support Windows 11 default gesture","Speaker: 4* Built-in Speaker ( 2* 4Ω/2W, 2* 8Ω/1W)
+Mic: 2* Built-in digital microphones on camera module
+Others: No Data","Type: Lithium-ion polymer battery
+Capacity: 1*  80.08Wh, 15.4V/5200mah, 4S1P, Smart battery
+Certification: CE, FCC, CCC, CB, MSDS, UN38.3, Airflight transportation report
+Life: 10 Hours","Module: AMD Zen3+,  AMD Rembrandt H Series
+Ryzen™ 5 6600H (6C/12T, 4.5GHz/3.3GHz,TDP: 45W)
+Ryzen™ 7 6800H (8C/16T, 4.7GHz/3.2GHz,TDP: 45W)
+No Data","Model: AMD Radeon™ RX6500M (P50), 4GB, GDDR6, 35-50W
+No Data
+No Data
+RAM: 2* DDR5 SO-DIMM , up to 32GB DDR5 4800MHz(2*16G)","RAM: 2* DDR5 SO-DIMM , up to 32GB DDR5 4800MHz(2*16G)
+Port: LCD connector optional
+SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 1TB)
+Wifi: 1* M.2 2230 WiFi 6E + BT5.2",Port: LCD connector optional,"SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 1TB)",Wifi: 1* M.2 2230 WiFi 6E + BT5.2,TDP: 70W,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: Default：RZ608(AMD)_WIFI 6E Tri-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset –  MT7921K)
+Others: Support Wifi and Bluetooth Power on/off switch","1* RJ45, Giga LAN 10/100/1000Mbps (MB)",M.2 slot: No Data,"1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light","System: Windows11 SV2(23H2), Support Modern Standby
+All functions should be compatible on Win11 & Linux OS
+Language Support: Support multi Language","MEP
+(need OEM get approval from Microsoft): No Data
+No Data
+No Data
+Copilot
+(Support Region depends on Microsoft): No Data
+Large language model (License requirement): No Data
+Text to Image model (License requirement): No Data
+Image to Image model (License requirement): No Data","Standard Configuration: 1* 180W, AC in 100/240V,50/60Hz, DC output 19.5V /9.23A","Safety: CE
+FCC
+RoHS"
+958,Version: MP_v1.0,Model Name: AG958P,MB Ver.: v2.0,"stage: Planning：N/A
+Kick-off：2022/10/11
+EVT：2022/10/12-2022/12/30
+DVT：N/A
+PVT：2022/12/31-2023/10/30
+Pilot run：N/A
+MP：2023/10/30",Owner: Jerry,"Form: Gaming Notebook
+Dimension: 367.6* 265.9*  21.9mm
+Material/Surface: A/C/D Cover：Metal (Anodize), 
+B Cover：Plastic (Texture)
+Hinge: 140 degree hinge
+Weight: ~2.3Kg (5.08bl)","Dimension: 15.6"" 16:9
+16.1"" 16:9
+Resolution: 15.6"" 1920* 1080 FHD, 144Hz, Freesync, PSR
+16.1"" 1920* 1080 FHD, 144Hz, Freesync, PSR
+16.1""2560* 1440 QHD, 144Hz, Freesync, PSR
+※ Narrow bezel 5.5mm for 16.1""",Form: No Data,,"1x Power On/Off/Sleep: On with Blue light
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light
+1xWebcam Module: On with white light
+Off with no light
+2xSSD led: No Data
+1xCaps Lock: On with white light
+Off with no light",Button: Seperated Power button key,"Back light: Default：Single
+Option1 : 4-Zone RGB backlight
+Option2：Per-key RGB backlight
+Matrix: US/UK
+Others: 336*105*3.8mm","Front: 1* 2.0MP(1080P) Front, with MIC*2, LED, support 30fps
+*White LED on when camera is always turned off for privacy.
+Camera shutter
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C/ 8pin
+Size: 119±0.3* 74±0.3 mm
+Feature: multi-touch support, gestures and scroll function","Location: 1*on IO port right side
+Interface type: USB, Security level 2 - GF3206+GM188
+Windows Hello: Support Windows 11 default gesture","Speaker: 4* Built-in Speaker ( 2* 4Ω/2W, 2* 8Ω/1W)
+Mic: 2* Built-in digital microphones on camera module
+Others: No Data","Type: Lithium-ion polymer battery
+Capacity: 1*  80.08Wh, 15.4V/5200mah, 4S1P, Smart battery
+Certification: CE, FCC, CCC, CB, MSDS, UN38.3, Airflight transportation report
+Life: 10 Hours","Module: AMD Zen3+,  AMD Rembrandt Refresh HS Series
+※ System Thermal Design: APU only: 65W
+Ryzen™ 5 7535HS (6C/12T, 4.55GHz/3.3GHz,TDP: 35W~54W)
+Ryzen™ 7 7735HS (8C/16T, 4.75GHz/3.2GHz,TDP: 35W~54W)
+No Data","Model: AMD Radeon™ RX7600M (P1), 8GB, GDDR6,
+90W, Smart Shift: 100W
+AMD Radeon™ RX7600M XT (P2), 8GB, GDDR6,
+120W, Smart Shift: 130W
+AMD Radeon™ RX6550M (M2), 4GB, GDDR6, 
+80W, Smart Shift: 90W,
+RAM: 2* DDR5 SO-DIMM , up to 32GB DDR5 4800MHz(2*16G)","RAM: 2* DDR5 SO-DIMM , up to 32GB DDR5 4800MHz(2*16G)
+Port: LCD connector optional
+SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 1TB)
+Wifi: 1* M.2 2230 WiFi 6E + BT5.2",Port: LCD connector optional,"SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 1TB)",Wifi: 1* M.2 2230 WiFi 6E + BT5.2,TDP: 150W,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: Default：RZ608(AMD)_WIFI 6E Tri-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset –  MT7921K)
+Alternative：RZ616(AMD)_WIFI 6E Dual-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset – MT7922A12L)
+Others: Support Wifi and Bluetooth Power on/off switch","1* RJ45, Giga LAN 10/100/1000Mbps (MB)",M.2 slot: No Data,"1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light","System: Windows11 SV2(23H2), Support Modern Standby
+All functions should be compatible on Win11 & Linux OS
+Language Support: Support multi Language","MEP
+(need OEM get approval from Microsoft): No Data
+No Data
+No Data
+Copilot
+(Support Region depends on Microsoft): No Data
+Large language model (License requirement): No Data
+Text to Image model (License requirement): No Data
+Image to Image model (License requirement): No Data","Standard Configuration: 1* 230W, AC in 100/240V,50/60Hz, DC output 19.5V /11.79A","Safety: CE
+FCC
+RoHS"
+958,Version: MP_v1.0,Model Name: APX958,MB Ver.: v2.0,"stage: Planning：N/A
+Kick-off：2022/12/19
+EVT：2022/10/12-2023/04/10
+DVT：N/A
+PVT：2023/04/10-2023/10/30
+Pilot run：N/A
+MP：2023/10/30",Owner: Jerry,"Form: Gaming Notebook
+Dimension: 367.6* 265.9*  21.9mm
+Material/Surface: A/C/D Cover：Metal (Anodize), 
+B Cover：Plastic (Texture)
+Hinge: 140 degree hinge
+Weight: ~2.3Kg (5.08bl)","Dimension: 15.6"" 16:9
+16.1"" 16:9
+Resolution: 15.6"" 1920* 1080 FHD, 144Hz, Freesync, PSR
+16.1"" 1920* 1080 FHD, 144Hz, Freesync, PSR
+16.1""2560* 1440 QHD, 144Hz, Freesync, PSR
+※ Narrow bezel 5.5mm for 16.1""",Form: No Data,,"1x Power On/Off/Sleep: On with Blue light
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light
+1xWebcam Module: On with white light
+Off with no light
+2xSSD led: No Data
+1xCaps Lock: On with white light
+Off with no light",Button: Seperated Power button key,"Back light: Default：Single
+Option1 : 4-Zone RGB backlight
+Option2：Per-key RGB backlight
+Matrix: US/UK
+Others: 336*105*3.8mm","Front: 1* 2.0MP(1080P) Front, with MIC*2, LED, support 30fps
+*White LED on when camera is always turned off for privacy.
+Camera shutter
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C/ 8pin
+Size: 119±0.3* 74±0.3 mm
+Feature: multi-touch support, gestures and scroll function","Location: 1*on IO port right side
+Interface type: USB, Security level 2 - GF3206+GM188
+Windows Hello: Support Windows 11 default gesture","Speaker: 4* Built-in Speaker ( 2* 4Ω/2W, 2* 8Ω/1W)
+Mic: 2* Built-in digital microphones on camera module
+Others: No Data","Type: Lithium-ion polymer battery
+Capacity: 1*  80.08Wh, 15.4V/5200mah, 4S1P, Smart battery
+Certification: CE, FCC, CCC, CB, MSDS, UN38.3, Airflight transportation report
+Life: 10 Hours","Module: AMD Zen4,  AMD Phoenix HS Series, TDP: 45W
+Ryzen™ 5 7640HS (6C/12T, 5.0GHz/4.3GHz, TDP: 35W~54W)
+Ryzen™ 7 7840HS (8C/16T, 5.1GHz/3.8GHz, TDP: 35W~54W)
+Ryzen™ 9 7940HS (8C/16T, 5.2GHz/4.0GHz, TDP: 35W~54W)","Model: AMD Radeon™ RX7600M (P1), 8GB, GDDR6,
+90W, Smart Shift: 100W
+AMD Radeon™ RX7600M XT (P2), 8GB, GDDR6,
+120W, Smart Shift: 130W
+No Data
+RAM: 2* DDR5 SO-DIMM , up to 32GB DDR5 5600MHz(2*16G)","RAM: 2* DDR5 SO-DIMM , up to 32GB DDR5 5600MHz(2*16G)
+Port: LCD connector optional
+SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 1TB)
+Wifi: 1* M.2 2230 WiFi 6E + BT5.2",Port: LCD connector optional,"SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 1TB)",Wifi: 1* M.2 2230 WiFi 6E + BT5.2,TDP: 150W,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: Default：RZ608(AMD)_WIFI 6E Tri-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset –  MT7921K)
+Alternative：RZ616(AMD)_WIFI 6E Dual-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset – MT7922A12L)
+Others: Support Wifi and Bluetooth Power on/off switch","1* RJ45, Giga LAN 10/100/1000Mbps (MB)",M.2 slot: No Data,"1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light","System: Windows11 SV2(23H2), Support Modern Standby
+All functions should be compatible on Win11 & Linux OS
+Language Support: Support multi Language","MEP
+(need OEM get approval from Microsoft): Automatic framing
+Eye contact
+Background effect
+Copilot
+(Support Region depends on Microsoft): Support
+Large language model (License requirement): Support
+Text to Image model (License requirement): Support
+Image to Image model (License requirement): Support","Standard Configuration: 1* 230W, AC in 100/240V,50/60Hz, DC output 19.5V /11.79A","Safety: CE
+FCC
+RoHS"
+958,Version: MP_1.0,Model Name: AHP958,MB Ver.: v1.0-> v2.0 11/13 Gerber out,"stage: Planning：2023/08/08-2023/08/30
+Kick-off： 2023/08/31
+EVT：2023/9/4-2023/11/10
+DVT：N/A
+PVT：2023/11/10-2024/02/29
+Pilot run：2024/02/19-2024/02/23
+MP：",Owner: Jerry,"Form: Gaming Notebook
+Dimension: 367.6* 265.9*  21.9mm
+Material/Surface: A/C/D Cover：Metal (Anodize), 
+B Cover：Plastic (Texture)
+Hinge: 140 degree hinge
+Weight: ~2.3Kg (5.08bl)","Dimension: 15.6"" 16:9
+16.1"" 16:9
+Resolution: 15.6"" 1920* 1080 FHD, 144Hz, Freesync, PSR
+16.1"" 1920* 1080 FHD, 144Hz, Freesync, PSR
+16.1""2560* 1440 QHD, 144Hz, Freesync, PSR
+※ Narrow bezel 5.5mm for 16.1""",Form: No Data,,"1x Power On/Off/Sleep: On with Blue light
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light
+1xWebcam Module: On with white light
+Off with no light
+2xSSD led: No Data
+1xCaps Lock: On with white light
+Off with no light",Button: Seperated Power button key,"Back light: Default：Single
+Option1 : 4-Zone RGB backlight
+Option2：Per-key RGB backlight
+Matrix: US/UK
+Others: 336*105*3.8mm","Front: 1* 2.0MP(1080P) Front, with MIC*2, LED, support 30fps
+*White LED on when camera is always turned off for privacy.
+Camera shutter
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C/ 8pin
+Size: 119±0.3* 74±0.3 mm
+Feature: multi-touch support, gestures and scroll function","Location: 1*on IO port right side
+Interface type: USB, Security level 3  (Optional)
+Windows Hello: Support Windows 11 default gesture","Speaker: 4* Built-in Speaker ( 2* 4Ω/2W, 2* 8Ω/1W)
+Mic: 2* Built-in digital microphones on camera module
+Others: No Data","Type: Lithium-ion polymer battery
+Capacity: 1*  80.08Wh, 15.4V/5200mah, 4S1P, Smart battery
+Certification: CE, FCC, CCC, CB, MSDS, UN38.3, Airflight transportation report
+Life: 10 Hours","Module: AMD Zen4,  AMD Hawk Point HS Series, TDP: 45W
+Ryzen™ 5 8645HS (8C/16T, 5.2GHz/4.0GHz, TDP: 35W~54W)
+Ryzen™ 7 8845HS (8C/16T, 5.1GHz/3.8GHz, TDP: 35W~54W)
+Ryzen™ 9 8945HS (8C/16T, 5.0GHz/3.5GHz, TDP: 35W~54W)","Model: AMD Radeon™ RX7600M (P1), 8GB, GDDR6,
+90W, Smart Shift: 100W
+AMD Radeon™ RX7600M XT (P2), 8GB, GDDR6,
+120W, Smart Shift: 130W
+No Data
+RAM: 2* DDR5 SO-DIMM , up to 32GB DDR5 5600MHz(2*16G)","RAM: 2* DDR5 SO-DIMM , up to 32GB DDR5 5600MHz(2*16G)
+Port: LCD connector optional
+SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 1TB)
+Wifi: 1* M.2 2230 WiFi 6E + BT5.2",Port: LCD connector optional,"SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2* 1TB)",Wifi: 1* M.2 2230 WiFi 6E + BT5.2,TDP: 150W,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: Default：RZ608(AMD)_WIFI 6E Tri-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset –  MT7921K)
+Alternative：RZ616(AMD)_WIFI 6E Dual-band 2Tx2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.2, on M.2 module  (Major Chipset – MT7922A12L)
+Others: Support Wifi and Bluetooth Power on/off switch","1* RJ45, Giga LAN 10/100/1000Mbps (MB)",M.2 slot: No Data,"1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light","System: Windows11 SV2(23H2), Support Modern Standby
+All functions should be compatible on Win11 & Linux OS
+Language Support: Support multi Language","MEP
+(need OEM get approval from Microsoft): Automatic framing
+Eye contact
+Background effect
+Copilot
+(Support Region depends on Microsoft): Support
+Large language model (License requirement): Support
+Text to Image model (License requirement): Support
+Image to Image model (License requirement): Support","Standard Configuration: 1* 230W, AC in 100/240V,50/60Hz, DC output 19.5V /11.79A","Safety: CE
+FCC
+RoHS"

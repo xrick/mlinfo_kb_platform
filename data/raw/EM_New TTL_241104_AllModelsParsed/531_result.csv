@@ -1,0 +1,191 @@
+﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+531,Version: MP1.0,Model Name: ARB531,MB Ver.: v1.0,"stage: Planning：2023/10/02-2023/10/31
+Kick-off：2023/11/01
+EVT：2023/11/01-2023/12/31
+DVT：N/A
+PVT：2024/01/01-2024/02/05
+Pilot run：2024/01/01-2024/02/M
+MP：2024/02/05",Owner: Jasper,"Form: Commercial Notebook
+Dimension: 358.5*236.5*22.5mm
+Material: A/C/D Cover：Plastic (Painting),
+B Cover：Plastic (Texture)
+Hinge: 180 degree hinge (make sure will not touch the LCD Panel during the opening)
+one-hand opening + soft close (shouldn’t clap when closing)
+Weight: Around 1.7 kg (51Wh)
+Around 1.8 kg (74Wh)","Dimension: 15.6""  16:9
+Resolution: 1920*1080 FHD, IPS, LED, Anti-Glare, 60Hz,350nits panel (16:9)",Form: OFM (Optional),"MB IO(Left): 1* Supportive Kensington Lock Type
+1* φ5.5* 2.5mm DC-IN port (MB)
+1* Displayport 1.4 (MB)
+1* HDMI 1.4 Type A (4K/30Hz)(MB)
+1* USB3.2 Gen2, Super Speed USB 10Gbps, full function (Power Delivery,Data,DisplayPort), Type-C (MB)
+2* USB 3.2 Gen2, Super Speed USB 10Gbps,Type-A (MB)
+1* USB3.2 Gen2, Super Speed USB 10Gbps, Data only, Type-C (MB)
+DB IO(Right): 1* RJ45, Giga LAN 10/100/1000Mbps (On DB)
+2* USB 3.2 Gen1, Super Speed USB 5Gbp,Type A (DB)
+1*φ3.5mm standard headphone jack (DB)
+1* USB 3.2 Gen1, Super Speed USB 5Gbp,Type C (DB)","1x Power On/Off/Sleep: On with Blue light 
+Off with no light
+Sleep with breathing light
+*P/N：01.ED0.0BLUE06031A _LED  KC-0603SUBC-5B  BL-HB336G-TRB
+1xWiFi/Bluetooth Switch: On with Blue light 
+Off with no light
+*P/N：01.ED0.0BLUE06031A _LED  KC-0603SUBC-5B  BL-HB336G-TRB
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light
+*P/N：01.ED0.0BLUE06031A _LED  KC-0603SUBC-5B  BL-HB336G-TRB
+1xCamera Switch: On with  Blue light
+Off with no light
+*P/N：01.ED0.0BLUE06031A _LED  KC-0603SUBC-5B  BL-HB336G-TRB
+1xSSD led: On with   Blue light  (on above of ESC key, ONLY master SSD PCIe can show)
+Off with no light
+*P/N：01.ED0.0BLUE06031A _LED  KC-0603SUBC-5B  BL-HB336G-TRB
+1xCaps Lock: On with White light (match with White backlit)
+Off with no light","Button: Seperated Power button key (DB), with LED","Back light: Default：With Backlit (White Color Backlit, top icon-laser etch+ beneath icon-silkpriting)
+Option1：W/o Backlit (icon-Silkpriting)
+Matrix: US layout/ Russian KB
+Others: No Data","Front: 1080P/2M Webcam Front w/ LED, mic*2, with latch
+˙camera switch to power off camera and MIC function with LED (right side on DB)
+Rear: No Data
+Windows Hello: No Data","Interface type: I2C
+Size: 118* 78 mm
+Feature: multi-touch support, gestures and scroll function","Location: Default：N/A
+Option1：On Touchpad
+Interface type: USB, Security level 2 - GF3206+GM188 (Optional)
+Windows Hello: Windows Hello compatible (Optional)","Speaker: 4* Built-in Speakers (2* 1W/ 8Ω on C cover with specific design pattern, 2* 3W 4Ω on D cover)
+Mic: 2* D-MIC on CAM module
+Others: No Data","Type: Lithium-ion polymer battery
+Capacity: Default：1* 51Wh, 11.4V/4474mAh, 3S1P, Dumb battery
+Option 1：1* 74Wh, 11.4V/6492mAh, 3S1P, Dumb battery
+˙Power button on DB, locate on C cover, deisgn with separate Q sign with LED backlight.
+Certification: CB, MSDS, UN38.3, Airflight transportation report
+Life: 6 Hours battery life for 51Wh (30% brightness, wifi off, cycle play of local video)
+8 Hours battry life for 74Wh (30% brightness, wifi off, cycle play of local video).","Module: AMD Zen3+,  AMD Rembrandt H Series, TDP 15W
+Ryzen™ 5 6600H (6C/12T, 4.5GHz/3.3GHz,TDP: 15W) working on 15W(main)
+Ryzen™ 7 6800H (8C/16T, 4.7GHz/3.2GHz,TDP: 15W)
+Model: AMD Radeon™ Graphics integrated","Model: AMD Radeon™ Graphics integrated
+RAM: 2* DDR5 SO-DIMM, up to 64GB DDR5 4800 MHz (2*4G)(No door on D cover)
+Port: LCD connector optional
+SSD: 1* M.2 2280 PCle G3 (Lane 4)/NVMe  SSD, up to128GB/256GB/512GB/1TB/2TB (1*256GB),  No door on D cover (on MB)
+1* M.2 2280 PCle G4 (Lane 4)/NVMe  SSD, up to128GB/256GB/512GB/1TB/2TB, have door on D cover (on DB)","RAM: 2* DDR5 SO-DIMM, up to 64GB DDR5 4800 MHz (2*4G)(No door on D cover)
+Port: LCD connector optional
+SSD: 1* M.2 2280 PCle G3 (Lane 4)/NVMe  SSD, up to128GB/256GB/512GB/1TB/2TB (1*256GB),  No door on D cover (on MB)
+1* M.2 2280 PCle G4 (Lane 4)/NVMe  SSD, up to128GB/256GB/512GB/1TB/2TB, have door on D cover (on DB)
+Wifi: 1* M.2 Key-E 2230 for WiFi 6 + BT5.2",Port: LCD connector optional,"SSD: 1* M.2 2280 PCle G3 (Lane 4)/NVMe  SSD, up to128GB/256GB/512GB/1TB/2TB (1*256GB),  No door on D cover (on MB)
+1* M.2 2280 PCle G4 (Lane 4)/NVMe  SSD, up to128GB/256GB/512GB/1TB/2TB, have door on D cover (on DB)",Wifi: 1* M.2 Key-E 2230 for WiFi 6 + BT5.2,,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: Default：AX200(Intel)_Wi-Fi6  2x2+BT5.2 - compatible - main focus for pilot production and mass production.
+Option1：AX210 (Intel)_Wi-Fi6 2x2+BT5.2 - compatible
+Option2：AX200 & 210 (Intel)_Wi-Fi6 can realize ""disable pin of M.2 slot"", other Realtek module pls check.
+Option3：6252M-PUB (FN-LINK)_WiFi6 Dual-band 2T2R 802.11ax+BT5.2, M.2 2230 module
+Option4：AW-XB468NF(AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax+BT5.2, M.2 2230 module ((Major Chipset – MT7921L)
+*No WiFi module in SKD bundles shipment.
+
+""sliding ON/OFF switch physically tying low W_DISABLE# pins of M.2 slots"" - can be done in design, but Most of the WIFI module is not support this pin, after u power off, u need to reboot your system otherwise the WIFI will not coming back to work. AMD is different from Intel. Intel solution is with AX201 Wifi module which is using USB, no need to reboot system after switch off Wifi.
+Others: Support Wifi and Bluetooth Power on/off switch","DB IO(Right): 1* RJ45, Giga LAN 10/100/1000Mbps (On DB)","Wifi Chip Model: Default：AX200(Intel)_Wi-Fi6  2x2+BT5.2 - compatible - main focus for pilot production and mass production.
+Option1：AX210 (Intel)_Wi-Fi6 2x2+BT5.2 - compatible
+Option2：AX200 & 210 (Intel)_Wi-Fi6 can realize ""disable pin of M.2 slot"", other Realtek module pls check.
+Option3：6252M-PUB (FN-LINK)_WiFi6 Dual-band 2T2R 802.11ax+BT5.2, M.2 2230 module
+Option4：AW-XB468NF(AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax+BT5.2, M.2 2230 module ((Major Chipset – MT7921L)
+*No WiFi module in SKD bundles shipment.
+
+""sliding ON/OFF switch physically tying low W_DISABLE# pins of M.2 slots"" - can be done in design, but Most of the WIFI module is not support this pin, after u power off, u need to reboot your system otherwise the WIFI will not coming back to work. AMD is different from Intel. Intel solution is with AX201 Wifi module which is using USB, no need to reboot system after switch off Wifi.","1xWiFi/Bluetooth Switch: On with Blue light 
+Off with no light
+*P/N：01.ED0.0BLUE06031A _LED  KC-0603SUBC-5B  BL-HB336G-TRB
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light
+*P/N：01.ED0.0BLUE06031A _LED  KC-0603SUBC-5B  BL-HB336G-TRB","System: Windows 11 SV2 (23H2), Linux kernel 5.15.0-70
+Language Support: Support multi Language",,"Standard Configuration: 1* 65W, AC in 100/240V,50/60Hz, DC output 19V /3.42A","safety: design & material must meet CE, EAC standards
+EPEAT and ECO LABEL: Plastic marking on parts over 25G according to EPEAT and ECO LABEL standards
+The plastic resin is PC+ABS, in section 7. Description is Triangle+resin. Remember the marking must be on all plastic parts over 25g.
+No Data"
+531,Version: PVT1.6,Model Name: ARB531-DD,MB Ver.: v1.0,"stage: Planning：2024/02/10-2024/02/29
+Kick-off：2024/03/B
+EVT：2023/03/01-2023/
+DVT：N/A
+PVT：
+Pilot run：
+MP：",Owner: Jasper,"Form: Commercial Notebook
+Dimension: 357.60 * 254.40 * 19.95 mm (TBC)
+Material: A/C/D Cover：Plastic (Painting), with plastic cover for 2nd SSD
+B Cover：Plastic (Texture)
+Hinge: 180 degree hinge (make sure will not touch the LCD Panel during the opening)
+one-hand opening + soft close (shouldn’t clap when closing)
+Weight: 1,7kg","Dimension: 16""  16:10
+Resolution: 1920*1200 FHD, IPS, LED, Anti-Glare, 60Hz, 350nits (16:10)",Form: OFM (Optional),"MB IO(Left): 1* Supportive Kensington Lock Type
+1* φ5.5* 2.5mm DC-IN port (MB)
+2* Displayport 1.4 (MB)
+1* HDMI 1.4 Type A (4K/30Hz)(MB)
+No Data
+1* USB 3.2 Gen2, Super Speed USB 10Gbps,Type-A (MB)
+1* USB3.2 Gen2, Super Speed USB 10Gbps, Data only, Type-C (MB)
+DB IO(Right): 1* RJ45, Giga LAN 10/100/1000Mbps (On DB)
+2* USB 3.2 Gen1, Super Speed USB 5Gbp,Type A (DB)
+1*φ3.5mm standard headphone jack (DB)
+1* USB 3.2 Gen1, Super Speed USB 5Gbp,Type C (DB)","1x Power On/Off/Sleep: On with Standard Blue light 
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth Switch: On with Standard Green light as in NS616  
+Off with no light
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light
+1xCamera Switch: On with  Standard Green light as in NS616  
+Off with no light
+1xSSD led: On with   Standard Green light as in NS616    (on above of ESC key, ONLY master SSD PCIe can show)
+Off with no light
+1xCaps Lock: On with White light (match with White backlit)
+Off with no light","Button: Seperated Power button key (DB), with LED","Back light: Default：With Backlit (White Color Backlit, top icon-laser etch+ beneath icon-silkpriting)
+Option1：W/o Backlit (icon-Silkpriting)
+Matrix: US layout/ Russian KB
+Others: No Data","Front: 1080P/2M Webcam Front w/ LED, mic*2, with latch
+˙camera switch to power off camera and MIC function with LED (right side on DB)
+Rear: No Data
+Windows Hello: No Data","Interface type: I2C
+Size: 118*  89.4 mm
+Feature: multi-touch support, gestures and scroll function","Location: Default：N/A
+Option1：On Touchpad
+Interface type: USB, Security level 2 - GF3206+GM188 (Optional)
+Windows Hello: Windows Hello compatible (Optional)","Speaker: 4* Built-in Speakers (2* 1W/ 8Ω on C cover with specific design pattern, 2* 3W 4Ω on D cover)
+Mic: 2* D-MIC on CAM module
+Others: No Data","Type: Lithium-ion polymer battery
+Capacity: Default：1* 47Wh, xx.xV/xxxxmAh, 3S1P, Dumb battery, Need door for Portable battery cover on D cover. 
+˙Power button on DB, locate on C cover, deisgn with separate Q sign with LED backlight.
+Certification: CB, MSDS, UN38.3, Airflight transportation report
+Life: 6 Hours battery life (30% brightness, wifi off, cycle play of local video) TBD","Module: AMD Zen3+,  AMD Rembrandt U/H Series, TDP 15W
+Ryzen™ 5 6600U (6C/12T, 4.5GHz/2.9GHz,TDP: 15W)
+Ryzen™ 5 6600H (6C/12T, 4.5GHz/3.3GHz,TDP: 15W)working on 15W
+Model: AMD Radeon™ 660M","Model: AMD Radeon™ 660M
+RAM: 2* DDR5 SO-DIMM, up to 64GB DDR5 4800 MHz (2*4G)(No door on D cover)
+Port: LCD connector optional
+SSD: 1* M.2 2280 PCle G3 (Lane 4)/NVMe  SSD, up to128GB/256GB/512GB/1TB/2TB (1*256GB),  No door on D cover (on MB)
+1* M.2 2280 PCle G4 (Lane 4)/NVMe  SSD, up to128GB/256GB/512GB/1TB/2TB, with plastic cover for 2nd SSD on D cover(DB). It is required cooling solution for 2nd SSD.","RAM: 2* DDR5 SO-DIMM, up to 64GB DDR5 4800 MHz (2*4G)(No door on D cover)
+Port: LCD connector optional
+SSD: 1* M.2 2280 PCle G3 (Lane 4)/NVMe  SSD, up to128GB/256GB/512GB/1TB/2TB (1*256GB),  No door on D cover (on MB)
+1* M.2 2280 PCle G4 (Lane 4)/NVMe  SSD, up to128GB/256GB/512GB/1TB/2TB, with plastic cover for 2nd SSD on D cover(DB). It is required cooling solution for 2nd SSD.
+Wifi: 1* M.2 Key-E 2230 for WiFi 6 + BT5.2",Port: LCD connector optional,"SSD: 1* M.2 2280 PCle G3 (Lane 4)/NVMe  SSD, up to128GB/256GB/512GB/1TB/2TB (1*256GB),  No door on D cover (on MB)
+1* M.2 2280 PCle G4 (Lane 4)/NVMe  SSD, up to128GB/256GB/512GB/1TB/2TB, with plastic cover for 2nd SSD on D cover(DB). It is required cooling solution for 2nd SSD.",Wifi: 1* M.2 Key-E 2230 for WiFi 6 + BT5.2,,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: Default：AX200(Intel)_Wi-Fi6  2x2+BT5.2 - compatible - main focus for pilot production and mass production.
+Option1：AX210 (Intel)_Wi-Fi6 2x2+BT5.2 - compatible
+Option2：AX200 & 210 (Intel)_Wi-Fi6 can realize ""disable pin of M.2 slot"", other Realtek module pls check.
+Option3：6252M-PUB (FN-LINK)_WiFi6 Dual-band 2T2R 802.11ax+BT5.2, M.2 2230 module
+Option4：AW-XB468NF(AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax+BT5.2, M.2 2230 module ((Major Chipset – MT7921L)
+*No WiFi module in SKD bundles shipment.
+
+""sliding ON/OFF switch physically tying low W_DISABLE# pins of M.2 slots"" - can be done in design, but Most of the WIFI module is not support this pin, after u power off, u need to reboot your system otherwise the WIFI will not coming back to work. AMD is different from Intel. Intel solution is with AX201 Wifi module which is using USB, no need to reboot system after switch off Wifi.
+Others: Support Wifi and Bluetooth Power on/off switch","DB IO(Right): 1* RJ45, Giga LAN 10/100/1000Mbps (On DB)","Wifi Chip Model: Default：AX200(Intel)_Wi-Fi6  2x2+BT5.2 - compatible - main focus for pilot production and mass production.
+Option1：AX210 (Intel)_Wi-Fi6 2x2+BT5.2 - compatible
+Option2：AX200 & 210 (Intel)_Wi-Fi6 can realize ""disable pin of M.2 slot"", other Realtek module pls check.
+Option3：6252M-PUB (FN-LINK)_WiFi6 Dual-band 2T2R 802.11ax+BT5.2, M.2 2230 module
+Option4：AW-XB468NF(AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax+BT5.2, M.2 2230 module ((Major Chipset – MT7921L)
+*No WiFi module in SKD bundles shipment.
+
+""sliding ON/OFF switch physically tying low W_DISABLE# pins of M.2 slots"" - can be done in design, but Most of the WIFI module is not support this pin, after u power off, u need to reboot your system otherwise the WIFI will not coming back to work. AMD is different from Intel. Intel solution is with AX201 Wifi module which is using USB, no need to reboot system after switch off Wifi.","1xWiFi/Bluetooth Switch: On with Standard Green light as in NS616  
+Off with no light
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light","System: Windows 11 SV2 (23H2), Linux kernel 5.15.0-70
+Language Support: Support multi Language",,"Standard Configuration: 1* 65W, AC in 100/240V,50/60Hz, DC output 19V /3.42A","safety: design & material must meet CE, EAC standards
+EPEAT and ECO LABEL: Plastic marking on parts over 25G according to EPEAT and ECO LABEL standards
+The plastic resin is PC+ABS, in section 7. Description is Triangle+resin. Remember the marking must be on all plastic parts over 25g.
+No Data"

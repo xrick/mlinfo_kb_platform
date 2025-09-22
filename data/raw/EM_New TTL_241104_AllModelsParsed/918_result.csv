@@ -1,0 +1,170 @@
+﻿modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+918,Version: Planning_v0.2,Model Name: AC918,MB Ver.: v1.0?,"stage: Planning：2023/10/02-2023/Now
+Est. Kick-off：2023/xx/xx
+EVT：
+DVT：
+PVT：
+Pilot run：
+Owner: Poling",Owner: Poling,"Form: Clamshell / Notebook
+Dimension: 357 * 241.8 * 17.9mm
+Material: A/D Cover： Metal, B/C Cover：  Plastic(Anodize)
+Hinge: 180 degree hinge (make sure will not touch the LCD Panel during the opening)
+one-hand opening + soft close (shouldn’t clap when closing)
+Weight: 1.8 kg","Dimension: 15.6""  16:9
+Resolution: 15.6""1920* 1080 FHD, IPS, 60Hz (not support to 120/144Hz),45% NTSC, FreeSync",Form: No Data,"MB IO(Left): 1* φ5.5mm DC-IN port (MB)
+1* HDMI Type A 2.0 (Support HDMI2.1TMDS_4K/60Hz) (MB)
+2* USB 3.2 Gen1, Super Speed USB 5Gbp, Type-A (MB)
+1* USB3.2 Gen2, Super Speed USB 10Gbps,Type-C, full function (Power Delivery,Data,DisplayPort) (MB)
+1* φ3.5mm standard headphone jack (MB)
+DB IO(Right): 1* Mini Security Kensington lock Type slot (DB)
+1* 10/100/1000 bps RJ45 
+Chipset selection: 
+①For  10/100/1000 Mbps (autosense) use Intel i219-LM, Gigabit Ethernet
+② For  10/100/1000 Mbps (autosense) use Intel i225-LM , Gigabit Ethernet - Complice IEEE 802.3, 802.3u e 802.3ab - Wake-on-LAN (WoL), SNMP, PXE, CSMA/CD and iAMT  
+1* 1G(RTL) RJ45
+1* Standard SD card, Support SD/MMC/SDHC/SDXC, SD 2.0 (DB)
+1* USB 3.2 Gen1, Super Speed USB 5Gbp,Type A (DB)
+1* SIM card slot (Optional)(DB)
+MB IO(Rear): No Data","1x Power On/Off/Sleep: On with Blue light
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth: On with Blue light
+Off with no light
+1xBattery/Charge: Charging with Red light
+Full-charged with Blue light
+Off with no light
+1xWebcam: On with Blue light
+Off with no light
+2xSSD led: On with Blue light
+Off with no light
+1xCaps Lock: On with white light
+Off with no light",Button: Seperated Power button key,"Back light: Optional
+Matrix: US/KB compatible
+Customiz language KB (US)--102 keys
+Others: Spill resistant with drain for drainage (200CC waterproof),
+Typical  keyboard w/o removeable design","Front: Front 720P, 30 fps, w/ mic*2, LED, with latch
+Support Camera+Mic physical power on/off switch
+Camera shutter
+Rear: N/a
+Windows Hello: Optional","Interface type: I2C/ xxpin
+Size: xxx* xxx mm
+Feature: Support Windows 11 default gesture","Location: No Data
+Interface type: No Data
+Windows Hello: No Data","Speaker: Built-in 4Ω/2W speaker *2
+Mic: HD Audio, Built-in (dual) digital microphones
+Others: Box(For 4G version, the box need to be removed partially,so the speaker effect will be impact.)","Type: Lithium-ion polymer battery
+Capacity: 1*  69.993Wh, 15.55V/6060mah, 4S1P, Dumb/Smart battery?
+Certification: CB,MSDS,UN38.3,Airflight transportation report
+Life: 10-12 Hours (TBD)","Module: AMD Zen2, AMD Cezanne U Series, TDP 15W
+AMD Zen 3, Ryzen™ 3 5400U (4C/8T,4.0/2.6 Ghz, 10MB, TDP 15W)
+AMD Zen 3, Ryzen™ 5 5600U (6C/12T,4.2/2.3 Ghz, 19MB, TDP 15W)
+AMD Zen 3, Ryzen™ 7 5800U (8C/16T,4.4/1.9 Ghz, 20MB, TDP 15W)","Model: AMD Radeon™ Graphics integrated
+RAM: 2* DDR4 SO-DIMM, up to 64GB DDR4 3200 MHz(2x32G)
+Port: LCD connector optional
+Storage/ SSD: 2* PCle G3 (Lanex3/NVME SSD (M.2 2280) & SATA support, up to 8TB (2x4TB)
+Main socket : M key supports NVMe and SATA SSD
+2nd socket: B key supports SATA SSD only","RAM: 2* DDR4 SO-DIMM, up to 64GB DDR4 3200 MHz(2x32G)
+Port: LCD connector optional
+Storage/ SSD: 2* PCle G3 (Lanex3/NVME SSD (M.2 2280) & SATA support, up to 8TB (2x4TB)
+Main socket : M key supports NVMe and SATA SSD
+2nd socket: B key supports SATA SSD only
+Wifi: 1* M.2 Key-E 2230 for AC WiFi5 1Tx1R (RTL8821CE) + BT5.0",Port: LCD connector optional,"Storage/ SSD: 2* PCle G3 (Lanex3/NVME SSD (M.2 2280) & SATA support, up to 8TB (2x4TB)
+Main socket : M key supports NVMe and SATA SSD
+2nd socket: B key supports SATA SSD only",Wifi: 1* M.2 Key-E 2230 for AC WiFi5 1Tx1R (RTL8821CE) + BT5.0,,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: Default：6221M-PUC（FN-LINK)_WIFI5 1Tx1R 802.11ac (2.4GHz/5GHz) + BT 5.0, on M.2 module  (Major Chipset –  RTL8821CE)
+Others: Support Wifi and Bluetooth Power on/off switch","1* 10/100/1000 bps RJ45 
+Chipset selection: 
+①For  10/100/1000 Mbps (autosense) use Intel i219-LM, Gigabit Ethernet
+② For  10/100/1000 Mbps (autosense) use Intel i225-LM , Gigabit Ethernet - Complice IEEE 802.3, 802.3u e 802.3ab - Wake-on-LAN (WoL), SNMP, PXE, CSMA/CD and iAMT  
+1* 1G(RTL) RJ45",M.2 slot: Support,"1xWiFi/Bluetooth: On with Blue light
+Off with no light
+1xBattery/Charge: Charging with Red light
+Full-charged with Blue light
+Off with no light","System: Windows11 HQL, Support Modern Standby
+All functions should be compatible on Win11 & Linux OS
+Language Support: Support multi Language",,"Standard Configuration: 1* 65W, AC in 100/240V,50/60Hz, DC output 19V /3.42A AC adapter","Safety: CE
+FCC
+RoHS"
+918,Version: Planning_v0.3,Model Name: AC918_BM,MB Ver.: v1.0?,"stage: Planning_2023/10/02-2023/Now
+Est. Kick-off：2023/xx/xx
+EVT：
+DVT：
+PVT：
+Pilot run：
+Owner: Poling",Owner: Poling,"Form: Clamshell / Notebook
+Dimension: 357 * 241.8 * 17.9mm
+Material: A/D Cover： Metal, B/C Cover：  Plastic(Anodize)
+Hinge: 180 degree hinge (make sure will not touch the LCD Panel during the opening)
+one-hand opening + soft close (shouldn’t clap when closing)
+Weight: 1.8 kg","Dimension: 15.6""  16:9
+Resolution: 15.6""1920* 1080 FHD, IPS, 60Hz (not support to 120/144Hz),45% NTSC, FreeSync",Form: No Data,"MB IO(Left): 1* φ5.5mm DC-IN port (MB)
+1* HDMI Type A 2.0 (Support HDMI2.1TMDS_4K/60Hz) (MB)
+2* USB 3.2 Gen1, Super Speed USB 5Gbp, Type-A (MB)
+1* USB3.2 Gen2, Super Speed USB 10Gbps,Type-C, full function (Power Delivery,Data,DisplayPort) (MB)
+1* φ3.5mm standard headphone jack (MB)
+DB IO(Right): 1* Mini Security Kensington lock Type slot (DB)
+1* 10/100/1000 bps RJ45 
+Chipset selection: 
+①For  10/100/1000 Mbps (autosense) use Intel i219-LM, Gigabit Ethernet
+② For  10/100/1000 Mbps (autosense) use Intel i225-LM , Gigabit Ethernet - Complice IEEE 802.3, 802.3u e 802.3ab - Wake-on-LAN (WoL), SNMP, PXE, CSMA/CD and iAMT  
+1* 1G(RTL) RJ45
+1* Standard SD card, Support SD/MMC/SDHC/SDXC, SD 2.0 (DB)
+1* USB 3.2 Gen1, Super Speed USB 5Gbp,Type A (DB)
+1* SIM card slot (Optional)(DB)
+MB IO(Rear): No Data","1x Power On/Off/Sleep: On with Blue light
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth: On with Blue light
+Off with no light
+1xBattery/Charge: Charging with Red light
+Full-charged with Blue light
+Off with no light
+1xWebcam: On with Blue light
+Off with no light
+2xSSD led: On with Blue light
+Off with no light
+1xCaps Lock: On with white light
+Off with no light",Button: Seperated Power button key,"Back light: No Data
+Matrix: US/KB compatible
+Customiz language KB (US)--102 keys
+Others: Spill resistant with drain for drainage (200CC waterproof),
+Typical  keyboard w/o removeable design","Front: Front 720P, 30 fps, w/ mic*2, LED, with latch
+Support Camera+Mic physical power on/off switch
+Camera shutter
+Rear: N/a
+Windows Hello: Optional","Interface type: I2C/ xxpin
+Size: xxx* xxx mm
+Feature: Support Windows 11 default gesture","Location: No Data
+Interface type: No Data
+Windows Hello: No Data","Speaker: Built-in 4Ω/2W speaker *2
+Mic: HD Audio, Built-in (dual) digital microphones
+Others: Box(For 4G version, the box need to be removed partially,so the speaker effect will be impact.)","Type: Lithium-ion polymer battery
+Capacity: 1*  69.993Wh, 15.55V/6060mah, 4S1P, Dumb/Smart battery?
+Certification: CB,MSDS,UN38.3,Airflight transportation report
+Life: 10-12 Hours (TBD)","Module: AMD Zen2, AMD Cezanne U Series, TDP 15W
+AMD Zen 3, Ryzen™ 3 5400U (4C/8T,4.0/2.6 Ghz, 10MB, TDP 15W)
+No Data
+No Data","Model: AMD Radeon™ Graphics integrated
+RAM: 2* DDR4 SO-DIMM, up to 64GB DDR4 3200 MHz(2x 4G)
+Port: LCD connector optional
+Storage/ SSD: 2* PCle G3 (Lanex3/NVME SSD (M.2 2280) & SATA support, up to 8TB (1x 256GB)
+Main socket : M key supports NVMe and SATA SSD","RAM: 2* DDR4 SO-DIMM, up to 64GB DDR4 3200 MHz(2x 4G)
+Port: LCD connector optional
+Storage/ SSD: 2* PCle G3 (Lanex3/NVME SSD (M.2 2280) & SATA support, up to 8TB (1x 256GB)
+Main socket : M key supports NVMe and SATA SSD
+Wifi: 1* M.2 Key-E 2230 for AC WiFi5 1Tx1R (RTL8821CE) + BT5.0",Port: LCD connector optional,"Storage/ SSD: 2* PCle G3 (Lanex3/NVME SSD (M.2 2280) & SATA support, up to 8TB (1x 256GB)
+Main socket : M key supports NVMe and SATA SSD",Wifi: 1* M.2 Key-E 2230 for AC WiFi5 1Tx1R (RTL8821CE) + BT5.0,,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: Default：6221M-PUC（FN-LINK)_WIFI5 1Tx1R 802.11ac (2.4GHz/5GHz) + BT 5.0, on M.2 module  (Major Chipset –  RTL8821CE)
+Others: Support Wifi and Bluetooth Power on/off switch","1* 10/100/1000 bps RJ45 
+Chipset selection: 
+①For  10/100/1000 Mbps (autosense) use Intel i219-LM, Gigabit Ethernet
+② For  10/100/1000 Mbps (autosense) use Intel i225-LM , Gigabit Ethernet - Complice IEEE 802.3, 802.3u e 802.3ab - Wake-on-LAN (WoL), SNMP, PXE, CSMA/CD and iAMT  
+1* 1G(RTL) RJ45",M.2 slot: No Data,"1xWiFi/Bluetooth: On with Blue light
+Off with no light
+1xBattery/Charge: Charging with Red light
+Full-charged with Blue light
+Off with no light","System: Windows11 HQL, Support Modern Standby
+All functions should be compatible on Win11 & Linux OS
+Language Support: Support multi Language",,"Standard Configuration: 1* 65W, AC in 100/240V,50/60Hz, DC output 19V /3.42A AC adapter","Safety: CE
+FCC
+RoHS"

@@ -1427,9 +1427,50 @@ class KnowledgeManager:
             }
     
     # ==================== 通用產品規格搜尋方法－語義搜尋 ====================
-    
-    def _extract_product_codes(self, query: str) -> List[str]:
+
+    def _validate_modeltype_exists(self, modeltype: str) -> bool:
         """
+        驗證機型代碼是否存在於資料庫中
+
+        Args:
+            modeltype: 機型代碼（如 8329, APX819 等）
+
+        Returns:
+            bool: 機型是否存在
+        """
+        try:
+            import duckdb
+
+            # 建立資料庫連接
+            sales_specs_db = self.base_path / "db" / "all_nbinfo_v3.db"
+            if not sales_specs_db.exists():
+                self.logger.warning(f"資料庫檔案不存在: {sales_specs_db}")
+                return False
+
+            with duckdb.connect(str(sales_specs_db), read_only=True) as conn:
+                # 檢查 modeltype 是否存在（大小寫不敏感）
+                query = """
+                SELECT COUNT(*) as count
+                FROM nbtypes
+                WHERE UPPER(modeltype) = UPPER(?)
+                """
+                result = conn.execute(query, [modeltype]).fetchone()
+                exists = result[0] > 0 if result else False
+
+                if exists:
+                    self.logger.info(f"✅ 機型 '{modeltype}' 在資料庫中存在")
+                else:
+                    self.logger.debug(f"❌ 機型 '{modeltype}' 在資料庫中不存在")
+
+                return exists
+
+        except Exception as e:
+            self.logger.error(f"驗證機型時發生錯誤: {e}")
+            return False
+
+    def _extract_product_codes_original(self, query: str) -> List[str]:
+        """
+        [BACKUP] 原始產品代碼檢測函數 - 僅支援字母+數字組合
         從查詢中提取產品代碼（如 APX819, APX839 等）
 
         Args:
@@ -1446,9 +1487,56 @@ class KnowledgeManager:
         matches = re.findall(pattern, query.upper())
 
         if matches:
-            self.logger.info(f"從查詢中提取到產品代碼: {matches}")
+            self.logger.info(f"[ORIGINAL] 從查詢中提取到產品代碼: {matches}")
 
         return matches
+
+    def _extract_product_codes(self, query: str) -> List[str]:
+        """
+        [ENHANCED] 增強版產品代碼檢測函數 - 支援四重安全閘門
+        從查詢中提取產品代碼（如 APX819, 8329 等）
+
+        Args:
+            query: 用戶查詢字串
+
+        Returns:
+            提取到的產品代碼列表
+        """
+        import re
+
+        # Layer 1: 原始字母+數字模式（高優先級）
+        letter_number_pattern = r'\b[A-Z]{2,4}\d{3,4}\b'
+        letter_number_matches = re.findall(letter_number_pattern, query.upper())
+
+        # Layer 2: 純數字模式（低優先級，需嚴格上下文檢查）
+        pure_number_matches = []
+        pure_number_pattern = r'(?<!\d)\d{4}(?!\d)'  # 4位純數字，如 8329（前後不是數字）
+        potential_numbers = re.findall(pure_number_pattern, query)
+
+        for number in potential_numbers:
+            # Layer 3: 嚴格上下文檢查
+            context_keywords = ['機型', '型號', '產品', '筆電', '筆記型電腦', 'laptop', 'notebook', '規格', 'spec']
+            context_found = any(keyword in query.lower() for keyword in context_keywords)
+
+            # 排除明顯不是產品代碼的數字（年份、價格等）
+            exclude_keywords = ['年', '元', '價格', 'price', 'year', '2023', '2024', '2025']
+            exclude_found = any(keyword in query.lower() for keyword in exclude_keywords)
+
+            if context_found and not exclude_found:
+                # Layer 4: 資料庫驗證
+                if self._validate_modeltype_exists(number):
+                    pure_number_matches.append(number)
+                    self.logger.info(f"✅ 通過四重檢查的純數字產品代碼: {number}")
+
+        # 合併結果，字母+數字優先
+        all_matches = letter_number_matches + pure_number_matches
+
+        if letter_number_matches:
+            self.logger.info(f"[ENHANCED-L1] 字母+數字產品代碼: {letter_number_matches}")
+        if pure_number_matches:
+            self.logger.info(f"[ENHANCED-L2] 純數字產品代碼: {pure_number_matches}")
+
+        return all_matches
 
     def search_product_data(self, message: str) -> Dict[str, Any]:
         """
