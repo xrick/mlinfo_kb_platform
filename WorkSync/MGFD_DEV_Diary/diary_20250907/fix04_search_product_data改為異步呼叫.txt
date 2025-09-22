@@ -1,0 +1,46 @@
+[MODE: PLAN]
+
+[變更目標]
+將目前在 `MGFDKernel._process_message_internal` 中對 `KnowledgeManager.search_product_data` 的同步呼叫改為異步，不改動其它模組/功能，範圍最小化，避免阻塞事件迴圈。
+
+[變更範圍]
+- 檔案：`libs/MGFDKernel.py`
+- 函式：`async def _process_message_internal(...) -> Dict[str, Any]`
+- 僅針對 KnowledgeManager 查詢處的呼叫方式，改為以 `asyncio.to_thread` 包裝同步函式，保持回傳結構與後續流程不變。
+
+[精確變更規格]
+- 新增匯入（若檔案尚未 import）：
+  - `import asyncio`
+- 在 `if slot_metadata.get("ifDBSearch", True):` 區塊內，將下列同步呼叫：
+  - 現況：
+    - `_product_data = self.knowledge_manager.search_product_data(message)`
+  - 修改為（異步、非阻塞 loop）：
+    - `_product_data = await asyncio.to_thread(self.knowledge_manager.search_product_data, message)`
+- 不修改其它行為：
+  - 不改動 `UserInputHandler` 解析、狀態判斷、`SysPrompt.format`、回傳格式與 logging。
+  - 不新增超時、重試、併發控制等功能（保持最小變更原則）。
+
+[穩定性考量]
+- 若 `KnowledgeManager.search_product_data` 在子執行緒拋例外，將由 `_process_message_internal` 的 try/except 捕捉，回傳現行錯誤格式（不新增自定義處理）。
+- 確保 `_product_data` 預設已存在於函式前文（已在前次修正加入），避免 NameError。
+- 不更動其它 await 呼叫（如 `parse_keyword`），避免引入新的不一致。
+
+[效能預期]
+- 事件迴圈不再被 DuckDB 查詢阻塞，在多請求/串流場景下 P95/P99 延遲可望下降。
+- 單請求延遲不顯著改變（單次查詢仍需時間，但不阻塞 loop）。
+
+[測試重點]
+- 路徑測試：以「請介紹輕便、容易攜帶的筆電」驗證回傳 `success`；前端不再 400。
+- 回歸測試：`ifDBSearch=False` 路徑不受影響；無結果/無 DB/錯誤回傳維持原樣。
+- 簡單並發測：同時發出 3-5 個請求，確認服務無明顯阻塞。
+
+```java
+IMPLEMENTATION CHECKLIST:
+1. 在 libs/MGFDKernel.py 檔案頂部確認/新增：import asyncio
+2. 定位 _process_message_internal 內 ifDBSearch=True 區塊
+3. 將 _product_data = self.knowledge_manager.search_product_data(message)
+   改為 _product_data = await asyncio.to_thread(self.knowledge_manager.search_product_data, message)
+4. 保持其餘流程、回傳、日誌不變
+5. 以「請介紹輕便、容易攜帶的筆電」執行驗證，確認 success 回傳
+6. 驗證無結果/錯誤路徑行為未改變
+```
