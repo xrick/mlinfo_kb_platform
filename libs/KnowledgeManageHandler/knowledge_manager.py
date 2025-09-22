@@ -114,7 +114,7 @@ class KnowledgeManager:
         """初始化默認知識庫"""
         try:
             # 銷售規格知識庫（整合版）
-            sales_specs_db = self.base_path / "db" / "all_nbinfo_v2.db"
+            sales_specs_db = self.base_path / "db" / "all_nbinfo_v3.db"
             if sales_specs_db.exists():
                 self.knowledge_bases["semantic_sales_spec"] = {
                     "type": "polars",
