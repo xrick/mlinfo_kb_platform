@@ -32,16 +32,22 @@ try:
 except ImportError:
     POLARS_AVAILABLE = False
     pl = None
-
-# LLM 相關導入
 try:
     from sentence_transformers import SentenceTransformer
-    from ..RAG.LLM.LLMInitializer import LLMInitializer
-    LLM_AVAILABLE = True
+    SENTENCE_TRANSFORMERS_AVAILABLE = True
 except ImportError:
-    LLM_AVAILABLE = False
+    SENTENCE_TRANSFORMERS_AVAILABLE = False
     SentenceTransformer = None
-    LLMInitializer = None
+
+# LLM 相關導入
+# try:
+#     from sentence_transformers import SentenceTransformer
+#     from ..RAG.LLM.LLMInitializer import LLMInitializer
+#     LLM_AVAILABLE = True
+# except ImportError:
+#     LLM_AVAILABLE = False
+#     SentenceTransformer = None
+#     LLMInitializer = None
 
 # Milvus 相關導入
 try:
@@ -71,7 +77,7 @@ class KnowledgeManager:
             base_path: 基礎路徑，默認為專案根目錄
         """
         self.logger = logging.getLogger(__name__)
-
+        self.MAX_CONTEXT_TOKENS = 131072  # gpt-oss:20b context limit
 
         
         # 設定基礎路徑
@@ -151,31 +157,39 @@ class KnowledgeManager:
             self.polars_helper = None
     
     def _initialize_ai_components(self):
-        """初始化 LLM 和 Milvus 相關組件"""
-        # 初始化 LLM 相關功能
-        if LLM_AVAILABLE:
-            try:
-                self.logger.info("正在初始化 LLM...")
-                self.llm_initializer = LLMInitializer()
-                self.llm = self.llm_initializer.get_llm()
-                self.logger.info("LLM 初始化成功")
-                
-                # Embedding Model 初始化
-                self.logger.info("正在初始化 Embedding 模型...")
-                embedding_model = 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'
-                self.sentence_transformer = SentenceTransformer(embedding_model)
-                self.logger.info(f"Embedding 模型初始化成功: {embedding_model}")
-                
-            except Exception as e:
-                self.logger.error(f"初始化 LLM 組件失敗: {e}")
-                self.llm_initializer = None
-                self.llm = None
-                self.sentence_transformer = None
-        else:
-            self.logger.warning("LLM 依賴未安裝，LLM 功能將不可用")
-            self.llm_initializer = None
-            self.llm = None
+        #"""初始化 LLM 和 Milvus 相關組件"""
+        """初始化 Embedding Model 相關組件"""
+        try:
+            embedding_model = 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'
+            self.sentence_transformer = SentenceTransformer(embedding_model)
+            self.logger.info(f"Embedding 模型初始化成功: {embedding_model}")
+        except Exception as e:
+            self.logger.error(f"初始化 Embedding 模型失敗: {e}")
             self.sentence_transformer = None
+        # 初始化 LLM 相關功能
+        # if LLM_AVAILABLE:
+        #     try:
+        #         self.logger.info("正在初始化 LLM...")
+        #         self.llm_initializer = LLMInitializer()
+        #         self.llm = self.llm_initializer.get_llm()
+        #         self.logger.info("LLM 初始化成功")
+                
+        #         # Embedding Model 初始化
+        #         self.logger.info("正在初始化 Embedding 模型...")
+        #         embedding_model = 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'
+        #         self.sentence_transformer = SentenceTransformer(embedding_model)
+        #         self.logger.info(f"Embedding 模型初始化成功: {embedding_model}")
+                
+        #     except Exception as e:
+        #         self.logger.error(f"初始化 LLM 組件失敗: {e}")
+        #         self.llm_initializer = None
+        #         self.llm = None
+        #         self.sentence_transformer = None
+        # else:
+        #     self.logger.warning("LLM 依賴未安裝，LLM 功能將不可用")
+        #     self.llm_initializer = None
+        #     self.llm = None
+        #     self.sentence_transformer = None
         
         # 初始化 Milvus 相關功能
         if MILVUS_AVAILABLE:
@@ -1064,42 +1078,42 @@ class KnowledgeManager:
             self.logger.error(f"批量文本編碼失敗: {e}")
             return None
     
-    def llm_query(self, prompt: str, context: Optional[str] = None) -> Optional[str]:
-        """使用 LLM 進行查詢"""
-        try:
-            if not self.llm:
-                self.logger.error("LLM 未初始化")
-                return None
+    # def llm_query(self, prompt: str, context: Optional[str] = None) -> Optional[str]:
+    #     """使用 LLM 進行查詢"""
+    #     try:
+    #         if not self.llm:
+    #             self.logger.error("LLM 未初始化")
+    #             return None
             
-            full_prompt = prompt
-            if context:
-                full_prompt = f"上下文信息:\n{context}\n\n問題: {prompt}"
+    #         full_prompt = prompt
+    #         if context:
+    #             full_prompt = f"上下文信息:\n{context}\n\n問題: {prompt}"
             
-            response = self.llm.invoke(full_prompt)
-            self.logger.debug(f"LLM 查詢成功，回應長度: {len(response)}")
-            return response
-        except Exception as e:
-            self.logger.error(f"LLM 查詢失敗: {e}")
-            return None
+    #         response = self.llm.invoke(full_prompt)
+    #         self.logger.debug(f"LLM 查詢成功，回應長度: {len(response)}")
+    #         return response
+    #     except Exception as e:
+    #         self.logger.error(f"LLM 查詢失敗: {e}")
+    #         return None
     
-    def get_llm_status(self) -> Dict[str, Any]:
-        """獲取 LLM 相關組件的狀態"""
-        try:
-            return {
-                "llm_available": LLM_AVAILABLE,
-                "llm_initialized": self.llm is not None,
-                "llm_initializer_available": self.llm_initializer is not None,
-                "sentence_transformer_initialized": self.sentence_transformer is not None,
-                "llm_model": getattr(self.llm_initializer, 'model_name', 'Unknown') if self.llm_initializer else None,
-                "embedding_model": 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2',
-                "timestamp": datetime.now().isoformat()
-            }
-        except Exception as e:
-            self.logger.error(f"獲取 LLM 狀態失敗: {e}")
-            return {
-                "error": str(e),
-                "timestamp": datetime.now().isoformat()
-            }
+    # def get_llm_status(self) -> Dict[str, Any]:
+    #     """獲取 LLM 相關組件的狀態"""
+    #     try:
+    #         return {
+    #             "llm_available": LLM_AVAILABLE,
+    #             "llm_initialized": self.llm is not None,
+    #             "llm_initializer_available": self.llm_initializer is not None,
+    #             "sentence_transformer_initialized": self.sentence_transformer is not None,
+    #             "llm_model": getattr(self.llm_initializer, 'model_name', 'Unknown') if self.llm_initializer else None,
+    #             "embedding_model": 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2',
+    #             "timestamp": datetime.now().isoformat()
+    #         }
+    #     except Exception as e:
+    #         self.logger.error(f"獲取 LLM 狀態失敗: {e}")
+    #         return {
+    #             "error": str(e),
+    #             "timestamp": datetime.now().isoformat()
+    #         }
 
     # ==================== 遊戲筆電專用搜尋方法 ====================
     
@@ -1288,143 +1302,143 @@ class KnowledgeManager:
                 "model_name": specs.get('modelname', 'Unknown')
             }
     
-    def gaming_laptop_search(self, query: str = "介紹適合遊戲的筆電", top_k: int = 5) -> Optional[Dict[str, Any]]:
-        """
-        專門用於遊戲筆電搜尋的整合方法
-        結合 parent-child chunking 語義搜尋和 DuckDB 詳細規格查詢
+    # def gaming_laptop_search(self, query: str = "介紹適合遊戲的筆電", top_k: int = 5) -> Optional[Dict[str, Any]]:
+    #     """
+    #     專門用於遊戲筆電搜尋的整合方法
+    #     結合 parent-child chunking 語義搜尋和 DuckDB 詳細規格查詢
         
-        Args:
-            query: 搜尋查詢，預設為遊戲筆電相關
-            top_k: 返回結果數量
+    #     Args:
+    #         query: 搜尋查詢，預設為遊戲筆電相關
+    #         top_k: 返回結果數量
             
-        Returns:
-            包含語義搜尋結果、詳細規格、評分分析的整合結果
-        """
-        try:
-            self.logger.info(f"開始遊戲筆電搜尋：'{query}'")
+    #     Returns:
+    #         包含語義搜尋結果、詳細規格、評分分析的整合結果
+    #     """
+    #     try:
+    #         self.logger.info(f"開始遊戲筆電搜尋：'{query}'")
             
-            # 第一步：進行 Parent-Child 語義搜尋
-            semantic_results = self.parent_child_retrieval(
-                query_text=query,
-                child_top_k=top_k * 2,  # 先取較多結果
-                parent_top_k=top_k
-            )
+    #         # 第一步：進行 Parent-Child 語義搜尋
+    #         semantic_results = self.parent_child_retrieval(
+    #             query_text=query,
+    #             child_top_k=top_k * 2,  # 先取較多結果
+    #             parent_top_k=top_k
+    #         )
             
-            if not semantic_results or not semantic_results.get('child_chunks'):
-                self.logger.warning("語義搜尋未找到相關結果")
-                return {
-                    "query": query,
-                    "status": "no_semantic_results",
-                    "message": "未找到相關的遊戲筆電資訊"
-                }
+    #         if not semantic_results or not semantic_results.get('child_chunks'):
+    #             self.logger.warning("語義搜尋未找到相關結果")
+    #             return {
+    #                 "query": query,
+    #                 "status": "no_semantic_results",
+    #                 "message": "未找到相關的遊戲筆電資訊"
+    #             }
             
-            # 第二步：從語義搜尋結果中提取 product_id
-            child_chunks = semantic_results['child_chunks']
-            product_ids = list(set([chunk['product_id'] for chunk in child_chunks]))
+    #         # 第二步：從語義搜尋結果中提取 product_id
+    #         child_chunks = semantic_results['child_chunks']
+    #         product_ids = list(set([chunk['product_id'] for chunk in child_chunks]))
             
-            # 限制查詢的產品數量
-            if len(product_ids) > top_k:
-                # 根據相似度排序，選擇最相關的產品
-                sorted_chunks = sorted(child_chunks, key=lambda x: x.get('similarity_score', 0), reverse=True)
-                top_product_ids = []
-                for chunk in sorted_chunks:
-                    if chunk['product_id'] not in top_product_ids:
-                        top_product_ids.append(chunk['product_id'])
-                    if len(top_product_ids) >= top_k:
-                        break
-                product_ids = top_product_ids
+    #         # 限制查詢的產品數量
+    #         if len(product_ids) > top_k:
+    #             # 根據相似度排序，選擇最相關的產品
+    #             sorted_chunks = sorted(child_chunks, key=lambda x: x.get('similarity_score', 0), reverse=True)
+    #             top_product_ids = []
+    #             for chunk in sorted_chunks:
+    #                 if chunk['product_id'] not in top_product_ids:
+    #                     top_product_ids.append(chunk['product_id'])
+    #                 if len(top_product_ids) >= top_k:
+    #                     break
+    #             product_ids = top_product_ids
             
-            self.logger.info(f"找到 {len(product_ids)} 個相關產品：{product_ids}")
+    #         self.logger.info(f"找到 {len(product_ids)} 個相關產品：{product_ids}")
             
-            # 第三步：查詢詳細規格
-            detailed_specs = self.query_specs_by_product_ids(product_ids)
+    #         # 第三步：查詢詳細規格
+    #         detailed_specs = self.query_specs_by_product_ids(product_ids)
             
-            if not detailed_specs:
-                self.logger.warning("無法查詢到詳細規格資料")
-                return {
-                    "query": query,
-                    "semantic_results": semantic_results,
-                    "status": "no_spec_data",
-                    "message": "找到相關產品但無法獲取詳細規格"
-                }
+    #         if not detailed_specs:
+    #             self.logger.warning("無法查詢到詳細規格資料")
+    #             return {
+    #                 "query": query,
+    #                 "semantic_results": semantic_results,
+    #                 "status": "no_spec_data",
+    #                 "message": "找到相關產品但無法獲取詳細規格"
+    #             }
             
-            # 第四步：評估遊戲效能
-            gaming_evaluations = []
-            for spec in detailed_specs:
-                evaluation = self.evaluate_gaming_performance(spec)
-                evaluation['detailed_specs'] = spec
-                gaming_evaluations.append(evaluation)
+    #         # 第四步：評估遊戲效能
+    #         gaming_evaluations = []
+    #         for spec in detailed_specs:
+    #             evaluation = self.evaluate_gaming_performance(spec)
+    #             evaluation['detailed_specs'] = spec
+    #             gaming_evaluations.append(evaluation)
             
-            # 按遊戲效能評分排序
-            gaming_evaluations.sort(key=lambda x: x['scores']['overall_score'], reverse=True)
+    #         # 按遊戲效能評分排序
+    #         gaming_evaluations.sort(key=lambda x: x['scores']['overall_score'], reverse=True)
             
-            # 第五步：使用 LLM 生成智能推薦（如果可用）
-            llm_analysis = None
-            if self.llm and len(gaming_evaluations) > 0:
-                try:
-                    # 準備給 LLM 的摘要資訊
-                    top_3_laptops = gaming_evaluations[:3]
-                    laptop_summary = []
-                    for eval_result in top_3_laptops:
-                        specs = eval_result['detailed_specs']
-                        laptop_summary.append(
-                            f"• {eval_result['model_name']}: "
-                            f"遊戲評分 {eval_result['scores']['overall_score']}/10, "
-                            f"CPU: {specs.get('cpu', 'N/A')}, "
-                            f"GPU: {specs.get('gpu', 'N/A')}, "
-                            f"記憶體: {specs.get('memory', 'N/A')}"
-                        )
+    #         # 第五步：使用 LLM 生成智能推薦（如果可用）
+    #         llm_analysis = None
+    #         if self.llm and len(gaming_evaluations) > 0:
+    #             try:
+    #                 # 準備給 LLM 的摘要資訊
+    #                 top_3_laptops = gaming_evaluations[:3]
+    #                 laptop_summary = []
+    #                 for eval_result in top_3_laptops:
+    #                     specs = eval_result['detailed_specs']
+    #                     laptop_summary.append(
+    #                         f"• {eval_result['model_name']}: "
+    #                         f"遊戲評分 {eval_result['scores']['overall_score']}/10, "
+    #                         f"CPU: {specs.get('cpu', 'N/A')}, "
+    #                         f"GPU: {specs.get('gpu', 'N/A')}, "
+    #                         f"記憶體: {specs.get('memory', 'N/A')}"
+    #                     )
                     
-                    prompt = f"""
-                    用戶查詢：{query}
+    #                 prompt = f"""
+    #                 用戶查詢：{query}
                     
-                    根據以下遊戲筆電評估結果，請提供專業的購買建議：
+    #                 根據以下遊戲筆電評估結果，請提供專業的購買建議：
                     
-                    {chr(10).join(laptop_summary)}
+    #                 {chr(10).join(laptop_summary)}
                     
-                    請以繁體中文回答，包含：
-                    1. 最適合的型號推薦及原因
-                    2. 各型號的優缺點分析  
-                    3. 價格效能考量建議
-                    4. 適用的遊戲類型
+    #                 請以繁體中文回答，包含：
+    #                 1. 最適合的型號推薦及原因
+    #                 2. 各型號的優缺點分析  
+    #                 3. 價格效能考量建議
+    #                 4. 適用的遊戲類型
                     
-                    請保持回答簡潔專業，不超過300字。
-                    """
+    #                 請保持回答簡潔專業，不超過300字。
+    #                 """
                     
-                    llm_analysis = self.query_llm(prompt)
+    #                 llm_analysis = self.query_llm(prompt)
                     
-                except Exception as e:
-                    self.logger.warning(f"LLM 分析失敗，將跳過: {e}")
-                    llm_analysis = "LLM 分析不可用，僅提供評分結果"
+    #             except Exception as e:
+    #                 self.logger.warning(f"LLM 分析失敗，將跳過: {e}")
+    #                 llm_analysis = "LLM 分析不可用，僅提供評分結果"
             
-            # 整合最終結果
-            final_result = {
-                "query": query,
-                "status": "success",
-                "summary": {
-                    "total_found": len(gaming_evaluations),
-                    "top_gaming_score": gaming_evaluations[0]['scores']['overall_score'] if gaming_evaluations else 0,
-                    "search_timestamp": datetime.now().isoformat()
-                },
-                "semantic_search_results": {
-                    "child_chunks": semantic_results['child_chunks'][:5],  # 限制返回數量
-                    "parent_documents": semantic_results.get('parent_documents', [])
-                },
-                "gaming_recommendations": gaming_evaluations,
-                "llm_analysis": llm_analysis
-            }
+    #         # 整合最終結果
+    #         final_result = {
+    #             "query": query,
+    #             "status": "success",
+    #             "summary": {
+    #                 "total_found": len(gaming_evaluations),
+    #                 "top_gaming_score": gaming_evaluations[0]['scores']['overall_score'] if gaming_evaluations else 0,
+    #                 "search_timestamp": datetime.now().isoformat()
+    #             },
+    #             "semantic_search_results": {
+    #                 "child_chunks": semantic_results['child_chunks'][:5],  # 限制返回數量
+    #                 "parent_documents": semantic_results.get('parent_documents', [])
+    #             },
+    #             "gaming_recommendations": gaming_evaluations,
+    #             "llm_analysis": llm_analysis
+    #         }
             
-            self.logger.info(f"遊戲筆電搜尋完成，找到 {len(gaming_evaluations)} 個推薦產品")
-            return final_result
+    #         self.logger.info(f"遊戲筆電搜尋完成，找到 {len(gaming_evaluations)} 個推薦產品")
+    #         return final_result
             
-        except Exception as e:
-            self.logger.error(f"遊戲筆電搜尋失敗: {e}")
-            return {
-                "query": query,
-                "status": "error",
-                "error": str(e),
-                "timestamp": datetime.now().isoformat()
-            }
+    #     except Exception as e:
+    #         self.logger.error(f"遊戲筆電搜尋失敗: {e}")
+    #         return {
+    #             "query": query,
+    #             "status": "error",
+    #             "error": str(e),
+    #             "timestamp": datetime.now().isoformat()
+    #         }
     
     # ==================== 通用產品規格搜尋方法－語義搜尋 ====================
 
@@ -1510,17 +1524,22 @@ class KnowledgeManager:
 
         # Layer 2: 純數字模式（低優先級，需嚴格上下文檢查）
         pure_number_matches = []
-        pure_number_pattern = r'(?<!\d)\d{4}(?!\d)'  # 4位純數字，如 8329（前後不是數字）
+        pure_number_pattern = r'(?<!\d)\d{3,4}(?!\d)'  # 3-4位純數字，如 819 或 8329（前後不是數字）
         potential_numbers = re.findall(pure_number_pattern, query)
 
         for number in potential_numbers:
             # Layer 3: 嚴格上下文檢查
-            context_keywords = ['機型', '型號', '產品', '筆電', '筆記型電腦', 'laptop', 'notebook', '規格', 'spec']
-            context_found = any(keyword in query.lower() for keyword in context_keywords)
+            context_keywords = [
+                '系統','機型', '型號', '產品', '筆電', '筆記型電腦',
+                'laptop', 'notebook', '規格', 'spec',
+                'cpu', 'gpu', '處理器', '差異', '比較', '對比', 'vs'
+            ]
+            lowered_query = query.lower()
+            context_found = any(keyword in lowered_query for keyword in context_keywords)
 
             # 排除明顯不是產品代碼的數字（年份、價格等）
             exclude_keywords = ['年', '元', '價格', 'price', 'year', '2023', '2024', '2025']
-            exclude_found = any(keyword in query.lower() for keyword in exclude_keywords)
+            exclude_found = any(keyword in lowered_query for keyword in exclude_keywords)
 
             if context_found and not exclude_found:
                 # Layer 4: 資料庫驗證

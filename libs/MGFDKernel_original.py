@@ -275,7 +275,7 @@ class MGFDKernel:
         # 嘗試初始化 LLM（最小變更；失敗則保持回退機制）
         self.llm = None
         try:
-            self.llm_initializer = LLMInitializer(model_name="gpt-oss:20b", temperature=0.1, request_timeout=60)
+            self.llm_initializer = LLMInitializer()
             self.llm = self.llm_initializer.get_llm()
             logger.info("LLM 初始化成功")
         except Exception as e:
@@ -934,8 +934,7 @@ class MGFDKernel:
                     try:
                         # 使用 asyncio.wait_for 提供額外的超時保護（120秒，稍大於 LLM 的 request_timeout）
                         llm_output = await asyncio.wait_for(
-                            # asyncio.to_thread(self.llm.invoke, current_prompt),
-                            asyncio.to_thread(self.llm.safe_completion, current_prompt,2048),
+                            asyncio.to_thread(self.llm.invoke, current_prompt),
                             timeout=120
                         )
                         ## format markdown tables
