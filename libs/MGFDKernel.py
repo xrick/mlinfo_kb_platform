@@ -146,36 +146,6 @@ class MGFDKernel:
 
         #     **嚴格遵守使用內部資料:**: 請絕對務必嚴格遵守公司產品資料都完全來自公司內部提供的各種資料，嚴格禁止出現競爭公司資料。
 
-        """
-        self.query_prompt = 
-            你是一個負責筆記型電腦產品知識庫的查詢理解與解析助手。
-            你的工作是分析使用者提出的問題，並將其解析為與產品屬性對應的結構化結果。
-
-            每一個問題都必須解析為以下四個部分：
-
-            意圖（Intent）：使用者想知道或執行的操作，例如 "compare"（比較）、"spec_check"（規格查詢）、"recommend"（推薦）、"feature_explanation"（功能說明）。
-
-            實體（Entities）：問題中提到的特定機種或系列名稱，例如 "AST728"、"958系列"、"AMD819-S: FT6"。
-
-            屬性（Attributes）：與該問題相關的產品屬性，可包含多個。請從以下屬性清單中選取。
-
-            語言（Language）：判斷問題所使用的語言（例如 zh, en）。
-
-            有效的屬性包括：
-            modeltype, version, modelname, mainboard, devtime, cpu, gpu, memory, ssd, structconfig, lcd, touchpanel, iointerface, ledind, powerbutton, keyboard, webcamera, touchpad, fingerprint, audio, battery, lcdconnector, storage, wifislot, thermal, tpm, rtc, wireless, lan, lte, bluetooth, softwareconfig, ai, accessory, certifications
-
-            處理缺失資訊：如果某項特徵在產品資訊中沒有被提及，請在「詳細資訊」欄位填入「資料未呈現」。
-
-            請僅以以下 JSON 格式表示：
-
-            {
-                "intent": "<解析後的使用者意圖>",
-                "entities": ["<機種或系列名稱>"],
-                "attributes": ["<相關屬性>"],
-                "language": "<語言>"
-            }
-   
-        """
        
         # System-level prompt template (優化版 - 減少 70% Token 消耗)
         # 注意：這是不可變的模板，避免狀態污染

@@ -110,3 +110,92 @@ self.ComparableNB_NUM = 6  # 從3調整到6
 修復人員：Claude Code AI Assistant
 問題報告時間：2025-09-23 15:33
 修復完成時間：2025-09-23 16:08
+
+## 後續問題 - LangChain Ollama 升級
+
+### 問題3：LangChain 升級與方法調用錯誤
+
+#### 背景
+在解決前述問題後，用戶反映需要升級到 `langchain_ollama.OllamaLLM` 以消除 deprecation warnings，但升級後出現新的錯誤。
+
+#### 問題表現
+```
+ERROR - LLM 調用發生異常: 'OllamaLLM' object has no attribute 'safe_completion'
+```
+
+#### 根本原因分析
+1. **LangChain API 升級**：`langchain_community.llms.Ollama` 已被標記為 deprecated
+2. **方法調用架構錯誤**：MGFDKernel.py 中錯誤地在 `self.llm` (OllamaLLM實例) 上調用 `safe_completion` 方法
+3. **責任分離問題**：`safe_completion` 是 `LLMInitializer` 類的封裝方法，不是 LLM 實例的原生方法
+
+#### 解決方案
+
+**階段1：LangChain Ollama API 升級**
+```python
+# 修改前 (deprecated)
+from langchain_community.llms import Ollama
+
+# 修改後 (最新版本)
+from langchain_ollama import OllamaLLM
+```
+
+**關鍵改進**：
+- 類別名稱：`Ollama` → `OllamaLLM`
+- 參數支援：直接支援 `num_predict` 參數，無需 `model_kwargs` 包裝
+- 移除不支援的參數：完全移除 `request_timeout`
+
+**階段2：修正方法調用錯誤**
+```python
+# MGFDKernel.py 修復前
+asyncio.to_thread(self.llm.safe_completion, current_prompt, 2048)
+if hasattr(self, 'llm') and self.llm:
+
+# MGFDKernel.py 修復後
+asyncio.to_thread(self.llm_initializer.safe_completion, current_prompt, 2048)
+if hasattr(self, 'llm_initializer') and self.llm_initializer:
+```
+
+#### 技術細節
+
+**升級前後 API 對比**：
+```python
+# 舊版 API (langchain_community)
+llm_for_call = Ollama(
+    model=self.model_name,
+    temperature=self.temperature,
+    model_kwargs={"num_predict": int(final_max_tokens)}
+)
+
+# 新版 API (langchain_ollama)
+llm_for_call = OllamaLLM(
+    model=self.model_name,
+    temperature=self.temperature,
+    num_predict=int(final_max_tokens)  # 直接支援
+)
+```
+
+#### 驗證與測試
+- ✅ LLM 初始化功能測試通過
+- ✅ 系統成功處理測試查詢
+- ✅ 消除所有 `'OllamaLLM' object has no attribute 'safe_completion'` 錯誤
+- ✅ 產品搜尋和回應生成功能恢復正常
+- ✅ RESTful API 端點響應正常
+
+#### 技術洞察
+- **API 現代化**：新版 OllamaLLM 簡化了參數結構，提供更直觀的配置方式
+- **錯誤模式學習**：在升級第三方 API 時，需要特別注意方法調用的層級和責任歸屬
+- **系統架構理解**：`safe_completion` 作為業務邏輯封裝，應在初始化器層級調用，而非直接在 LLM 實例上調用
+
+#### 影響評估
+- **正面影響**：消除 deprecation warnings，使用最新穩定 API，提升系統現代化程度
+- **性能提升**：新版 API 更簡潔高效，減少了參數包裝的開銷
+- **維護性**：避免未來 LangChain 1.0.0 發布時的 breaking changes
+
+---
+**問題3修復狀態**: ✅ 完成
+**LangChain升級狀態**: ✅ 完成升級至 langchain_ollama.OllamaLLM
+**方法調用修正**: ✅ 完成
+**系統健康狀態**: ✅ 完全恢復正常
+
+修復時間：2025-09-23 17:35
+驗證時間：2025-09-23 17:40
