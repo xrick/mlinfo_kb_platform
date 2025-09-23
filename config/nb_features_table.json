@@ -32,7 +32,7 @@
       "keywords": ["HDMI", "type-c", "DVI", "type c"],
       "regex": [],
       "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
-      "weight": 8
+      "weight": 7
     },
     {
       "id": "cpu",
@@ -40,7 +40,7 @@
       "keywords": ["CPU", "處理器", "運算", "AMD"],
       "regex": [],
       "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
-      "weight": 8
+      "weight": 2
     },
     {
       "id": "gpu",
@@ -48,7 +48,7 @@
       "keywords": ["GPU", "顯卡", "運算", "AMD", "獨立顯卡"],
       "regex": [],
       "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
-      "weight": 8
+      "weight": 2
     },
     {
       "id": "gpu_level",
@@ -56,7 +56,7 @@
       "keywords": ["獨立顯卡", "內建顯卡", "遊戲顯卡", "專業顯卡"],
       "regex": [],
       "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
-      "weight": 8
+      "weight": 2
     },
     {
       "id": "ram",
@@ -64,7 +64,7 @@
       "keywords": ["RAM", "記憶", "內存", "隨機存取記憶體"],
       "regex": [],
       "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
-      "weight": 8
+      "weight": 2
     },
     {
       "id": "ssd",
@@ -72,9 +72,112 @@
       "keywords": ["SSD", "固態硬碟", "硬碟", "空間", "大小"],
       "regex": [],
       "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
-      "weight": 8
+      "weight": 2
+    },
+    {
+      "id": "ssd_level",
+      "labels": ["SSD等級"],
+      "keywords": ["SSD", "固態硬碟", "硬碟", "空間", "大小"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
+      "weight": 2
+    },
+    {
+      "id": "screen_size",
+      "labels": ["螢幕尺寸"],
+      "keywords": ["螢幕尺寸", "大小", "吋數"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
+      "weight": 4
+    },
+    {
+      "id": "resolution",
+      "labels": ["解析度"],
+      "keywords": ["解析度", "畫質", "清晰度", "顯示解析度", "畫面細緻度"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
+      "weight": 4
+    },
+    {
+      "id": "performance",
+      "labels": ["效能"],
+      "keywords": ["效能", "性能", "處理能力", "速度", "運算效能", "效用"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
+      "weight": 3
+    },
+    {
+      "id": "performance_features",
+      "labels": ["效能特色"],
+      "keywords": ["效能特色", "性能特色", "處理能力", "速度", "運算效能", "效用"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
+      "weight": 3
+    },
+    {
+      "id": "battery",
+      "labels": ["電池規格"],
+      "keywords": ["電池", "電量", "電池容量", "電池續航力"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
+      "weight": 3
+    },
+    {
+      "id": "battery_level",
+      "labels": ["電池等級"],
+      "keywords": ["電池", "電量", "電池容量", "電池續航力"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
+      "weight": 3
+    },
+    {
+      "id": "weight",
+      "labels": ["重量"],
+      "keywords": ["重量", "重量較輕", "容易攜帶", "輕薄", "便攜", "輕巧", "易攜"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
+      "weight": 3
+    },
+    {
+      "id": "weight_level",
+      "labels": ["重量等級"],
+      "keywords": ["重量", "重量較輕", "容易攜帶", "輕薄", "便攜", "輕巧", "易攜"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
+      "weight": 3
+    },
+    {
+      "id": "portability",
+      "labels": ["便攜性"],
+      "keywords": ["便攜", "易攜"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
+      "weight": 3
+    },
+    {
+      "id": "portability_level",
+      "labels": ["便攜性等級"],
+      "keywords": ["便攜", "易攜"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
+      "weight": 3
+    },
+    {
+      "id": "budget",
+      "labels": ["預算"],
+      "keywords": ["預算", "價格", "便宜", "價格親民", "CP值高", "性價比高", "經濟實惠"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
+      "weight": 3
+    },
+    {
+      "id": "budget_level",
+      "labels": ["預算等級"],
+      "keywords": ["預算", "價格", "便宜", "價格親民", "CP值高", "性價比高", "經濟實惠"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
+      "weight": 3
     }
-    
   ]
 }
 

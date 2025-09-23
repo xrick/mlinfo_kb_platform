@@ -1510,7 +1510,7 @@ class KnowledgeManager:
 
         # Layer 2: 純數字模式（低優先級，需嚴格上下文檢查）
         pure_number_matches = []
-        pure_number_pattern = r'(?<!\d)\d{4}(?!\d)'  # 4位純數字，如 8329（前後不是數字）
+        pure_number_pattern = r'(?<!\d)\d{3,4}(?!\d)'  # 3-4位純數字，如 829、8329（前後不是數字）
         potential_numbers = re.findall(pure_number_pattern, query)
 
         for number in potential_numbers:
