@@ -930,12 +930,12 @@ class MGFDKernel:
             if no_products:
                 llm_output = "目前尚未搜尋到符您需求的產品，是否進行不同規格產品的搜尋呢？"
             else:
-                if hasattr(self, 'llm') and self.llm:
+                if hasattr(self, 'llm_initializer') and self.llm_initializer:
                     try:
                         # 使用 asyncio.wait_for 提供額外的超時保護（120秒，稍大於 LLM 的 request_timeout）
                         llm_output = await asyncio.wait_for(
                             # asyncio.to_thread(self.llm.invoke, current_prompt),
-                            asyncio.to_thread(self.llm.safe_completion, current_prompt,2048),
+                            asyncio.to_thread(self.llm_initializer.safe_completion, current_prompt,2048),
                             timeout=120
                         )
                         ## format markdown tables

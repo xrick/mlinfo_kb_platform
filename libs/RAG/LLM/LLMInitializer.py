@@ -11,8 +11,8 @@ class LLMInitializer:
 
     # 針對常用模型給預設情境長度（必要時自行調整/擴充）
     DEFAULT_CONTEXT_LIMITS = {
-        "gpt-oss:20b": 131072,     # 已知上限
-        "deepseek-r1:7b": 131072,  # 預設同 131072；若你確知其他值可改
+        "gpt-oss:20b": 131072     # 已知上限
+        # "deepseek-r1:7b": 131072,  # 預設同 131072；若你確知其他值可改
     }
 
     def __init__(
