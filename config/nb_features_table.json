@@ -33,7 +33,48 @@
       "regex": [],
       "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
       "weight": 8
+    },
+    {
+      "id": "cpu",
+      "labels": ["處理器規格"],
+      "keywords": ["CPU", "處理器", "運算", "AMD"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
+      "weight": 8
+    },
+    {
+      "id": "gpu",
+      "labels": ["顯卡規格"],
+      "keywords": ["GPU", "顯卡", "運算", "AMD", "獨立顯卡"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
+      "weight": 8
+    },
+    {
+      "id": "gpu_level",
+      "labels": ["顯卡等級"],
+      "keywords": ["獨立顯卡", "內建顯卡", "遊戲顯卡", "專業顯卡"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
+      "weight": 8
+    },
+    {
+      "id": "ram",
+      "labels": ["記憶體規格"],
+      "keywords": ["RAM", "記憶", "內存", "隨機存取記憶體"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
+      "weight": 8
+    },
+    {
+      "id": "ssd",
+      "labels": ["SSD規格"],
+      "keywords": ["SSD", "固態硬碟", "硬碟", "空間", "大小"],
+      "regex": [],
+      "search_fields": ["cpu", "gpu", "memory", "iointerface", "lcd", "battery", "audio", "softwareconfig", "bluetooth"],
+      "weight": 8
     }
+    
   ]
 }
 
