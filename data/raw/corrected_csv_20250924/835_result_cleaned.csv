@@ -1,0 +1,62 @@
+modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+835,EVT_v1.2,AHP835,MB Ver.: v1.0,"stage: Planning：2023/12/01-2023/12/12
+Kick-off：2023/12/13
+EVT：2023/12/14-2024/02/24
+DVT：N/A
+PVT：N/A
+Pilot run：N/A
+MP：N/A",Owner: Dillon,"Form: Notebook
+Dimension: 342.07*256.08*17.95 mm
+Material/Surface: A/D Cover：Aluminium alloy (ED), 
+B Cover：Metal (Matte)
+C Cover：Plastic (Painting)
+Hinge: 180 degree hinge
+Weight: 1.8 Kg","Dimension: Panel 1：15.3"" 16:10
+Panel 2：15.3"" 16:10
+Resolution: Panel 1：15.3"" QHD2560*1600, ADS, 350nits, 30-120Hz, 100% sRGB
+Panel 2：15.3"" FHD1920*1200, ADS, 300nits, 60Hz, 100% sRGB",Form: No Data,"MB IO(Left): 1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB) 
+˙Need Pass HDMI2.1TMDS Certification
+1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (on MB)
+2* USB3.2 Gen2,  Super Speed USB 10Gbps, full function PD/DP1.4/USB, Type C (on MB)
+1* OCULINK (Optional)(MB)
+DB IO(Right): 1* φ 3.5mm Combo Jack (DB) Support EU/USA Regulation
+1* USB2.0,Hi-Speed, Type A (on DB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, TypeA (onDB)
+1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)
+MB IO(Rear): No Data
+Power On/Off/Sleep: On with White LED
+Off with no LED
+WiFi/Bluetooth: No Data",,Button: Seperated Power button key(On DB),"Logo LED 16': Single LED
+˙By connecting +5VS_IRCAM power supply from the EDP connector and using a load switch for independent control of  EC, which can be controlled through keyboard hotkey.
+˙單色燈,使用EDP connector上的+5VS_IRCAM電，需要loadswitch接EC單獨控制，以便鍵盤熱鍵控制
+FIN LED: RGB LED (流光效果)
+˙Controlled bt MCU (Ref model IT8236)
+Button: Seperated Power button key(On DB)","Front: 1* 1.0MP(720P) Front, with MIC*2, LED
+* Need keyboard hotkeys to control camera on/off
+* Reserved pin-define for IR on MB
+Rear: No Data
+Windows Hello: No Data","Interface type: I2C/HID
+Size: 127 *77.2 mm
+Feature: multi-touch support, gestures and scroll function","Location: 1* on power button (Optional)
+Interface type: USB, Security level 3
+Windows Hello: support Windows Hello","Speaker: 2* Built-in Speaker ( 2* 4Ω/2W)
+Mic: 2* Built-in (dual) digital microphones on camera module
+Others: Support Nahimic","Type: Lithium-ion polymer battery
+Capacity: 1* 65Wh, 4S1P
+Certification: No Data
+Life: 10 Hours (TBD)","Module: AMD Zen4,  AMD Hawk Point HS Series, TDP 45~54W
+Ryzen™ 7 8845HS (8C/16T, 5.1GHz/3.8GHz, TDP 45W",Model: AMD Radeon™ 780M,"RAM: LPDDR5X-7500Mhz (315B)(PCB uVIA), up to 16G/32G,onboard (4GB Micron)
+Port: LCD connector optional
+SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD , up to 8TB (1*256GB&1*512GB)
+Wifi: 1* M.2 Key-E 2230 for WiFi 6 + BT5.2",Port: LCD connector optional,"SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD , up to 8TB (1*256GB&1*512GB)",Wifi: 1* M.2 Key-E 2230 for WiFi 6 + BT5.2,"Type: Performance Mode 54W/
+Balance Mode 45W/
+Quiet Mode35W/
+Dual Fan","interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: No Data,"Wifi Chip Model: Default：RZ616(AMD)_WIFI 6E Dual-band 2Tx2R 802.11ax + Bluetooth 5.2, on M.2 module  (Major Chipset – MT7922A12L)
+Option1：AX210 (Intel)_Wi-Fi6E 2Tx2R 802.11ax + BT5.3, on M.2 module
+Others: Support Wifi and Bluetooth Power on/off switch",RJ45: No Data,LTE: No Data,"WiFi/Bluetooth: No Data
+Battery/Charge: Charging with Orange LED
+Full-charged with White LED
+Off with no light","System: Windows11 Home/Pro
+Language Support: Support multi Language",,"Standard Configuration: 1* 100W, 5V3A/9V3A/12V3A/15V3A/20V5A, 3.3-21V5A,USB2.0 C to C 1.5m, Type C, fast charger","Safety: No Data
+No Data"

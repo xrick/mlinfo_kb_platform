@@ -1,0 +1,213 @@
+modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+27,MP_v1.2,AB27-HDMI/IN,MB Ver.: v1.0?,"stage: Planning：2023/10/02-2023/Now
+Kick-off：2023/**/**
+EVT：
+DVT：
+PVT：
+Pilot run：
+No Data",Owner: Jasper,"Product Form: No Data
+Dimensions: No Data
+Color: No Data
+Rotation Angle: No Data
+Weight: No Data","Resolution: No Data
+CPU: No Data",,,,,"Keyboard: No Data
+Touchpad: No Data
+G Sensor: No Data",,"Touchpad: No Data
+G Sensor: No Data
+Face Recognition: No Data",,,,"CPU: No Data
+GPU: No Data
+CHIP: No Data","GPU: No Data
+CHIP: No Data","VRAM: No Data
+RAM: No Data
+SSD/HDD/eMMC: No Data
+No Data",,SSD/HDD/eMMC: No Data,No Data,Thermal Solution: No Data,Trusted Platform Module: No Data,,"WIFI: No Data
+Adapter: No Data",Ethernet Network: No Data,,"WIFI: No Data
+Adapter: No Data","Operating system: No Data
+Office Version: No Data",,,"/: No Data
+No Data
+Details: Descriptions"
+27,MP_v1.0,AB27,MB Ver.: 1,"stage: Planning：2023/10/02-2023/Now
+Kick-off：
+EVT：
+DVT：
+PVT：
+Pilot run：
+MP：",Owner: Jasper,"Product Form: Thin Mini ITX Motherboard
+Dimensions: 170.0 * 170.0mm (Only MB Size)
+Color: Black
+Rotation Angle: No Data
+Weight: 200g","Resolution: No Data
+CPU: No Data",,,,,"Keyboard: No Data
+Touchpad: No Data
+G Sensor: No Data",,"Touchpad: No Data
+G Sensor: No Data
+Face Recognition: No Data",,,,"CPU: No Data
+GPU: AMD Radeon™  Graphics
+CHIP: No Data","GPU: AMD Radeon™  Graphics
+CHIP: No Data","VRAM: No Data
+RAM: 2* SO-DIMM DDR4 3200MT/s, up to 4GB/8GB/16GB/32GB/64GB
+SSD/HDD/eMMC: 1* M.2 2280 PCIe G3(Lane*2)/NVMe SSD, 128GB/256GB/512GB/1TB
+2* SATA Gen1/Gen2/Gen3, 6Gb/s ports, support eSATA, mSATA, FIS-based Switching, ZPODD",,"SSD/HDD/eMMC: 1* M.2 2280 PCIe G3(Lane*2)/NVMe SSD, 128GB/256GB/512GB/1TB","1* M.2 slot (Key E)_WIFI, Type 2230",Thermal Solution: No Data,"Trusted Platform Module: Option1：Implemented in system firmware, fTPM2.0 (firmware TPM)
+Option2：Hardware chip on the MB, dTPM 2.0 (discrete TPM)",,"WIFI: Optional 1：6222M-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on module (Major Chipset – RTL8822CE-CG)
+Optional 2：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset – RTL8852BE-CG)
+Optional 3：6222C-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on board (Major Chipset – RTL8822CE-CG)
+Optional 4：6252C-PUB(FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –  RTL8852BE-CG)
+Adapter: DC φ5.5mm  65W/19V","Ethernet Network: 1* RJ45, Giga LAN 10/100/1000Mbps",,"WIFI: Optional 1：6222M-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on module (Major Chipset – RTL8822CE-CG)
+Optional 2：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset – RTL8852BE-CG)
+Optional 3：6222C-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on board (Major Chipset – RTL8822CE-CG)
+Optional 4：6252C-PUB(FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –  RTL8852BE-CG)
+Adapter: DC φ5.5mm  65W/19V","Operating system: Windows 11 Home/Pro SV2
+Office Version: Office 365 (Optional)",,,"/: No Data
+No Data
+Details: Descriptions"
+27,EVT_v1.2,ARB27,MB Ver.: 1,"stage: Planning：2023/05/03-2023/05/09
+Kick-off：2023/05/11
+EVT：2023/05/15-2023/11/29
+DVT：N/A
+PVT：2023/12/21-2024/01/10
+Pilot run：2023/12/06-2024/01/10
+MP：",Owner: Jasper,"Product Form: Thin Mini ITX Motherboard
+Dimensions: 170.0 * 170.0mm (Only MB Size)
+Color: Black
+Rotation Angle: No Data
+Weight: 200g","Resolution: No Data
+CPU: AMD  Zen 3+, AMD  Rembrandt, Ryzen™ 5 6600U (6C/12T,4.5GHz/2.9GHz,TDP:15W-28W)
+AMD  Zen 3+, AMD  Rembrandt, Ryzen™ 7 6800U (8C/16T,4.7GHz/2.7GHz,TDP:15W-28W)
+AMD  Zen 3+, AMD  Rembrandt, Ryzen™ 5 6600H (6C/12T,4.5GHz/3.3GHz,TDP:45W)
+AMD  Zen 3+, AMD  Rembrandt, Ryzen™ 7 6800H (8C/16T,4.7GHz/3.2GHz,TDP:45W)
+AMD  Zen 3+, AMD  Rembrandt Refresh, Ryzen™ 3 7335U (4C/8T,4.3GHz/3.0GHz,TDP:28W)
+AMD  Zen 3+, AMD  Rembrandt Refresh, Ryzen™ 5 7535U (6C/12T,4.55GHz/2.9GHz,TDP:28W)
+AMD  Zen 3+, AMD  Rembrandt Refresh, Ryzen™ 7 7735U (8C/16T,4.75GHz/2.7GHz,TDP:28W)
+AMD  Zen 3+, AMD  Rembrandt Refresh, Ryzen™ 5 7535HS (6C/12T,4.55GHz/3.3GHz,TDP:35-54W)
+AMD  Zen 3+, AMD  Rembrandt Refresh, Ryzen™ 7 7735HS (8C/16T,4.75GHz/3.2GHz,TDP:35-54W)",,,,,"Keyboard: No Data
+Touchpad: No Data
+G Sensor: 1* Digital Three-Axis Accelerometer(MXC6655XA)",,"Touchpad: No Data
+G Sensor: 1* Digital Three-Axis Accelerometer(MXC6655XA)
+Face Recognition: No Data",,,,"CPU: AMD  Zen 3+, AMD  Rembrandt, Ryzen™ 5 6600U (6C/12T,4.5GHz/2.9GHz,TDP:15W-28W)
+AMD  Zen 3+, AMD  Rembrandt, Ryzen™ 7 6800U (8C/16T,4.7GHz/2.7GHz,TDP:15W-28W)
+AMD  Zen 3+, AMD  Rembrandt, Ryzen™ 5 6600H (6C/12T,4.5GHz/3.3GHz,TDP:45W)
+AMD  Zen 3+, AMD  Rembrandt, Ryzen™ 7 6800H (8C/16T,4.7GHz/3.2GHz,TDP:45W)
+AMD  Zen 3+, AMD  Rembrandt Refresh, Ryzen™ 3 7335U (4C/8T,4.3GHz/3.0GHz,TDP:28W)
+AMD  Zen 3+, AMD  Rembrandt Refresh, Ryzen™ 5 7535U (6C/12T,4.55GHz/2.9GHz,TDP:28W)
+AMD  Zen 3+, AMD  Rembrandt Refresh, Ryzen™ 7 7735U (8C/16T,4.75GHz/2.7GHz,TDP:28W)
+AMD  Zen 3+, AMD  Rembrandt Refresh, Ryzen™ 5 7535HS (6C/12T,4.55GHz/3.3GHz,TDP:35-54W)
+AMD  Zen 3+, AMD  Rembrandt Refresh, Ryzen™ 7 7735HS (8C/16T,4.75GHz/3.2GHz,TDP:35-54W)
+GPU: AMD Radeon™  Graphics
+CHIP: No Data","GPU: AMD Radeon™  Graphics
+CHIP: No Data","VRAM: No Data
+RAM: Dual channel memory architecture, 2* SO-DIMM DDR5 4800MT/s, up to 8GB/16GB/32GB/64GB
+SSD/HDD/eMMC: 1* M.2 2280 PCIe G4(Lane*4)/NVMe  SSD, 128GB/256GB/512GB/1TB
+2* SATA Gen1/Gen2/Gen3, 6Gb/s ports, support eSATA, mSATA, FIS-based Switching, ZPODD",,"SSD/HDD/eMMC: 1* M.2 2280 PCIe G4(Lane*4)/NVMe  SSD, 128GB/256GB/512GB/1TB","1* M.2 slot (Key E)_WIFI, type 2230",Thermal Solution: No Data,"Trusted Platform Module: Option1：Implemented in system firmware, fTPM2.0 (firmware TPM)
+Option2：Hardware chip on the MB, dTPM 2.0 (discrete TPM)",,"WIFI: Optional 1：6222M-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on module (Major Chipset – RTL8822CE-CG)
+Optional 2：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset – RTL8852BE-CG)
+Optional 3：6222C-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on board (Major Chipset – RTL8822CE-CG)
+Optional 4：6252C-PUB(FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –  RTL8852BE-CG)
+Adapter: DC φ5.5mm  65W/19V (for U series)
+DC φ5.5mm  90W/19V (for H series)","Ethernet Network: 1* RJ45, Giga LAN 10/100/1000Mbps",,"WIFI: Optional 1：6222M-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on module (Major Chipset – RTL8822CE-CG)
+Optional 2：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset – RTL8852BE-CG)
+Optional 3：6222C-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on board (Major Chipset – RTL8822CE-CG)
+Optional 4：6252C-PUB(FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –  RTL8852BE-CG)
+Adapter: DC φ5.5mm  65W/19V (for U series)
+DC φ5.5mm  90W/19V (for H series)","Operating system: Windows 11 Home/Pro SV2
+Office Version: Office 365 (Optional)",,,"/: No Data
+No Data
+Details: Descriptions"
+27,EVT_v1.1 (11/29pedding),APX27,MB Ver.: 1,"stage: Planning：2023/05/03-2023/05/09
+Kick-off：2023/05/11
+EVT：2023/05/15-2023/12/M
+DVT：N/A
+Est. PVT：2023/10/24-2023/12/21
+Pilot run：2023/12/06-2024/01/10
+MP：",Owner: Jasper,"Product Form: Thin Mini ITX Motherboard
+Dimensions: 170.0 * 170.0mm (Only MB Size)
+Color: Black
+Rotation Angle: No Data
+Weight: 200g","Resolution: No Data
+CPU: AMD Zen4, AMD Phoenix U, Ryzen™ 5 7440U (6C/12T, 4.9GHz/3.2GHz, TDP: 15W~30W)
+AMD Zen4, AMD Phoenix U, Ryzen™ 5 7640U (6C/12T, 4.9GHz/3.5GHz, TDP: 15W~30W)
+AMD Zen4, AMD Phoenix U, Ryzen™ 7 7840U (8C/16T, 5.1GHz/3.3GHz, TDP: 15W~30W)
+AMD Zen4, AMD Phoenix H, Ryzen™ 5 7640HS (6C/12T, 5.0GHz/4.3GHz, TDP: 35W~54W)
+AMD Zen4, AMD Phoenix H ,Ryzen™ 7 7840HS (8C/16T, 5.1GHz/3.8GHz, TDP: 35W~54W)
+AMD Zen4, AMD Phoenix H, Ryzen™ 9 7940HS (8C/16T, 5.2GHz/4.0GHz, TDP: 35W~54W)",,,,,"Keyboard: No Data
+Touchpad: No Data
+G Sensor: 1* Digital Three-Axis Accelerometer(MXC6655XA)",,"Touchpad: No Data
+G Sensor: 1* Digital Three-Axis Accelerometer(MXC6655XA)
+Face Recognition: No Data",,,,"CPU: AMD Zen4, AMD Phoenix U, Ryzen™ 5 7440U (6C/12T, 4.9GHz/3.2GHz, TDP: 15W~30W)
+AMD Zen4, AMD Phoenix U, Ryzen™ 5 7640U (6C/12T, 4.9GHz/3.5GHz, TDP: 15W~30W)
+AMD Zen4, AMD Phoenix U, Ryzen™ 7 7840U (8C/16T, 5.1GHz/3.3GHz, TDP: 15W~30W)
+AMD Zen4, AMD Phoenix H, Ryzen™ 5 7640HS (6C/12T, 5.0GHz/4.3GHz, TDP: 35W~54W)
+AMD Zen4, AMD Phoenix H ,Ryzen™ 7 7840HS (8C/16T, 5.1GHz/3.8GHz, TDP: 35W~54W)
+AMD Zen4, AMD Phoenix H, Ryzen™ 9 7940HS (8C/16T, 5.2GHz/4.0GHz, TDP: 35W~54W)
+GPU: AMD Radeon™  Graphics
+CHIP: No Data","GPU: AMD Radeon™  Graphics
+CHIP: No Data","VRAM: No Data
+RAM: Dual channel memory architecture, 2* SO-DIMM DDR5 5600MT/s, up to 8GB/16GB/32GB/64GB
+SSD/HDD/eMMC: 1* M.2 2280 PCIe G4(Lane 4)/NVMe  SSD, 128GB/256GB/512GB/1TB
+2* SATA Gen1/Gen2/Gen3, 6Gb/s ports, support eSATA, mSATA, FIS-based Switching, ZPODD
+*Need to add PCIE to SATA bridge to support 2* SATA ports",,"SSD/HDD/eMMC: 1* M.2 2280 PCIe G4(Lane 4)/NVMe  SSD, 128GB/256GB/512GB/1TB","1* M.2 slot (Key E)_WIFI, type 2230",Thermal Solution: No Data,"Trusted Platform Module: Option1：Implemented in system firmware, fTPM2.0 (firmware TPM)
+Option2：Hardware chip on the MB, dTPM 2.0 (discrete TPM)",,"WIFI: Optional 1：6222M-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on module (Major Chipset – RTL8822CE-CG)
+Optional 2：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset – RTL8852BE-CG)
+Optional 3：6222C-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on board (Major Chipset – RTL8822CE-CG)
+Optional 4：6252C-PUB(FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –  RTL8852BE-CG)
+Adapter: DC φ5.5mm  65W/19V (for U series)
+DC φ5.5mm  90W/19V (for H series)","Ethernet Network: 1* RJ45, Giga LAN 10/100/1000Mbps",,"WIFI: Optional 1：6222M-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on module (Major Chipset – RTL8822CE-CG)
+Optional 2：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset – RTL8852BE-CG)
+Optional 3：6222C-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on board (Major Chipset – RTL8822CE-CG)
+Optional 4：6252C-PUB(FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –  RTL8852BE-CG)
+Adapter: DC φ5.5mm  65W/19V (for U series)
+DC φ5.5mm  90W/19V (for H series)","Operating system: Windows 11 Home/Pro SV2
+Office Version: Office 365 (Optional)",,,"/: No Data
+No Data
+Details: Descriptions"
+27,MP_V1.0,AB27V,MB Ver.: 1,"stage: Planning：2023/07/06-2023/10/24
+Kick-off：
+EVT：
+DVT：
+PVT：
+Pilot run：
+MP：",Owner: Jasper,"Product Form: Thin Mini ITX Motherboard
+Dimensions: 170.0 * 170.0mm (Only MB Size)
+Color: Black
+Rotation Angle: No Data
+Weight: 200g","Resolution: No Data
+CPU: AMD  Zen 3, AMD Cezanne, Ryzen™ 3 5400U (4C/8T,4.0GHz/2.6GHz,TDP:15W)
+AMD  Zen 3, AMD Cezanne, Ryzen™ 5 5600U (6C/12T,4.2GHz/2.3GHz,TDP:15W)
+AMD  Zen 3, AMD Cezanne, Ryzen™ 7 5800U (8C/16T,4.4GHz/1.9GHz,TDP:15W)
+AMD  Zen 3, AMD Bacelo , Ryzen™ 3 5425U (4C/8T,4.1GHz/2.7GHz,TDP:15W)
+AMD  Zen 3, AMD Bacelo , Ryzen™ 5 5625U (6C/12T,4.3GHz/2.3GHz,TDP:15W)
+AMD  Zen 3, AMD Bacelo , Ryzen™ 7 5825U (8C/16T,4.5GHz/2.0GHz,TDP:15W)
+AMD  Zen 3, AMD Bacelo Refresh , Ryzen™ 3 7330U (4C/8T,4.3GHz/2.3GHz,TDP:15W)
+AMD  Zen 3, AMD Bacelo Refresh , Ryzen™ 5 7530U (6C/12T,4.5GHz/2.0GHz,TDP:15W)
+AMD  Zen 3, AMD Bacelo Refresh , Ryzen™ 7 7730U (8C/16T,4.5GHz/2.0GHz,TDP:15W)
+AMD Ryzen H Serise (TDP 35W)  Optoinal",,,,,"Keyboard: No Data
+Touchpad: No Data
+G Sensor: 1* Digital Three-Axis Accelerometer(MXC6655XA)",,"Touchpad: No Data
+G Sensor: 1* Digital Three-Axis Accelerometer(MXC6655XA)
+Face Recognition: No Data",,,,"CPU: AMD  Zen 3, AMD Cezanne, Ryzen™ 3 5400U (4C/8T,4.0GHz/2.6GHz,TDP:15W)
+AMD  Zen 3, AMD Cezanne, Ryzen™ 5 5600U (6C/12T,4.2GHz/2.3GHz,TDP:15W)
+AMD  Zen 3, AMD Cezanne, Ryzen™ 7 5800U (8C/16T,4.4GHz/1.9GHz,TDP:15W)
+AMD  Zen 3, AMD Bacelo , Ryzen™ 3 5425U (4C/8T,4.1GHz/2.7GHz,TDP:15W)
+AMD  Zen 3, AMD Bacelo , Ryzen™ 5 5625U (6C/12T,4.3GHz/2.3GHz,TDP:15W)
+AMD  Zen 3, AMD Bacelo , Ryzen™ 7 5825U (8C/16T,4.5GHz/2.0GHz,TDP:15W)
+AMD  Zen 3, AMD Bacelo Refresh , Ryzen™ 3 7330U (4C/8T,4.3GHz/2.3GHz,TDP:15W)
+AMD  Zen 3, AMD Bacelo Refresh , Ryzen™ 5 7530U (6C/12T,4.5GHz/2.0GHz,TDP:15W)
+AMD  Zen 3, AMD Bacelo Refresh , Ryzen™ 7 7730U (8C/16T,4.5GHz/2.0GHz,TDP:15W)
+AMD Ryzen H Serise (TDP 35W)  Optoinal
+GPU: AMD Radeon™  Graphics
+CHIP: No Data","GPU: AMD Radeon™  Graphics
+CHIP: No Data","VRAM: No Data
+RAM: 2* SO-DIMM DDR4 3200MT/s, up to 4GB/8GB/16GB/32GB/64GB
+SSD/HDD/eMMC: 1* M.2 2280 PCIe G3(Lane 2)/NVMe  SSD, 128GB/256GB/512GB/1TB
+2* SATA Gen1/Gen2/Gen3, 6Gb/s ports, support eSATA, mSATA, FIS-based Switching, ZPODD",,"SSD/HDD/eMMC: 1* M.2 2280 PCIe G3(Lane 2)/NVMe  SSD, 128GB/256GB/512GB/1TB","1* M.2 slot (Key E)_WIFI, type 2230",Thermal Solution: No Data,"Trusted Platform Module: Option1：Implemented in system firmware, fTPM2.0 (firmware TPM)
+Option2：Hardware chip on the MB, dTPM 2.0 (discrete TPM)",,"WIFI: Optional 1：6222M-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on module (Major Chipset – RTL8822CE-CG)
+Optional 2：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset – RTL8852BE-CG)
+Optional 3：6222C-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on board (Major Chipset – RTL8822CE-CG)
+Optional 4：6252C-PUB(FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –  RTL8852BE-CG)
+Adapter: DC φ5.5mm  65W/19V","Ethernet Network: 1* RJ45, Giga LAN 10/100/1000Mbps",,"WIFI: Optional 1：6222M-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on module (Major Chipset – RTL8822CE-CG)
+Optional 2：6252M-PUB (FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on module (Major Chipset – RTL8852BE-CG)
+Optional 3：6222C-PUC (FN-LINK)_Wifi 5 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.0, on board (Major Chipset – RTL8822CE-CG)
+Optional 4：6252C-PUB(FN-LINK)_WiFi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –  RTL8852BE-CG)
+Adapter: DC φ5.5mm  65W/19V","Operating system: Windows 11 Home/Pro SV2
+Office Version: Office 365 (Optional)",,,"/: No Data
+No Data
+Details: Descriptions"

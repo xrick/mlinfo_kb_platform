@@ -1,3 +1,4 @@
+# utils/chunking_data_single_collection.py
 # chunking_data_20250902.py
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
@@ -15,8 +16,8 @@ sys.path.append("../")
 from libs.chunk_utils.chunking.semantic_chunking.semantic_chunking_engine import SemanticChunkingEngine
 
 # --- Configuration ---
-DUCKDB_FILE = "../db/all_nbinfo_v3.db"
-MILVUS_COLLECTION_NAME = "semantic_nb_spec_250921_utf8"#"product_semantic_chunks"
+DUCKDB_FILE = "../db/all_nbinfo_v4.db"
+MILVUS_COLLECTION_NAME = "semantic_nb_spec_20250924_utf8"#"product_semantic_chunks"
 MILVUS_HOST = "localhost"
 MILVUS_PORT = "19530"
 EMBEDDING_DIM = 384  # Based on the paraphrase-multilingual-MiniLM-L12-v2 model

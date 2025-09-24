@@ -1,3 +1,4 @@
+# utils/combineCSV.py
 #!/usr/bin/env python3
 """
 combineCSV.py - Combine CSV files into a single file
@@ -17,8 +18,8 @@ def combine_csv_files():
     Combine all CSV files from the source directory into a single output file.
     """
     # Define paths
-    source_dir = "data/raw/EM_New TTL_241104_AllModelsParsed"
-    output_file = "all_nbinfo_v3.csv"
+    source_dir = "data/raw/EM_New TTL_241104_AllModelsReparsed_20250924"
+    output_file = "all_nbinfo_v4_20250924.csv"
 
     # Get current script directory and project root
     script_dir = Path(__file__).parent

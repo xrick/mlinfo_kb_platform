@@ -1,0 +1,62 @@
+modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+AC01,MP_v1.1,AC01,MB Ver.: v1.0,"stage: Planning：
+Kick-off：
+EVT：
+DVT：
+PVT：
+Pilot run：
+Owner: Jasper",Owner: Jasper,"Product Form: Mini PC Box
+Dimensions: 179.5 * 179.5 * 34.4mm
+Rotation Angle: No Data
+Weight: 1845 g
+Material: Metal, PC+ABS","Resolution: No Data
+CPU: AMD Zen2,  AMD Renoir H Series, TDP: 45W",,"USB Type A: 1* USB2.0 Hi-Speed (front)
+2* USB2.0 Hi-Speed (Rear)
+2* USB3.2 Gen1, Super Speed USB 5Gpps (Rear)
+USB Type C: 2* USB2.0 Hi-Speed
+HDMI Interface: 1* HDMI 1.4 Type A
+Displayport Interface: 1* Displayport 1.4
+VGA Interface: 1* VGA
+Card Slot: No Data
+Sim Card: N/A
+Headphone Jack: 1* φ 3.5mm headphone jack (on DB)
+Microphone Jack: 1* φ 3.5mm MIC (on DB)
+DC Connector: 1* φ 5.5mm Power Connector
+USB Interface: No Data",,,"Keyboard: USB、BT Expuntable Wired / Wireless Supportive
+Touchpad: No Data
+Face Recognition: No Data",,"Touchpad: No Data
+Face Recognition: No Data
+Voice Assistant: Cortana",,"Speaker: No Data
+Microphone: 1* φ 3.5mm D-MIC
+WIFI(onboard): Optional 1 : Wi-Fi 5 Dual-band 2T2R 802.11ac (2.4GHz/5GHz, 80Mhz) + Bluetooth 5.0, on module 
+Optional 2 : Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz, 160Mhz) + Bluetooth 5.2, on module",,"CPU: AMD Zen2,  AMD Renoir H Series, TDP: 45W
+AMD Ryzen™ 5 4600H_MP
+AMD Ryzen™ 7 4800H
+AMD Ryzen™ 9 4900H_PVT
+AMD Zen2,  AMD Cezanne H Series, TDP: 45W
+AMD Ryzen™ 7 5800H_MP
+AMD Zen2,  AMD Cezanne U Series, TDP: 15W
+AMD Ryzen™ 3 5400U_MP
+AMD Ryzen™ 5 5600U_MP
+AMD Ryzen™ 7 5800U
+AMD Zen2,  AMD Bacelo U Series, TDP: 15W
+AMD Ryzen™ 3 5425U
+AMD Ryzen™ 5 5625U
+AMD Ryzen™ 7 5825U
+AMD Zen2,  AMD Barcelo Refresh U Series, TDP: 15W
+AMD Ryzen™ 3  7330U
+AMD Ryzen™ 5 7530U
+AMD Ryzen™ 7  7730U
+GPU: AMD Radeon™ 610M Graphics",GPU: AMD Radeon™ 610M Graphics,"VRAM: No Data
+RAM: Dual channel memory architecture, 2* SO-DIMM DDR4 3200MT/s, up to 16GB/32GB
+SSD/HDD/eMMC: 2* M.2 2280 PCIe G3(Lane 4)/NVMe/SATA G3 SSD, 128GB/256GB/512GB/1TB
+USB Type A: 1* USB2.0 Hi-Speed (front)
+2* USB2.0 Hi-Speed (Rear)
+2* USB3.2 Gen1, Super Speed USB 5Gpps (Rear)",,"SSD/HDD/eMMC: 2* M.2 2280 PCIe G3(Lane 4)/NVMe/SATA G3 SSD, 128GB/256GB/512GB/1TB",,Thermal Solution: No Data,"TPM: Implemented in system firmware, fTPM2.0 (firmware TPM)",,"WIFI(onboard): Optional 1 : Wi-Fi 5 Dual-band 2T2R 802.11ac (2.4GHz/5GHz, 80Mhz) + Bluetooth 5.0, on module 
+Optional 2 : Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz, 160Mhz) + Bluetooth 5.2, on module
+Ethernet Network: 2* RJ45, Giga LAN 10/100/1000Mbps","Ethernet Network: 2* RJ45, Giga LAN 10/100/1000Mbps",4G/ LTE: No Data,"WIFI(onboard): Optional 1 : Wi-Fi 5 Dual-band 2T2R 802.11ac (2.4GHz/5GHz, 80Mhz) + Bluetooth 5.0, on module 
+Optional 2 : Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz, 160Mhz) + Bluetooth 5.2, on module
+Ethernet Network: 2* RJ45, Giga LAN 10/100/1000Mbps","Operating system version: Windows 11, SV2 (23H2)
+Office Version: Office 365 (Optional)",,,"by Customer define: No Data
+No Data
+Details: Descriptions"

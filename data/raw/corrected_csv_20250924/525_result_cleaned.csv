@@ -1,0 +1,294 @@
+modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+525,PVT_v1.2,AMD525,MB Ver.: v1.0?,"stage: Planning：N/A
+Kick-off：N/A
+EVT：N/A
+DVT：N/A
+PVT：N/A
+Pilot run：N/A
+MP：N/A",Owner: Jasper,"Form: Consumer Notebook
+Dimension: 333.0*221.5*19.7 mm (TBD)
+Material/Surface: A/B/C/D Cover：Plastic (Normal oil paiting)
+Hinge: 140 degree hinge
+Weight: 1477 g","Dimension: 14.1"" 16:9
+Resolution: 14.1"" 1920* 1080 FHD, 60Hz, Freesync",Form: No Data,"MB IO(Left): 1* φ3.5mm DC-IN port (MB)
+1* HDMI 1.4 Type A (on MB)
+2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (on MB)
+1* USB3.2 Gen2, Super Speed USB 10Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)
+1* D-MIC (MB)
+DB IO(Right): 1* Supportive Kensington Lock Type slot (DB)
+1* RJ45(RTL8111H), Giga LAN 10/100/1000Mbps (DB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (onDB)
+1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)
+1* φ3.5mm standard headphone Jack (DB)
+1* D-MIC (DB)","1x Power On/Off/Sleep: On with White light
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+1xWebcam: No Data
+2xSSD led: No Data
+1xCaps Lock: On with White light",Button: 1*on KB,"Back light: Default：Backlight KB (Single LED-White)
+Option1：Standard no backlight KB
+Matrix: US English Layout
+Others: Standard Full Size","Front: 1* 1.0MP(720P)
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C
+Size: 106* 70 mm
+Feature: multi-touch support, gestures and scroll function","Location: 1x on Touchpad
+Interface type: USB, Security level 2 - FT9368
+Windows Hello: support Windows Hello","Speaker: 2* Built-in Speaker ( 2* 8Ω/1W)
+Mic: 1* Built-in digital microphone (on MB)
+1* Built-in digital microphone (on DB)
+Others: No Data","Type: Lithium-ion polymer battery
+Capacity: 1* 51Wh, 11.4V/4500mAh, 3S1P,Dump battery
+Certification: CB,MSDS,UN38.3, Airflight transportation report
+Life: 10 -12 Hours","Module: AMD Zen2,  AMD Mendocino U Series, TDP 15W
+Athlon™Gold 7220U (2C/4T, 3.7GHz/2.4GHz, TDP: 15W)
+Ryzen™ 3 7320U (4C/8T, 4.1GHz/2.4GHz, TDP: 15W)
+Ryzen™ 5 7520U (4C/8T, 4.3GHz/2.8GHz, TDP: 15W)",Model: AMD Radeon™ 610M,"Memory: LPDDR5-5500Mhz (315B), up to 8G/16G
+Port: LCD connector optional
+Storage/ SSD: 1* M.2 2280 PCle G3 (Lane 2)/NVME SSD, up to 8TB (2* 1TB)
+Wifi: 1* WiFi 6 + BT5.2 (on board)",Port: LCD connector optional,"Storage/ SSD: 1* M.2 2280 PCle G3 (Lane 2)/NVME SSD, up to 8TB (2* 1TB)",,,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: No Data,"Wifi: 1* WiFi 6 + BT5.2 (on board)
+SD Card: 1* Micro SD Card, USB2.0 protocal",DB IO(Right): 1* Supportive Kensington Lock Type slot (DB),LTE: No Data,"1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light","System: Windows 11, SV2 (23H2)
+Language Support: Support multi Language",,"Standard Configuration: 1* 65W, AC in 100/240V,50/60Hz, DC output 19V /3.42A (U Series)","Safety: No Data
+No Data"
+525,PVT_v1.2,AMD525,MB Ver.: v1.0?,"stage: Planning：N/A
+Kick-off：N/A
+EVT：N/A
+DVT：N/A
+PVT：N/A
+Pilot run：N/A
+MP：N/A",Owner: Jasper,"Form: Consumer Notebook
+Dimension: 333.0*221.5*19.7 mm (TBD)
+Material/Surface: A/B/C/D Cover：Plastic (Normal oil paiting)
+Hinge: 140 degree hinge
+Weight: 1477 g (TBD)","Dimension: 14.1"" 16:9
+Resolution: 14.1"" 1920* 1080 FHD, 60Hz, Freesync",Form: No Data,"MB IO(Left): 1* φ3.5mm DC-IN port (MB)
+1* HDMI 1.4 Type A (on MB)
+2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (on MB)
+1* USB3.2 Gen2, Super Speed USB 10Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)
+1* D-MIC (MB)
+DB IO(Right): 1* Supportive Kensington Lock Type slot (DB)
+1* RJ45(RTL8111H), Giga LAN 10/100/1000Mbps (DB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (onDB)
+1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)
+1* φ3.5mm standard headphone Jack (DB)
+1* D-MIC (DB)","1x Power On/Off/Sleep: On with White light
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+1xWebcam: No Data
+2xSSD led: No Data
+1xCaps Lock: On with White light",Button: 1*on KB,"Back light: Default：Backlight KB (Single LED-White)
+Option1：Standard no backlight KB
+Matrix: US English Layout
+Others: Standard Full Size","Front: 1* 1.0MP(720P)
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C
+Size: 106* 65 mm
+Feature: multi-touch support, gestures and scroll function","Location: 1x on Touchpad
+Interface type: USB, Security level 2 - FT9368
+Windows Hello: support Windows Hello","Speaker: 2* Built-in Speaker ( 2* 8Ω/1W)
+Mic: 1* Built-in digital microphone (on MB)
+1* Built-in digital microphone (on DB)
+Others: No Data","Type: Lithium-ion polymer battery
+Capacity: 1* 51Wh, 11.4V/4500mAh, 3S1P,Dump battery
+Certification: CB,MSDS,UN38.3, Airflight transportation report
+Life: 10 -12 Hours","Module: AMD Zen2,  AMD Mendocino U Series, TDP 15W
+Athlon™Gold 7220U (2C/4T, 3.7GHz/2.4GHz, TDP: 15W)
+Ryzen™ 3 7320U (4C/8T, 4.1GHz/2.4GHz, TDP: 15W)
+Ryzen™ 5 7520U (4C/8T, 4.3GHz/2.8GHz, TDP: 15W)",Model: AMD Radeon™ 610M,"Memory: LPDDR5-5500Mhz (315B), up to 8G/16G
+Port: LCD connector optional
+Storage/ SSD: 1* M.2 2280 PCle G3 (Lane 2)/NVME SSD, up to 8TB (2* 1TB)
+Wifi: 1* WiFi 6 + BT5.2 (on board)",Port: LCD connector optional,"Storage/ SSD: 1* M.2 2280 PCle G3 (Lane 2)/NVME SSD, up to 8TB (2* 1TB)",,,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: No Data,"Wifi: 1* WiFi 6 + BT5.2 (on board)
+SD Card: 1* Micro SD Card, USB2.0 protocal",DB IO(Right): 1* Supportive Kensington Lock Type slot (DB),LTE: No Data,"1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light","System: Windows 11, SV2 (23H2)
+Language Support: Support multi Language",,"Standard Configuration: 1* 65W, AC in 100/240V,50/60Hz, DC output 19V /3.42A (U Series)","Safety: No Data
+No Data"
+525,PVT_v1.2,AMD525,MB Ver.: v1.0?,"stage: Planning：N/A
+Kick-off： 2022/07/14
+EVT：2022/07/15-2022/12/22
+DVT：N/A
+PVT：2022/12/22-2023/05/05
+Pilot run：N/A
+MP：N/A",Owner: Jasper,"Form: Consumer Notebook
+Dimension: 333.0*221.5*19.7 mm (TBD)
+Material/Surface: A/B/C/D Cover：Plastic (Normal oil paiting)
+Hinge: 140 degree hinge
+Weight: 1757 g","Dimension: 15.6"" 16:9
+Resolution: 15.6"" 1920* 1080 FHD, 60Hz",Form: No Data,"MB IO(Left): 1* φ3.5mm DC-IN port (MB)
+1* HDMI 1.4 Type A (on MB)
+2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (on MB)
+1* USB3.2 Gen2, Super Speed USB 10Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)
+1* D-MIC (MB)
+DB IO(Right): 1* Supportive Kensington Lock Type slot (DB)
+1* RJ45(RTL8111H), Giga LAN 10/100/1000Mbps (DB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps,  Type-C (on MB)
+1* φ3.5mm standard headphone Jack (DB)
+1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)","1x Power On/Off/Sleep: On with White light
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+1xWebcam: No Data
+2xSSD led: No Data
+1xCaps Lock: On with White light",Button: 1*on KB,"Back light: Default：Backlight KB (Single LED-White)
+Option1：Standard no backlight KB
+Matrix: US English Layout
+Others: Standard Full Size","Front: 1* 1.0MP(720P)
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C
+Size: 118* 78.1 mm
+Feature: multi-touch support, gestures and scroll function","Location: 1x on Touchpad
+Interface type: USB, Security level 2 - FT9368
+Windows Hello: support Windows Hello","Speaker: 2* Built-in Speaker ( 2* 8Ω/1W)
+Mic: 1* Built-in digital microphone (on MB)
+1* Built-in digital microphone (on DB)
+Others: No Data","Type: Lithium-ion polymer battery
+Capacity: 1* 51Wh, 11.4V/4500mAh, 3S1P,Dump battery
+Certification: CB,MSDS,UN38.3, Airflight transportation report
+Life: 10 -12 Hours","Module: AMD Zen2,  AMD Mendocino U Series, TDP 15W
+Athlon™Gold 7220U (2C/4T, 3.7GHz/2.4GHz, TDP: 15W)
+Ryzen™ 3 7320U (4C/8T, 4.1GHz/2.4GHz, TDP: 15W)
+Ryzen™ 5 7520U (4C/8T, 4.3GHz/2.8GHz, TDP: 15W)",Model: AMD Radeon™ 610M,"Memory: LPDDR5-5500Mhz (315B), up to 8G/16G
+Port: LCD connector optional
+Storage/ SSD: 1* M.2 2280 PCle G3 (Lane 2)/NVME SSD, up to 8TB (on MB)
+Wifi: 1* WiFi 6 + BT5.2 (on board)",Port: LCD connector optional,"Storage/ SSD: 1* M.2 2280 PCle G3 (Lane 2)/NVME SSD, up to 8TB (on MB)",,,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: No Data,"Wifi: 1* WiFi 6 + BT5.2 (on board)
+SD Card: 1* Micro SD Card, USB2.0 protocal",DB IO(Right): 1* Supportive Kensington Lock Type slot (DB),LTE: No Data,"1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with Green light
+Off with no light","System: Windows 11, SV2 (23H2)
+Language Support: Support multi Language",,"Standard Configuration: 1* 65W, AC in 100/240V,50/60Hz, DC output 19V /3.42A (U Series)","Safety: No Data
+No Data"
+525,PVT_v1.1,AL525,MB Ver.: v1.0?,"stage: Planning：N/A
+Kick-off：N/A
+EVT：N/A
+DVT：N/A
+PVT：N/A
+Pilot run：N/A
+MP：N/A",Owner: HPCN_陳曦志,"Form: Consumer Notebook
+Dimension: 323.80*218.73*22.05 mm(for reference)
+Material/Surface: A/B/C/D Cover：Plastic (Normal oil paiting)
+Hinge: 180 degree hinge
+Weight: 1.7 Kg","Dimension: 14.1"" 16:9
+Resolution: 14.1"" 1920* 1080 FHD, 220cd/m2, 60Hz, Freesync",Form: No Data,"MB IO(Left): 1* Supportive Kensington Lock Type slot
+1* φ3.5mm DC-IN port (MB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)
+1* HDMI 1.4 Type A (on MB)
+Default：1* USB3.2 Gen1, Super Speed USB 5Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4), Type-C (on MB)
+Option1：1* USB3.2 Gen2, Super Speed USB 10Gbps, Data only, Type-C (on MB)
+DB IO(Right): 1* RJ45(RTL8111H), Giga LAN 10/100/1000Mbps (DB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)
+1* USB2.0, Hi-speed, Type A (onDB)
+1* φ3.5mm standard headphone Jack (DB)
+1* USB3.2 Gen2, Super Speed USB 10Gbps, Data only, Type-C (on MB)
+1*SIM card slot (Optional) (DB)","1x Power On/Off/Sleep: On with yellow-green light
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with yellow-green light
+1xWebcam: No Data
+2xSSD led: No Data
+1xCaps Lock: On with yellow-green light",Button: 1*on KB,"Back light: Default：Backlight KB (Single LED-White)
+Option1：Standard no backlight KB
+Matrix: US English Layout
+Others: Standard Full Size","Front: Default：1* 1.0MP (720P) 
+Option1：1* 2.0MP (1080P)
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C
+Size: 118* 78.1 mm
+Feature: multi-touch support, gestures and scroll function","Location: Default：N/A
+Option1：1x on Touchpad
+Interface type: USB, Security level 2 - FT9368
+Windows Hello: support Windows Hello","Speaker: 2* Built-in Speaker ( 2* 8Ω/1W)
+Mic: 2* Built-in digital microphone (on MB)
+Others: No Data","Type: Lithium-ion polymer battery
+Capacity: 1* 51Wh, 11.4V/4500mAh, UTL, U51961PV-3S1P,Dump battery
+Certification: CB,MSDS,UN38.3, Airflight transportation report
+Life: 6 Hours(depends on the actual test standard)","Module: AMD Zen2,  AMD Lucienne U Series, TDP 15W
+Ryzen™ 5 5500U (6C/12T, 4.0GHz/2.1GHz, TDP: 10~25W) main
+Ryzen™ 7 5700U (8C/16T, 4.3GHz/1.8GHz, TDP: 10~25W)
+No Data",Model: AMD Radeon™ Graphics,"Memory: 2* SO-DIMM DDR4 up to 3200MT/s, up to 64G
+Port: LCD connector
+Storage/ SSD: Default: 1* M.2 2280 PCle G3 (Lane 2)/SATA SSD, up to 8TB (on MB,choice by SMT) + 1x SM.2 2280 SATA SSD(on DB) 
+Option 1: M.2 2280 PCle G3 (Lane 2)/SATA SSD, up to 8TB (on MB,choice by SMT)
+Wifi: Default：1* WiFi 6 + BT5.2 (on board)",Port: LCD connector,"Storage/ SSD: Default: 1* M.2 2280 PCle G3 (Lane 2)/SATA SSD, up to 8TB (on MB,choice by SMT) + 1x SM.2 2280 SATA SSD(on DB) 
+Option 1: M.2 2280 PCle G3 (Lane 2)/SATA SSD, up to 8TB (on MB,choice by SMT)",,,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: No Data,"Wifi: Default：1* WiFi 6 + BT5.2 (on board)
+SD Card: 1* Micro SD Card, USB2.0 protocal","DB IO(Right): 1* RJ45(RTL8111H), Giga LAN 10/100/1000Mbps (DB)","LTE: Optional (shares the interface location with the second SATA SSD, could choice SATA SSD or LTE function)","1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with yellow-green light
+Off with no light","System: Windows 11 Pro Education
+Language Support: Support multi Language",,"Standard Configuration: 1* 65W, US standard adaptor, AC in 100/240V,50/60Hz, DC output 19V /3.42A (JHD-JHD-AD065B143)","Safety: No Data
+No Data"
+525,PVT_v1.0,AL525_Education,MB Ver.: v1.0?,"stage: Planning：N/A
+Kick-off：N/A
+EVT：N/A
+DVT：N/A
+PVT：N/A
+Pilot run：N/A
+MP：N/A",Owner: HPCN_陳曦志,"Form: Consumer Notebook
+Dimension: 328.4 x 224.5 x 22.85 mm (TBD)
+Material/Surface: A case - Plastic with customized logo: HONGDA TCF
+B,C,D case - Plastic
+Hinge: 180 degree hinge
+Weight: 1.6 Kg","Dimension: 14.1"" 16:9
+Resolution: 1366 x 768 (TN), 200nits, Anti-Glare LED-Backlit
+(KD140N17-30NH-A002)",Form: No Data,"MB IO(Left): 1* Supportive Kensington Lock Type slot
+1* φ3.5mm DC-IN port (MB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)
+1* HDMI 1.4 Type A (on MB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4), Type-C (on MB)
+DB IO(Right): 1* RJ45(RTL8111H), Giga LAN 10/100/1000Mbps (DB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (onDB)
+1* φ3.5mm standard headphone Jack (DB)
+1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)
+No Data","1x Power On/Off/Sleep: On with yellow-green light
+Off with no light
+Sleep with breathing light
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with yellow-green light
+1xWebcam: No Data
+2xSSD led: No Data
+1xCaps Lock: On with yellow-green light",Button: 1*on KB,"Back light: No Backlight
+Matrix: US English Layout
+Others: Standard Full Size","Front: 1* 2.0MP(1080P)
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C
+Size: 106* 65 mm
+Feature: multi-touch support, gestures and scroll function","Location: Default：N/A
+Interface type: USB, Security level 2 - FT9368
+Windows Hello: support Windows Hello","Speaker: 2* Built-in Speaker ( 2* 4Ω/2W)
+Mic: 2* Built-in digital microphone (on MB)
+Others: No Data","Type: Lithium-ion polymer battery
+Capacity: 1* 51Wh, 11.4V/4500mAh, UTL, U51961PV-3S1P,Dump battery
+Certification: CB,MSDS,UN38.3, Airflight transportation report
+Life: 6 Hours(depends on the actual test standard)","Module: AMD Zen2,  AMD Lucienne U Series, TDP 15W
+Ryzen™ 5 5500U (6C/12T, 4.0GHz/2.1GHz, TDP: 10~25W) main
+Ryzen™ 7 5700U (8C/16T, 4.3GHz/1.8GHz, TDP: 10~25W)
+No Data",Model: AMD Radeon™ Graphics,"Memory: 2* SO-DIMM DDR4 up to 3200MT/s, up to 8G/16G/32G(8G-Adata，CBDAD4S32008G22-BGN)
+Port: LCD connector optional
+Storage/ SSD: Default: 1* M.2 2280 PCle G3 (Lane 2)/NVME SSD, up to 8TB (on MB)(512G-Rayson-RSMS310A4CT11-512G) + 1x SATA for SSD(on DB) 
+Option 1: 1* M.2 2280 PCle G3 (Lane 2)/NVME SSD, up to 8TB (on MB)(512G-Rayson-RSMS310A4CT11-512G)
+Wifi: Default：1* WiFi 6 + BT5.2 (on board)",Port: LCD connector optional,"Storage/ SSD: Default: 1* M.2 2280 PCle G3 (Lane 2)/NVME SSD, up to 8TB (on MB)(512G-Rayson-RSMS310A4CT11-512G) + 1x SATA for SSD(on DB) 
+Option 1: 1* M.2 2280 PCle G3 (Lane 2)/NVME SSD, up to 8TB (on MB)(512G-Rayson-RSMS310A4CT11-512G)",,,"interface Type: AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)",RTC Connector: No Data,"Wifi: Default：1* WiFi 6 + BT5.2 (on board)
+SD Card: 1* Micro SD Card, USB2.0 protocal","DB IO(Right): 1* RJ45(RTL8111H), Giga LAN 10/100/1000Mbps (DB)",LTE: No Data,"1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with yellow-green light
+Off with no light","System: Windows 11 Pro Education
+Language Support: Support multi Language",,"Standard Configuration: 1* 65W, US standard adaptor, AC in 100/240V,50/60Hz, DC output 19V /3.42A (JHD-JHD-AD065B143)","Safety: No Data
+No Data"

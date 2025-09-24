@@ -1,0 +1,308 @@
+modeltype,version,modelname,mainboard,devtime,pm,structconfig,lcd,touchpanel,iointerface,ledind,powerbutton,keyboard,webcamera,touchpad,fingerprint,audio,battery,cpu,gpu,memory,lcdconnector,storage,wifislot,thermal,tpm,rtc,wireless,lan,lte,bluetooth,softwareconfig,ai,accessory,certifications
+938,MP_v1.0,APX938,MB Ver.: V2.0,"stage: Planning：2023/01/31-2023/02/24
+Kick-off：2023/03/01
+EVT：2023/03/03-2023/06/28
+DVT：2023/06/29-2023/10/24
+PVT：2023/06/29-2023/10/24
+Pilot run：N/A
+MP：2023/09/26-2023/11/3",Owner: Dillon/軍良,"Form: Commercial Notebook
+Dimension: 356* 246* 17.95mm
+Material/Surface: A/C/D Cover：Metal (Anodize), 
+B Cover：Mylar (Texture)
+Hinge: 140 degree hinge
+Weight: 1.75 kg","Dimension: 16.0"" 16:10
+Resolution: 16.0"" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC
+16.0"" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2",Form: No Data,"MB IO(Left): 1* φ3.5mm DC-IN port (MB)
+1* USB4.0, USB4 40Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)
+*100W charging based on full power adapter
+1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)
+1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)
+DB IO(Right): 1* Supportive Kensington Lock Type slot (DB)
+2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)
+1* φ3.5mm standard headphone Jack (DB)
+1* Camera shutter (DB)
+1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)
+MB IO(Rear): No Data","1x Power On/Off/Sleep: No Data
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with no light
+Off with no light
+1xWebcam  module: On with white light
+2xSSD led: No Data
+1xCaps Lock: On with white light",Button: Seperated Power button key(On DB),"Back light: Default：backlit KB (Single LED-White)
+Option1：no backlit KB
+Matrix: US/UK
+Others: 41* 110.6* 3.5 mm","Front: 1x 1.0MP(720P) Front, with MIC*2, LED
+*White LED on when camera is always turned off for privacy.
+Camera shutter (Privacy lock with Red LED on right side)
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C/ 10pin
+Size: 127±0.15* 89.5 ±0.15 mm
+Feature: multi-touch support, gestures and scroll function","Location: 1x on power button (Optional)
+Interface type: USB, Security level 3 - GF3258
+Windows Hello: support Windows Hello","Speaker: 4* Built-in Speaker ( 2* 4Ω/2W, 2* 8Ω/1W)
+Mic: 2* Built-in (dual) digital microphones on camera module
+Others: Support Realtek G4 AI solution","Type: Lithium-ion polymer battery
+Capacity: 1* 57.75Wh, 15.4V/3750mAh, 4S1P, Smart battery
+Certification: CB,MSDS,UN38.3, Airflight transportation report
+Life: 8 Hours (depends on panel)","Module: AMD Zen4,  AMD Phoenix HS Series, TDP: 45W
+Ryzen™ 5 7640HS (6C/12T, 5.0GHz/4.3GHz, TDP: 35W~54W)
+Ryzen™ 7 7840HS (8C/16T, 5.1GHz/3.8GHz, TDP: 35W~54W)Main
+Ryzen™ 9 7940HS (8C/16T, 5.2GHz/4.0GHz, TDP: 35W~54W)","Model: AMD Radeon™ 760M (R5 7640HS)
+AMD Radeon™ 780M (R7 7840HS/R9 7940HS)","RAM: 2* DDR5 SO-DIMM , up to 64GB DDR5 5600MHz(2x16G)
+Port: LCD connector optional
+SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2x 256GB)
+Wifi: Default：1* WiFi 6E + BT5.3 (on board)
+Optional 1：1* WiFi 6 + BT5.2 (on board)",Port: LCD connector optional,"SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2x 256GB)",,"TDP: Only for 玄派
+Battery：15W, < 31dB
+Human：40W, 40dB
+Beast：54W, 45dB","interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep
+Alternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)
+Others: Support Airplane mode (SW)",RJ45: No Data,LTE: No Data,"1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with no light
+Off with no light","System: Windows11 SV2(23H2), Support Modern Standby
+All functions should be compatible on Win11 & Linux OS
+Language Support: Support multi Language","MEP
+(need OEM get approval from Microsoft): No Data
+No Data
+Copilot
+(Support Region depends on Microsoft): No Data
+Large language model (License requirement): No Data
+Text to Image model (License requirement): No Data
+Image to Image model (License requirement): No Data","Standard Configuration: Default：1* 90Wh, AC in 100/240V,50/60Hz, DC output 19V/4.74A)
+Option1：1* 100W Type C (JD Ver.)","Safety: CCC( 玄派 Only)
+RoHS
+BSMI (CJS Only)"
+938,PVT_v1.4,ARB938,MB Ver.: V2.0,"stage: Planning：2023/01/31-2023/02/24
+Kick-off：2023/03/01
+EVT：2023/03/03-2023/06/28
+DVT：2023/06/29-2023/10/24
+PVT：2023/06/29-2024/04/E
+Pilot run：N/A
+MP：2024/05/E",Owner: Dillon/軍良,"Form: Commercial Notebook
+Dimension: 356* 246* 17.95mm
+Material/Surface: A/C/D Cover：Metal (Anodize), 
+B Cover：Mylar (Texture)
+Hinge: 140 degree hinge
+Weight: 1.75 kg","Dimension: 16.0"" 16:10
+Resolution: 16.0"" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC
+16.0"" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2",Form: No Data,"MB IO(Left): 1* φ3.5mm DC-IN port (MB)
+1* USB4.0, USB4 40Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)
+*100W charging based on full power adapter
+1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)
+1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)
+DB IO(Right): 1* Supportive Kensington Lock Type slot (DB)
+2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)
+1* φ3.5mm standard headphone Jack (DB)
+1* Camera shutter (DB)
+1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)
+MB IO(Rear): No Data","1x Power On/Off/Sleep: No Data
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with no light
+Off with no light
+1xWebcam  module: On with white light
+2xSSD led: No Data
+1xCaps Lock: On with white light",Button: Seperated Power button key(On DB),"Back light: Default：backlit KB (Single LED-White)
+Option1：no backlit KB
+Matrix: US/UK
+Others: 41* 110.6* 3.5 mm","Front: 1x 1.0MP(720P) Front, with MIC*2, LED
+*White LED on when camera is always turned off for privacy.
+Camera shutter (Privacy lock with Red LED on right side)
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C/ 10pin
+Size: 127±0.15* 89.5 ±0.15 mm
+Feature: multi-touch support, gestures and scroll function","Location: 1x on power button (Optional)
+Interface type: USB, Security level 3 - GF3258
+Windows Hello: support Windows Hello","Speaker: 4* Built-in Speaker ( 2* 4Ω/2W, 2* 8Ω/1W)
+Mic: 2* Built-in (dual) digital microphones on camera module
+Others: Support Realtek G4 AI solution","Type: Lithium-ion polymer battery
+Capacity: 1* 57.75Wh, 15.4V/3750mAh, 4S1P, Smart battery
+Certification: CB,MSDS,UN38.3, Airflight transportation report
+Life: 8 Hours (depends on panel)","Module: AMD Zen 3+, AMD Rembrandt Refresh HS Series, TDP: 45W
+Ryzen™ 5 7535HS (6C/12T, 4.55GHz/3.3GHz, TDP: 35-54W)
+Ryzen™ 7 7735HS (8C/16T, 4.75GHz/3.2GHz, TDP: 35-54W)
+No Data","Model: AMD Radeon™ 660M (R5 7535HS)
+AMD Radeon™ 680M (R7 7735HS)","RAM: 2* DDR5 SO-DIMM , up to 64GB DDR5 4800MHz(2x16G)
+Port: LCD connector optional
+SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2x 256GB)
+Wifi: Default：1* WiFi 6E + BT5.3 (on board)
+Optional 1：1* WiFi 6 + BT5.2 (on board)",Port: LCD connector optional,"SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB (2x 256GB)",,TDP: TDP 54W,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep
+Alternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)
+Others: Support Airplane mode (SW)",RJ45: No Data,LTE: No Data,"1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with no light
+Off with no light","System: Windows11 SV2(23H2), Support Modern Standby
+All functions should be compatible on Win11 & Linux OS
+Language Support: Support multi Language","MEP
+(need OEM get approval from Microsoft): Eye contact
+Background effect
+Support
+Copilot
+(Support Region depends on Microsoft): No Data
+Large language model (License requirement): No Data
+Text to Image model (License requirement): No Data
+Image to Image model (License requirement): No Data","Standard Configuration: Default：1* 90Wh, AC in 100/240V,50/60Hz, DC output 19V/4.74A)
+Option1：1* 100W Type C (JD Ver.)","Safety: No Data
+No Data"
+938,PVT_v1.0,AHP938U,MB Ver.: V2.0,"stage: Planning：2023/08/31-2023/09/01
+Kick-off： 2023/09/07
+EVT： 2023/09/18-2023/11/30
+DVT：N/A
+PVT：2023/11/28-2024/04/E
+Pilot run：N/A
+MP：2024/05/E",Owner: Dillon/軍良,"Form: Commercial Notebook
+Dimension: 356* 246* 17.95mm
+Material/Surface: A/C/D Cover：Metal (Anodize), 
+B Cover：Mylar (Texture)
+Hinge: 140 degree hinge
+Weight: 1.75 kg","Dimension: 16.0"" 16:10
+Resolution: 16.0"" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC
+16.0"" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2",Form: No Data,"MB IO(Left): 1* φ3.5mm DC-IN port (MB)
+1* USB4.0, USB4 40Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)
+*100W charging based on full power adapter
+1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)
+1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)
+DB IO(Right): 1* Supportive Kensington Lock Type slot (DB)
+2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)
+1* φ3.5mm standard headphone Jack (DB)
+1* Camera shutter (DB)
+1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)
+MB IO(Rear): No Data","1x Power On/Off/Sleep: No Data
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with no light
+Off with no light
+1xWebcam  module: On with white light
+2xSSD led: No Data
+1xCaps Lock: On with white light",Button: Seperated Power button key(On DB),"Back light: Default：backlit KB (Single LED-White)
+Option1：no backlit KB
+Matrix: US/UK
+Others: 41* 110.6* 3.5 mm","Front: 1x 1.0MP(720P) Front, with MIC*2, LED
+*White LED on when camera is always turned off for privacy.
+Camera shutter (Privacy lock with Red LED on right side)
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C/ 10pin
+Size: 127±0.15* 89.5 ±0.15 mm
+Feature: multi-touch support, gestures and scroll function","Location: 1x on power button (Optional)
+Interface type: USB, Security level 3 - GF3258
+Windows Hello: support Windows Hello","Speaker: 4* Built-in Speaker ( 2* 4Ω/2W, 2* 8Ω/1W)
+Mic: 2* Built-in (dual) digital microphones on camera module
+Others: Support Realtek G4 AI solution","Type: Lithium-ion polymer battery
+Capacity: 1* 57.75Wh, 15.4V/3750mAh, 4S1P, Smart battery
+Certification: CB,MSDS,UN38.3, Airflight transportation report
+Life: 8 Hours (depends on panel)","Module: AMD Zen4,  AMD Hawk Point HS Series, TDP: 45W
+Ryzen™ 5 8645HS (8C/16T, 5.2GHz/4.0GHz, TDP: 35W~54W)
+Ryzen™ 7 8845HS (8C/16T, 5.1GHz/3.8GHz, TDP: 35W~54W) Main
+Ryzen™ 9 8945HS (8C/16T, 5.0GHz/3.5GHz, TDP: 35W~54W)","Model: AMD Radeon™ Graphics
+No Data","RAM: 2* DDR5 SO-DIMM , up to 64GB DDR5 5600MHz(2x16G)
+Port: LCD connector optional
+SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB(2x 256GB)
+Wifi: Default：1* WiFi 6E + BT5.3 (on board)
+Optional 1：1* WiFi 6 + BT5.2 (on board)",Port: LCD connector optional,"SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB(2x 256GB)",,"TDP: Only for 玄派 
+AC mode
+封印模式(Battery)：15W, < 31dB
+戰鬥模式(Human)：40W, 40dB
+狂暴模式(Beast)：54W, 45dB
+DC mode
+封印模式(Battery)：APU 15W
+戰鬥模式(Human)：100%~40% APU 30W
+狂暴模式(Beast)：40%~0% APU 15W","interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep
+Alternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)
+Others: Support Airplane mode (SW)",RJ45: No Data,LTE: No Data,"1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with no light
+Off with no light","System: Windows11 SV2(23H2)
+Language Support: Support multi Language","MEP
+(need OEM get approval from Microsoft): Eye contact
+Background effect
+Support
+Copilot
+(Support Region depends on Microsoft): Support
+Large language model (License requirement): Support
+Text to Image model (License requirement): Support
+Image to Image model (License requirement): Support","Standard Configuration: Default：1* 90Wh, AC in 100/240V,50/60Hz, DC output 19V/4.74A)
+Option1：1* 100W Type C (JD Ver.)","Safety: No Data
+No Data"
+938,Planning_v0.1,AKK938,MB Ver.: V2.0,"stage: Planning：2024/06/11-2024/07/15
+Kick-off： 2024/07/15
+EVT： 2024/06/15-2024/09/15
+DVT：N/A
+PVT：2024/09/15-2025/01
+Pilot run：N/A
+MP：2024/07/15-2025/01/31",Owner: No Data,"Form: Commercial Notebook
+Dimension: 356* 246* 17.95mm
+Material/Surface: A/C/D Cover：Metal (Anodize), 
+B Cover：Mylar (Texture)
+Hinge: 140 degree hinge
+Weight: 1.75 kg","Dimension: 16.0"" 16:10
+Resolution: 16.0"" 1920* 1200 FHD, 60Hz, TFT LCD, 45%NTSC
+16.0"" 2560* 1600 QHD, 120Hz,TFT LCD, 100% sRGB, Freesync, PSR2",Form: No Data,"MB IO(Left): 1* φ3.5mm DC-IN port (MB)
+1* USB4.0, USB4 40Gbps, full function (100W Power Delivery, Data, DisplayPort 1.4) Type-C (on MB)
+*100W charging based on full power adapter
+1* HDMI 2.0 Type A (Support HDMI2.1TMDS_4K/60Hz)(MB)
+1* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (MB)
+1* USB3.2 Gen2, Super Speed USB 10Gbps, DP1.4/Data, Type C (MB)
+DB IO(Right): 1* Supportive Kensington Lock Type slot (DB)
+2* USB3.2 Gen1, Super Speed USB 5Gbps, Type A (DB)
+1* φ3.5mm standard headphone Jack (DB)
+1* Camera shutter (DB)
+1* Micro SD Card, support  SDSC, SDHC, SDXC up to 2TB(DB)
+MB IO(Rear): No Data","1x Power On/Off/Sleep: No Data
+1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with no light
+Off with no light
+1xWebcam  module: On with white light
+2xSSD led: No Data
+1xCaps Lock: On with white light",Button: Seperated Power button key(On DB),"Back light: Default：backlit KB (Single LED-White)
+Option1：no backlit KB
+Matrix: US/UK
+Others: 41* 110.6* 3.5 mm","Front: 1x 1.0MP(720P) Front, with MIC*2, LED
+*White LED on when camera is always turned off for privacy.
+Camera shutter (Privacy lock with Red LED on right side)
+Rear: No Data
+Windows Hello: Optional","Interface type: I2C/ 10pin
+Size: 127±0.15* 89.5 ±0.15 mm
+Feature: multi-touch support, gestures and scroll function","Location: 1x on power button (Optional)
+Interface type: USB, Security level 3 - GF3258
+Windows Hello: support Windows Hello","Speaker: 4* Built-in Speaker ( 2* 4Ω/2W, 2* 8Ω/1W)
+Mic: 2* Built-in (dual) digital microphones on camera module
+Others: Support Realtek G4 AI solution","Type: Lithium-ion polymer battery
+Capacity: 1* 57.75Wh, 15.4V/3750mAh, 4S1P, Smart battery
+Certification: CB,MSDS,UN38.3, Airflight transportation report
+Life: 8 Hours (depends on panel)","Module: AMD Zen4, AMD Krackan Series, TDP: 45W
+(80W for China market-TBC)
+Ryzen™ 5  TDP: 35W~54W)
+Ryzen™ 7 TDP: 35W~54W)
+Ryzen™ 9 TDP: 35W~54W)","Model: AMD Radeon™ Graphics
+No Data","RAM: 2* DDR5 SO-DIMM , up to 64GB DDR5 5600MHz(2x16G)
+Port: LCD connector optional
+SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB(2x 256GB)
+Wifi: Default：1* WiFi 6E + BT5.3 (on board)
+Optional 1：1* WiFi 6 + BT5.2 (on board)",Port: LCD connector optional,"SSD: 2* M.2 2280 PCle G4 (Lane 4)/NVME SSD, up to 8TB(2x 256GB)",,TDP: No Data,"interface Type: Default：AMD Pluton, Implemented in system firmware, fTPM2.0 (Firmware TPM)
+Option1：Hardware chip on the MB, dTPM 2.0 (Discrete TPM)",RTC Connector: Support,"Wifi Chip Model: Main：AW-XM514NF (AzureWave)_Wifi 6E Dual-band 2T2R 802.11ax (2.4GHz/5GHz/6GHz) + Bluetooth 5.3, on board (Major Chipset – MT7922A12L)_MP E/Sep
+Alternative：AW-XM548NF (AzureWave)_Wi-Fi 6 Dual-band 2T2R 802.11ax (2.4GHz/5GHz) + Bluetooth 5.2, on board (Major Chipset –RTL8852BE)
+Others: Support Airplane mode (SW)",RJ45: No Data,LTE: No Data,"1xWiFi/Bluetooth: No Data
+1xBattery/Charge: Charging with Red light
+Full-charged with no light
+Off with no light","System: Windows11 2024H2 (2024 updated) Copilot version
+All functions should be compatible on Win11 & Linux (driver only)
+Language Support: Support multi Language","MEP
+(need OEM get approval from Microsoft): Eye contact
+Background effect
+Support
+Copilot
+(Support Region depends on Microsoft): Support
+Large language model (License requirement): Support
+Text to Image model (License requirement): Support
+Image to Image model (License requirement): Support","Standard Configuration: Default：1* 90Wh, AC in 100/240V,50/60Hz, DC output 19V/4.74A)
+Option1：1* 100W Type C (JD Ver.)","Safety: No Data
+No Data"

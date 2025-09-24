@@ -1,3 +1,4 @@
+# utils/create_duckdb_from_csv.py
 import pandas as pd
 import os
 # import hashlib
@@ -14,7 +15,7 @@ import duckdb
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def gen_all_nbinfo_tb(csv_directory: str = 'data/raw/EM_New TTL_241104_AllModelsParsed_myprocessed', db_path: str = 'db/all_nbinfo_v3.db', collection_name: str = 'nbtypes_collection') -> bool:
+def gen_all_nbinfo_tb(csv_directory: str = '../data/raw/corrected_csv_20250924', db_path: str = '../db/all_nbinfo_v4.db', collection_name: str = 'nbtypes_collection') -> bool:
     """
     Creates a DuckDB database and loads all CSV files into a single table, plus manages Milvus collection.
     
@@ -24,7 +25,7 @@ def gen_all_nbinfo_tb(csv_directory: str = 'data/raw/EM_New TTL_241104_AllModels
     
     Args:
         csv_directory (str): Directory containing CSV files. Default: 'data/raw/EM_New TTL_241104_AllModelsParsed'
-        db_path (str): Path for the DuckDB database file. Default: 'all_nbinfo_v3.db'
+        db_path (str): Path for the DuckDB database file. Default: 'all_nbinfo_v4.db'
         collection_name (str): Name for Milvus collection. Default: 'nbtypes_collection'
     
     Returns:
@@ -67,6 +68,7 @@ def gen_all_nbinfo_tb(csv_directory: str = 'data/raw/EM_New TTL_241104_AllModels
         # Read and validate each CSV file
         for csv_file in csv_files:
             file_path = os.path.join(csv_directory, csv_file)
+            logger.info(f"Processing {csv_file}")
             
             # Security: Check file permissions
             if not os.access(file_path, os.R_OK):
@@ -162,13 +164,20 @@ def gen_all_nbinfo_tb(csv_directory: str = 'data/raw/EM_New TTL_241104_AllModels
             # Get table info for verification
             table_info = conn.execute("DESCRIBE nbtypes").fetchall()
             logger.info(f"Table schema created with {len(table_info)} columns")
+
+            conn.commit()
             return True
         except Exception as e:
             logger.error(f"Error creating DuckDB table: {str(e)}")
             return False
         finally:
+            
             conn.close()
             
     except Exception as e:
         logger.error(f"Unexpected error in gen_all_nbinfo_tb: {str(e)}")
         return False
+    
+
+if __name__ == "__main__":
+    gen_all_nbinfo_tb()
