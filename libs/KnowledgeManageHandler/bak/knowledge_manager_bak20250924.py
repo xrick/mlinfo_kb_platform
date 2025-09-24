@@ -1,3 +1,6 @@
+# libs/KnowledgeManageHandler/bak/knowledge_manager_bak20250924.py
+# libs/KnowledgeManageHandler/knowledge_manager_bak20250924.py
+# libs/KnowledgeManageHandler/knowledge_manager copy.py
 # libs/KnowledgeManageHandler/knowledge_manager.py
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
@@ -27,7 +30,7 @@ import re
 # Polars 相關導入
 try:
     # import polars as pl
-    from .polars_helper import PolarsHelper as pl
+    from ..polars_helper import PolarsHelper as pl
     POLARS_AVAILABLE = True
 except ImportError:
     POLARS_AVAILABLE = False
@@ -52,7 +55,7 @@ except ImportError:
 # Milvus 相關導入
 try:
     from pymilvus import connections, utility, Collection
-    from ..RAG.DB.MilvusQuery import MilvusQuery
+    from ...RAG.DB.MilvusQuery import MilvusQuery
     import config
     MILVUS_AVAILABLE = True
 except ImportError:
@@ -146,7 +149,7 @@ class KnowledgeManager:
     def _initialize_polars_helper(self):
         """初始化 Polars 輔助工具"""
         try:
-            from .polars_helper import PolarsHelper
+            from ..polars_helper import PolarsHelper
             self.polars_helper = PolarsHelper(self.polars_config)
             self.logger.info("Polars 輔助工具初始化成功")
         except ImportError:
@@ -1117,190 +1120,190 @@ class KnowledgeManager:
 
     # ==================== 遊戲筆電專用搜尋方法 ====================
     
-    # def query_specs_by_product_ids(self, product_ids: List[Union[int, str]]) -> Optional[List[Dict[str, Any]]]:
-    #     """
-    #     根據 product_id 清單查詢 DuckDB 中的詳細規格資料
+    def query_specs_by_product_ids(self, product_ids: List[Union[int, str]]) -> Optional[List[Dict[str, Any]]]:
+        """
+        根據 product_id 清單查詢 DuckDB 中的詳細規格資料
         
-    #     Args:
-    #         product_ids: 產品 ID 清單
+        Args:
+            product_ids: 產品 ID 清單
             
-    #     Returns:
-    #         規格資料清單
-    #     """
-    #     if not product_ids:
-    #         self.logger.warning("產品 ID 清單為空")
-    #         return None
+        Returns:
+            規格資料清單
+        """
+        if not product_ids:
+            self.logger.warning("產品 ID 清單為空")
+            return None
             
-    #     try:
-    #         # 轉換 product_id 為字串格式以便查詢
-    #         id_list = [str(pid) for pid in product_ids]
-    #         id_conditions = ','.join([f"'{pid}'" for pid in id_list])
+        try:
+            # 轉換 product_id 為字串格式以便查詢
+            id_list = [str(pid) for pid in product_ids]
+            id_conditions = ','.join([f"'{pid}'" for pid in id_list])
             
-    #         # 構建 Polars 查詢表達式（移除 CAST 操作）
-    #         query_expr = f"""
-    #         SELECT * FROM nbtypes 
-    #         WHERE modeltype IN ({id_conditions})
-    #         ORDER BY modeltype
-    #         """
+            # 構建 Polars 查詢表達式（移除 CAST 操作）
+            query_expr = f"""
+            SELECT * FROM nbtypes 
+            WHERE modeltype IN ({id_conditions})
+            ORDER BY modeltype
+            """
             
-    #         # 使用 Polars 查詢 DuckDB
-    #         if POLARS_AVAILABLE and self.polars_helper:
-    #             result = self.query_polars_data(
-    #                 data_source="semantic_sales_spec", 
-    #                 query_expr=query_expr,
-    #                 lazy=True,
-    #                 parallel=True
-    #             )
+            # 使用 Polars 查詢 DuckDB
+            if POLARS_AVAILABLE and self.polars_helper:
+                result = self.query_polars_data(
+                    data_source="semantic_sales_spec", 
+                    query_expr=query_expr,
+                    lazy=True,
+                    parallel=True
+                )
                 
-    #             if result and "data" in result:
-    #                 self.logger.info(f"成功查詢到 {len(result['data'])} 條產品規格資料")
-    #                 return result["data"]
+                if result and "data" in result:
+                    self.logger.info(f"成功查詢到 {len(result['data'])} 條產品規格資料")
+                    return result["data"]
             
-    #         # 降級到 SQLite 查詢
-    #         self.logger.info("降級使用 SQLite 查詢產品規格")
-    #         kb_info = self.knowledge_bases.get("semantic_sales_spec")
-    #         if not kb_info:
-    #             self.logger.error("語義銷售規格知識庫不存在")
-    #             return None
+            # 降級到 SQLite 查詢
+            self.logger.info("降級使用 SQLite 查詢產品規格")
+            kb_info = self.knowledge_bases.get("semantic_sales_spec")
+            if not kb_info:
+                self.logger.error("語義銷售規格知識庫不存在")
+                return None
                 
-    #         with sqlite3.connect(kb_info["path"]) as conn:
-    #             conn.row_factory = sqlite3.Row
-    #             cursor = conn.cursor()
+            with sqlite3.connect(kb_info["path"]) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
                 
-    #             # 使用直接字串查詢避免 SQL 注入
-    #             id_conditions = ','.join([f"'{pid}'" for pid in id_list])
-    #             query = f"SELECT * FROM nbtypes WHERE modeltype IN ({id_conditions})"
+                # 使用直接字串查詢避免 SQL 注入
+                id_conditions = ','.join([f"'{pid}'" for pid in id_list])
+                query = f"SELECT * FROM nbtypes WHERE modeltype IN ({id_conditions})"
                 
-    #             cursor.execute(query)
-    #             rows = cursor.fetchall()
+                cursor.execute(query)
+                rows = cursor.fetchall()
                 
-    #             results = [dict(row) for row in rows]
-    #             self.logger.info(f"SQLite 查詢成功，返回 {len(results)} 條記錄")
-    #             return results
+                results = [dict(row) for row in rows]
+                self.logger.info(f"SQLite 查詢成功，返回 {len(results)} 條記錄")
+                return results
                 
-    #     except Exception as e:
-    #         self.logger.error(f"根據產品 ID 查詢規格失敗: {e}")
-    #         return None
+        except Exception as e:
+            self.logger.error(f"根據產品 ID 查詢規格失敗: {e}")
+            return None
     
-    # def evaluate_gaming_performance(self, specs: Dict[str, Any]) -> Dict[str, Any]:
-    #     """
-    #     評估筆電的遊戲效能
+    def evaluate_gaming_performance(self, specs: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        評估筆電的遊戲效能
         
-    #     Args:
-    #         specs: 產品規格字典
+        Args:
+            specs: 產品規格字典
             
-    #     Returns:
-    #         包含評分和分析的字典
-    #     """
-    #     try:
-    #         scores = {
-    #             "cpu_score": 0,
-    #             "gpu_score": 0, 
-    #             "memory_score": 0,
-    #             "storage_score": 0,
-    #             "thermal_score": 0,
-    #             "overall_score": 0
-    #         }
+        Returns:
+            包含評分和分析的字典
+        """
+        try:
+            scores = {
+                "cpu_score": 0,
+                "gpu_score": 0, 
+                "memory_score": 0,
+                "storage_score": 0,
+                "thermal_score": 0,
+                "overall_score": 0
+            }
             
-    #         # CPU 評分 (權重 25%)
-    #         cpu_info = str(specs.get('cpu', '')).lower()
-    #         if any(keyword in cpu_info for keyword in ['i9', 'ryzen 9', 'ultra 9']):
-    #             scores["cpu_score"] = 10
-    #         elif any(keyword in cpu_info for keyword in ['i7', 'ryzen 7', 'ultra 7']):
-    #             scores["cpu_score"] = 8
-    #         elif any(keyword in cpu_info for keyword in ['i5', 'ryzen 5', 'ultra 5']):
-    #             scores["cpu_score"] = 6
-    #         else:
-    #             scores["cpu_score"] = 4
+            # CPU 評分 (權重 25%)
+            cpu_info = str(specs.get('cpu', '')).lower()
+            if any(keyword in cpu_info for keyword in ['i9', 'ryzen 9', 'ultra 9']):
+                scores["cpu_score"] = 10
+            elif any(keyword in cpu_info for keyword in ['i7', 'ryzen 7', 'ultra 7']):
+                scores["cpu_score"] = 8
+            elif any(keyword in cpu_info for keyword in ['i5', 'ryzen 5', 'ultra 5']):
+                scores["cpu_score"] = 6
+            else:
+                scores["cpu_score"] = 4
                 
-    #         # GPU 評分 (權重 35%)
-    #         gpu_info = str(specs.get('gpu', '')).lower()
-    #         if any(keyword in gpu_info for keyword in ['rtx 4090', 'rtx 4080']):
-    #             scores["gpu_score"] = 10
-    #         elif any(keyword in gpu_info for keyword in ['rtx 4070', 'rtx 4060']):
-    #             scores["gpu_score"] = 8
-    #         elif any(keyword in gpu_info for keyword in ['rtx 3070', 'rtx 3060']):
-    #             scores["gpu_score"] = 7
-    #         elif any(keyword in gpu_info for keyword in ['gtx', 'rtx']):
-    #             scores["gpu_score"] = 5
-    #         else:
-    #             scores["gpu_score"] = 3
+            # GPU 評分 (權重 35%)
+            gpu_info = str(specs.get('gpu', '')).lower()
+            if any(keyword in gpu_info for keyword in ['rtx 4090', 'rtx 4080']):
+                scores["gpu_score"] = 10
+            elif any(keyword in gpu_info for keyword in ['rtx 4070', 'rtx 4060']):
+                scores["gpu_score"] = 8
+            elif any(keyword in gpu_info for keyword in ['rtx 3070', 'rtx 3060']):
+                scores["gpu_score"] = 7
+            elif any(keyword in gpu_info for keyword in ['gtx', 'rtx']):
+                scores["gpu_score"] = 5
+            else:
+                scores["gpu_score"] = 3
                 
-    #         # 記憶體評分 (權重 20%)
-    #         memory_info = str(specs.get('memory', '')).lower()
-    #         if '32gb' in memory_info or '64gb' in memory_info:
-    #             scores["memory_score"] = 10
-    #         elif '16gb' in memory_info:
-    #             scores["memory_score"] = 8
-    #         elif '8gb' in memory_info:
-    #             scores["memory_score"] = 5
-    #         else:
-    #             scores["memory_score"] = 3
+            # 記憶體評分 (權重 20%)
+            memory_info = str(specs.get('memory', '')).lower()
+            if '32gb' in memory_info or '64gb' in memory_info:
+                scores["memory_score"] = 10
+            elif '16gb' in memory_info:
+                scores["memory_score"] = 8
+            elif '8gb' in memory_info:
+                scores["memory_score"] = 5
+            else:
+                scores["memory_score"] = 3
                 
-    #         # 儲存評分 (權重 10%)
-    #         storage_info = str(specs.get('storage', '')).lower()
-    #         if 'ssd' in storage_info:
-    #             if '1tb' in storage_info or '2tb' in storage_info:
-    #                 scores["storage_score"] = 10
-    #             elif '512gb' in storage_info:
-    #                 scores["storage_score"] = 8
-    #             else:
-    #                 scores["storage_score"] = 6
-    #         else:
-    #             scores["storage_score"] = 3
+            # 儲存評分 (權重 10%)
+            storage_info = str(specs.get('storage', '')).lower()
+            if 'ssd' in storage_info:
+                if '1tb' in storage_info or '2tb' in storage_info:
+                    scores["storage_score"] = 10
+                elif '512gb' in storage_info:
+                    scores["storage_score"] = 8
+                else:
+                    scores["storage_score"] = 6
+            else:
+                scores["storage_score"] = 3
                 
-    #         # 散熱評分 (權重 10%)
-    #         thermal_info = str(specs.get('thermal', '')).lower()
-    #         if any(keyword in thermal_info for keyword in ['雙風扇', '三風扇', '液冷', 'cooler']):
-    #             scores["thermal_score"] = 9
-    #         elif any(keyword in thermal_info for keyword in ['風扇', 'fan']):
-    #             scores["thermal_score"] = 6
-    #         else:
-    #             scores["thermal_score"] = 4
+            # 散熱評分 (權重 10%)
+            thermal_info = str(specs.get('thermal', '')).lower()
+            if any(keyword in thermal_info for keyword in ['雙風扇', '三風扇', '液冷', 'cooler']):
+                scores["thermal_score"] = 9
+            elif any(keyword in thermal_info for keyword in ['風扇', 'fan']):
+                scores["thermal_score"] = 6
+            else:
+                scores["thermal_score"] = 4
                 
-    #         # 計算總分
-    #         weights = {
-    #             "cpu_score": 0.25,
-    #             "gpu_score": 0.35, 
-    #             "memory_score": 0.20,
-    #             "storage_score": 0.10,
-    #             "thermal_score": 0.10
-    #         }
+            # 計算總分
+            weights = {
+                "cpu_score": 0.25,
+                "gpu_score": 0.35, 
+                "memory_score": 0.20,
+                "storage_score": 0.10,
+                "thermal_score": 0.10
+            }
             
-    #         overall_score = sum(scores[key] * weights[key] for key in weights)
-    #         scores["overall_score"] = round(overall_score, 1)
+            overall_score = sum(scores[key] * weights[key] for key in weights)
+            scores["overall_score"] = round(overall_score, 1)
             
-    #         # 生成評分說明
-    #         if overall_score >= 8.5:
-    #             performance_level = "頂級遊戲筆電"
-    #             description = "適合4K遊戲和專業創作工作"
-    #         elif overall_score >= 7.0:
-    #             performance_level = "高階遊戲筆電"
-    #             description = "可流暢運行大部分AAA遊戲"
-    #         elif overall_score >= 5.5:
-    #             performance_level = "中階遊戲筆電"
-    #             description = "適合中等畫質遊戲體驗"
-    #         else:
-    #             performance_level = "入門級筆電"
-    #             description = "適合輕度遊戲或辦公使用"
+            # 生成評分說明
+            if overall_score >= 8.5:
+                performance_level = "頂級遊戲筆電"
+                description = "適合4K遊戲和專業創作工作"
+            elif overall_score >= 7.0:
+                performance_level = "高階遊戲筆電"
+                description = "可流暢運行大部分AAA遊戲"
+            elif overall_score >= 5.5:
+                performance_level = "中階遊戲筆電"
+                description = "適合中等畫質遊戲體驗"
+            else:
+                performance_level = "入門級筆電"
+                description = "適合輕度遊戲或辦公使用"
                 
-    #         return {
-    #             "scores": scores,
-    #             "performance_level": performance_level,
-    #             "description": description,
-    #             "product_id": specs.get('product_id'),
-    #             "model_name": specs.get('modelname', 'Unknown')
-    #         }
+            return {
+                "scores": scores,
+                "performance_level": performance_level,
+                "description": description,
+                "product_id": specs.get('product_id'),
+                "model_name": specs.get('modelname', 'Unknown')
+            }
             
-    #     except Exception as e:
-    #         self.logger.error(f"評估遊戲效能失敗: {e}")
-    #         return {
-    #             "scores": {"overall_score": 0},
-    #             "performance_level": "評估失敗",
-    #             "description": f"無法評估效能: {str(e)}",
-    #             "product_id": specs.get('product_id'),
-    #             "model_name": specs.get('modelname', 'Unknown')
-    #         }
+        except Exception as e:
+            self.logger.error(f"評估遊戲效能失敗: {e}")
+            return {
+                "scores": {"overall_score": 0},
+                "performance_level": "評估失敗",
+                "description": f"無法評估效能: {str(e)}",
+                "product_id": specs.get('product_id'),
+                "model_name": specs.get('modelname', 'Unknown')
+            }
     
     # def gaming_laptop_search(self, query: str = "介紹適合遊戲的筆電", top_k: int = 5) -> Optional[Dict[str, Any]]:
     #     """
@@ -1576,7 +1579,11 @@ class KnowledgeManager:
 
             # 🎮 遊戲相關查詢增強處理
             enhanced_query = message
-           
+            #gaming_keywords = ['遊戲', '游戲', 'gaming', 'game', '電玩', '遊戲體驗', '玩遊戲', '打遊戲']
+            #if any(keyword in message.lower() for keyword in gaming_keywords):
+                # 為遊戲查詢添加GPU相關關鍵詞來增強語義匹配
+             #   enhanced_query = f"{message} 專用顯卡 AMD Radeon 高效能 遊戲筆電"
+              #  self.logger.info(f"偵測到遊戲查詢，增強搜尋詞彙: '{enhanced_query}'")
 
             # 第一步：語義搜尋
             semantic_results = self.milvus_semantic_search(

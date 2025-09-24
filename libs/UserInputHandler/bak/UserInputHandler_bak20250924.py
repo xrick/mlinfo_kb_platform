@@ -1,3 +1,5 @@
+# libs/UserInputHandler/bak/UserInputHandler_bak20250924.py
+# libs/UserInputHandler/bak/UserInputHandler.py
 # libs/UserInputHandler/UserInputHandler.py
 """
 用戶輸入處理器 - 智能解析自然語言為結構化數據
@@ -7,7 +9,6 @@
 import logging
 import json
 import re
-from textwrap import dedent
 from typing import Dict, Any, Optional, List, Tuple
 from pathlib import Path
 
@@ -151,113 +152,11 @@ class UserInputHandler:
             logger.error(f"parse_keyword 發生錯誤: {e}", exc_info=True)
             return "", {}
 
-    async def getEntityParsingPrompt(self, message: str) -> str:
-        entity_extraction_prompt = f"""
-            你是一位精準的產品意圖分析師。你的任務是從使用者提供的筆電產品查詢中，精準地解析並結構化出以下三個核心資訊：使用者意圖、提及的產品實體、以及相關的屬性特徵。
-
-            [任務說明]
-            intent (意圖識別)：判斷使用者查詢的意圖。常見意圖包括但不限於：
-
-            recommend (推薦)：使用者想獲得產品推薦，通常不指定具體型號。
-
-            spec_check (規格查詢)：使用者想查詢特定產品的規格細節。
-
-            compare (比較)：使用者想比較多個產品或系列之間的差異。
-
-            feature_explanation (功能解釋)：使用者想了解某個功能或技術的運作方式。
-
-            product_introduction (產品介紹)：使用者想對某個產品有全面的了解。
-
-            實體解析 (entities)：從查詢中識別出所有明確提及的筆電型號、系列名稱或產品代碼。
-
-            屬性解析 (attributes)：從查詢中提取出與意圖相關的技術屬性或特徵。請參考下方提供的特徵列表。
-
-            [特徵列表 (Attributes)]
-            請仔細參考以下筆電相關的屬性標籤，並在 attributes 欄位中填入最相關的標籤。
-
-            modeltype (機種類型，如：商用、電競)
-
-            modelname (產品名稱或代號)
-
-            structconfig (結構配置，如：重量、尺寸、材質)
-
-            lcd (螢幕規格，如：解析度、更新率)
-
-            touchpanel (觸控面板)
-
-            iointerface (I/O 接口，如：USB-C、HDMI)
-
-            webcamera (網路攝影機)
-
-            audio (音訊系統)
-
-            battery (電池與充電)
-
-            cpu (處理器)
-
-            gpu (獨立顯示卡)
-
-            memory (記憶體)
-
-            lcdconnector (螢幕連接器)
-
-            storage (儲存裝置)
-
-            wifislot (無線網卡插槽)
-
-            thermal (散熱系統)
-
-            softwareconfig (軟體配置)
-
-            ai (AI 功能)
-
-            accessory (週邊配件)
-
-            [輸出格式與範例 (Output Format & Examples)]
-            請僅以 JSON 格式回應，不包含任何額外文字或解釋。(請注意，不要直接輸出到前端Browser)
-
-            JSON 結構
-            {{
-                "intent": "<解析後的使用者意圖>",
-                "entities": ["<識別出的筆電實體，可為多個>"],
-                "attributes": ["<相關的屬性標籤，可為多個>"],
-                "NB_NUM": "<'all' 或 'limit'>",
-                "language": "<使用者查詢的語言>"
-            }}
-            NB_NUM 欄位生成規則
-            在生成 JSON 時，請為 "NB_NUM" 欄位加入以下判斷邏輯：
-            如果 entities 陣列中，有任何一個實體包含「系統」二字 (例如 "819系統")，或者該實體完全由數字組成 (例如 "819")，則此欄位的值為 "all"。
-            若不滿足以上任一狀況 (例如 entities 為 ["ROG Strix", "Vivobook Pro"])，則此欄位的值為 "limit"。
-
-            範例1:
-                查詢: "我想了解 819系統 這台筆電的散熱跟CPU規格"
-                輸出:
-                JSON
-
-                {{
-                    "intent": "spec_check",
-                    "entities": ["819系統"],
-                    "attributes": ["thermal", "cpu"],
-                    "NB_NUM": "all",
-                    "language": "zh-TW"
-                }}
-
-            範例2:
-                查詢: "推薦一台 ROG Zephyrus 的電競筆電"
-                輸出:
-                JSON
-                {{
-                    "intent": "recommend",
-                    "entities": ["ROG Zephyrus"],
-                    "attributes": ["modeltype"],
-                    "NB_NUM": "limit",
-                    "language": "zh-TW"
-                }}
-            #**客戶需求：**
-            {message}
-        """
-        return dedent(entity_extraction_prompt).strip()
-    
+    async def getPrompt(self, 
+        message: str, 
+        context: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        pass
 
 
     async def parse(

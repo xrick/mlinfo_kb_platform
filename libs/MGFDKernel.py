@@ -36,6 +36,7 @@ from dataclasses import dataclass
 from .RAG.LLM.LLMInitializer import LLMInitializer
 from langchain.prompts import PromptTemplate
 import re
+import ast
 logger = logging.getLogger(__name__)
 
 ###setup debug
@@ -77,8 +78,36 @@ class MGFDKernel:
         Args:
             redis_client: Redis 客戶端實例，用於會話狀態持久化
         """
+        # 嘗試初始化 LLM（最小變更；失敗則保持回退機制）
+        self.llm = None
+        self.query_rule = None
+        logger.info("LLM 初始化中...")
+        try:
+            self.llm_initializer = LLMInitializer(model_name="gpt-oss:20b", temperature=0.1, request_timeout=60)
+            self.llm = self.llm_initializer.get_llm()
+            logger.info("LLM 初始化成功")
+        except Exception as e:
+            logger.warning(f"LLM 初始化失敗，將使用回退機制: {e}")
+            self.llm_initializer = None
+            self.llm = None
+        # 若 Kernel 內未取得 LLM，且 KnowledgeManager 內已有 llm，可作讀取式備援
+        # try:
+        #     if self.llm is None and getattr(self, 'knowledge_manager', None) is not None:
+        #         km_llm = getattr(self.knowledge_manager, 'llm', None)
+        #         if km_llm is not None:
+        #             self.llm = km_llm
+        #             logger.info("採用 KnowledgeManager 中的 LLM 作為備援")
+        except Exception:
+            # 安全保底，不阻斷初始化
+            pass
+
+        logger.info("MGFDKernel 初始化完成")
         # 初始化知識管理器（包含 LLM 功能）
+        self.user_input_handler = UserInputHandler()
+        logger.info("user_input_handler 初始化成功")
         self.knowledge_manager = KnowledgeManager()
+        logger.info("knowledge_manager 初始化成功")
+        # self.jsonized_user_input = None
         self.redis_client = redis_client
         self.config = self._load_config()
         # 載入可擴充的 NB 特徵對照表（用於關鍵功能偵測與比對）
@@ -149,6 +178,7 @@ class MGFDKernel:
        
         # System-level prompt template (優化版 - 減少 70% Token 消耗)
         # 注意：這是不可變的模板，避免狀態污染
+
         self.query_prompt = """
             你是一位精準的產品意圖分析師。你的任務是從使用者提供的筆電產品查詢中，精準地解析並結構化出以下三個核心資訊：使用者意圖、提及的產品實體、以及相關的屬性特徵。
 
@@ -201,22 +231,40 @@ class MGFDKernel:
             }
         """
 #####################################################################################
+#         self.SysPromptTemplate = """你是專業的筆電銷售顧問。根據以下產品資料回答客戶問題：
+
+#         **查詢設定**
+#         {query_rules}
+
+#         **產品資料：**
+#         {product_data}
+
+#         **客戶需求：**
+#         {user_query}
+
+
+# **輸出格式：**
+# 1.簡潔的 Markdown 格式，包含產品推薦和規格表格。
+# 2.嚴格禁止輸出單純的JSON格式。
+# """
         self.SysPromptTemplate = """你是專業的筆電銷售顧問。根據以下產品資料回答客戶問題：
 
-        **查詢設定**
+        # **查詢設定**
         {query_rules}
 
-        **產品資料：**
+        #**產品資料：**
         {product_data}
 
-        **客戶需求：**
+        #**客戶需求：**
         {user_query}
 
+        
 
-**輸出格式：**
-1.簡潔的 Markdown 格式，包含產品推薦和規格表格。
-2.嚴格禁止輸出單純的JSON格式。
-"""
+
+# **輸出格式：**
+# 1.簡潔的 Markdown 格式，包含產品推薦和規格表格。
+# 2.嚴格禁止輸出單純的JSON格式。
+# """
         # 宣告三層式prompt所需要的變數
         # self.product_data = None
         # self.prompt_using = None
@@ -226,7 +274,7 @@ class MGFDKernel:
 
         # 初始化五大模組
         try:
-            self.user_input_handler = UserInputHandler()
+            
             self.prompt_manager = prompt_manager.get_global_prompt_manager()
             # knowledge_manager 已經在 __init__ 開頭初始化了
             self.response_generator = ResponseGenHandler()
@@ -242,28 +290,7 @@ class MGFDKernel:
             self.response_generator = None
             self.state_manager = None
         
-        # 嘗試初始化 LLM（最小變更；失敗則保持回退機制）
-        self.llm = None
-        try:
-            self.llm_initializer = LLMInitializer(model_name="gpt-oss:20b", temperature=0.1, request_timeout=60)
-            self.llm = self.llm_initializer.get_llm()
-            logger.info("LLM 初始化成功")
-        except Exception as e:
-            logger.warning(f"LLM 初始化失敗，將使用回退機制: {e}")
-            self.llm_initializer = None
-            self.llm = None
-        # 若 Kernel 內未取得 LLM，且 KnowledgeManager 內已有 llm，可作讀取式備援
-        # try:
-        #     if self.llm is None and getattr(self, 'knowledge_manager', None) is not None:
-        #         km_llm = getattr(self.knowledge_manager, 'llm', None)
-        #         if km_llm is not None:
-        #             self.llm = km_llm
-        #             logger.info("採用 KnowledgeManager 中的 LLM 作為備援")
-        except Exception:
-            # 安全保底，不阻斷初始化
-            pass
-
-        logger.info("MGFDKernel 初始化完成")
+        
 
     def _load_nb_feature_table(self) -> Dict[str, Any]:
         """
@@ -530,20 +557,35 @@ class MGFDKernel:
             return "尺寸未知"
     
     # generate three-tier prompt
-    def generate_three_tier_prompt(self,product_data=None, user_query=None):
+    # def generate_three_tier_prompt(self,product_data=None, user_query=None):
+    async def generate_main_prompt(self,product_data=None, user_query=None):
         """生成三層式提示 - 修復版：避免模板狀態污染"""
         # 🔧 修復：每次都從乾淨的模板開始，避免狀態污染
         # 使用 str.replace 來避免 JSON 中的佔位符衝突
-        result = self.SysPromptTemplate.replace("{query_rules}", str(self.query_prompt))
+        query_rule_json = await self.get_query_rule_from_user_query(user_query=user_query)
+        logger.info(f"^^^^^^^^^^^^^^^^^^^^^^^^^user_input_json start^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+        logger.info(f"分析user input 中的entities: {query_rule_json}")
+        logger.info(f"\n^^^^^^^^^^^^^^^^^^^^^^^^^user_input_json end^^^^^^^^^^^^^^^^^^^^^^^^^")
+        result = self.SysPromptTemplate.replace("{query_rules}", query_rule_json)
+        result = result.replace("{user_query}", user_query)
         result = result.replace("{product_data}", str(product_data))
-        result = result.replace("{user_query}", str(user_query))
-        # logger.info(f"^^^^^^^^^^^^^^^^^^^^^^^^^result start^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-        # logger.info(f"最後傳給AI的prompt: {result}")
-        # logger.info(f"\n^^^^^^^^^^^^^^^^^^^^^^^^^result end^^^^^^^^^^^^^^^^^^^^^^^^^")
+        # result = result.replace("{user_query}", str(user_query))
         return result
-    #     """生成三層式提示"""
-    #     return self.SysPrompt.format(product_data=None, prompt_using=self.prompt_using, 
-    #                                  answer=self.answer, query=self.query)
+    
+    async def get_query_rule_from_user_query(self, user_query: str) -> str:
+        logger.info(f"^^^^^^^^^^^^^^^^^^^^^^^^^user_query start^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+        qry_str = await self.user_input_handler.getEntityParsingPrompt(user_query)
+        self.query_rule = await asyncio.wait_for(
+            asyncio.to_thread(self.llm_initializer.safe_completion, qry_str, 2048),
+            timeout=120,
+        )
+        logger.info(f"分析user input 中的entities: {self.query_rule}")
+        logger.info(f"\n^^^^^^^^^^^^^^^^^^^^^^^^^user_query end^^^^^^^^^^^^^^^^^^^^^^^^^")
+        tmpdict = ast.literal_eval(self.query_rule)
+        if tmpdict.get("NB_NUM") == "all":
+            self.ComparableNB_NUM = 10
+        return self.query_rule
+        
     
     def _load_welcome_prompt(self) -> str:
         welcome_prompt = """
@@ -804,6 +846,8 @@ class MGFDKernel:
             return self._create_error_response(f"獲取系統狀態失敗: {str(e)}")
     
     
+
+    """the kernel of the implementation of _processing user input"""
     async def _process_message_internal(
         self, 
         session_id: str, 
@@ -854,10 +898,13 @@ class MGFDKernel:
         #若ifDBSearch為True，則進行知識查詢，並將結果存入context["query_result"],
         #這是product_data
         if slot_metadata.get("ifDBSearch", True):
+            self.query_rule = self.query_rule#await self.get_query_rule_from_user_query(message)
+            logger.info(f"***************************slot_name START*********************************: \n關鍵詞:\n{self.query_rule}")
+            logger.info(f"***************************slot_name START*********************************\n")
             # 直接進行與關鍵字相關的產品規格搜尋（以非阻塞方式在執行緒池執行）
             _product_data = await asyncio.to_thread(self.knowledge_manager.search_product_data, message)
             context['keyword'] = slot_name
-            logging.info(f"知識查詢結果: {_product_data}")
+            logging.info(f"產品查詢結果: {_product_data}")
             #進行
         #step 5: generate three-tier prompt and send prompt to LLM
         # 摘要產品數據以大幅減少 Token 消耗
@@ -872,7 +919,8 @@ class MGFDKernel:
         logger.info(f"產品資料 JSON 長度: {len(product_data_json)} (已優化)")
 
         # 🔧 修復：使用局部變量避免狀態污染
-        current_prompt = self.generate_three_tier_prompt(product_data=product_data_json, user_query=self.query)
+        # current_prompt = self.generate_three_tier_prompt(product_data=product_data_json, user_query=self.query)
+        current_prompt = await self.generate_main_prompt(product_data=product_data_json, user_query=self.query)
         logger.info(f"***************************系統提示START********************************** \n{current_prompt}")
         logger.info(f"***************************系統提示END***********************************\n")
         #_product_data

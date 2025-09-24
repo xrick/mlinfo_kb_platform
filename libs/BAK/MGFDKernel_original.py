@@ -1,3 +1,5 @@
+# libs/BAK/MGFDKernel_original.py
+# libs/MGFDKernel_original.py
 # libs/MGFDKernel.py
 """
 MGFD 核心控制器 - 系統大腦及對外唯一介面
