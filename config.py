@@ -11,7 +11,7 @@ MILVUS_HOST = "localhost"
 MILVUS_PORT = "19530"
 # DUCKDB_FILE = "db/semantic_nb_spec_250919.db"
 DUCKDB_FILE = "db/all_nbinfo_v4.db"
-MILVUS_COLLECTION_NAME = "semantic_nb_spec_20250924_utf8"#"product_semantic_chunks"
+MILVUS_COLLECTION_NAME = "semantic_nb_spec_v04_utf8"#"product_semantic_chunks"
 MILVUS_COLLECTION_NAME_PARENT = "parent_chunks_20250920"
 MILVUS_COLLECTION_NAME_CHILD = "child_chunks_20250920"
 
