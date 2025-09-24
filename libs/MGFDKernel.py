@@ -470,11 +470,10 @@ class MGFDKernel:
         """提取 CPU 關鍵資訊"""
         if not cpu_text:
             return "未提供 CPU 資訊"
-        
         # 提取主要 CPU 型號和系列
         cpu_lines = cpu_text.split('\n')
         for line in cpu_lines:
-            if any(keyword in line for keyword in ['Ryzen', 'AMD', 'Intel', 'Core']):
+            if any(keyword in line for keyword in ['Ryzen', 'AMD']):
                 return line.strip()[:100]  # 限制長度
         
         return cpu_text[:50] + "..." if len(cpu_text) > 50 else cpu_text
