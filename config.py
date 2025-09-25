@@ -35,3 +35,16 @@ SERVICES_CONFIG = {
         "collection_name": MILVUS_COLLECTION_NAME
     }
 }
+
+# Milvus 度量選擇配置
+MILVUS_DEFAULT_METRIC = "L2"  # Collection 預設度量
+METRIC_SELECTION_CONFIG = {
+    "auto_select_enabled": False,  # 預設關閉自動選擇
+    "collection_preference": "L2",  # Collection 預設度量
+    "query_complexity_thresholds": {
+        "short_query": 3,
+        "long_query": 12
+    },
+    "similarity_difference_threshold": 0.05,
+    "latency_fallback_threshold": 200  # ms
+}

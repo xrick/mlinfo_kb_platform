@@ -806,17 +806,15 @@ class KnowledgeManager:
         self, 
         query_text: str, 
         top_k: int = 5,
-        chunk_type_filter: Optional[str] = None,
-        metric_auto_select: bool = False
+        chunk_type_filter: Optional[str] = None
     ) -> Optional[List[Dict[str, Any]]]:
         """
-        使用 Milvus 進行語義搜索（增強版，支援動態度量選擇）
+        使用 Milvus 進行語義搜索
         
         Args:
             query_text: 搜索查詢文本
             top_k: 返回結果數量
             chunk_type_filter: 可選的chunk類型過濾 ("parent" 或 "child")
-            metric_auto_select: 是否啟用自動度量選擇（預設 False，保持向後相容）
             
         Returns:
             搜索結果列表
@@ -830,21 +828,11 @@ class KnowledgeManager:
                 self.logger.error("Embedding 模型未初始化")
                 return None
             
-            # 度量選擇邏輯（新增）
-            metric_type = "L2"  # 預設度量
-            if metric_auto_select:
-                metric_type = self._select_metric_for_query(query_text, top_k)
-                self.logger.info(f"自動選擇度量: {metric_type}")
-            
             # 使用 sentence transformer 生成查詢向量
             query_vector = self.sentence_transformer.encode(query_text).tolist()
             
-            # 為 COSINE 度量正規化向量（新增）
-            if metric_type == "COSINE":
-                query_vector = self._normalize_vector_for_cosine(query_vector)
-            
-            # 設置搜索參數（支援多種度量）
-            search_params = self._get_distance_metric(metric_type)
+            # 設置搜索參數
+            search_params = {"metric_type": "L2", "params": {"nprobe": 10}}
             
             # 設置輸出字段
             output_fields = [
@@ -889,100 +877,6 @@ class KnowledgeManager:
         except Exception as e:
             self.logger.error(f"Milvus 語義搜索失敗: {e}")
             return None
-    
-    def _detect_collection_metric_preference(self) -> str:
-        """
-        檢測 Collection 的向量特徵，決定最佳度量
-        
-        Returns:
-            "L2", "COSINE", 或 "IP"
-        """
-        try:
-            # 簡化實作：基於配置決定，未來可擴展為動態檢測
-            import config
-            return getattr(config, 'MILVUS_DEFAULT_METRIC', 'L2')
-        except Exception as e:
-            self.logger.warning(f"無法檢測 Collection 度量偏好: {e}")
-            return "L2"
-    
-    def _select_metric_for_query(self, query_text: str, top_k: int) -> str:
-        """
-        根據查詢特徵選擇最適合的度量
-        
-        Args:
-            query_text: 查詢文字
-            top_k: 結果數量
-            
-        Returns:
-            選擇的度量類型
-        """
-        try:
-            # 查詢複雜度分析
-            tokens = len(query_text.split())
-            
-            # 短查詢 + 代碼/SKU 模式 → COSINE
-            if tokens <= 3:
-                # 檢查是否包含代碼模式
-                import re
-                code_patterns = [
-                    r'\b[A-Z]{2,4}\d{3,4}\b',  # APX819, AKK839
-                    r'\b\d{3,4}\b',  # 819, 8329
-                    r'\b[A-Z]+\d+\b'  # 其他代碼模式
-                ]
-                if any(re.search(pattern, query_text.upper()) for pattern in code_patterns):
-                    return "COSINE"
-            
-            # 長查詢 + 排名/評分語義 → IP
-            if tokens >= 12:
-                ranking_keywords = ['排名', '評分', '熱門', '最佳', '高效能', '推薦', '分數', '評級', '最好']
-                if any(keyword in query_text for keyword in ranking_keywords):
-                    return "IP"
-            
-            # 其他情況使用 Collection 預設
-            return self._detect_collection_metric_preference()
-            
-        except Exception as e:
-            self.logger.warning(f"度量選擇失敗: {e}")
-            return "L2"
-    
-    def _normalize_vector_for_cosine(self, vector: List[float]) -> List[float]:
-        """
-        為 COSINE 度量正規化向量
-        
-        Args:
-            vector: 原始向量
-            
-        Returns:
-            正規化後的向量
-        """
-        try:
-            import math
-            # 計算向量範數
-            norm = math.sqrt(sum(x * x for x in vector))
-            if norm == 0:
-                return vector
-            # 正規化
-            return [x / norm for x in vector]
-        except Exception as e:
-            self.logger.warning(f"向量正規化失敗: {e}")
-            return vector
-    
-    def _get_distance_metric(self, metric_type: str) -> Dict[str, Any]:
-        """
-        取得對應度量的搜尋參數
-        
-        Args:
-            metric_type: 度量類型
-            
-        Returns:
-            搜尋參數字典
-        """
-        metric_configs = {
-            "L2": {"metric_type": "L2", "params": {"nprobe": 10}},
-            "IP": {"metric_type": "IP", "params": {"nprobe": 10}},
-            "COSINE": {"metric_type": "COSINE", "params": {"nprobe": 10}},
-        }
-        return metric_configs.get(metric_type, metric_configs["L2"])
     
     def parent_child_retrieval(
         self, 
