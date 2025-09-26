@@ -234,7 +234,9 @@ class UserInputHandler:
             }}
             NB_NUM 欄位生成規則
             在生成 JSON 時，請為 "NB_NUM" 欄位加入以下判斷邏輯：
-            - 如果 entities 陣列中，有任何一個實體包含以下文字，或者該實體完全由數字組成 (例如 "819")，則此欄位的值為 "all"。
+            - 如果 entities 陣列中，有以下任何一個實體是字母與數字的合併，或者該實體完全由數字組成 (例如 "819")，
+              則"entities": [數字],而"attributes"中的值也會包含這個"modeltype",
+              而不會是"modelname", 並將 "NB_NUM" 欄位設為 "all"。
               1. "系列"
               2. "機種"
               3. "機型"
@@ -244,7 +246,7 @@ class UserInputHandler:
             - 若不滿足以上任一狀況 (例如 entities 為 ["ROG Strix", "Vivobook Pro"])，則此欄位的值為 "limit"。
 
             範例1:
-                查詢: "我想了解 819系統 這台筆電的散熱跟CPU規格"
+                查詢: "我想了解819系列這台筆電的散熱跟CPU規格"
                 輸出:
                 JSON
 
