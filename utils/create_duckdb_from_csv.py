@@ -15,7 +15,7 @@ import duckdb
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def gen_all_nbinfo_tb(csv_directory: str = '../data/raw/corrected_csv_20250924', db_path: str = '../db/all_nbinfo_v4.db', collection_name: str = 'nbtypes_collection') -> bool:
+def gen_all_nbinfo_tb(csv_directory: str = '../data/raw/corrected_csv_20250924', db_path: str = '../db/all_nbinfo_v5.db', collection_name: str = 'nbtypes_collection') -> bool:
     """
     Creates a DuckDB database and loads all CSV files into a single table, plus manages Milvus collection.
     

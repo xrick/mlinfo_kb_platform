@@ -1,3 +1,4 @@
+# libs/chunk_utils/chunking/semantic_chunking/semantic_chunking_engine.py
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -224,6 +225,14 @@ class SemanticChunkingEngine(ChunkingStrategy):
         metadata = {
             "modeltype": product.get("modeltype", ""),
             "modelname": product.get("modelname", ""),
+            "structconfig": product.get("structconfig", ""),
+            "lcd": product.get("lcd", ""),
+            "cpu": product.get("cpu", ""),
+            "gpu": product.get("gpu", ""),
+            "ram": product.get("ram", ""),
+            "storage": product.get("storage", ""),
+            "battery": product.get("battery", ""),
+            "os": product.get("os", ""),
             "created_at": datetime.now().isoformat()
         }
         
