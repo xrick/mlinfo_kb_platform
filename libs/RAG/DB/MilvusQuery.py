@@ -1,6 +1,8 @@
+# libs/RAG/DB/MilvusQuery.py
 from pymilvus import connections, utility, Collection
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from .DatabaseQuery import DatabaseQuery
+from logging import Logger
 
 class MilvusQuery(DatabaseQuery):
     def __init__(self, host="localhost", port="19530", collection_name=None):
@@ -8,6 +10,7 @@ class MilvusQuery(DatabaseQuery):
         self.port = port
         self.collection_name = collection_name
         self.collection = None
+        
         # 使用與 KnowledgeManager 一致的嵌入模型
         self.embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
         self.connect()
@@ -23,17 +26,19 @@ class MilvusQuery(DatabaseQuery):
             print(f"連接 Milvus 失敗: {e}")
 
     def set_collection(self, collection_name: str):
-        try:
-            if utility.has_collection(collection_name):
-                self.collection = Collection(collection_name)
-                self.collection.load()
-                self.collection_name = collection_name
-                print(f"成功設定並載入 Collection: {collection_name}")
-            else:
-                print(f"錯誤: Collection '{collection_name}' 不存在。")
-                self.collection = None
-        except Exception as e:
-            print(f"設定 Collection 失敗: {e}")
+        
+        # try:
+            # Logger.info(f"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n{utility.list_collections()}\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+        if utility.has_collection(collection_name):
+            self.collection = Collection(collection_name)
+            self.collection.load()
+            self.collection_name = collection_name
+            print(f"成功設定並載入 Collection: {collection_name}")
+        else:
+            print(f"錯誤: Collection '{collection_name}' 不存在。")
+            self.collection = None
+        # except Exception as e:
+        #     print(f"設定 Collection 失敗: {e}")
 
     def search(self, query_text: str, top_k=5):
         if not self.collection:

@@ -10,14 +10,15 @@ import logging
 import duckdb
 import sys
 import time
+
 from pymilvus import connections, utility, FieldSchema, CollectionSchema, DataType, Collection
 from pymilvus.exceptions import MilvusException
 sys.path.append("../")
 from libs.chunk_utils.chunking.semantic_chunking.semantic_chunking_engine import SemanticChunkingEngine
-
+import config
 # --- Configuration ---
-DUCKDB_FILE = "../db/all_nbinfo_v5.db"
-MILVUS_COLLECTION_NAME = "semantic_nb_250926_utf8_collection"#"product_semantic_chunks"
+DUCKDB_FILE = config.DB_PATH#"../db/all_nbinfo_v5.db"
+MILVUS_COLLECTION_NAME = config.MILVUS_COLLECTION_NAME#"semantic_nb_250926_utf8_collection"#"product_semantic_chunks"
 MILVUS_HOST = "localhost"
 MILVUS_PORT = "19530"
 EMBEDDING_DIM = 384  # Based on the paraphrase-multilingual-MiniLM-L12-v2 model

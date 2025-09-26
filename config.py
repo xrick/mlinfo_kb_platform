@@ -10,7 +10,8 @@ DB_PATH = BASE_DIR / "db" / "all_nbinfo_v5.db"
 MILVUS_HOST = "localhost"
 MILVUS_PORT = "19530"
 DUCKDB_FILE = "db/all_nbinfo_v5.db"
-MILVUS_COLLECTION_NAME = "semantic_nb_20250926_utf8_collection"#"product_semantic_chunks"
+MILVUS_COLLECTION_NAME = "semantic_nb_250926_utf8_collection"#"product_semantic_chunks"
+
 MILVUS_COLLECTION_NAME_PARENT = "parent_chunks_20250926"
 MILVUS_COLLECTION_NAME_CHILD = "child_chunks_20250926"
 

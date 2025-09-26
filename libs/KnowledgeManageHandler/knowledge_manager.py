@@ -12,7 +12,7 @@ self.sentence_transformer = SentenceTransformer(embedding_model)
 embedding = self.sentence_transformer.encode(text)
 
 """
-
+import sys
 import json
 import logging
 import sqlite3
@@ -22,7 +22,8 @@ from datetime import datetime
 import pandas as pd
 import json
 import re
-
+sys.path.append("../")
+import config
 
 # Polars 相關導入
 try:
@@ -62,6 +63,7 @@ except ImportError:
     Collection = None
     MilvusQuery = None
 
+# we keep using old db : semantic_sales_spec (wrong)
 
 class KnowledgeManager:
     """
@@ -120,11 +122,11 @@ class KnowledgeManager:
         """初始化默認知識庫"""
         try:
             # 銷售規格知識庫（整合版）
-            sales_specs_db = self.base_path / "db" / "all_nbinfo_v3.db"
+            sales_specs_db = config.DB_PATH#self.base_path / "db" / "all_nbinfo_v3.db"
             if sales_specs_db.exists():
-                self.knowledge_bases["semantic_sales_spec"] = {
+                self.knowledge_bases[config.DUCKDB_FILE] = {
                     "type": "polars",
-                    "path": str(sales_specs_db),
+                    "path": str(config.DUCKDB_FILE),
                     "description": "銷售規格數據庫（整合版）"
                 }
             
@@ -396,7 +398,7 @@ class KnowledgeManager:
         try:
             # 這裡可以實現語義搜索邏輯
             # 目前使用基本的文本搜索
-            kb_info = self.knowledge_bases.get("semantic_sales_spec")
+            kb_info = self.knowledge_bases.get(config.DUCKDB_FILE)
             if not kb_info:
                 self.logger.error("語義銷售規格知識庫不存在")
                 return None
@@ -838,7 +840,14 @@ class KnowledgeManager:
             
             # 使用 sentence transformer 生成查詢向量
             query_vector = self.sentence_transformer.encode(query_text).tolist()
-            
+
+            # Console 顯示目前使用的 Milvus Collection，便於追蹤設定
+            if getattr(self.milvus_query, "collection", None):
+                current_collection = getattr(self.milvus_query.collection, "name", self.milvus_query.collection_name)
+                self.logger.info(f"Milvus 搜索使用集合: {current_collection}")
+            else:
+                self.logger.warning("Milvus 搜索未偵測到已載入的集合，請檢查初始化流程")
+
             # 為 COSINE 度量正規化向量（新增）
             if metric_type == "COSINE":
                 query_vector = self._normalize_vector_for_cosine(query_vector)
@@ -1564,7 +1573,7 @@ class KnowledgeManager:
             # 建立資料庫連接
             sales_specs_db = self.base_path / "db" / "all_nbinfo_v3.db"
             if not sales_specs_db.exists():
-                self.logger.warning(f"資料庫檔案不存在: {sales_specs_db}")
+                self.logger.warning(f"資料庫檔案不存在: {all_nbinfo_v3.db}")
                 return False
 
             with duckdb.connect(str(sales_specs_db), read_only=True) as conn:
@@ -1636,7 +1645,8 @@ class KnowledgeManager:
         for number in potential_numbers:
             # Layer 3: 嚴格上下文檢查
             context_keywords = [
-                '系統','機型', '型號', '產品', '筆電', '筆記型電腦',
+                '系統','機型', '型號', '機種', '類別',
+                '系列','產品', '筆電', '筆記型電腦',
                 'laptop', 'notebook', '規格', 'spec',
                 'cpu', 'gpu', '處理器', '差異', '比較', '對比', 'vs'
             ]
@@ -1731,8 +1741,8 @@ class KnowledgeManager:
                     "detected_product_codes": detected_product_codes
                 }
 
-            # 第三步：在 DuckDB（semantic_sales_spec_all.db）查詢 nbtypes
-            kb_info = self.knowledge_bases.get("semantic_sales_spec")
+            # 第三步：在 DuckDB（config.DUCKDB_FILE）查詢 nbtypes
+            kb_info = self.knowledge_bases.get(config.DUCKDB_FILE)
             if not kb_info:
                 self.logger.error("語義銷售規格知識庫不存在")
                 return {

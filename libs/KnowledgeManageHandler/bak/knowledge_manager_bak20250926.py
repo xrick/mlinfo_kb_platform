@@ -1,3 +1,4 @@
+# libs/KnowledgeManageHandler/bak/knowledge_manager_bak20250926.py
 # libs/KnowledgeManageHandler/knowledge_manager.py
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
@@ -1458,7 +1459,7 @@ class KnowledgeManager:
             # 建立資料庫連接
             sales_specs_db = self.base_path / "db" / "all_nbinfo_v3.db"
             if not sales_specs_db.exists():
-                self.logger.warning(f"資料庫檔案不存在: {sales_specs_db}")
+                self.logger.warning(f"資料庫檔案不存在: {all_nbinfo_v3.db}")
                 return False
 
             with duckdb.connect(str(sales_specs_db), read_only=True) as conn:

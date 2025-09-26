@@ -1,3 +1,4 @@
+# .ipynb_checkpoints/process_and_store_data-checkpoint.py
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -10,11 +11,12 @@ import pandas as pd
 import duckdb
 from pymilvus import connections, utility, FieldSchema, CollectionSchema, DataType, Collection
 from libs.mgfd_cursor.chunking.semantic_chunking.semantic_chunking_engine import SemanticChunkingEngine
-
+sys.path.append("../")
+import config
 # --- Configuration ---
 SOURCE_DIR = "data/raw/EM_New TTL_241104_AllTransformedToGoogleSheet/"
-DUCKDB_FILE = "semantic_sales_spec.db"
-MILVUS_COLLECTION_NAME = "product_semantic_chunks"
+DUCKDB_FILE = config.DUCKDB_FILE
+MILVUS_COLLECTION_NAME = config.MILVUS_COLLECTION_NAME
 MILVUS_HOST = "localhost"
 MILVUS_PORT = "19530"
 EMBEDDING_DIM = 384  # Based on the paraphrase-multilingual-MiniLM-L12-v2 model
