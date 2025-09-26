@@ -8,3 +8,4 @@ docs/.DS_Store
 .DS_Store
 .DS_Store
 __pycache__/
+/libs/KnowledgeManageHandler/__pycache__

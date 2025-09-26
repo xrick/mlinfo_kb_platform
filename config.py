@@ -6,13 +6,13 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent
 
 # Database configuration
-DB_PATH = BASE_DIR / "db" / "all_nbinfo_v4.db"
+DB_PATH = BASE_DIR / "db" / "all_nbinfo_v5.db"
 MILVUS_HOST = "localhost"
 MILVUS_PORT = "19530"
-DUCKDB_FILE = "db/all_nbinfo_v4.db"
-MILVUS_COLLECTION_NAME = "semantic_nb_spec_v04_utf8"#"product_semantic_chunks"
-MILVUS_COLLECTION_NAME_PARENT = "parent_chunks_20250920"
-MILVUS_COLLECTION_NAME_CHILD = "child_chunks_20250920"
+DUCKDB_FILE = "db/all_nbinfo_v5.db"
+MILVUS_COLLECTION_NAME = "semantic_nb_20250926_utf8_collection"#"product_semantic_chunks"
+MILVUS_COLLECTION_NAME_PARENT = "parent_chunks_20250926"
+MILVUS_COLLECTION_NAME_CHILD = "child_chunks_20250926"
 
 # Application settings
 APP_HOST = "0.0.0.0"
@@ -34,17 +34,4 @@ SERVICES_CONFIG = {
         "milvus_port": MILVUS_PORT,
         "collection_name": MILVUS_COLLECTION_NAME
     }
-}
-
-# Milvus 度量選擇配置
-MILVUS_DEFAULT_METRIC = "L2"  # Collection 預設度量
-METRIC_SELECTION_CONFIG = {
-    "auto_select_enabled": False,  # 預設關閉自動選擇
-    "collection_preference": "L2",  # Collection 預設度量
-    "query_complexity_thresholds": {
-        "short_query": 3,
-        "long_query": 12
-    },
-    "similarity_difference_threshold": 0.05,
-    "latency_fallback_threshold": 200  # ms
 }
