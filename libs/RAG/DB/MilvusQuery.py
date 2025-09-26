@@ -57,13 +57,9 @@ class MilvusQuery(DatabaseQuery):
         #     'Adapter', 'Battery', 'Finger_Print', 'TPM', 'Card_Reader', 
         #     'Backlit', 'Pen', 'Weight', 'DimensionWDH'
         # ]
+        # Use the actual fields that exist in the current collection schema
         output_fields = [
-            'modeltype', 'version', 'modelname', 'mainboard', 'devtime', 'pm', 
-            'structconfig', 'lcd', 'touchpanel', 'iointerface', 'ledind', 
-            'powerbutton', 'keyboard', 'webcamera', 'touchpad', 'fingerprint', 
-            'audio', 'battery', 'cpu', 'gpu', 'memory', 'lcdconnector', 'storage', 
-            'wifislot', 'thermal', 'tpm', 'rtc', 'wireless', 'lan', 'bluetooth', 
-            'softwareconfig', 'ai', 'accessory', 'otherfeatures', 'certfications'
+            'product_id', 'chunk_type', 'semantic_group', 'content'
         ]
 
         # 3. 執行向量搜尋

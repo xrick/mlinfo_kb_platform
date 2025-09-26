@@ -580,9 +580,24 @@ class MGFDKernel:
         )
         logger.info(f"分析user input 中的entities: {self.query_rule}")
         logger.info(f"\n^^^^^^^^^^^^^^^^^^^^^^^^^user_query end^^^^^^^^^^^^^^^^^^^^^^^^^")
-        tmpdict = ast.literal_eval(self.query_rule)
-        if tmpdict.get("NB_NUM") == "all":
-            self.ComparableNB_NUM = 10
+
+        # Handle empty or invalid LLM responses
+        if not self.query_rule or not self.query_rule.strip():
+            logger.warning("LLM返回空響應，使用預設查詢規則")
+            self.query_rule = '{"intent": "spec_check", "entities": [], "attributes": ["modelname"], "NB_NUM": "all", "language": "zh-TW"}'
+
+        try:
+            tmpdict = ast.literal_eval(self.query_rule)
+            if tmpdict.get("NB_NUM") == "all":
+                self.ComparableNB_NUM = 10
+        except (ValueError, SyntaxError) as e:
+            logger.error(f"解析LLM響應失敗: {e}, 響應內容: {self.query_rule}")
+            # Use fallback query rule
+            self.query_rule = '{"intent": "spec_check", "entities": [], "attributes": ["modelname"], "NB_NUM": "all", "language": "zh-TW"}'
+            tmpdict = ast.literal_eval(self.query_rule)
+            if tmpdict.get("NB_NUM") == "all":
+                self.ComparableNB_NUM = 10
+
         return self.query_rule
         
     
@@ -897,7 +912,7 @@ class MGFDKernel:
         #若ifDBSearch為True，則進行知識查詢，並將結果存入context["query_result"],
         #這是product_data
         if slot_metadata.get("ifDBSearch", True):
-            self.query_rule = self.query_rule#await self.get_query_rule_from_user_query(message)
+            self.query_rule = await self.get_query_rule_from_user_query(message)
             logger.info(f"***************************slot_name START*********************************: \n關鍵詞:\n{self.query_rule}")
             logger.info(f"***************************slot_name START*********************************\n")
             # 直接進行與關鍵字相關的產品規格搜尋（以非阻塞方式在執行緒池執行）

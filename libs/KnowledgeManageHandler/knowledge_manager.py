@@ -1571,9 +1571,9 @@ class KnowledgeManager:
             import duckdb
 
             # 建立資料庫連接
-            sales_specs_db = self.base_path / "db" / "all_nbinfo_v3.db"
+            sales_specs_db = config.DB_PATH#self.base_path / "db" / "all_nbinfo_v5.db"
             if not sales_specs_db.exists():
-                self.logger.warning(f"資料庫檔案不存在: {all_nbinfo_v3.db}")
+                self.logger.warning(f"資料庫檔案不存在: {config.DUCKDB_FILE}")
                 return False
 
             with duckdb.connect(str(sales_specs_db), read_only=True) as conn:
@@ -1645,7 +1645,7 @@ class KnowledgeManager:
         for number in potential_numbers:
             # Layer 3: 嚴格上下文檢查
             context_keywords = [
-                '系統','機型', '型號', '機種', '類別',
+                '機型', '型號', '機種', '類別',
                 '系列','產品', '筆電', '筆記型電腦',
                 'laptop', 'notebook', '規格', 'spec',
                 'cpu', 'gpu', '處理器', '差異', '比較', '對比', 'vs'

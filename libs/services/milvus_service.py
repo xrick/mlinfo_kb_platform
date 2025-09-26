@@ -227,7 +227,8 @@ class MilvusService:
             schema = collection.schema
             output_fields = []
             vector_fields = []
-            
+            primary_key_field = None
+
             for field in schema.fields:
                 if field.dtype in [DataType.FLOAT_VECTOR, DataType.BINARY_VECTOR]:
                     vector_fields.append({
@@ -236,25 +237,45 @@ class MilvusService:
                     })
                 elif not field.is_primary:  # 主鍵欄位會自動包含
                     output_fields.append(field.name)
-            
+                else:
+                    # 找到主鍵欄位
+                    primary_key_field = field
+
             # 執行查詢（限制條件查詢，因為 Milvus 不直接支援 OFFSET）
             # 這裡使用一個簡單的策略：查詢前 offset + limit 條記錄，然後在應用層做分頁
             query_limit = min(offset + limit, 16384)  # Milvus 查詢限制
-            
-            # 構造查詢表達式（查詢所有記錄）
-            expr = f"pk >= 0"  # 假設主鍵從 0 開始，這可能需要根據實際情況調整
+
+            # 構造查詢表達式（根據實際主鍵類型動態構建）
+            expr = None
+            if primary_key_field:
+                if primary_key_field.dtype in [DataType.INT8, DataType.INT16, DataType.INT32, DataType.INT64]:
+                    # 整數型主鍵
+                    expr = f"{primary_key_field.name} >= 0"
+                elif primary_key_field.dtype in [DataType.VARCHAR, DataType.STRING]:
+                    # 字串型主鍵，使用不等於空字串的表達式
+                    expr = f'{primary_key_field.name} != ""'
+                else:
+                    logger.warning(f"不支援的主鍵類型: {primary_key_field.dtype}")
+                    expr = None
+            else:
+                logger.warning("找不到主鍵欄位")
+                expr = None
             
             try:
-                # 嘗試使用查詢
-                results = collection.query(
-                    expr=expr,
-                    output_fields=output_fields,
-                    limit=query_limit
-                )
-                
-                # 應用分頁
-                paginated_results = results[offset:offset + limit] if offset < len(results) else []
-                
+                if expr:
+                    # 嘗試使用查詢
+                    results = collection.query(
+                        expr=expr,
+                        output_fields=output_fields,
+                        limit=query_limit
+                    )
+
+                    # 應用分頁
+                    paginated_results = results[offset:offset + limit] if offset < len(results) else []
+                else:
+                    logger.warning("無法構造查詢表達式，無法獲取資料")
+                    paginated_results = []
+
             except Exception as query_error:
                 logger.warning(f"查詢失敗，嘗試使用搜尋方法: {query_error}")
                 # 如果查詢失敗，提供基本資訊

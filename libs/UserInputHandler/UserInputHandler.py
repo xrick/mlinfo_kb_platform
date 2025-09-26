@@ -57,7 +57,8 @@ class UserInputHandler:
                     "開關機速度": "boot_speed",
                     "螢幕尺寸": "screen_size",
                     "品牌": "brand",
-                    "觸控螢幕": "touch_screen"
+                    "觸控螢幕": "touch_screen",
+                    "產品型號": "product_model"
                 }
         except Exception as e:
             logger.error(f"載入槽位架構失敗: {e}")
@@ -124,7 +125,14 @@ class UserInputHandler:
                 return "", {}
             text = message.strip()
             # 1) 先用每個條目的 regex（若提供）匹配，最準確
-            for slot_name, slot_data in self.keywords_data.items():
+            # 按重要性排序，重要性高的優先檢查
+            sorted_slots = sorted(
+                self.keywords_data.items(),
+                key=lambda x: x[1].get("metadata", {}).get("importance", 0),
+                reverse=True
+            )
+
+            for slot_name, slot_data in sorted_slots:
                 metadata = slot_data.get("metadata", {})
                 pattern = metadata.get("regex")
                 if pattern:
@@ -226,8 +234,14 @@ class UserInputHandler:
             }}
             NB_NUM 欄位生成規則
             在生成 JSON 時，請為 "NB_NUM" 欄位加入以下判斷邏輯：
-            如果 entities 陣列中，有任何一個實體包含「系統」二字 (例如 "819系統")，或者該實體完全由數字組成 (例如 "819")，則此欄位的值為 "all"。
-            若不滿足以上任一狀況 (例如 entities 為 ["ROG Strix", "Vivobook Pro"])，則此欄位的值為 "limit"。
+            - 如果 entities 陣列中，有任何一個實體包含以下文字，或者該實體完全由數字組成 (例如 "819")，則此欄位的值為 "all"。
+              1. "系列"
+              2. "機種"
+              3. "機型"
+              4. "類型"
+              5. "型號"
+              若是以上面5個字眼結尾的實體，則只保留數字即可 (例如 "819系統" 只保留 "819")。
+            - 若不滿足以上任一狀況 (例如 entities 為 ["ROG Strix", "Vivobook Pro"])，則此欄位的值為 "limit"。
 
             範例1:
                 查詢: "我想了解 819系統 這台筆電的散熱跟CPU規格"
@@ -236,8 +250,8 @@ class UserInputHandler:
 
                 {{
                     "intent": "spec_check",
-                    "entities": ["819系統"],
-                    "attributes": ["thermal", "cpu"],
+                    "entities": ["819"],
+                    "attributes": [modeltype, cpu, thermal],
                     "NB_NUM": "all",
                     "language": "zh-TW"
                 }}
