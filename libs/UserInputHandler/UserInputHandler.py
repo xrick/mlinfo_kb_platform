@@ -235,7 +235,7 @@ class UserInputHandler:
             NB_NUM 欄位生成規則
             在生成 JSON 時，請為 "NB_NUM" 欄位加入以下判斷邏輯：
             - 如果 entities 陣列中，有以下任何一個實體是字母與數字的合併，或者該實體完全由數字組成 (例如 "819")，
-              則"entities": [數字],而"attributes"中的值也會包含這個"modeltype",
+              則會格式化成"entities":[數字],而"attributes"中的值也會包含這個"modeltype",
               而不會是"modelname", 並將 "NB_NUM" 欄位設為 "all"。
               1. "系列"
               2. "機種"
@@ -269,7 +269,8 @@ class UserInputHandler:
                     "NB_NUM": "limit",
                     "language": "zh-TW"
                 }}
-            #**客戶需求：**
+            **客戶需求：**
+            請llm將下方的使用者查詢message，修改成更有結構化、能讓LLM更好理解的格式. 
             {message}
         """
         return dedent(entity_extraction_prompt).strip()
