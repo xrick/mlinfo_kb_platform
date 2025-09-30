@@ -1645,7 +1645,7 @@ class KnowledgeManager:
         for number in potential_numbers:
             # Layer 3: 嚴格上下文檢查
             context_keywords = [
-                '機型', '型號', '機種', '類別',
+                '機型', '型號', '機種', '類別', '資料',
                 '系列','產品', '筆電', '筆記型電腦',
                 'laptop', 'notebook', '規格', 'spec',
                 'cpu', 'gpu', '處理器', '差異', '比較', '對比', 'vs'
