@@ -1,8 +1,8 @@
-// new_mgfd_ai.js - Enhanced with Progressive Streaming Support
+// mgfd_ai_fixed.js - Fixed Double Bubble Issue
 // Modified: 2025-10-02
-// Features: 5-Phase Progressive Streaming + Traditional Streaming Fallback
+// Fix: Prevents double bubble messages in progressive streaming
 
-console.log("using new_mgfd_ai.js with progressive streaming support");
+console.log("using mgfd_ai_fixed.js - Double bubble issue resolved");
 let salesAIInitialized = false;
 
 // ✨ Progressive Streaming Feature Flag
@@ -11,227 +11,189 @@ let USE_PROGRESSIVE_STREAMING = true;  // Set to false to use traditional stream
 // Custom markdown table parser as fallback
 function parseMarkdownTable(markdownText) {
     console.log('🔧 Using custom markdown table parser');
-    console.log('📄 Input markdown text:', JSON.stringify(markdownText));
 
     try {
         const lines = markdownText.trim().split('\n');
-        console.log('📝 Split into lines:', lines.length, 'lines:', lines);
 
         if (lines.length < 3) {
-            console.log('❌ Not enough lines for a table (need at least 3)');
-            return markdownText; // Not a table, return as-is
+            return markdownText;
         }
 
-        // Check if it looks like a table (contains | characters)
         const hasFirstLinePipe = lines[0].includes('|');
         const hasSecondLineSeparator = lines[1].includes('---');
-        console.log('🔍 Table format check - First line has |:', hasFirstLinePipe, 'Second line has ---:', hasSecondLineSeparator);
 
         if (!hasFirstLinePipe || !hasSecondLineSeparator) {
-            console.log('❌ Not a table format - missing required characters');
-            return markdownText; // Not a table format
+            return markdownText;
         }
 
-        // Parse header
         const headerCells = lines[0].split('|').map(cell => cell.trim()).filter(cell => cell);
-        console.log('📊 Header cells:', headerCells);
-
-        // Skip separator line (lines[1])
-        console.log('⏭️ Skipping separator line:', lines[1]);
-
-        // Parse data rows
         const dataRows = [];
+
         for (let i = 2; i < lines.length; i++) {
             if (lines[i].includes('|')) {
                 const rowCells = lines[i].split('|').map(cell => cell.trim()).filter(cell => cell);
-                console.log(`📊 Row ${i-1} cells:`, rowCells);
                 dataRows.push(rowCells);
             }
         }
-        console.log('📋 Total data rows:', dataRows.length);
 
-        // Generate HTML table
         let html = '<table>\n<thead>\n<tr>\n';
-        headerCells.forEach((header, index) => {
-            // Remove markdown bold formatting (**text**)
+        headerCells.forEach((header) => {
             const cleanHeader = header.replace(/\*\*(.*?)\*\*/g, '$1');
-            console.log(`📝 Processing header ${index}: "${header}" -> "${cleanHeader}"`);
             html += `<th>${cleanHeader}</th>\n`;
         });
         html += '</tr>\n</thead>\n<tbody>\n';
 
-        dataRows.forEach((row, rowIndex) => {
+        dataRows.forEach((row) => {
             html += '<tr>\n';
-            row.forEach((cell, cellIndex) => {
-                // Remove markdown bold formatting and handle other basic formatting
+            row.forEach((cell) => {
                 const cleanCell = cell.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                console.log(`📝 Processing row ${rowIndex}, cell ${cellIndex}: "${cell}" -> "${cleanCell}"`);
                 html += `<td>${cleanCell}</td>\n`;
             });
             html += '</tr>\n';
         });
 
         html += '</tbody>\n</table>';
-
-        console.log('✅ Custom parser successfully converted table');
-        console.log('🔧 Generated HTML:', html);
         return html;
     } catch (error) {
         console.error('❌ Custom markdown table parser failed:', error);
-        console.error('📄 Failed on input:', markdownText);
-        return markdownText; // Fallback to original text
+        return markdownText;
     }
 }
 
-// Configure marked.js with GFM support
 function configureMarkedJS() {
     if (typeof marked !== 'undefined') {
-        // Configure marked with GitHub Flavored Markdown support
         marked.setOptions({
-            gfm: true,        // Enable GitHub Flavored Markdown
-            tables: true,     // Enable table support
-            breaks: false,    // Disable GFM line breaks (optional)
-            pedantic: false,  // Disable pedantic mode
-            sanitize: false,  // Don't sanitize HTML (we trust our content)
+            gfm: true,
+            tables: true,
+            breaks: false,
+            pedantic: false,
+            sanitize: false,
             smartLists: true,
             smartypants: false
         });
-        console.log('✅ marked.js configured with GFM table support');
+        console.log('✅ marked.js configured');
         return true;
     }
     return false;
 }
 
-// Smart markdown renderer with fallback
 function renderMarkdownContent(markdownText) {
-    console.log('🎯 renderMarkdownContent called with:', typeof markdownText, 'length:', markdownText?.length);
-    console.log('📄 Actual content received:', JSON.stringify(markdownText));
-
     if (!markdownText || typeof markdownText !== 'string') {
-        console.log('❌ Invalid input - not a string or empty');
         return markdownText;
     }
 
-    // Check if content contains table syntax
     const hasTable = markdownText.includes('|') && markdownText.includes('---');
-    console.log('🔍 Table detection - Has | character:', markdownText.includes('|'), 'Has --- separator:', markdownText.includes('---'), 'Final result:', hasTable);
 
     if (!hasTable) {
-        console.log('📝 No table detected, using marked.js for general markdown');
-        // No table, use marked.js for other markdown or return as-is
         if (typeof marked !== 'undefined' && marked.parse) {
             return marked.parse(markdownText);
         }
         return markdownText.replace(/\n/g, '<br>');
     }
 
-    // Content has table - try marked.js first
     if (typeof marked !== 'undefined' && marked.parse) {
         try {
-            console.log('🧪 Trying marked.js table conversion...');
             const markedResult = marked.parse(markdownText);
-            console.log('🔧 marked.js result:', markedResult);
-
-            // Verify that marked.js actually created table elements
             const hasTableElement = markedResult.includes('<table>');
             const hasThElement = markedResult.includes('<th>');
-            console.log('✅ marked.js validation - Has <table>:', hasTableElement, 'Has <th>:', hasThElement);
 
             if (hasTableElement && hasThElement) {
-                console.log('✅ Using marked.js for table rendering');
                 return markedResult;
-            } else {
-                console.warn('⚠️ marked.js did not create proper table, falling back to custom parser');
             }
         } catch (error) {
-            console.error('❌ marked.js failed, falling back to custom parser:', error);
+            console.error('marked.js failed:', error);
         }
     }
 
-    // Fallback to custom parser for tables
-    console.log('🔧 Using custom parser for table rendering');
     return parseMarkdownTable(markdownText);
 }
 
 function initSalesAI() {
-    console.log('Initializing Sales AI view...');
+    console.log('Initializing Sales AI (Fixed Double Bubble)...');
 
-    // Check if marked.js is loaded and configure it
     if (typeof marked !== 'undefined' && marked.parse) {
-        console.log('✅ marked.js is loaded and available (local version)');
-        console.log('📚 marked.js version:', marked?.options?.version || 'unknown');
         configureMarkedJS();
-    } else {
-        console.error('❌ marked.js is not available - tables will use fallback parser');
-        console.warn('🔧 Table rendering will rely on custom parseMarkdownTable() function');
     }
 
     if (salesAIInitialized) {
-        console.log('Sales AI already initialized, returning...');
+        console.log('Already initialized');
         return;
     }
 
     salesAIInitialized = true;
-    console.log('Setting up Sales AI event listeners (one-time)...');
 
-    // DOM 元素獲取
     const userInput = document.getElementById("userInput");
     const sendButton = document.getElementById("sendButton");
     const chatMessages = document.getElementById("chatMessages");
 
     if (!userInput || !sendButton || !chatMessages) {
-        console.error('Required DOM elements not found for Sales AI');
+        console.error('Required DOM elements not found');
         return;
     }
 
     // ==========================================
-    // ✨ ENHANCED sendMessage with Progressive Streaming
+    // ✨ FIXED sendMessage - No Double Bubbles
     // ==========================================
     async function sendMessage() {
         const query = userInput.value.trim();
         if (!query) return;
 
+        // Step 1: Add user message
         appendMessage({ role: "user", content: query });
         userInput.value = "";
         toggleInput(true);
 
-        // Get or create session ID
+        // Step 2: Clean up any existing indicators/containers
+        cleanupExistingIndicators();
+
+        // Step 3: Get session ID
         let sessionId = getSessionId();
 
-        if (USE_PROGRESSIVE_STREAMING) {
-            // Use progressive streaming with 5-phase system
-            console.log("🚀 Progressive streaming mode enabled");
-            try {
+        // Step 4: Route to appropriate streaming method
+        try {
+            if (USE_PROGRESSIVE_STREAMING) {
+                console.log("🚀 Using progressive streaming");
                 await sendProgressiveStreamingMessage(query, sessionId);
-            } catch (error) {
-                console.error("Progressive streaming error, falling back:", error);
-                // Fallback to traditional streaming
+            } else {
+                console.log("📡 Using traditional streaming");
                 await sendTraditionalStreamingMessage(query, sessionId);
             }
-        } else {
-            // Use traditional streaming
-            console.log("📡 Traditional streaming mode");
-            await sendTraditionalStreamingMessage(query, sessionId);
+        } catch (error) {
+            console.error("Streaming error:", error);
+            // On error, show error message in a single bubble
+            appendMessage({
+                role: 'assistant',
+                content: { error: `請求失敗: ${error.message}` }
+            });
+        } finally {
+            toggleInput(false);
+            userInput.focus();
         }
-
-        toggleInput(false);
-        userInput.focus();
     }
 
     // ==========================================
-    // ✨ Progressive Streaming (5-Phase System)
+    // 🧹 Cleanup Helper - Prevents Double Bubbles
     // ==========================================
-    async function sendProgressiveStreamingMessage(query, sessionId) {
-        console.log("🚀 Starting progressive streaming (5-phase system)");
-
-        // Remove any existing thinking indicator
-        const existingThinking = document.getElementById('thinking-indicator');
-        if (existingThinking) {
-            existingThinking.remove();
-            console.log('🗑️ Removed existing thinking indicator');
+    function cleanupExistingIndicators() {
+        // Remove thinking indicator if exists
+        const thinkingIndicator = document.getElementById('thinking-indicator');
+        if (thinkingIndicator) {
+            thinkingIndicator.remove();
+            console.log('🗑️ Removed thinking indicator');
         }
 
-        // Create or get progress bar container
+        // Clean up any orphaned progress bars
+        const orphanedProgress = document.querySelectorAll('.progress-container:empty');
+        orphanedProgress.forEach(el => el.remove());
+    }
+
+    // ==========================================
+    // ✨ Progressive Streaming (No Duplicate Containers)
+    // ==========================================
+    async function sendProgressiveStreamingMessage(query, sessionId) {
+        console.log("🚀 Progressive streaming started");
+
+        // Create progress bar (NOT a message bubble)
         let progressContainer = document.querySelector('.progress-container');
         if (!progressContainer) {
             progressContainer = document.createElement('div');
@@ -240,19 +202,54 @@ function initSalesAI() {
             chatMessages.appendChild(progressContainer);
         }
 
-        const progressBar = document.getElementById('progress-bar');
+        // Ensure we have a usable progress bar and a unique id for selector-based API
+        let progressBar = progressContainer.querySelector('.progress-bar') || document.getElementById('progress-bar');
+        if (!progressBar) {
+            progressBar = document.createElement('div');
+            progressBar.className = 'progress-bar';
+            progressContainer.appendChild(progressBar);
+        }
+        if (!progressBar.id) {
+            const generatedProgressId = `progress-bar-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+            progressBar.id = generatedProgressId;
+        }
+        const progressBarId = progressBar.id;
 
-        // Create message container for progressive content
+        // Create ONE message container for the entire response
         const assistantMessageContainer = createMessageContainer('assistant');
         const contentDiv = assistantMessageContainer.querySelector('.message-content');
 
-        // Create renderer
-        const renderer = new ProgressiveMarkdownRenderer(
-            contentDiv,
-            progressBar
-        );
+        // Assign a unique id to content container for selector-based renderer API
+        if (!contentDiv.id) {
+            const generatedContentId = `msg-content-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+            contentDiv.id = generatedContentId;
+        }
+        const contentId = contentDiv.id;
 
+        // Check if ProgressiveMarkdownRenderer is available
+        if (typeof ProgressiveMarkdownRenderer === 'undefined') {
+            console.error('❌ ProgressiveMarkdownRenderer not loaded!');
+            // Fallback to traditional
+            progressContainer.remove();
+            assistantMessageContainer.remove();
+            await sendTraditionalStreamingMessage(query, sessionId);
+            return;
+        }
+
+        // Create renderer with selector strings per renderer API contract
+        const renderer = new ProgressiveMarkdownRenderer(`#${contentId}`, `#${progressBarId}`);
         renderer.reset();
+
+        // Show in-bubble thinking spinner until first token arrives
+        const contentDivEl = document.getElementById(contentId);
+        if (contentDivEl) {
+            contentDivEl.innerHTML = `
+                <div class="message-content thinking-indicator">
+                    <div class="spinner"></div>
+                    <span>AI 正在思考中...</span>
+                </div>
+            `;
+        }
 
         try {
             const response = await fetch("/api/mgfd/chat-progressive", {
@@ -265,7 +262,7 @@ function initSalesAI() {
             });
 
             if (!response.ok) {
-                throw new Error(`HTTP 錯誤！ 狀態: ${response.status}`);
+                throw new Error(`HTTP ${response.status}`);
             }
 
             const reader = response.body.getReader();
@@ -278,9 +275,8 @@ function initSalesAI() {
 
                 buffer += decoder.decode(value, { stream: true });
 
-                // Process complete SSE messages
                 const lines = buffer.split('\n\n');
-                buffer = lines.pop(); // Keep incomplete message
+                buffer = lines.pop();
 
                 for (const line of lines) {
                     if (line.startsWith('data: ')) {
@@ -290,80 +286,89 @@ function initSalesAI() {
                                 const data = JSON.parse(jsonDataString);
                                 handleProgressiveUpdate(data, renderer);
                             } catch (e) {
-                                console.error('JSON parse error:', e, jsonDataString);
+                                console.error('JSON parse error:', e);
                             }
                         }
                     }
                 }
             }
 
-            console.log('✅ Progressive streaming completed successfully');
+            console.log('✅ Progressive streaming complete');
 
         } catch (error) {
-            console.error("Progressive streaming request error:", error);
+            console.error("Progressive streaming error:", error);
             renderer.handleError(`請求失敗: ${error.message}`);
             throw error;
         }
     }
 
-    // Handle progressive update messages
     function handleProgressiveUpdate(data, renderer) {
-        console.log('📨 Progressive update:', data.type, data);
-
         switch (data.type) {
             case 'progress':
-                // Update progress bar
-                renderer.updateProgress(
-                    data.phase,
-                    data.message,
-                    data.progress
-                );
+                renderer.updateProgress(data.phase, data.message, data.progress);
                 break;
 
             case 'phase_result':
-                // Phase completed
-                console.log(`✅ Phase ${data.phase} complete:`, data.data);
+                console.log(`✅ Phase ${data.phase} done`);
                 break;
 
             case 'markdown_token':
-                // Add markdown token progressively
                 renderer.addToken(data.token);
                 break;
 
             case 'complete':
-                // Streaming complete
+                // If backend packs final response under data.response, render it before completing
+                try {
+                    if (data.data && data.data.response) {
+                        renderer.addToken(data.data.response);
+                    }
+                } catch (e) {
+                    console.warn('Finalize render failed:', e);
+                }
                 renderer.complete();
-                console.log('✅ Progressive streaming complete');
                 break;
 
             case 'error':
-                // Error occurred
                 renderer.handleError(data.message);
-                console.error('❌ Progressive streaming error:', data.message);
                 break;
 
             default:
-                console.warn('Unknown progressive message type:', data.type);
+                // Fallback handling: backend may fallback to non-progressive JSON
+                try {
+                    if (data.message) {
+                        renderer.addToken(typeof data.message === 'string' ? data.message : JSON.stringify(data.message));
+                    } else if (data.response) {
+                        renderer.addToken(data.response);
+                    } else if (typeof data === 'string') {
+                        renderer.addToken(data);
+                    } else {
+                        console.warn('Unknown type:', data.type);
+                    }
+                } catch (e) {
+                    console.warn('Fallback render error:', e);
+                }
         }
     }
 
     // ==========================================
-    // 📡 Traditional Streaming (Fallback)
+    // 📡 Traditional Streaming (Clean, No Duplicates)
     // ==========================================
     async function sendTraditionalStreamingMessage(query, sessionId) {
-        console.log("📡 Using traditional streaming");
+        console.log("📡 Traditional streaming started");
 
+        // Show thinking indicator (will be replaced by actual content)
         const thinkingBubble = showThinkingIndicator();
 
         try {
-            // const response = await fetch("/api/mgfd/chat/stream", {
-                const response = await fetch("/api/mgfd/chat-progressive", {    
+            const response = await fetch("/api/mgfd/chat/stream", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message: query, session_id: sessionId }),
             });
 
-            if (!response.ok) throw new Error(`HTTP 錯誤！ 狀態: ${response.status}`);
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
 
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
@@ -378,7 +383,6 @@ function initSalesAI() {
                 const chunk = decoder.decode(value, { stream: true });
                 fullResponseText += chunk;
 
-                // Process complete SSE messages
                 const lines = fullResponseText.split('\n\n');
 
                 for (let i = 0; i < lines.length - 1; i++) {
@@ -386,45 +390,50 @@ function initSalesAI() {
                     if (line.startsWith('data: ')) {
                         const jsonDataString = line.substring(6);
                         if (jsonDataString) {
+                            // Remove thinking bubble on first data
                             if (thinkingBubble && document.body.contains(thinkingBubble)) {
                                 thinkingBubble.remove();
                             }
+
                             try {
                                 const jsonData = JSON.parse(jsonDataString);
+
+                                // Create container ONCE
                                 if (!assistantMessageContainer) {
                                     assistantMessageContainer = createMessageContainer('assistant');
                                 }
-                                renderMessageContent(assistantMessageContainer.querySelector('.message-content'), jsonData);
+
+                                renderMessageContent(
+                                    assistantMessageContainer.querySelector('.message-content'),
+                                    jsonData
+                                );
                             } catch (e) {
-                                console.error("JSON 解析錯誤:", e, "Data:", jsonDataString);
-                                if (assistantMessageContainer) {
-                                    renderMessageContent(assistantMessageContainer.querySelector('.message-content'), { error: `回應格式錯誤: ${e.message}` });
-                                }
+                                console.error("JSON parse error:", e);
                             }
                         }
                     }
                 }
-                // Keep incomplete message for next iteration
+
                 fullResponseText = lines[lines.length - 1];
             }
         } catch (error) {
-            console.error("請求錯誤:", error);
-            if (thinkingBubble && document.body.contains(thinkingBubble)) thinkingBubble.remove();
-            appendMessage({ role: 'assistant', content: { error: `請求失敗: ${error.message}` } });
+            console.error("Traditional streaming error:", error);
+            if (thinkingBubble && document.body.contains(thinkingBubble)) {
+                thinkingBubble.remove();
+            }
+            throw error;
         }
     }
 
     // ==========================================
-    // 🔑 Session ID Management
+    // 🔑 Session Management
     // ==========================================
     function getSessionId() {
         let sessionId = sessionStorage.getItem('mgfd_session_id');
         if (!sessionId) {
             sessionId = generateUUID();
             sessionStorage.setItem('mgfd_session_id', sessionId);
-            console.log('🆕 Created new session ID:', sessionId);
-        } else {
-            console.log('📌 Using existing session ID:', sessionId);
+            console.log('🆕 New session:', sessionId);
         }
         return sessionId;
     }
@@ -438,7 +447,7 @@ function initSalesAI() {
     }
 
     // ==========================================
-    // 🎨 UI Helper Functions
+    // 🎨 UI Helpers
     // ==========================================
     function createMessageContainer(role) {
         const messageContainer = document.createElement('div');
@@ -460,8 +469,7 @@ function initSalesAI() {
                 const copyBtn = messageCard.querySelector('.copy-btn');
                 if (copyBtn) {
                     copyBtn.addEventListener('click', () => {
-                        const content = messageContainer.assistantData;
-                        copyToClipboard(content);
+                        copyToClipboard(messageContainer.assistantData);
                     });
                 }
             }
@@ -476,7 +484,10 @@ function initSalesAI() {
 
     function appendMessage(message) {
         const messageContainer = createMessageContainer(message.role);
-        renderMessageContent(messageContainer.querySelector('.message-content'), message.content);
+        renderMessageContent(
+            messageContainer.querySelector('.message-content'),
+            message.content
+        );
         if (message.role === 'assistant') {
             messageContainer.assistantData = message.content;
         }
@@ -484,10 +495,8 @@ function initSalesAI() {
     }
 
     function renderMessageContent(container, content) {
-        console.log("renderMessageContent called with:", typeof content);
-
         if (!content) {
-            container.innerHTML = "<p>收到空的回應。</p>";
+            container.innerHTML = "<p>收到空的回應</p>";
             return;
         }
 
@@ -501,18 +510,13 @@ function initSalesAI() {
             return;
         }
 
-        // Handle different content types
         if (content.type === 'general') {
             const message = content.message || content.response_message || '系統回應';
-            container.innerHTML = `
-                <div class="general-response">
-                    <div class="message-content">${renderMarkdownContent(message)}</div>
-                </div>
-            `;
+            container.innerHTML = `<div class="general-response">${renderMarkdownContent(message)}</div>`;
             return;
         }
 
-        // Default rendering for other types
+        // Default: try to render any content
         let markdownString = "";
 
         if (content.answer_summary) {
@@ -531,13 +535,8 @@ function initSalesAI() {
         if (markdownString) {
             container.innerHTML = renderMarkdownContent(markdownString);
         } else {
-            // Fallback for unknown format
-            const fallbackMessage = content.message || JSON.stringify(content, null, 2);
-            container.innerHTML = `<div class="unknown-response">${fallbackMessage}</div>`;
-        }
-
-        if (container.parentElement?.parentElement) {
-            container.parentElement.parentElement.assistantData = content;
+            const fallback = content.message || JSON.stringify(content, null, 2);
+            container.innerHTML = `<div>${fallback}</div>`;
         }
     }
 
@@ -571,16 +570,16 @@ function initSalesAI() {
     }
 
     function copyToClipboard(content) {
-        const textToCopy = JSON.stringify(content, null, 2);
-        navigator.clipboard.writeText(textToCopy).then(() => {
-            alert("已複製到剪貼簿！");
+        const text = JSON.stringify(content, null, 2);
+        navigator.clipboard.writeText(text).then(() => {
+            alert("已複製！");
         }).catch(err => {
             console.error('複製失敗:', err);
         });
     }
 
     // ==========================================
-    // 🎯 Event Listeners
+    // Event Listeners
     // ==========================================
     userInput.addEventListener("keydown", (e) => {
         if (e.key === "Enter" && !e.shiftKey) {
@@ -601,10 +600,9 @@ function initSalesAI() {
         });
     }
 
-    console.log('✅ Sales AI initialized successfully with progressive streaming support');
+    console.log('✅ Sales AI initialized (Fixed)');
 }
 
-// Make initSalesAI available globally
 window.initSalesAI = initSalesAI;
 
-console.log('✅ new_mgfd_ai.js loaded - Progressive Streaming Ready!');
+console.log('✅ mgfd_ai_fixed.js loaded - Double bubble issue resolved');

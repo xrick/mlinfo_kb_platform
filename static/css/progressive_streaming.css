@@ -1,0 +1,458 @@
+/* Progressive Streaming CSS
+ * Author: Claude (SuperClaude)
+ * Date: 2025-10-01
+ *
+ * Styles for progressive streaming UI with phase indicators,
+ * progress bars, and markdown rendering.
+ */
+
+/* ==========================================================================
+   Progress Bar
+   ========================================================================== */
+
+.progress-container {
+    width: 100%;
+    margin: 15px 0;
+    background: #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+    width: 0%;
+    height: 35px;
+    background: linear-gradient(90deg, #4CAF50, #8BC34A);
+    color: white;
+    text-align: center;
+    line-height: 35px;
+    border-radius: 8px;
+    transition: width 0.3s ease, background 0.3s ease;
+    font-weight: 500;
+    font-size: 14px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Phase-specific colors */
+.progress-bar.phase-1 {
+    background: linear-gradient(90deg, #2196F3, #64B5F6);
+}
+
+.progress-bar.phase-2 {
+    background: linear-gradient(90deg, #9C27B0, #BA68C8);
+}
+
+.progress-bar.phase-3 {
+    background: linear-gradient(90deg, #FF9800, #FFB74D);
+}
+
+.progress-bar.phase-4 {
+    background: linear-gradient(90deg, #4CAF50, #81C784);
+}
+
+.progress-bar.phase-5 {
+    background: linear-gradient(90deg, #00BCD4, #4DD0E1);
+}
+
+.progress-bar.complete {
+    background: #4CAF50;
+    animation: pulse 0.5s ease;
+}
+
+.progress-bar.error {
+    background: #f44336;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* Animated progress bar shine effect */
+.progress-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    animation: shine 2s infinite;
+}
+
+@keyframes shine {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+/* ==========================================================================
+   Chat Response Container
+   ========================================================================== */
+
+#chat-response {
+    max-height: 600px;
+    overflow-y: auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+/* Scrollbar styling */
+#chat-response::-webkit-scrollbar {
+    width: 8px;
+}
+
+#chat-response::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+#chat-response::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+#chat-response::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* ==========================================================================
+   Phase Markers
+   ========================================================================== */
+
+.phase-marker {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+    padding: 10px;
+    background: rgba(33, 150, 243, 0.05);
+    border-left: 4px solid #2196F3;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #666;
+}
+
+.phase-marker.phase-1 {
+    border-left-color: #2196F3;
+    background: rgba(33, 150, 243, 0.05);
+}
+
+.phase-marker.phase-2 {
+    border-left-color: #9C27B0;
+    background: rgba(156, 39, 176, 0.05);
+}
+
+.phase-marker.phase-3 {
+    border-left-color: #FF9800;
+    background: rgba(255, 152, 0, 0.05);
+}
+
+.phase-marker.phase-5 {
+    border-left-color: #00BCD4;
+    background: rgba(0, 188, 212, 0.05);
+}
+
+.phase-marker-icon {
+    display: inline-block;
+    padding: 4px 8px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    font-weight: 600;
+    margin-right: 10px;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.phase-marker-text {
+    flex: 1;
+}
+
+/* ==========================================================================
+   Markdown Content Styling
+   ========================================================================== */
+
+#chat-response h1,
+#chat-response h2,
+#chat-response h3,
+#chat-response h4 {
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+#chat-response h1 {
+    font-size: 28px;
+    border-bottom: 3px solid #4CAF50;
+    padding-bottom: 8px;
+}
+
+#chat-response h2 {
+    font-size: 24px;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 6px;
+}
+
+#chat-response h3 {
+    font-size: 20px;
+    border-bottom: 1px solid #E0E0E0;
+    padding-bottom: 4px;
+}
+
+#chat-response h4 {
+    font-size: 18px;
+}
+
+#chat-response p {
+    margin: 10px 0;
+    color: #444;
+}
+
+#chat-response strong {
+    color: #222;
+    font-weight: 600;
+}
+
+#chat-response em {
+    font-style: italic;
+    color: #666;
+}
+
+#chat-response ul,
+#chat-response ol {
+    margin: 10px 0;
+    padding-left: 30px;
+}
+
+#chat-response li {
+    margin: 5px 0;
+}
+
+/* ==========================================================================
+   Markdown Tables
+   ========================================================================== */
+
+.markdown-table,
+#chat-response table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.markdown-table th,
+#chat-response table th {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    border: none;
+}
+
+.markdown-table td,
+#chat-response table td {
+    border: 1px solid #E0E0E0;
+    padding: 12px;
+    text-align: left;
+}
+
+.markdown-table tr:nth-child(even),
+#chat-response table tbody tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+.markdown-table tr:hover,
+#chat-response table tbody tr:hover {
+    background-color: #f0f0f0;
+    transition: background-color 0.2s ease;
+}
+
+/* ==========================================================================
+   Error Messages
+   ========================================================================== */
+
+.error-message {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #ffebee;
+    color: #c62828;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #f44336;
+    margin: 15px 0;
+}
+
+.error-icon {
+    font-size: 24px;
+}
+
+.error-text {
+    flex: 1;
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   Loading Indicators
+   ========================================================================== */
+
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==========================================================================
+   Code Blocks
+   ========================================================================== */
+
+#chat-response code {
+    background: #f4f4f4;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 90%;
+    color: #c7254e;
+}
+
+#chat-response pre {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 15px 0;
+}
+
+#chat-response pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+    font-size: 14px;
+}
+
+/* ==========================================================================
+   Blockquotes
+   ========================================================================== */
+
+#chat-response blockquote {
+    border-left: 4px solid #4CAF50;
+    margin: 15px 0;
+    padding: 10px 20px;
+    background: #f9f9f9;
+    color: #666;
+    font-style: italic;
+}
+
+/* ==========================================================================
+   Links
+   ========================================================================== */
+
+#chat-response a {
+    color: #2196F3;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+#chat-response a:hover {
+    border-bottom-color: #2196F3;
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    #chat-response {
+        max-height: 400px;
+        padding: 15px;
+    }
+
+    .markdown-table,
+    #chat-response table {
+        font-size: 14px;
+    }
+
+    .markdown-table th,
+    .markdown-table td,
+    #chat-response table th,
+    #chat-response table td {
+        padding: 8px;
+    }
+
+    #chat-response h1 {
+        font-size: 24px;
+    }
+
+    #chat-response h2 {
+        font-size: 20px;
+    }
+
+    #chat-response h3 {
+        font-size: 18px;
+    }
+}
+
+/* ==========================================================================
+   Animation Classes
+   ========================================================================== */
+
+.fade-in {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-in {
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

@@ -14,7 +14,7 @@ return {
 import logging
 import json
 import redis
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional, List, AsyncGenerator
 import asyncio
 from datetime import datetime
 from pathlib import Path
@@ -34,6 +34,9 @@ from .KnowledgeManageHandler.knowledge_manager import KnowledgeManager
 from .ResponseGenHandler import ResponseGenHandler
 from dataclasses import dataclass
 from .RAG.LLM.LLMInitializer import LLMInitializer
+from .services.sales_assistant.progressive_streaming import (
+    create_progressive_streaming_service
+)
 from langchain.prompts import PromptTemplate
 import re
 import ast
@@ -78,6 +81,7 @@ class MGFDKernel:
         Args:
             redis_client: Redis 客戶端實例，用於會話狀態持久化
         """
+        self.progressive_service = None
         # 嘗試初始化 LLM（最小變更；失敗則保持回退機制）
         self.llm = None
         self.query_rule = None
@@ -768,6 +772,75 @@ class MGFDKernel:
         except Exception as e:
             logger.error(f"處理消息時發生錯誤: {e}", exc_info=True)
             return self._create_error_response(f"系統內部錯誤: {str(e)}")
+    
+    def get_progressive_service(self):
+        """Get or create progressive streaming service (lazy initialization)"""
+        if not self.progressive_service:
+            try:
+                # Create a minimal service wrapper for compatibility
+                from dataclasses import dataclass
+
+                @dataclass
+                class ServiceWrapper:
+                    llm: Any
+                    milvus_query: Any
+                    duckdb_query: Any
+
+                # Wrap current components
+                wrapper = ServiceWrapper(
+                    llm=self.llm,
+                    milvus_query=self.knowledge_manager.milvus_query if hasattr(self.knowledge_manager, 'milvus_query') else None,
+                    duckdb_query=self.knowledge_manager.duckdb_query if hasattr(self.knowledge_manager, 'duckdb_query') else None
+                )
+
+                self.progressive_service = create_progressive_streaming_service(wrapper)
+                logger.info("Progressive streaming service initialized")
+            except Exception as e:
+                logger.error(f"Failed to initialize progressive streaming: {e}")
+                self.progressive_service = None
+
+        return self.progressive_service
+
+    async def process_message_progressive(
+        self,
+        session_id: str,
+        message: str
+    ) -> AsyncGenerator[str, None]:
+        """
+        Process message with progressive streaming (5-phase system)
+
+        This is an alternative to process_message() that uses progressive streaming.
+
+        Args:
+            session_id: Session ID
+            message: User message
+
+        Yields:
+            SSE-formatted strings with progressive updates
+        """
+        try:
+            # Get or create progressive service
+            service = self.get_progressive_service()
+
+            if not service:
+                # Fallback to regular processing
+                logger.warning("Progressive service not available, using fallback")
+                result = await self.process_message(session_id, message, stream=False)
+                yield f"data: {json.dumps(result, ensure_ascii=False)}\n\n"
+                return
+
+            # Use progressive streaming
+            async for update in service.chat_stream_progressive(message):
+                yield update
+
+        except Exception as e:
+            logger.error(f"Error in progressive streaming: {e}")
+            error_response = {
+                "type": "error",
+                "message": f"處理失敗: {str(e)}",
+                "success": False
+            }
+            yield f"data: {json.dumps(error_response, ensure_ascii=False)}\n\n"
     
     
     async def get_session_state(self, session_id: str) -> Dict[str, Any]:

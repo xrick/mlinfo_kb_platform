@@ -5,6 +5,8 @@
     <meta charset="UTF-8-sig">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SalesRAG 整合系統</title>
+    <!-- Add progressive streaming CSS -->
+    <link rel="stylesheet" href="/static/css/progressive_streaming.css">
     <link rel="stylesheet" href="/static/css/integrated.css?v=20250724e">
     <link rel="stylesheet" href="/static/css/components.css?v=20250724e">
     <link rel="stylesheet" href="/static/css/milvus-viewer.css?v=20250910">
@@ -52,6 +54,10 @@
                 <div class="chat-header">
                     <h1>💻 筆記型電腦銷售助手</h1>
                     <p>智能比較筆記型電腦規格與性能</p>
+                </div>
+                 <!-- Progress bar container -->
+                <div class="progress-container">
+                    <div id="progress-bar" class="progress-bar"></div>
                 </div>
 
                 <div id="chatMessages" class="chat-messages">
@@ -138,7 +144,8 @@
     <!-- Scripts -->
     <script src="/static/js/marked.min.js"></script>
     <script src="/static/js/app.js?v=20250724e"></script>
-    <script src="/static/js/mgfd_ai.js?v=20250904e"></script>
+    <script src="/static/js/progressive_markdown_renderer.js"></script>
+    <script src="/static/js/mgfd_ai_fixed.js?v=20250904e"></script>
     <!-- <script src="/static/js/sales_ai.js?v=20250724e"></script> -->
     <script src="/static/js/history.js?v=20250724e"></script>
     <script src="/static/js/milvus-viewer.js?v=20250910"></script>

@@ -10,6 +10,7 @@ from .multichat.funnel_manager import FunnelConversationManager, FunnelQueryType
 import logging
 import re
 from typing import Dict, Any
+from .progressive_streaming import create_progressive_streaming_service
 
 # 設定日誌
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -119,6 +120,26 @@ class SalesAssistantService(BaseService):
             'wireless', 'lan', 'bluetooth', 'softwareconfig', 'ai', 'accessory', 
             'certfications', 'otherfeatures'
         ]
+        self.progressive_service = None
+
+    # Add method to get progressive service
+    def get_progressive_service(self):
+        """Get or create progressive streaming service"""
+        if not self.progressive_service:
+            self.progressive_service = create_progressive_streaming_service(self)
+        return self.progressive_service
+
+    # Add new streaming method
+    async def chat_stream_progressive(self, query: str, **kwargs):
+        """
+        Progressive streaming with 5-phase system
+
+        This replaces or augments the existing chat_stream method.
+        """
+        service = self.get_progressive_service()
+        async for update in service.chat_stream_progressive(query, **kwargs):
+            yield update
+
 
     def _load_prompt_template(self, path: str) -> str:
         with open(path, 'r', encoding='utf-8') as f:

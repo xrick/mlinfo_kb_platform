@@ -20,7 +20,10 @@ from .models import (
     SystemStatus, HealthResponse, ErrorResponse, StreamResponse,
     ResetSessionRequest, ResetSessionResponse, APIVersion
 )
-
+# from fastapi import APIRouter, Request
+# from fastapi.responses import StreamingResponse, JSONResponse
+from starlette.responses import StreamingResponse as StarletteStreamingResponse
+import logging
 # 創建Router
 router = APIRouter()
 
@@ -370,3 +373,61 @@ async def get_stats(
 
 
 
+@router.post("/chat-progressive")
+async def chat_progressive(request: Request):
+    """
+    Progressive streaming chat endpoint with 5-phase system
+
+    Request body:
+    {
+        "session_id": "optional_session_id",
+        "message": "user message"
+    }
+
+    Returns:
+        SSE stream with progressive updates
+    """
+    try:
+        data = await request.json()
+        message = data.get("message")
+        session_id = data.get("session_id")
+
+        if not message:
+            return JSONResponse(
+                status_code=400,
+                content={"error": "Message is required"}
+            )
+
+        # Generate session_id if not provided
+        if not session_id:
+            import uuid
+            session_id = str(uuid.uuid4())
+
+        logger.info(f"Progressive chat request - Session: {session_id}, Message: {message[:50]}...")
+
+        # Use progressive streaming
+        if hasattr(mgfd_system, 'process_message_progressive'):
+            return StreamingResponse(
+                mgfd_system.process_message_progressive(session_id, message),
+                media_type="text/event-stream",
+                headers={
+                    "Cache-Control": "no-cache",
+                    "Connection": "keep-alive",
+                    "X-Accel-Buffering": "no"
+                }
+            )
+        else:
+            # Fallback to regular processing
+            logger.warning("Progressive streaming not available, using fallback")
+            result = await mgfd_system.process_message(session_id, message, stream=False)
+            return JSONResponse(content=result)
+
+    except Exception as e:
+        logger.error(f"Error in progressive chat: {e}")
+        return JSONResponse(
+            status_code=500,
+            content={
+                "error": "Internal server error",
+                "details": str(e)
+            }
+        )
