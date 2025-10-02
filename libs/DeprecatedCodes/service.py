@@ -1,3 +1,5 @@
+# libs/DeprecatedCodes/service.py
+# libs/services/sales_assistant/service.py
 import json
 import pandas as pd
 from prettytable import PrettyTable

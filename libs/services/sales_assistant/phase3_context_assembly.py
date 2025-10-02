@@ -225,7 +225,8 @@ class Phase3ContextAssembly:
         truncated_products = products[:initial_limit]
 
         # Strategy 2: Essential fields (always include these)
-        essential_fields = ['modeltype', 'modelname', 'cpu', 'gpu', 'memory', 'storage']
+        # Include battery and lcd as default core specs that users frequently ask about
+        essential_fields = ['modeltype', 'modelname', 'cpu', 'gpu', 'memory', 'storage', 'battery', 'lcd']
 
         # Add feature-specific fields
         feature_field_map = {

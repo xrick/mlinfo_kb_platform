@@ -224,7 +224,7 @@ class Phase1QueryUnderstanding:
             "記憶體": ["記憶體", "内存", "ram", "memory"],
             "儲存": ["儲存", "存储", "硬碟", "ssd", "storage"],
             "螢幕": ["螢幕", "屏幕", "顯示", "lcd"],
-            "電池": ["電池", "续航", "battery"]
+            "電池": ["電池", "电池", "續航", "续航", "續航力", "续航力", "battery", "充電", "充电"]
         }
 
         for feature, keywords in feature_keywords.items():

@@ -1,3 +1,4 @@
+# libs/RAG/LLM/LLMInitializer.py
 from typing import Optional
 from langchain_ollama import OllamaLLM
 
@@ -18,7 +19,7 @@ class LLMInitializer:
     def __init__(
         self,
         model_name: str = "gpt-oss:20b",
-        temperature: float = 0.1,
+        temperature: float = 0.3,
         request_timeout: int = 60
         # context_limit_override: Optional[int] = None,
     ):
