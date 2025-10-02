@@ -178,22 +178,51 @@ class Phase4ResponseGeneration:
             # Prepare prompt
             prompt = self._build_prompt(query, analysis, context)
 
-            # Setup streaming callback
+            # Setup streaming queue for token-by-token delivery
             queue = asyncio.Queue()
-            callback = ProgressiveStreamingCallback(queue)
 
             # Start LLM generation in background task
             async def generate():
                 try:
-                    # Use streaming if available
+                    full_response = ""
+
+                    # OllamaLLM doesn't support callbacks, use native streaming
                     if hasattr(self.llm, 'astream'):
-                        async for chunk in self.llm.astream(prompt, callbacks=[callback]):
-                            pass
+                        # Use async streaming (preferred)
+                        async for chunk in self.llm.astream(prompt):
+                            token = str(chunk) if chunk else ""
+                            if token:
+                                full_response += token
+                                await queue.put({
+                                    "type": "markdown_token",
+                                    "token": token
+                                })
                     elif hasattr(self.llm, 'ainvoke'):
-                        await self.llm.ainvoke(prompt, callbacks=[callback])
+                        # Async invoke without streaming
+                        response = await self.llm.ainvoke(prompt)
+                        full_response = str(response) if response else ""
+                        # Simulate streaming by chunking response
+                        chunk_size = 10
+                        for i in range(0, len(full_response), chunk_size):
+                            chunk = full_response[i:i+chunk_size]
+                            await queue.put({
+                                "type": "markdown_token",
+                                "token": chunk
+                            })
+                            await asyncio.sleep(0.01)  # Small delay for streaming effect
                     else:
-                        # Fallback to sync
-                        await asyncio.to_thread(self.llm.invoke, prompt, callbacks=[callback])
+                        # Fallback to sync invoke
+                        response = await asyncio.to_thread(self.llm.invoke, prompt)
+                        full_response = str(response) if response else ""
+                        # Simulate streaming by chunking response
+                        chunk_size = 10
+                        for i in range(0, len(full_response), chunk_size):
+                            chunk = full_response[i:i+chunk_size]
+                            await queue.put({
+                                "type": "markdown_token",
+                                "token": chunk
+                            })
+                            await asyncio.sleep(0.01)  # Small delay for streaming effect
 
                     await queue.put(None)  # Signal completion
                 except Exception as e:

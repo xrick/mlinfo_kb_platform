@@ -516,6 +516,73 @@ class StreamingCache:
                 'message': str(e)
             }
 
+    async def get_async(
+        self,
+        key: str
+    ) -> Optional[str]:
+        """
+        Async wrapper for Redis get operation
+
+        Args:
+            key: Cache key
+
+        Returns:
+            Cached value as string, or None if not found
+
+        Example:
+            >>> cached = await cache.get_async("phase1:abc123")
+        """
+        if not self.enabled:
+            return None
+
+        try:
+            import asyncio
+            result = await asyncio.to_thread(self.client.get, key)
+            if result:
+                self.stats.record_hit()
+                logger.debug(f"Async cache HIT: {key[:50]}...")
+            else:
+                self.stats.record_miss()
+                logger.debug(f"Async cache MISS: {key[:50]}...")
+            return result
+        except Exception as e:
+            logger.error(f"Async cache get error: {e}")
+            self.stats.record_error()
+            return None
+
+    async def set_async(
+        self,
+        key: str,
+        value: str,
+        ttl: int = 300
+    ) -> bool:
+        """
+        Async wrapper for Redis set operation with TTL
+
+        Args:
+            key: Cache key
+            value: Value to cache (string)
+            ttl: Time to live in seconds (default: 300 = 5 minutes)
+
+        Returns:
+            True if set successfully, False otherwise
+
+        Example:
+            >>> success = await cache.set_async("phase1:abc123", json_data, ttl=300)
+        """
+        if not self.enabled:
+            return False
+
+        try:
+            import asyncio
+            await asyncio.to_thread(self.client.setex, key, ttl, value)
+            logger.debug(f"Async cache SET: {key[:50]}... (TTL: {ttl}s)")
+            return True
+        except Exception as e:
+            logger.error(f"Async cache set error: {e}")
+            self.stats.record_error()
+            return False
+
     def close(self):
         """Close Redis connection pool"""
         if self.enabled and hasattr(self, 'pool'):

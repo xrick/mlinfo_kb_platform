@@ -1,3 +1,4 @@
+// static/js/mgfd_ai_fixed.js
 // mgfd_ai_fixed.js - Fixed Double Bubble Issue
 // Modified: 2025-10-02
 // Fix: Prevents double bubble messages in progressive streaming

@@ -22,17 +22,24 @@ This is a **SalesRAG Integration System** - a unified interface combining Sales-
 ├── main.py                     # FastAPI application entry point
 ├── config.py                   # Central configuration management
 ├── api/                        # API route handlers
-│   ├── sales_routes.py         # Sales-AI chat endpoints
+│   ├── mgfd_routes.py          # MGFD核心系統 API endpoints
 │   ├── specs_routes.py         # Data upload/processing endpoints
-│   └── history_routes.py       # Data history management
+│   ├── history_routes.py       # Data history management
+│   └── milvus_routes.py        # Milvus vector database viewer
 ├── libs/
+│   ├── MGFDKernel.py           # 核心系統 Kernel (統一入口)
 │   ├── RAG/                    # RAG implementation components
 │   │   ├── DB/                 # Database query classes (Milvus, DuckDB)
 │   │   ├── LLM/                # LLM initialization and management
 │   │   └── Tools/              # Content processing utilities
 │   ├── services/               # Business logic services
-│   │   └── sales_assistant/    # Sales AI service with prompts
-│   └── service_manager.py      # Service orchestration
+│   │   └── sales_assistant/    # Sales AI with progressive streaming
+│   ├── caching/                # Redis cache for streaming optimization
+│   ├── UserInputHandler/       # 用戶輸入處理與槽位抽取
+│   ├── KnowledgeManageHandler/ # 知識庫管理 (Milvus + 多源檢索)
+│   ├── PromptManagementHandler/# Prompt 模板管理
+│   ├── ResponseGenHandler/     # 響應生成策略
+│   └── StateManageHandler/     # 狀態管理與流程控制
 ├── static/                     # Frontend assets (CSS/JS)
 ├── templates/                  # HTML templates
 ├── scripts/                    # Deployment and management scripts
@@ -81,24 +88,58 @@ python tools/duckdb_viewer_cli.py
 
 ## Key Components
 
+### System Architecture Evolution
+
+**Current Architecture (v2.0.0)**: Kernel-Based Unified System
+- **Execution Path**: `main.py` → `mgfd_routes.py` → `MGFDKernel.py`
+- **MGFDKernel**: Centralized kernel orchestrating all system components
+- **Progressive Streaming**: 5-phase ChatGPT-style markdown rendering system
+- **Modular Handlers**: Specialized handlers for input, knowledge, prompts, responses, and state
+
+**Deprecated Architecture (v1.x)**: Service-Based Distributed System
+- Removed `ServiceManager` auto-discovery pattern
+- Removed `sales_routes.py` and old service-based endpoints
+- All functionality migrated to MGFDKernel-based architecture
+
+### MGFDKernel - Core System
+Located in `libs/MGFDKernel.py`, this is the unified entry point providing:
+- **LLM Management**: OllamaLLM initialization and configuration
+- **User Input Handler**: Slot extraction and intent recognition
+- **Knowledge Manager**: Multi-source retrieval (Milvus + DuckDB)
+- **Prompt Manager**: Template-based prompt generation
+- **Response Generator**: Strategy-based response generation
+- **State Manager**: DSM (Dynamic State Machine) for workflow control
+- **Progressive Streaming**: Integration of 5-phase streaming service
+
+### Progressive Streaming System
+Located in `libs/services/sales_assistant/progressive_streaming.py`:
+
+**5-Phase Pipeline**:
+1. **Query Understanding**: Entity extraction, intent analysis (Phase 1)
+2. **Parallel Retrieval**: Multi-source data retrieval from Milvus/DuckDB (Phase 2)
+3. **Context Assembly**: Ranking and token-aware context building (Phase 3)
+4. **Response Generation**: Token-by-token markdown streaming (Phase 4)
+5. **Post-processing**: Final formatting and quality checks (Phase 5)
+
+**Features**:
+- Real-time SSE (Server-Sent Events) streaming
+- Redis caching for Phase 1 & 4 optimization
+- Intelligent parallel data retrieval
+- ChatGPT-style progressive rendering
+
 ### RAG System Architecture
 The system implements a sophisticated RAG pipeline:
 - **Vector Store**: Milvus for semantic search of laptop specifications
 - **Database Layer**: DuckDB for structured specification queries
 - **LLM Integration**: LangChain-based conversation handling
 - **Content Processing**: Automated chunking and embedding generation
-
-### Sales Assistant Service
-Located in `libs/services/sales_assistant/`:
-- Entity recognition for laptop specifications
-- Contextual query processing
-- Structured response generation with tables
-- Predefined prompts in `prompts/` directory
+- **Caching Layer**: Redis-based cache for query analysis and responses
 
 ### API Endpoints
-- **Sales Routes** (`/api/sales/`): Chat streaming, service management
+- **MGFD Routes** (`/api/mgfd/`): Chat streaming, system status, progressive streaming
 - **Specs Routes** (`/api/specs/`): File upload, data processing, templates
 - **History Routes** (`/api/history/`): Processing history CRUD operations
+- **Milvus Routes** (`/api/milvus/`): Vector database viewer and management
 
 ## Configuration
 
@@ -116,10 +157,25 @@ The system uses `config.py` for centralized configuration:
 
 ## Development Notes
 
+### Architecture Migration (v1.x → v2.0.0)
+
+**Removed Components** (backed up in `backup/deprecated_service_manager/`):
+- `libs/service_manager.py`: Old auto-discovery service orchestration
+- `libs/services/base_service.py`: Base class for service pattern
+- `api/sales_routes.py`: Deprecated sales API routes
+- `api/mgfdsys_routes_deprecated.py`: Old MGFD system routes
+
+**Key Technical Changes**:
+1. **Circular Import Resolution**: Created `model_constants.py` to break import cycles
+2. **Async Cache Integration**: Added `get_async()` and `set_async()` to `StreamingCache`
+3. **Native OllamaLLM Streaming**: Removed LangChain callbacks, using native `astream()`
+4. **Path Resolution**: Changed to relative paths using `Path(__file__).parent`
+
 ### Available Model Names and Types
-The system supports specific laptop models defined in:
-- `AVAILABLE_MODELNAMES`: Pre-configured laptop model identifiers
-- `AVAILABLE_MODELTYPES`: Model type categories (819, 839, 958)
+The system supports specific laptop models defined in `libs/services/sales_assistant/model_constants.py`:
+- `AVAILABLE_MODELNAMES`: Pre-configured laptop model identifiers (from DuckDB)
+- `AVAILABLE_MODELTYPES`: Model type categories (819, 839, 958, etc.)
+- Functions: `get_available_modelnames()`, `get_available_modeltypes()`, `refresh_model_lists()`
 
 ### Database Schema
 Laptop specifications include fields:

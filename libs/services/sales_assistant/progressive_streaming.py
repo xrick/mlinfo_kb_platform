@@ -320,10 +320,10 @@ def create_progressive_streaming_service(
     if config:
         service_config.update(config)
 
-    # Get available models from sales_service
-    from . import service as sales_service_module
-    available_modelnames = sales_service_module.AVAILABLE_MODELNAMES
-    available_modeltypes = sales_service_module.AVAILABLE_MODELTYPES
+    # Get available models from model_constants (avoid circular import with service.py)
+    from .model_constants import AVAILABLE_MODELNAMES, AVAILABLE_MODELTYPES
+    available_modelnames = AVAILABLE_MODELNAMES
+    available_modeltypes = AVAILABLE_MODELTYPES
 
     # Create service
     progressive_service = ProgressiveStreamingService(

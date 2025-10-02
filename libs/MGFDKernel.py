@@ -40,6 +40,8 @@ from .services.sales_assistant.progressive_streaming import (
 from langchain.prompts import PromptTemplate
 import re
 import ast
+from .utils_classes import Time
+
 logger = logging.getLogger(__name__)
 
 ###setup debug

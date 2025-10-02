@@ -5,75 +5,17 @@ from ..base_service import BaseService
 from ...RAG.DB.MilvusQuery import MilvusQuery
 from ...RAG.DB.DuckDBQuery import DuckDBQuery
 from ...RAG.LLM.LLMInitializer import LLMInitializer
-from .multichat import MultichatManager, ChatTemplateManager
-from .multichat.funnel_manager import FunnelConversationManager, FunnelQueryType, FunnelFlowType
+# NOTE: multichat module removed - no longer in use
+# from .multichat import MultichatManager, ChatTemplateManager
+# from .multichat.funnel_manager import FunnelConversationManager, FunnelQueryType, FunnelFlowType
 import logging
 import re
 from typing import Dict, Any
 from .progressive_streaming import create_progressive_streaming_service
+from .model_constants import AVAILABLE_MODELNAMES, AVAILABLE_MODELTYPES
 
 # 設定日誌
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-
-# 全域變數：存儲所有可用的modelname (動態從數據庫獲取)
-AVAILABLE_MODELNAMES = []
-
-def _get_available_modelnames_from_db():
-    """從數據庫動態獲取可用的modelname"""
-    try:
-        from config import DB_PATH
-        import duckdb
-        
-        conn = duckdb.connect(str(DB_PATH))
-        # 排除測試資料和空值，只獲取有效的modelname
-        result = conn.execute("""
-            SELECT DISTINCT modelname 
-            FROM nbtypes 
-            WHERE modelname IS NOT NULL 
-              AND modelname != '' 
-              AND modelname != 'Test Model'
-            ORDER BY modelname
-        """).fetchall()
-        conn.close()
-        
-        modelnames = [row[0] for row in result]
-        logging.info(f"從數據庫獲取到的modelname: {len(modelnames)} 個")
-        return modelnames
-    except Exception as e:
-        logging.error(f"獲取數據庫modelname失敗: {e}")
-        # 如果數據庫查詢失敗，返回默認值
-        return [
-            'AB819-S: FP6', 'AG958', 'AG958P', 'AG958V', 'AHP819: FP7R2',
-            'AHP839', 'AHP958', 'AKK839', 'AMD819-S: FT6', 'AMD819: FT6',
-            'APX819: FP7R2', 'APX839', 'APX958', 'ARB819-S: FP7R2', 'ARB839'
-        ]
-
-# 初始化時從數據庫獲取可用的modelname
-AVAILABLE_MODELNAMES = _get_available_modelnames_from_db()
-
-# 全域變數：存儲所有可用的modeltype (動態從數據庫獲取)
-AVAILABLE_MODELTYPES = []
-
-def _get_available_modeltypes_from_db():
-    """從數據庫動態獲取可用的modeltype"""
-    try:
-        from config import DB_PATH
-        import duckdb
-        
-        conn = duckdb.connect(str(DB_PATH))
-        result = conn.execute('SELECT DISTINCT modeltype FROM nbtypes ORDER BY modeltype').fetchall()
-        conn.close()
-        
-        modeltypes = [row[0] for row in result]
-        logging.info(f"從數據庫獲取到的modeltype: {modeltypes}")
-        return modeltypes
-    except Exception as e:
-        logging.error(f"獲取數據庫modeltype失敗: {e}")
-        # 如果數據庫查詢失敗，返回默認值
-        return ['819', '839', '928', '958', '960', 'AC01']
-
-# 初始化時從數據庫獲取可用的modeltype
-AVAILABLE_MODELTYPES = _get_available_modeltypes_from_db()
 
 '''
 [
@@ -91,24 +33,45 @@ class SalesAssistantService(BaseService):
         # 初始化 LLM
         self.llm_initializer = LLMInitializer()
         self.llm = self.llm_initializer.get_llm()
-        
+
         self.milvus_query = MilvusQuery(collection_name="sales_notebook_specs")
-        
+
         # 使用config中的DB_PATH確保路徑正確
         from config import DB_PATH
         self.duckdb_query = DuckDBQuery(db_file=str(DB_PATH))
-        
-        self.prompt_template = self._load_prompt_template("sales_rag_app/libs/services/sales_assistant/prompts/sales_prompt.txt")
-        
+
+        # 使用 Path 獲取正確的檔案路徑（相對於當前檔案）
+        from pathlib import Path
+        current_dir = Path(__file__).parent
+        prompts_dir = current_dir / "prompts"
+
+        # 載入 prompt template（使用最新版本 sales_prompt4.txt）
+        prompt_file = prompts_dir / "sales_prompt4.txt"
+        if prompt_file.exists():
+            self.prompt_template = self._load_prompt_template(str(prompt_file))
+        else:
+            logging.warning(f"Prompt file not found: {prompt_file}, using empty template")
+            self.prompt_template = ""
+
         # 載入關鍵字配置
-        self.intent_keywords = self._load_intent_keywords("sales_rag_app/libs/services/sales_assistant/prompts/query_keywords.json")
-        
-        # 初始化多輪對話管理器
-        self.multichat_manager = MultichatManager()
-        self.chat_template_manager = ChatTemplateManager()
-        
-        # 初始化漏斗對話管理器
-        self.funnel_manager = FunnelConversationManager()
+        keywords_file = prompts_dir / "query_keywords.json"
+        if keywords_file.exists():
+            self.intent_keywords = self._load_intent_keywords(str(keywords_file))
+        else:
+            logging.warning(f"Keywords file not found: {keywords_file}, using empty config")
+            self.intent_keywords = {}
+
+        # NOTE: multichat and funnel managers removed - modules no longer in use
+        # # 初始化多輪對話管理器
+        # self.multichat_manager = MultichatManager()
+        # self.chat_template_manager = ChatTemplateManager()
+        #
+        # # 初始化漏斗對話管理器
+        # self.funnel_manager = FunnelConversationManager()
+
+        # Placeholder attributes for backward compatibility
+        self.multichat_manager = None
+        self.funnel_manager = None
         
         # ★ 修正點 1：修正 spec_fields 列表，使其與 .xlsx 檔案的標題列完全一致
         self.spec_fields = [
@@ -1073,6 +1036,11 @@ class SalesAssistantService(BaseService):
             raise
 
     async def _handle_funnel_choice(self, query: str, funnel_choice: str, session_id: str):
+        """DEPRECATED: Funnel functionality removed - multichat module no longer available"""
+        logging.warning("_handle_funnel_choice called but funnel functionality is deprecated")
+        return None
+
+    async def _handle_funnel_choice_deprecated(self, query: str, funnel_choice: str, session_id: str):
         """
         處理漏斗選擇的邏輯
         """
@@ -1222,8 +1190,11 @@ class SalesAssistantService(BaseService):
                 return
             
             # 步驟1：檢查是否應該啟動漏斗對話（最高優先級）
-            should_trigger_funnel, funnel_query_type = self.funnel_manager.should_trigger_funnel(query)
-            
+            # NOTE: Funnel manager is deprecated and disabled
+            should_trigger_funnel = False
+            if self.funnel_manager:
+                should_trigger_funnel, funnel_query_type = self.funnel_manager.should_trigger_funnel(query)
+
             if should_trigger_funnel:
                 logging.info(f"檢測到漏斗對話觸發條件，查詢類型: {funnel_query_type.value}")
                 try:
@@ -1250,7 +1221,11 @@ class SalesAssistantService(BaseService):
                     # 如果漏斗對話啟動失敗，繼續檢查傳統的多輪對話
             
             # 步驟2：檢查是否應該啟動傳統多輪對話導引
-            should_start_multichat, detected_scenario = self.multichat_manager.should_activate_multichat(query)
+            # NOTE: Multichat manager is deprecated and disabled
+            should_start_multichat = False
+            detected_scenario = None
+            if self.multichat_manager:
+                should_start_multichat, detected_scenario = self.multichat_manager.should_activate_multichat(query)
             
             # 擴展商務和筆電相關的觸發條件
             business_keywords = ["商務", "辦公", "工作", "企業", "商用", "業務", "職場", "公司", "文書處理", "文書", "處理"]
@@ -2505,17 +2480,18 @@ Focus your analysis on the specific intent and target models identified above.
             
             # 根據選擇的流程類型執行相應的處理
             if funnel_result["action"] == "route_to_flow":
-                target_flow = FunnelFlowType(funnel_result["target_flow"])
+                # NOTE: FunnelFlowType enum no longer available - using string comparison
+                target_flow = funnel_result.get("target_flow", "")
                 original_query = funnel_result["original_query"]
                 user_choice = funnel_result["user_choice"]
                 
                 logging.info(f"路由到專業流程: {target_flow.value}")
                 
-                if target_flow == FunnelFlowType.SERIES_COMPARISON_FLOW:
+                if target_flow == "SERIES_COMPARISON_FLOW":
                     # 系列比較流程：直接執行比較
                     return await self._execute_series_comparison_flow(original_query, user_choice)
                     
-                elif target_flow == FunnelFlowType.PURPOSE_RECOMMENDATION_FLOW:
+                elif target_flow == "PURPOSE_RECOMMENDATION_FLOW":
                     # 用途推薦流程：進入用途導向的多輪對話
                     return await self._execute_purpose_recommendation_flow(original_query, user_choice)
                     
@@ -2568,8 +2544,11 @@ Focus your analysis on the specific intent and target models identified above.
             logging.info(f"獲取 Funnel 問題: {query}")
             
             # 檢查是否應該觸發漏斗對話
-            should_trigger_funnel, funnel_query_type = self.funnel_manager.should_trigger_funnel(query)
-            
+            # NOTE: Funnel manager is deprecated and disabled
+            should_trigger_funnel = False
+            if self.funnel_manager:
+                should_trigger_funnel, funnel_query_type = self.funnel_manager.should_trigger_funnel(query)
+
             if should_trigger_funnel:
                 session_id, funnel_question = self.funnel_manager.start_funnel_session(query)
                 
@@ -2613,17 +2592,18 @@ Focus your analysis on the specific intent and target models identified above.
             
             # 根據選擇的流程類型執行相應的處理
             if funnel_result["action"] == "route_to_flow":
-                target_flow = FunnelFlowType(funnel_result["target_flow"])
+                # NOTE: FunnelFlowType enum no longer available - using string comparison
+                target_flow = funnel_result.get("target_flow", "")
                 original_query = funnel_result["original_query"]
                 user_choice = funnel_result["user_choice"]
                 
                 logging.info(f"路由到專業流程: {target_flow.value}")
                 
-                if target_flow == FunnelFlowType.SERIES_COMPARISON_FLOW:
+                if target_flow == "SERIES_COMPARISON_FLOW":
                     # 系列比較流程：直接執行比較
                     return await self._execute_series_comparison_flow(original_query, user_choice)
                     
-                elif target_flow == FunnelFlowType.PURPOSE_RECOMMENDATION_FLOW:
+                elif target_flow == "PURPOSE_RECOMMENDATION_FLOW":
                     # 用途推薦流程：進入用途導向的多輪對話
                     return await self._execute_purpose_recommendation_flow(original_query, user_choice)
                     
