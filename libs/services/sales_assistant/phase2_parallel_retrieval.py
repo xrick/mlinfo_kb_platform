@@ -426,6 +426,11 @@ class Phase2ParallelRetrieval:
         """
         Merge semantic matches with spec data
 
+        CRITICAL FIX: Multiple products can share the same modeltype!
+        Example: AKK839, AHP839, APX839, ARB839 all have modeltype="839"
+
+        We must merge by unique identifier (modelname), not just modeltype.
+
         Args:
             semantic_results: Results from Milvus
             spec_results: Results from DuckDB
@@ -433,59 +438,57 @@ class Phase2ParallelRetrieval:
         Returns:
             Merged product list with enriched data
         """
-        # Extract unique product IDs from semantic results
-        product_ids_from_semantic = list(set([
-            str(r.get('product_id', '')).strip()
-            for r in semantic_results
-            if r.get('product_id')
-        ]))
+        # Build a semantic score map: modeltype -> best score
+        # This maps modeltype (e.g., "839") to the best semantic score found
+        modeltype_semantic_scores = {}
+        for r in semantic_results:
+            product_id = str(r.get('product_id', '')).strip()
+            score = r.get('similarity_score', 0)
+            if product_id:
+                current_score = modeltype_semantic_scores.get(product_id, 0)
+                modeltype_semantic_scores[product_id] = max(current_score, score)
 
-        # Create spec lookup by modeltype
-        spec_lookup = {
-            str(spec.get('modeltype', '')).strip(): spec
-            for spec in spec_results
-        }
-
-        # Merge results
-        merged = []
-        seen_products = set()
-
-        # Priority 1: Products from semantic search with specs
-        for product_id in product_ids_from_semantic:
-            if product_id in spec_lookup and product_id not in seen_products:
-                spec = spec_lookup[product_id]
-                # Find highest-scoring semantic match for this product
-                semantic_matches = [
-                    r for r in semantic_results
-                    if str(r.get('product_id', '')).strip() == product_id
-                ]
-                best_match = max(semantic_matches, key=lambda x: x.get('similarity_score', 0))
-
-                merged_product = {
-                    **spec,  # Include all spec fields
-                    'semantic_score': best_match.get('similarity_score', 0),
-                    'semantic_content': best_match.get('content', ''),
-                    'chunk_type': best_match.get('chunk_type', ''),
-                    'source': 'semantic+spec'
+        # Find best semantic content for each modeltype
+        modeltype_semantic_content = {}
+        for r in semantic_results:
+            product_id = str(r.get('product_id', '')).strip()
+            if product_id and product_id not in modeltype_semantic_content:
+                modeltype_semantic_content[product_id] = {
+                    'content': r.get('content', ''),
+                    'chunk_type': r.get('chunk_type', ''),
+                    'score': r.get('similarity_score', 0)
                 }
-                merged.append(merged_product)
-                seen_products.add(product_id)
 
-        # Priority 2: Remaining spec results not matched semantically
+        # Merge all spec results with semantic info
+        merged = []
+        seen_modelnames = set()
+
         for spec in spec_results:
             modeltype = str(spec.get('modeltype', '')).strip()
-            if modeltype not in seen_products:
-                merged.append({
-                    **spec,
-                    'semantic_score': 0,
-                    'source': 'spec_only'
-                })
-                seen_products.add(modeltype)
+            modelname = str(spec.get('modelname', '')).strip()
 
-        # Sort by semantic score (highest first)
-        merged.sort(key=lambda x: x.get('semantic_score', 0), reverse=True)
+            # Skip duplicates based on modelname (unique identifier)
+            if modelname in seen_modelnames:
+                continue
+            seen_modelnames.add(modelname)
 
-        logger.info(f"Merged results: {len(merged)} unique products")
+            # Check if this modeltype has semantic matches
+            semantic_score = modeltype_semantic_scores.get(modeltype, 0)
+            semantic_info = modeltype_semantic_content.get(modeltype, {})
+
+            merged_product = {
+                **spec,  # Include all spec fields
+                'semantic_score': semantic_score,
+                'semantic_content': semantic_info.get('content', ''),
+                'chunk_type': semantic_info.get('chunk_type', ''),
+                'source': 'semantic+spec' if semantic_score > 0 else 'spec_only'
+            }
+            merged.append(merged_product)
+
+        # Sort by semantic score (highest first), then by modelname
+        merged.sort(key=lambda x: (x.get('semantic_score', 0), x.get('modelname', '')), reverse=True)
+
+        logger.info(f"Merged results: {len(merged)} unique products from {len(spec_results)} specs")
         return merged
 
     async def _check_cache(
