@@ -192,8 +192,26 @@ class ProgressiveStreamingService:
             phase_timings[2] = (datetime.now() - phase2_start).total_seconds()
             logger.info(f"Phase 2 completed in {phase_timings[2]:.2f}s")
 
-            if not retrieval_results or not retrieval_results.get("merged_products"):
-                raise Exception("Phase 2 failed to retrieve products")
+            # Check if Phase 2 returned valid results structure
+            if not retrieval_results:
+                raise Exception("Phase 2 failed: No results returned")
+
+            # Check if we got any data (semantic or spec, even if merged is empty)
+            total_semantic = retrieval_results.get("total_semantic", 0)
+            total_specs = retrieval_results.get("total_specs", 0)
+
+            if total_semantic == 0 and total_specs == 0:
+                # Complete retrieval failure - both sources failed
+                logger.warning("Phase 2: No data from either Milvus or DuckDB")
+                raise Exception("Phase 2 failed: No data retrieved from any source")
+
+            # merged_products can be empty if no overlap between semantic and specs
+            # This is acceptable - we can still use semantic_matches or spec_data
+            if not retrieval_results.get("merged_products"):
+                logger.warning(
+                    f"Phase 2: No merged products, but retrieved "
+                    f"{total_semantic} semantic + {total_specs} specs"
+                )
 
             # Phase 3: Context Assembly
             phase3_start = datetime.now()

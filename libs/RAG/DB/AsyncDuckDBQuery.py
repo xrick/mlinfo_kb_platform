@@ -126,7 +126,8 @@ class AsyncDuckDBQuery:
                 if fetch_mode == 'all':
                     rows = cursor.fetchall()
                 elif fetch_mode == 'one':
-                    rows = [cursor.fetchone()] if cursor.fetchone() else []
+                    row = cursor.fetchone()
+                    rows = [row] if row is not None else []
                 elif fetch_mode == 'many':
                     rows = cursor.fetchmany(100)  # Fetch 100 rows
                 else:
