@@ -318,15 +318,22 @@ function initSalesAI() {
                 break;
 
             case 'complete':
-                // If backend packs final response under data.response, render it before completing
-                try {
-                    if (data.data && data.data.response) {
-                        renderer.addToken(data.data.response);
-                    }
-                } catch (e) {
-                    console.warn('Finalize render failed:', e);
-                }
+                // Note: Do NOT render data.data.response here!
+                // Phase 4 has already sent all tokens progressively.
+                // The response in complete event is for metadata/logging only.
+
+                // Just mark as complete without re-rendering
                 renderer.complete();
+                console.log('✅ Progressive streaming complete');
+
+                // Log metadata for debugging
+                if (data.data) {
+                    console.log('📊 Metadata:', {
+                        products: data.data.metadata?.products_analyzed,
+                        sources: data.data.sources?.length,
+                        quality: data.data.quality?.score
+                    });
+                }
                 break;
 
             case 'error':

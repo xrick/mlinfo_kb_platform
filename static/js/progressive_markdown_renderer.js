@@ -132,11 +132,11 @@ class ProgressiveMarkdownRenderer {
      * Mark rendering as complete
      */
     complete() {
-        // Final render to ensure perfect formatting
-        const html = this._renderMarkdown(this.accumulated);
-        this.container.innerHTML = html;
+        // Note: We don't re-render here because Phase 4 has already
+        // rendered all tokens progressively. Re-rendering would cause
+        // duplicate content display.
 
-        // Update progress bar
+        // Only update progress bar and state
         if (this.progressBar) {
             this.progressBar.style.width = '100%';
             this.progressBar.textContent = '✅ 完成';
@@ -144,6 +144,7 @@ class ProgressiveMarkdownRenderer {
         }
 
         console.log('✅ Progressive rendering complete');
+        console.log(`📊 Final accumulated length: ${this.accumulated.length} chars`);
     }
 
     /**
