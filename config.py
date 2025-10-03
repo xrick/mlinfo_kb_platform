@@ -28,7 +28,7 @@ HISTORY_DB_PATH = BASE_DIR / "db" / "history.db"
 
 # Services configuration
 SERVICES_CONFIG = {
-    "sales_assistant": {
+    "opmp_kernel": {
         "enabled": True,
         "db_path": str(DB_PATH),
         "milvus_host": MILVUS_HOST,
