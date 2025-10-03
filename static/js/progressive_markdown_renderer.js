@@ -54,14 +54,22 @@ class ProgressiveMarkdownRenderer {
         // Accumulate token
         this.accumulated += token;
 
+        // ✅ Find or create dedicated markdown content container
+        let markdownContainer = this.container.querySelector('.markdown-content-container');
+        if (!markdownContainer) {
+            markdownContainer = document.createElement('div');
+            markdownContainer.className = 'markdown-content-container';
+            this.container.appendChild(markdownContainer);  // Append after phase markers
+        }
+
         // Try to parse as markdown
         try {
             const html = this._renderMarkdown(this.accumulated);
-            this.container.innerHTML = html;
+            markdownContainer.innerHTML = html;  // ✅ Update only markdown container
         } catch (e) {
             console.error('Markdown parsing error:', e);
             // If parsing fails, show as plain text
-            this.container.textContent = this.accumulated;
+            markdownContainer.textContent = this.accumulated;
         }
 
         // Auto-scroll to bottom
@@ -120,12 +128,8 @@ class ProgressiveMarkdownRenderer {
             <div class="phase-marker-text">${message}</div>
         `;
 
-        // Insert before current content or append
-        if (this.container.firstChild) {
-            this.container.insertBefore(marker, this.container.firstChild);
-        } else {
-            this.container.appendChild(marker);
-        }
+        // ✅ Append to container end, maintaining phase 1→2→3 order from top to bottom
+        this.container.appendChild(marker);
     }
 
     /**

@@ -34,7 +34,7 @@ from .KnowledgeManageHandler.knowledge_manager import KnowledgeManager
 from .ResponseGenHandler import ResponseGenHandler
 from dataclasses import dataclass
 from .RAG.LLM.LLMInitializer import LLMInitializer
-from .services.sales_assistant.progressive_streaming_old import (
+from .services.sales_assistant.progressive_streaming import (
     create_progressive_streaming_service
 )
 from langchain.prompts import PromptTemplate

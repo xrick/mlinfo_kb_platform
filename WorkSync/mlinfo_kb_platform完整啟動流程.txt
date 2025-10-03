@@ -1,0 +1,126 @@
+2025-10-03 16:46:53,723 - libs.StateManageHandler.StateTransitionsConfig - INFO - 載入了 9 個狀態轉換配置
+2025-10-03 16:46:53,723 - libs.StateManageHandler - INFO - StateManageHandler 模組已載入 (版本 1.0.0)
+/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/pydantic/_internal/_config.py:373: UserWarning: Valid config keys have changed in V2:
+* 'schema_extra' has been renamed to 'json_schema_extra'
+  warnings.warn(message, UserWarning)
+2025-10-03 16:46:56,457 - api.mgfd_routes - INFO - Redis連接成功
+2025-10-03 16:46:56,457 - libs.MGFDKernel - INFO - LLM 初始化中...
+2025-10-03 16:46:56,481 - libs.MGFDKernel - INFO - LLM 初始化成功
+2025-10-03 16:46:56,481 - libs.MGFDKernel - INFO - MGFDKernel 初始化完成
+2025-10-03 16:46:56,481 - libs.UserInputHandler.UserInputHandler - INFO - 成功載入槽位映射，包含 0 個槽位
+2025-10-03 16:46:56,481 - libs.UserInputHandler.UserInputHandler - INFO - 成功載入關鍵詞數據，包含 33 個槽位
+2025-10-03 16:46:56,481 - libs.UserInputHandler.UserInputHandler - INFO - 構建槽位抽取器完成，包含 0 個槽位
+2025-10-03 16:46:56,481 - libs.UserInputHandler.UserInputHandler - INFO - UserInputHandler 初始化完成
+2025-10-03 16:46:56,481 - libs.MGFDKernel - INFO - user_input_handler 初始化成功
+2025-10-03 16:46:56,482 - libs.KnowledgeManageHandler.knowledge_manager - INFO - 初始化了 2 個知識庫
+2025-10-03 16:46:56,482 - libs.KnowledgeManageHandler.polars_helper - INFO - Polars 輔助工具初始化完成
+2025-10-03 16:46:56,482 - libs.KnowledgeManageHandler.knowledge_manager - INFO - Polars 輔助工具初始化成功
+2025-10-03 16:46:56,483 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-10-03 16:46:56,483 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-10-03 16:46:59,809 - libs.KnowledgeManageHandler.knowledge_manager - INFO - Embedding 模型初始化成功: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-10-03 16:46:59,809 - libs.KnowledgeManageHandler.knowledge_manager - INFO - 正在初始化 Milvus 連接...
+/home/mapleleaf/LCJRepos/projects/mlinfo_kb_platform/libs/RAG/DB/MilvusQuery.py:15: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-huggingface package and should be used instead. To use it run `pip install -U :class:`~langchain-huggingface` and import as `from :class:`~langchain_huggingface import HuggingFaceEmbeddings``.
+  self.embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
+2025-10-03 16:46:59,809 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-10-03 16:46:59,809 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+成功連接到 Milvus at localhost:19530
+成功設定並載入 Collection: semantic_nb_250926_utf8_collection
+2025-10-03 16:47:02,893 - libs.KnowledgeManageHandler.knowledge_manager - INFO - Milvus 初始化成功，Collection: semantic_nb_250926_utf8_collection
+2025-10-03 16:47:02,893 - libs.KnowledgeManageHandler.knowledge_manager - INFO - 知識管理器初始化完成，基礎路徑: /home/mapleleaf/LCJRepos/projects/mlinfo_kb_platform
+2025-10-03 16:47:02,893 - libs.KnowledgeManageHandler.knowledge_manager - INFO - Polars 支援已啟用
+2025-10-03 16:47:02,893 - libs.MGFDKernel - INFO - knowledge_manager 初始化成功
+2025-10-03 16:47:02,894 - libs.MGFDKernel - INFO - 成功載入狀態機定義，包含 9 個狀態
+2025-10-03 16:47:02,894 - libs.PromptManagementHandler.prompt_manager - INFO - 載入自定義 Prompt 路徑配置: 6 個
+2025-10-03 16:47:02,894 - libs.PromptManagementHandler.prompt_manager - INFO - Prompt 管理器初始化完成，基礎路徑: /home/mapleleaf/LCJRepos/projects/mlinfo_kb_platform
+2025-10-03 16:47:02,894 - libs.ResponseGenHandler.ResponseStrategyFactory - INFO - 註冊策略: general - BasicGeneralStrategy
+2025-10-03 16:47:02,894 - libs.ResponseGenHandler.ResponseGenHandler - INFO - 基本通用策略註冊完成
+2025-10-03 16:47:02,894 - libs.ResponseGenHandler.ResponseGenHandler - INFO - ResponseGenHandler 初始化完成
+2025-10-03 16:47:02,894 - libs.StateManageHandler.EventStore - INFO - EventStore 初始化完成
+2025-10-03 16:47:02,894 - libs.StateManageHandler.StateStrategyFactory - INFO - StateStrategyFactory 初始化完成
+2025-10-03 16:47:02,894 - libs.StateManageHandler.TransitionPredictor - INFO - TransitionPredictor 初始化完成
+2025-10-03 16:47:02,894 - libs.StateManageHandler.StateValidator - INFO - StateValidator 初始化完成
+2025-10-03 16:47:02,894 - libs.StateManageHandler.simplified_dsm.simplified_state_machine - INFO - DSM 簡化狀態機初始化完成
+2025-10-03 16:47:02,894 - libs.StateManageHandler.simplified_dsm.state_flow_controller - INFO - 狀態流程控制器初始化完成
+2025-10-03 16:47:02,894 - libs.StateManageHandler.simplified_dsm.simplified_state_machine - INFO - DSM 簡化狀態機初始化完成
+2025-10-03 16:47:02,894 - libs.StateManageHandler.simplified_dsm.state_flow_controller - INFO - 狀態流程控制器初始化完成
+2025-10-03 16:47:02,894 - libs.StateManageHandler.simplified_dsm.linear_flow_executor - INFO - 線性流程執行器初始化完成
+2025-10-03 16:47:02,894 - libs.StateManageHandler.action_hub.flow_engine.flow_validator - INFO - 流程驗證器初始化完成
+2025-10-03 16:47:02,894 - libs.StateManageHandler.StateManagementHandler - INFO - StateManagementHandler 初始化完成，包含簡化 DSM 系統
+2025-10-03 16:47:02,894 - libs.MGFDKernel - INFO - 所有模組初始化成功
+2025-10-03 16:47:02,894 - api.mgfd_routes - INFO - MGFD系統初始化成功
+/home/mapleleaf/LCJRepos/projects/mlinfo_kb_platform/main.py:271: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+/home/mapleleaf/LCJRepos/projects/mlinfo_kb_platform/main.py:280: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+INFO:     Will watch for changes in these directories: ['/home/mapleleaf/LCJRepos/projects/mlinfo_kb_platform']
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     Started reloader process [480612] using WatchFiles
+2025-10-03 16:47:03,153 - libs.StateManageHandler.StateTransitionsConfig - INFO - 載入了 9 個狀態轉換配置
+2025-10-03 16:47:03,153 - libs.StateManageHandler - INFO - StateManageHandler 模組已載入 (版本 1.0.0)
+/home/mapleleaf/.conda/envs/salseragenv/lib/python3.11/site-packages/pydantic/_internal/_config.py:373: UserWarning: Valid config keys have changed in V2:
+* 'schema_extra' has been renamed to 'json_schema_extra'
+  warnings.warn(message, UserWarning)
+2025-10-03 16:47:05,858 - api.mgfd_routes - INFO - Redis連接成功
+2025-10-03 16:47:05,858 - libs.MGFDKernel - INFO - LLM 初始化中...
+2025-10-03 16:47:05,882 - libs.MGFDKernel - INFO - LLM 初始化成功
+2025-10-03 16:47:05,882 - libs.MGFDKernel - INFO - MGFDKernel 初始化完成
+2025-10-03 16:47:05,883 - libs.UserInputHandler.UserInputHandler - INFO - 成功載入槽位映射，包含 0 個槽位
+2025-10-03 16:47:05,883 - libs.UserInputHandler.UserInputHandler - INFO - 成功載入關鍵詞數據，包含 33 個槽位
+2025-10-03 16:47:05,883 - libs.UserInputHandler.UserInputHandler - INFO - 構建槽位抽取器完成，包含 0 個槽位
+2025-10-03 16:47:05,883 - libs.UserInputHandler.UserInputHandler - INFO - UserInputHandler 初始化完成
+2025-10-03 16:47:05,883 - libs.MGFDKernel - INFO - user_input_handler 初始化成功
+2025-10-03 16:47:05,883 - libs.KnowledgeManageHandler.knowledge_manager - INFO - 初始化了 2 個知識庫
+2025-10-03 16:47:05,883 - libs.KnowledgeManageHandler.polars_helper - INFO - Polars 輔助工具初始化完成
+2025-10-03 16:47:05,883 - libs.KnowledgeManageHandler.knowledge_manager - INFO - Polars 輔助工具初始化成功
+2025-10-03 16:47:05,884 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-10-03 16:47:05,884 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-10-03 16:47:09,396 - libs.KnowledgeManageHandler.knowledge_manager - INFO - Embedding 模型初始化成功: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-10-03 16:47:09,396 - libs.KnowledgeManageHandler.knowledge_manager - INFO - 正在初始化 Milvus 連接...
+/home/mapleleaf/LCJRepos/projects/mlinfo_kb_platform/libs/RAG/DB/MilvusQuery.py:15: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-huggingface package and should be used instead. To use it run `pip install -U :class:`~langchain-huggingface` and import as `from :class:`~langchain_huggingface import HuggingFaceEmbeddings``.
+  self.embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
+2025-10-03 16:47:09,397 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-10-03 16:47:09,397 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+成功連接到 Milvus at localhost:19530
+成功設定並載入 Collection: semantic_nb_250926_utf8_collection
+2025-10-03 16:47:12,468 - libs.KnowledgeManageHandler.knowledge_manager - INFO - Milvus 初始化成功，Collection: semantic_nb_250926_utf8_collection
+2025-10-03 16:47:12,468 - libs.KnowledgeManageHandler.knowledge_manager - INFO - 知識管理器初始化完成，基礎路徑: /home/mapleleaf/LCJRepos/projects/mlinfo_kb_platform
+2025-10-03 16:47:12,468 - libs.KnowledgeManageHandler.knowledge_manager - INFO - Polars 支援已啟用
+2025-10-03 16:47:12,468 - libs.MGFDKernel - INFO - knowledge_manager 初始化成功
+2025-10-03 16:47:12,468 - libs.MGFDKernel - INFO - 成功載入狀態機定義，包含 9 個狀態
+2025-10-03 16:47:12,468 - libs.PromptManagementHandler.prompt_manager - INFO - 載入自定義 Prompt 路徑配置: 6 個
+2025-10-03 16:47:12,468 - libs.PromptManagementHandler.prompt_manager - INFO - Prompt 管理器初始化完成，基礎路徑: /home/mapleleaf/LCJRepos/projects/mlinfo_kb_platform
+2025-10-03 16:47:12,469 - libs.ResponseGenHandler.ResponseStrategyFactory - INFO - 註冊策略: general - BasicGeneralStrategy
+2025-10-03 16:47:12,469 - libs.ResponseGenHandler.ResponseGenHandler - INFO - 基本通用策略註冊完成
+2025-10-03 16:47:12,469 - libs.ResponseGenHandler.ResponseGenHandler - INFO - ResponseGenHandler 初始化完成
+2025-10-03 16:47:12,469 - libs.StateManageHandler.EventStore - INFO - EventStore 初始化完成
+2025-10-03 16:47:12,469 - libs.StateManageHandler.StateStrategyFactory - INFO - StateStrategyFactory 初始化完成
+2025-10-03 16:47:12,469 - libs.StateManageHandler.TransitionPredictor - INFO - TransitionPredictor 初始化完成
+2025-10-03 16:47:12,469 - libs.StateManageHandler.StateValidator - INFO - StateValidator 初始化完成
+2025-10-03 16:47:12,469 - libs.StateManageHandler.simplified_dsm.simplified_state_machine - INFO - DSM 簡化狀態機初始化完成
+2025-10-03 16:47:12,469 - libs.StateManageHandler.simplified_dsm.state_flow_controller - INFO - 狀態流程控制器初始化完成
+2025-10-03 16:47:12,469 - libs.StateManageHandler.simplified_dsm.simplified_state_machine - INFO - DSM 簡化狀態機初始化完成
+2025-10-03 16:47:12,469 - libs.StateManageHandler.simplified_dsm.state_flow_controller - INFO - 狀態流程控制器初始化完成
+2025-10-03 16:47:12,469 - libs.StateManageHandler.simplified_dsm.linear_flow_executor - INFO - 線性流程執行器初始化完成
+2025-10-03 16:47:12,469 - libs.StateManageHandler.action_hub.flow_engine.flow_validator - INFO - 流程驗證器初始化完成
+2025-10-03 16:47:12,469 - libs.StateManageHandler.StateManagementHandler - INFO - StateManagementHandler 初始化完成，包含簡化 DSM 系統
+2025-10-03 16:47:12,469 - libs.MGFDKernel - INFO - 所有模組初始化成功
+2025-10-03 16:47:12,469 - api.mgfd_routes - INFO - MGFD系統初始化成功
+INFO:     Started server process [480861]
+INFO:     Waiting for application startup.
+2025-10-03 16:47:12,500 - api.history_routes - INFO - History database initialized successfully
+2025-10-03 16:47:12,500 - root - INFO - 🚀 MGFD SalesRAG Integration System 啟動中...
+2025-10-03 16:47:12,500 - root - INFO - 📖 API文檔: http://0.0.0.0:8001/docs
+2025-10-03 16:47:12,500 - root - INFO - 🔍 ReDoc文檔: http://0.0.0.0:8001/redoc
+2025-10-03 16:47:12,500 - root - INFO - ✅ 系統啟動完成
+2025-10-03 16:47:12,500 - api.history_routes - INFO - History database initialized successfully
+INFO:     Application startup complete.
