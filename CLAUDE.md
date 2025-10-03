@@ -32,8 +32,16 @@ This is a **SalesRAG Integration System** - a unified interface combining Sales-
 │   │   ├── DB/                 # Database query classes (Milvus, DuckDB)
 │   │   ├── LLM/                # LLM initialization and management
 │   │   └── Tools/              # Content processing utilities
-│   ├── services/               # Business logic services
-│   │   └── sales_assistant/    # Sales AI with progressive streaming
+│   ├── opmp_services/          # OPMP Business logic services
+│   │   ├── milvus_service.py   # Milvus database management service
+│   │   └── opmp_kernel/        # OPMP Kernel with progressive streaming
+│   │       ├── progressive_streaming.py  # 5-phase streaming orchestrator
+│   │       ├── phase1_query_understanding.py
+│   │       ├── phase2_parallel_retrieval.py
+│   │       ├── phase3_context_assembly.py
+│   │       ├── phase4_response_generation.py
+│   │       ├── phase5_postprocessing.py
+│   │       └── model_constants.py
 │   ├── caching/                # Redis cache for streaming optimization
 │   ├── UserInputHandler/       # 用戶輸入處理與槽位抽取
 │   ├── KnowledgeManageHandler/ # 知識庫管理 (Milvus + 多源檢索)
