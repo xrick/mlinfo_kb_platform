@@ -13,7 +13,8 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from libs.services.sales_assistant.service import SalesAssistantService
+# DEPRECATED: service.py does not exist anymore
+# from libs.opmp_services.opmp_kernel.service import SalesAssistantService
 
 def test_entity_recognition():
     """測試實體識別功能"""

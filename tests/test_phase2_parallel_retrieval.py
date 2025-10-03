@@ -27,7 +27,7 @@ sys.path.insert(0, str(project_root))
 # Import modules to test
 from libs.caching.redis_cache import StreamingCache, CacheConfig
 from libs.RAG.DB.AsyncDuckDBQuery import AsyncDuckDBQuery
-from libs.services.sales_assistant.phase2_parallel_retrieval import Phase2ParallelRetrieval
+from libs.opmp_services.opmp_kernel.phase2_parallel_retrieval import Phase2ParallelRetrieval
 
 
 # ==================== Redis Cache Tests ====================

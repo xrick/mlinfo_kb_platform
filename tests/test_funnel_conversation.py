@@ -11,9 +11,10 @@ import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parent))
 
-from libs.services.sales_assistant.multichat.funnel_manager import (
-    FunnelConversationManager, FunnelQueryType, FunnelFlowType
-)
+# DEPRECATED: multichat directory does not exist anymore
+# from libs.opmp_services.opmp_kernel.multichat.funnel_manager import (
+#     FunnelConversationManager, FunnelQueryType, FunnelFlowType
+# )
 
 def test_query_classification():
     """測試查詢分類功能"""

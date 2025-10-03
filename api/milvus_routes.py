@@ -15,7 +15,7 @@ import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from libs.services.milvus_service import MilvusService
+from libs.opmp_services.milvus_service import MilvusService
 
 # 設定日誌
 logger = logging.getLogger(__name__)
