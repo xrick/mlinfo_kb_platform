@@ -456,6 +456,8 @@ class MGFDKernel:
                 "modeltype": product.get("modeltype", ""),
                 "modelname": product.get("modelname", ""),
                 "cpu_summary": self._extract_cpu_summary(product.get("cpu", "") or ""),
+                "gpu": product.get("gpu", ""),
+                "structconfig": product.get("structconfig", ""),
                 "memory_summary": self._extract_memory_summary(product.get("memory", "") or ""),
                 "lcd_summary": self._extract_lcd_summary(product.get("lcd", "") or ""),
                 "battery_summary": self._extract_battery_summary(product.get("battery", "") or ""),
