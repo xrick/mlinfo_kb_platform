@@ -40,6 +40,9 @@ except ImportError:
     SENTENCE_TRANSFORMERS_AVAILABLE = False
     SentenceTransformer = None
 
+# Import device detection utility
+from ..utils.device_utils import get_best_device, log_device_selection
+
 # LLM 相關導入
 # try:
 #     from sentence_transformers import SentenceTransformer
@@ -163,8 +166,11 @@ class KnowledgeManager:
         """初始化 Embedding Model 相關組件"""
         try:
             embedding_model = 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'
-            self.sentence_transformer = SentenceTransformer(embedding_model)
-            self.logger.info(f"Embedding 模型初始化成功: {embedding_model}")
+            # Auto-detect best device (CUDA > MPS > CPU)
+            device = get_best_device()
+            self.sentence_transformer = SentenceTransformer(embedding_model, device=device)
+            log_device_selection(device, f"KnowledgeManager ({embedding_model})")
+            self.logger.info(f"Embedding 模型初始化成功: {embedding_model} on {device}")
         except Exception as e:
             self.logger.error(f"初始化 Embedding 模型失敗: {e}")
             self.sentence_transformer = None

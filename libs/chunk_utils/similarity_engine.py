@@ -18,7 +18,13 @@ try:
     SENTENCE_TRANSFORMERS_AVAILABLE = True
 except ImportError:
     SENTENCE_TRANSFORMERS_AVAILABLE = False
-    logging.warning("sentence-transformers 不可用，將使用備用方案")
+    logging.warning("sentence-transformers 不可用,將使用備用方案")
+
+# Import device detection utility
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from utils.device_utils import get_best_device, log_device_selection
 
 class MGFDSimilarityEngine:
     """MGFD 相似度計算引擎"""
@@ -69,15 +75,18 @@ class MGFDSimilarityEngine:
             self.logger.error("sentence-transformers 不可用")
             self.model = None
             return
-        
+
         try:
             start_time = time.time()
-            self.model = SentenceTransformer(self.model_name)
+            # Auto-detect best device (CUDA > MPS > CPU)
+            device = get_best_device()
+            self.model = SentenceTransformer(self.model_name, device=device)
             self.metrics["model_load_time"] = time.time() - start_time
-            
-            self.logger.info(f"成功載入 sentence-transformers 模型: {self.model_name}")
+
+            log_device_selection(device, f"MGFDSimilarityEngine ({self.model_name})")
+            self.logger.info(f"成功載入 sentence-transformers 模型: {self.model_name} on {device}")
             self.logger.info(f"模型載入時間: {self.metrics['model_load_time']:.2f}秒")
-            
+
         except Exception as e:
             self.logger.error(f"載入 sentence-transformers 模型失敗: {e}")
             self.model = None
