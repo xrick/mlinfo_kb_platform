@@ -92,9 +92,9 @@ class ProgressiveMarkdownRenderer {
 
             // Add phase-specific styling
             this.progressBar.className = 'progress-bar';
-            // if (phase) {
-            //     this.progressBar.classList.add(`phase-${phase}`);
-            // } //rick 20251007
+            if (phase) {
+                this.progressBar.classList.add(`phase-${phase}`);
+            } //rick 20251007
 
             // Show message in progress bar (without percentage)
             if (message) {
@@ -103,12 +103,60 @@ class ProgressiveMarkdownRenderer {
         }
 
         // Add phase marker if phase changed
-        // rick
+        
         if (phase && phase !== this.currentPhase) {
             // this.currentPhase = phase;
             this.phaseMessages[phase] = message;
             this._addPhaseMarker(phase, message);
         }
+    }
+
+    // ==========================================
+    // 🎨 UI Helpers
+    // ==========================================
+    createMessageContainer(role) {
+        const messageContainer = document.createElement('div');
+        messageContainer.className = `message-container ${role}`;
+        messageContainer.dataset.role = role;
+
+        const messageCard = document.createElement('div');
+        messageCard.className = 'message-card';
+
+        const messageContent = document.createElement('div');
+        messageContent.className = 'message-content';
+
+        messageCard.appendChild(messageContent);
+
+        if (role === 'assistant') {
+            const copyBtnTemplate = document.getElementById('copy-to-clipboard-template');
+            if (copyBtnTemplate) {
+                messageCard.insertAdjacentHTML('beforeend', copyBtnTemplate.innerHTML);
+                const copyBtn = messageCard.querySelector('.copy-btn');
+                if (copyBtn) {
+                    copyBtn.addEventListener('click', () => {
+                        copyToClipboard(messageContainer.assistantData);
+                    });
+                }
+            }
+        }
+
+        messageContainer.appendChild(messageCard);
+        chatMessages.appendChild(messageContainer);
+        scrollToBottom();
+
+        return messageContainer;
+    }
+
+    appendMessage(message) {
+        const messageContainer = createMessageContainer(message.role);
+        renderMessageContent(
+            messageContainer.querySelector('.message-content'),
+            message.content
+        );
+        if (message.role === 'assistant') {
+            messageContainer.assistantData = message.content;
+        }
+        scrollToBottom();
     }
 
     /**
@@ -154,7 +202,8 @@ class ProgressiveMarkdownRenderer {
             `;
             this.progressBar.classList.add('complete-red');
             //stop the up-most animation and change sentence
-            const contentDiv = this.document.querySelector('.message-content');
+            const contentDiv = assistantMessageContainer.querySelector('.message-content');
+            
             const contentId = contentDiv.id;
             const contentDivEl = document.getElementById(contentId);
             if (contentDivEl) {
@@ -164,8 +213,8 @@ class ProgressiveMarkdownRenderer {
                     <span>所有資料輸出處理完成</span>
                 </div>
             `;
+            }
         }
-    }
 
         console.log('✅ Progressive rendering complete');
         console.log(`📊 Final accumulated length: ${this.accumulated.length} chars`);
