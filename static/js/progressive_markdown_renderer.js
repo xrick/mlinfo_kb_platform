@@ -201,19 +201,17 @@ class ProgressiveMarkdownRenderer {
                 <span class="complete-text">工作達成</span>
             `;
             this.progressBar.classList.add('complete-red');
-            //stop the up-most animation and change sentence
-            const contentDiv = assistantMessageContainer.querySelector('.message-content');
-            
-            const contentId = contentDiv.id;
-            const contentDivEl = document.getElementById(contentId);
-            if (contentDivEl) {
-            contentDivEl.innerHTML = `
-                <div class="message-content thinking-indicator">
-                    <div class="spinner"></div>
-                    <span>所有資料輸出處理完成</span>
+        }
+
+        // Replace top spinner with red tick icon and update text
+        const contentDiv = assistantMessageContainer?.querySelector('.message-content');
+        if (contentDiv) {
+            contentDiv.innerHTML = `
+                <div class="complete-indicator">
+                    <span class="complete-tick">✓</span>
+                    <span>資料輸出完成</span>
                 </div>
             `;
-            }
         }
 
         console.log('✅ Progressive rendering complete');
