@@ -1,3 +1,4 @@
+# libs/opmp_services/opmp_kernel/phase1_query_understanding.py
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -97,7 +98,7 @@ class Phase1QueryUnderstanding:
             yield {
                 "type": "progress",
                 "phase": 1,
-                "message": "🔍 正在分析您的查詢...",
+                "message": "正在分析您的查詢...",
                 "progress": 10
             }
 
@@ -109,7 +110,7 @@ class Phase1QueryUnderstanding:
                     yield {
                         "type": "progress",
                         "phase": 1,
-                        "message": "✓ 查詢分析完成（從緩存）",
+                        "message": "查詢分析完成",
                         "progress": 20
                     }
                     yield {
@@ -128,7 +129,7 @@ class Phase1QueryUnderstanding:
                 yield {
                     "type": "progress",
                     "phase": 1,
-                    "message": "✓ 查詢分析完成（快速路徑）",
+                    "message": "查詢分析完成",
                     "progress": 20
                 }
 
@@ -151,7 +152,7 @@ class Phase1QueryUnderstanding:
             yield {
                 "type": "progress",
                 "phase": 1,
-                "message": "✓ 查詢分析完成",
+                "message": "查詢分析完成",
                 "progress": 20
             }
 

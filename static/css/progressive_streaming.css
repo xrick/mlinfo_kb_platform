@@ -60,6 +60,32 @@
     animation: pulse 0.5s ease;
 }
 
+/* Phase 5 Complete - Red Checkmark Style */
+.progress-bar.complete-red {
+    background: #f44336 !important;
+    animation: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.progress-bar.complete-red::before {
+    display: none;
+}
+
+.complete-icon {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.complete-text {
+    font-weight: 600;
+    color: white;
+    font-size: 14px;
+}
+
 .progress-bar.error {
     background: #f44336;
 }
@@ -162,11 +188,11 @@
     display: flex;
     align-items: center;
     margin: 15px 0;
-    padding: 10px;
+    padding: 10px 15px;
     background: rgba(33, 150, 243, 0.05);
     border-left: 4px solid #2196F3;
     border-radius: 4px;
-    font-size: 13px;
+    font-size: 14px;
     color: #666;
 }
 
@@ -190,19 +216,9 @@
     background: rgba(0, 188, 212, 0.05);
 }
 
-.phase-marker-icon {
-    display: inline-block;
-    padding: 4px 8px;
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
-    font-weight: 600;
-    margin-right: 10px;
-    font-size: 11px;
-    text-transform: uppercase;
-}
-
 .phase-marker-text {
     flex: 1;
+    font-weight: 500;
 }
 
 /* ==========================================================================

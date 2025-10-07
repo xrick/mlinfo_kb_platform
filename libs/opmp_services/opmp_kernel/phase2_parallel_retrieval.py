@@ -199,7 +199,7 @@ class Phase2ParallelRetrieval:
         yield {
             "type": "progress",
             "phase": 2,
-            "message": "📦 正在檢索產品資料...",
+            "message": "正在檢索產品資料...",
             "progress": 25
         }
 
@@ -252,7 +252,7 @@ class Phase2ParallelRetrieval:
             yield {
                 "type": "progress",
                 "phase": 2,
-                "message": f"✓ 資料檢索完成 ({retrieval_time:.2f}s)",
+                "message": "檢索產品資料完成",
                 "progress": 50
             }
 

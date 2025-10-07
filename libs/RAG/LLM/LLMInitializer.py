@@ -1,20 +1,44 @@
 # libs/RAG/LLM/LLMInitializer.py
 from typing import Optional
 from langchain_ollama import OllamaLLM
+import threading
 
 class LLMInitializer:
     """
+    Thread-Safe Singleton LLM Initializer
     使用 langchain_ollama.OllamaLLM 的版本：
     - 升級至新版 OllamaLLM，消除 deprecation warnings。
     - 依模型 context window 自動計算安全的輸出 token（num_predict）。
     - 必要時自動截斷輸入，避免超過 context。
+    - 使用 Singleton Pattern 確保全系統只有一個 LLM 實例，節省記憶體。
     """
+
+    # 類變數：Singleton 實例管理
+    _instance: Optional['LLMInitializer'] = None
+    _lock: threading.Lock = threading.Lock()
+    _initialized: bool = False
 
     # 針對常用模型給預設情境長度（必要時自行調整/擴充）
     DEFAULT_CONTEXT_LIMITS = {
         "gpt-oss:20b": 131072     # 已知上限
         # "deepseek-r1:7b": 131072,  # 預設同 131072；若你確知其他值可改
     }
+
+    def __new__(cls,
+                model_name: str = "gpt-oss:20b",
+                temperature: float = 0.3,
+                request_timeout: int = 60):
+        """
+        覆寫 __new__ 方法實現 Singleton Pattern
+        使用 Double-Checked Locking 確保執行緒安全
+        """
+        # First check (without lock for performance)
+        if cls._instance is None:
+            with cls._lock:  # Acquire lock
+                # Second check (with lock for thread safety)
+                if cls._instance is None:
+                    cls._instance = super().__new__(cls)
+        return cls._instance
 
     def __init__(
         self,
@@ -24,33 +48,97 @@ class LLMInitializer:
         # context_limit_override: Optional[int] = None,
     ):
         """
-        初始化 LLM（不更動第三方函式庫的使用方式）
+        初始化 LLM（只在首次創建時執行，後續調用會跳過）
 
         :param model_name: 在 Ollama 中運行的模型名稱。
         :param temperature: 控制生成文本的隨機性。
         :param request_timeout: 請求超時（秒）。
-        :param context_limit_override: 若想手動指定 context 上限，傳入數值可覆蓋預設。
         """
-        self.model_name = model_name
-        self.temperature = temperature
-        self.request_timeout = request_timeout
-        self.llm = None
+        # 防止重複初始化
+        if self._initialized:
+            return
 
-        # 取得 context window 上限
-        # self.max_context_tokens = (
-        #     context_limit_override
-        #     if context_limit_override is not None
-        #     else self.DEFAULT_CONTEXT_LIMITS.get(self.model_name, 8192)  # 萬一未知，給個保守值
-        # )
-        self.max_context_tokens = (
-            self.DEFAULT_CONTEXT_LIMITS.get(self.model_name, 8192)  # 萬一未知，給個保守值
-        )
+        with self._lock:
+            if self._initialized:
+                return
 
-        # 預設建立一個基礎 LLM；實際推論時會依需求重建以帶入不同 num_predict
-        self.llm = OllamaLLM(
-            model=self.model_name,
-            temperature=self.temperature,
-        )
+            self.model_name = model_name
+            self.temperature = temperature
+            self.request_timeout = request_timeout
+            self.llm = None
+
+            # 取得 context window 上限
+            self.max_context_tokens = (
+                self.DEFAULT_CONTEXT_LIMITS.get(self.model_name, 8192)  # 萬一未知，給個保守值
+            )
+
+            # 預設建立一個基礎 LLM；實際推論時會依需求重建以帶入不同 num_predict
+            self.llm = OllamaLLM(
+                model=self.model_name,
+                temperature=self.temperature,
+            )
+
+            self._initialized = True
+
+    @classmethod
+    def get_instance(cls,
+                     model_name: str = "gpt-oss:20b",
+                     temperature: float = 0.3,
+                     request_timeout: int = 60) -> 'LLMInitializer':
+        """
+        類方法：獲取單例實例（推薦使用方式）
+
+        使用範例:
+            llm_init = LLMInitializer.get_instance()
+            llm = llm_init.get_llm()
+
+        :param model_name: 在 Ollama 中運行的模型名稱
+        :param temperature: 控制生成文本的隨機性
+        :param request_timeout: 請求超時（秒）
+        :return: LLMInitializer 單例實例
+        """
+        return cls(model_name, temperature, request_timeout)
+
+    @classmethod
+    def reset_instance(cls) -> None:
+        """
+        類方法：重置單例實例（僅用於測試）
+        ⚠️ 警告：生產環境不應調用此方法
+        """
+        with cls._lock:
+            cls._instance = None
+            cls._initialized = False
+
+    def reconfigure(self,
+                    model_name: Optional[str] = None,
+                    temperature: Optional[float] = None,
+                    request_timeout: Optional[int] = None) -> None:
+        """
+        重新配置 LLM（不創建新實例）
+        ⚠️ 注意：會影響所有使用該實例的模組
+
+        :param model_name: 新的模型名稱
+        :param temperature: 新的溫度參數
+        :param request_timeout: 新的超時設定
+        """
+        with self._lock:
+            if model_name and model_name != self.model_name:
+                self.model_name = model_name
+                self.max_context_tokens = self.DEFAULT_CONTEXT_LIMITS.get(
+                    model_name, 8192
+                )
+
+            if temperature is not None:
+                self.temperature = temperature
+
+            if request_timeout is not None:
+                self.request_timeout = request_timeout
+
+            # 重新創建 LLM 實例
+            self.llm = OllamaLLM(
+                model=self.model_name,
+                temperature=self.temperature,
+            )
 
     # -------------------------
     # Token 估算與截斷工具

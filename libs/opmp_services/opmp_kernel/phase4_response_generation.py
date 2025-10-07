@@ -149,7 +149,7 @@ class Phase4ResponseGeneration:
             yield {
                 "type": "progress",
                 "phase": 4,
-                "message": "✍️ 正在生成回答...",
+                "message": "正在進行資料輸出處理...",
                 "progress": 75
             }
 

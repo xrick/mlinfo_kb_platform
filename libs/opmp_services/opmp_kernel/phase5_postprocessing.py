@@ -70,7 +70,7 @@ class Phase5Postprocessing:
             yield {
                 "type": "progress",
                 "phase": 5,
-                "message": "🎨 正在完成最後修飾...",
+                "message": "正在完成最後修飾...",
                 "progress": 97
             }
 
@@ -99,9 +99,18 @@ class Phase5Postprocessing:
 
             response_package["quality"] = quality_report
 
+            # Send final completion message
+            yield {
+                "type": "progress",
+                "phase": 5,
+                "message": "工作完成。",
+                "progress": 100
+            }
+
             yield {
                 "type": "complete",
                 "phase": 5,
+                "message": "工作達成",
                 "data": response_package,
                 "progress": 100
             }

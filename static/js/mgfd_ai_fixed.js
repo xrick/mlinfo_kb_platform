@@ -247,7 +247,7 @@ function initSalesAI() {
             contentDivEl.innerHTML = `
                 <div class="message-content thinking-indicator">
                     <div class="spinner"></div>
-                    <span>AI 正在思考中...</span>
+                    <span>正在進行資料輸出處理...</span>
                 </div>
             `;
         }
@@ -559,7 +559,7 @@ function initSalesAI() {
             <div class="message-card">
                 <div class="message-content thinking-indicator">
                     <div class="spinner"></div>
-                    <span>AI 正在思考中...</span>
+                    <span>正在進行資料輸出處理...</span>
                 </div>
             </div>
         `;

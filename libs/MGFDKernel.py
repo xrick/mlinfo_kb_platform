@@ -84,14 +84,19 @@ class MGFDKernel:
             redis_client: Redis 客戶端實例，用於會話狀態持久化
         """
         self.progressive_service = None
-        # 嘗試初始化 LLM（最小變更；失敗則保持回退機制）
+        # 嘗試初始化 LLM（使用 Singleton Pattern）
         self.llm = None
         self.query_rule = None
         logger.info("LLM 初始化中...")
         try:
-            self.llm_initializer = LLMInitializer(model_name="gpt-oss:20b", temperature=0.1, request_timeout=60)
+            # 使用 Singleton 模式獲取 LLM 實例（全系統共享，節省記憶體）
+            self.llm_initializer = LLMInitializer.get_instance(
+                model_name="gpt-oss:20b",
+                temperature=0.1,
+                request_timeout=60
+            )
             self.llm = self.llm_initializer.get_llm()
-            logger.info("LLM 初始化成功")
+            logger.info("LLM 初始化成功 (Singleton 實例)")
         except Exception as e:
             logger.warning(f"LLM 初始化失敗，將使用回退機制: {e}")
             self.llm_initializer = None

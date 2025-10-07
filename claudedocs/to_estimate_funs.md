@@ -1,3 +1,4 @@
+<!-- claudedocs/to_estimate_funs.md -->
 # 可能耗時較長的函式分析報告
 
 > **分析日期**: 2025-10-03

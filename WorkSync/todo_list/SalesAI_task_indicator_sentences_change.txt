@@ -1,0 +1,13 @@
+現在我們有一個關於opmp輸出上文字的調整任務，描述如下：
+
+1. eash phase's text shown to user must have two different sentences:
+     - when phase 1 is working the sentence should be "正在分析您的查詢...", when phase 1 work finished the 
+        sentence will change to "查詢分析完成"
+     - when phase 2 is working the sentence should be "在檢索產品資料...", when phase 1 work finished the 
+        sentence will change to "檢索產品資料完成"
+     - when phase 3 is working the sentence should be "正在整理產品資訊...", when phase 1 work finished the 
+        sentence will change to "整理產品資訊完成"
+2. when phase 3 is done, and enter the phase 4, however phase 4 will take longer time, so change the the animation : "AI 正在思考中..." to "正在進行資料輸出處理..."
+3.  when phase 5 is working the sentence should be "正在完成最後修飾.....", when phase 1 work finished the 
+        sentence will change to "工作完成。" and the upmose animation "正在進行資料輸出處理...", the animation must stop and replace original animation to a red "Tick" icon the sentence changes to "工作達成"
+please make a detailed plan for these changes, because these works will involve frontend and backend, and the modifications must be very carefully and step by step  

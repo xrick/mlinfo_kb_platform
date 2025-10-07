@@ -95,9 +95,9 @@ class ProgressiveMarkdownRenderer {
                 this.progressBar.classList.add(`phase-${phase}`);
             }
 
-            // Show message in progress bar
+            // Show message in progress bar (without percentage)
             if (message) {
-                this.progressBar.textContent = `${message} (${progress}%)`;
+                this.progressBar.textContent = message;
             }
         }
 
@@ -124,11 +124,10 @@ class ProgressiveMarkdownRenderer {
         const marker = document.createElement('div');
         marker.className = `phase-marker phase-${phase}`;
         marker.innerHTML = `
-            <div class="phase-marker-icon">Phase ${phase}</div>
             <div class="phase-marker-text">${message}</div>
         `;
 
-        // ✅ Append to container end, maintaining phase 1→2→3 order from top to bottom
+        // Append to container end, maintaining phase 1→2→3 order from top to bottom
         this.container.appendChild(marker);
     }
 
@@ -140,11 +139,18 @@ class ProgressiveMarkdownRenderer {
         // rendered all tokens progressively. Re-rendering would cause
         // duplicate content display.
 
-        // Only update progress bar and state
+        // Update progress bar with red checkmark and "工作達成"
         if (this.progressBar) {
+            // Stop all animations
+            this.progressBar.style.animation = 'none';
             this.progressBar.style.width = '100%';
-            this.progressBar.textContent = '✅ 完成';
-            this.progressBar.classList.add('complete');
+
+            // Change to red background with checkmark
+            this.progressBar.innerHTML = `
+                <span class="complete-icon">✓</span>
+                <span class="complete-text">工作達成</span>
+            `;
+            this.progressBar.classList.add('complete-red');
         }
 
         console.log('✅ Progressive rendering complete');

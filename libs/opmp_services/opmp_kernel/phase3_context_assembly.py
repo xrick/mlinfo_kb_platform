@@ -63,7 +63,7 @@ class Phase3ContextAssembly:
             yield {
                 "type": "progress",
                 "phase": 3,
-                "message": "📊 正在整理產品資訊...",
+                "message": "正在整理產品資訊...",
                 "progress": 55
             }
 
@@ -101,7 +101,7 @@ class Phase3ContextAssembly:
             yield {
                 "type": "progress",
                 "phase": 3,
-                "message": f"✓ 已整理 {len(truncated_context['products'])} 個產品（使用 {truncated_context['token_count']} tokens）",
+                "message": "整理產品資訊完成",
                 "progress": 65
             }
 
