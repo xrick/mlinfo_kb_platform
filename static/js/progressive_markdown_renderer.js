@@ -1,3 +1,4 @@
+// static/js/progressive_markdown_renderer.js
 // Progressive Markdown Renderer for ChatGPT-style Streaming
 // Author: Claude (SuperClaude)
 // Date: 2025-10-01
@@ -91,9 +92,9 @@ class ProgressiveMarkdownRenderer {
 
             // Add phase-specific styling
             this.progressBar.className = 'progress-bar';
-            if (phase) {
-                this.progressBar.classList.add(`phase-${phase}`);
-            }
+            // if (phase) {
+            //     this.progressBar.classList.add(`phase-${phase}`);
+            // }
 
             // Show message in progress bar (without percentage)
             if (message) {
@@ -103,7 +104,7 @@ class ProgressiveMarkdownRenderer {
 
         // Add phase marker if phase changed
         if (phase && phase !== this.currentPhase) {
-            this.currentPhase = phase;
+            // this.currentPhase = phase;
             this.phaseMessages[phase] = message;
             this._addPhaseMarker(phase, message);
         }
@@ -151,6 +152,18 @@ class ProgressiveMarkdownRenderer {
                 <span class="complete-text">工作達成</span>
             `;
             this.progressBar.classList.add('complete-red');
+            //stop the up-most animation and change sentence
+            const contentDiv = assistantMessageContainer.querySelector('.message-content');
+            const contentId = contentDiv.id;
+            const contentDivEl = document.getElementById(contentId);
+            if (contentDivEl) {
+            contentDivEl.innerHTML = `
+                <div class="message-content thinking-indicator">
+                    <div class="spinner"></div>
+                    <span>所有資料輸出處理</span>
+                </div>
+            `;
+        }
         }
 
         console.log('✅ Progressive rendering complete');
