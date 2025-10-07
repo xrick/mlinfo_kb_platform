@@ -203,15 +203,17 @@ class ProgressiveMarkdownRenderer {
             this.progressBar.classList.add('complete-red');
         }
 
-        // Replace top spinner with red tick icon and update text
-        const contentDiv = assistantMessageContainer?.querySelector('.message-content');
-        if (contentDiv) {
-            contentDiv.innerHTML = `
-                <div class="complete-indicator">
-                    <span class="complete-tick">✓</span>
-                    <span>資料輸出完成</span>
-                </div>
+        // Find and update the thinking indicator (spinner) to show completion
+        // CRITICAL: Only modify the spinner/message, don't touch the markdown content!
+        const thinkingIndicator = this.container.querySelector('.thinking-indicator');
+        if (thinkingIndicator) {
+            // Replace spinner with red tick and update message
+            thinkingIndicator.innerHTML = `
+                <span class="complete-tick">✓</span>
+                <span>資料輸出完成!</span>
             `;
+            thinkingIndicator.classList.remove('thinking-indicator');
+            thinkingIndicator.classList.add('complete-indicator');
         }
 
         console.log('✅ Progressive rendering complete');

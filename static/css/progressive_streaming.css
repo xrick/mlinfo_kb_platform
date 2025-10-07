@@ -370,6 +370,41 @@
 }
 
 /* ==========================================================================
+   Complete Indicator (Red Tick)
+   ========================================================================== */
+
+.complete-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    background: #ffebee;
+    border-radius: 6px;
+    border-left: 4px solid #f44336;
+    margin: 10px 0;
+}
+
+.complete-tick {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: #f44336;
+    color: white;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.complete-indicator span:not(.complete-tick) {
+    color: #c62828;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* ==========================================================================
    Code Blocks
    ========================================================================== */
 
