@@ -43,6 +43,9 @@ except ImportError:
     SENTENCE_TRANSFORMERS_AVAILABLE = False
     SentenceTransformer = None
 
+# Import device detection utility
+from ...utils.device_utils import get_best_device, log_device_selection
+
 logger = logging.getLogger(__name__)
 
 
@@ -115,8 +118,11 @@ class Phase2ParallelRetrieval:
 
         # Initialize sentence transformer for embeddings
         if SENTENCE_TRANSFORMERS_AVAILABLE:
-            self.sentence_transformer = SentenceTransformer(embedding_model)
-            logger.info(f"Sentence transformer loaded: {embedding_model}")
+            # Auto-detect best device (CUDA > MPS > CPU)
+            device = get_best_device()
+            self.sentence_transformer = SentenceTransformer(embedding_model, device=device)
+            log_device_selection(device, f"Phase2 SentenceTransformer ({embedding_model})")
+            logger.info(f"Sentence transformer loaded: {embedding_model} on {device}")
         else:
             self.sentence_transformer = None
             logger.warning("Sentence transformers not available - semantic search disabled")
