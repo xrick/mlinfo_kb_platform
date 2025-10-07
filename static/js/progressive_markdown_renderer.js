@@ -103,9 +103,9 @@ class ProgressiveMarkdownRenderer {
         }
 
         // Add phase marker if phase changed
-        // rick 20251007
+        // rick
         if (phase && phase !== this.currentPhase) {
-            this.currentPhase = phase;
+            // this.currentPhase = phase;
             this.phaseMessages[phase] = message;
             this._addPhaseMarker(phase, message);
         }
