@@ -94,7 +94,7 @@ class ProgressiveMarkdownRenderer {
             this.progressBar.className = 'progress-bar';
             // if (phase) {
             //     this.progressBar.classList.add(`phase-${phase}`);
-            // }
+            // } //rick 20251007
 
             // Show message in progress bar (without percentage)
             if (message) {
@@ -103,8 +103,9 @@ class ProgressiveMarkdownRenderer {
         }
 
         // Add phase marker if phase changed
+        // rick 20251007
         if (phase && phase !== this.currentPhase) {
-            // this.currentPhase = phase;
+            this.currentPhase = phase;
             this.phaseMessages[phase] = message;
             this._addPhaseMarker(phase, message);
         }
@@ -153,18 +154,18 @@ class ProgressiveMarkdownRenderer {
             `;
             this.progressBar.classList.add('complete-red');
             //stop the up-most animation and change sentence
-            const contentDiv = assistantMessageContainer.querySelector('.message-content');
+            const contentDiv = this.document.querySelector('.message-content');
             const contentId = contentDiv.id;
             const contentDivEl = document.getElementById(contentId);
             if (contentDivEl) {
             contentDivEl.innerHTML = `
                 <div class="message-content thinking-indicator">
                     <div class="spinner"></div>
-                    <span>所有資料輸出處理</span>
+                    <span>所有資料輸出處理完成</span>
                 </div>
             `;
         }
-        }
+    }
 
         console.log('✅ Progressive rendering complete');
         console.log(`📊 Final accumulated length: ${this.accumulated.length} chars`);
