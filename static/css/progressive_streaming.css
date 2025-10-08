@@ -23,7 +23,7 @@
     width: 0%;
     height: 35px;
     background: linear-gradient(90deg, #4CAF50, #8BC34A);
-    color: rgb(10, 10, 10);
+    color: white;
     text-align: center;
     line-height: 35px;
     border-radius: 8px;
@@ -403,7 +403,7 @@
 }
 
 .complete-indicator span:not(.complete-tick) {
-    color: white;  /* White text for readability */
+    color: rgb(7, 7, 7);  /* White text for readability */
     font-weight: 600;
     font-size: 14px;
 }
