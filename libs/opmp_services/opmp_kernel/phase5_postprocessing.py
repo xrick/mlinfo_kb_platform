@@ -71,7 +71,6 @@ class Phase5Postprocessing:
                 "type": "progress",
                 "phase": 5,
                 # "message": "正在完成最後修飾...",
-                "message": "",
                 "progress": 97
             }
 

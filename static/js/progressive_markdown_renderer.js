@@ -167,7 +167,7 @@ class ProgressiveMarkdownRenderer {
      */
     _addPhaseMarker(phase, message) {
         // Don't add marker for Phase 4 (streaming content)
-        if (phase === 4) {
+        if (phase === 4 || phase === 5) {
             return;
         }
 
