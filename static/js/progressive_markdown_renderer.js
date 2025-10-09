@@ -198,7 +198,7 @@ class ProgressiveMarkdownRenderer {
             // Change to red background with checkmark
             this.progressBar.innerHTML = `
                 <span class="complete-icon">✓</span>
-                <span class="complete-text">工作達成</span>
+                <span class="complete-text">資料處理完成</span>
             `;
             this.progressBar.classList.add('complete-red');
         }

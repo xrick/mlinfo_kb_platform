@@ -70,7 +70,8 @@ class Phase5Postprocessing:
             yield {
                 "type": "progress",
                 "phase": 5,
-                "message": "正在完成最後修飾...",
+                # "message": "正在完成最後修飾...",
+                "message": "",
                 "progress": 97
             }
 
@@ -103,7 +104,7 @@ class Phase5Postprocessing:
             yield {
                 "type": "progress",
                 "phase": 5,
-                "message": "工作完成。",
+                "message": "產品資料輸出完畢。",
                 "progress": 100
             }
 
