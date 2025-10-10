@@ -1,0 +1,19 @@
+# Core DSPy
+dspy-ai>=2.4.0
+
+# LLM Backends
+ollama>=0.1.0
+llama-cpp-python>=0.2.0  # Optional, only needed for llama.cpp backend
+
+# Configuration
+pydantic>=2.0.0
+pyyaml>=6.0
+python-dotenv>=1.0.0
+
+# Async Support
+aiohttp>=3.9.0
+
+# Testing (development)
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-benchmark>=4.0.0
