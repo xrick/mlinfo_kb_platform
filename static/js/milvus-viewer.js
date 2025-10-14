@@ -31,7 +31,7 @@ class MilvusViewer {
         
         const viewerHTML = `
             <!-- Milvus Viewer -->
-            <div id="milvus-viewer-view" class="content-view">
+            <div id="milvus-viewer-view" class="content-view hidden">
                 <div class="viewer-header">
                     <h1>🗂️ Milvus Collection Viewer</h1>
                     <p>查看和管理 Milvus 向量資料庫集合</p>
