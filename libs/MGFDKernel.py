@@ -258,10 +258,17 @@ class MGFDKernel:
 # 1.簡潔的 Markdown 格式，包含產品推薦和規格表格。
 # 2.嚴格禁止輸出單純的JSON格式。
 # """
-        self.SysPromptTemplate = """你是專業的筆電銷售顧問。根據以下產品資料回答客戶問題：
-
+        self.SysPromptTemplate = """
+        role:system
+        You MUST mirror the user's language:
+        - If the user's message is in English, reply in English.
+        - If in Traditional Chinese (繁體中文), reply in Traditional Chinese.
+        - If in Simplified Chinese (简体中文), reply in Simplified Chinese.
         # **查詢設定**
         {query_rules}
+
+        role:user
+        你是專業的筆電銷售顧問。根據以下產品資料回答客戶問題：
 
         #**產品資料：**
         {product_data}
@@ -275,7 +282,6 @@ class MGFDKernel:
 # **輸出格式：**
 # 1.簡潔的 Markdown 格式，包含產品推薦和規格表格。
 # 2.嚴格禁止輸出單純的JSON格式。
-# 3.如果輸入是英文，請使用英文回答。如果輸入是繁體中文，請使用繁體中文回答。如果輸入是簡體中文，請使用簡體中文回答。
 # """
         # 宣告三層式prompt所需要的變數
         # self.product_data = None
