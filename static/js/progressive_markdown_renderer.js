@@ -210,7 +210,7 @@ class ProgressiveMarkdownRenderer {
             // Replace spinner with red tick and update message
             thinkingIndicator.innerHTML = `
                 <span class="complete-tick">✓</span>
-                <span>資料輸出完成!</span>
+                <span>Data output completed!</span>
             `;
             thinkingIndicator.classList.remove('thinking-indicator');
             thinkingIndicator.classList.add('complete-indicator');

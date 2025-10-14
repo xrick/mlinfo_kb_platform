@@ -129,7 +129,7 @@ class Phase1QueryUnderstanding:
                 yield {
                     "type": "progress",
                     "phase": 1,
-                    "message": "查詢分析完成",
+                    "message": "Query analysis completed",
                     "progress": 20
                 }
 
@@ -152,7 +152,7 @@ class Phase1QueryUnderstanding:
             yield {
                 "type": "progress",
                 "phase": 1,
-                "message": "查詢分析完成",
+                "message": "Query analysis completed", #"查詢分析完成",
                 "progress": 20
             }
 
@@ -359,8 +359,8 @@ class Phase1QueryUnderstanding:
             "intent": "general_inquiry",
             "detected_products": [],
             "detected_modeltypes": [],
-            "key_features": ["CPU", "GPU", "記憶體"],
-            "user_focus": "全面評估",
+            "key_features": ["CPU", "GPU", "Memory"], #"記憶體"],
+            "user_focus": "Full evaluation", #"全面評估",
             "complexity": "medium",
             "confidence": "low"
         }

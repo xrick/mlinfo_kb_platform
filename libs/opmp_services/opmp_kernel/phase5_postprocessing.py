@@ -103,14 +103,14 @@ class Phase5Postprocessing:
             yield {
                 "type": "progress",
                 "phase": 5,
-                "message": "產品資料輸出完畢。",
+                "message": "Product data output completed.", #"產品資料輸出完畢。",
                 "progress": 100
             }
 
             yield {
                 "type": "complete",
                 "phase": 5,
-                "message": "工作達成",
+                "message": "All tasks completed", #"工作達成",
                 "data": response_package,
                 "progress": 100
             }
@@ -153,7 +153,7 @@ class Phase5Postprocessing:
             "original_product_count": context.get("original_count", 0),
             "query_intent": analysis.get("intent", "unknown"),
             "query_complexity": analysis.get("complexity", "medium"),
-            "user_focus": analysis.get("user_focus", "全面評估"),
+            "user_focus": analysis.get("user_focus", "Full evaluation"), #"全面評估"),
             "model": self.model_name,
             "timestamp": datetime.now().isoformat()
         }
@@ -287,9 +287,9 @@ class Phase5Postprocessing:
         metrics["response_length"] = response_length
 
         if response_length < 50:
-            warnings.append("Response is very short (< 50 chars)")
+            warnings.append("Response is very short (< 50 chars)") #"回應非常短 (< 50 字元)"
         elif response_length > 10000:
-            warnings.append("Response is very long (> 10K chars)")
+            warnings.append("Response is very long (> 10K chars)") #"回應非常長 (> 10K 字元)"
 
         # Check 2: Markdown syntax
         has_header = bool(re.search(r'^#{1,6}\s', response, re.MULTILINE))
@@ -302,14 +302,14 @@ class Phase5Postprocessing:
 
         # Check 3: Sources
         if not sources:
-            warnings.append("No source citations")
+            warnings.append("No source citations") #"沒有來源引用"
         metrics["source_count"] = len(sources)
 
         # Check 4: Metadata
         required_metadata = ["products_analyzed", "query_intent", "model"]
         missing_metadata = [k for k in required_metadata if k not in metadata]
         if missing_metadata:
-            warnings.append(f"Missing metadata: {missing_metadata}")
+            warnings.append(f"Missing metadata: {missing_metadata}") #"缺少元資料: {missing_metadata}"
 
         # Overall quality score
         quality_score = 100.0

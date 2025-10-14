@@ -286,7 +286,7 @@ class ProgressiveStreamingService:
             # Send error message
             error_response = {
                 "type": "error",
-                "message": f"處理過程中發生錯誤: {str(e)}",
+                "message": f"Error occurred during processing: {str(e)}", #f"處理過程中發生錯誤: {str(e)}",
                 "partial_results": True,
                 "phase_timings": phase_timings
             }
