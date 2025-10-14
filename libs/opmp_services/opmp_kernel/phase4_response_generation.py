@@ -15,12 +15,14 @@ import asyncio
 import json
 import logging
 from typing import Dict, Any, AsyncGenerator, List, Optional
+from config import SYSTEM_DEFAULT_LANGUAGE
+from libs.utils.language import build_language_instruction, normalize_language
 from langchain.callbacks.base import AsyncCallbackHandler
 
 logger = logging.getLogger(__name__)
 
 
-# Prompt template for Phase 4
+# Prompt template for Phase 4 (language instruction is injected dynamically)
 RESPONSE_GENERATION_PROMPT = """你是一個專業的筆記型電腦銷售助手。請根據以下產品資料回答用戶的問題。
 
 用戶查詢：{user_query}
@@ -32,7 +34,8 @@ RESPONSE_GENERATION_PROMPT = """你是一個專業的筆記型電腦銷售助手
 產品資料：
 {product_context}
 
-請以繁體中文回答，格式要求：
+{language_instruction}
+格式要求：
 1. 使用 Markdown 格式（headers, bold, tables）
 2. 如果是產品比較，使用表格呈現關鍵規格差異
 3. 提供清晰的購買建議，說明適用場景
@@ -150,7 +153,7 @@ class Phase4ResponseGeneration:
             yield {
                 "type": "progress",
                 "phase": 4,
-                "message": "正在進行資料輸出處理...",
+                "message": "Processing data output...", #"正在進行資料輸出處理...",
                 "progress": 75
             }
 
@@ -171,13 +174,15 @@ class Phase4ResponseGeneration:
                     yield {
                         "type": "progress",
                         "phase": 4,
-                        "message": "✅ 回答生成完成（從緩存）",
+                        "message": "✅ Answer generation completed (from cache)", #"✅ 回答生成完成（從緩存）",
                         "progress": 95
                     }
                     return
 
-            # Prepare prompt
-            prompt = self._build_prompt(query, analysis, context)
+            # Prepare prompt with language instruction
+            lang_from_ctx = (analysis or {}).get("language") or (context or {}).get("language")
+            language_instruction = build_language_instruction(lang_from_ctx or SYSTEM_DEFAULT_LANGUAGE)
+            prompt = self._build_prompt(query, analysis, context, language_instruction)
 
             # Setup streaming queue for token-by-token delivery
             queue = asyncio.Queue()
@@ -258,7 +263,7 @@ class Phase4ResponseGeneration:
             yield {
                 "type": "progress",
                 "phase": 4,
-                "message": "✅ 回答生成完成",
+                "message": "✅ Answer generation completed", #"✅ 回答生成完成",
                 "progress": 95
             }
 
@@ -266,7 +271,7 @@ class Phase4ResponseGeneration:
             logger.error(f"Phase 4 error: {e}")
             yield {
                 "type": "error",
-                "message": f"回答生成失敗: {str(e)}",
+                "message": f"Answer generation failed: {str(e)}", #f"回答生成失敗: {str(e)}",
                 "phase": 4
             }
 
@@ -274,7 +279,8 @@ class Phase4ResponseGeneration:
         self,
         query: str,
         analysis: Dict[str, Any],
-        context: Dict[str, Any]
+        context: Dict[str, Any],
+        language_instruction: str
     ) -> str:
         """
         Build prompt for LLM
@@ -295,7 +301,8 @@ class Phase4ResponseGeneration:
             user_query=query,
             intent=analysis.get("intent", "general"),
             user_focus=analysis.get("user_focus", "全面評估"),
-            product_context=product_context
+            product_context=product_context,
+            language_instruction=language_instruction
         )
 
         return prompt
@@ -311,12 +318,12 @@ class Phase4ResponseGeneration:
             Formatted context string
         """
         if not products:
-            return "（無相關產品資料）"
+            return "(No related product data)" #"（無相關產品資料）"
 
         context_parts = []
 
         for idx, product in enumerate(products, 1):
-            product_text = f"\n### 產品 {idx}: {product.get('modelname', 'Unknown')}\n"
+            product_text = f"\n### Product {idx}: {product.get('modelname', 'Unknown')}\n"
             product_text += f"- 型號: {product.get('modeltype', 'N/A')}\n"
 
             # Core specs
@@ -325,23 +332,23 @@ class Phase4ResponseGeneration:
             if product.get('gpu'):
                 product_text += f"- GPU: {product['gpu']}\n"
             if product.get('memory'):
-                product_text += f"- 記憶體: {product['memory']}\n"
+                product_text += f"- Memory: {product['memory']}\n"
             if product.get('storage'):
-                product_text += f"- 儲存: {product['storage']}\n"
+                product_text += f"- Storage: {product['storage']}\n"
             if product.get('lcd'):
-                product_text += f"- 螢幕: {product['lcd']}\n"
+                product_text += f"- LCD: {product['lcd']}\n"
             if product.get('battery'):
-                product_text += f"- 電池: {product['battery']}\n"
+                product_text += f"- Battery: {product['battery']}\n"
 
             # Additional features if available
             if product.get('thermal'):
-                product_text += f"- 散熱: {product['thermal']}\n"
+                product_text += f"- Thermal: {product['thermal']}\n"
             if product.get('ai'):
-                product_text += f"- AI 功能: {product['ai']}\n"
+                product_text += f"- AI Function: {product['ai']}\n"
 
             # Semantic context
             if product.get('semantic_content'):
-                product_text += f"\n相關資訊: {product['semantic_content']}\n"
+                product_text += f"\nRelated information: {product['semantic_content']}\n"
 
             context_parts.append(product_text)
 

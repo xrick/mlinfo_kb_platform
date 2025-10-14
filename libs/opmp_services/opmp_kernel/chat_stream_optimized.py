@@ -20,6 +20,8 @@ import json
 import logging
 from typing import AsyncGenerator, Dict, Any, Optional, List
 from datetime import datetime
+from config import SYSTEM_DEFAULT_LANGUAGE
+from libs.utils.language import build_language_instruction
 
 # Import Phase 2 parallel retrieval
 from .phase2_parallel_retrieval import Phase2ParallelRetrieval
@@ -328,6 +330,10 @@ class OptimizedChatStream:
             Complete prompt string
         """
         # Use existing service's prompt template as base
+        # Determine language (prefer intent-provided, fallback to system default)
+        lang_from_intent = query_intent.get('language')
+        language_instruction = build_language_instruction(lang_from_intent or SYSTEM_DEFAULT_LANGUAGE)
+
         prompt = f"""你是一個專業的筆記型電腦銷售助手。請根據以下產品資料回答用戶的問題。
 
 用戶查詢：{query}
@@ -339,7 +345,8 @@ class OptimizedChatStream:
 產品資料：
 {context}
 
-請以繁體中文回答，格式要求：
+{language_instruction}
+格式要求：
 1. 使用 Markdown 格式（headers, bold, tables）
 2. 如果是產品比較，使用表格呈現關鍵規格差異
 3. 提供清晰的購買建議，說明適用場景

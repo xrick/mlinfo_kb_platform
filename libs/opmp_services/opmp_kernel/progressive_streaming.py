@@ -155,6 +155,8 @@ class ProgressiveStreamingService:
             # Phase 1: Query Understanding
             phase1_start = datetime.now()
             analysis = None
+            # Language threading from entry kwargs
+            entry_lang = kwargs.get("language")
 
             async for update in self.phase1.process(
                 query=query,
@@ -165,6 +167,8 @@ class ProgressiveStreamingService:
 
                 if update["type"] == "phase_result":
                     analysis = update["data"]
+                    if entry_lang:
+                        analysis["language"] = entry_lang
 
             phase_timings[1] = (datetime.now() - phase1_start).total_seconds()
             logger.info(f"Phase 1 completed in {phase_timings[1]:.2f}s")
@@ -228,6 +232,8 @@ class ProgressiveStreamingService:
 
                 if update["type"] == "phase_result":
                     context = update["data"]
+                    if entry_lang:
+                        context["language"] = entry_lang
 
             phase_timings[3] = (datetime.now() - phase3_start).total_seconds()
             logger.info(f"Phase 3 completed in {phase_timings[3]:.2f}s")

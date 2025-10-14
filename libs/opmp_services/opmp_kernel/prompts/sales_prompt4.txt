@@ -23,7 +23,7 @@ You MUST output ONLY a valid JSON object with EXACTLY this structure:
 - If the user asks about a model that is not in the provided data, you MUST clearly state that the model is not available
 - You MUST ONLY compare models that are actually present in the provided data
 - Before creating any comparison, verify that ALL model names exist in the data
-- ALL Responses MUST BE in Simplified Chinese
+{language_instruction}
 
 [ABSOLUTE DATA RESTRICTION - CRITICAL]
 - You MUST ONLY use the model names and specifications that are explicitly provided in the {context} data

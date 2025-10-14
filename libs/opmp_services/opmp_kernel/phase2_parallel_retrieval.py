@@ -180,7 +180,7 @@ class Phase2ParallelRetrieval:
                 yield {
                     "type": "progress",
                     "phase": 2,
-                    "message": "✓ 從快取獲取資料",
+                    "message": "✓ Data retrieved from cache", #"✓ 從快取獲取資料",
                     "progress": 50,
                     "from_cache": True
                 }
@@ -199,7 +199,7 @@ class Phase2ParallelRetrieval:
         yield {
             "type": "progress",
             "phase": 2,
-            "message": "正在檢索產品資料...",
+            "message": "Retrieving product data...", #"正在檢索產品資料...",
             "progress": 25
         }
 
@@ -213,14 +213,14 @@ class Phase2ParallelRetrieval:
             yield {
                 "type": "progress",
                 "phase": 2,
-                "message": f"✓ 語義搜尋找到 {len(semantic_results)} 個匹配",
+                "message": f"✓ Semantic search found {len(semantic_results)} matches", #f"✓ 語義搜尋找到 {len(semantic_results)} 個匹配",
                 "progress": 35
             }
 
             yield {
                 "type": "progress",
                 "phase": 2,
-                "message": f"✓ 規格查詢找到 {len(spec_results)} 個產品",
+                "message": f"✓ Specification query found {len(spec_results)} products", #f"✓ 規格查詢找到 {len(spec_results)} 個產品",
                 "progress": 45
             }
 
@@ -252,7 +252,7 @@ class Phase2ParallelRetrieval:
             yield {
                 "type": "progress",
                 "phase": 2,
-                "message": "檢索產品資料完成",
+                "message": "Product data retrieval completed", #"檢索產品資料完成",
                 "progress": 50
             }
 
@@ -270,7 +270,7 @@ class Phase2ParallelRetrieval:
             yield {
                 "type": "error",
                 "phase": 2,
-                "message": f"資料檢索失敗: {str(e)}",
+                "message": f"Data retrieval failed: {str(e)}", #f"資料檢索失敗: {str(e)}",
                 "error": str(e)
             }
 

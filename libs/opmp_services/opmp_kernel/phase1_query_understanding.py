@@ -98,7 +98,7 @@ class Phase1QueryUnderstanding:
             yield {
                 "type": "progress",
                 "phase": 1,
-                "message": "正在分析您的查詢...",
+                "message": "Analyzing your query...", #"正在分析您的查詢...",
                 "progress": 10
             }
 
@@ -110,7 +110,7 @@ class Phase1QueryUnderstanding:
                     yield {
                         "type": "progress",
                         "phase": 1,
-                        "message": "查詢分析完成",
+                        "message": "Query analysis completed", #"查詢分析完成",
                         "progress": 20
                     }
                     yield {

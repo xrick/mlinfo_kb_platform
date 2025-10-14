@@ -39,3 +39,7 @@ SERVICES_CONFIG = {
 
 PROGRESSIVE_STREAMING_ENABLED = True
 PROGRESSIVE_MAX_CONTEXT_TOKENS = 100000
+
+# Language settings
+# System default language used when user language cannot be reliably determined
+SYSTEM_DEFAULT_LANGUAGE = "en-US"

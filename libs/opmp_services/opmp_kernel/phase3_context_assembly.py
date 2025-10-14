@@ -63,7 +63,7 @@ class Phase3ContextAssembly:
             yield {
                 "type": "progress",
                 "phase": 3,
-                "message": "正在整理產品資訊...",
+                "message": "Assembling product information...", #"正在整理產品資訊...",
                 "progress": 55
             }
 
@@ -101,7 +101,7 @@ class Phase3ContextAssembly:
             yield {
                 "type": "progress",
                 "phase": 3,
-                "message": "整理產品資訊完成",
+                "message": "Product information assembly completed", #"整理產品資訊完成",
                 "progress": 65
             }
 

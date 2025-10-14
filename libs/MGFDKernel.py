@@ -41,6 +41,8 @@ from langchain.prompts import PromptTemplate
 import re
 import ast
 from .utils_classes import Time
+from config import SYSTEM_DEFAULT_LANGUAGE
+from .utils.language import resolve_language
 
 logger = logging.getLogger(__name__)
 
@@ -604,7 +606,7 @@ class MGFDKernel:
         # Handle empty or invalid LLM responses
         if not self.query_rule or not self.query_rule.strip():
             logger.warning("LLM返回空響應，使用預設查詢規則")
-            self.query_rule = '{"intent": "spec_check", "entities": [], "attributes": ["modelname"], "NB_NUM": "all", "language": "zh-TW"}'
+            self.query_rule = '{"intent": "spec_check", "entities": [], "attributes": ["modelname"], "NB_NUM": "all", "language": "en-US"}'
 
         try:
             tmpdict = ast.literal_eval(self.query_rule)
@@ -613,7 +615,7 @@ class MGFDKernel:
         except (ValueError, SyntaxError) as e:
             logger.error(f"解析LLM響應失敗: {e}, 響應內容: {self.query_rule}")
             # Use fallback query rule
-            self.query_rule = '{"intent": "spec_check", "entities": [], "attributes": ["modelname"], "NB_NUM": "all", "language": "zh-TW"}'
+            self.query_rule = '{"intent": "spec_check", "entities": [], "attributes": ["modelname"], "NB_NUM": "all", "language": "en-US"}'
             tmpdict = ast.literal_eval(self.query_rule)
             if tmpdict.get("NB_NUM") == "all":
                 self.ComparableNB_NUM = 10
@@ -835,6 +837,25 @@ class MGFDKernel:
             SSE-formatted strings with progressive updates
         """
         try:
+            # Determine language using resolver
+            try:
+                # Reuse query rule detection to get language if available
+                query_rule_json = await self.get_query_rule_from_user_query(user_query=message)
+                detected_lang = None
+                try:
+                    tmpdict = ast.literal_eval(query_rule_json)
+                    detected_lang = tmpdict.get("language")
+                except Exception:
+                    detected_lang = None
+                resolved_lang = resolve_language(
+                    user_text_language=detected_lang,
+                    detected_from_query_rule=detected_lang,
+                    ui_language=None,
+                    system_default=SYSTEM_DEFAULT_LANGUAGE,
+                )
+            except Exception:
+                resolved_lang = SYSTEM_DEFAULT_LANGUAGE
+
             # Get or create progressive service
             service = self.get_progressive_service()
 
@@ -846,7 +867,7 @@ class MGFDKernel:
                 return
 
             # Use progressive streaming
-            async for update in service.chat_stream_progressive(message):
+            async for update in service.chat_stream_progressive(message, language=resolved_lang):
                 yield update
 
         except Exception as e:
