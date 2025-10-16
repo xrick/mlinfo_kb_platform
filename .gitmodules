@@ -1,0 +1,3 @@
+[submodule "notebookservices/OpenNotebook"]
+	path = notebookservices/OpenNotebook
+	url = https://github.com/xrick/open-notebook
