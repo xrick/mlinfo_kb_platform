@@ -196,12 +196,12 @@ class Phase2ParallelRetrieval:
                 return
 
         # Initial progress
-        yield {
+        '''yield {
             "type": "progress",
             "phase": 2,
             "message": "Retrieving product data...", #"正在檢索產品資料...",
             "progress": 25
-        }
+        }'''
 
         try:
             # Execute parallel retrieval
