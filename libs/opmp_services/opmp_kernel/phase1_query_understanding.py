@@ -95,12 +95,12 @@ class Phase1QueryUnderstanding:
         """
         try:
             # Progress update
-            yield {
+            '''yield {
                 "type": "progress",
                 "phase": 1,
                 "message": "Analyzing your query...", #"正在分析您的查詢...",
                 "progress": 10
-            }
+            }'''
 
             # Check cache first
             if self.cache:
