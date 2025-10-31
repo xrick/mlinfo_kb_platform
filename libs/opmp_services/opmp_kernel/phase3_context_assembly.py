@@ -60,12 +60,12 @@ class Phase3ContextAssembly:
             Progress updates and final phase result
         """
         try:
-            yield {
+            '''yield {
                 "type": "progress",
                 "phase": 3,
                 "message": "Assembling product information...", #"正在整理產品資訊...",
                 "progress": 55
-            }
+            }'''
 
             # Get merged products from Phase 2
             merged_products = retrieval_results.get("merged_products", [])
