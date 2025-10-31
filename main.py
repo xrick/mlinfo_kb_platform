@@ -11,6 +11,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
+from contextlib import asynccontextmanager
 
 # 導入環境變數管理模組
 from dotenv import load_dotenv
@@ -50,6 +51,20 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',  # 設定日誌格式
     handlers=[logging.StreamHandler()]  # 設定日誌輸出到控制台
 )
+
+# 僅用於啟動完成或關閉完成時跳出狀態訊息 (2025-10-31 by Cayman)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    logging.info("🚀 MGFD SalesRAG Integration System 啟動中...")
+    logging.info(f"📖 API文檔: http://{APP_HOST}:{APP_PORT}/docs")
+    logging.info(f"🔍 ReDoc文檔: http://{APP_HOST}:{APP_PORT}/redoc")
+    logging.info("✅ 系統啟動完成")
+    
+    yield  # 等同於「服務開始承載請求」
+    
+    # Shutdown
+    logging.info("🛑 MGFD SalesRAG Integration System 關閉中...")
 
 # 初始化 FastAPI 應用程式實例
 app = FastAPI(
@@ -268,19 +283,19 @@ async def add_request_id(request: Request, call_next):
     return response
 
 # 啟動事件
-@app.on_event("startup")
-async def startup_event():
-    """應用程式啟動事件"""
-    logging.info("🚀 MGFD SalesRAG Integration System 啟動中...")
-    logging.info(f"📖 API文檔: http://{APP_HOST}:{APP_PORT}/docs")
-    logging.info(f"🔍 ReDoc文檔: http://{APP_HOST}:{APP_PORT}/redoc")
-    logging.info("✅ 系統啟動完成")
-
+#@app.on_event("startup")
+#async def startup_event():
+#    """應用程式啟動事件"""
+#    logging.info("🚀 MGFD SalesRAG Integration System 啟動中...")
+#    logging.info(f"📖 API文檔: http://{APP_HOST}:{APP_PORT}/docs")
+#    logging.info(f"🔍 ReDoc文檔: http://{APP_HOST}:{APP_PORT}/redoc")
+#    logging.info("✅ 系統啟動完成")
+#
 # 關閉事件
-@app.on_event("shutdown")
-async def shutdown_event():
-    """應用程式關閉事件"""
-    logging.info("🛑 MGFD SalesRAG Integration System 關閉中...")
+#@app.on_event("shutdown")
+#async def shutdown_event():
+#    """應用程式關閉事件"""
+#    logging.info("🛑 MGFD SalesRAG Integration System 關閉中...")
 
 # 主程式進入點
 if __name__ == "__main__":
